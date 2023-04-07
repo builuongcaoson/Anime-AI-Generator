@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "62472229789",
+    "project_id": "aichatbot-f9b89",
+    "storage_bucket": "aichatbot-f9b89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62472229789:android:71e7cbe18c917a73005574",
+        "android_client_info": {
+          "package_name": "com.sola.anime.ai.generator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62472229789-ir4olo1f9gbql5rqg4pus9s2jc9jefih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sola.anime.ai.generator",
+            "certificate_hash": "7f3a5644a92219a8ee786775084f4a2241a2087f"
+          }
+        },
+        {
+          "client_id": "62472229789-4ipk2kr6f9ka3burf3194qlisqo2hp42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB21_iBbdUh1UTRpfiNrayxk-WgvLsYWtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62472229789-4ipk2kr6f9ka3burf3194qlisqo2hp42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

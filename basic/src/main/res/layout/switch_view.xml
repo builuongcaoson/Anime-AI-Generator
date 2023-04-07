@@ -1,0 +1,23 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/switch_track"
+    android:layout_width="@dimen/_40sdp"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:elevation="10dp"
+    android:paddingStart="@dimen/_3sdp"
+    android:paddingTop="@dimen/_1sdp"
+    android:paddingEnd="@dimen/_3sdp"
+    android:paddingBottom="@dimen/_1sdp"
+    tools:parentTag="com.basic.common.widget.shadow.LsSwitchFrameLayout">
+
+    <ImageView
+        android:id="@+id/switch_thumb"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/switch_thumb"
+        tools:ignore="ContentDescription" />
+
+</merge>

@@ -1,0 +1,62 @@
+plugins {
+    id "com.android.library"
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace 'com.widget'
+    compileSdk 33
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    // Material
+    implementation "androidx.core:core-ktx:$kotlin_core_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "jp.wasabeef:recyclerview-animators:$anim_recycler_version"
+
+    // Dagger hilt
+    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Rx-Preferences
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:$rxpref_version"
+
+    // Rx
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // Lifecycle
+    implementation "com.uber.autodispose:autodispose-android-archcomponents:$lifecycle_version"
+    implementation "com.uber.autodispose:autodispose:$lifecycle_version"
+    implementation "com.uber.autodispose:autodispose-lifecycle:$lifecycle_version"
+
+    // Sdp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    // Material dialog
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+}
