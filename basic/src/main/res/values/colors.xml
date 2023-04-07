@@ -5,7 +5,7 @@
     <color name="white1">#F4F4F4</color>
 
     <color name="backgroundLight">#FFFFFF</color>
-    <color name="backgroundDark">#131519</color>
+    <color name="backgroundDark">#000000</color>
 
     <color name="colorOnPrimary">#BE375F</color>
     <color name="colorOnSecondary">#ED8554</color>

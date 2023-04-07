@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="colorActionChecked" format="color"/>
-    <attr name="colorActionUnchecked" format="color"/>
-    <attr name="colorTextActionChecked" format="color"/>
-    <attr name="colorTextActionUnchecked" format="color"/>
-
     <attr name="title" format="string" />
     <attr name="summary" format="string" />
     <attr name="widget" format="reference" />
@@ -44,13 +39,6 @@
         <attr name="textColor" />
         <attr name="textSize" />
         <attr name="textFont" />
-    </declare-styleable>
-
-    <declare-styleable name="LsPreferenceView">
-        <attr name="title" />
-        <attr name="summary" />
-        <attr name="widget" />
-        <attr name="icon" />
     </declare-styleable>
 
     <declare-styleable name="BouncyRecyclerView">

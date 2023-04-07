@@ -22,11 +22,6 @@
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorTertiary">@color/textTertiary</item>
 
-        <item name="colorActionChecked">?android:textColorPrimary</item>
-        <item name="colorActionUnchecked">@color/white</item>
-        <item name="colorTextActionChecked">@color/white</item>
-        <item name="colorTextActionUnchecked">?android:textColorPrimary</item>
-
 <!--        Material dialog-->
         <item name="md_color_button_text">@color/tools_theme</item>
         <item name="md_corner_radius">@dimen/_10sdp</item>
@@ -54,11 +49,6 @@
         <item name="android:textColorPrimary">@color/textPrimary</item>
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorTertiary">@color/textTertiary</item>
-
-        <item name="colorActionChecked">@color/tools_theme</item>
-        <item name="colorActionUnchecked">@color/white</item>
-        <item name="colorTextActionChecked">@color/white</item>
-        <item name="colorTextActionUnchecked">?android:textColorPrimary</item>
 
         <!--        Material dialog-->
         <item name="md_color_button_text">@color/tools_theme</item>
