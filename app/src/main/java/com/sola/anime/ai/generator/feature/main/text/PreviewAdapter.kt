@@ -20,6 +20,6 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Unit>() {
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return 4
     }
 }

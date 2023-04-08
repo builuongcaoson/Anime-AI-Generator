@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
+import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
@@ -28,6 +29,7 @@ class MainActivity : LsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
+        lightStatusBar()
         setContentView(binding.root)
 
         initView()

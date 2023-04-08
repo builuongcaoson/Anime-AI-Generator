@@ -7,9 +7,9 @@
     <color name="backgroundLight">#FFFFFF</color>
     <color name="backgroundDark">#000000</color>
 
-    <color name="colorOnPrimary">#BE375F</color>
+    <color name="colorOnPrimary">#DF825F</color>
     <color name="colorOnSecondary">#ED8554</color>
-    <color name="colorOnTertiary">#F5EB60</color>
+    <color name="colorOnTertiary">#DFB15B</color>
 
     <color name="textPrimary">#141A18</color>
     <color name="textPrimaryDisabled">#4C49555F</color>

@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:textColorPrimary">@color/textPrimaryDark</item>
-        <item name="android:textColorSecondary">@color/textSecondaryDark</item>
-        <item name="android:textColorTertiary">@color/textTertiaryDark</item>
-        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="android:textColorTertiary">@color/textTertiary</item>
+        <item name="android:windowBackground">@color/backgroundLight</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorOnPrimary</item>
         <item name="colorOnPrimary">@color/textPrimaryDark</item>
