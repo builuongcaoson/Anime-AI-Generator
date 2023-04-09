@@ -20,7 +20,7 @@
         android:right="2dp"
         android:top="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="#1F1F1F" />
+            <solid android:color="?android:windowBackground" />
             <corners android:radius="@dimen/_5sdp" />
         </shape>
     </item>

@@ -5,18 +5,21 @@ import android.view.ViewGroup
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.databinding.ItemAspectRatioBinding
+import com.sola.anime.ai.generator.databinding.ItemPreviewBinding
 import javax.inject.Inject
 
-class AspectRatioAdapter @Inject constructor(): LsAdapter<Unit>() {
+class AspectRatioAdapter @Inject constructor(): LsAdapter<Unit, ItemAspectRatioBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LsViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_aspect_ratio, parent, false)
-        return LsViewHolder(view)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): LsViewHolder<ItemAspectRatioBinding> {
+        return LsViewHolder(parent, ItemAspectRatioBinding::inflate)
     }
 
-    override fun onBindViewHolder(holder: LsViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: LsViewHolder<ItemAspectRatioBinding>, position: Int) {
+        val binding = holder.binding
     }
 
     override fun getItemCount(): Int {

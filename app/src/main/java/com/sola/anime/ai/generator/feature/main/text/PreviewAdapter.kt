@@ -1,25 +1,28 @@
 package com.sola.anime.ai.generator.feature.main.text
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
-import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.databinding.ItemPreviewBinding
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Unit>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<Unit, ItemPreviewBinding>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LsViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_preview, parent, false)
-        return LsViewHolder(view)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): LsViewHolder<ItemPreviewBinding> {
+        return LsViewHolder(parent, ItemPreviewBinding::inflate)
     }
 
-    override fun onBindViewHolder(holder: LsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewBinding>, position: Int) {
+        val binding = holder.binding
+
 
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return 10
     }
+
 }

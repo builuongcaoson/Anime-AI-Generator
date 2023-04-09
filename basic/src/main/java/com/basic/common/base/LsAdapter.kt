@@ -6,10 +6,11 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-abstract class LsAdapter<T> : RecyclerView.Adapter<LsViewHolder>() {
+abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder<VB>>() {
 
     var data: List<T> = ArrayList()
         @SuppressLint("NotifyDataSetChanged")

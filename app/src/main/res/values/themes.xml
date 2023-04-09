@@ -6,14 +6,16 @@
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorTertiary">@color/textTertiary</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
+        <item name="android:colorBackground">#EDECED</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">#1ADF825F</item>
         <item name="colorOnPrimary">@color/textPrimaryDark</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/colorOnSecondary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/textPrimaryDark</item>
         <!-- Tertiary brand color. -->
-        <item name="colorTertiary">@color/colorOnTertiary</item>
+        <item name="colorTertiary">@color/colorTertiary</item>
         <item name="colorOnTertiary">@color/textPrimaryDark</item>
     </style>
 </resources>
