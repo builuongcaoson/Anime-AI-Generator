@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.text
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,13 @@ class TextFragment : LsFragment<FragmentTextBinding>() {
 
     private fun listenerView() {
         binding.viewPager.registerOnPageChangeCallback(previewChanges)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+
+                binding.viewShadow.alpha = alpha
+            }
+        }
     }
 
     private fun initView() {
