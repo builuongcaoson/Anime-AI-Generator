@@ -1,19 +1,19 @@
-package com.sola.anime.ai.generator.feature.main.image
+package com.sola.anime.ai.generator.feature.main.discover
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.basic.common.base.LsFragment
-import com.sola.anime.ai.generator.databinding.FragmentImageBinding
+import com.sola.anime.ai.generator.databinding.FragmentDiscoverBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ImageFragment : LsFragment<FragmentImageBinding>() {
+class DiscoverFragment : LsFragment<FragmentDiscoverBinding>() {
 
     override fun initViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentImageBinding {
-        return FragmentImageBinding.inflate(inflater, container, false)
+    ): FragmentDiscoverBinding {
+        return FragmentDiscoverBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated() {

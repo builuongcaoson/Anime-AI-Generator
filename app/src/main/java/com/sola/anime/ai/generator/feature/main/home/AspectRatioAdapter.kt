@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.text
+package com.sola.anime.ai.generator.feature.main.home
 
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet

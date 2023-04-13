@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.text
+package com.sola.anime.ai.generator.feature.main.home
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.getDimens
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
-import com.sola.anime.ai.generator.databinding.FragmentTextBinding
+import com.sola.anime.ai.generator.databinding.FragmentHomeBinding
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +21,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class TextFragment : LsFragment<FragmentTextBinding>() {
+class HomeFragment : LsFragment<FragmentHomeBinding>() {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
@@ -31,8 +31,8 @@ class TextFragment : LsFragment<FragmentTextBinding>() {
     override fun initViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentTextBinding {
-        return FragmentTextBinding.inflate(inflater, container, false)
+    ): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated() {

@@ -1,19 +1,19 @@
-package com.sola.anime.ai.generator.feature.main.setting
+package com.sola.anime.ai.generator.feature.main.mine
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.basic.common.base.LsFragment
-import com.sola.anime.ai.generator.databinding.FragmentSettingBinding
+import com.sola.anime.ai.generator.databinding.FragmentMineBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingFragment : LsFragment<FragmentSettingBinding>() {
+class MineFragment : LsFragment<FragmentMineBinding>() {
 
     override fun initViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentSettingBinding {
-        return FragmentSettingBinding.inflate(inflater, container, false)
+    ): FragmentMineBinding {
+        return FragmentMineBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated() {
