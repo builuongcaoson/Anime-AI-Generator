@@ -1,6 +1,7 @@
 package com.basic.common.widget
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import com.basic.common.util.theme.TextViewStyler
@@ -33,6 +34,12 @@ open class LsTextView @JvmOverloads constructor(
             textViewStyler.applyAttributes(this, attrs)
         } else {
             TextViewStyler.applyEditModeAttributes(this, attrs)
+        }
+    }
+
+    fun setTextFont(textFontAttr: Int) {
+        textViewStyler.fontProvider.get(textFontAttr) { typeFace ->
+            setTypeface(typeFace, typeface?.style ?: Typeface.NORMAL)
         }
     }
 

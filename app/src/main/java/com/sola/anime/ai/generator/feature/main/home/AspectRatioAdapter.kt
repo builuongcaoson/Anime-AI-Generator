@@ -44,7 +44,7 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatio
     override fun onBindViewHolder(holder: LsViewHolder<ItemAspectRatioBinding>, position: Int) {
         val item = getItem(position)
         val binding = holder.binding
-        val context = binding.viewClicks.context
+        val context = binding.root.context
 
         binding.display.text = item.display
 

@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class TextViewStyler @Inject constructor(
     private val prefs: PreferencesConfig,
     private val colors: Colors,
-    private val fontProvider: FontProvider
+    val fontProvider: FontProvider
 ) {
 
     companion object {
