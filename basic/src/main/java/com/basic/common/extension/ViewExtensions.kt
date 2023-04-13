@@ -6,12 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.SystemClock
-import android.text.*
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -24,12 +20,12 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
 
-fun View.setOnClickListener(debounceTime: Long = 0, withAnimScale: Boolean = false, clicks: () -> Unit) {
-    if (withAnimScale){
+fun View.clicks(debounce: Long = 100, withAnim: Boolean = true, clicks: () -> Unit) {
+    if (withAnim){
         var lastClickTime: Long = 0
         PushDownAnim.setPushDownAnimTo(this)
             .setOnClickListener {
-                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return@setOnClickListener
+                if (SystemClock.elapsedRealtime() - lastClickTime < debounce) return@setOnClickListener
                 else clicks()
                 lastClickTime = SystemClock.elapsedRealtime()
             }

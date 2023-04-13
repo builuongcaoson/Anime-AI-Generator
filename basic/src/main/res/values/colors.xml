@@ -38,7 +38,7 @@
     <color name="switchTrackOff">#F4F4F4</color>
 
     <!-- This colour should only ever be used for attrs with the tools tag -->
-    <color name="tools_theme">#141A18</color>
+    <color name="tools_theme">#DF825F</color>
     <color name="blue">#3D52F2</color>
 
     <array name="random_colors">

@@ -78,7 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0"
-                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintDimensionRatio="6:5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -135,6 +135,7 @@
                             android:layout_marginStart="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:layout_marginBottom="@dimen/_2sdp"
+                            android:backgroundTint="?colorPrimaryVariant"
                             android:background="@drawable/rec_corner_bottom_5dp">
 
                             <LinearLayout
@@ -277,7 +278,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:text="Advanced Settings"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_13ssp"
@@ -337,7 +338,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        app:cardBackgroundColor="?android:colorBackground"
+                        app:cardBackgroundColor="?android:colorControlNormal"
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardElevation="0dp">
 
@@ -350,7 +351,7 @@
                                 android:layout_height="@dimen/_15sdp"
                                 android:layout_marginEnd="@dimen/_10sdp"
                                 android:src="@drawable/ic_arrow_right"
-                                android:tint="?android:textColorTertiary"
+                                android:tint="?android:textColorSecondary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -361,7 +362,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:src="@drawable/ic_video_clip"
-                                android:tint="?android:textColorTertiary"
+                                android:tint="?android:textColorSecondary"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -384,7 +385,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Generate"
-                                        android:textColor="?android:textColorTertiary"
+                                        android:textColor="?android:textColorSecondary"
                                         android:textSize="@dimen/_13ssp"
                                         app:textFont="semi" />
 
@@ -393,7 +394,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Watch an ad"
-                                        android:textColor="?android:textColorTertiary"
+                                        android:textColor="?android:textColorSecondary"
                                         android:textSize="@dimen/_10ssp" />
 
                                 </LinearLayout>

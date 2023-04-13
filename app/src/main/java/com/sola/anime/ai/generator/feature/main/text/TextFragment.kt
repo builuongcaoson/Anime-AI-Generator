@@ -56,6 +56,11 @@ class TextFragment : LsFragment<FragmentTextBinding>() {
                 binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false)
                 binding.viewPager.animate().alpha(1f).setDuration(500).start()
             }
+
+        aspectRatioAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { aspectRatioAdapter.ratio = it }
     }
 
     override fun onDestroy() {

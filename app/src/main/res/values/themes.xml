@@ -2,11 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/tools_theme</item>
         <item name="android:textColorPrimary">@color/textPrimary</item>
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorTertiary">@color/textTertiary</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
         <item name="android:colorBackground">#EDECED</item>
+        <item name="colorControlActivated">@color/tools_theme</item>
+        <item name="colorControlNormal">#D5D5D5</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">#1ADF825F</item>
