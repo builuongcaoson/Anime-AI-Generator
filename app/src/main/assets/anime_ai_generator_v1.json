@@ -1,0 +1,76 @@
+{
+  "art": {
+    "random": [
+      {
+        "id": 0,
+        "prompt": "Close up, Happy, Long layers in Ocean Blue, Solo, girl , Unreal Engine, 8k, octane render, Photorealistic, Masterpiece, best quality, highly detailed,  cute, detailed face",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "model": {
+          "id": 1,
+          "display": "Anime V4",
+          "model": "anything_4_0"
+        },
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471
+      }
+    ]
+  },
+  "batch": {
+    "categories": [
+      {
+        "id": 0,
+        "display": "Models",
+        "childs": [
+          {
+            "id": 0,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V5",
+            "isPremium": true
+          },
+          {
+            "id": 1,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V4",
+            "isPremium": true
+          },
+          {
+            "id": 2,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V3",
+            "isPremium": true
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "display": "Characters",
+        "childs": [
+          {
+            "id": 0,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V5",
+            "isPremium": false
+          },
+          {
+            "id": 1,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V4",
+            "isPremium": false
+          },
+          {
+            "id": 2,
+            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+            "display": "Anime V3",
+            "isPremium": false
+          }
+        ]
+      }
+    ]
+  },
+  "avatar": {}
+}
