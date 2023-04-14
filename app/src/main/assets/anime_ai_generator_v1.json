@@ -29,19 +29,31 @@
           {
             "id": 0,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V5",
+            "model": {
+              "id": 0,
+              "display": "Anime V5",
+              "model": "anything_5_0"
+            },
             "isPremium": true
           },
           {
             "id": 1,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V4",
+            "model": {
+              "id": 1,
+              "display": "Anime V4",
+              "model": "anything_4_0"
+            },
             "isPremium": true
           },
           {
             "id": 2,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V3",
+            "model": {
+              "id": 2,
+              "display": "Anime V3",
+              "model": "anything_3_0"
+            },
             "isPremium": true
           }
         ]
@@ -53,19 +65,31 @@
           {
             "id": 0,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V5",
+            "model": {
+              "id": 0,
+              "display": "Anime V5",
+              "model": "anything_5_0"
+            },
             "isPremium": false
           },
           {
             "id": 1,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V4",
+            "model": {
+              "id": 1,
+              "display": "Anime V4",
+              "model": "anything_4_0"
+            },
             "isPremium": false
           },
           {
             "id": 2,
             "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "display": "Anime V3",
+            "model": {
+              "id": 2,
+              "display": "Anime V3",
+              "model": "anything_3_0"
+            },
             "isPremium": false
           }
         ]
