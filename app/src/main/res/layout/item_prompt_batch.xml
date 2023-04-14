@@ -15,7 +15,9 @@
         android:layout_marginBottom="@dimen/_10sdp"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_5sdp"
-        app:cardElevation="@dimen/_1sdp">
+        app:cardElevation="0dp"
+        app:strokeColor="?colorPrimaryVariant"
+        app:strokeWidth="@dimen/_1sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,13 +30,63 @@
                 android:layout_height="wrap_content"
                 android:text="Input prompt"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_12sdp"
+                app:textFont="semi" />
 
-            <com.basic.common.widget.LsEditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@null" />
+                android:background="@drawable/rec_corner_5dp_stroke_gradient_2dp_gray"
+                android:orientation="vertical">
+
+                <com.basic.common.widget.LsEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="What do you want to create?"
+                    android:minHeight="@dimen/_40sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorHint="?colorPrimary"
+                    android:textSize="@dimen/_12ssp"
+                    app:textFont="medium" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="?colorPrimaryVariant" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Number of Images"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12sdp"
+                    app:textFont="semi" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:rotation="90"
+                    android:src="@drawable/ic_arrow_right" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

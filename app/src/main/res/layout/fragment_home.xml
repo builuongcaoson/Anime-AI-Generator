@@ -119,6 +119,8 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:hint="What do you want to create?"
+                            android:maxLength="1000"
+                            android:maxLines="5"
                             android:minHeight="@dimen/_40sdp"
                             android:paddingStart="@dimen/_10sdp"
                             android:paddingTop="@dimen/_10sdp"
@@ -135,8 +137,8 @@
                             android:layout_marginStart="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:layout_marginBottom="@dimen/_2sdp"
-                            android:backgroundTint="?colorPrimaryVariant"
-                            android:background="@drawable/rec_corner_bottom_5dp">
+                            android:background="@drawable/rec_corner_bottom_5dp"
+                            android:backgroundTint="?colorPrimaryVariant">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
