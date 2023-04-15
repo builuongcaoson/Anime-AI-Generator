@@ -1,7 +1,5 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
@@ -12,18 +10,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BatchFragment : LsFragment<FragmentBatchBinding>() {
+class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
 
     @Inject lateinit var categoryAdapter: CategoryAdapter
     @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
-
-    override fun initViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentBatchBinding {
-        return FragmentBatchBinding.inflate(inflater, container, false)
-    }
 
     override fun onViewCreated() {
         initView()

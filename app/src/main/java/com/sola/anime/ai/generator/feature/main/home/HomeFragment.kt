@@ -1,9 +1,7 @@
 package com.sola.anime.ai.generator.feature.main.home
 
 import android.os.Build
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
@@ -21,19 +19,12 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @AndroidEntryPoint
-class HomeFragment : LsFragment<FragmentHomeBinding>() {
+class HomeFragment : LsFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
 
     private val subjectFirstView: Subject<Unit> = BehaviorSubject.createDefault(Unit)
-
-    override fun initViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentHomeBinding {
-        return FragmentHomeBinding.inflate(inflater, container, false)
-    }
 
     override fun onViewCreated() {
         initView()

@@ -9,18 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
 
-abstract class LsFragment<VB : ViewBinding> : Fragment() {
+abstract class LsFragment<VB : ViewBinding>(
+    val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+) : Fragment() {
 
     lateinit var binding: VB
     abstract fun onViewCreated()
-    abstract fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = initViewBinding(layoutInflater, container)
+        binding = bindingInflater(inflater, container, false)
         return binding.root
     }
 
