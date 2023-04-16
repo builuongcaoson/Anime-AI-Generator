@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_plus" />
-                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\plus-small.svg" />
+                            <entry key="outputName" value="ic_setting" />
+                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\settings.svg" />
                           </map>
                         </option>
                       </PersistentState>

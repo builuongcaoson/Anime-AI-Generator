@@ -91,10 +91,6 @@ class MainActivity : LsActivity() {
             }
             this.offscreenPageLimit = this.adapter?.count ?: 0
         }
-        binding.viewBottom.viewTab1.setOnClickListener {
-            binding.viewBottom.imageTab1.animate().translationY(-binding.viewBottom.imageTab1.height.toFloat()).alpha(0f).setDuration(250).start()
-            binding.viewBottom.textTab1.animate().translationY(0f).alpha(1f).setDuration(250).start()
-        }
     }
 
     private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
@@ -107,7 +103,6 @@ class MainActivity : LsActivity() {
     private fun View.animShowTop() { animate().translationY(0f).alpha(1f).setDuration(100).start() }
     private fun View.animHideBottom() { animate().translationY(getDimens(com.intuit.sdp.R.dimen._30sdp)).alpha(0f).setDuration(100).start() }
     private fun View.animShowBottom() { animate().translationY(0f).alpha(1f).setDuration(100).start() }
-
     private fun View.animToCenterView(centerView: View, newWidth: Int) {
         val newLayoutParams = this.layoutParams
         ValueAnimator.ofInt(width, newWidth).apply {
