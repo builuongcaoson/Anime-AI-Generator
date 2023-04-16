@@ -54,7 +54,6 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatio
             applyTo(binding.viewPreviewRatio)
         }
 
-
         when (item) {
             ratio -> {
                 binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))

@@ -245,14 +245,14 @@
                     android:layout_centerVertical="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/circle"
-                        android:backgroundTint="#FFC547"
+                        android:backgroundTint="?colorPrimary"
                         android:padding="@dimen/_1sdp"
                         android:src="@drawable/ic_minus"
-                        android:tint="?android:textColorPrimary" />
+                        android:tint="?colorOnPrimary" />
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="@dimen/_60sdp"
@@ -266,14 +266,14 @@
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/circle"
-                        android:backgroundTint="#FFC547"
+                        android:backgroundTint="?colorPrimary"
                         android:padding="@dimen/_1sdp"
                         android:src="@drawable/ic_plus"
-                        android:tint="?android:textColorPrimary" />
+                        android:tint="?colorOnPrimary" />
 
                 </LinearLayout>
 
@@ -303,14 +303,14 @@
                     android:layout_centerVertical="true">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/circle"
-                        android:backgroundTint="#FFC547"
+                        android:backgroundTint="?colorPrimary"
                         android:padding="@dimen/_1sdp"
                         android:src="@drawable/ic_minus"
-                        android:tint="?android:textColorPrimary" />
+                        android:tint="?colorOnPrimary" />
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="@dimen/_60sdp"
@@ -324,14 +324,14 @@
                         android:textSize="@dimen/_12ssp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
+                        android:layout_width="@dimen/_17sdp"
+                        android:layout_height="@dimen/_17sdp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/circle"
-                        android:backgroundTint="#FFC547"
+                        android:backgroundTint="?colorPrimary"
                         android:padding="@dimen/_1sdp"
                         android:src="@drawable/ic_plus"
-                        android:tint="?android:textColorPrimary" />
+                        android:tint="?colorOnPrimary" />
 
                 </LinearLayout>
 
