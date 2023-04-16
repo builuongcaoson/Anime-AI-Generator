@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.mine
+package com.sola.anime.ai.generator.feature.main.mine.feature
 
 import com.basic.common.base.LsFragment
 import com.sola.anime.ai.generator.databinding.FragmentAvatarMineBinding

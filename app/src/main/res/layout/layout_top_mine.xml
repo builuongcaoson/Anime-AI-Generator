@@ -23,9 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Art"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="semi" />
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp" />
 
         </RelativeLayout>
 
@@ -43,8 +42,7 @@
                 android:layout_centerInParent="true"
                 android:text="Batch"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="semi" />
+                android:textSize="@dimen/_12ssp" />
 
         </RelativeLayout>
 
@@ -62,8 +60,7 @@
                 android:layout_centerInParent="true"
                 android:text="Avatar"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="semi" />
+                android:textSize="@dimen/_12ssp" />
 
         </RelativeLayout>
 

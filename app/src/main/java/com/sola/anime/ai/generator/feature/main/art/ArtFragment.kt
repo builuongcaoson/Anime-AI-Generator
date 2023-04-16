@@ -8,6 +8,8 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.getDimens
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
+import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
+import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint

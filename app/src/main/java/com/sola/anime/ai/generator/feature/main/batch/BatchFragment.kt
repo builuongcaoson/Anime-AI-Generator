@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
+import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
+import com.sola.anime.ai.generator.feature.main.batch.adapter.PreviewCategoryAdapter
+import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint

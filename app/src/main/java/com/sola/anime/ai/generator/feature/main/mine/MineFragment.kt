@@ -4,9 +4,14 @@ import android.animation.ValueAnimator
 import android.view.View
 import com.basic.common.base.LsFragment
 import com.basic.common.base.LsPageAdapter
+import com.basic.common.extension.resolveAttrColor
+import com.basic.common.widget.LsTextView
 import com.jakewharton.rxbinding2.view.clicks
 import com.sola.anime.ai.generator.databinding.FragmentMineBinding
 import com.sola.anime.ai.generator.databinding.LayoutTopMineBinding
+import com.sola.anime.ai.generator.feature.main.mine.feature.ArtFragment
+import com.sola.anime.ai.generator.feature.main.mine.feature.AvatarFragment
+import com.sola.anime.ai.generator.feature.main.mine.feature.BatchFragment
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,13 +75,24 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     }
 
     private fun scrollToPage(index: Int) {
-        topTabs.getOrNull(index)?.let { binding.viewTabTop.viewDividerTab.animToCenterView(it.viewClicks, it.viewWidth.width) }
+        if (tabIndex != index){
+            activity?.let { activity ->
+//                topTabs.getOrNull(tabIndex)?.textTitle?.setTextFont(FONT_REGULAR)
+                topTabs.getOrNull(tabIndex)?.textTitle?.setTextColor(activity.resolveAttrColor(android.R.attr.textColorPrimary))
+            }
+        }
+
+        activity?.let { activity ->
+//            topTabs.getOrNull(index)?.textTitle?.setTextFont(FONT_SEMI)
+            topTabs.getOrNull(index)?.textTitle?.setTextColor(activity.resolveAttrColor(android.R.attr.colorAccent))
+        }
+        topTabs.getOrNull(index)?.let { binding.viewTabTop.viewDividerTab.animToCenterView(it.viewClicks, it.textTitle.width) }
 
         binding.viewPager.currentItem = index
         tabIndex = index
     }
 
-    private data class Tab(val viewClicks: View, val viewWidth: View)
+    private data class Tab(val viewClicks: View, val textTitle: LsTextView)
     private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt(), viewTabTop.initTabBatch(), viewTabTop.initTabAvatar())
     private fun LayoutTopMineBinding.initTabArt() = Tab(viewTab1, textTab1)
     private fun LayoutTopMineBinding.initTabBatch() = Tab(viewTab2, textTab2)

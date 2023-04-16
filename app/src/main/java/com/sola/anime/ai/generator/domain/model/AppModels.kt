@@ -5,3 +5,7 @@ data class CategoryBatch(val display: String)
 data class PreviewCategoryBatch(val display: String, val preview: Int, val isPremium: Boolean = false)
 
 data class PromptBatch(val prompt: String)
+
+data class Folder(val display: String)
+
+data class History(val id: Int = 0)

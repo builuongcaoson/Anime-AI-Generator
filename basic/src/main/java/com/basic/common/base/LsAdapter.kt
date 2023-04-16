@@ -20,6 +20,7 @@ abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder
             val diff = DiffUtil.calculateDiff(getDiffUtilCallback(field, value))
             field = value
             diff.dispatchUpdatesTo(this)
+
             emptyView?.isVisible = value.isEmpty()
 
             notifyDataSetChanged()
