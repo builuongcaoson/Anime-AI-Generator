@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha="0"
-                android:text="Home"
+                android:text="Art"
                 android:textColor="?colorAccent"
                 android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
