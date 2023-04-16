@@ -34,7 +34,7 @@
                 android:alpha="0"
                 android:text="Home"
                 android:textColor="?colorAccent"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
                 app:textFont="semi" />
 
@@ -64,7 +64,7 @@
                 android:alpha="0"
                 android:text="Batch"
                 android:textColor="?colorAccent"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
                 app:textFont="semi" />
 
@@ -94,7 +94,7 @@
                 android:alpha="0"
                 android:text="Discover"
                 android:textColor="?colorAccent"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
                 app:textFont="semi" />
 
@@ -124,7 +124,7 @@
                 android:alpha="0"
                 android:text="Mine"
                 android:textColor="?colorAccent"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
                 app:textFont="semi" />
 

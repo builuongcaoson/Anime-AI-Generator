@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.home
+package com.sola.anime.ai.generator.feature.main.art
 
 import android.view.ViewGroup
 import com.basic.common.base.LsAdapter

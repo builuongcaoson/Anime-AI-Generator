@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
+import android.os.Build
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
@@ -18,6 +19,17 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     override fun onViewCreated() {
         initView()
+        listenerView()
+    }
+
+    private fun listenerView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+
+                binding.viewShadow.alpha = alpha
+            }
+        }
     }
 
     override fun onResume() {

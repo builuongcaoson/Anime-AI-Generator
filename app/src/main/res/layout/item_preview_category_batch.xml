@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_5sdp"
         android:textColor="?android:textColorPrimary"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
         tools:text="@tools:sample/first_names" />
 
 </LinearLayout>

@@ -14,7 +14,7 @@ import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
 import com.sola.anime.ai.generator.feature.main.mine.MineFragment
-import com.sola.anime.ai.generator.feature.main.home.HomeFragment
+import com.sola.anime.ai.generator.feature.main.art.ArtFragment
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : LsActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val fragments by lazy { listOf(HomeFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home

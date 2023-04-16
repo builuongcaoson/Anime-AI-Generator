@@ -44,7 +44,8 @@
                 android:paddingBottom="@dimen/_5sdp"
                 android:text="Pro"
                 android:textAllCaps="true"
-                android:textColor="?colorOnPrimary" />
+                android:textColor="?colorOnPrimary"
+                android:textSize="@dimen/_10ssp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -414,6 +415,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

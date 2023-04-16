@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?android:textColorPrimary"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="@dimen/_13ssp"
         tools:text="@tools:sample/first_names" />
 
 </LinearLayout>

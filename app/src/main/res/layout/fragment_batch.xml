@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="0"
-                android:textColor="#FCD53C"
+                android:textColor="#FFC547"
                 android:textSize="@dimen/_15ssp"
                 app:textFont="semi" />
 
