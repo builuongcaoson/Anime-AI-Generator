@@ -20,6 +20,22 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_preview_iap" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPreview2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_preview_iap" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPreview3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_preview_iap" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
