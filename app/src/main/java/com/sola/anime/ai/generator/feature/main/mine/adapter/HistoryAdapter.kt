@@ -17,13 +17,6 @@ import javax.inject.Inject
 
 class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>() {
 
-    init {
-        data = listOf(
-            History(),
-            History()
-        )
-    }
-
     val clicks: Subject<History> = PublishSubject.create()
 
     override fun onCreateViewHolder(

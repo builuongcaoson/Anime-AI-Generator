@@ -42,9 +42,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
+                        android:text="0/20"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_10sdp"
-                        android:text="0/20" />
+                        android:textSize="@dimen/_10sdp" />
 
                 </LinearLayout>
 
@@ -60,10 +60,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_5sdp"
+                        android:text="Get premium"
                         android:textColor="?colorPrimary"
                         android:textSize="@dimen/_10sdp"
-                        app:textFont="semi"
-                        android:text="Get premium" />
+                        app:textFont="semi" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_12sdp"
@@ -90,18 +90,85 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_folder_mine" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerHistory"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/item_history_mine" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_history_mine" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/previewEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/preview_empty_mine"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_50sdp"
+                    android:layout_marginEnd="@dimen/_50sdp"
+                    android:gravity="center_horizontal"
+                    android:lineHeight="@dimen/_20sdp"
+                    android:text="You don't have any works at present. Do you want to know how to create better works? Explore other people's works for inspiration."
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/previewEmpty" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?colorPrimary"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_3sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textEmpty">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Explore"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="@dimen/_12ssp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

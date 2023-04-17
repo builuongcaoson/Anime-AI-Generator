@@ -1,100 +1,145 @@
 {
-  "art": {
-    "random": [
+  "app": {
+    "models": [
       {
         "id": 0,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "model": {
+          "id": 0,
+          "display": "Anime V5",
+          "model": "anything_5_0"
+        },
+        "isPremium": false
+      },
+      {
+        "id": 1,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "model": {
+          "id": 1,
+          "display": "Anime V4",
+          "model": "anything_4_0"
+        },
+        "isPremium": false
+      },
+      {
+        "id": 2,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "model": {
+          "id": 2,
+          "display": "Anime V3",
+          "model": "anything_3_0"
+        },
+        "isPremium": false
+      }
+    ],
+    "explores": [
+      {
+        "id": 0,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
         "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
         "guidance": 7.5,
         "upscale": 1,
         "sampler": "euler_a",
         "steps": "50",
-        "model": {
-          "id": 1,
-          "display": "Anime V4",
-          "model": "anything_4_0"
-        },
+        "modelId": 1,
         "width": 512,
         "height": 512,
-        "seed": 3107070471
-      }
-    ]
-  },
-  "batch": {
-    "categories": [
-      {
-        "id": 0,
-        "display": "Models",
-        "child's": [
-          {
-            "id": 0,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 0,
-              "display": "Anime V5",
-              "model": "anything_5_0"
-            },
-            "isPremium": true
-          },
-          {
-            "id": 1,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 1,
-              "display": "Anime V4",
-              "model": "anything_4_0"
-            },
-            "isPremium": true
-          },
-          {
-            "id": 2,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 2,
-              "display": "Anime V3",
-              "model": "anything_3_0"
-            },
-            "isPremium": true
-          }
-        ]
+        "seed": 3107070471,
+        "isPremium": true
       },
       {
         "id": 1,
-        "display": "Characters",
-        "child's": [
-          {
-            "id": 0,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 0,
-              "display": "Anime V5",
-              "model": "anything_5_0"
-            },
-            "isPremium": false
-          },
-          {
-            "id": 1,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 1,
-              "display": "Anime V4",
-              "model": "anything_4_0"
-            },
-            "isPremium": false
-          },
-          {
-            "id": 2,
-            "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
-            "model": {
-              "id": 2,
-              "display": "Anime V3",
-              "model": "anything_3_0"
-            },
-            "isPremium": false
-          }
-        ]
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "modelId": 1,
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471,
+        "isPremium": true
+      },
+      {
+        "id": 2,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "modelId": 1,
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471,
+        "isPremium": true
+      }
+    ],
+    "characters": [
+      {
+        "id": 0,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "modelId": 1,
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471,
+        "isPremium": true
+      },
+      {
+        "id": 1,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "modelId": 1,
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471,
+        "isPremium": true
+      },
+      {
+        "id": 2,
+        "preview": "https://wallpapers-clan.com/wp-content/uploads/2023/02/anime-girl-pink-pfp-1.jpg",
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+        "guidance": 7.5,
+        "upscale": 1,
+        "sampler": "euler_a",
+        "steps": "50",
+        "modelId": 1,
+        "width": 512,
+        "height": 512,
+        "seed": 3107070471,
+        "isPremium": true
+      }
+    ],
+    "randoms": [
+      {
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears"
+      },
+      {
+        "prompt": "Full person overview, Happiness, Ocean Blue Long Layers, Solo, girl, Unreal Engine, 8k, octane rendering, Photorealistic, Masterpiece, best quality, chi face detailed, cute, detailed",
+        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears"
       }
     ]
+  },
+  "art": {
+  },
+  "batch": {
   },
   "avatar": {}
 }

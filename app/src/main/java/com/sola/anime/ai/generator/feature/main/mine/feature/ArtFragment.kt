@@ -31,7 +31,9 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                         return false
                     }
                 }
-                this.adapter = historyAdapter
+                this.adapter = historyAdapter.apply {
+                    this.emptyView = binding.viewEmpty
+                }
             }
         }
     }
