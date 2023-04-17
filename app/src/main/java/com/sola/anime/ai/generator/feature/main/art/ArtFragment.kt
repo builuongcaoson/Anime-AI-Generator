@@ -5,7 +5,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
@@ -25,6 +27,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
+    @Inject lateinit var navigator: Navigator
 
     private val subjectFirstView: Subject<Unit> = BehaviorSubject.createDefault(Unit)
 
@@ -76,6 +79,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.viewShadow.alpha = alpha
             }
         }
+        binding.viewPro.clicks { navigator.startIap() }
     }
 
     private fun initView() {
