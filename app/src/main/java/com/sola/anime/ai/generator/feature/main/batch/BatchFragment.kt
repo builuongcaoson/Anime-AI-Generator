@@ -29,8 +29,10 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
                 val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
 
                 binding.viewShadow.alpha = alpha
+                binding.viewShadowBottom.alpha = alphaBottom
             }
         }
     }

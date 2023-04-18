@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
@@ -75,11 +76,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
                 val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
 
                 binding.viewShadow.alpha = alpha
+                binding.viewShadowBottom.alpha = alphaBottom
             }
         }
         binding.viewPro.clicks { navigator.startIap() }
+        binding.cardGenerate.clicks { navigator.startArtProcessing() }
     }
 
     private fun initView() {

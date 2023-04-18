@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -38,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/cardPreview">
 
         <com.basic.common.widget.LsTextView
+            android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorPrimary"
@@ -46,6 +48,7 @@
             tools:text="@tools:sample/first_names" />
 
         <com.basic.common.widget.LsTextView
+            android:id="@+id/textArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorPrimary"

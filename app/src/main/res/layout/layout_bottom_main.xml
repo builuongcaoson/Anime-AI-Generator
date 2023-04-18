@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_home"
+                android:src="@drawable/ic_art"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
@@ -53,7 +53,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_global"
+                android:src="@drawable/ic_layer_plus"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
@@ -83,7 +83,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_heart"
+                android:src="@drawable/ic_discover"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
@@ -113,7 +113,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_setting"
+                android:src="@drawable/ic_mine"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView

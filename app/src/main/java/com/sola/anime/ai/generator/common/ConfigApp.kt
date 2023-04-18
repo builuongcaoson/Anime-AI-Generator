@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.model.PreviewIap
+import com.sola.anime.ai.generator.domain.model.config.ProcessPreview
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import javax.inject.Inject
@@ -14,8 +15,12 @@ class ConfigApp @Inject constructor(
     private val context: Context
 ){
 
+    // Iap
     var previewsIap1 = listOf<PreviewIap>()
     var previewsIap2 = listOf<PreviewIap>()
     var previewsIap3 = listOf<PreviewIap>()
+
+    // Art process
+    var artProcessPreviews = listOf<ProcessPreview>()
 
 }

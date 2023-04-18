@@ -48,9 +48,15 @@ class SyncConfigApp @Inject constructor(
         val gson = Gson()
         val data = gson.fromJson(bufferedReader, DataConfigApp::class.java)
 
+        // Iap
         configApp.previewsIap1 = ArrayList(data.app.iap.preview1.mapNotNull { PreviewIap(it.preview, it.ratio) })
         configApp.previewsIap2 = ArrayList(data.app.iap.preview2.mapNotNull { PreviewIap(it.preview, it.ratio) })
         configApp.previewsIap3 = ArrayList(data.app.iap.preview3.mapNotNull { PreviewIap(it.preview, it.ratio) })
+
+        // Art
+        configApp.artProcessPreviews = ArrayList(data.art.processPreviews).apply {
+            this.shuffle()
+        }
 
         syncProgress.onNext(Progress.Success)
     }
