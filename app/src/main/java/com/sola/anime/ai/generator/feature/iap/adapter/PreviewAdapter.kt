@@ -37,6 +37,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<PreviewIap, ItemPreviewIap
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
             .into(binding.image)
+
     }
 
     override fun getItemCount(): Int {
