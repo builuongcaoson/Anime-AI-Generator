@@ -17,6 +17,8 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
 
+        <activity android:name=".feature.processing.art.ArtProcessingActivity"/>
+
         <activity android:name=".feature.iap.IapActivity" />
 
         <activity android:name=".feature.main.MainActivity"/>

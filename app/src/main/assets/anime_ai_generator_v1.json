@@ -266,6 +266,33 @@
     ]
   },
   "art": {
+    "processing": [
+      {
+        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+        "title": "Demon Slayer",
+        "artist": "by: Aidan"
+      },
+      {
+        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+        "title": "Demon Slayer",
+        "artist": "by: Engelbert"
+      },
+      {
+        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+        "title": "Demon Slayer",
+        "artist": "by: Alexander"
+      },
+      {
+        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+        "title": "Demon Slayer",
+        "artist": "by: Fergus"
+      },
+      {
+        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+        "title": "Demon Slayer",
+        "artist": "by: Calantha"
+      }
+    ]
   },
   "batch": {
   },
