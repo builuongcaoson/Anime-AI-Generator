@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "62472229789",
-    "project_id": "aichatbot-f9b89",
-    "storage_bucket": "aichatbot-f9b89.appspot.com"
+    "project_number": "561110823355",
+    "project_id": "anime-ai-generator",
+    "storage_bucket": "anime-ai-generator.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:62472229789:android:71e7cbe18c917a73005574",
+        "mobilesdk_app_id": "1:561110823355:android:62fa391bb0eed6d230149e",
         "android_client_info": {
           "package_name": "com.sola.anime.ai.generator"
         }
       },
       "oauth_client": [
         {
-          "client_id": "62472229789-ir4olo1f9gbql5rqg4pus9s2jc9jefih.apps.googleusercontent.com",
+          "client_id": "561110823355-a2i7frr50b7gna6u20qpeaqf3c1fuoue.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sola.anime.ai.generator",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "62472229789-4ipk2kr6f9ka3burf3194qlisqo2hp42.apps.googleusercontent.com",
+          "client_id": "561110823355-7ea9aimbmsnkdcpsuortcfape4007dis.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB21_iBbdUh1UTRpfiNrayxk-WgvLsYWtQ"
+          "current_key": "AIzaSyBArUurCNV2-S6xRGy_0e99VZ5uW0NZ2Ns"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "62472229789-4ipk2kr6f9ka3burf3194qlisqo2hp42.apps.googleusercontent.com",
+              "client_id": "561110823355-7ea9aimbmsnkdcpsuortcfape4007dis.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

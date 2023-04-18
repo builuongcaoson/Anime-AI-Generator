@@ -1,23 +1,133 @@
 {
   "app": {
-    "iap": [
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png",
-      "https://i.imgur.com/bbTke58.png"
-    ],
+    "iap": {
+      "preview1": [
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_1_512x768.webp?alt=media&token=b26309d7-a346-4fe0-87e8-4062f82f337c",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_2_512x512.webp?alt=media&token=0ce1f205-8593-4e54-8657-5fdd00278049",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_3_512x512.webp?alt=media&token=306000a7-88c1-418d-b909-9814758c5627",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_4_512x768.webp?alt=media&token=6fa50f6f-12dc-482a-a8b2-b1d9f31b7ba6",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_5_512x512.webp?alt=media&token=f4ce6034-1abc-47e2-b2e3-b986b70a3fd3",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_6_512x768.webp?alt=media&token=a17a095f-85ec-4070-ba9c-0ec0c1cddb45",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_7_512x768.webp?alt=media&token=5d092af0-e6e4-4a30-9bc7-934e8f68c669",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_8_512x768.webp?alt=media&token=a8d9a873-5d62-4195-a28e-1388b9a9edad",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_9_512x512.webp?alt=media&token=752b3aa3-dc40-4aa6-b88d-dea15b4f0685",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_10_512x768.webp?alt=media&token=c8da121d-c184-4af0-b451-38e3acc043a1",
+          "ratio": "512:768"
+        }
+      ],
+      "preview2": [
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_11_512x768.webp?alt=media&token=7f795d80-d290-49b5-82c0-a7dc4a453f9e",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_12_512x768.webp?alt=media&token=53b36206-c9c3-4e10-b0fe-4b3705b51077",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_13_512x768.webp?alt=media&token=f4bdeb88-d4d2-427c-8c91-9e2133f0b815",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_14_521x423.webp?alt=media&token=51df14ae-90d5-4c61-aa1f-494e5bc39180",
+          "ratio": "521:423"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_15_512x768.webp?alt=media&token=2c9b9e45-3345-4e89-81ef-49631251c417",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_16_500x326.webp?alt=media&token=6afd922a-ba81-4416-b23c-fff6482a3d0d",
+          "ratio": "500:326"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_17_512x512.webp?alt=media&token=c96bf564-8a91-485f-ab26-516df5a9d5af",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_18_768x512.webp?alt=media&token=9ef65e1b-0bed-4f09-ab1e-fef99ffb892b",
+          "ratio": "768:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_19_512x768.webp?alt=media&token=c1402580-f2f3-4562-a5e6-f1ef047cf0b3",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_20_512x768.webp?alt=media&token=8a261a6f-97e8-432f-9b55-3c97760b5b71",
+          "ratio": "512:768"
+        }
+      ],
+      "preview3": [
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_21_512x512.webp?alt=media&token=b2afb00b-7296-457f-b259-fe50b6ca5c79",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_22_512x768.webp?alt=media&token=61ce6705-cba7-4ed9-ab21-9e9dee255988",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_23_512x512.webp?alt=media&token=c2985a13-27fa-488f-a3bd-00edc20ad722",
+          "ratio": "512:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_24_512x768.webp?alt=media&token=47561a59-f6a0-44c3-b21e-8bcdef44a3fd",
+          "ratio": "521:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_25_512x768.webp?alt=media&token=3085ef3e-8148-4c35-8ecb-305f13bfa638",
+          "ratio": "512:768"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_26_768x512.webp?alt=media&token=3634bc41-a844-4605-964a-51ef3c7c4989",
+          "ratio": "768:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_27_768x512.webp?alt=media&token=cb6aebcc-809a-4005-b24d-26adb6fb3051",
+          "ratio": "768:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_28_768x512.webp?alt=media&token=c643b318-2485-4d32-ab61-ce12e206fa63",
+          "ratio": "768:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_29_768x512.webp?alt=media&token=2dde8afa-db9c-45f2-b1fb-453de71f5f99",
+          "ratio": "768:512"
+        },
+        {
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2Fpreview_iap_30_768x512.webp?alt=media&token=f1b94983-9305-4a82-af79-9f79019f56de",
+          "ratio": "768:512"
+        }
+      ]
+    },
     "models": [
       {
         "id": 0,

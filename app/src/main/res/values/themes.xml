@@ -8,6 +8,10 @@
         <item name="android:textColorTertiary">@color/textTertiary</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
         <item name="android:colorBackground">#EDECED</item>
+        <item name="android:statusBarColor">@color/backgroundLight</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/backgroundLight</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="colorControlActivated">@color/tools_theme</item>
         <item name="colorControlNormal">#D5D5D5</item>
         <!-- Primary brand color. -->

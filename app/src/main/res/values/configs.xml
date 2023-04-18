@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="domain_firebase_storage_v1_iap">https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F</string>
+</resources>
