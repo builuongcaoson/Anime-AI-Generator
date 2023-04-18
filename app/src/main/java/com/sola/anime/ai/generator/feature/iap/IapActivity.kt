@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.transparent
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
@@ -42,14 +43,9 @@ class IapActivity : LsActivity() {
         super.onResume()
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         unregisterScrollListener()
-        super.onStop()
-    }
-
-    override fun onPause() {
-        unregisterScrollListener()
-        super.onPause()
+        super.onDestroy()
     }
 
     private fun registerScrollListener(){
@@ -66,21 +62,26 @@ class IapActivity : LsActivity() {
 
     private val scrollListener = object: RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return
+            tryOrNull {
+                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@tryOrNull
 
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-            val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-            if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                when (recyclerView) {
-                    binding.recyclerPreview1 -> {
-                        recyclerView.post { previewAdapter1.insert() }
-                    }
-                    binding.recyclerPreview2 -> {
-                        recyclerView.post { previewAdapter2.insert() }
-                    }
-                    binding.recyclerPreview3 -> {
-                        recyclerView.post { previewAdapter3.insert() }
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+
+                tryOrNull {
+                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                        when (recyclerView) {
+                            binding.recyclerPreview1 -> {
+                                tryOrNull { recyclerView.post { previewAdapter1.insert() } }
+                            }
+                            binding.recyclerPreview2 -> {
+                                tryOrNull { recyclerView.post { previewAdapter2.insert() } }
+                            }
+                            binding.recyclerPreview3 -> {
+                                tryOrNull { recyclerView.post { previewAdapter3.insert() } }
+                            }
+                        }
                     }
                 }
             }
