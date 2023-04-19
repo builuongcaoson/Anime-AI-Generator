@@ -8,6 +8,7 @@ import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
+import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncConfigApp
 import com.uber.autodispose.android.lifecycle.scope
@@ -81,8 +82,7 @@ class SplashActivity : LsActivity() {
                     is SyncConfigApp.Progress.Success -> {
                         binding.viewLottie.cancelAnimation()
 
-                        navigator.startMain()
-                        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
+                        startMain()
                         finish()
                     }
                     else -> {}

@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.Navigator
+import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,7 @@ class ArtResultActivity : LsActivity() {
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-        binding.viewPro.clicks { navigator.startIap() }
+        binding.viewPro.clicks { startIap() }
     }
 
     private fun initData() {
@@ -50,7 +52,7 @@ class ArtResultActivity : LsActivity() {
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        finish()
+        back()
     }
 
 }

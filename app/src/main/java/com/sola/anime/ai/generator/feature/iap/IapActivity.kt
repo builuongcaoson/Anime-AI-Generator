@@ -7,6 +7,7 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
@@ -119,6 +120,11 @@ class IapActivity : LsActivity() {
                 post { smoothScrollToPosition(previewAdapter3.data.size - 1) }
             }
         }
+    }
+
+    @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
+    override fun onBackPressed() {
+        back()
     }
 
 }

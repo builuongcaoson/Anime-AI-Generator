@@ -9,6 +9,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
+import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.ui.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
@@ -71,7 +72,7 @@ class ArtProcessingActivity : LsActivity() {
                         finish()
                     }
                     millisecond >= 2 -> {
-                        navigator.startArtResult()
+                        startArtResult()
                         finish()
                     }
                     else -> {
