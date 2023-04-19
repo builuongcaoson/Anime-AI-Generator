@@ -15,6 +15,7 @@ class Preferences @Inject constructor(
 
     companion object {
         const val MAX_NUMBER_CREATE_ART = 9999999
+        const val MAX_SECOND_GENERATE_ART = 30
     }
 
     // Config
@@ -24,7 +25,6 @@ class Preferences @Inject constructor(
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
     val isRated = rxPrefs.getBoolean("isRated", false)
     val numberCreateArt = rxPrefs.getInteger("numberCreateArt", 0)
-    val urisHadFace = rxPrefs.getString("urisHadFace", "")
 
 
 }
