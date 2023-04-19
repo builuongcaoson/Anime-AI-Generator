@@ -12,28 +12,28 @@ import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
 fun Activity.startMain(){
     val intent = Intent(this, MainActivity::class.java)
     startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
 fun Activity.startIap(){
     val intent = Intent(this, IapActivity::class.java)
     startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
 fun Activity.startArtProcessing(){
     val intent = Intent(this, ArtProcessingActivity::class.java)
     startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
 fun Activity.startArtResult(){
     val intent = Intent(this, ArtResultActivity::class.java)
     startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
 fun Activity.back(){
     finish()
-    tryOrNull { overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left) }
+    tryOrNull { overridePendingTransition(R.anim.slide_in_right, R.anim.nothing) }
 }
