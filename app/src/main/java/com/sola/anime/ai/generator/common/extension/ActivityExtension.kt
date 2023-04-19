@@ -35,5 +35,5 @@ fun Activity.startArtResult(){
 
 fun Activity.back(){
     finish()
-    tryOrNull { overridePendingTransition(R.anim.slide_in_right, R.anim.nothing) }
+    tryOrNull { overridePendingTransition(R.anim.nothing, R.anim.slide_out_left) }
 }
