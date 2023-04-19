@@ -17,6 +17,8 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
 
+        <activity android:name=".feature.explore.ExploreActivity"/>
+
         <activity android:name=".feature.result.art.ArtResultActivity"/>
 
         <activity android:name=".feature.processing.art.ArtProcessingActivity"/>

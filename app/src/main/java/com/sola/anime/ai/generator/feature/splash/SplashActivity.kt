@@ -23,7 +23,6 @@ import javax.inject.Inject
 class SplashActivity : LsActivity() {
 
     @Inject lateinit var syncConfigApp: SyncConfigApp
-    @Inject lateinit var navigator: Navigator
 
     private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 

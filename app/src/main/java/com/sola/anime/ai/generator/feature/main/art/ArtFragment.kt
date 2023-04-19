@@ -11,6 +11,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startArtProcessing
+import com.sola.anime.ai.generator.common.extension.startExplore
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
@@ -31,10 +32,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
-    @Inject lateinit var navigator: Navigator
     @Inject lateinit var configApp: ConfigApp
 
-    private val subjectFirstView: Subject<Unit> = BehaviorSubject.createDefault(Unit)
+    private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
     override fun onViewCreated() {
         initView()
@@ -48,12 +48,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initObservable() {
         subjectFirstView
-            .take(1)
-            .debounce(500, TimeUnit.MILLISECONDS)
+            .filter { it }
+            .debounce(250, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
+                subjectFirstView.onNext(false)
+
                 binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false)
                 binding.viewPager.animate().alpha(1f).setDuration(500).start()
             }
@@ -88,6 +90,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks { activity?.startArtProcessing() }
+        binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
     }
 
     private fun initView() {

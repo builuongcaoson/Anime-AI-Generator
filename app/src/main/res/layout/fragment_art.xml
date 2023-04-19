@@ -134,6 +134,8 @@
                             app:textFont="medium" />
 
                         <RelativeLayout
+                            android:id="@+id/viewExplore"
+                            android:foreground="?selectableItemBackground"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_38sdp"
                             android:layout_marginStart="@dimen/_2sdp"
@@ -160,7 +162,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginStart="@dimen/_10sdp"
-                                    android:text="Generate Prompt"
+                                    android:text="Explore"
                                     android:textColor="?android:textColorPrimary"
                                     android:textSize="@dimen/_12ssp" />
 

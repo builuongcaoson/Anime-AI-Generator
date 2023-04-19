@@ -15,7 +15,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ArtResultActivity : LsActivity() {
 
-    @Inject lateinit var navigator: Navigator
     @Inject lateinit var previewAdapter: PreviewAdapter
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }

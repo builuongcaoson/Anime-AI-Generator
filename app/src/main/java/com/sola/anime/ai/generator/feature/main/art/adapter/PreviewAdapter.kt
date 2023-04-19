@@ -5,20 +5,20 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.sola.anime.ai.generator.databinding.ItemPreviewBinding
+import com.sola.anime.ai.generator.databinding.ItemPreviewArtBinding
 import com.sola.anime.ai.generator.domain.model.config.ProcessPreview
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<ProcessPreview, ItemPreviewBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<ProcessPreview, ItemPreviewArtBinding>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): LsViewHolder<ItemPreviewBinding> {
-        return LsViewHolder(parent, ItemPreviewBinding::inflate)
+    ): LsViewHolder<ItemPreviewArtBinding> {
+        return LsViewHolder(parent, ItemPreviewArtBinding::inflate)
     }
 
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewBinding>, position: Int) {
+    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewArtBinding>, position: Int) {
         val item = getItem(position % data.size)
         val binding = holder.binding
         val context = binding.root.context
@@ -28,7 +28,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<ProcessPreview, ItemPrevie
             .asBitmap()
             .load(item.previewRes)
             .transition(BitmapTransitionOptions.withCrossFade())
-            .into(binding.image)
+            .into(binding.preview)
     }
 
 }

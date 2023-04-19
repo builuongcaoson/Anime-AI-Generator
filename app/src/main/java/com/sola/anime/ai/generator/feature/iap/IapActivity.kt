@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
+import com.basic.common.extension.clicks
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
@@ -36,7 +38,7 @@ class IapActivity : LsActivity() {
     }
 
     private fun listenerView() {
-
+        binding.back.clicks { onBackPressed() }
     }
 
     override fun onResume() {
@@ -124,7 +126,7 @@ class IapActivity : LsActivity() {
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        back()
+        backTopToBottom()
     }
 
 }

@@ -30,7 +30,6 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
-    @Inject lateinit var navigator: Navigator
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()

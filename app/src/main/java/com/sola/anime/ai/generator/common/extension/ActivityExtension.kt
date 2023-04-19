@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
@@ -18,7 +19,7 @@ fun Activity.startMain(){
 fun Activity.startIap(){
     val intent = Intent(this, IapActivity::class.java)
     startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
 fun Activity.startArtProcessing(){
@@ -33,7 +34,18 @@ fun Activity.startArtResult(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
+fun Activity.startExplore(){
+    val intent = Intent(this, ExploreActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
 fun Activity.back(){
     finish()
     tryOrNull { overridePendingTransition(R.anim.nothing, R.anim.slide_out_left) }
+}
+
+fun Activity.backTopToBottom(){
+    finish()
+    tryOrNull { overridePendingTransition(R.anim.nothing, R.anim.slide_down) }
 }
