@@ -53,7 +53,10 @@ class ExploreActivity : LsActivity() {
 
     private fun initView() {
         binding.recyclerView.apply {
-            this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                
+            }
+            this.layoutManager = layoutManager
             this.adapter = previewAdapter.apply {
                 this.data = configApp.previewsIap1 + configApp.previewsIap2 + configApp.previewsIap3
             }
