@@ -8,6 +8,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
@@ -29,6 +30,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var configApp: ConfigApp
 
     private val subjectFirstView: Subject<Unit> = BehaviorSubject.createDefault(Unit)
 
@@ -89,7 +91,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun initView() {
         activity?.let { activity ->
             binding.viewPager.apply {
-                this.adapter = previewAdapter
+                this.adapter = previewAdapter.apply {
+                    this.data = configApp.previewsInRes.shuffled()
+                }
                 this.offscreenPageLimit = 1
                 this.run {
                     val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)

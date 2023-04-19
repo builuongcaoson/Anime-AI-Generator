@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.domain.model.PreviewIap
 import com.sola.anime.ai.generator.domain.model.config.DataConfigApp
+import com.sola.anime.ai.generator.domain.model.config.ProcessPreview
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject

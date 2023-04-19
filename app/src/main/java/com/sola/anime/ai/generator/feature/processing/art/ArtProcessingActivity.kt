@@ -1,7 +1,6 @@
 package com.sola.anime.ai.generator.feature.processing.art
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
@@ -9,6 +8,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +56,7 @@ class ArtProcessingActivity : LsActivity() {
         binding.viewPager.apply {
             this.isUserInputEnabled = false
             this.adapter = previewAdapter.apply {
-                this.data = configApp.artProcessPreviews
+                this.data = ArrayList(configApp.previewsInRes.shuffled() + configApp.artProcessPreviews)
                 this.totalCount = configApp.artProcessPreviews.size
             }
         }

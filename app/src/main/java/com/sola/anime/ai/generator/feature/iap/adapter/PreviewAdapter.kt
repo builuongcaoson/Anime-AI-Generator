@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.iap.adapter
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
@@ -9,6 +10,8 @@ import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
@@ -43,14 +46,16 @@ class PreviewAdapter @Inject constructor(): LsAdapter<PreviewIap, ItemPreviewIap
         set.applyTo(binding.viewGroup)
 
         Glide.with(context)
+            .asBitmap()
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
-            .listener(object: RequestListener<Drawable>{
+            .transition(BitmapTransitionOptions.withCrossFade())
+            .listener(object: RequestListener<Bitmap>{
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Drawable>?,
+                    target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.preview.setImageResource(R.drawable.place_holder_image)
@@ -58,15 +63,16 @@ class PreviewAdapter @Inject constructor(): LsAdapter<PreviewIap, ItemPreviewIap
                 }
 
                 override fun onResourceReady(
-                    resource: Drawable?,
+                    resource: Bitmap?,
                     model: Any?,
-                    target: Target<Drawable>?,
+                    target: Target<Bitmap>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let {
+                    resource?.let { bitmap ->
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-                        binding.preview.setImageDrawable(it)
+                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.animate().alpha(1f).setDuration(250).start()
                     } ?: run {
                         binding.preview.setImageResource(R.drawable.place_holder_image)
                     }

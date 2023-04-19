@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 @Keep
 public class ProcessPreview {
 
+    public Integer previewRes;
     @SerializedName("preview")
     @Expose
     public String preview;
