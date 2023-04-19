@@ -25,4 +25,5 @@
         <item name="colorTertiary">@color/colorTertiary</item>
         <item name="colorOnTertiary">@color/textPrimaryDark</item>
     </style>
+
 </resources>

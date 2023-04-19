@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
+import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncConfigApp
@@ -80,6 +82,7 @@ class SplashActivity : LsActivity() {
                         binding.viewLottie.cancelAnimation()
 
                         navigator.startMain()
+                        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right) }
                         finish()
                     }
                     else -> {}
