@@ -14,7 +14,7 @@
         android:layout_height="@dimen/_80sdp"
         android:layout_gravity="center_horizontal"
         app:cardBackgroundColor="?android:windowBackground"
-        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="0dp">
 
         <androidx.appcompat.widget.AppCompatImageView

@@ -17,7 +17,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             app:cardBackgroundColor="?colorPrimaryVariant"
-            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
             app:cardElevation="0dp">
 
             <RelativeLayout
