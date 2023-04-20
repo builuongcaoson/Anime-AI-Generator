@@ -9,6 +9,7 @@ import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
 import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
+import com.sola.anime.ai.generator.feature.style.StyleActivity
 
 fun Activity.startMain(){
     val intent = Intent(this, MainActivity::class.java)
@@ -36,6 +37,12 @@ fun Activity.startArtResult(){
 
 fun Activity.startExplore(){
     val intent = Intent(this, ExploreActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startStyle(){
+    val intent = Intent(this, StyleActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

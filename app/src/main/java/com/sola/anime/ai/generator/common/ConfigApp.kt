@@ -30,11 +30,6 @@ class ConfigApp @Inject constructor(
         }
     )
 
-    // Iap
-    var previewsIap1 = listOf<PreviewIap>()
-    var previewsIap2 = listOf<PreviewIap>()
-    var previewsIap3 = listOf<PreviewIap>()
-
     // Art process
     var artProcessPreviews = listOf<ProcessPreview>()
 

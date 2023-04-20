@@ -1,11 +1,15 @@
 package com.sola.anime.ai.generator.domain.interactor
 
 import android.content.Context
+import com.basic.common.extension.tryOrNull
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.PreviewIap
 import com.sola.anime.ai.generator.domain.model.config.DataConfigApp
-import com.sola.anime.ai.generator.domain.model.config.ProcessPreview
+import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
@@ -20,7 +24,9 @@ import javax.inject.Singleton
 @Singleton
 class SyncConfigApp @Inject constructor(
     private val context: Context,
-    private val configApp: ConfigApp
+    private val configApp: ConfigApp,
+    private val styleDao: StyleDao,
+    private val iapPreviewDao: IapPreviewDao,
 ) : Interactor<Unit>() {
 
     sealed class Progress{
@@ -38,9 +44,34 @@ class SyncConfigApp @Inject constructor(
             .doOnNext { syncProgress.onNext(Progress.Running) }
             .delay(1, TimeUnit.SECONDS)
             .doOnNext { syncConfigApp() }
+            .doOnNext { syncStyles() }
+            .doOnNext { syncIap() }
+            .doOnNext { syncProgress.onNext(Progress.Success) }
             .map { startTime -> System.currentTimeMillis() - startTime }
             .map { elapsed -> TimeUnit.MILLISECONDS.toMillis(elapsed) }
             .doOnNext { milliseconds -> Timber.i("Completed setup firebase config in $milliseconds milliseconds") }
+    }
+
+    private fun syncIap() {
+        val inputStream = context.assets.open("iap_v1.json")
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
+
+        data.forEach {
+            it.ratio = it.preview.split("")
+        }
+
+        iapPreviewDao.deleteAll()
+        iapPreviewDao.inserts(*data)
+    }
+
+    private fun syncStyles() {
+        val inputStream = context.assets.open("style_v1.json")
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
+
+        styleDao.deleteAll()
+        styleDao.inserts(*data)
     }
 
     private fun syncConfigApp() {
@@ -50,16 +81,13 @@ class SyncConfigApp @Inject constructor(
         val data = gson.fromJson(bufferedReader, DataConfigApp::class.java)
 
         // Iap
-        configApp.previewsIap1 = ArrayList(data.app.iap.preview1.mapNotNull { PreviewIap(it.preview, it.ratio) })
-        configApp.previewsIap2 = ArrayList(data.app.iap.preview2.mapNotNull { PreviewIap(it.preview, it.ratio) })
-        configApp.previewsIap3 = ArrayList(data.app.iap.preview3.mapNotNull { PreviewIap(it.preview, it.ratio) })
+
 
         // Art
         configApp.artProcessPreviews = ArrayList(data.art.processPreviews).apply {
             this.shuffle()
         }
 
-        syncProgress.onNext(Progress.Success)
     }
 
 

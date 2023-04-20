@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startArtProcessing
 import com.sola.anime.ai.generator.common.extension.startExplore
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startStyle
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
@@ -91,6 +92,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks { activity?.startArtProcessing() }
         binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
+        binding.viewStyle.clicks{ activity?.startStyle() }
     }
 
     private fun initView() {
