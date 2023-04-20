@@ -15,10 +15,36 @@ import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewStyleBinding
 import com.sola.anime.ai.generator.domain.model.PreviewIap
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.style.Style
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBinding>() {
+
+    val clicks: Subject<Style> = PublishSubject.create()
+    var style: Style? = null
+        set(value) {
+            if (field == value){
+                return
+            }
+
+            if (value == null){
+                val oldIndex = data.indexOf(field)
+                notifyItemChanged(oldIndex)
+
+                return
+            }
+
+            val oldIndex = data.indexOf(field)
+            val newIndex = data.indexOf(value)
+
+            notifyItemChanged(oldIndex)
+            notifyItemChanged(newIndex)
+
+            field = value
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
