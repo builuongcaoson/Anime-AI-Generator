@@ -8,6 +8,7 @@ import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityExploreBinding
 import com.sola.anime.ai.generator.feature.explore.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,7 @@ class ExploreActivity : LsActivity() {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var exploreDao: ExploreDao
 
     private val binding by lazy { ActivityExploreBinding.inflate(layoutInflater) }
 
@@ -44,7 +46,9 @@ class ExploreActivity : LsActivity() {
     }
 
     private fun initData() {
-
+        exploreDao.getAllLive().observe(this){
+            previewAdapter.data = it
+        }
     }
 
     private fun initObservable() {
@@ -57,9 +61,7 @@ class ExploreActivity : LsActivity() {
                 
             }
             this.layoutManager = layoutManager
-            this.adapter = previewAdapter.apply {
-                this.data = configApp.previewsIap1 + configApp.previewsIap2 + configApp.previewsIap3
-            }
+            this.adapter = previewAdapter
         }
     }
 

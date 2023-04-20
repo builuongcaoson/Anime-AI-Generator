@@ -11,6 +11,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
+import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class IapActivity : LsActivity() {
     @Inject lateinit var previewAdapter1: PreviewAdapter
     @Inject lateinit var previewAdapter2: PreviewAdapter
     @Inject lateinit var previewAdapter3: PreviewAdapter
-    @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var iapPreviewDao: IapPreviewDao
 
     private val binding by lazy { ActivityIapBinding.inflate(layoutInflater) }
 
@@ -34,7 +35,36 @@ class IapActivity : LsActivity() {
 
         initView()
         initObservable()
+        initData()
         listenerView()
+    }
+
+    private fun initData() {
+        iapPreviewDao.getAllLive().observe(this){ data ->
+            val dataAfterChunked = data.chunked(10)
+
+            previewAdapter1.let { adapter ->
+                adapter.data = dataAfterChunked.getOrNull(0) ?: listOf()
+                adapter.totalCount = adapter.data.size
+                binding.recyclerPreview1.apply {
+                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                }
+            }
+            previewAdapter2.let { adapter ->
+                adapter.data = dataAfterChunked.getOrNull(1) ?: listOf()
+                adapter.totalCount = adapter.data.size
+                binding.recyclerPreview2.apply {
+                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                }
+            }
+            previewAdapter3.let { adapter ->
+                adapter.data = dataAfterChunked.getOrNull(2) ?: listOf()
+                adapter.totalCount = adapter.data.size
+                binding.recyclerPreview3.apply {
+                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                }
+            }
+        }
     }
 
     private fun listenerView() {
@@ -98,29 +128,17 @@ class IapActivity : LsActivity() {
     private fun initView() {
         binding.recyclerPreview1.apply {
             this.layoutManager = AutoScrollHorizontalLayoutManager(this@IapActivity)
-            this.adapter = previewAdapter1.apply {
-                this.data = configApp.previewsIap1
-                this.totalCount = configApp.previewsIap1.size
-                post { smoothScrollToPosition(previewAdapter1.data.size - 1) }
-            }
+            this.adapter = previewAdapter1
         }
         binding.recyclerPreview2.apply {
             this.layoutManager =  AutoScrollHorizontalLayoutManager(this@IapActivity).apply {
                 this.reverseLayout = true
             }
-            this.adapter = previewAdapter2.apply {
-                this.data = configApp.previewsIap2
-                this.totalCount = configApp.previewsIap2.size
-                post { smoothScrollToPosition(previewAdapter2.data.size - 1) }
-            }
+            this.adapter = previewAdapter2
         }
         binding.recyclerPreview3.apply {
             this.layoutManager =  AutoScrollHorizontalLayoutManager(this@IapActivity)
-            this.adapter = previewAdapter3.apply {
-                this.data = configApp.previewsIap3
-                this.totalCount = configApp.previewsIap3.size
-                post { smoothScrollToPosition(previewAdapter3.data.size - 1) }
-            }
+            this.adapter = previewAdapter3
         }
     }
 

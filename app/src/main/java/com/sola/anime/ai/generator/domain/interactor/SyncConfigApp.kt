@@ -4,10 +4,12 @@ import android.content.Context
 import com.basic.common.extension.tryOrNull
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.PreviewIap
 import com.sola.anime.ai.generator.domain.model.config.DataConfigApp
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.Flowable
@@ -27,6 +29,7 @@ class SyncConfigApp @Inject constructor(
     private val configApp: ConfigApp,
     private val styleDao: StyleDao,
     private val iapPreviewDao: IapPreviewDao,
+    private val exploreDao: ExploreDao
 ) : Interactor<Unit>() {
 
     sealed class Progress{
@@ -46,10 +49,24 @@ class SyncConfigApp @Inject constructor(
             .doOnNext { syncConfigApp() }
             .doOnNext { syncStyles() }
             .doOnNext { syncIap() }
+            .doOnNext { syncExplores() }
             .doOnNext { syncProgress.onNext(Progress.Success) }
             .map { startTime -> System.currentTimeMillis() - startTime }
             .map { elapsed -> TimeUnit.MILLISECONDS.toMillis(elapsed) }
             .doOnNext { milliseconds -> Timber.i("Completed setup firebase config in $milliseconds milliseconds") }
+    }
+
+    private fun syncExplores() {
+        val inputStream = context.assets.open("explore_v1.json")
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
+
+        data.forEach { explore ->
+            explore.ratio = explore.preview.split("zxz").getOrNull(1)?.replace("_-_",":") ?: "1:1"
+        }
+
+        exploreDao.deleteAll()
+        exploreDao.inserts(*data)
     }
 
     private fun syncIap() {
@@ -57,8 +74,8 @@ class SyncConfigApp @Inject constructor(
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
 
-        data.forEach {
-            it.ratio = it.preview.split("")
+        data.forEach { iapPreview ->
+            iapPreview.ratio = iapPreview.preview.split("zxz").getOrNull(1)?.replace("_-_",":") ?: "1:1"
         }
 
         iapPreviewDao.deleteAll()
@@ -79,9 +96,6 @@ class SyncConfigApp @Inject constructor(
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val gson = Gson()
         val data = gson.fromJson(bufferedReader, DataConfigApp::class.java)
-
-        // Iap
-
 
         // Art
         configApp.artProcessPreviews = ArrayList(data.art.processPreviews).apply {

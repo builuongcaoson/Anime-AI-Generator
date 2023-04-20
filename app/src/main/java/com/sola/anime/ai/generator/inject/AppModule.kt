@@ -7,6 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import dagger.Module
@@ -56,5 +57,9 @@ class AppModule {
     @Provides
     @Singleton
     fun provideIapPreviewDao(database: Database): IapPreviewDao = database.iapPreviewDao()
+
+    @Provides
+    @Singleton
+    fun provideExploreDao(database: Database): ExploreDao = database.exploreDao()
 
 }

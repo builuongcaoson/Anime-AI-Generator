@@ -17,9 +17,10 @@ import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewIapBinding
 import com.sola.anime.ai.generator.domain.model.PreviewIap
+import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<PreviewIap, ItemPreviewIapBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIapBinding>() {
 
     var totalCount = 0
 

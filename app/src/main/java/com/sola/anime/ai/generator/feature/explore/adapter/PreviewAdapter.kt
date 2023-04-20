@@ -15,9 +15,10 @@ import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewExploreBinding
 import com.sola.anime.ai.generator.domain.model.PreviewIap
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<PreviewIap, ItemPreviewExploreBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExploreBinding>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
