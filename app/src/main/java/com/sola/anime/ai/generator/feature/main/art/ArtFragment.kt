@@ -53,7 +53,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     override fun onViewCreated() {
         initView()
+        initData()
         listenerView()
+    }
+
+    private fun initData() {
+        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+            previewAdapter.data = explores
+            binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
+        }
     }
 
     override fun onResume() {
@@ -180,9 +188,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun initView() {
         activity?.let { activity ->
             binding.viewPager.apply {
-                this.adapter = previewAdapter.apply {
-                    this.data = configApp.previewsInRes.shuffled()
-                }
+                this.adapter = previewAdapter
                 this.offscreenPageLimit = 1
                 this.run {
                     val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)

@@ -6,10 +6,10 @@ import com.basic.common.base.LsViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtBinding
-import com.sola.anime.ai.generator.domain.model.config.ProcessPreview
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<ProcessPreview, ItemPreviewArtBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBinding>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,7 +26,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<ProcessPreview, ItemPrevie
         Glide
             .with(context)
             .asBitmap()
-            .load(item.previewRes)
+            .load(item.preview)
             .transition(BitmapTransitionOptions.withCrossFade())
             .into(binding.preview)
     }

@@ -2,13 +2,14 @@ package com.sola.anime.ai.generator.domain.interactor
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
-import com.sola.anime.ai.generator.domain.model.PreviewIap
-import com.sola.anime.ai.generator.domain.model.config.DataConfigApp
+import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
 import com.sola.anime.ai.generator.domain.model.config.style.Style
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class SyncConfigApp @Inject constructor(
     private val context: Context,
-    private val configApp: ConfigApp,
+    private val artProgressDao: ArtProcessDao,
     private val styleDao: StyleDao,
     private val iapPreviewDao: IapPreviewDao,
     private val exploreDao: ExploreDao
@@ -46,7 +47,7 @@ class SyncConfigApp @Inject constructor(
         return Flowable.just(System.currentTimeMillis())
             .doOnNext { syncProgress.onNext(Progress.Running) }
             .delay(1, TimeUnit.SECONDS)
-            .doOnNext { syncConfigApp() }
+            .doOnNext { syncArtProcess() }
             .doOnNext { syncStyles() }
             .doOnNext { syncIap() }
             .doOnNext { syncExplores() }
@@ -91,18 +92,17 @@ class SyncConfigApp @Inject constructor(
         styleDao.inserts(*data)
     }
 
-    private fun syncConfigApp() {
-        val inputStream = context.assets.open("anime_ai_generator_v1.json")
+    private fun syncArtProcess() {
+        val inputStream = context.assets.open("art_process_v1.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val gson = Gson()
-        val data = gson.fromJson(bufferedReader, DataConfigApp::class.java)
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<ArtProcess>::class.java) } ?: arrayOf()
 
-        // Art
-        configApp.artProcessPreviews = ArrayList(data.art.processPreviews).apply {
-            this.shuffle()
+        data.forEach {
+            Glide.with(context).asBitmap().load(it.preview).preload()
         }
 
+        artProgressDao.deleteAll()
+        artProgressDao.inserts(*data)
     }
-
 
 }

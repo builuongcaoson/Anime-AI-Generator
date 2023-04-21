@@ -12,6 +12,7 @@ import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.ui.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -30,6 +31,7 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
+    @Inject lateinit var artProcessDao: ArtProcessDao
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
@@ -88,6 +90,13 @@ class ArtProcessingActivity : LsActivity() {
 
     private fun initData() {
         artGenerateDialog.show(this)
+
+        artProcessDao.getAllLive().observe(this){ artProcesses ->
+            previewAdapter.apply {
+                this.data = artProcesses
+                this.totalCount = artProcesses.size
+            }
+        }
     }
 
     private fun initObservable() {
@@ -97,10 +106,7 @@ class ArtProcessingActivity : LsActivity() {
     private fun initView() {
         binding.viewPager.apply {
             this.isUserInputEnabled = false
-            this.adapter = previewAdapter.apply {
-                this.data = ArrayList(configApp.previewsInRes.shuffled() + configApp.artProcessPreviews)
-                this.totalCount = configApp.artProcessPreviews.size
-            }
+            this.adapter = previewAdapter
         }
     }
 

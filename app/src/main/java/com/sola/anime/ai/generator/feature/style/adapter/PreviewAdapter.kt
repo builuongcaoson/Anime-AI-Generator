@@ -67,7 +67,6 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
-            .transition(BitmapTransitionOptions.withCrossFade())
             .listener(object: RequestListener<Bitmap> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -99,7 +98,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     return false
                 }
             })
-            .into(binding.preview)
+            .preload()
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

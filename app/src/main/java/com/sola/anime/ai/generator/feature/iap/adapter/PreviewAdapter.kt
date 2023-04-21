@@ -51,7 +51,6 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
-            .transition(BitmapTransitionOptions.withCrossFade())
             .listener(object: RequestListener<Bitmap>{
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -81,7 +80,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
                 }
 
             })
-            .into(binding.preview)
+            .preload()
     }
 
     override fun getItemCount(): Int {
