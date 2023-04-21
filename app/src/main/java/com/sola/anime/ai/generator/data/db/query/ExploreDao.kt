@@ -26,6 +26,6 @@ interface ExploreDao {
     // Find
 
     @Query("SELECT * FROM Explores WHERE id =:id LIMIT 1")
-    fun findById(id: Long): Explore?
+    fun findById(id: Int): Explore?
 
 }

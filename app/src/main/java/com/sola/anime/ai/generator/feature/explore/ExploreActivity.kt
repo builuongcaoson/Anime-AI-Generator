@@ -11,10 +11,13 @@ import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityExploreBinding
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.feature.explore.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,6 +29,7 @@ class ExploreActivity : LsActivity() {
     @Inject lateinit var exploreDialog: ExploreDialog
 
     private val binding by lazy { ActivityExploreBinding.inflate(layoutInflater) }
+    private val subjectUseClicks: Subject<Explore> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +63,17 @@ class ExploreActivity : LsActivity() {
         previewAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { exploreDialog.show(this, it) }
+            .subscribe { exploreDialog.show(activity = this, explore = it, useClicks = subjectUseClicks) }
+
+        subjectUseClicks
+            .autoDispose(scope())
+            .subscribe {
+                exploreDialog.dismiss()
+
+                configApp.subjectExploreClicks.onNext(it.id)
+
+                back()
+            }
     }
 
     private fun initView() {

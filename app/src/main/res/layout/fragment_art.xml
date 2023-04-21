@@ -116,30 +116,87 @@
                         android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
                         android:orientation="vertical">
 
-                        <com.basic.common.widget.LsEditText
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="What do you want to create?"
-                            android:maxLength="1000"
-                            android:maxLines="5"
-                            android:minHeight="@dimen/_40sdp"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:paddingBottom="@dimen/_10sdp"
-                            android:textColor="?android:textColorPrimary"
-                            android:textColorHint="?colorPrimary"
-                            android:textSize="@dimen/_12ssp"
-                            app:textFont="medium" />
+                            android:layout_height="wrap_content">
+
+                            <com.basic.common.widget.LsEditText
+                                android:id="@+id/editPrompt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="What do you want to create?"
+                                android:maxLength="1000"
+                                android:maxLines="5"
+                                android:minHeight="@dimen/_40sdp"
+                                android:paddingStart="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingEnd="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_10sdp"
+                                android:textColor="?android:textColorPrimary"
+                                android:textColorHint="?colorPrimary"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toTopOf="@id/viewClear"
+                                app:layout_constraintEnd_toStartOf="@id/viewClear"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/history"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:background="@drawable/circle"
+                                android:backgroundTint="?colorPrimaryVariant"
+                                android:padding="@dimen/_5sdp"
+                                android:src="@drawable/ic_history"
+                                android:tint="?colorAccent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/viewClear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="@dimen/_5sdp"
+                                    android:text="1/1000"
+                                    android:textColor="?android:textColorSecondary"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/clear"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?android:colorBackground"
+                                    android:padding="@dimen/_5sdp"
+                                    android:src="@drawable/ic_baseline_close"
+                                    android:tint="?android:textColorPrimary" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <RelativeLayout
                             android:id="@+id/viewExplore"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_38sdp"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_marginEnd="@dimen/_2sdp"
-                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:layout_marginStart="@dimen/_1sdp"
+                            android:layout_marginEnd="@dimen/_1sdp"
+                            android:layout_marginBottom="@dimen/_1sdp"
                             android:background="@drawable/rec_corner_bottom_5dp"
                             android:backgroundTint="?colorPrimaryVariant"
                             android:foreground="?selectableItemBackground">
@@ -260,8 +317,7 @@
                                     android:layout_marginEnd="@dimen/_10sdp"
                                     android:text="View more"
                                     android:textColor="?android:textColorPrimary"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:visibility="gone" />
+                                    android:textSize="@dimen/_10ssp" />
 
                                 <RelativeLayout
                                     android:layout_width="wrap_content"

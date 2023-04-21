@@ -1,24 +1,32 @@
 package com.sola.anime.ai.generator.feature.main.art
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.basic.common.extension.hideKeyboard
+import com.basic.common.extension.showKeyboard
 import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
-import com.sola.anime.ai.generator.common.extension.startArtProcessing
-import com.sola.anime.ai.generator.common.extension.startExplore
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startStyle
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
@@ -39,6 +47,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var styleDao: StyleDao
+    @Inject lateinit var exploreDao: ExploreDao
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
@@ -73,9 +82,32 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         configApp
             .subjectStyleClicks
-            .map { styleDao.findById(it) }
             .autoDispose(scope())
-            .subscribe { updateUiStyle(it) }
+            .subscribe { id ->
+                updateUiStyle(styleDao.findById(id))
+            }
+
+        configApp
+            .subjectExploreClicks
+            .autoDispose(scope())
+            .subscribe { id ->
+                updateUiExplore(exploreDao.findById(id))
+            }
+
+        binding
+            .editPrompt
+            .textChanges()
+            .autoDispose(scope())
+            .subscribe { prompt ->
+                binding.viewClear.isVisible = !prompt.isNullOrEmpty()
+                binding.history.isVisible = prompt.isNullOrEmpty()
+
+                binding.count.text = "${prompt.length}/1000"
+            }
+    }
+
+    private fun updateUiExplore(explore: Explore?) {
+        binding.editPrompt.setText(explore?.prompt ?: "")
     }
 
     private fun updateUiStyle(style: Style?){
@@ -114,6 +146,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
         binding.viewPager.registerOnPageChangeCallback(previewChanges)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
@@ -129,6 +162,19 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.cardGenerate.clicks { activity?.startArtProcessing() }
         binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
         binding.viewStyle.clicks{ activity?.startStyle() }
+        binding.clear.clicks { binding.editPrompt.setText("") }
+        binding.history.clicks {  }
+        binding.editPrompt.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    view.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
     }
 
     private fun initView() {
@@ -154,6 +200,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = aspectRatioAdapter
             }
+
+            binding.editPrompt.disableEnter()
         }
     }
 

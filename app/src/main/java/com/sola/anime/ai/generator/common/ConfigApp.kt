@@ -36,5 +36,6 @@ class ConfigApp @Inject constructor(
     var artProcessPreviews = listOf<ProcessPreview>()
 
     var subjectStyleClicks: Subject<Int> = BehaviorSubject.createDefault(-1) // Default No Style
+    var subjectExploreClicks: Subject<Int> = BehaviorSubject.createDefault(-1) // Default No Explore
 
 }
