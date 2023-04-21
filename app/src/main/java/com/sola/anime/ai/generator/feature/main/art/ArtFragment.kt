@@ -2,11 +2,13 @@ package com.sola.anime.ai.generator.feature.main.art
 
 import android.os.Build
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.bumptech.glide.Glide
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
@@ -15,7 +17,9 @@ import com.sola.anime.ai.generator.common.extension.startExplore
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startStyle
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -34,6 +38,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var styleDao: StyleDao
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
@@ -65,6 +70,37 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .clicks
             .autoDispose(scope())
             .subscribe { aspectRatioAdapter.ratio = it }
+
+        configApp
+            .subjectStyleClicks
+            .map { styleDao.findById(it) }
+            .autoDispose(scope())
+            .subscribe { updateUiStyle(it) }
+    }
+
+    private fun updateUiStyle(style: Style?){
+        binding.viewNoStyle.isVisible = style == null
+        binding.cardStyle.isVisible = style != null
+        binding.viewMoreStyle.isVisible = style != null
+        binding.viewHadStyle.isVisible = style != null
+
+        binding.displayStyle.text = when (style) {
+            null -> "Pick a style"
+            else -> style.display
+        }
+
+        style?.let {
+            activity?.let { activity ->
+                Glide
+                    .with(activity)
+                    .asBitmap()
+                    .load(style.preview)
+                    .thumbnail(0.7f)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.place_holder_image)
+                    .into(binding.previewStyle)
+            }
+        }
     }
 
     override fun onDestroy() {

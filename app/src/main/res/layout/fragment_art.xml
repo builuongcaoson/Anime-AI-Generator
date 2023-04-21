@@ -135,14 +135,14 @@
 
                         <RelativeLayout
                             android:id="@+id/viewExplore"
-                            android:foreground="?selectableItemBackground"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_38sdp"
                             android:layout_marginStart="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:layout_marginBottom="@dimen/_2sdp"
                             android:background="@drawable/rec_corner_bottom_5dp"
-                            android:backgroundTint="?colorPrimaryVariant">
+                            android:backgroundTint="?colorPrimaryVariant"
+                            android:foreground="?selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -212,47 +212,86 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true">
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_5sdp">
 
                                 <com.google.android.material.card.MaterialCardView
-                                    android:layout_width="@dimen/_30sdp"
-                                    android:layout_height="@dimen/_30sdp"
+                                    android:id="@+id/cardStyle"
+                                    android:layout_width="@dimen/_35sdp"
+                                    android:layout_height="@dimen/_35sdp"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginStart="@dimen/_10sdp"
                                     android:visibility="gone"
                                     app:cardCornerRadius="@dimen/_10sdp"
                                     app:cardElevation="0dp"
                                     tools:visibility="visible">
 
                                     <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/previewStyle"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:src="?colorPrimary" />
+                                        tools:src="?colorPrimary" />
 
                                 </com.google.android.material.card.MaterialCardView>
 
                                 <com.basic.common.widget.LsTextView
+                                    android:id="@+id/displayStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:layout_marginStart="@dimen/_5sdp"
                                     android:text="Pick a Style"
                                     android:textColor="?android:textColorPrimary"
                                     android:textSize="@dimen/_12ssp" />
 
                             </LinearLayout>
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="?android:textColorPrimary"
-                                android:padding="@dimen/_3sdp"
-                                android:src="@drawable/ic_plus"
-                                android:tint="?colorOnPrimary" />
+                                android:layout_marginEnd="@dimen/_10sdp">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/viewMoreStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:text="View more"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:visibility="gone" />
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewNoStyle"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?android:textColorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_plus"
+                                        android:tint="?colorOnPrimary" />
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewHadStyle"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?colorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_arrow_right"
+                                        android:tint="?colorOnPrimary"
+                                        android:visibility="gone" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
 
                         </RelativeLayout>
 
@@ -371,8 +410,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/rec_gradient"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/rec_gradient">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_15sdp"

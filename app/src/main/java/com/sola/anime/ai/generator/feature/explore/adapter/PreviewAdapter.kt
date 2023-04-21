@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -16,9 +17,13 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewExploreBinding
 import com.sola.anime.ai.generator.domain.model.PreviewIap
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExploreBinding>() {
+
+    val clicks: Subject<Explore> = PublishSubject.create()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -73,6 +78,8 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 
             })
             .into(binding.preview)
+
+        binding.viewPreview.clicks { clicks.onNext(item) }
     }
 
 }

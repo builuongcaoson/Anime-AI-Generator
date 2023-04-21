@@ -3,8 +3,10 @@ package com.sola.anime.ai.generator.feature.style.adapter
 import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -32,16 +34,15 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
 
             if (value == null){
                 val oldIndex = data.indexOf(field)
-                notifyItemChanged(oldIndex)
 
+                field = null
+
+                notifyItemChanged(oldIndex)
                 return
             }
 
-            val oldIndex = data.indexOf(field)
-            val newIndex = data.indexOf(value)
-
-            notifyItemChanged(oldIndex)
-            notifyItemChanged(newIndex)
+            data.indexOf(field).takeIf { it != -1 }?.let { notifyItemChanged(it) }
+            data.indexOf(value).takeIf { it != -1 }?.let { notifyItemChanged(it) }
 
             field = value
         }
@@ -59,6 +60,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
         val context = binding.root.context
 
         binding.display.text = item.display
+        binding.viewSelected.isVisible = item == style
 
         Glide.with(context)
             .asBitmap()
@@ -73,6 +75,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    binding.viewShadow.isVisible = false
                     binding.preview.setImageResource(R.drawable.place_holder_image)
                     return false
                 }
@@ -85,16 +88,20 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     isFirstResource: Boolean
                 ): Boolean {
                     resource?.let { bitmap ->
+                        binding.viewShadow.isVisible = true
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
                         binding.preview.setImageBitmap(bitmap)
                         binding.preview.animate().alpha(1f).setDuration(250).start()
                     } ?: run {
+                        binding.viewShadow.isVisible = false
                         binding.preview.setImageResource(R.drawable.place_holder_image)
                     }
                     return false
                 }
             })
             .into(binding.preview)
+
+        binding.viewPreview.clicks { clicks.onNext(item) }
     }
 
 }

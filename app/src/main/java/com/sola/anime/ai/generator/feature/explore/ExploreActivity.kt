@@ -8,9 +8,12 @@ import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.ui.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityExploreBinding
 import com.sola.anime.ai.generator.feature.explore.adapter.PreviewAdapter
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,6 +23,7 @@ class ExploreActivity : LsActivity() {
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var exploreDialog: ExploreDialog
 
     private val binding by lazy { ActivityExploreBinding.inflate(layoutInflater) }
 
@@ -52,7 +56,10 @@ class ExploreActivity : LsActivity() {
     }
 
     private fun initObservable() {
-
+        previewAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { exploreDialog.show(this, it) }
     }
 
     private fun initView() {
