@@ -2,7 +2,10 @@ package com.sola.anime.ai.generator.common.extension
 
 import android.app.Activity
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.basic.common.extension.tryOrNull
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity

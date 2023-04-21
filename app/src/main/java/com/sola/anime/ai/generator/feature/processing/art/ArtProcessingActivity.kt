@@ -7,10 +7,9 @@ import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
-import com.sola.anime.ai.generator.common.ui.ArtGenerateDialog
+import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding

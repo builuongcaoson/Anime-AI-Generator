@@ -8,7 +8,7 @@ import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.ui.ExploreDialog
+import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityExploreBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore

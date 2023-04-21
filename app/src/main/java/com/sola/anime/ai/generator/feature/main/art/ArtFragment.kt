@@ -22,6 +22,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -50,6 +51,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var exploreDao: ExploreDao
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
+
+    private val historySheet by lazy { HistorySheet() }
 
     override fun onViewCreated() {
         initView()
@@ -171,7 +174,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
         binding.viewStyle.clicks{ activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
-        binding.history.clicks {  }
+        binding.history.clicks { historySheet.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
