@@ -181,7 +181,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
         binding.viewStyle.clicks{ activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
-        binding.history.clicks { historySheet.show(this) }
+        binding.history.clicks(debounce = 500) { historySheet.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -193,7 +193,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
             false
         }
-        binding.viewAdvancedSetting.clicks { advancedSheet.show(this) }
+        binding.viewAdvancedSetting.clicks(debounce = 500) { advancedSheet.show(this) }
     }
 
     private fun initView() {

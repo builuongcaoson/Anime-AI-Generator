@@ -20,7 +20,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RelativeCornerSize
 import com.google.android.material.shape.RoundedCornerTreatment
 
-fun View.clicks(debounce: Long = 100, withAnim: Boolean = true, clicks: () -> Unit) {
+fun View.clicks(debounce: Long = 250, withAnim: Boolean = true, clicks: () -> Unit) {
     if (withAnim){
         var lastClickTime: Long = 0
         PushDownAnim.setPushDownAnimTo(this)
