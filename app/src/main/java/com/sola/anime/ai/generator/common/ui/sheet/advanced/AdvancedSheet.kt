@@ -1,5 +1,7 @@
 package com.sola.anime.ai.generator.common.ui.sheet.advanced
 
+import android.annotation.SuppressLint
+import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
@@ -18,6 +20,25 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
 
     override fun onViewCreated() {
         initView()
+        listenerView()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun listenerView() {
+        binding.slider.setListener { slidr, currentValue ->
+
+        }
+        binding.slider.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    view.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
     }
 
     override fun onResume() {

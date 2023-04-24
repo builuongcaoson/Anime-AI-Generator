@@ -195,10 +195,14 @@
 
         </RelativeLayout>
 
-        <SeekBar
+        <com.sola.anime.ai.generator.common.widget.slider.Slidr
+            android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp" />
+            android:paddingTop="@dimen/_5sdp"
+            app:slidr_draw_bubble="false"
+            app:slidr_textBottom_visible="false"
+            app:slidr_textTop_visible="false" />
 
         <RelativeLayout
             android:layout_width="match_parent"
