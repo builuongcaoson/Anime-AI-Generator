@@ -91,6 +91,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         aspectRatioAdapter
             .clicks
             .autoDispose(scope())
+            .subscribe { configApp.subjectRatioClicks.onNext(it) }
+
+        configApp
+            .subjectRatioClicks
+            .autoDispose(scope())
             .subscribe { aspectRatioAdapter.ratio = it }
 
         configApp

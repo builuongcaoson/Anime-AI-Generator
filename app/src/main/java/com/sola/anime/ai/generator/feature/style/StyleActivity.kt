@@ -59,7 +59,6 @@ class StyleActivity : LsActivity() {
             .subscribe {
                 configApp.subjectStyleClicks.onNext(it.id)
 
-                previewAdapter.style = it
                 back()
             }
 
