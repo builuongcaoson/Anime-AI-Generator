@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -20,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,6 +35,7 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
     @Inject lateinit var artProcessDao: ArtProcessDao
+    @Inject lateinit var dezgoApiRepo: DezgoApiRepository
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
@@ -72,6 +77,7 @@ class ArtProcessingActivity : LsActivity() {
                         finish()
                     }
                     millisecond >= 2 -> {
+                        artGenerateDialog.dismiss()
                         startArtResult()
                         finish()
                     }
@@ -95,6 +101,10 @@ class ArtProcessingActivity : LsActivity() {
                 this.data = artProcesses
                 this.totalCount = artProcesses.size
             }
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            dezgoApiRepo.generateTextsToImages()
         }
     }
 
