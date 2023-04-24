@@ -69,7 +69,6 @@ class ArtProcessingActivity : LsActivity() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { millisecond ->
-                Timber.e("Milliseconds: $millisecond")
                 when {
                     millisecond >= Preferences.MAX_SECOND_GENERATE_ART -> {
                         makeToast("An error occurred. Please try again!")
@@ -103,9 +102,9 @@ class ArtProcessingActivity : LsActivity() {
             }
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            dezgoApiRepo.generateTextsToImages()
-        }
+//        CoroutineScope(Dispatchers.Main).launch {
+//            dezgoApiRepo.generateTextsToImages()
+//        }
     }
 
     private fun initObservable() {
