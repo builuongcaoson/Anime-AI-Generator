@@ -25,7 +25,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-        binding.slider.setListener { slidr, currentValue ->
+        binding.slider.setListener { _, currentValue ->
 
         }
         binding.slider.setOnTouchListener { view, event ->

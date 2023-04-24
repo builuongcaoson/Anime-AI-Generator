@@ -62,9 +62,9 @@ public class Slidr extends FrameLayout {
     private BubbleClickedListener bubbleClickedListener;
     private GestureDetectorCompat detector;
     private Settings settings;
-    private float max = 1000;
-    private float min = 0;
-    private float currentValue = 0;
+    private float max = 20;
+    private float min = -20;
+    private float currentValue = 7.5f;
     private float oldValue = Float.MIN_VALUE;
     private List<Step> steps = new ArrayList<>();
     private float barY;
@@ -753,7 +753,7 @@ public class Slidr extends FrameLayout {
                             textX = paddingLeft;
                         }
 
-                        drawIndicatorsTextAbove(canvas, formatRegionValue(0, leftValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
+//                        drawIndicatorsTextAbove(canvas, formatRegionValue(0, leftValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
 
                         if (settings.regions_textFollowRegionColor) {
                             settings.paintTextTop.setColor(settings.regionColorRight);
@@ -764,13 +764,13 @@ public class Slidr extends FrameLayout {
                         } else {
                             textX = paddingLeft + barWidth;
                         }
-                        drawIndicatorsTextAbove(canvas, formatRegionValue(1, rightValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
+//                        drawIndicatorsTextAbove(canvas, formatRegionValue(1, rightValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
                     } else {
-                        drawIndicatorsTextAbove(canvas, formatValue(min), settings.paintTextTop, 0 + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
+//                        drawIndicatorsTextAbove(canvas, formatValue(min), settings.paintTextTop, 0 + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
                         for (Step step : steps) {
                             drawIndicatorsTextAbove(canvas, formatValue(step.value), settings.paintTextTop, step.xStart + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
                         }
-                        drawIndicatorsTextAbove(canvas, formatValue(max), settings.paintTextTop, canvas.getWidth(), textY, Layout.Alignment.ALIGN_CENTER);
+//                        drawIndicatorsTextAbove(canvas, formatValue(max), settings.paintTextTop, canvas.getWidth(), textY, Layout.Alignment.ALIGN_CENTER);
                     }
                 }
             }

@@ -20,6 +20,7 @@
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorTertiary">@color/textTertiary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/textPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorTertiary">@color/colorTertiary</item>
     </style>

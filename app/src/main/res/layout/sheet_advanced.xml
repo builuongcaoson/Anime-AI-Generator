@@ -61,6 +61,7 @@
                 app:textFont="medium" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPinNegative"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
@@ -133,16 +134,17 @@
                 app:textFont="medium" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPinRatio"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/circle"
-                android:backgroundTint="?android:colorBackground"
+                android:backgroundTint="?colorAccent"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_pin"
-                android:tint="?android:textColorPrimary" />
+                android:tint="?colorOnPrimary" />
 
         </RelativeLayout>
 
@@ -182,6 +184,7 @@
                 app:textFont="medium" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPinCFG"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
@@ -199,10 +202,14 @@
             android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:paddingTop="@dimen/_5sdp"
+            app:slidr_backgroundColor="?android:colorBackground"
             app:slidr_draw_bubble="false"
+            app:slidr_region_leftColor="?colorAccent"
             app:slidr_textBottom_visible="false"
-            app:slidr_textTop_visible="false" />
+            app:slidr_textTop_visible="true" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -254,6 +261,7 @@
                 app:textFont="medium" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPinSeed"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
