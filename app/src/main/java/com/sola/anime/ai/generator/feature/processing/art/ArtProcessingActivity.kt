@@ -102,9 +102,9 @@ class ArtProcessingActivity : LsActivity() {
             }
         }
 
-//        CoroutineScope(Dispatchers.Main).launch {
-//            dezgoApiRepo.generateTextsToImages()
-//        }
+        CoroutineScope(Dispatchers.Main).launch {
+            dezgoApiRepo.generateTextsToImages()
+        }
     }
 
     private fun initObservable() {
