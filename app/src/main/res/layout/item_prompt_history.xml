@@ -32,7 +32,7 @@
                 android:layout_marginEnd="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:maxLines="5"
-                android:minLines="3"
+                android:minLines="5"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="@id/viewPrompt"
         app:layout_constraintTop_toTopOf="@id/viewPrompt"
         app:strokeColor="?android:textColorTertiary"
-        app:strokeWidth="@dimen/_1sdp">
+        app:strokeWidth="1dp">
 
         <com.basic.common.widget.LsTextView
             android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.basic.common.base
+package com.sola.anime.ai.generator.common.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.widget.R
+import com.sola.anime.ai.generator.R
 
 abstract class LsBottomSheet<VB : ViewBinding>(
     val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB

@@ -22,6 +22,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -53,6 +54,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
     private val historySheet by lazy { HistorySheet() }
+    private val advancedSheet by lazy { AdvancedSheet() }
 
     override fun onViewCreated() {
         initView()
@@ -186,6 +188,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
             false
         }
+        binding.viewAdvancedSetting.clicks { advancedSheet.show(this) }
     }
 
     private fun initView() {

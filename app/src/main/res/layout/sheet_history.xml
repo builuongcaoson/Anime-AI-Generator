@@ -35,23 +35,17 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:text="Prompt History"
             android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             app:textFont="medium" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:background="?android:textColorTertiary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_10sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_prompt_history" />
 
