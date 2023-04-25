@@ -13,6 +13,9 @@ import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
+import com.sola.anime.ai.generator.domain.model.textToImage.DezgoStatusTextToImage
+import com.sola.anime.ai.generator.domain.model.textToImage.StatusBodyTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -39,6 +42,7 @@ class ArtProcessingActivity : LsActivity() {
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
+    private var dezgoStatusTextsToImages: List<DezgoStatusTextToImage> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +79,11 @@ class ArtProcessingActivity : LsActivity() {
                         artGenerateDialog.dismiss()
                         finish()
                     }
-                    millisecond >= 2 -> {
-                        artGenerateDialog.dismiss()
-                        startArtResult()
-                        finish()
-                    }
+//                    millisecond >= 2 -> {
+//                        artGenerateDialog.dismiss()
+//                        startArtResult()
+//                        finish()
+//                    }
                     else -> {
                         tryOrNull { binding.viewPager.post { previewAdapter.insert() } }
                         tryOrNull { binding.viewPager.setCurrentItem(item = binding.viewPager.currentItem + 1) }
@@ -93,22 +97,98 @@ class ArtProcessingActivity : LsActivity() {
     }
 
     private fun initData() {
-        artGenerateDialog.show(this)
-
-        artProcessDao.getAllLive().observe(this){ artProcesses ->
-            previewAdapter.apply {
-                this.data = artProcesses
-                this.totalCount = artProcesses.size
+        when {
+            configApp.dezgoBodiesTextsToImages.isEmpty() -> {
+                makeToast("An error occurred, please check again!")
+                finish()
+                return
             }
         }
 
+        dezgoStatusTextsToImages = configApp
+            .dezgoBodiesTextsToImages
+            .flatMap { dezgo ->
+                dezgo
+                    .bodies
+                    .map { body ->
+                        DezgoStatusTextToImage(
+                            id = body.groupId,
+                            groupId = body.id,
+                            status = StatusBodyTextToImage.Idle
+                        )
+                    }
+            }
+
+        artProcessDao
+            .getAllLive()
+            .observe(this){ artProcesses ->
+                previewAdapter.apply {
+                    this.data = artProcesses
+                    this.totalCount = artProcesses.size
+                }
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
-            dezgoApiRepo.generateTextsToImages()
+            dezgoApiRepo.generateTextsToImages(ArrayList(configApp.dezgoBodiesTextsToImages))
         }
     }
 
     private fun initObservable() {
+        dezgoApiRepo
+            .progress()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { progress ->
+                when (progress){
+                    GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
+                    GenerateTextsToImagesProgress.Loading -> {
+                        Timber.e("LOADING")
 
+                        artGenerateDialog.show(this)
+                    }
+                    is GenerateTextsToImagesProgress.LoadingWithId -> {
+                        Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                        dezgoStatusTextsToImages
+                            .find { status ->
+                                status.id == progress.childId && status.groupId == progress.groupId
+                            }?.status = StatusBodyTextToImage.Loading
+                    }
+                    is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                        Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                        dezgoStatusTextsToImages
+                            .find { status ->
+                                status.id == progress.childId && status.groupId == progress.groupId
+                            }?.status = StatusBodyTextToImage.Success(progress.bitmap)
+                    }
+                    is GenerateTextsToImagesProgress.FailureWithId ->  {
+                        Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                        dezgoStatusTextsToImages
+                            .find { status ->
+                                status.id == progress.childId && status.groupId == progress.groupId
+                            }?.status = StatusBodyTextToImage.Failure()
+                    }
+                    is GenerateTextsToImagesProgress.Done ->  {
+                        Timber.e("DONE")
+
+                        artGenerateDialog.dismiss()
+
+                        when {
+                            dezgoStatusTextsToImages.any { it.status is StatusBodyTextToImage.Failure } -> {
+                                makeToast("An error occurred, please check again!")
+                                finish()
+                            }
+                            else -> {
+                                startArtResult()
+                                finish()
+                            }
+                        }
+                    }
+                }
+            }
     }
 
     private fun initView() {

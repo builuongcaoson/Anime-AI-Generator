@@ -1,26 +1,18 @@
 package com.sola.anime.ai.generator.feature.main.art
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
-import com.basic.common.extension.clicks
-import com.basic.common.extension.getDimens
-import com.basic.common.extension.hideKeyboard
-import com.basic.common.extension.showKeyboard
+import com.basic.common.extension.*
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
@@ -177,7 +169,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
         }
         binding.viewPro.clicks { activity?.startIap() }
-        binding.cardGenerate.clicks { activity?.startArtProcessing() }
+        binding.cardGenerate.clicks { generateClicks() }
         binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
         binding.viewStyle.clicks{ activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
@@ -194,6 +186,20 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             false
         }
         binding.viewAdvancedSetting.clicks(debounce = 500) { advancedSheet.show(this) }
+    }
+
+    private fun generateClicks() {
+        val prompt = binding.editPrompt.text?.toString() ?: ""
+
+        when {
+            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
+            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
+            else -> {
+                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(maxGroupId = 0, maxChildId = 0)
+
+                activity?.startArtProcessing()
+            }
+        }
     }
 
     private fun initView() {

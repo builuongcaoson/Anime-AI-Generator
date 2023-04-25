@@ -3,20 +3,21 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.sola.anime.ai.generator.common.extension.toBitmap
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
-import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
-import com.sola.anime.ai.generator.domain.model.textToImage.DezgoTextToImage
+import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.await
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,26 +34,26 @@ class DezgoApiRepositoryImpl @Inject constructor(
     override fun progress(): Observable<GenerateTextsToImagesProgress> = progressTextsToImages
 
     override suspend fun generateTextsToImages(
-        datas: List<DezgoTextToImage>
+        datas: List<DezgoBodyTextToImage>
     ) = withContext(Dispatchers.IO) {
         if (progressTextsToImages.blockingFirst().isLoading) return@withContext
         progressTextsToImages.onNext(GenerateTextsToImagesProgress.Loading)
 
+        val dataChunked = datas.flatMap { it.bodies }.chunked(5)
+        dataChunked
+            .flatMapIndexed { index: Int, bodies ->
+                val responses = bodies
+                    .map { body ->
+                        async {
+                            progressTextsToImages.onNext(GenerateTextsToImagesProgress.LoadingWithId(groupId = body.groupId, childId = body.id))
 
-        val abc = async {
-            datas
-                .chunked(5)
-                .flatMap { childDatas ->
-                val bitmaps = childDatas
-                    .map { data ->
-                        async(Dispatchers.IO) {
-                            progressTextsToImages.onNext(GenerateTextsToImagesProgress.LoadingWithId(groupId = data.id, childId = data.dezgoBodyTextToImage.id))
+                            Timber.e("Loading group id: ${body.groupId} --- Child id: ${body.id}")
 
                             val response = dezgoApi.text2image(
-                                prompt = "a cute beautiful girl listening to relaxing music with her headphones that takes her to a surreal forest, young anime girl, long wavy blond hair, sky blue eyes, full round face, miniskirt, front view, mid - shot, highly detailed, digital art by wlop, trending on artstation".toRequestBody(MultipartBody.FORM),
-                                negative_prompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears".toRequestBody(MultipartBody.FORM),
+                                prompt = body.prompt.toRequestBody(MultipartBody.FORM),
+                                negative_prompt = body.negative_prompt.toRequestBody(MultipartBody.FORM),
                                 guidance = "7.5".toRequestBody(MultipartBody.FORM),
-                                upscale = "2".toRequestBody(MultipartBody.FORM),
+                                upscale = "1".toRequestBody(MultipartBody.FORM),
                                 sampler = "euler_a".toRequestBody(MultipartBody.FORM),
                                 steps = "50".toRequestBody(MultipartBody.FORM),
                                 model = "anything_4_0".toRequestBody(MultipartBody.FORM),
@@ -61,16 +62,14 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 seed = "3107070471".toRequestBody(MultipartBody.FORM)
                             )
 
-                            ResponseTextToImage(groupId = data.id, childId = data.dezgoBodyTextToImage.id, response = response)
+                            ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
                         }
-                    }
-                    .awaitAll()
-                    .map { responseTextToImage ->
+                    }.map {
+                        val responseTextToImage = it.await()
+
                         responseTextToImage.response.byteStream().use { inputStream ->
                             // Convert to bitmap
-                            val options = BitmapFactory.Options()
-                            options.inPreferredConfig = Bitmap.Config.ARGB_8888
-                            val bitmap = BitmapFactory.decodeStream(inputStream, null, options)
+                            val bitmap = inputStream.toBitmap()
 
                             when {
                                 bitmap != null -> {
@@ -80,17 +79,18 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                     progressTextsToImages.onNext(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                                 }
                             }
-                            Timber.e("Bitmap width: ${bitmap?.width} --- ${bitmap?.height}")
 
                             bitmap
                         }
                     }
-                delay(5000)
-                bitmaps
+                Timber.e("Chunked: ${dataChunked.lastIndex} --- $index")
+                delay(if (dataChunked.lastIndex == index) 0 else 5000)
+                responses
             }
-        }.await()
 
-
+        progressTextsToImages.onNext(GenerateTextsToImagesProgress.Done)
+        delay(1000)
+        progressTextsToImages.onNext(GenerateTextsToImagesProgress.Idle)
     }
 
 }
