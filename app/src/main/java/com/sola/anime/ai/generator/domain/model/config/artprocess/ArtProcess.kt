@@ -10,7 +10,7 @@ import com.google.gson.annotations.Expose
 @Entity(tableName = "ArtProcesses")
 data class ArtProcess(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     @SerializedName("preview")
     @Expose
     var preview: String? = null,

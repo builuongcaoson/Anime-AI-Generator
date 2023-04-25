@@ -8,6 +8,4 @@ data class PromptBatch(val prompt: String)
 
 data class Folder(val display: String)
 
-data class History(val id: Int = 0)
-
 data class PreviewIap(val preview: String, val ratio: String)

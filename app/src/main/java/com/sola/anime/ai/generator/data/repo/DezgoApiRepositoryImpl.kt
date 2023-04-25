@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.sola.anime.ai.generator.common.extension.toBitmap
+import com.sola.anime.ai.generator.common.extension.toFile
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
@@ -70,10 +71,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                         responseTextToImage.response.byteStream().use { inputStream ->
                             // Convert to bitmap
                             val bitmap = inputStream.toBitmap()
+                            val file = bitmap?.toFile(context)
 
                             when {
-                                bitmap != null -> {
-                                    progressTextsToImages.onNext(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, bitmap = bitmap))
+                                bitmap != null && file != null -> {
+                                    progressTextsToImages.onNext(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, bitmap = bitmap, file = file))
                                 }
                                 else -> {
                                     progressTextsToImages.onNext(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))

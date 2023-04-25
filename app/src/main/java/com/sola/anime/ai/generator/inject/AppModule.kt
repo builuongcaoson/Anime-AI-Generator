@@ -10,10 +10,7 @@ import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
-import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
-import com.sola.anime.ai.generator.data.db.query.ExploreDao
-import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
-import com.sola.anime.ai.generator.data.db.query.StyleDao
+import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
@@ -144,6 +141,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideArtProcessDao(database: Database): ArtProcessDao = database.artProcessDao()
+
+    @Provides
+    @Singleton
+    fun provideHistoryDao(database: Database): HistoryDao = database.historyDao()
 
     // Repository
     @Provides

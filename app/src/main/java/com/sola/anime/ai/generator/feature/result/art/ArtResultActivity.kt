@@ -15,13 +15,25 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ArtResultActivity : LsActivity() {
 
+    companion object {
+        const val HISTORY_ID_EXTRA = "HISTORY_ID_EXTRA"
+    }
+
     @Inject lateinit var previewAdapter: PreviewAdapter
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
+    private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        when (historyId) {
+            -1L -> {
+                finish()
+                return
+            }
+        }
 
         initView()
         initObservable()
@@ -47,6 +59,8 @@ class ArtResultActivity : LsActivity() {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter
         }
+
+//        binding.preview.setimage
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

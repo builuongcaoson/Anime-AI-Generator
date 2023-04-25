@@ -12,10 +12,12 @@ import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
+import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.model.history.History
+import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
-import com.sola.anime.ai.generator.domain.model.textToImage.DezgoStatusTextToImage
-import com.sola.anime.ai.generator.domain.model.textToImage.StatusBodyTextToImage
+import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -39,10 +41,12 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
     @Inject lateinit var artProcessDao: ArtProcessDao
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
+    @Inject lateinit var historyDao: HistoryDao
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
-    private var dezgoStatusTextsToImages: List<DezgoStatusTextToImage> = listOf()
+    private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
+    private var historyIds = listOf<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,6 +162,8 @@ class ArtProcessingActivity : LsActivity() {
                     is GenerateTextsToImagesProgress.SuccessWithId ->  {
                         Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
+                        historyIds = historyDao.inserts(History(title = "Fantasy", prompt = "ABC", pathDir = progress.file.parentFile?.path, pathPreview = progress.file.path))
+
                         dezgoStatusTextsToImages
                             .find { status ->
                                 status.id == progress.childId && status.groupId == progress.groupId
@@ -177,12 +183,12 @@ class ArtProcessingActivity : LsActivity() {
                         artGenerateDialog.dismiss()
 
                         when {
-                            dezgoStatusTextsToImages.any { it.status is StatusBodyTextToImage.Failure } -> {
-                                makeToast("An error occurred, please check again!")
+                            dezgoStatusTextsToImages.any { it.status is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
+                                startArtResult(historyId = historyIds.firstOrNull() ?: -1)
                                 finish()
                             }
                             else -> {
-                                startArtResult()
+                                makeToast("An error occurred, please check again!")
                                 finish()
                             }
                         }

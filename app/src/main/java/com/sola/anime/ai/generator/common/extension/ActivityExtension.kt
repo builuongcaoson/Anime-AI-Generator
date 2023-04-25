@@ -32,8 +32,9 @@ fun Activity.startArtProcessing(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startArtResult(){
+fun Activity.startArtResult(historyId: Long){
     val intent = Intent(this, ArtResultActivity::class.java)
+    intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
