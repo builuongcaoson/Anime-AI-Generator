@@ -26,6 +26,6 @@ interface StyleDao {
     // Find
 
     @Query("SELECT * FROM Styles WHERE id =:id LIMIT 1")
-    fun findById(id: Int): Style?
+    fun findById(id: Long): Style?
 
 }

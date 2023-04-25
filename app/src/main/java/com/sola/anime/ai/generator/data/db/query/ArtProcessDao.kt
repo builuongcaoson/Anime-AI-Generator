@@ -26,6 +26,6 @@ interface ArtProcessDao {
     // Find
 
     @Query("SELECT * FROM ArtProcesses WHERE id =:id LIMIT 1")
-    fun findById(id: Int): ArtProcess?
+    fun findById(id: Long): ArtProcess?
 
 }

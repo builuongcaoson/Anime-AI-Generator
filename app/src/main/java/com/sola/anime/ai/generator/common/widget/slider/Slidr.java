@@ -10,8 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -41,6 +39,8 @@ import java.util.List;
 
 import static android.view.MotionEvent.ACTION_UP;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.MotionEventCompat;

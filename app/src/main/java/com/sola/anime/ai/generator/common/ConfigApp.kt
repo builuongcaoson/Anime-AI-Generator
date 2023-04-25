@@ -18,7 +18,7 @@ class ConfigApp @Inject constructor(
 
     // RxJava
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1) // Default No Style
-    var subjectStyleClicks: Subject<Int> = BehaviorSubject.createDefault(-1) // Default No Style
-    var subjectExploreClicks: Subject<Int> = BehaviorSubject.createDefault(-1) // Default No Explore
+    var subjectStyleClicks: Subject<Long> = BehaviorSubject.createDefault(-1) // Default No Style
+    var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1) // Default No Explore
 
 }

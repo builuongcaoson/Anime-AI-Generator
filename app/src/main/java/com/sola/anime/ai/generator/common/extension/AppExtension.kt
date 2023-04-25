@@ -8,7 +8,7 @@ fun initDezgoBodyTextsToImages(maxGroupId: Int = 0, maxChildId: Int = 0): List<D
     (0..maxGroupId).forEach { id ->
         datas.add(
             DezgoBodyTextToImage(
-                id = id,
+                id = id.toLong(),
                 bodies = initBodyTextsToImages(maxChildId = maxChildId)
             )
         )
@@ -19,7 +19,7 @@ fun initDezgoBodyTextsToImages(maxGroupId: Int = 0, maxChildId: Int = 0): List<D
 fun initBodyTextsToImages(maxChildId: Int = 0): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
-        bodies.add(BodyTextToImage(id = id))
+        bodies.add(BodyTextToImage(id = id.toLong()))
     }
     return bodies
 }

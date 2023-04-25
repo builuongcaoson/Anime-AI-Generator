@@ -26,6 +26,6 @@ interface HistoryDao {
     // Find
 
     @Query("SELECT * FROM Histories WHERE id =:id LIMIT 1")
-    fun findById(id: Int): History?
+    fun findById(id: Long): History?
 
 }

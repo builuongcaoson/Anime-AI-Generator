@@ -1,16 +1,13 @@
 package com.sola.anime.ai.generator.domain.model.textToImage
 
-import android.support.annotation.Keep
 import okhttp3.ResponseBody
 
-@Keep
 data class ResponseTextToImage(
     val groupId: Long,
     val childId: Long,
     val response: ResponseBody
 )
 
-@Keep
 data class BodyTextToImage(
     val id: Long = 0,
     val groupId: Long = 0,
@@ -26,7 +23,6 @@ data class BodyTextToImage(
     val seed: String? = null
 )
 
-@Keep
 data class DezgoBodyTextToImage(
     val id: Long,
     val bodies: List<BodyTextToImage>
