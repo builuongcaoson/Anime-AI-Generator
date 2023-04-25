@@ -7,6 +7,7 @@ import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,23 +18,19 @@ class ArtResultActivity : LsActivity() {
 
     companion object {
         const val HISTORY_ID_EXTRA = "HISTORY_ID_EXTRA"
+        const val CHILD_HISTORY_ID_EXTRA = "CHILD_HISTORY_ID_EXTRA"
     }
 
     @Inject lateinit var previewAdapter: PreviewAdapter
+    @Inject lateinit var historyDao: HistoryDao
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
+    private val childHistoryId by lazy { intent.getLongExtra(CHILD_HISTORY_ID_EXTRA, -1L) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        when (historyId) {
-            -1L -> {
-                finish()
-                return
-            }
-        }
 
         initView()
         initObservable()
@@ -55,12 +52,19 @@ class ArtResultActivity : LsActivity() {
     }
 
     private fun initView() {
+        when (historyId) {
+            -1L -> {
+                finish()
+                return
+            }
+        }
+
         binding.recyclerPreview.apply {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter
         }
 
-//        binding.preview.setimage
+
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

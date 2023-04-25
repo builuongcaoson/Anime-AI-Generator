@@ -14,11 +14,13 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.history.History
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
+import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -41,7 +43,9 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
     @Inject lateinit var artProcessDao: ArtProcessDao
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
+    @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var historyDao: HistoryDao
+//    @Inject lateinit var markHistories: MarkHistories
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
@@ -162,7 +166,10 @@ class ArtProcessingActivity : LsActivity() {
                     is GenerateTextsToImagesProgress.SuccessWithId ->  {
                         Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
-                        historyIds = historyDao.inserts(History(title = "Fantasy", prompt = "ABC", pathDir = progress.file.parentFile?.path, pathPreview = progress.file.path))
+//                        historyIds = historyDao.inserts(History(title = "Fantasy", prompt = "ABC", pathDir = progress.file.parentFile?.path, pathPreview = progress.file.path))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            historyIds = historyRepo.markHistories(ChildHistory())
+                        }
 
                         dezgoStatusTextsToImages
                             .find { status ->

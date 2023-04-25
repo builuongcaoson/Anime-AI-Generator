@@ -12,7 +12,9 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
+import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
+import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import dagger.Module
 import dagger.Provides
@@ -146,9 +148,18 @@ class AppModule {
     @Singleton
     fun provideHistoryDao(database: Database): HistoryDao = database.historyDao()
 
+    @Provides
+    @Singleton
+    fun provideChildHistoryDao(database: Database): ChildHistoryDao = database.childHistoryDao()
+
     // Repository
+
     @Provides
     @Singleton
     fun provideDezgoApiRepositoryImpl(repo: DezgoApiRepositoryImpl): DezgoApiRepository = repo
+
+    @Provides
+    @Singleton
+    fun provideHistoryRepositoryImpl(repo: HistoryRepositoryImpl): HistoryRepository = repo
 
 }

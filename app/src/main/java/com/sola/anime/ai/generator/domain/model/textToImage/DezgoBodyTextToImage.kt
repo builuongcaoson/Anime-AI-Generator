@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.domain.model.textToImage
 
+import androidx.room.Entity
 import okhttp3.ResponseBody
 
 data class ResponseTextToImage(

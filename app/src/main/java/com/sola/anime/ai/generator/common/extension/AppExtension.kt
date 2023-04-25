@@ -1,7 +1,12 @@
 package com.sola.anime.ai.generator.common.extension
 
+import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
+
+fun DezgoBodyTextToImage.toChildHistory(): ChildHistory{
+    return ChildHistory()
+}
 
 fun initDezgoBodyTextsToImages(maxGroupId: Int = 0, maxChildId: Int = 0): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()

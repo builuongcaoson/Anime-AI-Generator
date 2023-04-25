@@ -25,8 +25,4 @@ class PreviewAdapter @Inject constructor() : LsAdapter<Unit, ItemPreviewArtResul
 
     }
 
-    override fun getItemCount(): Int {
-        return 3
-    }
-
 }
