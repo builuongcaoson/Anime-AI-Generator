@@ -21,7 +21,7 @@ interface DezgoApi {
         @Part("model") model: RequestBody,
         @Part("width") width: RequestBody,
         @Part("height") height: RequestBody,
-        @Part("seed") seed: RequestBody
+        @Part("seed") seed: RequestBody?
     ): ResponseBody
 
     @POST("image2image")

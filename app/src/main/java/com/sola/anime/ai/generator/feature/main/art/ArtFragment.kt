@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
@@ -47,6 +48,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private val historySheet by lazy { HistorySheet() }
     private val advancedSheet by lazy { AdvancedSheet() }
+
+    private var styleId: Long = -1L
+    private var ratio: Ratio = Ratio.Ratio1x1
 
     override fun onViewCreated() {
         initView()
@@ -88,12 +92,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         configApp
             .subjectRatioClicks
             .autoDispose(scope())
-            .subscribe { aspectRatioAdapter.ratio = it }
+            .subscribe { ratio ->
+                this.ratio = ratio
+
+                aspectRatioAdapter.ratio = ratio
+            }
 
         configApp
             .subjectStyleClicks
             .autoDispose(scope())
             .subscribe { id ->
+                this.styleId = id
+
                 updateUiStyle(styleDao.findById(id))
             }
 
@@ -195,7 +205,16 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
             else -> {
-                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(maxGroupId = 0, maxChildId = 0)
+                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                    maxGroupId = 0,
+                    maxChildId = 0,
+                    prompt = prompt,
+                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+                    guidance = "7.5",
+                    styleId = this.styleId,
+                    ratio = this.ratio,
+                    seed = null
+                )
 
                 activity?.startArtProcessing()
             }

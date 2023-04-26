@@ -1,6 +1,6 @@
 package com.sola.anime.ai.generator.domain.model.textToImage
 
-import androidx.room.Entity
+import com.sola.anime.ai.generator.domain.model.Ratio
 import okhttp3.ResponseBody
 
 data class ResponseTextToImage(
@@ -22,7 +22,12 @@ data class BodyTextToImage(
     val width: String = "320",
     val height: String = "320",
     val seed: String? = null
-)
+) {
+
+    var styleId: Long = -1L
+    var ratio: Ratio = Ratio.Ratio1x1
+
+}
 
 data class DezgoBodyTextToImage(
     val id: Long,

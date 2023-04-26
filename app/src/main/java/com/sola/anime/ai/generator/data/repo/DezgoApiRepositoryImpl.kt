@@ -1,8 +1,6 @@
 package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.sola.anime.ai.generator.common.extension.toBitmap
 import com.sola.anime.ai.generator.common.extension.toFile
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
@@ -10,9 +8,6 @@ import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -34,9 +29,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
         progress: (GenerateTextsToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
         progress(GenerateTextsToImagesProgress.Loading)
-
-        delay(500)
-
+        delay(250)
         val dataChunked = datas.flatMap { it.bodies }.chunked(5)
         dataChunked
             .flatMapIndexed { index: Int, bodies ->
@@ -50,14 +43,14 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val response = dezgoApi.text2image(
                                 prompt = body.prompt.toRequestBody(MultipartBody.FORM),
                                 negative_prompt = body.negative_prompt.toRequestBody(MultipartBody.FORM),
-                                guidance = "7.5".toRequestBody(MultipartBody.FORM),
-                                upscale = "1".toRequestBody(MultipartBody.FORM),
-                                sampler = "euler_a".toRequestBody(MultipartBody.FORM),
-                                steps = "50".toRequestBody(MultipartBody.FORM),
-                                model = "anything_4_0".toRequestBody(MultipartBody.FORM),
-                                width = "320".toRequestBody(MultipartBody.FORM),
-                                height = "320".toRequestBody(MultipartBody.FORM),
-                                seed = "3107070471".toRequestBody(MultipartBody.FORM)
+                                guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                model = body.model.toRequestBody(MultipartBody.FORM),
+                                width = body.width.toRequestBody(MultipartBody.FORM),
+                                height = body.height.toRequestBody(MultipartBody.FORM),
+                                seed = body.seed?.toRequestBody(MultipartBody.FORM)
                             )
 
                             ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)

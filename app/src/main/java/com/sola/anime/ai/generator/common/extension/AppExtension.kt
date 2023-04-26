@@ -1,5 +1,7 @@
 package com.sola.anime.ai.generator.common.extension
 
+import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
@@ -17,26 +19,67 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory{
         width = this.width,
         height = this.height,
         seed = this.seed
-    )
+    ).apply {
+        this.styleId = this@toChildHistory.styleId
+    }
 }
 
-fun initDezgoBodyTextsToImages(maxGroupId: Int = 0, maxChildId: Int = 0): List<DezgoBodyTextToImage>{
+fun initDezgoBodyTextsToImages(
+    maxGroupId: Int = 0,
+    maxChildId: Int = 0,
+    prompt: String,
+    negativePrompt: String,
+    guidance: String,
+    styleId: Long,
+    ratio: Ratio,
+    seed: Long?
+): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()
     (0..maxGroupId).forEach { id ->
         datas.add(
             DezgoBodyTextToImage(
                 id = id.toLong(),
-                bodies = initBodyTextsToImages(maxChildId = maxChildId)
+                bodies = initBodyTextsToImages(
+                    groupId = id.toLong(),
+                    maxChildId = maxChildId,
+                    prompt = prompt,
+                    negativePrompt = negativePrompt,
+                    guidance = guidance,
+                    styleId = styleId,
+                    ratio = ratio,
+                    seed = seed
+                )
             )
         )
     }
     return datas
 }
 
-fun initBodyTextsToImages(maxChildId: Int = 0): List<BodyTextToImage>{
+fun initBodyTextsToImages(
+    groupId: Long,
+    maxChildId: Int,
+    prompt: String,
+    negativePrompt: String,
+    guidance: String,
+    styleId: Long,
+    ratio: Ratio,
+    seed: Long?
+): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
-        bodies.add(BodyTextToImage(id = id.toLong()))
+        bodies.add(
+            BodyTextToImage(
+                id = id.toLong(),
+                groupId = groupId,
+                prompt = prompt,
+                negative_prompt = negativePrompt,
+                guidance = guidance,
+                seed = seed?.toString()
+            ).apply {
+                this.styleId = styleId
+                this.ratio = ratio
+            }
+        )
     }
     return bodies
 }
