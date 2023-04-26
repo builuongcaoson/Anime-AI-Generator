@@ -1,11 +1,17 @@
 package com.sola.anime.ai.generator.feature.result.art
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
@@ -64,11 +70,40 @@ class ArtResultActivity : LsActivity() {
                     Glide
                         .with(this)
                         .asBitmap()
-                        .load(childHistories.firstOrNull())
+                        .load(childHistories.firstOrNull()?.pathPreview)
                         .transition(BitmapTransitionOptions.withCrossFade())
                         .error(R.drawable.place_holder_image)
                         .placeholder(R.drawable.place_holder_image)
-                        .into(binding.preview)
+                        .listener(object: RequestListener<Bitmap>{
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Bitmap>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                binding.cardPreview.cardElevation = 0f
+                                binding.preview.setImageResource(R.drawable.place_holder_image)
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: Bitmap?,
+                                model: Any?,
+                                target: Target<Bitmap>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                resource?.let { bitmap ->
+                                    binding.cardPreview.cardElevation = getDimens(com.intuit.sdp.R.dimen._3sdp)
+                                    binding.preview.setImageBitmap(bitmap)
+                                } ?: run {
+                                    binding.cardPreview.cardElevation = 0f
+                                    binding.preview.setImageResource(R.drawable.place_holder_image)
+                                }
+                                return false
+                            }
+                        })
+                        .preload()
                 }
             }
         }

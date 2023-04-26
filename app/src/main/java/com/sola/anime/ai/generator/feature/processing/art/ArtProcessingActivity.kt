@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.processing.art
 
+import android.animation.Animator
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -48,6 +49,7 @@ class ArtProcessingActivity : LsActivity() {
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
+    private var animator: Animator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,11 @@ class ArtProcessingActivity : LsActivity() {
         super.onStop()
     }
 
+    override fun onDestroy() {
+        tryOrNull { animator?.cancel() }
+        super.onDestroy()
+    }
+
     private fun startInterval(){
         timeInterval.dispose()
         timeInterval = Observable
@@ -81,17 +88,12 @@ class ArtProcessingActivity : LsActivity() {
                 when {
                     millisecond >= Preferences.MAX_SECOND_GENERATE_ART -> {
                         makeToast("An error occurred. Please try again!")
-                        artGenerateDialog.dismiss()
+                        tryOrNull { artGenerateDialog.dismiss() }
                         finish()
                     }
-//                    millisecond >= 2 -> {
-//                        artGenerateDialog.dismiss()
-//                        startArtResult()
-//                        finish()
-//                    }
                     else -> {
                         tryOrNull { binding.viewPager.post { previewAdapter.insert() } }
-                        tryOrNull { binding.viewPager.setCurrentItem(item = binding.viewPager.currentItem + 1) }
+                        tryOrNull { animator = binding.viewPager.setCurrentItem(item = binding.viewPager.currentItem + 1) }
                     }
                 }
             }
@@ -182,7 +184,8 @@ class ArtProcessingActivity : LsActivity() {
                                 val historyIds = deferredHistoryIds.awaitAll().mapNotNull { it }
 
                                 launch(Dispatchers.Main) {
-                                    artGenerateDialog.dismiss()
+                                    tryOrNull { animator?.cancel() }
+                                    tryOrNull { artGenerateDialog.dismiss() }
 
                                     when {
                                         dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
