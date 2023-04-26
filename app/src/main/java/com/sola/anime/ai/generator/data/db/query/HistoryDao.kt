@@ -15,6 +15,9 @@ interface HistoryDao {
     @Query("SELECT * FROM Histories")
     fun getAllLive(): LiveData<List<History>>
 
+    @Query("SELECT * FROM Histories WHERE id =:id LIMIT 1")
+    fun getWithIdLive(id: Long): LiveData<History?>
+
     // Inserts or deletes
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

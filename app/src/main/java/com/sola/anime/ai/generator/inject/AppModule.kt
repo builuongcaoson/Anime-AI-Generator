@@ -148,10 +148,6 @@ class AppModule {
     @Singleton
     fun provideHistoryDao(database: Database): HistoryDao = database.historyDao()
 
-    @Provides
-    @Singleton
-    fun provideChildHistoryDao(database: Database): ChildHistoryDao = database.childHistoryDao()
-
     // Repository
 
     @Provides

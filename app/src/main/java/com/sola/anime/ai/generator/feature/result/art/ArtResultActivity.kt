@@ -13,10 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.data.db.query.ChildHistoryDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
@@ -33,7 +31,6 @@ class ArtResultActivity : LsActivity() {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var historyDao: HistoryDao
-    @Inject lateinit var childHistoryDao: ChildHistoryDao
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
@@ -62,48 +59,50 @@ class ArtResultActivity : LsActivity() {
     }
 
     private fun initData() {
-        childHistoryDao.getAllWithHistoryIdLive(historyId = historyId).observe(this){ childHistories ->
-            previewAdapter.data = childHistories
+        historyDao.getWithIdLive(id = historyId).observe(this){ history ->
+            history?.let {
+                previewAdapter.data = history.childs
 
-            when {
-                childHistoryId ==-1L && childHistories.isNotEmpty() -> {
-                    Glide
-                        .with(this)
-                        .asBitmap()
-                        .load(childHistories.firstOrNull()?.pathPreview)
-                        .transition(BitmapTransitionOptions.withCrossFade())
-                        .error(R.drawable.place_holder_image)
-                        .placeholder(R.drawable.place_holder_image)
-                        .listener(object: RequestListener<Bitmap>{
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Bitmap>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                binding.cardPreview.cardElevation = 0f
-                                binding.preview.setImageResource(R.drawable.place_holder_image)
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Bitmap?,
-                                model: Any?,
-                                target: Target<Bitmap>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                resource?.let { bitmap ->
-                                    binding.cardPreview.cardElevation = getDimens(com.intuit.sdp.R.dimen._3sdp)
-                                    binding.preview.setImageBitmap(bitmap)
-                                } ?: run {
+                when {
+                    childHistoryId ==-1L && history.childs.isNotEmpty() -> {
+                        Glide
+                            .with(this)
+                            .asBitmap()
+                            .load(history.childs.lastOrNull()?.pathPreview)
+                            .transition(BitmapTransitionOptions.withCrossFade())
+                            .error(R.drawable.place_holder_image)
+                            .placeholder(R.drawable.place_holder_image)
+                            .listener(object: RequestListener<Bitmap>{
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
                                     binding.cardPreview.cardElevation = 0f
                                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                                    return false
                                 }
-                                return false
-                            }
-                        })
-                        .preload()
+
+                                override fun onResourceReady(
+                                    resource: Bitmap?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    resource?.let { bitmap ->
+                                        binding.cardPreview.cardElevation = getDimens(com.intuit.sdp.R.dimen._3sdp)
+                                        binding.preview.setImageBitmap(bitmap)
+                                    } ?: run {
+                                        binding.cardPreview.cardElevation = 0f
+                                        binding.preview.setImageResource(R.drawable.place_holder_image)
+                                    }
+                                    return false
+                                }
+                            })
+                            .preload()
+                    }
                 }
             }
         }

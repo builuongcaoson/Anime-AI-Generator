@@ -74,6 +74,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    binding.viewPreview.cardElevation = 0f
                     binding.viewShadow.isVisible = false
                     binding.preview.setImageResource(R.drawable.place_holder_image)
                     return false
@@ -92,6 +93,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                         binding.preview.setImageBitmap(bitmap)
                         binding.preview.animate().alpha(1f).setDuration(250).start()
                     } ?: run {
+                        binding.viewPreview.cardElevation = 0f
                         binding.viewShadow.isVisible = false
                         binding.preview.setImageResource(R.drawable.place_holder_image)
                     }

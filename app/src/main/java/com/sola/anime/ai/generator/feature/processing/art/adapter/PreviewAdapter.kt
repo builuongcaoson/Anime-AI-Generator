@@ -51,6 +51,7 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewAr
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    binding.cardPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
                     return false
                 }
@@ -66,6 +67,7 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewAr
                         binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._5sdp)
                         binding.preview.setImageBitmap(it)
                     } ?: run {
+                        binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
                     }
                     return false

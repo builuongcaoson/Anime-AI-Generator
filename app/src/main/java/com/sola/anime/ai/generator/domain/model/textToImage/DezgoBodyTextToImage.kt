@@ -25,7 +25,6 @@ data class BodyTextToImage(
 ) {
 
     var styleId: Long = -1L
-    var ratio: Ratio = Ratio.Ratio1x1
 
 }
 

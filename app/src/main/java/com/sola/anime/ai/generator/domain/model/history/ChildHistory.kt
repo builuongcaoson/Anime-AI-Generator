@@ -1,14 +1,6 @@
 package com.sola.anime.ai.generator.domain.model.history
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.sola.anime.ai.generator.domain.model.config.style.Style
-
-@Entity(tableName = "ChildHistories")
 data class ChildHistory(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    var historyId: Long = 0,
     val pathPreview: String,
     val prompt: String,
     val negative_prompt: String,

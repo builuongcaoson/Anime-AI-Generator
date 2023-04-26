@@ -2,6 +2,8 @@ package com.sola.anime.ai.generator.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.sola.anime.ai.generator.data.db.converter.Converters
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
@@ -16,11 +18,11 @@ import com.sola.anime.ai.generator.domain.model.history.History
         IapPreview::class,
         Explore::class,
         ArtProcess::class,
-        History::class,
-        ChildHistory::class
+        History::class
                ],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class Database : RoomDatabase() {
 
     abstract fun styleDao(): StyleDao
@@ -32,8 +34,6 @@ abstract class Database : RoomDatabase() {
     abstract fun artProcessDao(): ArtProcessDao
 
     abstract fun historyDao(): HistoryDao
-
-    abstract fun childHistoryDao(): ChildHistoryDao
 
     companion object {
         const val DB_NAME = "App_database"

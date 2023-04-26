@@ -77,7 +77,6 @@ fun initBodyTextsToImages(
                 seed = seed?.toString()
             ).apply {
                 this.styleId = styleId
-                this.ratio = ratio
             }
         )
     }

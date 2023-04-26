@@ -137,7 +137,7 @@
                                 android:textColorHint="?colorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 app:layout_constraintBottom_toTopOf="@id/viewClear"
-                                app:layout_constraintEnd_toStartOf="@id/viewClear"
+                                app:layout_constraintEnd_toStartOf="@id/history"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 

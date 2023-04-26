@@ -36,7 +36,7 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         Glide
             .with(context)
             .asBitmap()
-            .load(item.pathPreview)
+            .load(item.childs.lastOrNull()?.pathPreview)
             .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
             .listener(object: RequestListener<Bitmap>{
@@ -70,7 +70,7 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
             })
             .preload()
 
-        binding.prompt.text = item.prompt
+        binding.prompt.text = item.childs.lastOrNull()?.prompt ?: ""
     }
 
 }
