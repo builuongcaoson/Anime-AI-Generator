@@ -74,6 +74,8 @@ fun initBodyTextsToImages(
                 prompt = prompt,
                 negative_prompt = negativePrompt,
                 guidance = guidance,
+                width = ratio.width,
+                height = ratio.height,
                 seed = seed?.toString()
             ).apply {
                 this.styleId = styleId

@@ -1,9 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.mine.adapter
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -15,6 +18,7 @@ import com.sola.anime.ai.generator.databinding.ItemHistoryMineBinding
 import com.sola.anime.ai.generator.domain.model.history.History
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import timber.log.Timber
 import javax.inject.Inject
 
 class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>() {
@@ -32,6 +36,13 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         val item = getItem(position)
         val binding = holder.binding
         val context = binding.root.context
+
+        val ratio = "${item.childs.lastOrNull()?.width ?: "1"}:${item.childs.lastOrNull()?.height ?: "1"}"
+
+        val set = ConstraintSet()
+        set.clone(binding.viewGroup)
+        set.setDimensionRatio(binding.cardPreview.id, ratio)
+        set.applyTo(binding.viewGroup)
 
         Glide
             .with(context)
@@ -70,7 +81,10 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
             })
             .preload()
 
+        binding.title.text = item.title
         binding.prompt.text = item.childs.lastOrNull()?.prompt ?: ""
+
+        binding.viewGroup.clicks(withAnim = false) { clicks.onNext(item) }
     }
 
 }

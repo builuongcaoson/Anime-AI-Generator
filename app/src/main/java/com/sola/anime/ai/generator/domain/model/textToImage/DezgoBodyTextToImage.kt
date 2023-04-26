@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.domain.model.textToImage
 
-import com.sola.anime.ai.generator.domain.model.Ratio
 import okhttp3.ResponseBody
 
 data class ResponseTextToImage(

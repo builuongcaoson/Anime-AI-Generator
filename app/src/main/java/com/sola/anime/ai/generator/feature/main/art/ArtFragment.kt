@@ -180,8 +180,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks { generateClicks() }
-        binding.viewExplore.clicks(withAnim = false){ activity?.startExplore() }
-        binding.viewStyle.clicks{ activity?.startStyle() }
+        binding.viewExplore.clicks(withAnim = false) { activity?.startExplore() }
+        binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
         binding.history.clicks(debounce = 500) { historySheet.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
@@ -195,7 +195,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
             false
         }
-        binding.viewAdvancedSetting.clicks(debounce = 500) { advancedSheet.show(this) }
+        binding.viewAdvancedSetting.clicks(debounce = 500, withAnim = false) { advancedSheet.show(this) }
     }
 
     private fun generateClicks() {
