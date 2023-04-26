@@ -15,6 +15,9 @@ interface HistoryDao {
     @Query("SELECT * FROM Histories")
     fun getAllLive(): LiveData<List<History>>
 
+    @Query("SELECT * FROM Histories  WHERE isShowPromptHistory =:isShowPromptHistory")
+    fun getAllPromptHistoryLive(isShowPromptHistory: Boolean = true): LiveData<List<History>>
+
     @Query("SELECT * FROM Histories WHERE id =:id LIMIT 1")
     fun getWithIdLive(id: Long): LiveData<History?>
 
@@ -28,6 +31,11 @@ interface HistoryDao {
 
     @Query("DELETE FROM Histories")
     fun deleteAll()
+
+    // Update
+
+    @Update
+    fun update(vararg objects: History)
 
     // Find
 

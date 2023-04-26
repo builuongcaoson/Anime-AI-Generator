@@ -11,6 +11,8 @@ data class History(
     val childs: ArrayList<ChildHistory> = arrayListOf()
 ){
 
+    var isShowPromptHistory: Boolean = true
+
     var createAt: Long = System.currentTimeMillis()
     var updateAt: Long = System.currentTimeMillis()
 
