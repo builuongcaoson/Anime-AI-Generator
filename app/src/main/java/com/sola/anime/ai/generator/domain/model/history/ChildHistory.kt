@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class ChildHistory(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val historyId: Long = 0,
+    var historyId: Long = 0,
     val pathPreview: String,
     val prompt: String,
     val negative_prompt: String,
@@ -19,4 +19,9 @@ data class ChildHistory(
     val width: String,
     val height: String,
     val seed: String?
-)
+){
+
+    var createAt: Long = System.currentTimeMillis()
+    var updateAt: Long = System.currentTimeMillis()
+
+}

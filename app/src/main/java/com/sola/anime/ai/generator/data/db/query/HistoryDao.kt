@@ -17,8 +17,11 @@ interface HistoryDao {
 
     // Inserts or deletes
 
-    @Insert
-    fun inserts(vararg objects: History): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun inserts(vararg objects: History): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(objects: History): Long
 
     @Query("DELETE FROM Histories")
     fun deleteAll()

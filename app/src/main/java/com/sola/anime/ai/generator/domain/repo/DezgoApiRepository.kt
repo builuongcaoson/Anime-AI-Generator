@@ -6,8 +6,9 @@ import io.reactivex.Observable
 
 interface DezgoApiRepository {
 
-    fun progress(): Observable<GenerateTextsToImagesProgress>
-
-    suspend fun generateTextsToImages(datas: List<DezgoBodyTextToImage>)
+    suspend fun generateTextsToImages(
+        datas: List<DezgoBodyTextToImage>,
+        progress: (GenerateTextsToImagesProgress) -> Unit
+    )
 
 }

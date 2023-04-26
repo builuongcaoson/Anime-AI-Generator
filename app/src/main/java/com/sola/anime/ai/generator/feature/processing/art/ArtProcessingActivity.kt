@@ -1,6 +1,8 @@
 package com.sola.anime.ai.generator.feature.processing.art
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
@@ -9,13 +11,12 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
+import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
-import com.sola.anime.ai.generator.domain.model.history.ChildHistory
-import com.sola.anime.ai.generator.domain.model.history.History
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
@@ -28,9 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -45,12 +44,10 @@ class ArtProcessingActivity : LsActivity() {
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var historyDao: HistoryDao
-//    @Inject lateinit var markHistories: MarkHistories
 
     private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
-    private var historyIds = listOf<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,72 +133,100 @@ class ArtProcessingActivity : LsActivity() {
                 }
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            dezgoApiRepo.generateTextsToImages(ArrayList(configApp.dezgoBodiesTextsToImages))
+        lifecycleScope.launch {
+            val deferredHistoryIds = arrayListOf<Deferred<Long?>>()
+
+            dezgoApiRepo.generateTextsToImages(
+                datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+                progress = { progress ->
+                    when (progress){
+                        GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
+                        GenerateTextsToImagesProgress.Loading -> {
+                            Timber.e("LOADING")
+
+                            launch(Dispatchers.Main) {
+                                artGenerateDialog.show(this@ArtProcessingActivity)
+                            }
+                        }
+                        is GenerateTextsToImagesProgress.LoadingWithId -> {
+                            Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                            markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                        }
+                        is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                            Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                            configApp
+                                .dezgoBodiesTextsToImages
+                                .find { dezgo ->
+                                    dezgo.id == progress.groupId
+                                }?.bodies
+                                ?.find { body ->
+                                    body.id == progress.childId && body.groupId == progress.groupId
+                                }?.toChildHistory(progress.file.path)?.let {
+                                    val deferred = async { historyRepo.markHistory(it) }
+                                    deferredHistoryIds.add(deferred)
+                                }
+
+                            markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, bitmap = progress.bitmap)
+                        }
+                        is GenerateTextsToImagesProgress.FailureWithId ->  {
+                            Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                            markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                        }
+                        is GenerateTextsToImagesProgress.Done ->  {
+                            Timber.e("DONE")
+
+                            launch {
+                                val historyIds = deferredHistoryIds.awaitAll().mapNotNull { it }
+
+                                launch(Dispatchers.Main) {
+                                    artGenerateDialog.dismiss()
+
+                                    when {
+                                        dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
+                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L)
+                                            finish()
+                                        }
+                                        else -> {
+                                            makeToast("An error occurred, please check again!")
+                                            finish()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            )
         }
     }
 
+    private fun markLoadingWithIdAndChildId(groupId: Long, childId: Long) {
+        dezgoStatusTextsToImages
+            .find { status ->
+                status.id == childId && status.groupId == groupId
+            }?.status = StatusBodyTextToImage.Loading
+    }
+
+    private fun markSuccessWithIdAndChildId(groupId: Long, childId: Long, bitmap: Bitmap) {
+        dezgoStatusTextsToImages
+            .find { status ->
+                status.id == childId && status.groupId == groupId
+            }?.status = StatusBodyTextToImage.Success(bitmap)
+    }
+
+    private fun markFailureWithIdAndChildId(groupId: Long, childId: Long) {
+        dezgoStatusTextsToImages
+            .find { status ->
+                status.id == childId && status.groupId == groupId
+            }?.status = StatusBodyTextToImage.Failure()
+    }
+
     private fun initObservable() {
-        dezgoApiRepo
-            .progress()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe { progress ->
-                when (progress){
-                    GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
-                    GenerateTextsToImagesProgress.Loading -> {
-                        Timber.e("LOADING")
 
-                        artGenerateDialog.show(this)
-                    }
-                    is GenerateTextsToImagesProgress.LoadingWithId -> {
-                        Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                        dezgoStatusTextsToImages
-                            .find { status ->
-                                status.id == progress.childId && status.groupId == progress.groupId
-                            }?.status = StatusBodyTextToImage.Loading
-                    }
-                    is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                        Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-//                        historyIds = historyDao.inserts(History(title = "Fantasy", prompt = "ABC", pathDir = progress.file.parentFile?.path, pathPreview = progress.file.path))
-                        CoroutineScope(Dispatchers.Main).launch {
-                            historyIds = historyRepo.markHistories(ChildHistory())
-                        }
-
-                        dezgoStatusTextsToImages
-                            .find { status ->
-                                status.id == progress.childId && status.groupId == progress.groupId
-                            }?.status = StatusBodyTextToImage.Success(progress.bitmap)
-                    }
-                    is GenerateTextsToImagesProgress.FailureWithId ->  {
-                        Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                        dezgoStatusTextsToImages
-                            .find { status ->
-                                status.id == progress.childId && status.groupId == progress.groupId
-                            }?.status = StatusBodyTextToImage.Failure()
-                    }
-                    is GenerateTextsToImagesProgress.Done ->  {
-                        Timber.e("DONE")
-
-                        artGenerateDialog.dismiss()
-
-                        when {
-                            dezgoStatusTextsToImages.any { it.status is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
-                                startArtResult(historyId = historyIds.firstOrNull() ?: -1)
-                                finish()
-                            }
-                            else -> {
-                                makeToast("An error occurred, please check again!")
-                                finish()
-                            }
-                        }
-                    }
-                }
-            }
     }
 
     private fun initView() {

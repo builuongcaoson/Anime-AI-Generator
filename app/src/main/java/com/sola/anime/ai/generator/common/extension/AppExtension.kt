@@ -4,8 +4,20 @@ import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 
-fun DezgoBodyTextToImage.toChildHistory(): ChildHistory{
-    return ChildHistory()
+fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory{
+    return ChildHistory(
+        pathPreview = pathPreview,
+        prompt = this.prompt,
+        negative_prompt = this.negative_prompt,
+        guidance = this.guidance,
+        upscale = this.upscale,
+        sampler = this.sampler,
+        steps = this.steps,
+        model = this.model,
+        width = this.width,
+        height = this.height,
+        seed = this.seed
+    )
 }
 
 fun initDezgoBodyTextsToImages(maxGroupId: Int = 0, maxChildId: Int = 0): List<DezgoBodyTextToImage>{

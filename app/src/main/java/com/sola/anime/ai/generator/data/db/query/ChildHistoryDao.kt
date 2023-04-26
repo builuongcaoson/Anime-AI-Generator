@@ -12,13 +12,19 @@ interface ChildHistoryDao {
     @Query("SELECT * FROM ChildHistories")
     fun getAll(): List<ChildHistory>
 
-    @Query("SELECT * FROM ChildHistories")
+    @Query("SELECT * FROM ChildHistories ORDER BY createAt DESC")
     fun getAllLive(): LiveData<List<ChildHistory>>
+
+    @Query("SELECT * FROM ChildHistories WHERE historyId =:historyId ORDER BY createAt DESC")
+    fun getAllWithHistoryIdLive(historyId: Long): LiveData<List<ChildHistory>>
 
     // Inserts or deletes
 
-    @Insert
-    fun inserts(vararg objects: ChildHistory): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun inserts(vararg objects: ChildHistory): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(objects: ChildHistory): Long
 
     @Query("DELETE FROM ChildHistories")
     fun deleteAll()

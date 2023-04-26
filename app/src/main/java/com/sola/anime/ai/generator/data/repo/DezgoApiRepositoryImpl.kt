@@ -29,16 +29,13 @@ class DezgoApiRepositoryImpl @Inject constructor(
     private val dezgoApi: DezgoApi
 ): DezgoApiRepository {
 
-    private val progressTextsToImages: Subject<GenerateTextsToImagesProgress> =
-        BehaviorSubject.createDefault(GenerateTextsToImagesProgress.Idle)
-
-    override fun progress(): Observable<GenerateTextsToImagesProgress> = progressTextsToImages
-
     override suspend fun generateTextsToImages(
-        datas: List<DezgoBodyTextToImage>
+        datas: List<DezgoBodyTextToImage>,
+        progress: (GenerateTextsToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
-        if (progressTextsToImages.blockingFirst().isLoading) return@withContext
-        progressTextsToImages.onNext(GenerateTextsToImagesProgress.Loading)
+        progress(GenerateTextsToImagesProgress.Loading)
+
+        delay(500)
 
         val dataChunked = datas.flatMap { it.bodies }.chunked(5)
         dataChunked
@@ -46,7 +43,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                 val responses = bodies
                     .map { body ->
                         async {
-                            progressTextsToImages.onNext(GenerateTextsToImagesProgress.LoadingWithId(groupId = body.groupId, childId = body.id))
+                            progress(GenerateTextsToImagesProgress.LoadingWithId(groupId = body.groupId, childId = body.id))
 
                             Timber.e("Loading group id: ${body.groupId} --- Child id: ${body.id}")
 
@@ -75,10 +72,10 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                             when {
                                 bitmap != null && file != null -> {
-                                    progressTextsToImages.onNext(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, bitmap = bitmap, file = file))
+                                    progress(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, bitmap = bitmap, file = file))
                                 }
                                 else -> {
-                                    progressTextsToImages.onNext(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
+                                    progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                                 }
                             }
 
@@ -90,9 +87,9 @@ class DezgoApiRepositoryImpl @Inject constructor(
                 responses
             }
 
-        progressTextsToImages.onNext(GenerateTextsToImagesProgress.Done)
+        progress(GenerateTextsToImagesProgress.Done)
         delay(1000)
-        progressTextsToImages.onNext(GenerateTextsToImagesProgress.Idle)
+        progress(GenerateTextsToImagesProgress.Idle)
     }
 
 }

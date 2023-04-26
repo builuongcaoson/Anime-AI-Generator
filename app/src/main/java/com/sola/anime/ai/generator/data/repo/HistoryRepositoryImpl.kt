@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.sola.anime.ai.generator.common.extension.toBitmap
 import com.sola.anime.ai.generator.common.extension.toFile
 import com.sola.anime.ai.generator.data.db.query.ChildHistoryDao
@@ -36,22 +37,27 @@ class HistoryRepositoryImpl @Inject constructor(
     private val childHistoryDao: ChildHistoryDao
 ): HistoryRepository {
 
-    override suspend fun markHistories(vararg childHistories: ChildHistory): List<Long> = withContext(Dispatchers.IO){
-        val histories = childHistories.mapNotNull { childHistory ->
-            childHistoryDao.inserts(childHistory)
+    override suspend fun markHistory(childHistory: ChildHistory): Long? = withContext(Dispatchers.IO) {
+        var id: Long? = null
 
-            File(childHistory.pathPreview)
-                .takeIf { file -> file.exists() }
-                ?.let { filePreview ->
+        File(childHistory.pathPreview)
+            .takeIf { file -> file.exists() }
+            ?.apply {
+                id = historyDao.insert(
                     History(
                         title = "Fantasy",
                         prompt = "ABC",
-                        pathDir = filePreview.parentFile?.path,
-                        pathPreview = filePreview.path
+                        pathDir = parentFile?.path,
+                        pathPreview = path
                     )
-                }
-        }
-        historyDao.inserts(*histories.toTypedArray())
+                )
+
+                childHistory.historyId = id ?: 0
+
+                childHistoryDao.insert(childHistory)
+            }
+
+        id
     }
 
 }

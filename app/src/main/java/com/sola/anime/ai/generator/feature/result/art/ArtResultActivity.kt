@@ -4,9 +4,13 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.db.query.ChildHistoryDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
@@ -23,6 +27,7 @@ class ArtResultActivity : LsActivity() {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var historyDao: HistoryDao
+    @Inject lateinit var childHistoryDao: ChildHistoryDao
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
@@ -31,6 +36,13 @@ class ArtResultActivity : LsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        when (historyId) {
+            -1L -> {
+                finish()
+                return
+            }
+        }
 
         initView()
         initObservable()
@@ -44,7 +56,22 @@ class ArtResultActivity : LsActivity() {
     }
 
     private fun initData() {
+        childHistoryDao.getAllWithHistoryIdLive(historyId = historyId).observe(this){ childHistories ->
+            previewAdapter.data = childHistories
 
+            when {
+                childHistoryId ==-1L && childHistories.isNotEmpty() -> {
+                    Glide
+                        .with(this)
+                        .asBitmap()
+                        .load(childHistories.firstOrNull())
+                        .transition(BitmapTransitionOptions.withCrossFade())
+                        .error(R.drawable.place_holder_image)
+                        .placeholder(R.drawable.place_holder_image)
+                        .into(binding.preview)
+                }
+            }
+        }
     }
 
     private fun initObservable() {
@@ -52,19 +79,10 @@ class ArtResultActivity : LsActivity() {
     }
 
     private fun initView() {
-        when (historyId) {
-            -1L -> {
-                finish()
-                return
-            }
-        }
-
         binding.recyclerPreview.apply {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter
         }
-
-
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
