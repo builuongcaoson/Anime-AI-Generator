@@ -43,16 +43,8 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         set.setDimensionRatio(binding.cardPreview.id, ratio)
         set.applyTo(binding.viewGroup)
 
-        when (ratio) {
-            "569:320" -> {
-                val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
-                layoutParams.isFullSpan = true
-            }
-            else -> {
-                val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
-                layoutParams.isFullSpan = false
-            }
-        }
+        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
+        layoutParams.isFullSpan = ratio == "569:320"
 
         Glide
             .with(context)
