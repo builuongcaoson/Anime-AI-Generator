@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.extension.contentUriToRequestBody
 import com.sola.anime.ai.generator.common.extension.toBitmap
 import com.sola.anime.ai.generator.common.extension.toFile
@@ -11,10 +12,7 @@ import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -47,25 +45,30 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                             Timber.e("Loading group id: ${body.groupId} --- Child id: ${body.id}")
 
-                            val response = dezgoApi.text2image(
-                                prompt = body.prompt.toRequestBody(MultipartBody.FORM),
-                                negative_prompt = body.negative_prompt.toRequestBody(MultipartBody.FORM),
-                                guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-                                sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                model = body.model.toRequestBody(MultipartBody.FORM),
-                                width = body.width.toRequestBody(MultipartBody.FORM),
-                                height = body.height.toRequestBody(MultipartBody.FORM),
-                                seed = body.seed.toRequestBody(MultipartBody.FORM)
-                            )
+                            try {
+                                val response = dezgoApi.text2image(
+                                    prompt = body.prompt.toRequestBody(MultipartBody.FORM),
+                                    negative_prompt = body.negative_prompt.toRequestBody(MultipartBody.FORM),
+                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                    model = body.model.toRequestBody(MultipartBody.FORM),
+                                    width = body.width.toRequestBody(MultipartBody.FORM),
+                                    height = body.height.toRequestBody(MultipartBody.FORM),
+                                    seed = body.seed.toRequestBody(MultipartBody.FORM)
+                                )
 
-                            ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
+                                ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
+                            } catch (e: Exception){
+                                e.printStackTrace()
+                                ResponseTextToImage(groupId = body.groupId, childId = body.id)
+                            }
                         }
                     }.map {
                         val responseTextToImage = it.await()
 
-                        responseTextToImage.response.byteStream().use { inputStream ->
+                        responseTextToImage.response?.byteStream()?.use { inputStream ->
                             // Convert to bitmap
                             val bitmap = inputStream.toBitmap()
                             val file = bitmap?.toFile(context)
@@ -80,6 +83,8 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             bitmap
+                        } ?: run {
+                            progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                         }
                     }
                 Timber.e("Chunked: ${dataChunked.lastIndex} --- $index")

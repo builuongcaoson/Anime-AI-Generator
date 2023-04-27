@@ -4,8 +4,8 @@ enum class Ratio(val display: String, val ratio: String, val width: String, val 
     Ratio1x1(display = "1x1", ratio = "1:1", width = "320", height = "320"),
     Ratio9x16(display = "9x16", ratio = "9:16", width = "320", height = "569"),
     Ratio16x9(display = "16x9", ratio = "16:9", width = "569", height = "320"),
-    Ratio4x3(display = "4x3", ratio = "4:3", width = "320", height = "427"),
     Ratio3x4(display = "3x4", ratio = "3:4", width = "427", height = "320"),
+    Ratio4x3(display = "4x3", ratio = "4:3", width = "320", height = "427"),
     Ratio2x3(display = "2x3", ratio = "2:3", width = "320", height = "480"),
     Ratio3x2(display = "3x2", ratio = "3:2", width = "480", height = "320")
 }

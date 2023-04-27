@@ -34,7 +34,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
         historyAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { activity?.startArtResult(historyId = it.id) }
+            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex) }
     }
 
     private fun initData() {

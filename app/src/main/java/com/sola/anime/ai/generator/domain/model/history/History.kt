@@ -8,6 +8,7 @@ data class History(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val title: String = "No Style",
+    val prompt: String,
     val childs: ArrayList<ChildHistory> = arrayListOf()
 ){
 

@@ -1,9 +1,9 @@
 package com.sola.anime.ai.generator.feature.main.mine.adapter
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
@@ -18,7 +18,6 @@ import com.sola.anime.ai.generator.databinding.ItemHistoryMineBinding
 import com.sola.anime.ai.generator.domain.model.history.History
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import timber.log.Timber
 import javax.inject.Inject
 
 class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>() {
@@ -43,6 +42,17 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         set.clone(binding.viewGroup)
         set.setDimensionRatio(binding.cardPreview.id, ratio)
         set.applyTo(binding.viewGroup)
+
+        when (ratio) {
+            "569:320" -> {
+                val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
+                layoutParams.isFullSpan = true
+            }
+            else -> {
+                val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
+                layoutParams.isFullSpan = false
+            }
+        }
 
         Glide
             .with(context)

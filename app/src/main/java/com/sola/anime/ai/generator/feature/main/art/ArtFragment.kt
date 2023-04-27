@@ -136,7 +136,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiExplore(explore: Explore?) {
-        binding.editPrompt.setText(explore?.prompt ?: "")
+        explore?.let { binding.editPrompt.setText(explore.prompt) }
     }
 
     private fun updateUiStyle(style: Style?){
@@ -208,28 +208,28 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun generateClicks() {
-//        val prompt = binding.editPrompt.text?.toString() ?: ""
+        val prompt = binding.editPrompt.text?.toString() ?: ""
 
-        launchPickPhoto()
+//        launchPickPhoto()
 
-//        when {
-//            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
-//            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
-//            else -> {
-//                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-//                    maxGroupId = 0,
-//                    maxChildId = 0,
-//                    prompt = prompt,
-//                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
-//                    guidance = "7.5",
-//                    styleId = this.styleId,
-//                    ratio = this.ratio,
-//                    seed = null
-//                )
-//
-//                activity?.startArtProcessing()
-//            }
-//        }
+        when {
+            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
+            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
+            else -> {
+                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                    maxGroupId = 0,
+                    maxChildId = 0,
+                    prompt = prompt,
+                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+                    guidance = "7.5",
+                    styleId = this.styleId,
+                    ratio = this.ratio,
+                    seed = null
+                )
+
+                activity?.startArtProcessing()
+            }
+        }
     }
 
     private val pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->

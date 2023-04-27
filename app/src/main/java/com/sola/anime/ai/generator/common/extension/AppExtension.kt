@@ -76,7 +76,7 @@ fun initBodyTextsToImages(
                 guidance = guidance,
                 width = ratio.width,
                 height = ratio.height,
-                seed = System.currentTimeMillis().toString()
+                seed = (0..4294967295).random().toString()
             ).apply {
                 this.styleId = styleId
             }

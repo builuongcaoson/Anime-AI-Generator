@@ -5,7 +5,7 @@ import okhttp3.ResponseBody
 data class ResponseTextToImage(
     val groupId: Long,
     val childId: Long,
-    val response: ResponseBody
+    val response: ResponseBody? = null
 )
 
 data class ResponseImageToImage(
@@ -26,7 +26,7 @@ data class BodyTextToImage(
     val model: String = "anything_4_0",
     val width: String = "320",
     val height: String = "320",
-    val seed: String = System.currentTimeMillis().toString()
+    val seed: String = (0..4294967295).random().toString()
 ) {
     var styleId: Long = -1L
 }
@@ -42,7 +42,7 @@ data class BodyImageToImage(
     val sampler: String = "euler_a",
     val steps: String = "50",
     val model: String = "anything_4_0",
-    val seed: String = System.currentTimeMillis().toString(),
+    val seed: String = (0..4294967295).random().toString(),
     val strength: String = "0.5"
 ) {
     var styleId: Long = -1L

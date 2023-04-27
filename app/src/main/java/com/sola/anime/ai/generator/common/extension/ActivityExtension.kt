@@ -2,10 +2,7 @@ package com.sola.anime.ai.generator.common.extension
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.basic.common.extension.tryOrNull
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
@@ -32,10 +29,10 @@ fun Activity.startArtProcessing(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startArtResult(historyId: Long, childHistoryId: Long = -1L){
+fun Activity.startArtResult(historyId: Long, childHistoryIndex: Int = -1){
     val intent = Intent(this, ArtResultActivity::class.java)
     intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
-    intent.putExtra(ArtResultActivity.CHILD_HISTORY_ID_EXTRA, childHistoryId)
+    intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

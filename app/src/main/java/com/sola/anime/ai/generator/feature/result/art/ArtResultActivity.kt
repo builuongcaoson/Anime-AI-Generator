@@ -1,19 +1,10 @@
 package com.sola.anime.ai.generator.feature.result.art
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
-import com.basic.common.extension.getDimens
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
@@ -35,7 +26,7 @@ class ArtResultActivity : LsActivity() {
 
     companion object {
         const val HISTORY_ID_EXTRA = "HISTORY_ID_EXTRA"
-        const val CHILD_HISTORY_ID_EXTRA = "CHILD_HISTORY_ID_EXTRA"
+        const val CHILD_HISTORY_INDEX_EXTRA = "CHILD_HISTORY_INDEX_EXTRA"
     }
 
     @Inject lateinit var previewAdapter: PreviewAdapter
@@ -46,7 +37,7 @@ class ArtResultActivity : LsActivity() {
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
-    private val childHistoryId by lazy { intent.getLongExtra(CHILD_HISTORY_ID_EXTRA, -1L) }
+    private val childHistoryIndex by lazy { intent.getIntExtra(CHILD_HISTORY_INDEX_EXTRA, -1) }
     private var childHistories = arrayListOf<ChildHistory>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,14 +87,17 @@ class ArtResultActivity : LsActivity() {
                     this.data = history.childs
                     this.childHistory = history.childs.lastOrNull()
                 }
-                preview2Adapter.data = history.childs
+                preview2Adapter.apply {
+                    this.data = history.childs
+                }
+                childHistoryIndex.takeIf { it != -1 }.let { binding.viewPager.post { binding.viewPager.setCurrentItem(childHistoryIndex, false) } }
             }
         }
     }
 
     private fun initObservable() {
         subjectPageChanges
-            .debounce(500, TimeUnit.MILLISECONDS)
+            .debounce(100, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())

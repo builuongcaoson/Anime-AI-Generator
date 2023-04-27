@@ -18,17 +18,26 @@ class HistoryRepositoryImpl @Inject constructor(
 ): HistoryRepository {
 
     override suspend fun markHistory(childHistory: ChildHistory): Long? = withContext(Dispatchers.IO) {
-        File(childHistory.pathPreview)
-            .takeIf { file -> file.exists() }
-            ?.let {
-                historyDao.insert(
-                    History(
-                        title = "Fantasy"
-                    ).apply {
-                        this.childs.add(childHistory)
-                    }
-                )
-            }
+        historyDao.findByPrompt(childHistory.prompt)?.let {
+            it.childs.add(childHistory)
+
+            historyDao.update(it)
+
+            it.id
+        } ?: run {
+            File(childHistory.pathPreview)
+                .takeIf { file -> file.exists() }
+                ?.let {
+                    historyDao.insert(
+                        History(
+                            title = "Fantasy",
+                            prompt = childHistory.prompt
+                        ).apply {
+                            this.childs.add(childHistory)
+                        }
+                    )
+                }
+        }
     }
 
 }
