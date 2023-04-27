@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -23,14 +26,19 @@ import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
+import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -43,6 +51,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var styleDao: StyleDao
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var dezgoApiRepo: DezgoApiRepository
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
@@ -199,26 +208,40 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun generateClicks() {
-        val prompt = binding.editPrompt.text?.toString() ?: ""
+//        val prompt = binding.editPrompt.text?.toString() ?: ""
 
-        when {
-            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
-            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
-            else -> {
-                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                    maxGroupId = 0,
-                    maxChildId = 0,
-                    prompt = prompt,
-                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
-                    guidance = "7.5",
-                    styleId = this.styleId,
-                    ratio = this.ratio,
-                    seed = null
-                )
+        launchPickPhoto()
 
-                activity?.startArtProcessing()
+//        when {
+//            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
+//            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
+//            else -> {
+//                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+//                    maxGroupId = 0,
+//                    maxChildId = 0,
+//                    prompt = prompt,
+//                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+//                    guidance = "7.5",
+//                    styleId = this.styleId,
+//                    ratio = this.ratio,
+//                    seed = null
+//                )
+//
+//                activity?.startArtProcessing()
+//            }
+//        }
+    }
+
+    private val pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let {
+            CoroutineScope(Dispatchers.IO).launch {
+                dezgoApiRepo.generateImagesToImages(uri)
             }
         }
+    }
+
+    private fun launchPickPhoto() {
+        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun initView() {

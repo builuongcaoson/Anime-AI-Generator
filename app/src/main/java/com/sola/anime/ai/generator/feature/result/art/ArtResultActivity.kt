@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.result.art
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
@@ -17,8 +18,16 @@ import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
+import com.sola.anime.ai.generator.domain.model.history.ChildHistory
+import com.sola.anime.ai.generator.feature.result.art.adapter.Preview2Adapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,11 +39,15 @@ class ArtResultActivity : LsActivity() {
     }
 
     @Inject lateinit var previewAdapter: PreviewAdapter
+    @Inject lateinit var preview2Adapter: Preview2Adapter
     @Inject lateinit var historyDao: HistoryDao
+
+    private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
     private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
     private val childHistoryId by lazy { intent.getLongExtra(CHILD_HISTORY_ID_EXTRA, -1L) }
+    private var childHistories = arrayListOf<ChildHistory>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,63 +69,53 @@ class ArtResultActivity : LsActivity() {
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
         binding.viewPro.clicks { startIap() }
+        binding.viewPager.registerOnPageChangeCallback(pageChanges)
+    }
+
+    override fun onDestroy() {
+        binding.viewPager.unregisterOnPageChangeCallback(pageChanges)
+        super.onDestroy()
+    }
+
+    private val pageChanges = object: ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            childHistories.getOrNull(position)?.let { childHistory -> subjectPageChanges.onNext(childHistory) }
+        }
     }
 
     private fun initData() {
         historyDao.getWithIdLive(id = historyId).observe(this){ history ->
             history?.let {
-                previewAdapter.data = history.childs
+                childHistories = ArrayList(history.childs)
 
-                when {
-                    childHistoryId ==-1L && history.childs.isNotEmpty() -> {
-                        Glide
-                            .with(this)
-                            .asBitmap()
-                            .load(history.childs.lastOrNull()?.pathPreview)
-                            .transition(BitmapTransitionOptions.withCrossFade())
-                            .error(R.drawable.place_holder_image)
-                            .placeholder(R.drawable.place_holder_image)
-                            .listener(object: RequestListener<Bitmap>{
-                                override fun onLoadFailed(
-                                    e: GlideException?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    binding.cardPreview.cardElevation = 0f
-                                    binding.preview.setImageResource(R.drawable.place_holder_image)
-                                    return false
-                                }
-
-                                override fun onResourceReady(
-                                    resource: Bitmap?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    resource?.let { bitmap ->
-                                        binding.cardPreview.cardElevation = getDimens(com.intuit.sdp.R.dimen._3sdp)
-                                        binding.preview.setImageBitmap(bitmap)
-                                    } ?: run {
-                                        binding.cardPreview.cardElevation = 0f
-                                        binding.preview.setImageResource(R.drawable.place_holder_image)
-                                    }
-                                    return false
-                                }
-                            })
-                            .preload()
-                    }
+                previewAdapter.apply {
+                    this.data = history.childs
+                    this.childHistory = history.childs.lastOrNull()
                 }
+                preview2Adapter.data = history.childs
             }
         }
     }
 
     private fun initObservable() {
-
+        subjectPageChanges
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                previewAdapter.childHistory = it
+            }
     }
 
     private fun initView() {
+        binding.viewPager.apply {
+            this.adapter = preview2Adapter
+        }
         binding.recyclerPreview.apply {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter

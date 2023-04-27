@@ -76,7 +76,7 @@ fun initBodyTextsToImages(
                 guidance = guidance,
                 width = ratio.width,
                 height = ratio.height,
-                seed = seed?.toString()
+                seed = System.currentTimeMillis().toString()
             ).apply {
                 this.styleId = styleId
             }
