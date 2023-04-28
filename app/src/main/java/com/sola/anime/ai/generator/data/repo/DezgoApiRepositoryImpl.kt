@@ -49,7 +49,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                             val style = styleDao.findById(body.styleId)
                             val prompt = when {
-                                style != null -> body.prompt + ""
+                                style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
                             val negativePrompt = when {

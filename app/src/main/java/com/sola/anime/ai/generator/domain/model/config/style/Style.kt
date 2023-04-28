@@ -11,16 +11,13 @@ import com.google.gson.annotations.SerializedName
 data class Style(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    @SerializedName("preview")
+    @Expose
+    val preview: String,
     @SerializedName("display")
     @Expose
     val display: String,
-    @SerializedName("prompt")
+    @SerializedName("prompts")
     @Expose
-    val prompt: String,
-    @SerializedName("negativePrompt")
-    @Expose
-    val negativePrompt: String,
-    @SerializedName("preview")
-    @Expose
-    val preview: String
+    val prompts: List<String>
 )

@@ -25,8 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/preview_1"
-                app:layout_constraintDimensionRatio="512:758"
+                android:src="@drawable/place_holder_image"
+                app:layout_constraintDimensionRatio="512:768"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

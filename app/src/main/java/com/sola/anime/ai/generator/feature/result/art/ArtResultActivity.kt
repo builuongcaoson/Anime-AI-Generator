@@ -85,12 +85,19 @@ class ArtResultActivity : LsActivity() {
 
                 previewAdapter.apply {
                     this.data = history.childs
-                    this.childHistory = history.childs.lastOrNull()
                 }
                 preview2Adapter.apply {
                     this.data = history.childs
                 }
-                childHistoryIndex.takeIf { it != -1 }.let { binding.viewPager.post { binding.viewPager.setCurrentItem(childHistoryIndex, false) } }
+                childHistoryIndex.takeIf { it != -1 }?.let {
+                    binding.viewPager.post {
+                        binding.viewPager.setCurrentItem(childHistoryIndex, false)
+                    }
+                } ?: run {
+                    binding.viewPager.post {
+                        binding.viewPager.setCurrentItem(history.childs.lastIndex, false)
+                    }
+                }
             }
         }
     }
@@ -103,6 +110,17 @@ class ArtResultActivity : LsActivity() {
             .autoDispose(scope())
             .subscribe {
                 previewAdapter.childHistory = it
+            }
+
+        previewAdapter
+            .clicks
+            .map { previewAdapter.data.indexOf(it) }
+            .filter { it != -1 }
+            .autoDispose(scope())
+            .subscribe { index ->
+                binding.viewPager.post {
+                    binding.viewPager.setCurrentItem(index, false)
+                }
             }
     }
 

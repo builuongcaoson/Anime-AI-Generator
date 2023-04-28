@@ -19,4 +19,15 @@ class Converters {
         }
     }
 
+    @TypeConverter
+    fun promptsToJson(value: List<String>) = tryOrNull { Gson().toJson(value) } ?: ""
+
+    @TypeConverter
+    fun jsonToChildPrompts(value: String): List<String>{
+        return when {
+            value.isEmpty() -> arrayListOf()
+            else -> tryOrNull { Gson().fromJson(value, object : TypeToken<List<String>>() {}.type) } ?: arrayListOf()
+        }
+    }
+
 }
