@@ -39,10 +39,10 @@ interface HistoryDao {
 
     // Find
 
-    @Query("SELECT * FROM Histories WHERE id =:id LIMIT 1")
+    @Query("SELECT * FROM Histories WHERE id = :id LIMIT 1")
     fun findById(id: Long): History?
 
-    @Query("SELECT * FROM Histories WHERE prompt =:prompt LIMIT 1")
-    fun findByPrompt(prompt: String): History?
+    @Query("SELECT * FROM Histories WHERE prompt = :prompt AND styleId = :styleId LIMIT 1")
+    fun findByPrompt(prompt: String, styleId: Long): History?
 
 }

@@ -22,11 +22,10 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
 
     override fun onViewCreated() {
         initView()
-//        initData()
+        initData()
     }
 
     override fun onResume() {
-        initData()
         initObservable()
         super.onResume()
     }

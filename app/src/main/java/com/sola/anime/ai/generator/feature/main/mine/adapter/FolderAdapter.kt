@@ -17,7 +17,7 @@ class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBind
 
     init {
         data = listOf(
-            Folder(display = "Characters"),
+            Folder(display = "All"),
             null
         )
     }

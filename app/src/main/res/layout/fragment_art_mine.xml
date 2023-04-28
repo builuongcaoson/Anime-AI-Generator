@@ -96,7 +96,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerHistory"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"

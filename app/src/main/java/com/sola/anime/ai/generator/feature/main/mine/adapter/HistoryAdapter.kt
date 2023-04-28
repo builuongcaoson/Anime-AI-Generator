@@ -72,9 +72,9 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let { bitmap ->
+                    resource?.let { _ ->
                         binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
-                        binding.preview.setImageBitmap(bitmap)
+//                        binding.preview.setImageBitmap(bitmap)
                     } ?: run {
                         binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
@@ -82,7 +82,7 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
                     return false
                 }
             })
-            .preload()
+            .into(binding.preview)
 
         binding.title.text = item.title
         binding.prompt.text = item.childs.lastOrNull()?.prompt ?: ""

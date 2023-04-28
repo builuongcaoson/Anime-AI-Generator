@@ -20,8 +20,9 @@ class HistoryRepositoryImpl @Inject constructor(
 ): HistoryRepository {
 
     override suspend fun markHistory(childHistory: ChildHistory): Long? = withContext(Dispatchers.IO) {
-        historyDao.findByPrompt(childHistory.prompt)?.let {
+        historyDao.findByPrompt(childHistory.prompt, childHistory.styleId)?.let {
             it.childs.add(childHistory)
+            it.updateAt = System.currentTimeMillis()
 
             historyDao.update(it)
 
@@ -35,6 +36,7 @@ class HistoryRepositoryImpl @Inject constructor(
                             title = styleDao.findById(childHistory.styleId)?.display ?: "Fantasy",
                             prompt = childHistory.prompt
                         ).apply {
+                            this.styleId = childHistory.styleId
                             this.childs.add(childHistory)
                         }
                     )
