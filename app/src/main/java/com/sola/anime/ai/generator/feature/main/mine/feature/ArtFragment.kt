@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsFragment
 import com.sola.anime.ai.generator.common.extension.startArtResult
+import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentArtMineBinding
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
@@ -19,6 +20,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var folderAdapter: FolderAdapter
     @Inject lateinit var historyAdapter: HistoryAdapter
     @Inject lateinit var historyDao: HistoryDao
+    @Inject lateinit var folderDao: FolderDao
 
     override fun onViewCreated() {
         initView()
@@ -40,6 +42,16 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     private fun initData() {
         historyDao.getAllLive().observe(viewLifecycleOwner){ histories ->
             historyAdapter.data = histories
+        }
+        folderDao.getAllLive().observe(viewLifecycleOwner){ folders ->
+            if (folders.isEmpty()){
+                return@observe
+            }
+
+            folderAdapter.data = ArrayList(folders).apply {
+                add(null)
+            }
+            folderAdapter.folder = folders.first()
         }
     }
 

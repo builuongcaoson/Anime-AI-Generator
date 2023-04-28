@@ -12,6 +12,7 @@ data class History(
     val childs: ArrayList<ChildHistory> = arrayListOf()
 ){
 
+    var folderId: Long = 0
     var styleId: Long = -1L
     var isShowPromptHistory: Boolean = true
 

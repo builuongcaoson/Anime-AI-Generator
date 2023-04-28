@@ -5,10 +5,9 @@ import com.basic.common.extension.tryOrNull
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
-import com.sola.anime.ai.generator.data.db.query.ExploreDao
-import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
-import com.sola.anime.ai.generator.data.db.query.StyleDao
+import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.data.db.query.*
+import com.sola.anime.ai.generator.domain.model.Folder
 import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
@@ -27,6 +26,8 @@ import javax.inject.Singleton
 @Singleton
 class SyncConfigApp @Inject constructor(
     private val context: Context,
+    private val prefs: Preferences,
+    private val folderDao: FolderDao,
     private val artProgressDao: ArtProcessDao,
     private val styleDao: StyleDao,
     private val iapPreviewDao: IapPreviewDao,
@@ -47,6 +48,7 @@ class SyncConfigApp @Inject constructor(
         return Flowable.just(System.currentTimeMillis())
             .doOnNext { syncProgress.onNext(Progress.Running) }
             .delay(1, TimeUnit.SECONDS)
+            .doOnNext { syncFolders() }
             .doOnNext { syncArtProcess() }
             .doOnNext { syncStyles() }
             .doOnNext { syncIap() }
@@ -55,6 +57,15 @@ class SyncConfigApp @Inject constructor(
             .map { startTime -> System.currentTimeMillis() - startTime }
             .map { elapsed -> TimeUnit.MILLISECONDS.toMillis(elapsed) }
             .doOnNext { milliseconds -> Timber.i("Completed setup firebase config in $milliseconds milliseconds") }
+    }
+
+    private fun syncFolders() {
+        if (!prefs.isCreateDefaultFolder.get()){
+            val folder = Folder(display = "All")
+            folderDao.inserts(folder)
+
+            prefs.isCreateDefaultFolder.set(true)
+        }
     }
 
     private fun syncExplores() {

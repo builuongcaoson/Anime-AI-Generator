@@ -148,6 +148,10 @@ class AppModule {
     @Singleton
     fun provideHistoryDao(database: Database): HistoryDao = database.historyDao()
 
+    @Provides
+    @Singleton
+    fun provideFolderDao(database: Database): FolderDao = database.folderDao()
+
     // Repository
 
     @Provides

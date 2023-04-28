@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
+import com.basic.common.extension.resolveAttrColor
 import com.basic.common.util.theme.TextViewStyler.Companion.FONT_REGULAR
 import com.basic.common.util.theme.TextViewStyler.Companion.FONT_SEMI
 import com.sola.anime.ai.generator.databinding.ItemFolderMineBinding
@@ -15,15 +16,8 @@ import javax.inject.Inject
 
 class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBinding>() {
 
-    init {
-        data = listOf(
-            Folder(display = "All"),
-            null
-        )
-    }
-
     val clicks: Subject<Folder> = PublishSubject.create()
-    var folder = data.first()
+    var folder: Folder? = null
         set(value) {
             if (field == value){
                 return
@@ -53,6 +47,17 @@ class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBind
         when {
             item != null -> {
                 binding.display.text = item.display
+
+                when (folder?.display) {
+                    item.display -> {
+                        binding.display.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
+                        binding.viewFolder.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))
+                    }
+                    else -> {
+                        binding.display.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
+                        binding.viewFolder.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorBackground))
+                    }
+                }
 
                 binding.viewFolder.clicks { clicks.onNext(item) }
             }
