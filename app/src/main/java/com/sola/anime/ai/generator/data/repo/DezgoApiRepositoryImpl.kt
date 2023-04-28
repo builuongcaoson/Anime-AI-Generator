@@ -7,6 +7,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.extension.contentUriToRequestBody
 import com.sola.anime.ai.generator.common.extension.toBitmap
 import com.sola.anime.ai.generator.common.extension.toFile
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
@@ -26,7 +27,8 @@ import javax.inject.Singleton
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val dezgoApi: DezgoApi
+    private val dezgoApi: DezgoApi,
+    private val styleDao: StyleDao
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
@@ -45,10 +47,20 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                             Timber.e("Loading group id: ${body.groupId} --- Child id: ${body.id}")
 
+                            val style = styleDao.findById(body.styleId)
+                            val prompt = when {
+                                style != null -> body.prompt + ""
+                                else -> body.prompt
+                            }
+                            val negativePrompt = when {
+                                style != null -> body.negativePrompt + ""
+                                else -> body.negativePrompt
+                            }
+
                             try {
                                 val response = dezgoApi.text2image(
-                                    prompt = body.prompt.toRequestBody(MultipartBody.FORM),
-                                    negative_prompt = body.negative_prompt.toRequestBody(MultipartBody.FORM),
+                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),
                                     upscale = body.upscale.toRequestBody(MultipartBody.FORM),
                                     sampler = body.sampler.toRequestBody(MultipartBody.FORM),
@@ -106,7 +118,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
         val response = dezgoApi.image2image(
             prompt = "body".toRequestBody(MultipartBody.FORM),
-            negative_prompt = "Hello".toRequestBody(MultipartBody.FORM),
+            negativePrompt = "Hello".toRequestBody(MultipartBody.FORM),
             guidance = "7.5".toRequestBody(MultipartBody.FORM),
             upscale = "1".toRequestBody(MultipartBody.FORM),
             sampler = "euler_a".toRequestBody(MultipartBody.FORM),

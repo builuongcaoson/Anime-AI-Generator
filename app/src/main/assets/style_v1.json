@@ -1,48 +1,71 @@
 [
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2Fzzz1xxx1zzz_1.webp?alt=media&token=c5b1f054-cfc6-47aa-9795-89cec1249078",
+    "display": "Fire",
+    "prompts": [
+      ", fire around",
+      ", fire magic",
+      ", flaming volcano",
+      ", camp-fire"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2Fzzz1xxx1zzz_1.webp?alt=media&token=acde1da8-c96a-4ca4-8cb7-60875c5c8b14",
+    "display": "Water",
+    "prompts": [
+      ", water around",
+      ", sea around",
+      ", water park",
+      ", rain",
+      ", wet"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2Fzzz1xxx1zzz_1.webp?alt=media&token=f64bfdf2-fd3a-48c9-b964-762f0ee5f905",
+    "display": "Wind",
+    "prompts": [
+      ", wind",
+      ", wind around",
+      ", strong winds",
+      ", cloudy wind"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2Fzzz1xxx1zzz_1.webp?alt=media&token=3c4a86b0-8ff9-49e0-86e3-2e7749c18c60",
+    "display": "Ice",
+    "prompts": [
+      ", ice magic"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2Fzzz1xxx1zzz_1.webp?alt=media&token=72e78d1a-5d84-441e-96d9-89d9261168c5",
+    "display": "Love",
+    "prompts": [
+      ", heart shaped gift",
+      ", heart-shaped gift in hand",
+      ", hearts around",
+      ", heart shaped flowers",
+      ", holding a heart shaped lollipop"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2Fzzz1xxx1zzz_1.webp?alt=media&token=95a266bb-700d-4e11-b58d-67e5ea86566d",
+    "display": "Christmas",
+    "prompts": [
+      ", christmas",
+      ", christmas tree",
+      ", holding Christmas gifts in hand"
+    ]
   },
   {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
-  },
-  {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
-  },
-  {
-    "display": "Animal",
-    "prompt": "animal",
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2Fzxz1_-_1zxz_1.webp?alt=media&token=c56ccace-81b8-467a-9237-0e721600e145"
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2Fzzz1xxx1zzz_1.webp?alt=media&token=54d3ee5e-9d0e-4842-937e-3f951c3a1964",
+    "display": "Plant",
+    "prompts": [
+      ", in the forest",
+      ", holding colorful bouquet in hand",
+      ", trees on both sides of the road",
+      ", in the flower garden"
+    ]
   }
 ]
 

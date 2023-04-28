@@ -10,7 +10,7 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory{
     return ChildHistory(
         pathPreview = pathPreview,
         prompt = this.prompt,
-        negative_prompt = this.negative_prompt,
+        negativePrompt = this.negativePrompt,
         guidance = this.guidance,
         upscale = this.upscale,
         sampler = this.sampler,
@@ -72,7 +72,7 @@ fun initBodyTextsToImages(
                 id = id.toLong(),
                 groupId = groupId,
                 prompt = prompt,
-                negative_prompt = negativePrompt,
+                negativePrompt = negativePrompt,
                 guidance = guidance,
                 width = ratio.width,
                 height = ratio.height,

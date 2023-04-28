@@ -17,6 +17,9 @@ data class Style(
     @SerializedName("prompt")
     @Expose
     val prompt: String,
+    @SerializedName("negativePrompt")
+    @Expose
+    val negativePrompt: String,
     @SerializedName("preview")
     @Expose
     val preview: String

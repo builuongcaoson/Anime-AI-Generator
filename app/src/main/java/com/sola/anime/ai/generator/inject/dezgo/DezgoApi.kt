@@ -13,7 +13,7 @@ interface DezgoApi {
     @Streaming
     suspend fun text2image(
         @Part("prompt") prompt: RequestBody,
-        @Part("negative_prompt") negative_prompt: RequestBody,
+        @Part("negative_prompt") negativePrompt: RequestBody,
         @Part("guidance") guidance: RequestBody,
         @Part("upscale") upscale: RequestBody,
         @Part("sampler") sampler: RequestBody,
@@ -29,7 +29,7 @@ interface DezgoApi {
     @Streaming
     suspend fun image2image(
         @Part("prompt") prompt: RequestBody,
-        @Part("negative_prompt") negative_prompt: RequestBody,
+        @Part("negative_prompt") negativePrompt: RequestBody,
         @Part("guidance") guidance: RequestBody,
         @Part("upscale") upscale: RequestBody,
         @Part("sampler") sampler: RequestBody,

@@ -3,7 +3,7 @@ package com.sola.anime.ai.generator.domain.model.history
 data class ChildHistory(
     val pathPreview: String,
     val prompt: String,
-    val negative_prompt: String,
+    val negativePrompt: String,
     val guidance: String,
     val upscale: String,
     val sampler: String,
