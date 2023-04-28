@@ -3,7 +3,10 @@ package com.sola.anime.ai.generator.feature.main.mine.feature
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsFragment
+import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArtResult
+import com.sola.anime.ai.generator.common.ui.sheet.folder.AddFolderSheet
+import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentArtMineBinding
@@ -22,6 +25,8 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var folderDao: FolderDao
 
+    private val addFolderSheet by lazy { AddFolderSheet() }
+
     override fun onViewCreated() {
         initView()
         initData()
@@ -37,6 +42,11 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
             .clicks
             .autoDispose(scope())
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex) }
+
+        folderAdapter
+            .plusClicks
+            .autoDispose(scope())
+            .subscribe { addFolderSheet.show(this) }
     }
 
     private fun initData() {

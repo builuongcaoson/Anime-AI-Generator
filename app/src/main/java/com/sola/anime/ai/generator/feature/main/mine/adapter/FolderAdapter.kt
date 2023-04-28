@@ -17,6 +17,7 @@ import javax.inject.Inject
 class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBinding>() {
 
     val clicks: Subject<Folder> = PublishSubject.create()
+    val plusClicks: Subject<Unit> = PublishSubject.create()
     var folder: Folder? = null
         set(value) {
             if (field == value){
@@ -62,7 +63,7 @@ class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBind
                 binding.viewFolder.clicks { clicks.onNext(item) }
             }
             else -> {
-                binding.viewPlus.clicks {  }
+                binding.viewPlus.clicks { plusClicks.onNext(Unit) }
             }
         }
 

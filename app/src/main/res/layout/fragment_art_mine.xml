@@ -108,6 +108,7 @@
                 tools:listitem="@layout/item_history_mine" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="@dimen/_30sdp"
                 android:id="@+id/viewEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
