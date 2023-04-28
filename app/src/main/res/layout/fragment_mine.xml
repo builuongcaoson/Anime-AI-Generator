@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@id/viewTop" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -60,17 +61,18 @@
         app:layout_constraintTop_toBottomOf="@id/viewTop">
 
         <LinearLayout
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
             android:orientation="vertical">
 
             <include
                 android:id="@+id/viewTabTop"
                 layout="@layout/layout_top_mine" />
 
-            <com.sola.anime.ai.generator.common.widget.NonSwipeViewPager
+            <com.sola.anime.ai.generator.common.widget.WrapNonSwipeViewPager
                 android:id="@+id/viewPager"
+                android:nestedScrollingEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

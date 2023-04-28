@@ -118,8 +118,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         configApp
             .subjectExploreClicks
+            .filter { it != -1L }
             .autoDispose(scope())
             .subscribe { id ->
+                configApp.subjectExploreClicks.onNext(-1)
+
                 updateUiExplore(exploreDao.findById(id))
             }
 

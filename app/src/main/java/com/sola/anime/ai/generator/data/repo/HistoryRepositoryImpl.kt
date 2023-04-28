@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.history.History
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 @Singleton
 class HistoryRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val historyDao: HistoryDao
+    private val historyDao: HistoryDao,
+    private val styleDao: StyleDao
 ): HistoryRepository {
 
     override suspend fun markHistory(childHistory: ChildHistory): Long? = withContext(Dispatchers.IO) {
@@ -30,7 +32,7 @@ class HistoryRepositoryImpl @Inject constructor(
                 ?.let {
                     historyDao.insert(
                         History(
-                            title = "Fantasy",
+                            title = styleDao.findById(childHistory.styleId)?.display ?: "Fantasy",
                             prompt = childHistory.prompt
                         ).apply {
                             this.childs.add(childHistory)

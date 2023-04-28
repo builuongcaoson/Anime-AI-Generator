@@ -55,7 +55,7 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview
             .into(binding.preview)
 
         binding.viewSelected.isVisible = childHistory == item
-        binding.viewGroup.clicks(withAnim = true){ clicks.onNext(item) }
+        binding.viewGroup.clicks(withAnim = false){ clicks.onNext(item) }
     }
 
 }

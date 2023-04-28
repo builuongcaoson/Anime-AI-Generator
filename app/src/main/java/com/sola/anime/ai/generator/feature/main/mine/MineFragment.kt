@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.main.mine
 
 import android.animation.ValueAnimator
+import android.os.Build
 import android.view.View
 import com.basic.common.base.LsFragment
 import com.basic.common.base.LsPageAdapter
@@ -30,6 +31,17 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
 
     override fun onViewCreated() {
         initView()
+        listenerView()
+    }
+
+    private fun listenerView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+
+                binding.viewShadow.alpha = alpha
+            }
+        }
     }
 
     private fun initView() {
@@ -77,15 +89,14 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     private fun scrollToPage(index: Int) {
         if (tabIndex != index){
             activity?.let { activity ->
-//                topTabs.getOrNull(tabIndex)?.textTitle?.setTextFont(FONT_REGULAR)
                 topTabs.getOrNull(tabIndex)?.textTitle?.setTextColor(activity.resolveAttrColor(android.R.attr.textColorPrimary))
             }
         }
 
         activity?.let { activity ->
-//            topTabs.getOrNull(index)?.textTitle?.setTextFont(FONT_SEMI)
             topTabs.getOrNull(index)?.textTitle?.setTextColor(activity.resolveAttrColor(android.R.attr.colorAccent))
         }
+
         topTabs.getOrNull(index)?.let { binding.viewTabTop.viewDividerTab.animToCenterView(it.viewClicks, it.textTitle.width) }
 
         binding.viewPager.currentItem = index
