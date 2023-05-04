@@ -44,8 +44,8 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         set.setDimensionRatio(binding.cardPreview.id, ratio)
         set.applyTo(binding.viewGroup)
 
-        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
-        layoutParams.isFullSpan = ratio == "${Ratio.Ratio16x9.width}:${Ratio.Ratio16x9.height}"
+//        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
+//        layoutParams.isFullSpan = ratio == "${Ratio.Ratio16x9.width}:${Ratio.Ratio16x9.height}"
 
         Glide
             .with(context)
@@ -62,6 +62,7 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
                 ): Boolean {
                     binding.cardPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -72,12 +73,14 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let { _ ->
+                    resource?.let { bitmap ->
                         binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
-//                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }

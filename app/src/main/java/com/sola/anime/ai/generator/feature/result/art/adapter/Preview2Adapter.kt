@@ -54,7 +54,7 @@ class Preview2Adapter @Inject constructor() : LsAdapter<ChildHistory, ItemPrevie
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    binding.cardPreview.cardElevation = 0f
+//                    binding.cardPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
                     return false
                 }
@@ -67,10 +67,10 @@ class Preview2Adapter @Inject constructor() : LsAdapter<ChildHistory, ItemPrevie
                     isFirstResource: Boolean
                 ): Boolean {
                     resource?.let { bitmap ->
-                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
+//                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
                         binding.preview.setImageBitmap(bitmap)
                     } ?: run {
-                        binding.cardPreview.cardElevation = 0f
+//                        binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
                     }
                     return false

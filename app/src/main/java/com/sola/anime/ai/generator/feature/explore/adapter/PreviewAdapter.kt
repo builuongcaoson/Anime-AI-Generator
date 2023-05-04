@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.explore.adapter
 import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
@@ -16,6 +17,7 @@ import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewExploreBinding
 import com.sola.anime.ai.generator.domain.model.PreviewIap
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -39,14 +41,18 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 
         val set = ConstraintSet()
         set.clone(binding.viewGroup)
-        set.setDimensionRatio(binding.preview.id, item.ratio)
+        set.setDimensionRatio(binding.viewPreview.id, item.ratio)
         set.applyTo(binding.viewGroup)
+
+//        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
+//        layoutParams.isFullSpan = item.ratio == Ratio.Ratio16x9.ratio
 
         Glide.with(context)
             .asBitmap()
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
+            .transition(BitmapTransitionOptions.withCrossFade())
             .listener(object: RequestListener<Bitmap> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -56,6 +62,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
                 ): Boolean {
                     binding.viewPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -69,16 +76,17 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
                     resource?.let { bitmap ->
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
                         binding.preview.setImageBitmap(bitmap)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }
 
             })
-            .preload()
+            .into(binding.preview)
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

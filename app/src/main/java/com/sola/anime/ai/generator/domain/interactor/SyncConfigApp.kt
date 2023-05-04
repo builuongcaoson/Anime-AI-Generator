@@ -76,7 +76,7 @@ class SyncConfigApp @Inject constructor(
         data.forEach { explore ->
             Glide.with(context).asBitmap().load(explore.preview).preload()
 
-            explore.ratio = explore.preview.split("zxz").getOrNull(1)?.replace("_-_",":") ?: "1:1"
+            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
 
         exploreDao.deleteAll()

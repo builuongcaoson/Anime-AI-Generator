@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.main.art.adapter
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.getDimens
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtBinding
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import javax.inject.Inject
 
@@ -44,6 +46,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBin
                 ): Boolean {
                     binding.cardPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -57,14 +60,16 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBin
                     resource?.let { bitmap ->
                         binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
                         binding.preview.setImageBitmap(bitmap)
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }
             })
-            .preload()
+            .into(binding.preview)
     }
 
 }

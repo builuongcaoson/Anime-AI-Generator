@@ -77,6 +77,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     binding.viewPreview.cardElevation = 0f
                     binding.viewShadow.isVisible = false
                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -91,11 +92,12 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                         binding.viewShadow.isVisible = true
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
                         binding.preview.setImageBitmap(bitmap)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f
                         binding.viewShadow.isVisible = false
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }

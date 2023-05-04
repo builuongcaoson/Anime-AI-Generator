@@ -68,7 +68,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+        exploreDao.getAllRatio2x3Live().observe(viewLifecycleOwner){ explores ->
             previewAdapter.data = explores
             binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
         }
