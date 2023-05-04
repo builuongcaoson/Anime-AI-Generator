@@ -51,6 +51,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
+            .transition(BitmapTransitionOptions.withCrossFade())
             .listener(object: RequestListener<Bitmap>{
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -73,16 +74,17 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
                     resource?.let { bitmap ->
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
                         binding.preview.setImageBitmap(bitmap)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }
 
             })
-            .preload()
+            .into(binding.preview)
     }
 
     override fun getItemCount(): Int {

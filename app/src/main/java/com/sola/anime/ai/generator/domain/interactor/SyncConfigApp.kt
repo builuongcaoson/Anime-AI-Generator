@@ -74,6 +74,8 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 
         data.forEach { explore ->
+            Glide.with(context).asBitmap().load(explore.preview).preload()
+
             explore.ratio = explore.preview.split("zxz").getOrNull(1)?.replace("_-_",":") ?: "1:1"
         }
 
@@ -87,7 +89,9 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
 
         data.forEach { iapPreview ->
-            iapPreview.ratio = iapPreview.preview.split("zxz").getOrNull(1)?.replace("_-_",":") ?: "1:1"
+            Glide.with(context).asBitmap().load(iapPreview.preview).preload()
+
+            iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
 
         iapPreviewDao.deleteAll()
@@ -98,6 +102,10 @@ class SyncConfigApp @Inject constructor(
         val inputStream = context.assets.open("style_v1.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
+
+        data.forEach {
+            Glide.with(context).asBitmap().load(it.preview).preload()
+        }
 
         styleDao.deleteAll()
         styleDao.inserts(*data)
