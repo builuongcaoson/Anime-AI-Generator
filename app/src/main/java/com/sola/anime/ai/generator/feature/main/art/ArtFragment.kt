@@ -42,6 +42,7 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -129,7 +130,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { id ->
                 configApp.subjectExploreClicks.onNext(-1)
 
-                updateUiExplore(exploreDao.findById(id))
+                val explore = exploreDao.findById(id)
+
+                advancedSheet.negative = explore?.negative ?: ""
+                advancedSheet.guidance = explore?.guidance ?: 7.5f
+
+                val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
+                configApp.subjectRatioClicks.onNext(findRatio)
+
+                updateUiExplore(explore)
             }
 
         binding
@@ -250,8 +259,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun generateClicks() {
         val prompt = binding.editPrompt.text?.toString() ?: ""
 
-//        launchPickPhoto()
-
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
@@ -261,7 +268,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     maxChildId = 0,
                     prompt = prompt,
                     negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
-                    guidance = "7.5",
+                    guidance = advancedSheet.guidance.toString(),
                     styleId = this.styleId,
                     ratio = this.ratio,
                     seed = null
@@ -272,17 +279,17 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
-    private val pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        uri?.let {
-            CoroutineScope(Dispatchers.IO).launch {
-                dezgoApiRepo.generateImagesToImages(uri)
-            }
-        }
-    }
-
-    private fun launchPickPhoto() {
-        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-    }
+//    private val pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+//        uri?.let {
+//            CoroutineScope(Dispatchers.IO).launch {
+//                dezgoApiRepo.generateImagesToImages(uri)
+//            }
+//        }
+//    }
+//
+//    private fun launchPickPhoto() {
+//        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+//    }
 
     private fun initView() {
         activity?.let { activity ->

@@ -62,8 +62,8 @@ public class Slidr extends FrameLayout {
     private BubbleClickedListener bubbleClickedListener;
     private GestureDetectorCompat detector;
     private Settings settings;
-    private float max = 20;
-    private float min = -20;
+    private float max = 10f;
+    private float min = 5f;
     private float currentValue = 7.5f;
     private float oldValue = Float.MIN_VALUE;
     private List<Step> steps = new ArrayList<>();

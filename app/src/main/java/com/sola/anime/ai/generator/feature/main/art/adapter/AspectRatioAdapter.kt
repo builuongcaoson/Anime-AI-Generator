@@ -70,8 +70,4 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatio
         binding.viewClicks.clicks { clicks.onNext(item) }
     }
 
-    override fun getItemCount(): Int {
-        return 5
-    }
-
 }

@@ -71,7 +71,8 @@
                 android:backgroundTint="?android:colorBackground"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_pin"
-                android:tint="?android:textColorPrimary" />
+                android:tint="?android:textColorPrimary"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -89,6 +90,7 @@
                 android:layout_height="wrap_content">
 
                 <com.basic.common.widget.LsEditText
+                    android:id="@+id/editNegative"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -103,9 +105,43 @@
                     android:textColor="?android:textColorPrimary"
                     android:textColorHint="?colorPrimary"
                     android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toTopOf="@id/viewClear"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/viewClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:text="1/1000"
+                        android:textColor="?android:textColorSecondary"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/clear"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/circle"
+                        android:backgroundTint="?android:colorBackground"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_baseline_close"
+                        android:tint="?android:textColorPrimary" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -144,7 +180,8 @@
                 android:backgroundTint="?colorAccent"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_pin"
-                android:tint="?colorOnPrimary" />
+                android:tint="?colorOnPrimary"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -194,7 +231,8 @@
                 android:backgroundTint="?android:colorBackground"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_pin"
-                android:tint="?android:textColorPrimary" />
+                android:tint="?android:textColorPrimary"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -271,7 +309,8 @@
                 android:backgroundTint="?android:colorBackground"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_pin"
-                android:tint="?android:textColorPrimary" />
+                android:tint="?android:textColorPrimary"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -289,12 +328,13 @@
                 android:layout_height="wrap_content">
 
                 <com.basic.common.widget.LsEditText
+                    android:id="@+id/editSeed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="Picks a random seed when empty"
                     android:inputType="number"
-                    android:maxLength="100"
+                    android:maxLength="9"
                     android:maxLines="1"
                     android:minHeight="@dimen/_40sdp"
                     android:paddingStart="@dimen/_10sdp"

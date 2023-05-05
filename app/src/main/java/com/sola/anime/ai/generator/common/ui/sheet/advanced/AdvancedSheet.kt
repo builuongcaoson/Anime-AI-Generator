@@ -2,7 +2,10 @@ package com.sola.anime.ai.generator.common.ui.sheet.advanced
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.basic.common.extension.clicks
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.databinding.SheetAdvancedBinding
@@ -18,6 +21,9 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp
 
+    var negative: String = ""
+    var guidance: Float = 7.5f
+
     override fun onViewCreated() {
         initView()
         listenerView()
@@ -26,7 +32,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
         binding.slider.setListener { _, currentValue ->
-
+            guidance = currentValue
         }
         binding.slider.setOnTouchListener { view, event ->
             when (event.actionMasked) {
@@ -39,6 +45,10 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             }
             false
         }
+        binding.viewPinNegative.clicks {  }
+        binding.viewPinRatio.clicks {  }
+        binding.viewPinCFG.clicks {  }
+        binding.viewPinSeed.clicks {  }
     }
 
     override fun onResume() {
@@ -56,6 +66,18 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             .subjectRatioClicks
             .autoDispose(scope())
             .subscribe { aspectRatioAdapter.ratio = it }
+
+        binding
+            .editNegative
+            .textChanges()
+            .autoDispose(scope())
+            .subscribe { negative ->
+                this.negative = negative.toString()
+
+                binding.viewClear.isVisible = !negative.isNullOrEmpty()
+
+                binding.count.text = "${negative.length}/1000"
+            }
     }
 
     private fun initView() {
@@ -64,6 +86,8 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = aspectRatioAdapter
             }
+            binding.editNegative.setText(negative)
+            binding.slider.currentValue = guidance
         }
     }
 
