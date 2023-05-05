@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.common.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.method.ScrollingMovementMethod
@@ -9,7 +10,11 @@ import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
 import com.sola.anime.ai.generator.databinding.DialogExploreBinding
@@ -50,7 +55,7 @@ class ExploreDialog @Inject constructor() {
     private fun initView(activity: Activity, explore: Explore) {
         val set = ConstraintSet()
         set.clone(binding.viewPreview)
-        set.setDimensionRatio(binding.viewPreview.id, explore.ratio)
+        set.setDimensionRatio(binding.viewRatioPreview.id, explore.ratio)
         set.applyTo(binding.viewPreview)
 
         binding.prompt.apply {
@@ -58,14 +63,48 @@ class ExploreDialog @Inject constructor() {
             movementMethod = ScrollingMovementMethod()
         }
 
-        Glide
-            .with(activity)
-            .asBitmap()
-            .load(explore.preview)
-            .placeholder(R.drawable.place_holder_image)
-            .error(R.drawable.place_holder_image)
-            .transition(BitmapTransitionOptions.withCrossFade())
-            .into(binding.preview)
+        binding.preview.animate().alpha(0f).setDuration(100).start()
+        binding.viewPreview.post {
+            if (isShowing()){
+                Glide
+                    .with(activity)
+                    .asBitmap()
+                    .load(explore.preview)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.place_holder_image)
+                    .transition(BitmapTransitionOptions.withCrossFade())
+                    .listener(object: RequestListener<Bitmap>{
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Bitmap>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            binding.preview.setImageResource(R.drawable.place_holder_image)
+                            binding.preview.animate().alpha(0f).setDuration(100).start()
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: Bitmap?,
+                            model: Any?,
+                            target: Target<Bitmap>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            resource?.let { bitmap ->
+                                binding.preview.setImageBitmap(bitmap)
+                                binding.preview.animate().alpha(1f).setDuration(100).start()
+                            } ?: run {
+                                binding.preview.setImageResource(R.drawable.place_holder_image)
+                                binding.preview.animate().alpha(0f).setDuration(100).start()
+                            }
+                            return false
+                        }
+                    })
+                    .into(binding.preview)
+            }
+        }
     }
 
     fun dismiss() {

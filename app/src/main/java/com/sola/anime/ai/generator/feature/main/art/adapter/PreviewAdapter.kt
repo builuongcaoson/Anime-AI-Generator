@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -16,9 +17,13 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtBinding
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBinding>() {
+
+    val clicks: Subject<Explore> = PublishSubject.create()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -70,6 +75,8 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBin
                 }
             })
             .into(binding.preview)
+
+        binding.cardPreview.clicks(withAnim = false) { clicks.onNext(item) }
     }
 
 }

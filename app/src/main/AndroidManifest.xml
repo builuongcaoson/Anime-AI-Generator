@@ -18,6 +18,8 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
 
+        <activity android:name=".feature.setting.SettingActivity"/>
+
         <activity android:name=".feature.style.StyleActivity"/>
 
         <activity android:name=".feature.explore.ExploreActivity"/>

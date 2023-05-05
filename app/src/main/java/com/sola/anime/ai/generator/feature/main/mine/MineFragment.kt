@@ -5,9 +5,11 @@ import android.os.Build
 import android.view.View
 import com.basic.common.base.LsFragment
 import com.basic.common.base.LsPageAdapter
+import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.widget.LsTextView
 import com.jakewharton.rxbinding2.view.clicks
+import com.sola.anime.ai.generator.common.extension.startSetting
 import com.sola.anime.ai.generator.databinding.FragmentMineBinding
 import com.sola.anime.ai.generator.databinding.LayoutTopMineBinding
 import com.sola.anime.ai.generator.feature.main.mine.feature.ArtFragment
@@ -42,6 +44,7 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
                 binding.viewShadow.alpha = alpha
             }
         }
+        binding.viewSetting.clicks { activity?.startSetting() }
     }
 
     private fun initView() {

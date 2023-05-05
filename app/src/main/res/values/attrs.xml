@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="Slidr">
         <attr name="slidr_barHeight" format="dimension" />
         <attr name="slidr_textTop_visible" format="boolean" />
@@ -23,4 +24,13 @@
         <attr name="slidr_indicator_inside" format="boolean" />
         <attr name="slidr_edditable" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="LsPreferenceView">
+        <attr name="title" />
+        <attr name="summary" />
+        <attr name="widget" />
+        <attr name="icon" />
+        <attr name="lottieRes"/>
+    </declare-styleable>
+
 </resources>

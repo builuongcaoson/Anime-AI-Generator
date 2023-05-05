@@ -5,6 +5,7 @@
     <attr name="summary" format="string" />
     <attr name="widget" format="reference" />
     <attr name="icon" format="reference" />
+    <attr name="lottieRes" format="reference" />
 
     <attr name="textColor" format="enum">
         <enum name="theme" value="0" />

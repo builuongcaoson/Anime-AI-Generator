@@ -19,7 +19,7 @@ class Preferences @Inject constructor(
     }
 
     // Config
-    val isUpgraded = rxPrefs.getBoolean("isUpgradedPro", true)
+    val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
 
     // For App
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)

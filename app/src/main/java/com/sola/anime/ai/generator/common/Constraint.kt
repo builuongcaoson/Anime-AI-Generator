@@ -7,4 +7,11 @@ class Constraint {
             const val DEZGO_API_HOST = "dezgo.p.rapidapi.com"
         }
     }
+    class Info{
+        companion object{
+            const val MAIL_SUPPORT = "sola.luthimylanh@gmail.com"
+            const val PRIVACY_URL = ""
+            const val TERMS_URL = ""
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
@@ -35,6 +36,7 @@ import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,8 +54,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var styleDao: StyleDao
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
+    @Inject lateinit var exploreDialog: ExploreDialog
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
+    private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
     private val historySheet by lazy { HistorySheet() }
     private val advancedSheet by lazy { AdvancedSheet() }
@@ -135,6 +139,25 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.history.isVisible = prompt.isNullOrEmpty()
 
                 binding.count.text = "${prompt.length}/1000"
+            }
+
+        previewAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe {
+                val index = previewAdapter.data.indexOf(it)
+                when {
+                    index != binding.viewPager.currentItem && index != -1 -> binding.viewPager.currentItem = index
+                    else -> activity?.let { activity -> exploreDialog.show(activity, it, useExploreClicks) }
+                }
+            }
+
+        useExploreClicks
+            .autoDispose(scope())
+            .subscribe {
+                exploreDialog.dismiss()
+
+                configApp.subjectExploreClicks.onNext(it.id)
             }
     }
 

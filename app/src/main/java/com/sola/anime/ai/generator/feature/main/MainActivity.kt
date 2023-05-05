@@ -9,6 +9,7 @@ import com.basic.common.extension.getDimens
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.jakewharton.rxbinding2.view.clicks
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
@@ -22,9 +23,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : LsActivity() {
+
+    @Inject lateinit var configApp: ConfigApp
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
@@ -67,6 +71,15 @@ class MainActivity : LsActivity() {
             .autoDispose(scope())
             .subscribe { index ->
                 scrollToPage(index)
+            }
+
+        configApp
+            .subjectExploreClicks
+            .filter { it != -1L }
+            .filter { binding.viewPager.currentItem != 0 }
+            .autoDispose(scope())
+            .subscribe { _ ->
+                subjectTabClicks.onNext(0)
             }
     }
 
