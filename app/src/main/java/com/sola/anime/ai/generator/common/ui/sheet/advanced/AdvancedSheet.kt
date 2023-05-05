@@ -45,6 +45,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             }
             false
         }
+        binding.clear.clicks { binding.editNegative.setText("") }
         binding.viewPinNegative.clicks {  }
         binding.viewPinRatio.clicks {  }
         binding.viewPinCFG.clicks {  }

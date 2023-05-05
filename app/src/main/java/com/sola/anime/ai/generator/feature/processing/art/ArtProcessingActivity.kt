@@ -130,7 +130,7 @@ class ArtProcessingActivity : LsActivity() {
             .getAllLive()
             .observe(this){ artProcesses ->
                 previewAdapter.apply {
-                    this.data = artProcesses
+                    this.data = artProcesses.shuffled()
                     this.totalCount = artProcesses.size
                 }
         }

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
@@ -258,16 +259,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun generateClicks() {
         val prompt = binding.editPrompt.text?.toString() ?: ""
+        val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
+            prompt.contains(pattern) -> sensitiveDialog.show(this)
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
             else -> {
                 configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                     maxGroupId = 0,
                     maxChildId = 0,
                     prompt = prompt,
-                    negativePrompt = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
+                    negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                     guidance = advancedSheet.guidance.toString(),
                     styleId = this.styleId,
                     ratio = this.ratio,

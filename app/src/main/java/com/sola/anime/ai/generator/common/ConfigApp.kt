@@ -1,6 +1,8 @@
 package com.sola.anime.ai.generator.common
 
 import android.content.Context
+import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
@@ -12,6 +14,8 @@ import javax.inject.Singleton
 class ConfigApp @Inject constructor(
     private val context: Context
 ) {
+
+    val sensitiveKeywords = context.getStringArray(R.array.sensitives)
 
     // Art & Batch
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
