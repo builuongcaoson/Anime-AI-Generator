@@ -21,6 +21,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
@@ -55,6 +56,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var exploreDialog: ExploreDialog
+    @Inject lateinit var prefs: Preferences
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -158,6 +160,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 exploreDialog.dismiss()
 
                 configApp.subjectExploreClicks.onNext(it.id)
+            }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
+                binding.iconWatchAd.isVisible = !isUpgraded
+                binding.textWatchAd.isVisible = !isUpgraded
             }
     }
 
