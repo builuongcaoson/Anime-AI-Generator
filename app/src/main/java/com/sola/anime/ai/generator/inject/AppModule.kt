@@ -5,6 +5,9 @@ import androidx.room.Room
 import com.basic.data.PreferencesConfig
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Constraint
@@ -38,6 +41,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideContext(): Context = App.app
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAnalytic(): FirebaseAnalytics = Firebase.analytics
 
     @Provides
     @Singleton
