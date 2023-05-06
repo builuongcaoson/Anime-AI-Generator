@@ -1,33 +1,35 @@
-package com.sola.anime.ai.generator.feature.result.art.adapter
+package com.sola.anime.ai.generator.feature.preview.adapter
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.databinding.ItemPreview2ArtResultBinding
+import com.sola.anime.ai.generator.databinding.ItemPreviewInPreviewBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class Preview2Adapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview2ArtResultBinding>() {
+class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreviewInPreviewBinding>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): LsViewHolder<ItemPreview2ArtResultBinding> {
-        return LsViewHolder(parent, ItemPreview2ArtResultBinding::inflate)
+    ): LsViewHolder<ItemPreviewInPreviewBinding> {
+        return LsViewHolder(parent, ItemPreviewInPreviewBinding::inflate)
     }
 
     override fun onBindViewHolder(
-        holder: LsViewHolder<ItemPreview2ArtResultBinding>,
+        holder: LsViewHolder<ItemPreviewInPreviewBinding>,
         position: Int
     ) {
         val item = getItem(position)
@@ -54,8 +56,9 @@ class Preview2Adapter @Inject constructor() : LsAdapter<ChildHistory, ItemPrevie
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
-//                    binding.cardPreview.cardElevation = 0f
+                    binding.cardPreview.cardElevation = 0f
                     binding.preview.setImageResource(R.drawable.place_holder_image)
+                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -67,11 +70,13 @@ class Preview2Adapter @Inject constructor() : LsAdapter<ChildHistory, ItemPrevie
                     isFirstResource: Boolean
                 ): Boolean {
                     resource?.let { bitmap ->
-//                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
+                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
                         binding.preview.setImageBitmap(bitmap)
+                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
-//                        binding.cardPreview.cardElevation = 0f
+                        binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }

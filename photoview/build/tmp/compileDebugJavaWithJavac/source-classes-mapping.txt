@@ -1,0 +1,36 @@
+com/github/chrisbanes/photoview/CustomGestureDetector.java
+ com.github.chrisbanes.photoview.CustomGestureDetector
+ com.github.chrisbanes.photoview.CustomGestureDetector$1
+com/github/chrisbanes/photoview/OnOutsidePhotoTapListener.java
+ com.github.chrisbanes.photoview.OnOutsidePhotoTapListener
+com/github/chrisbanes/photoview/BuildConfig.java
+ com.github.chrisbanes.photoview.BuildConfig
+com/github/chrisbanes/photoview/Compat.java
+ com.github.chrisbanes.photoview.Compat
+com/github/chrisbanes/photoview/OnViewDragListener.java
+ com.github.chrisbanes.photoview.OnViewDragListener
+com/github/chrisbanes/photoview/OnPhotoTapListener.java
+ com.github.chrisbanes.photoview.OnPhotoTapListener
+com/github/chrisbanes/photoview/OnMatrixChangedListener.java
+ com.github.chrisbanes.photoview.OnMatrixChangedListener
+com/github/chrisbanes/photoview/PhotoView.java
+ com.github.chrisbanes.photoview.PhotoView
+com/github/chrisbanes/photoview/Util.java
+ com.github.chrisbanes.photoview.Util
+ com.github.chrisbanes.photoview.Util$1
+com/github/chrisbanes/photoview/OnScaleChangedListener.java
+ com.github.chrisbanes.photoview.OnScaleChangedListener
+com/github/chrisbanes/photoview/PhotoViewAttacher.java
+ com.github.chrisbanes.photoview.PhotoViewAttacher
+ com.github.chrisbanes.photoview.PhotoViewAttacher$1
+ com.github.chrisbanes.photoview.PhotoViewAttacher$2
+ com.github.chrisbanes.photoview.PhotoViewAttacher$3
+ com.github.chrisbanes.photoview.PhotoViewAttacher$4
+ com.github.chrisbanes.photoview.PhotoViewAttacher$AnimatedZoomRunnable
+ com.github.chrisbanes.photoview.PhotoViewAttacher$FlingRunnable
+com/github/chrisbanes/photoview/OnViewTapListener.java
+ com.github.chrisbanes.photoview.OnViewTapListener
+com/github/chrisbanes/photoview/OnSingleFlingListener.java
+ com.github.chrisbanes.photoview.OnSingleFlingListener
+com/github/chrisbanes/photoview/OnGestureListener.java
+ com.github.chrisbanes.photoview.OnGestureListener

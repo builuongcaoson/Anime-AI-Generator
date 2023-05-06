@@ -50,6 +50,7 @@ dependencies {
 
     // Module
     implementation project(':basic')
+    implementation project(':photoView')
 
     // Material
     implementation "androidx.core:core-ktx:$kotlin_core_version"

@@ -7,10 +7,11 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startPreview
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
-import com.sola.anime.ai.generator.feature.result.art.adapter.Preview2Adapter
+import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -30,7 +31,7 @@ class ArtResultActivity : LsActivity() {
     }
 
     @Inject lateinit var previewAdapter: PreviewAdapter
-    @Inject lateinit var preview2Adapter: Preview2Adapter
+    @Inject lateinit var pagePreviewAdapter: PagePreviewAdapter
     @Inject lateinit var historyDao: HistoryDao
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
@@ -86,7 +87,7 @@ class ArtResultActivity : LsActivity() {
                 previewAdapter.apply {
                     this.data = history.childs
                 }
-                preview2Adapter.apply {
+                pagePreviewAdapter.apply {
                     this.data = history.childs
                 }
                 childHistoryIndex.takeIf { it != -1 }?.let {
@@ -122,11 +123,20 @@ class ArtResultActivity : LsActivity() {
                     binding.viewPager.setCurrentItem(index, false)
                 }
             }
+
+        pagePreviewAdapter
+            .clicks
+            .map { previewAdapter.data.indexOf(it) }
+            .filter { it != -1 }
+            .autoDispose(scope())
+            .subscribe { index ->
+                startPreview(historyId = historyId, childHistoryIndex = index)
+            }
     }
 
     private fun initView() {
         binding.viewPager.apply {
-            this.adapter = preview2Adapter
+            this.adapter = pagePreviewAdapter
         }
         binding.recyclerPreview.apply {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
