@@ -5,6 +5,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.first.FirstPreview
+import com.sola.anime.ai.generator.domain.model.config.tutorial.TutorialStep
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject

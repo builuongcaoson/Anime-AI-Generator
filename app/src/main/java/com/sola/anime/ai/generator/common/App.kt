@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.os.Build
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.ktx.Firebase
@@ -45,16 +46,18 @@ class App : Application() {
         }
 
         // Network listener
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        connectivityManager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                subjectNetworkChanges.onNext(true)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+            connectivityManager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    subjectNetworkChanges.onNext(true)
+                }
 
-            override fun onLost(network: Network) {
-                subjectNetworkChanges.onNext(false)
-            }
-        })
+                override fun onLost(network: Network) {
+                    subjectNetworkChanges.onNext(false)
+                }
+            })
+        }
     }
 
 }

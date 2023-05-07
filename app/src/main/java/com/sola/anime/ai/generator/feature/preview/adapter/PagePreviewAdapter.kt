@@ -81,7 +81,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
                     return false
                 }
             })
-            .preload()
+            .into(binding.preview)
     }
 
 }
