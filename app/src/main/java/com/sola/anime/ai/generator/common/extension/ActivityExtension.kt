@@ -5,6 +5,7 @@ import android.content.Intent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
+import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.preview.PreviewActivity
@@ -12,6 +13,7 @@ import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
 import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
 import com.sola.anime.ai.generator.feature.setting.SettingActivity
 import com.sola.anime.ai.generator.feature.style.StyleActivity
+import com.sola.anime.ai.generator.feature.tutorial.TutorialActivity
 
 fun Activity.startMain(){
     val intent = Intent(this, MainActivity::class.java)
@@ -21,6 +23,12 @@ fun Activity.startMain(){
 
 fun Activity.startSetting(){
     val intent = Intent(this, SettingActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startTutorial(){
+    val intent = Intent(this, TutorialActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
@@ -49,6 +57,12 @@ fun Activity.startPreview(historyId: Long, childHistoryIndex: Int = -1){
     val intent = Intent(this, PreviewActivity::class.java)
     intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
     intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startFirst(){
+    val intent = Intent(this, FirstActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

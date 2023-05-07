@@ -8,7 +8,10 @@ import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
+import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.extension.startTutorial
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncConfigApp
 import com.uber.autodispose.android.lifecycle.scope
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class SplashActivity : LsActivity() {
 
     @Inject lateinit var syncConfigApp: SyncConfigApp
+    @Inject lateinit var prefs: Preferences
 
     private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
@@ -81,7 +85,11 @@ class SplashActivity : LsActivity() {
                     is SyncConfigApp.Progress.Success -> {
                         binding.viewLottie.cancelAnimation()
 
-                        startMain()
+                        when {
+                            prefs.isFirstTime.get() -> startFirst()
+                            !prefs.isViewTutorial.get() -> startTutorial()
+                            else -> startMain()
+                        }
                         finish()
                     }
                     else -> {}

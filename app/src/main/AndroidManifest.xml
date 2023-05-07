@@ -18,6 +18,8 @@
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
 
+        <activity android:name=".feature.tutorial.TutorialActivity"/>
+
         <activity android:name=".feature.first.FirstActivity"/>
 
         <activity android:name=".feature.preview.PreviewActivity"

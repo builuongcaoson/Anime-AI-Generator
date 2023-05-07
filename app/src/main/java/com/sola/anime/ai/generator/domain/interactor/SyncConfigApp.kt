@@ -4,7 +4,6 @@ import android.content.Context
 import com.basic.common.extension.tryOrNull
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.domain.model.Folder
