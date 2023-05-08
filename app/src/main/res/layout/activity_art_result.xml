@@ -122,6 +122,7 @@
                 android:orientation="vertical">
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/displayStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"

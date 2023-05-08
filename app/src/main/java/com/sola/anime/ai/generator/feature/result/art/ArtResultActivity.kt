@@ -9,6 +9,7 @@ import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startPreview
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
@@ -33,6 +34,7 @@ class ArtResultActivity : LsActivity() {
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var pagePreviewAdapter: PagePreviewAdapter
     @Inject lateinit var historyDao: HistoryDao
+    @Inject lateinit var styleDao: StyleDao
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -82,6 +84,8 @@ class ArtResultActivity : LsActivity() {
     private fun initData() {
         historyDao.getWithIdLive(id = historyId).observe(this){ history ->
             history?.let {
+                binding.displayStyle.text = styleDao.findById(history.styleId)?.display ?: "No Style"
+
                 childHistories = ArrayList(history.childs)
 
                 previewAdapter.apply {
