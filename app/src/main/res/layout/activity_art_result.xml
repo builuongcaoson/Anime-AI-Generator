@@ -322,7 +322,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:maxLength="1000"
-                    android:maxLines="5"
+                    android:maxLines="3"
                     android:minHeight="@dimen/_40sdp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_10sdp"
@@ -330,7 +330,6 @@
                     android:paddingBottom="@dimen/_10sdp"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp"
-                    app:textFont="medium"
                     tools:text="@tools:sample/lorem/random" />
 
             </LinearLayout>

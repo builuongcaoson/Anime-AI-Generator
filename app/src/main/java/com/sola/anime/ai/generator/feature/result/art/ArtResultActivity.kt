@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.result.art
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -171,6 +172,7 @@ class ArtResultActivity : LsActivity() {
             this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter
         }
+        binding.textPrompt.movementMethod = ScrollingMovementMethod()
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
