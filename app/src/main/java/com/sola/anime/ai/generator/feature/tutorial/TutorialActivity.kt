@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.tutorial
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.bumptech.glide.Glide
@@ -24,7 +25,9 @@ class TutorialActivity : LsActivity() {
 
     private val binding by lazy { ActivityTutorialBinding.inflate(layoutInflater) }
     private val steps by lazy { TutorialStep.values() }
-    private var indexStep: Int = 0
+    private var indexStep1: Int = 0
+    private var indexStep2: Int = 0
+    private var indexStep3: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,19 +52,24 @@ class TutorialActivity : LsActivity() {
             .clicks
             .autoDispose(scope())
             .subscribe { pair ->
-                indexStep = when (indexStep) {
-                    0 -> 1
-                    1 -> 2
-                    else -> 3
+                when {
+                    indexStep1 == 0 -> indexStep1 = pair.second
+                    indexStep2 == 0 -> indexStep2 = pair.second
+                    indexStep3 == 0 -> indexStep3 = pair.second
                 }
 
                 lifecycleScope.launch(Dispatchers.Main) {
+                    binding.viewClicksLoading.isVisible = true
+                    binding.viewLoading.animate().alpha(1f).setDuration(100).start()
                     promptAdapter.positionSelected = pair.second
                     delay(2000)
+                    binding.viewClicksLoading.isVisible = false
+                    binding.viewLoading.animate().alpha(0f).setDuration(100).start()
                     promptAdapter.positionSelected = -1
-                    promptAdapter.data = when (indexStep) {
-                        0 -> this@TutorialActivity.steps.map { it.display }
-                        else -> this@TutorialActivity.steps.getOrNull(pair.second)?.childs?.map { it.display } ?: listOf()
+                    promptAdapter.data = when  {
+                        indexStep2 == 0 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.map { it.display } ?: listOf()
+                        indexStep3 == 0 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep3)?.childs?.map { it.display } ?: listOf()
+                        else -> this@TutorialActivity.steps.map { it.display }
                     }
                     Glide
                         .with(this@TutorialActivity)

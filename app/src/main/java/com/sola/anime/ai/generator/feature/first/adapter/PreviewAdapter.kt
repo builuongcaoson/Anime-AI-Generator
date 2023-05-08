@@ -44,45 +44,49 @@ class PreviewAdapter @Inject constructor(): LsAdapter<FirstPreview, ItemPreviewI
         set.setDimensionRatio(binding.viewPreview.id, item.ratio)
         set.applyTo(binding.viewGroup)
 
-        Glide.with(context)
-            .asBitmap()
-            .load(item.preview)
-            .error(R.drawable.place_holder_image)
-            .placeholder(R.drawable.place_holder_image)
-            .transition(BitmapTransitionOptions.withCrossFade())
-            .listener(object: RequestListener<Bitmap>{
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Bitmap>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.viewPreview.cardElevation = 0f
-                    binding.preview.setImageResource(R.drawable.place_holder_image)
-                    return false
-                }
+        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
+        binding.preview.setImageResource(item.preview)
+        binding.preview.animate().alpha(1f).setDuration(100).start()
 
-                override fun onResourceReady(
-                    resource: Bitmap?,
-                    model: Any?,
-                    target: Target<Bitmap>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource?.let { bitmap ->
-                        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-                        binding.preview.setImageBitmap(bitmap)
-                        binding.preview.animate().alpha(1f).setDuration(100).start()
-                    } ?: run {
-                        binding.viewPreview.cardElevation = 0f
-                        binding.preview.setImageResource(R.drawable.place_holder_image)
-                        binding.preview.animate().alpha(0f).setDuration(100).start()
-                    }
-                    return false
-                }
-
-            })
-            .into(binding.preview)
+//        Glide.with(context)
+//            .asBitmap()
+//            .load(item.preview)
+//            .error(R.drawable.place_holder_image)
+//            .placeholder(R.drawable.place_holder_image)
+//            .transition(BitmapTransitionOptions.withCrossFade())
+//            .listener(object: RequestListener<Bitmap>{
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Bitmap>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    binding.viewPreview.cardElevation = 0f
+//                    binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Bitmap?,
+//                    model: Any?,
+//                    target: Target<Bitmap>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    resource?.let { bitmap ->
+//                        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
+//                        binding.preview.setImageBitmap(bitmap)
+//                        binding.preview.animate().alpha(1f).setDuration(100).start()
+//                    } ?: run {
+//                        binding.viewPreview.cardElevation = 0f
+//                        binding.preview.setImageResource(R.drawable.place_holder_image)
+//                        binding.preview.animate().alpha(0f).setDuration(100).start()
+//                    }
+//                    return false
+//                }
+//
+//            })
+//            .into(binding.preview)
     }
 
     override fun getItemCount(): Int {

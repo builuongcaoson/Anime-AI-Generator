@@ -263,7 +263,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
-            prompt.contains(pattern) -> sensitiveDialog.show(this)
+//            prompt.contains(pattern) -> sensitiveDialog.show(this)
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
             else -> {
                 configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
