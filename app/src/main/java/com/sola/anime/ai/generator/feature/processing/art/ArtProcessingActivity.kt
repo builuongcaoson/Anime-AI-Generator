@@ -32,6 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -170,7 +171,7 @@ class ArtProcessingActivity : LsActivity() {
                                     deferredHistoryIds.add(deferred)
                                 }
 
-                            markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, bitmap = progress.bitmap)
+                            markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
                         }
                         is GenerateTextsToImagesProgress.FailureWithId ->  {
                             Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
@@ -214,11 +215,11 @@ class ArtProcessingActivity : LsActivity() {
             }?.status = StatusBodyTextToImage.Loading
     }
 
-    private fun markSuccessWithIdAndChildId(groupId: Long, childId: Long, bitmap: Bitmap) {
+    private fun markSuccessWithIdAndChildId(groupId: Long, childId: Long, file: File) {
         dezgoStatusTextsToImages
             .find { status ->
                 status.id == childId && status.groupId == groupId
-            }?.status = StatusBodyTextToImage.Success(bitmap)
+            }?.status = StatusBodyTextToImage.Success(file)
     }
 
     private fun markFailureWithIdAndChildId(groupId: Long, childId: Long) {

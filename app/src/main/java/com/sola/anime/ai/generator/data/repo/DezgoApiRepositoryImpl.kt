@@ -82,19 +82,18 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                         responseTextToImage.response?.byteStream()?.use { inputStream ->
                             // Convert to bitmap
-                            val bitmap = inputStream.toBitmap()
-                            val file = bitmap?.toFile(context)
+                            val file = inputStream.toFile(context)
 
                             when {
-                                bitmap != null && file != null -> {
-                                    progress(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, bitmap = bitmap, file = file))
+                                file != null -> {
+                                    progress(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, file = file))
                                 }
                                 else -> {
                                     progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                                 }
                             }
 
-                            bitmap
+                            file
                         } ?: run {
                             progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                         }

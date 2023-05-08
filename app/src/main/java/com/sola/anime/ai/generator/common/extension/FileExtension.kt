@@ -5,6 +5,15 @@ import android.graphics.Bitmap
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
+
+fun InputStream.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File? {
+    val dir = File(context.filesDir, "${System.currentTimeMillis()}")
+    dir.mkdirs()
+    val file = File(dir, fileName)
+    file.outputStream().use { this.copyTo(it) }
+    return file
+}
 
 fun Bitmap.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File? {
     //create a file to write bitmap data
