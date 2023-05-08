@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.result.art
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
@@ -12,6 +13,7 @@ import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
+import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -20,6 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.launch
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -35,6 +39,7 @@ class ArtResultActivity : LsActivity() {
     @Inject lateinit var pagePreviewAdapter: PagePreviewAdapter
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var styleDao: StyleDao
+    @Inject lateinit var fileRepo: FileRepository
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -64,6 +69,25 @@ class ArtResultActivity : LsActivity() {
         binding.back.clicks { onBackPressed() }
         binding.viewPro.clicks { startIap() }
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
+        binding.cardShare.clicks { shareClicks() }
+        binding.cardDownload.clicks { downloadClicks() }
+        binding.cardGenerate.clicks { generateAgainClicks() }
+    }
+
+    private fun generateAgainClicks() {
+
+    }
+
+    private fun downloadClicks() {
+
+    }
+
+    private fun shareClicks() {
+        previewAdapter.childHistory?.let { childHistory ->
+            lifecycleScope.launch {
+                fileRepo.shares(File(childHistory.pathPreview))
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -85,6 +109,7 @@ class ArtResultActivity : LsActivity() {
         historyDao.getWithIdLive(id = historyId).observe(this){ history ->
             history?.let {
                 binding.displayStyle.text = styleDao.findById(history.styleId)?.display ?: "No Style"
+                binding.textPrompt.text = history.prompt
 
                 childHistories = ArrayList(history.childs)
 
