@@ -10,6 +10,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
+import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
@@ -20,12 +21,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class IapActivity : LsActivity() {
 
+    companion object {
+        const val IS_KILL_EXTRA = "IS_KILL_EXTRA"
+    }
+
     @Inject lateinit var previewAdapter1: PreviewAdapter
     @Inject lateinit var previewAdapter2: PreviewAdapter
     @Inject lateinit var previewAdapter3: PreviewAdapter
     @Inject lateinit var iapPreviewDao: IapPreviewDao
 
     private val binding by lazy { ActivityIapBinding.inflate(layoutInflater) }
+    private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,7 +149,12 @@ class IapActivity : LsActivity() {
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        backTopToBottom()
+        if (!isKill){
+            startMain()
+            finish()
+        } else {
+            backTopToBottom()
+        }
     }
 
 }

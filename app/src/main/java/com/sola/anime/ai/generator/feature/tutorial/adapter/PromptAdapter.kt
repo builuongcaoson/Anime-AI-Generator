@@ -6,6 +6,7 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.basic.common.extension.resolveAttrColor
 import com.sola.anime.ai.generator.databinding.ItemPromptInTutorialBinding
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -46,10 +47,18 @@ class PromptAdapter @Inject constructor() : LsAdapter<String, ItemPromptInTutori
 
         binding.display.text = item
 
-        binding.viewClicks.strokeWidth = when (positionSelected) {
-            position -> context.getDimens(com.intuit.sdp.R.dimen._1sdp).toInt()
-            else -> 0
-        }
+        binding.viewClicks.setCardBackgroundColor(
+            when (positionSelected) {
+                position -> context.resolveAttrColor(android.R.attr.colorAccent)
+                else -> context.resolveAttrColor(android.R.attr.colorBackground)
+            }
+        )
+        binding.display.setTextColor(
+            when (positionSelected) {
+                position -> context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> context.resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
 
         binding.viewClicks.clicks(withAnim = false){ clicks.onNext(item to position) }
     }

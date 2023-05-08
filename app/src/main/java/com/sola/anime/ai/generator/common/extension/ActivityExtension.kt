@@ -33,8 +33,9 @@ fun Activity.startTutorial(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startIap(){
+fun Activity.startIap(isKill: Boolean = true){
     val intent = Intent(this, IapActivity::class.java)
+    intent.putExtra(IapActivity.IS_KILL_EXTRA, isKill)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
