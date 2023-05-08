@@ -10,7 +10,6 @@ import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
 import com.sola.anime.ai.generator.domain.model.config.style.Style
-import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.history.History
 
 @Database(

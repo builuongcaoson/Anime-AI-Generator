@@ -63,6 +63,7 @@ class SettingActivity : LsActivity() {
 
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         back()
     }

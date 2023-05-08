@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".feature.tutorial.TutorialActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/viewPreview"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Step 1 of 3"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:cardBackgroundColor="?android:colorBackground"
+                app:cardCornerRadius="@dimen/_25sdp"
+                app:cardElevation="0dp">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:text="Skip"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12ssp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_5sdp"
+                android:background="@drawable/rec_corner_25dp"
+                android:backgroundTint="?android:colorBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_5sdp"
+                android:background="@drawable/rec_corner_25dp"
+                android:backgroundTint="?colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.33" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_50sdp"
+                    android:text="I want to draw a..."
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_22sdp"
+                    app:textFont="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPrompt"
+                    android:clipToPadding="false"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    app:spanCount="2"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_prompt_in_tutorial"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    android:layout_height="@dimen/_100sdp"/>
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_50sdp"
+                    android:text="Prompt content"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_22sdp"
+                    app:textFont="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/editPrompt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="What do you want to create?"
+                            android:maxLength="1000"
+                            android:minLines="3"
+                            android:gravity="top"
+                            android:maxLines="5"
+                            android:minHeight="@dimen/_40sdp"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_10sdp"
+                            android:textColor="?android:textColorPrimary"
+                            android:textColorHint="?colorPrimary"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewPreview"
+        android:layout_width="0dp"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:id="@+id/preview"
+            android:layout_height="match_parent"
+            android:src="@drawable/preview_tutorial_default"
+            android:scaleType="centerCrop"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

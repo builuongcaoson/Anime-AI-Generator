@@ -26,4 +26,18 @@
         <item name="colorOnTertiary">@color/textPrimaryDark</item>
     </style>
 
+    <style name="Theme.Preview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/tools_theme</item>
+        <item name="android:textColorPrimary">@color/textPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/textSecondaryDark</item>
+        <item name="android:textColorTertiary">@color/textTertiaryDark</item>
+        <item name="android:windowBackground">@color/backgroundDark</item>
+        <item name="android:statusBarColor">@color/backgroundDark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/backgroundLight</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:colorBackground">#121212</item>
+    </style>
+
 </resources>
