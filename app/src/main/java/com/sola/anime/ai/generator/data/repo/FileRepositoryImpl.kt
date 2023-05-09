@@ -1,10 +1,15 @@
 package com.sola.anime.ai.generator.data.repo
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
@@ -38,7 +43,18 @@ class FileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun downloads(vararg files: File) {
+        val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name))
+        dir.mkdirs()
 
+        val destinationFiles = files.map { file ->
+            file.copyTo(File(dir, file.name))
+        }
+        destinationFiles.forEach { file ->
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            val contentUri = file.toUri()
+            mediaScanIntent.data = contentUri
+            context.sendBroadcast(mediaScanIntent)
+        }
     }
 
 }

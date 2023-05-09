@@ -3,19 +3,24 @@ package com.sola.anime.ai.generator.feature.iap
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.billingclient.api.BillingClient
 import com.basic.common.base.LsActivity
-import com.basic.common.extension.clicks
-import com.basic.common.extension.transparent
-import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.extension.back
+import com.basic.common.extension.*
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
+import com.sola.anime.ai.generator.domain.manager.BillingManager
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,13 +34,16 @@ class IapActivity : LsActivity() {
     @Inject lateinit var previewAdapter2: PreviewAdapter
     @Inject lateinit var previewAdapter3: PreviewAdapter
     @Inject lateinit var iapPreviewDao: IapPreviewDao
+    @Inject lateinit var billingManager: BillingManager
 
     private val binding by lazy { ActivityIapBinding.inflate(layoutInflater) }
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
+    private val subjectSkuChoose: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_LIFE_TIME)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
+        lightStatusBar()
         setContentView(binding.root)
 
         initView()
@@ -70,10 +78,21 @@ class IapActivity : LsActivity() {
                 }
             }
         }
+
+        billingManager.init()
     }
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
+        binding.viewLifeTime.clicks { subjectSkuChoose.onNext(Constraint.Iap.SKU_LIFE_TIME) }
+        binding.viewWeekly.clicks { subjectSkuChoose.onNext(Constraint.Iap.SKU_WEEK) }
+        binding.viewYearly.clicks { subjectSkuChoose.onNext(Constraint.Iap.SKU_YEAR) }
+        binding.viewContinue.clicks {
+            when (val sku = subjectSkuChoose.blockingFirst()){
+                Constraint.Iap.SKU_LIFE_TIME -> billingManager.buy(this, sku, BillingClient.ProductType.INAPP)
+                else -> billingManager.buy(this, sku, BillingClient.ProductType.SUBS)
+            }
+        }
     }
 
     override fun onResume() {
@@ -127,7 +146,96 @@ class IapActivity : LsActivity() {
     }
 
     private fun initObservable() {
+        subjectSkuChoose
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { sku ->
+                updateLifeTimeUi(sku)
+                updateWeeklyUi(sku)
+                updateYearlyUi(sku)
+            }
+    }
 
+    private fun updateWeeklyUi(sku: String) {
+        binding.viewWeekly.setCardBackgroundColor(
+            when (sku) {
+                Constraint.Iap.SKU_WEEK -> resolveAttrColor(android.R.attr.colorAccent)
+                else -> resolveAttrColor(android.R.attr.colorBackground)
+            }
+        )
+        binding.imageWeekly.setImageResource(
+            when (sku) {
+                Constraint.Iap.SKU_WEEK -> R.drawable.ic_circle_check
+                else -> R.drawable.circle_stroke_1dp
+            }
+        )
+        binding.imageWeekly.setTint(
+            when (sku){
+                Constraint.Iap.SKU_WEEK -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
+        binding.textWeekly.setTextColor(
+            when (sku){
+                Constraint.Iap.SKU_WEEK -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
+    }
+
+    private fun updateYearlyUi(sku: String) {
+        binding.viewYearly.setCardBackgroundColor(
+            when (sku) {
+                Constraint.Iap.SKU_YEAR -> resolveAttrColor(android.R.attr.colorAccent)
+                else -> resolveAttrColor(android.R.attr.colorBackground)
+            }
+        )
+        binding.imageYearly.setImageResource(
+            when (sku) {
+                Constraint.Iap.SKU_YEAR -> R.drawable.ic_circle_check
+                else -> R.drawable.circle_stroke_1dp
+            }
+        )
+        binding.imageYearly.setTint(
+            when (sku){
+                Constraint.Iap.SKU_YEAR -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
+        binding.textYearly.setTextColor(
+            when (sku){
+                Constraint.Iap.SKU_YEAR -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
+    }
+
+    private fun updateLifeTimeUi(sku: String) {
+        binding.viewLifeTime.setCardBackgroundColor(
+            when (sku) {
+                Constraint.Iap.SKU_LIFE_TIME -> resolveAttrColor(android.R.attr.colorAccent)
+                else -> resolveAttrColor(android.R.attr.colorBackground)
+            }
+        )
+        binding.imageLifeTime.setImageResource(
+            when (sku) {
+                Constraint.Iap.SKU_LIFE_TIME -> R.drawable.ic_circle_check
+                else -> R.drawable.circle_stroke_1dp
+            }
+        )
+        binding.imageLifeTime.setTint(
+            when (sku){
+                Constraint.Iap.SKU_LIFE_TIME -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
+        binding.textLifeTime.setTextColor(
+            when (sku){
+                Constraint.Iap.SKU_LIFE_TIME -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                else -> resolveAttrColor(android.R.attr.textColorPrimary)
+            }
+        )
     }
 
     private fun initView() {

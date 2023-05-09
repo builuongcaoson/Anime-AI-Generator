@@ -113,7 +113,7 @@ class PreviewActivity : LsActivity() {
             .autoDispose(scope())
             .subscribe { index ->
                 binding.viewPager.post {
-                    binding.viewPager.setCurrentItem(index, false)
+                    binding.viewPager.currentItem = index
                 }
             }
     }

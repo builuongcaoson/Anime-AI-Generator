@@ -10,11 +10,13 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.sola.anime.ai.generator.domain.manager.BillingManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
 class App : Application() {
@@ -26,6 +28,8 @@ class App : Application() {
     init {
         app = this
     }
+
+    @Inject lateinit var billingManager: BillingManager
 
     // For review
     val manager by lazy { ReviewManagerFactory.create(this) }
@@ -58,6 +62,9 @@ class App : Application() {
                 }
             })
         }
+
+        // Step billing
+        billingManager.init()
     }
 
 }

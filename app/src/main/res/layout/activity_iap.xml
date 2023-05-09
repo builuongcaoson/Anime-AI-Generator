@@ -228,9 +228,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_15sdp">
+            android:layout_marginBottom="@dimen/_10sdp">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewLifeTime"
@@ -238,7 +236,9 @@
                 android:layout_height="0dp"
                 app:cardBackgroundColor="?colorAccent"
                 app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardElevation="@dimen/_1sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/viewWeekly"
@@ -251,10 +251,12 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="0dp"
+                        android:id="@+id/imageLifeTime"
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/circle_stroke_1dp"
+                        android:src="@drawable/ic_circle_check"
+                        android:tint="@color/white"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
@@ -263,6 +265,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
+                        android:id="@+id/textLifeTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
@@ -286,7 +289,8 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:cardBackgroundColor="?android:colorBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
+                app:cardElevation="@dimen/_1sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/viewYearly"
@@ -298,6 +302,7 @@
                     android:layout_height="match_parent">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageWeekly"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -312,6 +317,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
+                        android:id="@+id/textWeekly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
@@ -331,9 +337,11 @@
                 android:id="@+id/viewYearly"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 app:cardBackgroundColor="?android:colorBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
+                app:cardElevation="@dimen/_1sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -345,6 +353,7 @@
                     android:layout_height="match_parent">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageYearly"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -359,6 +368,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
+                        android:id="@+id/textYearly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
@@ -377,6 +387,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewContinue"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_10sdp"

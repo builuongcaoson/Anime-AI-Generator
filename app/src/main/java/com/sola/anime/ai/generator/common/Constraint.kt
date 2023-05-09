@@ -21,4 +21,12 @@ class Constraint {
             const val DEFAULT_NEGATIVE = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears"
         }
     }
+
+    class Iap {
+        companion object  {
+            const val SKU_LIFE_TIME = "buy_lifetime"
+            const val SKU_WEEK = "buy_week"
+            const val SKU_YEAR = "buy_year"
+        }
+    }
 }

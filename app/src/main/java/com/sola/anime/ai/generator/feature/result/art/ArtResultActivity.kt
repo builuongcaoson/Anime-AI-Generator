@@ -7,12 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
-import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startPreview
+import com.basic.common.extension.makeToast
+import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
@@ -23,7 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -41,6 +47,7 @@ class ArtResultActivity : LsActivity() {
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var styleDao: StyleDao
     @Inject lateinit var fileRepo: FileRepository
+    @Inject lateinit var configApp: ConfigApp
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -70,17 +77,40 @@ class ArtResultActivity : LsActivity() {
         binding.back.clicks { onBackPressed() }
         binding.viewPro.clicks { startIap() }
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
-        binding.cardShare.clicks { shareClicks() }
-        binding.cardDownload.clicks { downloadClicks() }
+        binding.cardShare.clicks { tryOrNull { shareClicks() } }
+        binding.cardDownload.clicks { tryOrNull { downloadClicks() } }
         binding.cardGenerate.clicks { generateAgainClicks() }
     }
 
     private fun generateAgainClicks() {
+        val history = historyDao.findById(historyId) ?: return
 
+        configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+            maxGroupId = 0,
+            maxChildId = 0,
+            prompt = history.prompt,
+            negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+            guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
+            styleId = history.styleId,
+            ratio = Ratio.values().firstOrNull {
+                it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
+            } ?: Ratio.Ratio1x1,
+            seed = null
+        )
+
+        startArtProcessing()
+        finish()
     }
 
     private fun downloadClicks() {
-
+        previewAdapter.childHistory?.let { childHistory ->
+            lifecycleScope.launch {
+                fileRepo.downloads(File(childHistory.pathPreview))
+                withContext(Dispatchers.Main){
+                    makeToast("Download successfully!")
+                }
+            }
+        }
     }
 
     private fun shareClicks() {
@@ -150,7 +180,7 @@ class ArtResultActivity : LsActivity() {
             .autoDispose(scope())
             .subscribe { index ->
                 binding.viewPager.post {
-                    binding.viewPager.setCurrentItem(index, false)
+                    binding.viewPager.currentItem = index
                 }
             }
 
