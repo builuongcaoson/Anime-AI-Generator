@@ -9,6 +9,8 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
@@ -80,26 +82,19 @@ class TutorialActivity : LsActivity() {
                     binding.viewClicksLoading.isVisible = true
                     binding.viewLoading.animate().alpha(1f).setDuration(250).start()
                     promptAdapter.positionSelected = pair.second
-                    delay(2000)
-                    binding.viewClicksLoading.isVisible = false
-                    binding.viewLoading.animate().alpha(0f).setDuration(250).start()
-                    promptAdapter.positionSelected = -1
+                    val newPrompt = when {
+                        indexStep2 == -1 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.display
+                        indexStep3 == -1 -> ", ${this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.display ?: ""}"
+                        else -> ", ${this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.childs?.getOrNull(indexStep3)?.display ?: ""}"
+                    }
+                    newPrompt?.forEach { char ->
+                        binding.textPrompt.append(char.toString())
+                        delay(100)
+                    }
                     when  {
-                        indexStep1 == -1 -> {
-                            binding.displayStep.text = "Step 1 of 3"
-                            binding.titlePrompt.text = "I want to draw a..."
-                            binding.textPrompt.text = ""
-                            ConstraintSet().apply {
-                                clone(binding.viewGroupStep)
-                                constrainPercentWidth(binding.viewProgressStep.id, 0.333f)
-                                applyTo(binding.viewGroupStep)
-                            }
-                            promptAdapter.data = this@TutorialActivity.steps.map { it.display }
-                        }
                         indexStep2 == -1 -> {
                             binding.displayStep.text = "Step 2 of 3"
                             binding.titlePrompt.text = "Add some decorations"
-                            binding.textPrompt.text = this@TutorialActivity.steps.getOrNull(indexStep1)?.display
                             ConstraintSet().apply {
                                 clone(binding.viewGroupStep)
                                 constrainPercentWidth(binding.viewProgressStep.id, 0.666f)
@@ -110,7 +105,6 @@ class TutorialActivity : LsActivity() {
                         indexStep3 == -1 -> {
                             binding.displayStep.text = "Step 3 of 3"
                             binding.titlePrompt.text = "Add some decorations"
-                            binding.textPrompt.text = "${binding.textPrompt.text}, ${this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.display ?: ""}"
                             ConstraintSet().apply {
                                 clone(binding.viewGroupStep)
                                 constrainPercentWidth(binding.viewProgressStep.id, 1f)
@@ -119,22 +113,19 @@ class TutorialActivity : LsActivity() {
                             promptAdapter.data = this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.childs?.map { it.display } ?: listOf()
                         }
                         else ->{
-                            binding.textPrompt.text = "${binding.textPrompt.text}, ${this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.childs?.getOrNull(indexStep3)?.display ?: ""}"
                             promptAdapter.data = listOf()
                         }
                     }
+                    binding.viewClicksLoading.isVisible = false
+                    binding.viewLoading.animate().alpha(0f).setDuration(250).start()
+                    promptAdapter.positionSelected = -1
+
                     val preview = when {
                         indexStep2 == -1 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.preview
                         indexStep3 == -1 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.preview
                         else -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.childs?.getOrNull(indexStep3)?.preview
                     }
-                    Glide
-                        .with(this@TutorialActivity)
-                        .asBitmap()
-                        .load(preview)
-                        .transition(BitmapTransitionOptions.withCrossFade())
-                        .error(this@TutorialActivity.steps.getOrNull(0)?.preview)
-                        .into(binding.preview)
+                    binding.preview.setImageResource(preview ?: R.drawable.preview_tutorial_princess_1)
 
                     when  {
                         indexStep1 != -1 && indexStep2 != -1 && indexStep3 != -1 -> {

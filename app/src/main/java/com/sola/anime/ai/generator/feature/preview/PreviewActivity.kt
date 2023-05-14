@@ -98,9 +98,9 @@ class PreviewActivity : LsActivity() {
 
     private fun initObservable() {
         subjectPageChanges
-            .debounce(100, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
+//            .debounce(100, TimeUnit.MILLISECONDS)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
                 previewAdapter.childHistory = it

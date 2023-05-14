@@ -192,9 +192,9 @@ class ArtResultActivity : LsActivity() {
 
     private fun initObservable() {
         subjectPageChanges
-            .debounce(100, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
+//            .debounce(50, TimeUnit.MILLISECONDS)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
                 previewAdapter.childHistory = it
