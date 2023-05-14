@@ -434,18 +434,21 @@
             android:layout_gravity="center_horizontal">
 
             <com.basic.common.widget.LsTextView
+                android:id="@+id/textDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="One time payment of "
+                android:text="One time payment of"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_12ssp" />
 
             <com.basic.common.widget.LsTextView
+                android:id="@+id/textPrice"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="2.600.000đ"
+                android:text="0đ"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_12ssp"
                 app:textFont="bold" />

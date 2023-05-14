@@ -30,7 +30,7 @@
     "isPremium": false
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F4_zzz2xxx3zzz.webp?alt=media&token=b708f1e6-4f64-479b-999d-ba1b4c70f64d",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F4_zzz2xxx3zzz.png?alt=media&token=e8ea48ff-73a6-4754-a809-cbcbcde2217e",
     "prompt": "masterpiece, best quality, illustration, 1girl, upper body, Gothic dress, cute face, lonely, night sky with stars and moon、Silver hair, moonlight, pink eyes, hair ornaments, transparent eyes, floating feeling, hair fluttering in the wind,",
     "negative": "(worst quality, low quality, large head, extra digits:1.4),",
     "guidance": 7.5,
@@ -133,6 +133,76 @@
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F14_zzz4xxx3zzz.png?alt=media&token=98b594dc-b0cd-4ee7-8959-79a434a4a619",
     "prompt": "glow, soft light, subdued, crop circle, glow, light, soft, ((circle cut)) blur, halo, glare, magic, halo, crown, feather, cloak , (head garland 0.5) (lightning bolt) god ring, hexagram, medium chest, nice body, clear eyes",
     "negative": "(worst quality, low quality, large head, extra digits:1.4), (hands)",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F15_zzz1xxx1zzz.png?alt=media&token=fd6735f4-1e7b-4676-b173-e0f7b53fb3cb",
+    "prompt": "1girl, water hair, blue, magic, fantasy, best quality, ((beautiful hand))",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4),",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F16_zzz2xxx3zzz.png?alt=media&token=2f126453-0b76-4c4e-bfa3-886d2264c8af",
+    "prompt": "Masterpiece,absurdres, best quality, best aesthetic, ultra-detailed, ultra detailed, extremely detailed, intricate detailsCat girl,cat ears,cat tail,long hair,magic Staff, holding magic Staff,((dynamic)), magician outfit, wizard hat,robes, using magic,",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4),miss finger,",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F17_zzz3xxx2zzz.png?alt=media&token=6cc0f768-bd30-4a9d-8b31-ae7ba2ba0fc2",
+    "prompt": "Kamisato ayaka\\(Genshin impact\\) (Masterpiece:1.2), best quality, (illustration:1.2), (ultra-detailed), hyper details, (delicate detailed), (intricate details), (cinematic light, best quality Backlights), clear line, solo female, perfect body, (1girl), (best illumination, an extremely delicate and beautiful), ((cinematic light)), white hair, blue eyes, long hair, ponytail, medium breasts, ((white sweater)), bare legs, ((red scarf)), sitting on table, park, ((night, snowing)), under street light, slim figure, smile, blush, snow everywhere, over exposure",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4), ng_deepnegative_v1_75t",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F18_zzz3xxx2zzz.png?alt=media&token=68260808-b506-4c16-a0b5-a9b8ee28d2c9",
+    "prompt": "girl with short wavy brown hair, brown eyes, wearing something dark green and black and white, surrounded by stars",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative,",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F19_zzz9xxx16zzz.png?alt=media&token=a0affb91-51cc-4675-9317-3fec2ca5ef91",
+    "prompt": "a girl,silver short hair,slender body,frilly black miniskirt, a dilapidated city, a broken building,ruins,sitting,clear weather,high quality,masterpiece,beautiful skin",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative,",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F20_zzz2xxx3zzz.png?alt=media&token=699918aa-6540-43a0-99f3-cf5c7f7c9fe8",
+    "prompt": "menera style, by Ernst Haeckel, exquisite illustration of a girl wearing flowers, anime, pixiv, kawaii girl, facing forward, smiling, lending a hand, beautiful, graceful",
+    "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative,",
+    "guidance": 7.5,
+    "sampler": "euler_a",
+    "steps": "50",
+    "modelId": 1,
+    "isPremium": false
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F21_zzz2xxx3zzz.png?alt=media&token=5a904f29-77c0-4e4e-a6ed-c45bdd8ae0da",
+    "prompt": "masterpiece, best quality, best quality, amazing, finely detailed, depth of field, extremely detailed cg unity 8k wallpaper,1girl,looking up,inch out of frame,wearing overalls,straw hat,on garden,sunny hot day,eyes closed,big smile,grassy scenery,colorfull flowers,",
+    "negative": "worst quality, large head, low quality, extra digits, bad eye, EasyNegativeV2, ng_deepnegative_v1_75t,extra limbs,bad hand,",
     "guidance": 7.5,
     "sampler": "euler_a",
     "steps": "50",

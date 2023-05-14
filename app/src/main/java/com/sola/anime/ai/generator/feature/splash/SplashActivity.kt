@@ -14,6 +14,7 @@ import com.sola.anime.ai.generator.common.extension.startTutorial
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncConfigApp
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,12 +28,17 @@ class SplashActivity : LsActivity() {
 
     @Inject lateinit var syncConfigApp: SyncConfigApp
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        when {
+            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
+        }
 
         initView()
         initObservable()

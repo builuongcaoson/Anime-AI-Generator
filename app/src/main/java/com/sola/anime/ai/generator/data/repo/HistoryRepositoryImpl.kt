@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
@@ -14,13 +15,18 @@ import javax.inject.Singleton
 
 @Singleton
 class HistoryRepositoryImpl @Inject constructor(
-    private val context: Context,
+    private val prefs: Preferences,
     private val historyDao: HistoryDao,
     private val styleDao: StyleDao
 ): HistoryRepository {
 
-    override suspend fun markHistory(childHistory: ChildHistory): Long? = withContext(Dispatchers.IO) {
-        historyDao.findByPrompt(childHistory.prompt, childHistory.styleId)?.let {
+    override fun markHistory(childHistory: ChildHistory): Long? {
+        childHistory.isPremium = when {
+            prefs.isUpgraded.get() -> false
+            else ->  getTotalChildCount() >= 20
+        }
+
+        return historyDao.findByPrompt(childHistory.prompt, childHistory.styleId)?.let {
             it.childs.add(childHistory)
             it.updateAt = System.currentTimeMillis()
 
@@ -42,6 +48,10 @@ class HistoryRepositoryImpl @Inject constructor(
                     )
                 }
         }
+    }
+
+    override fun getTotalChildCount(): Int {
+        return historyDao.getAll().sumOf { it.childs.size }
     }
 
 }

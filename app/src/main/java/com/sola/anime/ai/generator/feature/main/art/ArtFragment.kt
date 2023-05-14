@@ -26,6 +26,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
@@ -59,6 +60,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var exploreDialog: ExploreDialog
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -259,26 +261,43 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun generateClicks() {
         val prompt = binding.editPrompt.text?.toString() ?: ""
-        val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
+//        val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
+
+        val task = {
+            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                maxGroupId = 0,
+                maxChildId = 0,
+                prompt = prompt,
+                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                guidance = advancedSheet.guidance.toString(),
+                styleId = this.styleId,
+                ratio = this.ratio,
+                seed = null
+            )
+
+            activity?.startArtProcessing()
+        }
 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
 //            prompt.contains(pattern) -> sensitiveDialog.show(this)
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
-            else -> {
-                configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                    maxGroupId = 0,
-                    maxChildId = 0,
-                    prompt = prompt,
-                    negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                    guidance = advancedSheet.guidance.toString(),
-                    styleId = this.styleId,
-                    ratio = this.ratio,
-                    seed = null
-                )
-
-                activity?.startArtProcessing()
+            !prefs.isUpgraded.get() -> {
+                activity?.let { activity ->
+                    admobManager.showRewardCreate(
+                        activity,
+                        success = {
+                            task()
+                            admobManager.loadRewardCreate()
+                        },
+                        failed = {
+                            activity.makeToast("Please watch all ads to perform the function!")
+                            admobManager.loadRewardCreate()
+                        }
+                    )
+                }
             }
+            else -> task()
         }
     }
 

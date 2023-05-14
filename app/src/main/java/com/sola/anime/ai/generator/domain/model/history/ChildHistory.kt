@@ -14,6 +14,7 @@ data class ChildHistory(
     val seed: String?
 ){
 
+    var isPremium = false
     var styleId: Long = -1L
 
     var createAt: Long = System.currentTimeMillis()

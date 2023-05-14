@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Anime Ai Generator</string>
+    <string name="app_name">Anime Art</string>
+    <string name="price_week_vnd">Thanh toán hàng tuần với</string>
+    <string name="price_week">Weekly payment of</string>
+    <string name="price_year_vnd">Thanh toán hàng năm với</string>
+    <string name="price_year">Yearly payment of</string>
+    <string name="price_lifetime_vnd">Thanh toán một lần với</string>
+    <string name="price_lifetime">One time payment of</string>
 </resources>

@@ -14,11 +14,12 @@ import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.makeLinks
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.extension.startTutorial
-import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
+import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
 import com.sola.anime.ai.generator.feature.first.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +59,7 @@ class FirstActivity : LsActivity() {
         val dataAfterChunked = configApp.firstPreviews.chunked(configApp.firstPreviews.size / 2)
 
         previewAdapter1.let { adapter ->
-            adapter.data = configApp.firstPreviews ?: listOf()
+            adapter.data = dataAfterChunked.getOrNull(0) ?: listOf()
             adapter.totalCount = adapter.data.size
             binding.recyclerView1.apply {
                 this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
@@ -66,7 +67,7 @@ class FirstActivity : LsActivity() {
         }
 
         previewAdapter2.let { adapter ->
-            adapter.data = configApp.firstPreviews ?: listOf()
+            adapter.data = dataAfterChunked.getOrNull(1) ?: listOf()
             adapter.totalCount = adapter.data.size
             binding.recyclerView2.apply {
                 this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
@@ -91,10 +92,10 @@ class FirstActivity : LsActivity() {
 
                 val visibleItemCount = layoutManager.childCount
                 val totalItemCount = layoutManager.itemCount
-                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+                val pastVisibleItems = layoutManager.findLastVisibleItemPosition()
 
                 tryOrNull {
-                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    if (pastVisibleItems + visibleItemCount >= totalItemCount - 2) {
                         when (recyclerView) {
                             binding.recyclerView1 -> {
                                 tryOrNull { recyclerView.post { previewAdapter1.insert() } }
@@ -133,13 +134,13 @@ class FirstActivity : LsActivity() {
             }
         )
         binding.recyclerView1.apply {
-            this.layoutManager = AutoScrollHorizontalLayoutManager(this@FirstActivity).apply {
+            this.layoutManager = AutoScrollLayoutManager(this@FirstActivity).apply {
                 this.orientation = LinearLayoutManager.VERTICAL
             }
             this.adapter = previewAdapter1
         }
         binding.recyclerView2.apply {
-            this.layoutManager =  AutoScrollHorizontalLayoutManager(this@FirstActivity).apply {
+            this.layoutManager =  AutoScrollLayoutManager(this@FirstActivity).apply {
                 this.orientation = LinearLayoutManager.VERTICAL
                 this.reverseLayout = true
             }

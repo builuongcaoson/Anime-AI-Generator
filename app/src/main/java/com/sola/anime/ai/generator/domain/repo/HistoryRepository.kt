@@ -4,6 +4,8 @@ import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 
 interface HistoryRepository {
 
-    suspend fun markHistory(childHistory: ChildHistory): Long?
+    fun markHistory(childHistory: ChildHistory): Long?
+
+    fun getTotalChildCount(): Int
 
 }

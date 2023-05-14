@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    Test-->
+    <string name="key_application_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="key_reward_create">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="key_reward_create_again">ca-app-pub-3940256099942544/5224354917</string>
+
+<!--    <string name="key_application_id"></string>-->
+<!--    <string name="key_reward_create"></string>-->
+<!--    <string name="key_reward_create_again"></string>-->
+
+</resources>

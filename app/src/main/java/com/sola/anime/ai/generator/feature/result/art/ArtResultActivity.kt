@@ -13,9 +13,11 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.repo.FileRepository
@@ -48,6 +50,8 @@ class ArtResultActivity : LsActivity() {
     @Inject lateinit var styleDao: StyleDao
     @Inject lateinit var fileRepo: FileRepository
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var prefs: Preferences
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -59,6 +63,10 @@ class ArtResultActivity : LsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        when {
+            !prefs.isUpgraded.get() -> admobManager.loadRewardCreateAgain()
+        }
 
         when (historyId) {
             -1L -> {
@@ -85,21 +93,40 @@ class ArtResultActivity : LsActivity() {
     private fun generateAgainClicks() {
         val history = historyDao.findById(historyId) ?: return
 
-        configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-            maxGroupId = 0,
-            maxChildId = 0,
-            prompt = history.prompt,
-            negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-            guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
-            styleId = history.styleId,
-            ratio = Ratio.values().firstOrNull {
-                it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
-            } ?: Ratio.Ratio1x1,
-            seed = null
-        )
+        val task = {
+            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                maxGroupId = 0,
+                maxChildId = 0,
+                prompt = history.prompt,
+                negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
+                styleId = history.styleId,
+                ratio = Ratio.values().firstOrNull {
+                    it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
+                } ?: Ratio.Ratio1x1,
+                seed = null
+            )
 
-        startArtProcessing()
-        finish()
+            startArtProcessing()
+            finish()
+        }
+
+        when {
+            !prefs.isUpgraded.get() -> {
+                admobManager.showRewardCreateAgain(
+                    this,
+                    success = {
+                        task()
+                        admobManager.loadRewardCreateAgain()
+                    },
+                    failed = {
+                        makeToast("Please watch all ads to perform the function!")
+                        admobManager.loadRewardCreateAgain()
+                    }
+                )
+            }
+            else -> task()
+        }
     }
 
     private fun downloadClicks() {

@@ -15,6 +15,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentArtMineBinding
+import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -31,6 +32,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var folderDao: FolderDao
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var historyRepo: HistoryRepository
 
     private val addFolderSheet by lazy { AddFolderSheet() }
 
@@ -74,7 +76,11 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
 
     private fun initData() {
         historyDao.getAllLive().observe(viewLifecycleOwner){ histories ->
-            historyAdapter.data = histories
+            val historiesNotHadPremium = histories.filter { history -> history.childs.any { !it.isPremium } }
+
+            binding.textCount.text = "${historiesNotHadPremium.sumOf { history -> history.childs.filter { !it.isPremium }.size }}/20"
+
+            historyAdapter.data = historiesNotHadPremium
         }
         folderDao.getAllLive().observe(viewLifecycleOwner){ folders ->
             if (folders.isEmpty()){

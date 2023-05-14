@@ -6,7 +6,9 @@ interface AnalyticManager {
         SYNCING,
         CLICKED_INVITE,
         CLICKED_RATING,
-        CLICKED_SUPPORT    }
+        CLICKED_SUPPORT,
+        ADMOB_CLICKED
+    }
 
     fun logEvent(type: TYPE, event: String)
 

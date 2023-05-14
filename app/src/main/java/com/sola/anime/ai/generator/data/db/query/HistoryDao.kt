@@ -27,7 +27,7 @@ interface HistoryDao {
     suspend fun inserts(vararg objects: History): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(objects: History): Long
+    fun insert(objects: History): Long
 
     @Query("DELETE FROM Histories")
     fun deleteAll()

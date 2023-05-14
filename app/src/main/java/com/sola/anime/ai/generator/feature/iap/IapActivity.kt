@@ -10,17 +10,20 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startMain
-import com.sola.anime.ai.generator.common.util.AutoScrollHorizontalLayoutManager
+import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.domain.manager.BillingManager
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.feature.iap.billing.model.Status
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,10 +38,12 @@ class IapActivity : LsActivity() {
     @Inject lateinit var previewAdapter3: PreviewAdapter
     @Inject lateinit var iapPreviewDao: IapPreviewDao
     @Inject lateinit var billingManager: BillingManager
+    @Inject lateinit var prefs: Preferences
 
     private val binding by lazy { ActivityIapBinding.inflate(layoutInflater) }
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoose: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_LIFE_TIME)
+    private val pricesWithSku = arrayListOf<PriceFormat>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,7 +159,96 @@ class IapActivity : LsActivity() {
                 updateLifeTimeUi(sku)
                 updateWeeklyUi(sku)
                 updateYearlyUi(sku)
+
+                pricesWithSku
+                    .find { it.sku == sku
+                    }?.let {
+
+                        binding.textDescription.text = it.description
+
+                        binding.textPrice.text = it.priceFormat
+                }
             }
+
+        prefs.isUpgraded
+            .asObservable()
+            .filter { it }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { onBackPressed() }
+
+        billingManager
+            .subscriptionPrices()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { response ->
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        response.data?.forEachIndexed { _, pair ->
+                            val priceCurrencyCode = pair.second.priceCurrencyCodes ?: "USD"
+                            val priceAmount = pair.second.sumPriceAmountMicros ?: 0
+
+                            val priceFormat = formatPriceWithCurrentCode(priceCurrencyCode, priceAmount.toFloat() / 1000000f)
+
+                            when (pair.first) {
+                                Constraint.Iap.SKU_WEEK -> {
+                                    when {
+                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_week_vnd), priceFormat, pair.first))
+                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_week), priceFormat, pair.first))
+                                    }
+                                }
+                                Constraint.Iap.SKU_YEAR -> {
+                                    when {
+                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_year_vnd), priceFormat, pair.first))
+                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_year), priceFormat, pair.first))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else -> {}
+                }
+            }
+
+        billingManager
+            .nonConsumablePrices()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { response ->
+                when (response.status) {
+                    Status.SUCCESS -> {
+                        response.data?.forEachIndexed { _, pair ->
+                            val priceAmount = pair.second.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
+                            val priceCurrencyCode = pair.second.oneTimePurchaseOfferDetails?.priceCurrencyCode ?: "USD"
+
+                            val priceFormat = formatPriceWithCurrentCode(priceCurrencyCode, priceAmount.toFloat() / 1000000f)
+
+                            when (pair.first) {
+                                Constraint.Iap.SKU_LIFE_TIME -> {
+                                    when {
+                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_lifetime_vnd), priceFormat, pair.first))
+                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_lifetime), priceFormat, pair.first))
+                                    }
+
+                                    subjectSkuChoose.onNext(pair.first)
+                                }
+                            }
+                        }
+                    }
+                    else -> {}
+                }
+            }
+    }
+
+    private fun formatPriceWithCurrentCode(priceCurrentCode: String, amount: Float): String {
+        if (priceCurrentCode == "VND") {
+            val formatter = DecimalFormat("#,###")
+            return formatter.format(amount) + "đ"
+        }
+        return String.format("%.2f", amount) + "$"
     }
 
     private fun updateWeeklyUi(sku: String) {
@@ -240,17 +334,17 @@ class IapActivity : LsActivity() {
 
     private fun initView() {
         binding.recyclerPreview1.apply {
-            this.layoutManager = AutoScrollHorizontalLayoutManager(this@IapActivity)
+            this.layoutManager = AutoScrollLayoutManager(this@IapActivity)
             this.adapter = previewAdapter1
         }
         binding.recyclerPreview2.apply {
-            this.layoutManager =  AutoScrollHorizontalLayoutManager(this@IapActivity).apply {
+            this.layoutManager =  AutoScrollLayoutManager(this@IapActivity).apply {
                 this.reverseLayout = true
             }
             this.adapter = previewAdapter2
         }
         binding.recyclerPreview3.apply {
-            this.layoutManager =  AutoScrollHorizontalLayoutManager(this@IapActivity)
+            this.layoutManager =  AutoScrollLayoutManager(this@IapActivity)
             this.adapter = previewAdapter3
         }
     }
@@ -264,5 +358,7 @@ class IapActivity : LsActivity() {
             backTopToBottom()
         }
     }
+
+    data class PriceFormat(val description: String, val priceFormat: String, val sku: String)
 
 }

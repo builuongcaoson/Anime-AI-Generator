@@ -137,7 +137,7 @@ class ArtProcessingActivity : LsActivity() {
         }
 
         lifecycleScope.launch {
-            val deferredHistoryIds = arrayListOf<Deferred<Long?>>()
+            val deferredHistoryIds = arrayListOf<Long?>()
 
             dezgoApiRepo.generateTextsToImages(
                 datas = ArrayList(configApp.dezgoBodiesTextsToImages),
@@ -167,8 +167,7 @@ class ArtProcessingActivity : LsActivity() {
                                 ?.find { body ->
                                     body.id == progress.childId && body.groupId == progress.groupId
                                 }?.toChildHistory(progress.file.path)?.let {
-                                    val deferred = async { historyRepo.markHistory(it) }
-                                    deferredHistoryIds.add(deferred)
+                                    deferredHistoryIds.add(historyRepo.markHistory(it))
                                 }
 
                             markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
@@ -182,7 +181,7 @@ class ArtProcessingActivity : LsActivity() {
                             Timber.e("DONE")
 
                             launch {
-                                val historyIds = deferredHistoryIds.awaitAll().mapNotNull { it }
+                                val historyIds = deferredHistoryIds.mapNotNull { it }
 
                                 launch(Dispatchers.Main) {
                                     tryOrNull { animator?.cancel() }

@@ -41,7 +41,14 @@ class ConfigApp @Inject constructor(
             R.drawable.first_preview_zzz3xxx4zzz_18,
             R.drawable.first_preview_zzz4xxx3zzz_19,
             R.drawable.first_preview_zzz2xxx3zzz_20,
-            R.drawable.first_preview_zzz3xxx2zzz_21
+            R.drawable.first_preview_zzz3xxx2zzz_21,
+            R.drawable.first_preview_zzz1xxx1zzz_22,
+            R.drawable.first_preview_zzz9xxx16zzz_23,
+            R.drawable.first_preview_zzz16xxx9zzz_24,
+            R.drawable.first_preview_zzz3xxx4zzz_25,
+            R.drawable.first_preview_zzz4xxx3zzz_26,
+            R.drawable.first_preview_zzz2xxx3zzz_27,
+            R.drawable.first_preview_zzz3xxx2zzz_28
         ).map { res ->
             val ratio = tryOrNull { context.resources.getResourceName(res).split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
 

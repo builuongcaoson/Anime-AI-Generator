@@ -2,12 +2,11 @@ package com.sola.anime.ai.generator.common.util
 
 import android.content.Context
 import android.util.DisplayMetrics
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 
-class AutoScrollHorizontalLayoutManager(val context: Context, val scrollSpeed: Float = 5000F) :
+class AutoScrollLayoutManager(val context: Context, val scrollSpeed: Float = 5000F) :
     LinearLayoutManager(context, RecyclerView.HORIZONTAL, false) {
 
     override fun canScrollHorizontally(): Boolean {
