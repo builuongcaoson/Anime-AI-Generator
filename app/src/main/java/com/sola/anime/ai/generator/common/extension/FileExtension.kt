@@ -7,7 +7,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-fun InputStream.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File? {
+fun InputStream.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File {
     val dir = File(context.filesDir, "${System.currentTimeMillis()}")
     dir.mkdirs()
     val file = File(dir, fileName)

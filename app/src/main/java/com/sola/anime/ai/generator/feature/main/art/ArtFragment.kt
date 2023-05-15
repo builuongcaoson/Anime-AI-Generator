@@ -18,6 +18,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.dialog.BlockSensitivesDialog
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
@@ -61,6 +62,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var exploreDialog: ExploreDialog
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -261,7 +263,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun generateClicks() {
         val prompt = binding.editPrompt.text?.toString() ?: ""
-//        val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
+        val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
             configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
@@ -272,7 +274,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 guidance = advancedSheet.guidance.toString(),
                 styleId = this.styleId,
                 ratio = this.ratio,
-                seed = null
+                seed = (0..4294967295).random()
             )
 
             activity?.startArtProcessing()
@@ -280,7 +282,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
-//            prompt.contains(pattern) -> sensitiveDialog.show(this)
+            prompt.contains(pattern) -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
             !prefs.isUpgraded.get() -> {
                 activity?.let { activity ->

@@ -32,7 +32,7 @@ fun initDezgoBodyTextsToImages(
     guidance: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long?
+    seed: Long
 ): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()
     (0..maxGroupId).forEach { id ->
@@ -63,7 +63,7 @@ fun initBodyTextsToImages(
     guidance: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long?
+    seed: Long
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
@@ -76,7 +76,7 @@ fun initBodyTextsToImages(
                 guidance = guidance,
                 width = ratio.width,
                 height = ratio.height,
-                seed = (0..4294967295).random().toString()
+                seed = seed.toString()
             ).apply {
                 this.styleId = styleId
             }

@@ -3,7 +3,7 @@ package com.sola.anime.ai.generator.common
 class Constraint {
     class Api {
         companion object {
-            const val DEZGO_API_KEY = "6bacdccfc8mshcf72a2013553932p1897eajsn65b89307e1cd"
+            const val DEZGO_API_KEY = "DEZGO-D363D722008D43E746840EF0A88000892E435F3ECF85BB6C1D64B1AB4B96CE55123FDC68"
             const val DEZGO_API_HOST = "dezgo.p.rapidapi.com"
         }
     }
