@@ -167,6 +167,12 @@ class IapActivity : LsActivity() {
                         binding.textDescription.text = it.description
 
                         binding.textPrice.text = it.priceFormat
+                } ?: run {
+                    when (sku) {
+                        Constraint.Iap.SKU_WEEK -> binding.textPrice.text = "${getString(R.string.price_week)} 0đ"
+                        Constraint.Iap.SKU_YEAR -> binding.textPrice.text = "${getString(R.string.price_year)} 0đ"
+                        Constraint.Iap.SKU_LIFE_TIME -> binding.textPrice.text = "${getString(R.string.price_lifetime)} 0đ"
+                    }
                 }
             }
 

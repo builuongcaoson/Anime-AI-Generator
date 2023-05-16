@@ -41,7 +41,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F5_zzz4xxx3zzz.webp?alt=media&token=1807c815-6af2-40b4-8dc2-e3590ac2cd04",
-    "prompt": "A girl, about 15, with grey-blue eyes, wavy golden brown / dark blonde hair, pale skin, an oversized pink sweater with blue hearts around the neckline, and loose jeans that flare slightly and have embroidered patterns of butterflies, and a rip in the left knee. Her hair is about shoulder length (beautiful 4K masterpiece realistic shading ray tracing gorgeous pretty nice)",
+    "prompt": "A girl, about 15, with grey-blue eyes, wavy golden brown / dark blonde hair, pale skin, an oversized pink sweater with blue hearts around the neckline, and loose jeans that flare slightly, and a rip in the left knee. Her hair is about shoulder length (beautiful 4K masterpiece realistic shading ray tracing gorgeous pretty nice)",
     "negative": "(worst quality, low quality, large head, extra digits:1.4),",
     "guidance": 7.5,
     "sampler": "euler_a",
@@ -91,7 +91,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F10_zzz3xxx4zzz.webp?alt=media&token=826c08a1-11ec-4743-8560-e1ecc9bd76e0",
-    "prompt": "1girl, long black messy hair, tired eyes, oversized sweater, black round glasses, looking at viewer, finely detailed, cinematic shading, night library background",
+    "prompt": "1girl, long black messy hair, tired eyes, oversize sweater, bespectacled, looking at viewer, finely detailed, cinematic shading, night library background",
     "negative": "(worst quality, low quality, large head, extra digits:1.4),",
     "guidance": 7.5,
     "sampler": "euler_a",
@@ -151,7 +151,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F16_zzz2xxx3zzz.webp?alt=media&token=850a99c9-df67-42c4-bf69-41c89394f24f",
-    "prompt": "Masterpiece,absurdres, best quality, best aesthetic, ultra-detailed, ultra detailed, extremely detailed, intricate detailsCat girl,cat ears,cat tail,long hair,magic Staff, holding magic Staff,((dynamic)), magician outfit, wizard hat,robes, using magic,",
+    "prompt": "Masterpiece, absurdness, best quality, best aesthetic, ultra-detailed, ultra detailed, extremely detailed, intricate details, Cat girl, cat ears, cat tail, long hair, magic Staff, holding magic Staff,((dynamic)), magician outfit, wizard hat, robes, using magic,",
     "negative": "(worst quality, low quality, large head, extra digits:1.4),miss finger,",
     "guidance": 7.5,
     "sampler": "euler_a",
@@ -201,7 +201,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F21_zzz2xxx3zzz.webp?alt=media&token=877b13c3-85bb-4864-a80a-11918f6f024a",
-    "prompt": "masterpiece, best quality, best quality, amazing, finely detailed, depth of field, extremely detailed cg unity 8k wallpaper,1girl,looking up,inch out of frame,wearing overalls,straw hat,on garden,sunny hot day,eyes closed,big smile,grassy scenery,colorfull flowers,",
+    "prompt": "masterpiece, best quality, best quality, amazing, finely detailed, depth of field, extremely detailed cg unity 8k wallpaper, 1girl, looking up,inch out of frame, wearing overalls, straw hat,on garden,sunny hot day,eyes closed, big smile,grassy scenery, colorful flowers,",
     "negative": "worst quality, large head, low quality, extra digits, bad eye, EasyNegativeV2, ng_deepnegative_v1_75t,extra limbs,bad hand,",
     "guidance": 7.5,
     "sampler": "euler_a",
@@ -211,7 +211,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F22_zzz2xxx3zzz.webp?alt=media&token=39635cca-9d1c-4d9a-b2c4-34690c9a77c2",
-    "prompt": "Blue-green zircon-like eyes, twinkle, magic effect, magic wand, long-haired, wind magic, wind, fluttering hair,",
+    "prompt": "Blue-green zircon-like eyes, glitter, magic effect, magic wand, long-haired, wind magic, wind, fluttering hair,",
     "negative": "(worst quality, low quality, large head, extra digits:1.4)",
     "guidance": 7.5,
     "sampler": "euler_a",
