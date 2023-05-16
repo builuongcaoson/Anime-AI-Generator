@@ -2,11 +2,14 @@ package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
@@ -19,6 +22,7 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -40,9 +44,14 @@ class SplashActivity : LsActivity() {
             !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
         }
 
+        initReviewManager()
         initView()
         initObservable()
         initData()
+    }
+
+    private fun initReviewManager() {
+        App.app.loadReviewManager()
     }
 
     private fun initData() {

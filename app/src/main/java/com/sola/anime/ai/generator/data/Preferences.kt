@@ -25,7 +25,6 @@ class Preferences @Inject constructor(
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
     val isViewTutorial = rxPrefs.getBoolean("isViewTutorial", false)
     val isRated = rxPrefs.getBoolean("isRated", false)
-    val numberCreateArt = rxPrefs.getInteger("numberCreateArt", 0)
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
 
 

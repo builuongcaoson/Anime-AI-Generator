@@ -2,14 +2,18 @@ package com.sola.anime.ai.generator.feature.main
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.getDimens
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.jakewharton.rxbinding2.view.clicks
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
@@ -22,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -29,6 +34,7 @@ import javax.inject.Inject
 class MainActivity : LsActivity() {
 
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var prefs: Preferences
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
@@ -130,6 +136,24 @@ class MainActivity : LsActivity() {
 
         val endX = centerView.x + centerView.width / 2 - newWidth / 2
         animate().translationX(endX).setDuration(100).start()
+    }
+
+    override fun onBackPressed() {
+        when {
+            !prefs.isRated.get() && App.app.reviewInfo != null -> {
+                val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
+                flow.addOnCompleteListener { task2 ->
+                    if (task2.isSuccessful){
+                        prefs.isRated.set(true)
+
+                        finish()
+                    } else {
+                        finish()
+                    }
+                }
+            }
+            else -> finish()
+        }
     }
 
 }

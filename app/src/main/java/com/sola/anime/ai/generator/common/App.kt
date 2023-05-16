@@ -6,15 +6,22 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
+import android.util.Log
+import com.google.android.play.core.ktx.requestReview
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.manager.BillingManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,6 +37,7 @@ class App : Application() {
     }
 
     @Inject lateinit var billingManager: BillingManager
+    @Inject lateinit var prefs: Preferences
 
     // For review
     val manager by lazy { ReviewManagerFactory.create(this) }
@@ -65,6 +73,19 @@ class App : Application() {
 
         // Step billing
         billingManager.init()
+    }
+
+    fun loadReviewManager(){
+        when {
+            !prefs.isRated.get() -> {
+                val request = manager.requestReviewFlow()
+                request.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        reviewInfo = task.result
+                    }
+                }
+            }
+        }
     }
 
 }

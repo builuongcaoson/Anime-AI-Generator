@@ -201,7 +201,7 @@
   },
   {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F21_zzz2xxx3zzz.webp?alt=media&token=877b13c3-85bb-4864-a80a-11918f6f024a",
-    "prompt": "masterpiece, best quality, best quality, amazing, finely detailed, depth of field, extremely detailed cg unity 8k wallpaper, 1girl, looking up,inch out of frame, wearing overalls, straw hat,on garden,sunny hot day,eyes closed, big smile,grassy scenery, colorful flowers,",
+    "prompt": "masterpiece, best quality, best quality, amazing, finely detailed, depth of field, extremely detailed cg unity 8k wallpaper, 1girl, looking up, inch out of frame, wearing overalls, straw hat, on garden, sunny hot day, eyes closed, big smile, colorful flowers,",
     "negative": "worst quality, large head, low quality, extra digits, bad eye, EasyNegativeV2, ng_deepnegative_v1_75t,extra limbs,bad hand,",
     "guidance": 7.5,
     "sampler": "euler_a",
