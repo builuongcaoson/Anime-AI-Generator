@@ -70,8 +70,7 @@
 
             <include
                 android:id="@+id/viewTabTop"
-                layout="@layout/layout_top_mine"
-                android:visibility="gone" />
+                layout="@layout/layout_top_mine"  />
 
             <com.sola.anime.ai.generator.common.widget.WrapNonSwipeViewPager
                 android:id="@+id/viewPager"

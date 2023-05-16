@@ -266,39 +266,39 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
-//            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-//                maxGroupId = 0,
-//                maxChildId = 0,
-//                prompt = prompt,
-//                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-//                guidance = advancedSheet.guidance.toString(),
-//                styleId = this.styleId,
-//                ratio = this.ratio,
-//                seed = (0..4294967295).random()
-//            )
-//
-//            activity?.startArtProcessing()
+            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                maxGroupId = 0,
+                maxChildId = 0,
+                prompt = prompt,
+                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                guidance = advancedSheet.guidance.toString(),
+                styleId = this.styleId,
+                ratio = this.ratio,
+                seed = (0..4294967295).random()
+            )
+
+            activity?.startArtProcessing()
         }
 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
             prompt.contains(pattern) -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
-//            !prefs.isUpgraded.get() -> {
-//                activity?.let { activity ->
-//                    admobManager.showRewardCreate(
-//                        activity,
-//                        success = {
-//                            task()
-//                            admobManager.loadRewardCreate()
-//                        },
-//                        failed = {
-//                            activity.makeToast("Please watch all ads to perform the function!")
-//                            admobManager.loadRewardCreate()
-//                        }
-//                    )
-//                }
-//            }
+            !prefs.isUpgraded.get() -> {
+                activity?.let { activity ->
+                    admobManager.showRewardCreate(
+                        activity,
+                        success = {
+                            task()
+                            admobManager.loadRewardCreate()
+                        },
+                        failed = {
+                            activity.makeToast("Please watch all ads to perform the function!")
+                            admobManager.loadRewardCreate()
+                        }
+                    )
+                }
+            }
             else -> task()
         }
     }
