@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import com.basic.common.extension.makeToast
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import javax.inject.Inject
@@ -66,7 +67,7 @@ class Navigator @Inject constructor(
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constraint.Info.MAIL_SUPPORT))
-        intent.putExtra(Intent.EXTRA_SUBJECT, "LsVpn Support")
+        intent.putExtra(Intent.EXTRA_SUBJECT, "${context.getString(R.string.app_name)} Support")
         intent.putExtra(
             Intent.EXTRA_TEXT, StringBuilder("\n\n")
                 .append("\n\n--- Please write your message above this line ---\n\n")
