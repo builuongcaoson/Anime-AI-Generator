@@ -8,6 +8,7 @@ import android.graphics.RectF
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.util.toRange
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -159,30 +160,27 @@ class FirstActivity : LsActivity() {
             this.adapter = previewAdapter2
         }
 
-        lifecycleScope.launch {
-            delay(2000)
-
-            val centerX = binding.viewAnimation.width.toFloat() / 2
-            val centerY = binding.viewAnimation.height.toFloat() / 2
-
-            val animation = ObjectAnimator.ofFloat(binding.viewAnimation, "translationY", 0f, -200f)
-            animation.apply {
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.REVERSE
-                duration = 1000
-                interpolator = AccelerateDecelerateInterpolator()
-                addUpdateListener {
-                    val animatedValue = it.animatedValue as Float
-                    binding.viewAnimation.translationX = centerX + (sin(animatedValue / 100) * 100)
-                    binding.viewAnimation.rotation = centerX + (sin(animatedValue / 100) * 100)
-                }
-            }
-
-            animation.start()
-        }
+        binding.viewAnim1.animBubble()
+        binding.viewAnim2.animBubble()
     }
 
+    private fun View.animBubble(to: Float = (-40..40).random().toFloat()) {
+        val animation = ObjectAnimator.ofFloat(0f, to)
+        animation.apply {
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+            duration = 1000
+            interpolator = AccelerateDecelerateInterpolator()
+            addUpdateListener {
+                val animatedValue = it.animatedValue as Float
 
+                this@animBubble.translationX = animatedValue
+                this@animBubble.translationY = animatedValue
+                this@animBubble.rotation = animatedValue / 10
+            }
+        }
+        animation.start()
+    }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {

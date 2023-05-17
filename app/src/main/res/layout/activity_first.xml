@@ -44,13 +44,33 @@
         tools:listitem="@layout/item_preview_in_first" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewAnimation"
+        android:id="@+id/viewAnim1"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
+        android:layout_marginStart="@dimen/_50sdp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/preview_tutorial_angel" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewAnim2"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardElevation="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
