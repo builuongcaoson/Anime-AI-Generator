@@ -7,39 +7,61 @@
     tools:context=".feature.first.FirstActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_5sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp"
         android:id="@+id/recyclerView1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
         android:orientation="vertical"
-        tools:listitem="@layout/item_preview_in_first"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/recyclerView2"
-        android:layout_height="0dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_preview_in_first" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/_5sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_10sdp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/recyclerView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
         android:orientation="vertical"
-        app:stackFromEnd="true"
-        tools:listitem="@layout/item_preview_in_first"
+        android:paddingStart="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recyclerView1"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="0dp"/>
+        app:stackFromEnd="true"
+        tools:listitem="@layout/item_preview_in_first" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewAnimation"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardElevation="@dimen/_3sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/preview_tutorial_angel" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <View
         android:layout_width="match_parent"
@@ -52,7 +74,7 @@
         android:layout_height="@dimen/_200sdp"
         android:background="@drawable/ab_shadow_top_white"
         android:elevation="0dp"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
@@ -62,30 +84,30 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.basic.common.widget.LsTextView
-        android:textSize="@dimen/_30ssp"
-        app:textFont="bold"
-        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_50sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="?android:textColorPrimary"
+        android:layout_marginEnd="@dimen/_50sdp"
         android:text="Creating Images from Text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/_30ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textFont="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardStart"
-            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
@@ -141,17 +163,17 @@
 
         <com.basic.common.widget.LsTextView
             android:id="@+id/textPrivacy"
-            android:textSize="@dimen/_10ssp"
-            android:textColor="?android:textColorSecondary"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:textColorLink="?android:textColorPrimary"
-            android:layout_gravity="center_horizontal"
-            android:text="By continuing, you agree to our Privacy Policy and Terms of Use"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center_horizontal"
+            android:text="By continuing, you agree to our Privacy Policy and Terms of Use"
+            android:textColor="?android:textColorSecondary"
+            android:textColorLink="?android:textColorPrimary"
+            android:textSize="@dimen/_10ssp" />
 
     </LinearLayout>
 

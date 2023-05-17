@@ -1,7 +1,14 @@
 package com.sola.anime.ai.generator.feature.first
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
+import android.graphics.Path
+import android.graphics.RectF
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
@@ -10,6 +17,7 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.makeLinks
 import com.sola.anime.ai.generator.common.extension.startMain
@@ -19,8 +27,11 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
 import com.sola.anime.ai.generator.feature.first.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.sin
 
 @AndroidEntryPoint
 class FirstActivity : LsActivity() {
@@ -29,6 +40,7 @@ class FirstActivity : LsActivity() {
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var previewAdapter1: PreviewAdapter
     @Inject lateinit var previewAdapter2: PreviewAdapter
+    @Inject lateinit var navigator: Navigator
 
     private val binding by lazy { ActivityFirstBinding.inflate(layoutInflater) }
 
@@ -127,10 +139,10 @@ class FirstActivity : LsActivity() {
     private fun initView() {
         binding.textPrivacy.makeLinks(
             "Privacy Policy" to View.OnClickListener {
-
+                navigator.showPrivacy()
             },
             "Terms of Use" to View.OnClickListener {
-
+                navigator.showTerms()
             }
         )
         binding.recyclerView1.apply {
@@ -146,7 +158,31 @@ class FirstActivity : LsActivity() {
             }
             this.adapter = previewAdapter2
         }
+
+        lifecycleScope.launch {
+            delay(2000)
+
+            val centerX = binding.viewAnimation.width.toFloat() / 2
+            val centerY = binding.viewAnimation.height.toFloat() / 2
+
+            val animation = ObjectAnimator.ofFloat(binding.viewAnimation, "translationY", 0f, -200f)
+            animation.apply {
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.REVERSE
+                duration = 1000
+                interpolator = AccelerateDecelerateInterpolator()
+                addUpdateListener {
+                    val animatedValue = it.animatedValue as Float
+                    binding.viewAnimation.translationX = centerX + (sin(animatedValue / 100) * 100)
+                    binding.viewAnimation.rotation = centerX + (sin(animatedValue / 100) * 100)
+                }
+            }
+
+            animation.start()
+        }
     }
+
+
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
