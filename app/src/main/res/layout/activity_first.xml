@@ -9,13 +9,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim2"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintWidth_percent="0.3"
         android:layout_marginTop="@dimen/_120sdp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_20sdp"
         app:layout_constraintStart_toEndOf="@id/viewAnim7"
         android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         app:layout_constraintDimensionRatio="1:1"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
@@ -143,7 +143,7 @@
         android:id="@+id/viewAnim8"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="680:1024"
+        app:layout_constraintDimensionRatio="2:4"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
@@ -158,7 +158,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz680xxx1024zzz_8" />
+            android:src="@drawable/first_preview_zzz2xxx3zzz_8" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewAnim9"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="3:2"
+        app:cardBackgroundColor="?android:windowBackground"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardElevation="@dimen/_3sdp"
+        android:layout_marginStart="@dimen/_minus15sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        app:layout_constraintBottom_toTopOf="@id/viewAnim7"
+        app:layout_constraintEnd_toStartOf="@id/viewAnim2"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/first_preview_zzz3xxx2zzz_9" />
 
     </com.google.android.material.card.MaterialCardView>
 

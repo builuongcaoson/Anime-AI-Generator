@@ -77,7 +77,8 @@ class FirstActivity : LsActivity() {
             binding.viewAnim5,
             binding.viewAnim6,
             binding.viewAnim7,
-            binding.viewAnim8
+            binding.viewAnim8,
+            binding.viewAnim9
         ).forEachIndexed { index, view ->
             view.animScale(index)
         }
