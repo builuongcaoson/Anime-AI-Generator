@@ -19,43 +19,6 @@ class ConfigApp @Inject constructor(
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
 
-    val firstPreviews by lazy {
-        listOf(
-            R.drawable.first_preview_zzz1xxx1zzz_1,
-            R.drawable.first_preview_zzz9xxx16zzz_2,
-            R.drawable.first_preview_zzz16xxx9zzz_3,
-            R.drawable.first_preview_zzz3xxx4zzz_4,
-            R.drawable.first_preview_zzz4xxx3zzz_5,
-            R.drawable.first_preview_zzz2xxx3zzz_6,
-            R.drawable.first_preview_zzz3xxx2zzz_7,
-            R.drawable.first_preview_zzz1xxx1zzz_8,
-            R.drawable.first_preview_zzz9xxx16zzz_9,
-            R.drawable.first_preview_zzz16xxx9zzz_10,
-            R.drawable.first_preview_zzz3xxx4zzz_11,
-            R.drawable.first_preview_zzz4xxx3zzz_12,
-            R.drawable.first_preview_zzz2xxx3zzz_13,
-            R.drawable.first_preview_zzz3xxx2zzz_14,
-            R.drawable.first_preview_zzz1xxx1zzz_15,
-            R.drawable.first_preview_zzz9xxx16zzz_16,
-            R.drawable.first_preview_zzz16xxx9zzz_17,
-            R.drawable.first_preview_zzz3xxx4zzz_18,
-            R.drawable.first_preview_zzz4xxx3zzz_19,
-            R.drawable.first_preview_zzz2xxx3zzz_20,
-            R.drawable.first_preview_zzz3xxx2zzz_21,
-            R.drawable.first_preview_zzz1xxx1zzz_22,
-            R.drawable.first_preview_zzz9xxx16zzz_23,
-            R.drawable.first_preview_zzz16xxx9zzz_24,
-            R.drawable.first_preview_zzz3xxx4zzz_25,
-            R.drawable.first_preview_zzz4xxx3zzz_26,
-            R.drawable.first_preview_zzz2xxx3zzz_27,
-            R.drawable.first_preview_zzz3xxx2zzz_28
-        ).map { res ->
-            val ratio = tryOrNull { context.resources.getResourceName(res).split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-
-            FirstPreview(res, ratio)
-        }
-    }
-
     // Art & Batch
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
 

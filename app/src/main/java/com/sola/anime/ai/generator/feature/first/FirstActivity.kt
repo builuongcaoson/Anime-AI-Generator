@@ -16,7 +16,6 @@ import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.extension.startTutorial
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
-import com.sola.anime.ai.generator.feature.first.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,8 +24,6 @@ class FirstActivity : LsActivity() {
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var previewAdapter1: PreviewAdapter
-    @Inject lateinit var previewAdapter2: PreviewAdapter
     @Inject lateinit var navigator: Navigator
 
     private val binding by lazy { ActivityFirstBinding.inflate(layoutInflater) }
@@ -55,69 +52,8 @@ class FirstActivity : LsActivity() {
     }
 
     private fun initData() {
-//        val dataAfterChunked = configApp.firstPreviews.chunked(configApp.firstPreviews.size / 2)
 
-//        previewAdapter1.let { adapter ->
-//            adapter.data = dataAfterChunked.getOrNull(0) ?: listOf()
-//            adapter.totalCount = adapter.data.size
-//            binding.recyclerView1.apply {
-//                this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
-//            }
-//        }
-//
-//        previewAdapter2.let { adapter ->
-//            adapter.data = dataAfterChunked.getOrNull(1) ?: listOf()
-//            adapter.totalCount = adapter.data.size
-//            binding.recyclerView2.apply {
-//                this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
-//            }
-//        }
     }
-
-//    override fun onResume() {
-//        registerScrollListener()
-//        super.onResume()
-//    }
-//
-//    override fun onDestroy() {
-//        unregisterScrollListener()
-//        super.onDestroy()
-//    }
-
-//    private val scrollListener = object: RecyclerView.OnScrollListener() {
-//        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//            tryOrNull {
-//                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@tryOrNull
-//
-//                val visibleItemCount = layoutManager.childCount
-//                val totalItemCount = layoutManager.itemCount
-//                val pastVisibleItems = layoutManager.findLastVisibleItemPosition()
-//
-//                tryOrNull {
-//                    if (pastVisibleItems + visibleItemCount >= totalItemCount - 2) {
-//                        when (recyclerView) {
-//                            binding.recyclerView1 -> {
-//                                tryOrNull { recyclerView.post { previewAdapter1.insert() } }
-//                            }
-//                            binding.recyclerView2 -> {
-//                                tryOrNull { recyclerView.post { previewAdapter2.insert() } }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-//    private fun registerScrollListener(){
-//        binding.recyclerView1.addOnScrollListener(scrollListener)
-//        binding.recyclerView2.addOnScrollListener(scrollListener)
-//    }
-//
-//    private fun unregisterScrollListener(){
-//        binding.recyclerView1.removeOnScrollListener(scrollListener)
-//        binding.recyclerView2.removeOnScrollListener(scrollListener)
-//    }
 
     private fun initObservable() {
 
@@ -132,19 +68,6 @@ class FirstActivity : LsActivity() {
                 navigator.showTerms()
             }
         )
-//        binding.recyclerView1.apply {
-//            this.layoutManager = AutoScrollLayoutManager(this@FirstActivity).apply {
-//                this.orientation = LinearLayoutManager.VERTICAL
-//            }
-//            this.adapter = previewAdapter1
-//        }
-//        binding.recyclerView2.apply {
-//            this.layoutManager =  AutoScrollLayoutManager(this@FirstActivity).apply {
-//                this.orientation = LinearLayoutManager.VERTICAL
-//                this.reverseLayout = true
-//            }
-//            this.adapter = previewAdapter2
-//        }
 
         listOf(
             binding.viewAnim1,
@@ -170,10 +93,6 @@ class FirstActivity : LsActivity() {
             startDelay = if (index % 2 == 0) 250 else 0
             addUpdateListener {
                 val animatedValue = it.animatedValue as Float
-
-//                this@animBubble.translationX = animatedValue
-//                this@animBubble.translationY = animatedValue
-//                this@animBubble.rotation = animatedValue / 10
 
                 this@animScale.scaleX = animatedValue
                 this@animScale.scaleY = animatedValue

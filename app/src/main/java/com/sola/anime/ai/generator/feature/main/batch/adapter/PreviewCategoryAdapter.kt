@@ -14,11 +14,11 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
 
     init {
         data = listOf(
-            PreviewCategoryBatch(display = "Anime", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
-            PreviewCategoryBatch(display = "Anything V5", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
-            PreviewCategoryBatch(display = "Anything V4", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
-            PreviewCategoryBatch(display = "Anything V3", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
-            PreviewCategoryBatch(display = "Anything V2", preview = R.drawable.first_preview_zzz1xxx1zzz_1)
+//            PreviewCategoryBatch(display = "Anime", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
+//            PreviewCategoryBatch(display = "Anything V5", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
+//            PreviewCategoryBatch(display = "Anything V4", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
+//            PreviewCategoryBatch(display = "Anything V3", preview = R.drawable.first_preview_zzz1xxx1zzz_1),
+//            PreviewCategoryBatch(display = "Anything V2", preview = R.drawable.first_preview_zzz1xxx1zzz_1)
         )
     }
 
