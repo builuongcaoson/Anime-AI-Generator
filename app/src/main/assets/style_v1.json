@@ -1,6 +1,6 @@
 [
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2Fzzz1xxx1zzz_1.webp?alt=media&token=c5b1f054-cfc6-47aa-9795-89cec1249078",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2F1.webp?alt=media&token=1f347d5c-a8ca-4770-9b1c-50ff2f0c5edd",
     "display": "Fire",
     "prompts": [
       ", fire around",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2Fzzz1xxx1zzz_1.webp?alt=media&token=acde1da8-c96a-4ca4-8cb7-60875c5c8b14",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2F1.webp?alt=media&token=5812c6f1-367d-470b-82f6-8cbd8df57ac3",
     "display": "Water",
     "prompts": [
       ", water around",
@@ -21,7 +21,7 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2Fzzz1xxx1zzz_1.webp?alt=media&token=f64bfdf2-fd3a-48c9-b964-762f0ee5f905",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2F1.webp?alt=media&token=544f05b7-bdb3-4f52-85c5-3c08d477bd5c",
     "display": "Wind",
     "prompts": [
       ", wind",
@@ -31,14 +31,14 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2Fzzz1xxx1zzz_1.webp?alt=media&token=3c4a86b0-8ff9-49e0-86e3-2e7749c18c60",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2F1.webp?alt=media&token=21faab51-110a-4c33-bb4f-f4e05735c45a",
     "display": "Ice",
     "prompts": [
       ", ice magic"
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2Fzzz1xxx1zzz_1.webp?alt=media&token=72e78d1a-5d84-441e-96d9-89d9261168c5",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2F1.webp?alt=media&token=d7a7faab-3d26-4fdc-a42c-0e0b4804deef",
     "display": "Love",
     "prompts": [
       ", heart shaped gift",
@@ -49,7 +49,7 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2Fzzz1xxx1zzz_1.webp?alt=media&token=95a266bb-700d-4e11-b58d-67e5ea86566d",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2F1.webp?alt=media&token=89063224-9e53-4daf-97c5-50916671b706",
     "display": "Christmas",
     "prompts": [
       ", christmas",
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2Fzzz1xxx1zzz_1.webp?alt=media&token=54d3ee5e-9d0e-4842-937e-3f951c3a1964",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2F1.webp?alt=media&token=d77936ce-d862-427f-ae95-5e06ce5585f3",
     "display": "Plant",
     "prompts": [
       ", in the forest",

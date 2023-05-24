@@ -183,7 +183,8 @@ class IapActivity : LsActivity() {
                 }
             }
 
-        prefs.isUpgraded
+        prefs
+            .isUpgraded
             .asObservable()
             .filter { it }
             .observeOn(AndroidSchedulers.mainThread())
@@ -362,7 +363,7 @@ class IapActivity : LsActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!isKill){
             startMain()

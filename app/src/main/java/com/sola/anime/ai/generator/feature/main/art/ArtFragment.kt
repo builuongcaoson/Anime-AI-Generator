@@ -79,8 +79,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllRatio2x3Live().observe(viewLifecycleOwner){ explores ->
-            previewAdapter.data = explores
+        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+            previewAdapter.data = explores.shuffled()
             binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
         }
     }
@@ -107,16 +107,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         aspectRatioAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { configApp.subjectRatioClicks.onNext(it) }
+            .subscribe {
+                when {
+                    !prefs.isUpgraded.get() -> activity?.startIap()
+                    else -> configApp.subjectRatioClicks.onNext(it)
+                }
+            }
 
         configApp
             .subjectRatioClicks
             .autoDispose(scope())
             .subscribe { ratio ->
-                when {
-                    !prefs.isUpgraded.get() -> activity?.startIap()
-                    else -> aspectRatioAdapter.ratio = ratio
-                }
+                aspectRatioAdapter.ratio = ratio
             }
 
         configApp
@@ -140,8 +142,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 advancedSheet.negative = explore?.negative ?: ""
                 advancedSheet.guidance = explore?.guidance ?: 7.5f
 
-                val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
-                configApp.subjectRatioClicks.onNext(findRatio)
+                when {
+                    prefs.isUpgraded.get() -> {
+                        val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
+                        configApp.subjectRatioClicks.onNext(findRatio)
+                    }
+                }
 
                 updateUiExplore(explore)
             }

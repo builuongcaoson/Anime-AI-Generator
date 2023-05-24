@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.lightStatusBar
@@ -17,6 +18,8 @@ import com.sola.anime.ai.generator.common.extension.startTutorial
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,12 +45,16 @@ class FirstActivity : LsActivity() {
 
     private fun listenerView() {
         binding.cardStart.clicks(withAnim = true){
-            prefs.isFirstTime.set(false)
-            when {
-                !prefs.isViewTutorial.get() -> startTutorial()
-                else -> startMain()
+            lifecycleScope.launch {
+                delay(100)
+
+                prefs.isFirstTime.set(false)
+                when {
+                    !prefs.isViewTutorial.get() -> startTutorial()
+                    else -> startMain()
+                }
+                finish()
             }
-            finish()
         }
     }
 

@@ -40,9 +40,9 @@
     "isPremium": false
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F5_zzz2xxx3zzz.webp?alt=media&token=f111458d-3b1c-4526-97b7-4a81ee9da3cb",
-    "prompt": "Male Vtuber Xograd Maxwell, silver hair, dog ears, dog tail, monocle over left eye, right eye is colored red, left eye is colored gold with a top hat on. working on a farm. crops growing.",
-    "negative": "worst quality, large head, low quality, extra digits, bad eye, EasyNegativeV2, ng_deepnegative_v1_75t",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F5_zzz2xxx3zzz.webp?alt=media&token=9d8282ef-1b05-4c27-aa2f-dd43b7ea29ab",
+    "prompt": "1girl, solo, long hair, looking at viewer, braid, flower, wings, parted lips, head wings, red hair, pink hair, hair between eyes, upper body, bangs, hair rings, yellow eyes, yellow flower",
+    "negative": "worst quality, large head, low quality, extra digits, bad eyes, EasyNegativeV2, ng_deepnegative_v1_75t",
     "guidance": 7.5,
     "sampler": "euler_a",
     "steps": "50",

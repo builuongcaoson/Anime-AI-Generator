@@ -24,13 +24,9 @@ class Constraint {
 
     class Iap {
         companion object  {
-//            const val SKU_LIFE_TIME = "buy_lifetime"
-//            const val SKU_WEEK = "buy_week"
-//            const val SKU_YEAR = "buy_year"
-
-            const val SKU_LIFE_TIME = "lifetime"
+            const val SKU_LIFE_TIME = "buy_lifetime"
             const val SKU_WEEK = "buy_week"
-            const val SKU_YEAR = "buy_month"
+            const val SKU_YEAR = "buy_year"
         }
     }
 }

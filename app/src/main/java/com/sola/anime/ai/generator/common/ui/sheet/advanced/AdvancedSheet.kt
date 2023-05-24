@@ -8,6 +8,8 @@ import com.basic.common.extension.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
+import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.SheetAdvancedBinding
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -20,6 +22,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
 
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var prefs: Preferences
 
     var negative: String = ""
     var guidance: Float = 7.5f
@@ -61,12 +64,19 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
         aspectRatioAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { configApp.subjectRatioClicks.onNext(it) }
+            .subscribe {
+                when {
+                    !prefs.isUpgraded.get() -> activity?.startIap()
+                    else -> configApp.subjectRatioClicks.onNext(it)
+                }
+            }
 
         configApp
             .subjectRatioClicks
             .autoDispose(scope())
-            .subscribe { aspectRatioAdapter.ratio = it }
+            .subscribe {
+                aspectRatioAdapter.ratio = it
+            }
 
         binding
             .editNegative
