@@ -71,7 +71,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val advancedSheet by lazy { AdvancedSheet() }
 
     private var styleId: Long = -1L
-    private var ratio: Ratio = Ratio.Ratio1x1
 
     override fun onViewCreated() {
         initView()
@@ -114,9 +113,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subjectRatioClicks
             .autoDispose(scope())
             .subscribe { ratio ->
-                this.ratio = ratio
-
-                aspectRatioAdapter.ratio = ratio
+                when {
+                    !prefs.isUpgraded.get() -> activity?.startIap()
+                    else -> aspectRatioAdapter.ratio = ratio
+                }
             }
 
         configApp
@@ -273,7 +273,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
                 styleId = this.styleId,
-                ratio = this.ratio,
+                ratio = aspectRatioAdapter.ratio,
                 seed = (0..4294967295).random()
             )
 
