@@ -102,7 +102,7 @@ class SplashActivity : LsActivity() {
 
                         when {
                             prefs.isFirstTime.get() -> startFirst()
-                            !prefs.isViewTutorial.get() -> startTutorial()
+//                            !prefs.isViewTutorial.get() -> startTutorial()
                             else -> startMain()
                         }
                         finish()

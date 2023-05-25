@@ -50,7 +50,7 @@ class FirstActivity : LsActivity() {
 
                 prefs.isFirstTime.set(false)
                 when {
-                    !prefs.isViewTutorial.get() -> startTutorial()
+//                    !prefs.isViewTutorial.get() -> startTutorial()
                     else -> startMain()
                 }
                 finish()

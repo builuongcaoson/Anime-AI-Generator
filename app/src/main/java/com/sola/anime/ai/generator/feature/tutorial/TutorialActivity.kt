@@ -125,7 +125,7 @@ class TutorialActivity : LsActivity() {
                         indexStep3 == -1 -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.preview
                         else -> this@TutorialActivity.steps.getOrNull(indexStep1)?.childs?.getOrNull(indexStep2)?.childs?.getOrNull(indexStep3)?.preview
                     }
-                    binding.preview.setImageResource(preview ?: R.drawable.preview_tutorial_default)
+//                    binding.preview.setImageResource(preview ?: R.drawable.preview_tutorial_default)
 
                     when  {
                         indexStep1 != -1 && indexStep2 != -1 && indexStep3 != -1 -> {
