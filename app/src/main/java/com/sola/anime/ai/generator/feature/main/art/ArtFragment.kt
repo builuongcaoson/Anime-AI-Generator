@@ -290,6 +290,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
             prompt.contains(pattern) -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
+            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
+                activity?.startIap()
+            }
             !prefs.isUpgraded.get() -> {
                 activity?.let { activity ->
                     admobManager.showRewardCreate(

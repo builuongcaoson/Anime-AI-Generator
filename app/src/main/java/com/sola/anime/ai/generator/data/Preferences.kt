@@ -14,18 +14,21 @@ class Preferences @Inject constructor(
 ) {
 
     companion object {
-        const val MAX_NUMBER_CREATE_ART = 9999999
+        const val MAX_NUMBER_CREATE_ARTWORK = 5L
         const val MAX_SECOND_GENERATE_ART = 30
     }
 
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
+    val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1)
 
     // For App
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
     val isViewTutorial = rxPrefs.getBoolean("isViewTutorial", false)
     val isRated = rxPrefs.getBoolean("isRated", false)
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
+    val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
+    val isSyncedData = rxPrefs.getBoolean("isSyncedData", false)
 
 
 }

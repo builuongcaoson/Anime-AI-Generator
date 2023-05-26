@@ -75,6 +75,8 @@ class ArtResultActivity : LsActivity() {
             }
         }
 
+        prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
+
         initView()
         initObservable()
         initData()
@@ -112,6 +114,9 @@ class ArtResultActivity : LsActivity() {
         }
 
         when {
+            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
+                startIap()
+            }
             !prefs.isUpgraded.get() -> {
                 admobManager.showRewardCreateAgain(
                     this,

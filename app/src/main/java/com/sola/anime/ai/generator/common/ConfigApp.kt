@@ -17,6 +17,8 @@ class ConfigApp @Inject constructor(
     private val context: Context
 ) {
 
+    var scriptIap = "2" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
+
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
 
     // Art & Batch

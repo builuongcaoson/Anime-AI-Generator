@@ -16,13 +16,11 @@ import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.data.manager.AdmobManagerImpl
 import com.sola.anime.ai.generator.data.manager.AnalyticManagerImpl
-import com.sola.anime.ai.generator.data.manager.BillingManagerImpl
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.manager.BillingManager
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
@@ -185,10 +183,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAnalyticManagerImpl(manager: AnalyticManagerImpl): AnalyticManager = manager
-
-    @Provides
-    @Singleton
-    fun provideBillingManagerImpl(manager: BillingManagerImpl): BillingManager = manager
 
     @Provides
     @Singleton

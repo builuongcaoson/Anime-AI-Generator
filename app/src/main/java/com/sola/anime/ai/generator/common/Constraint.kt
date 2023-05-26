@@ -13,6 +13,8 @@ class Constraint {
             const val MAIL_SUPPORT = "sola.luthimylanh@gmail.com"
             const val PRIVACY_URL = "https://sites.google.com/view/anime-art-privacy-policy"
             const val TERMS_URL = "https://sites.google.com/view/anime-art-terms-of-service"
+
+            const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
         }
     }
 
@@ -26,6 +28,8 @@ class Constraint {
         companion object  {
             const val SKU_LIFE_TIME = "buy_lifetime"
             const val SKU_WEEK = "buy_week"
+            const val SKU_WEEK_3D_TRIAl = "buy_week_3d_trial"
+            const val SKU_MONTH = "buy_month"
             const val SKU_YEAR = "buy_year"
         }
     }
