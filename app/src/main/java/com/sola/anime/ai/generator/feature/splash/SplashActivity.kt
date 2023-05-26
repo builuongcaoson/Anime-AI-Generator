@@ -28,13 +28,11 @@ import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class SplashActivity : LsActivity() {
+class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     @Inject lateinit var syncConfigApp: SyncConfigApp
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
-
-    private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

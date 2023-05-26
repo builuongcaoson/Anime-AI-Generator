@@ -16,7 +16,7 @@ import com.sola.anime.ai.generator.databinding.ItemPreviewArtProcessingBinding
 import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewArtProcessingBinding>() {
+class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewArtProcessingBinding>(ItemPreviewArtProcessingBinding::inflate) {
 
     var totalCount = 0
 
@@ -25,19 +25,12 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewAr
         notifyItemInserted(totalCount - 1)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewArtProcessingBinding> {
-        return LsViewHolder(parent, ItemPreviewArtProcessingBinding::inflate)
-    }
-
-    override fun onBindViewHolder(
-        holder: LsViewHolder<ItemPreviewArtProcessingBinding>,
+    override fun bindItem(
+        item: ArtProcess,
+        binding: ItemPreviewArtProcessingBinding,
         position: Int
     ) {
         val item = getItem(position % data.size)
-        val binding = holder.binding
         val context = binding.root.context
 
         Glide

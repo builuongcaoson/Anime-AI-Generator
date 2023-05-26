@@ -14,7 +14,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBinding>() {
+class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBinding>(ItemFolderMineBinding::inflate) {
 
     val clicks: Subject<Folder> = PublishSubject.create()
     val plusClicks: Subject<Unit> = PublishSubject.create()
@@ -33,16 +33,7 @@ class FolderAdapter @Inject constructor(): LsAdapter<Folder?, ItemFolderMineBind
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemFolderMineBinding> {
-        return LsViewHolder(parent, ItemFolderMineBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemFolderMineBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: Folder?, binding: ItemFolderMineBinding, position: Int) {
         val context = binding.root.context
 
         when {

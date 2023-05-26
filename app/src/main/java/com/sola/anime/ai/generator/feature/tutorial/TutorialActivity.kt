@@ -27,12 +27,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TutorialActivity : LsActivity() {
+class TutorialActivity : LsActivity<ActivityTutorialBinding>(ActivityTutorialBinding::inflate) {
 
     @Inject lateinit var promptAdapter: PromptAdapter
     @Inject lateinit var prefs: Preferences
 
-    private val binding by lazy { ActivityTutorialBinding.inflate(layoutInflater) }
     private val steps by lazy { TutorialStep.values() }
     private var indexStep1: Int = -1
     private var indexStep2: Int = -1

@@ -1,9 +1,7 @@
 package com.sola.anime.ai.generator.feature.main.art.adapter
 
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
-import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
 import com.sola.anime.ai.generator.databinding.ItemAspectRatioBinding
@@ -12,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatioBinding>() {
+class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatioBinding>(ItemAspectRatioBinding::inflate) {
 
     init {
         data = Ratio.values().toList()
@@ -34,16 +32,7 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatio
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemAspectRatioBinding> {
-        return LsViewHolder(parent, ItemAspectRatioBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemAspectRatioBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: Ratio, binding: ItemAspectRatioBinding, position: Int) {
         val context = binding.root.context
 
         binding.display.text = item.display

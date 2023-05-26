@@ -21,20 +21,11 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>() {
+class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>(ItemHistoryMineBinding::inflate) {
 
     val clicks: Subject<History> = PublishSubject.create()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemHistoryMineBinding> {
-        return LsViewHolder(parent, ItemHistoryMineBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemHistoryMineBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: History, binding: ItemHistoryMineBinding, position: Int) {
         val context = binding.root.context
 
         val ratio = "${item.childs.lastOrNull()?.width ?: "1"}:${item.childs.lastOrNull()?.height ?: "1"}"

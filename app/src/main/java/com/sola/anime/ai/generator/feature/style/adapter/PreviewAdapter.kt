@@ -23,7 +23,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBinding>(ItemPreviewStyleBinding::inflate) {
 
     val clicks: Subject<Style> = PublishSubject.create()
     var style: Style? = null
@@ -47,16 +47,8 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewStyleBinding> {
-        return LsViewHolder(parent, ItemPreviewStyleBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewStyleBinding>, position: Int) {
+    override fun bindItem(item: Style, binding: ItemPreviewStyleBinding, position: Int) {
         val item = getItem(position % data.size)
-        val binding = holder.binding
         val context = binding.root.context
 
         binding.display.text = item.display

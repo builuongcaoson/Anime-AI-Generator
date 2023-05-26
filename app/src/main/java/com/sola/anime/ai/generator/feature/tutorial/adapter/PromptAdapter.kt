@@ -12,7 +12,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PromptAdapter @Inject constructor() : LsAdapter<String, ItemPromptInTutorialBinding>() {
+class PromptAdapter @Inject constructor() : LsAdapter<String, ItemPromptInTutorialBinding>(ItemPromptInTutorialBinding::inflate) {
 
     val clicks: Subject<Pair<String, Int>> = PublishSubject.create()
     var positionSelected = -1
@@ -30,19 +30,7 @@ class PromptAdapter @Inject constructor() : LsAdapter<String, ItemPromptInTutori
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPromptInTutorialBinding> {
-        return LsViewHolder(parent, ItemPromptInTutorialBinding::inflate)
-    }
-
-    override fun onBindViewHolder(
-        holder: LsViewHolder<ItemPromptInTutorialBinding>,
-        position: Int
-    ) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: String, binding: ItemPromptInTutorialBinding, position: Int) {
         val context = binding.root.context
 
         binding.display.text = item

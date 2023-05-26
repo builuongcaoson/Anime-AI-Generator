@@ -27,7 +27,7 @@ import java.text.DecimalFormat
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class IapActivity : LsActivity() {
+class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) {
 
     companion object {
         const val IS_KILL_EXTRA = "IS_KILL_EXTRA"
@@ -40,7 +40,6 @@ class IapActivity : LsActivity() {
     @Inject lateinit var billingManager: BillingManager
     @Inject lateinit var prefs: Preferences
 
-    private val binding by lazy { ActivityIapBinding.inflate(layoutInflater) }
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoose: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_LIFE_TIME)
     private val pricesWithSku = arrayListOf<PriceFormat>()

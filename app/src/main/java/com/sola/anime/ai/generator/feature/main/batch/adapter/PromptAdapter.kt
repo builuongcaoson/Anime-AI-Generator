@@ -13,7 +13,7 @@ import com.sola.anime.ai.generator.domain.model.NumberOfImages
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import javax.inject.Inject
 
-class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatchBinding>() {
+class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatchBinding>(ItemPromptBatchBinding::inflate) {
 
     init {
         data = listOf(
@@ -21,16 +21,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         )
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPromptBatchBinding> {
-        return LsViewHolder(parent, ItemPromptBatchBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPromptBatchBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: PromptBatch, binding: ItemPromptBatchBinding, position: Int) {
         val context = binding.root.context
 
         binding.recyclerNumberOfImages.apply {
@@ -51,22 +42,17 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         }
     }
 
-    class NumberOfImagesAdapter: LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>() {
+    class NumberOfImagesAdapter: LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {
 
         init {
             data = NumberOfImages.values().toList()
         }
 
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): LsViewHolder<ItemNumberOfImagesBatchBinding> {
-            return LsViewHolder(parent, ItemNumberOfImagesBatchBinding::inflate)
-        }
-
-        override fun onBindViewHolder(holder: LsViewHolder<ItemNumberOfImagesBatchBinding>, position: Int) {
-            val item = getItem(position)
-            val binding = holder.binding
+        override fun bindItem(
+            item: NumberOfImages,
+            binding: ItemNumberOfImagesBatchBinding,
+            position: Int
+        ) {
             val context = binding.root.context
 
             binding.display.text = item.display
@@ -85,22 +71,17 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
     }
 
-    class ImageDimensionsAdapter: LsAdapter<ImageDimensions, ItemImageDimensionsBatchBinding>() {
+    class ImageDimensionsAdapter: LsAdapter<ImageDimensions, ItemImageDimensionsBatchBinding>(ItemImageDimensionsBatchBinding::inflate) {
 
         init {
             data = ImageDimensions.values().toList()
         }
 
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): LsViewHolder<ItemImageDimensionsBatchBinding> {
-            return LsViewHolder(parent, ItemImageDimensionsBatchBinding::inflate)
-        }
-
-        override fun onBindViewHolder(holder: LsViewHolder<ItemImageDimensionsBatchBinding>, position: Int) {
-            val item = getItem(position)
-            val binding = holder.binding
+        override fun bindItem(
+            item: ImageDimensions,
+            binding: ItemImageDimensionsBatchBinding,
+            position: Int
+        ) {
             val context = binding.root.context
 
             binding.display.text = item.display

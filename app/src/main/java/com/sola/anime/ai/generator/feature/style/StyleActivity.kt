@@ -17,13 +17,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StyleActivity : LsActivity() {
+class StyleActivity : LsActivity<ActivityStyleBinding>(ActivityStyleBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var styleDao: StyleDao
     @Inject lateinit var configApp: ConfigApp
-
-    private val binding by lazy { ActivityStyleBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -17,7 +17,7 @@ import com.sola.anime.ai.generator.databinding.ItemPreviewIapBinding
 import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIapBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIapBinding>(ItemPreviewIapBinding::inflate) {
 
     var totalCount = 0
 
@@ -26,16 +26,8 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
         notifyItemInserted(totalCount - 1)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewIapBinding> {
-        return LsViewHolder(parent, ItemPreviewIapBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewIapBinding>, position: Int) {
+    override fun bindItem(item: IapPreview, binding: ItemPreviewIapBinding, position: Int) {
         val item = getItem(position % data.size)
-        val binding = holder.binding
         val context = binding.root.context
 
         val set = ConstraintSet()

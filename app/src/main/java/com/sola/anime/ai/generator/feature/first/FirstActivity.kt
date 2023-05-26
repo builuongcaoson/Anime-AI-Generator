@@ -23,13 +23,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FirstActivity : LsActivity() {
+class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inflate) {
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var navigator: Navigator
-
-    private val binding by lazy { ActivityFirstBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ArtResultActivity : LsActivity() {
+class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResultBinding::inflate) {
 
     companion object {
         const val HISTORY_ID_EXTRA = "HISTORY_ID_EXTRA"
@@ -55,7 +55,6 @@ class ArtResultActivity : LsActivity() {
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
-    private val binding by lazy { ActivityArtResultBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
     private val childHistoryIndex by lazy { intent.getIntExtra(CHILD_HISTORY_INDEX_EXTRA, -1) }
     private var childHistories = arrayListOf<ChildHistory>()

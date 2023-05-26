@@ -21,14 +21,13 @@ import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExploreActivity : LsActivity() {
+class ExploreActivity : LsActivity<ActivityExploreBinding>(ActivityExploreBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var exploreDialog: ExploreDialog
 
-    private val binding by lazy { ActivityExploreBinding.inflate(layoutInflater) }
     private val subjectUseClicks: Subject<Explore> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
