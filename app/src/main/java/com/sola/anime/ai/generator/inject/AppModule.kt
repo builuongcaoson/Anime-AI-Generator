@@ -97,8 +97,7 @@ class AppModule {
                 val request = chain
                     .request()
                     .newBuilder()
-                    .addHeader("X-RapidAPI-Key", Constraint.Api.DEZGO_API_KEY)
-                    .addHeader("X-RapidAPI-Host", Constraint.Api.DEZGO_API_HOST)
+                    .addHeader("X-Dezgo-Key", Constraint.Api.DEZGO_API_KEY)
                     .build()
                 chain.proceed(request)
             }
@@ -123,7 +122,7 @@ class AppModule {
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://dezgo.p.rapidapi.com/")
+            .baseUrl(Constraint.Api.DEZGO_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

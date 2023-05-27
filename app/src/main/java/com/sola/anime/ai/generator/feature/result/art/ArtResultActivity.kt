@@ -102,6 +102,7 @@ class ArtResultActivity : LsActivity() {
                 prompt = history.prompt,
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
+                steps = if (!prefs.isUpgraded.get()) "50" else "100",
                 styleId = history.styleId,
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")

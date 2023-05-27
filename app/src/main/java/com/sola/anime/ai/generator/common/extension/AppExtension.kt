@@ -30,6 +30,7 @@ fun initDezgoBodyTextsToImages(
     prompt: String,
     negativePrompt: String,
     guidance: String,
+    steps: String,
     styleId: Long,
     ratio: Ratio,
     seed: Long
@@ -45,6 +46,7 @@ fun initDezgoBodyTextsToImages(
                     prompt = prompt,
                     negativePrompt = negativePrompt,
                     guidance = guidance,
+                    steps = steps,
                     styleId = styleId,
                     ratio = ratio,
                     seed = seed
@@ -61,6 +63,7 @@ fun initBodyTextsToImages(
     prompt: String,
     negativePrompt: String,
     guidance: String,
+    steps: String,
     styleId: Long,
     ratio: Ratio,
     seed: Long
@@ -74,6 +77,7 @@ fun initBodyTextsToImages(
                 prompt = prompt,
                 negativePrompt = negativePrompt,
                 guidance = guidance,
+                steps = steps,
                 width = ratio.width,
                 height = ratio.height,
                 seed = seed.toString()

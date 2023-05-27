@@ -278,6 +278,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
+                steps = if (!prefs.isUpgraded.get()) "50" else "100",
                 styleId = this.styleId,
                 ratio = aspectRatioAdapter.ratio,
                 seed = (0..4294967295).random()

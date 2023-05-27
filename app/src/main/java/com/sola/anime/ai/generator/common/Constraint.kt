@@ -3,14 +3,14 @@ package com.sola.anime.ai.generator.common
 class Constraint {
     class Api {
         companion object {
-            const val DEZGO_API_KEY = "6bacdccfc8mshcf72a2013553932p1897eajsn65b89307e1cd"
-            const val DEZGO_API_HOST = "dezgo.p.rapidapi.com"
+            const val DEZGO_URL = "https://api.dezgo.com/"
+            const val DEZGO_API_KEY = "DEZGO-D52F2465008D43E746840EF0A88000892E435F3EF219B29C7D263BB8F11F9E43DE560228"
         }
     }
 
     class Info {
         companion object {
-            const val MAIL_SUPPORT = "sola.luthimylanh@gmail.com"
+            const val MAIL_SUPPORT = "sola.company.help@gmail.com"
             const val PRIVACY_URL = "https://sites.google.com/view/anime-art-privacy-policy"
             const val TERMS_URL = "https://sites.google.com/view/anime-art-terms-of-service"
 
