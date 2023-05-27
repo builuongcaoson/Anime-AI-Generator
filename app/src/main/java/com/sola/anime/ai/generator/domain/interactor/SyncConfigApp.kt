@@ -74,7 +74,7 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 
         data.forEach { explore ->
-            Glide.with(context).asBitmap().load(explore.preview).preload()
+            Glide.with(context).load(explore.preview).preload()
 
             explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
@@ -89,7 +89,7 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
 
         data.forEach { iapPreview ->
-            Glide.with(context).asBitmap().load(iapPreview.preview).preload()
+            Glide.with(context).load(iapPreview.preview).preload()
 
             iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
@@ -104,7 +104,7 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
 
         data.forEach {
-            Glide.with(context).asBitmap().load(it.preview).preload()
+            Glide.with(context).load(it.preview).preload()
         }
 
         styleDao.deleteAll()
@@ -117,7 +117,7 @@ class SyncConfigApp @Inject constructor(
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<ArtProcess>::class.java) } ?: arrayOf()
 
         data.forEach {
-            Glide.with(context).asBitmap().load(it.preview).preload()
+            Glide.with(context).load(it.preview).preload()
         }
 
         artProgressDao.deleteAll()

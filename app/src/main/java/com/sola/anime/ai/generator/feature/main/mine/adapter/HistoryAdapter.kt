@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.main.mine.adapter
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -49,15 +50,14 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
 
         Glide
             .with(context)
-            .asBitmap()
             .load(item.childs.lastOrNull()?.pathPreview)
             .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
-            .listener(object: RequestListener<Bitmap>{
+            .listener(object: RequestListener<Drawable>{
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.cardPreview.cardElevation = 0f
@@ -67,15 +67,15 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    resource: Drawable?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let { bitmap ->
+                    resource?.let {
                         binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
-                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.setImageDrawable(resource)
                         binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.cardPreview.cardElevation = 0f

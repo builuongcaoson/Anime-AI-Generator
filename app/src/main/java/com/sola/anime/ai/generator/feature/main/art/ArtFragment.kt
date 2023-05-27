@@ -214,7 +214,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             activity?.let { activity ->
                 Glide
                     .with(activity)
-                    .asBitmap()
                     .load(style.preview)
                     .thumbnail(0.7f)
                     .placeholder(R.drawable.place_holder_image)

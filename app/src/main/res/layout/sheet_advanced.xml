@@ -200,82 +200,82 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_5sdp"-->
+<!--        android:orientation="vertical">-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <com.basic.common.widget.LsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="CFG Scale"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="medium" />
+<!--            <com.basic.common.widget.LsTextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:text="CFG Scale"-->
+<!--                android:textColor="?android:textColorPrimary"-->
+<!--                android:textSize="@dimen/_12ssp"-->
+<!--                app:textFont="medium" />-->
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/viewPinCFG"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/circle"
-                android:backgroundTint="?android:colorBackground"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_pin"
-                android:tint="?android:textColorPrimary"
-                android:visibility="gone" />
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/viewPinCFG"-->
+<!--                android:layout_width="@dimen/_20sdp"-->
+<!--                android:layout_height="@dimen/_20sdp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                android:background="@drawable/circle"-->
+<!--                android:backgroundTint="?android:colorBackground"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:src="@drawable/ic_pin"-->
+<!--                android:tint="?android:textColorPrimary"-->
+<!--                android:visibility="gone" />-->
 
-        </RelativeLayout>
+<!--        </RelativeLayout>-->
 
-        <com.sola.anime.ai.generator.common.widget.slider.Slidr
-            android:id="@+id/slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:paddingTop="@dimen/_5sdp"
-            app:slidr_backgroundColor="?android:colorBackground"
-            app:slidr_draw_bubble="false"
-            app:slidr_region_leftColor="?colorAccent"
-            app:slidr_textBottom_visible="false"
-            app:slidr_textTop_visible="true" />
+<!--        <com.sola.anime.ai.generator.common.widget.slider.Slidr-->
+<!--            android:id="@+id/slider"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/_5sdp"-->
+<!--            android:layout_marginEnd="@dimen/_5sdp"-->
+<!--            android:paddingTop="@dimen/_5sdp"-->
+<!--            app:slidr_backgroundColor="?android:colorBackground"-->
+<!--            app:slidr_draw_bubble="false"-->
+<!--            app:slidr_region_leftColor="?colorAccent"-->
+<!--            app:slidr_textBottom_visible="false"-->
+<!--            app:slidr_textTop_visible="true" />-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp">
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_5sdp">-->
 
-            <com.basic.common.widget.LsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:text="Better Quality"
-                android:textColor="?android:textColorTertiary"
-                android:textSize="@dimen/_10ssp" />
+<!--            <com.basic.common.widget.LsTextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                android:text="Better Quality"-->
+<!--                android:textColor="?android:textColorTertiary"-->
+<!--                android:textSize="@dimen/_10ssp" />-->
 
-            <com.basic.common.widget.LsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:text="Match Prompt"
-                android:textColor="?android:textColorTertiary"
-                android:textSize="@dimen/_10ssp" />
+<!--            <com.basic.common.widget.LsTextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                android:text="Match Prompt"-->
+<!--                android:textColor="?android:textColorTertiary"-->
+<!--                android:textSize="@dimen/_10ssp" />-->
 
-        </RelativeLayout>
+<!--        </RelativeLayout>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

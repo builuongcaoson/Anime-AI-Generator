@@ -1,22 +1,15 @@
 package com.basic.common.extension
 
 import android.content.Context
-import android.content.ContextWrapper
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.ConnectivityManager
-import android.os.Environment
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearSmoothScroller
 import timber.log.Timber
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 fun Context.getColorCompat(colorRes: Int): Int {
     return tryOrNull { ContextCompat.getColor(this, colorRes) } ?: Color.BLACK

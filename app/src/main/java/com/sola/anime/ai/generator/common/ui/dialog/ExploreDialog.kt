@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.text.method.ScrollingMovementMethod
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
@@ -68,16 +70,15 @@ class ExploreDialog @Inject constructor() {
             if (isShowing()){
                 Glide
                     .with(activity)
-                    .asBitmap()
                     .load(explore.preview)
                     .placeholder(R.drawable.place_holder_image)
                     .error(R.drawable.place_holder_image)
-                    .transition(BitmapTransitionOptions.withCrossFade())
-                    .listener(object: RequestListener<Bitmap>{
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .listener(object: RequestListener<Drawable>{
                         override fun onLoadFailed(
                             e: GlideException?,
                             model: Any?,
-                            target: Target<Bitmap>?,
+                            target: Target<Drawable>?,
                             isFirstResource: Boolean
                         ): Boolean {
                             binding.preview.setImageResource(R.drawable.place_holder_image)
@@ -86,14 +87,14 @@ class ExploreDialog @Inject constructor() {
                         }
 
                         override fun onResourceReady(
-                            resource: Bitmap?,
+                            resource: Drawable?,
                             model: Any?,
-                            target: Target<Bitmap>?,
+                            target: Target<Drawable>?,
                             dataSource: DataSource?,
                             isFirstResource: Boolean
                         ): Boolean {
-                            resource?.let { bitmap ->
-                                binding.preview.setImageBitmap(bitmap)
+                            resource?.let {
+                                binding.preview.setImageDrawable(resource)
                                 binding.preview.animate().alpha(1f).setDuration(100).start()
                             } ?: run {
                                 binding.preview.setImageResource(R.drawable.place_holder_image)

@@ -34,24 +34,24 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-        binding.slider.setListener { _, currentValue ->
-            guidance = currentValue
-        }
-        binding.slider.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    view.parent.requestDisallowInterceptTouchEvent(true)
-                }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    view.parent.requestDisallowInterceptTouchEvent(false)
-                }
-            }
-            false
-        }
+//        binding.slider.setListener { _, currentValue ->
+//            guidance = currentValue
+//        }
+//        binding.slider.setOnTouchListener { view, event ->
+//            when (event.actionMasked) {
+//                MotionEvent.ACTION_DOWN -> {
+//                    view.parent.requestDisallowInterceptTouchEvent(true)
+//                }
+//                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+//                    view.parent.requestDisallowInterceptTouchEvent(false)
+//                }
+//            }
+//            false
+//        }
         binding.clear.clicks { binding.editNegative.setText("") }
         binding.viewPinNegative.clicks {  }
         binding.viewPinRatio.clicks {  }
-        binding.viewPinCFG.clicks {  }
+//        binding.viewPinCFG.clicks {  }
         binding.viewPinSeed.clicks {  }
     }
 
@@ -98,7 +98,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
                 this.adapter = aspectRatioAdapter
             }
             binding.editNegative.setText(negative)
-            binding.slider.currentValue = guidance
+//            binding.slider.currentValue = guidance
         }
     }
 

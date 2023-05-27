@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.explore.adapter
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
@@ -45,17 +47,17 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 //        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
 //        layoutParams.isFullSpan = item.ratio == Ratio.Ratio16x9.ratio
 
-        Glide.with(context)
-            .asBitmap()
+        Glide
+            .with(context)
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
-            .transition(BitmapTransitionOptions.withCrossFade())
-            .listener(object: RequestListener<Bitmap> {
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.viewPreview.cardElevation = 0f
@@ -65,15 +67,15 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    resource: Drawable?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let { bitmap ->
+                    resource?.let {
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.setImageDrawable(resource)
                         binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f

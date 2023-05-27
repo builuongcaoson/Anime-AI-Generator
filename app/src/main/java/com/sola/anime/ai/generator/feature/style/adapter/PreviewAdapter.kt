@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.style.adapter
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
@@ -62,16 +63,16 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
         binding.display.text = item.display
         binding.viewSelected.isVisible = item == style
 
-        Glide.with(context)
-            .asBitmap()
+        Glide
+            .with(context)
             .load(item.preview)
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
-            .listener(object: RequestListener<Bitmap> {
+            .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.viewPreview.cardElevation = 0f
@@ -82,16 +83,16 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    resource: Drawable?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    resource?.let { bitmap ->
+                    resource?.let {
                         binding.viewShadow.isVisible = true
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-                        binding.preview.setImageBitmap(bitmap)
+                        binding.preview.setImageDrawable(resource)
                         binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f
