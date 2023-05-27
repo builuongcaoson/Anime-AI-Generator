@@ -65,16 +65,16 @@ class SplashActivity : LsActivity() {
     }
 
     private fun initData() {
-        val currentTime = System.currentTimeMillis()
-        val expiryTime = prefs.timeExpiredIap.get()
-        when {
-            !prefs.isUpgraded.get() -> {}
-            prefs.timeExpiredIap.get() == -2L -> {}
-            prefs.timeExpiredIap.get() == -3L -> prefs.isUpgraded.set(false)
-            prefs.timeExpiredIap.get() != -1L && currentTime >= expiryTime -> {
-                prefs.isUpgraded.set(false)
-            }
-        }
+//        val currentTime = System.currentTimeMillis()
+//        val expiryTime = prefs.timeExpiredIap.get()
+//        when {
+//            !prefs.isUpgraded.get() -> {}
+//            prefs.timeExpiredIap.get() == -2L -> {}
+//            prefs.timeExpiredIap.get() == -3L -> prefs.isUpgraded.set(false)
+//            prefs.timeExpiredIap.get() != -1L && currentTime >= expiryTime -> {
+//                prefs.isUpgraded.set(false)
+//            }
+//        }
 
         lifecycleScope.launch(Dispatchers.Main) {
             val token = FirebaseInstallations.getInstance().getToken(false).await().token

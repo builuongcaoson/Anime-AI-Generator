@@ -15,6 +15,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
+import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
@@ -62,6 +63,12 @@ class App : Application() {
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.debugLogsEnabled = true
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
+        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
+            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+            Timber.e("Premium is active: $isActive")
+            prefs.isUpgraded.set(isActive)
+            prefs.timeExpiredIap.delete()
+        }
 
         // Network listener
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

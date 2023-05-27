@@ -170,18 +170,29 @@ class IapActivity : LsActivity() {
     private fun purchaseProduct(item: StoreProduct) {
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
-            onSuccess = { _, _ ->
-                val timeExpired = when {
-                    item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
-                    item.id.contains(Constraint.Iap.SKU_WEEK) -> System.currentTimeMillis() + 604800000
-                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> System.currentTimeMillis() + 604800000
-                    item.id.contains(Constraint.Iap.SKU_MONTH) -> System.currentTimeMillis() + 2592000000
-                    item.id.contains(Constraint.Iap.SKU_YEAR) -> System.currentTimeMillis() + 31536000000
-                    else -> -3L
-                }
+            onSuccess = { _, customerInfo ->
+                val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+                Timber.e("Premium is active: $isActive")
 
-                prefs.timeExpiredIap.set(timeExpired)
-                prefs.isUpgraded.set(true)
+                when {
+                    isActive -> {
+//                        val timeExpired = when {
+//                            item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
+//                            item.id.contains(Constraint.Iap.SKU_WEEK) -> System.currentTimeMillis() + 604800000
+//                            item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> System.currentTimeMillis() + 604800000
+//                            item.id.contains(Constraint.Iap.SKU_MONTH) -> System.currentTimeMillis() + 2592000000
+//                            item.id.contains(Constraint.Iap.SKU_YEAR) -> System.currentTimeMillis() + 31536000000
+//                            else -> -3L
+//                        }
+//
+//                        prefs.timeExpiredIap.set(timeExpired)
+                        prefs.isUpgraded.set(true)
+                    }
+                    else -> {
+                        prefs.timeExpiredIap.delete()
+                        prefs.isUpgraded.delete()
+                    }
+                }
             })
     }
 
