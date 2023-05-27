@@ -66,6 +66,32 @@
       ", trees on both sides of the road",
       ", in the flower garden"
     ]
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FAngel%2F1.webp?alt=media&token=4c401fdb-f249-4249-b295-b3087139c15e",
+    "display": "Angel",
+    "prompts": [
+      ", angel wings",
+      ", majestic angel",
+      ", black angel wings",
+      ", red angel wings",
+      ", white angel wings",
+      ", yellow angel wings",
+      ", blue angel wings",
+      ", green angel wings"
+    ]
+  },
+  {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPrincess%2F1.webp?alt=media&token=5cd2b2f2-9d7b-4e8d-818a-8d7618d0d1be",
+    "display": "Princess",
+    "prompts": [
+      ", wearing a princess crown",
+      ", wearing a princess crown, powerful princess scepter",
+      ", brilliant, detailed crown",
+      ", the crown of the king",
+      ", brilliant princess costume",
+      ", princess aristocratic costume"
+    ]
   }
 ]
 

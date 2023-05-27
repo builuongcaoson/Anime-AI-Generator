@@ -15,6 +15,8 @@ class Constraint {
             const val TERMS_URL = "https://sites.google.com/view/anime-art-terms-of-service"
 
             const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
+
+            const val DATA_VERSION = "1"
         }
     }
 

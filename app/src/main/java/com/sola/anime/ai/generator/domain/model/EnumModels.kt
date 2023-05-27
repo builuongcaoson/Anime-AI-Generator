@@ -1,13 +1,13 @@
 package com.sola.anime.ai.generator.domain.model
 
 enum class Ratio(val display: String, val ratio: String, val width: String, val height: String) {
-    Ratio1x1(display = "1x1", ratio = "1:1", width = "320", height = "320"),
-    Ratio9x16(display = "9x16", ratio = "9:16", width = "324", height = "576"),
-    Ratio16x9(display = "16x9", ratio = "16:9", width = "576", height = "324"),
-    Ratio3x4(display = "3x4", ratio = "3:4", width = "321", height = "428"),
-    Ratio4x3(display = "4x3", ratio = "4:3", width = "428", height = "321"),
-    Ratio2x3(display = "2x3", ratio = "2:3", width = "320", height = "480"),
-    Ratio3x2(display = "3x2", ratio = "3:2", width = "480", height = "320")
+    Ratio1x1(display = "1x1", ratio = "1:1", width = "512", height = "512"),
+    Ratio9x16(display = "9x16", ratio = "9:16", width = "513", height = "912"),
+    Ratio16x9(display = "16x9", ratio = "16:9", width = "912", height = "513"),
+    Ratio3x4(display = "3x4", ratio = "3:4", width = "513", height = "684"),
+    Ratio4x3(display = "4x3", ratio = "4:3", width = "684", height = "513"),
+    Ratio2x3(display = "2x3", ratio = "2:3", width = "512", height = "768"),
+    Ratio3x2(display = "3x2", ratio = "3:2", width = "768", height = "512")
 }
 
 enum class NumberOfImages(val display: String){
