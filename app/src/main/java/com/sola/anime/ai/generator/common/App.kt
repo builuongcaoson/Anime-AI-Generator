@@ -51,6 +51,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        if (!prefs.isResetUpgraded.get()){
+            prefs.isUpgraded.delete()
+            prefs.isResetUpgraded.set(true)
+        }
+
         // Setup Timber
         Timber.plant(Timber.DebugTree())
 

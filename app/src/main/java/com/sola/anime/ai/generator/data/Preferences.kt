@@ -22,6 +22,7 @@ class Preferences @Inject constructor(
     }
 
     // Config
+    val isResetUpgraded = rxPrefs.getBoolean("isResetUpgraded", false)
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1)
 
