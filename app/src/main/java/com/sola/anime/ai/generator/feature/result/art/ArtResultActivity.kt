@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.result.art
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -224,6 +225,16 @@ class ArtResultActivity : LsActivity() {
             .autoDispose(scope())
             .subscribe { index ->
                 startPreview(historyId = historyId, childHistoryIndex = index)
+            }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
             }
     }
 
