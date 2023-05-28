@@ -5,4 +5,6 @@
     <string name="description_price_month">Monthly payment of</string>
     <string name="description_price_year">Yearly payment of</string>
     <string name="description_price_lifetime">One time payment of</string>
+    <string name="syncing_data_please_wait">Syncing data, please wait a moment…</string>
+    <string name="syncing_data_complete">Data sync complete!</string>
 </resources>

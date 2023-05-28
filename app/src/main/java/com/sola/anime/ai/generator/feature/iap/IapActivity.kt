@@ -1,16 +1,14 @@
 package com.sola.anime.ai.generator.feature.iap
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
-import com.revenuecat.purchases.PurchaseParams
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.PurchasesError
+import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
-import com.revenuecat.purchases.purchaseWith
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
@@ -28,7 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import timber.log.Timber
-import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -110,6 +108,22 @@ class IapActivity : LsActivity() {
             }
         }
 
+        initRevenuecat()
+    }
+
+    private fun initRevenuecat(){
+        Purchases.logLevel = LogLevel.DEBUG
+        Purchases.debugLogsEnabled = true
+        Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
+
+        // Sync user purchased
+        syncUserPurchased()
+
+        // Query products
+        syncQueryProduct()
+    }
+
+    private fun syncQueryProduct() {
         Purchases.sharedInstance.getProducts(listOf(sku1, sku2, sku3), object: GetStoreProductsCallback {
             override fun onError(error: PurchasesError) {
 
@@ -125,8 +139,25 @@ class IapActivity : LsActivity() {
                 updateUIPrice(subjectSkuChoose.blockingFirst())
             }
         })
+    }
 
-//        billingManager.init()
+    @SuppressLint("SimpleDateFormat")
+    private fun syncUserPurchased() {
+        // Reset Premium
+        prefs.isUpgraded.delete()
+
+        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
+            customerInfo.entitlements.all.forEach {
+                Timber.tag("Main12345").e("Key: ${it.key} --- ${it.value.isActive}")
+            }
+            customerInfo.latestExpirationDate?.let { date ->
+                Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
+            }
+            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+            Timber.tag("Main12345").e("Premium is active: $isActive")
+            prefs.isUpgraded.set(isActive)
+            prefs.timeExpiredIap.delete()
+        }
     }
 
     private fun updateUIPrice(sku: String) {
@@ -256,27 +287,6 @@ class IapActivity : LsActivity() {
                 updateWeeklyUi(sku)
                 updateYearlyUi(sku)
 
-//                pricesWithSku
-//                    .find { it.sku == sku
-//                    }?.let {
-//
-//                        binding.textDescription.text = it.description
-//
-//                        binding.textPrice.text = it.priceFormat
-//                } ?: run {
-//                    when (sku) {
-//                        Constraint.Iap.SKU_WEEK -> {
-//                            binding.textDescription.text = getString(R.string.price_week)
-//                        }
-//                        Constraint.Iap.SKU_YEAR -> {
-//                            binding.textDescription.text = getString(R.string.price_year)
-//                        }
-//                        Constraint.Iap.SKU_LIFE_TIME -> {
-//                            binding.textDescription.text = getString(R.string.price_lifetime)
-//                        }
-//                    }
-//                    binding.textPrice.text = "0đ"
-//                }
                 updateUIPrice(sku)
             }
 
@@ -288,79 +298,7 @@ class IapActivity : LsActivity() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { onBackPressed() }
-
-//        billingManager
-//            .subscriptionPrices()
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { response ->
-//                when (response.status) {
-//                    Status.SUCCESS -> {
-//                        response.data?.forEachIndexed { _, pair ->
-//                            val priceCurrencyCode = pair.second.priceCurrencyCodes ?: "USD"
-//                            val priceAmount = pair.second.sumPriceAmountMicros ?: 0
-//
-//                            val priceFormat = formatPriceWithCurrentCode(priceCurrencyCode, priceAmount.toFloat() / 1000000f)
-//
-//                            when (pair.first) {
-//                                Constraint.Iap.SKU_WEEK -> {
-//                                    when {
-//                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_week_vnd), priceFormat, pair.first))
-//                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_week), priceFormat, pair.first))
-//                                    }
-//                                }
-//                                Constraint.Iap.SKU_YEAR -> {
-//                                    when {
-//                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_year_vnd), priceFormat, pair.first))
-//                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_year), priceFormat, pair.first))
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else -> {}
-//                }
-//            }
-
-//        billingManager
-//            .nonConsumablePrices()
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { response ->
-//                when (response.status) {
-//                    Status.SUCCESS -> {
-//                        response.data?.forEachIndexed { _, pair ->
-//                            val priceAmount = pair.second.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
-//                            val priceCurrencyCode = pair.second.oneTimePurchaseOfferDetails?.priceCurrencyCode ?: "USD"
-//
-//                            val priceFormat = formatPriceWithCurrentCode(priceCurrencyCode, priceAmount.toFloat() / 1000000f)
-//
-//                            when (pair.first) {
-//                                Constraint.Iap.SKU_LIFE_TIME -> {
-//                                    when {
-//                                        priceCurrencyCode == "VND" && pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_lifetime_vnd), priceFormat, pair.first))
-//                                        pricesWithSku.none { it.sku == pair.first } -> pricesWithSku.add(PriceFormat(getString(R.string.price_lifetime), priceFormat, pair.first))
-//                                    }
-//
-//                                    subjectSkuChoose.onNext(pair.first)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else -> {}
-//                }
-//            }
     }
-
-//    private fun formatPriceWithCurrentCode(priceCurrentCode: String, amount: Float): String {
-//        if (priceCurrentCode == "VND") {
-//            val formatter = DecimalFormat("#,###")
-//            return formatter.format(amount) + "đ"
-//        }
-//        return String.format("%.2f", amount) + "$"
-//    }
 
     private fun updateWeeklyUi(sku: String) {
         binding.viewWeekly.setCardBackgroundColor(

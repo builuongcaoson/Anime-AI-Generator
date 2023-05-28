@@ -51,6 +51,10 @@ class ExploreDialog @Inject constructor() {
         binding.viewCopy.clicks { explore.prompt.copyToClipboard(activity) }
         binding.viewUse.clicks { useClicks.onNext(explore) }
 
+        if (isShowing()){
+            return
+        }
+
         dialog.show()
     }
 

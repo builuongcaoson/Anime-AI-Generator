@@ -4,30 +4,34 @@ import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.Gravity
 import android.view.WindowManager
-import com.sola.anime.ai.generator.R
+import com.basic.common.extension.clicks
+import com.sola.anime.ai.generator.databinding.DialogNetworkBinding
+
 import javax.inject.Inject
 
-class ArtGenerateDialog @Inject constructor() {
+class NetworkDialog @Inject constructor() {
 
-    lateinit var dialog: Dialog
+    private lateinit var binding: DialogNetworkBinding
+    private lateinit var dialog: Dialog
 
-    fun show(activity: Activity){
-        if (!::dialog.isInitialized){
+    fun show(activity: Activity, tryClicks: () -> Unit = {}) {
+        if (!::dialog.isInitialized) {
+            binding = DialogNetworkBinding.inflate(activity.layoutInflater)
             dialog = Dialog(activity)
-            dialog.setContentView(R.layout.dialog_art_generate)
+            dialog.setContentView(binding.root)
             dialog.setCancelable(false)
 
             dialog.window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 val lp = attributes
-                lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT
                 attributes = lp
-                setGravity(Gravity.BOTTOM)
             }
         }
+
+        binding.viewTryAgain.clicks { tryClicks() }
 
         if (isShowing()){
             return
@@ -36,8 +40,8 @@ class ArtGenerateDialog @Inject constructor() {
         dialog.show()
     }
 
-    fun dismiss(){
-        if (::dialog.isInitialized && dialog.isShowing){
+    fun dismiss() {
+        if (::dialog.isInitialized && dialog.isShowing) {
             dialog.dismiss()
         }
     }

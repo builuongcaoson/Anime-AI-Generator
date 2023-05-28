@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -53,6 +55,7 @@ class ArtResultActivity : LsActivity() {
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var networkDialog: NetworkDialog
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -103,7 +106,7 @@ class ArtResultActivity : LsActivity() {
                 prompt = history.prompt,
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
-                steps = if (!prefs.isUpgraded.get()) "100" else "150",
+                steps = if (!prefs.isUpgraded.get()) "75" else "100",
                 styleId = history.styleId,
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
@@ -116,6 +119,7 @@ class ArtResultActivity : LsActivity() {
         }
 
         when {
+            !isNetworkAvailable() -> networkDialog.show(this)
             prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
                 startIap()
             }

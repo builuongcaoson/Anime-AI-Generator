@@ -26,6 +26,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -57,20 +58,6 @@ class App : Application() {
         // RxThrowable
         RxJavaPlugins.setErrorHandler { e ->
             Timber.e("Error: $e")
-        }
-
-        // Reset premium before check Revenuecat
-        prefs.isUpgraded.delete()
-
-        // Init Revenuecat
-        Purchases.logLevel = LogLevel.DEBUG
-        Purchases.debugLogsEnabled = true
-        Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.e("Premium is active: $isActive")
-            prefs.isUpgraded.set(isActive)
-            prefs.timeExpiredIap.delete()
         }
 
         // Network listener

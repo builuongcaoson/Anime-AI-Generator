@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.BlockSensitivesDialog
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
@@ -63,6 +64,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
+    @Inject lateinit var networkDialog: NetworkDialog
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -277,7 +279,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (!prefs.isUpgraded.get()) "100" else "150",
+                steps = if (!prefs.isUpgraded.get()) "75" else "100",
                 styleId = this.styleId,
                 ratio = aspectRatioAdapter.ratio,
                 seed = (0..4294967295).random()
@@ -289,7 +291,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         when {
             prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
             prompt.contains(pattern) -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
-            !isNetworkAvailable() -> activity?.makeToast("Please check your internet!")
+            !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
             prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
                 activity?.startIap()
             }
