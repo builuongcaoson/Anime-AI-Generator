@@ -97,7 +97,9 @@ class AppModule {
                 val request = chain
                     .request()
                     .newBuilder()
-                    .addHeader("X-Dezgo-Key", Constraint.Api.DEZGO_API_KEY)
+//                    .addHeader("X-Dezgo-Key", Constraint.Api.DEZGO_API_KEY)
+                    .addHeader("X-RapidAPI-Key", Constraint.Api.DEZGO_API_KEY)
+                    .addHeader("X-RapidAPI-Host", Constraint.Api.DEZGO_API_HOST)
                     .build()
                 chain.proceed(request)
             }
