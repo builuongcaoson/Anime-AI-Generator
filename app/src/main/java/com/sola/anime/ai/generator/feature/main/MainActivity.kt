@@ -14,6 +14,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
 import com.sola.anime.ai.generator.feature.main.mine.MineFragment
@@ -32,6 +33,7 @@ class MainActivity : LsActivity() {
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
@@ -45,6 +47,10 @@ class MainActivity : LsActivity() {
         transparent()
         lightStatusBar()
         setContentView(binding.root)
+
+        when {
+            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
+        }
 
         initView()
         initObservable()

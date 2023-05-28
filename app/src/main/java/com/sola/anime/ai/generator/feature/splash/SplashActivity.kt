@@ -23,10 +23,10 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
-import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.Folder
 import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
@@ -48,7 +48,6 @@ import javax.inject.Inject
 class SplashActivity : LsActivity() {
 
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var folderDao: FolderDao
     @Inject lateinit var artProgressDao: ArtProcessDao
@@ -62,10 +61,6 @@ class SplashActivity : LsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        when {
-            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
-        }
 
         initReviewManager()
         initView()

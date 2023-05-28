@@ -9,8 +9,10 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
@@ -94,14 +96,23 @@ class AppModule {
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val request = chain
+                val requestBuilder = chain
                     .request()
                     .newBuilder()
-//                    .addHeader("X-Dezgo-Key", Constraint.Api.DEZGO_API_KEY)
-                    .addHeader("X-RapidAPI-Key", Constraint.Api.DEZGO_API_KEY)
-                    .addHeader("X-RapidAPI-Host", Constraint.Api.DEZGO_API_HOST)
-                    .build()
-                chain.proceed(request)
+                val decryptKey = when {
+                    !BuildConfig.DEBUG && BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Api.DEZGO_KEY) ?: ""
+                    else -> AESEncyption.decrypt(Constraint.Api.DEZGO_RAPID_KEY) ?: ""
+                }
+                when {
+                    !BuildConfig.DEBUG && BuildConfig.SCRIPT -> {
+                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_KEY, decryptKey)
+                    }
+                    else -> {
+                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_KEY, decryptKey)
+                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_HOST, Constraint.Api.DEZGO_RAPID_HOST)
+                    }
+                }
+                chain.proceed(requestBuilder.build())
             }
             .addInterceptor(loggingInterceptor)
             .addNetworkInterceptor(networkInterceptor)
@@ -124,7 +135,7 @@ class AppModule {
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constraint.Api.DEZGO_URL)
+            .baseUrl(if (!BuildConfig.DEBUG && BuildConfig.SCRIPT) Constraint.Api.DEZGO_URL else Constraint.Api.DEZGO_RAPID_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
