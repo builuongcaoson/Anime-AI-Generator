@@ -34,10 +34,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "boolean", "SCRIPT", "false"
+            buildConfigField "boolean", "SCRIPT", "true"
         }
         release {
-            buildConfigField "String", "SCRIPT", "false"
+            buildConfigField "String", "SCRIPT", "true"
 
             minifyEnabled true
             shrinkResources true

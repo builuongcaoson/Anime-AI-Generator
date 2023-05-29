@@ -76,7 +76,7 @@ class SplashActivity : LsActivity() {
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.debugLogsEnabled = true
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-        syncUserPurchased()
+//        syncUserPurchased()
     }
 
     @SuppressLint("SimpleDateFormat")
