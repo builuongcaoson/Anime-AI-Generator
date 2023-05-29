@@ -7,8 +7,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Keep
-@Entity(tableName = "IapPreviews")
-data class IapPreview(
+@Entity(tableName = "IAPS")
+data class IAP(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     @SerializedName("preview")

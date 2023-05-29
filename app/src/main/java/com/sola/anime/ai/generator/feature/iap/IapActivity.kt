@@ -16,7 +16,7 @@ import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.IapPreviewDao
+import com.sola.anime.ai.generator.data.db.query.IAPDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -39,7 +39,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var previewAdapter1: PreviewAdapter
     @Inject lateinit var previewAdapter2: PreviewAdapter
     @Inject lateinit var previewAdapter3: PreviewAdapter
-    @Inject lateinit var iapPreviewDao: IapPreviewDao
+    @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
 
@@ -81,7 +81,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun initData() {
-        iapPreviewDao.getAllLive().observe(this){ data ->
+        iapDao.getAllLive().observe(this){ data ->
             val dataAfterChunked = data.chunked(10)
 
             previewAdapter1.let { adapter ->

@@ -13,7 +13,6 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
@@ -158,7 +157,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideIapPreviewDao(database: Database): IapPreviewDao = database.iapPreviewDao()
+    fun provideIapDao(database: Database): IAPDao = database.iapDao()
 
     @Provides
     @Singleton
@@ -166,7 +165,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideArtProcessDao(database: Database): ArtProcessDao = database.artProcessDao()
+    fun provideProcessDao(database: Database): ProcessDao = database.processDao()
 
     @Provides
     @Singleton

@@ -25,6 +25,18 @@
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 #---------------End: Retrofit  ----------
+
 #----- Revenuecat -----
 -keep class com.revenuecat.purchases.** { *; }
 #---------------End: Revenuecat  ----------
+
+#----- Firebase Realtime Database -----
+# Add this global rule
+-keepattributes Signature
+# This rule will properly ProGuard all the model classes in
+# the package com.yourcompany.models.
+# Modify this rule to fit the structure of your app.
+-keepclassmembers class com.sola.anime.ai.generator.domain.model.** {
+   *;
+}
+#---------------End: Firebase Realtime Database  ----------

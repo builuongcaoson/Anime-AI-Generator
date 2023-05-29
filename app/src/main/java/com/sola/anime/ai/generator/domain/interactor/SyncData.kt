@@ -3,13 +3,15 @@ package com.sola.anime.ai.generator.domain.interactor
 import android.content.Context
 import com.basic.common.extension.tryOrNull
 import com.bumptech.glide.Glide
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
-import com.sola.anime.ai.generator.domain.model.Folder
-import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
+import com.sola.anime.ai.generator.domain.model.config.Data
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
+import com.sola.anime.ai.generator.domain.model.config.iap.IAP
+import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -22,12 +24,13 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class SyncData @Inject constructor(
     private val context: Context,
-    private val artProgressDao: ArtProcessDao,
+    private val processDao: ProcessDao,
     private val styleDao: StyleDao,
-    private val iapPreviewDao: IapPreviewDao,
+    private val iapDao: IAPDao,
     private val exploreDao: ExploreDao
 ) : Interactor<Unit>() {
 
@@ -45,18 +48,59 @@ class SyncData @Inject constructor(
         return Flowable.just(System.currentTimeMillis())
             .doOnNext { syncProgress.onNext(Progress.Running) }
             .delay(1, TimeUnit.SECONDS)
-            .doOnNext { syncArtProcess() }
-            .doOnNext { syncStyles() }
-            .doOnNext { syncIap() }
-            .doOnNext { syncExplores() }
+            .doOnNext { syncData() }
             .doOnNext { syncProgress.onNext(Progress.Success) }
             .map { startTime -> System.currentTimeMillis() - startTime }
             .map { elapsed -> TimeUnit.MILLISECONDS.toMillis(elapsed) }
             .doOnNext { milliseconds -> Timber.i("Completed setup firebase config in $milliseconds milliseconds") }
     }
 
-    private fun syncExplores() {
-        val inputStream = context.assets.open("explore_v1.json")
+    private fun syncData() {
+        Firebase.database.reference.child("v1").get()
+            .addOnSuccessListener { snapshot ->
+                Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
+                val data = snapshot.getValue(Data::class.java)
+                snapshot.children.forEach { childDataSnapshot ->
+                    when {
+                        childDataSnapshot.key == "process" -> {
+                            val genericTypeIndicator = object : GenericTypeIndicator<List<Process>>() {}
+                            val progresses = childDataSnapshot.getValue(genericTypeIndicator)
+                            Timber.e("Process: ${Gson().toJson(progresses)}")
+
+                            childDataSnapshot.children.forEach { child ->
+//                                val processes = childDataSnapshot.getValue(Process::class.java)
+//                                Timber.e("Data: ${Gson().toJson(processes)}")
+//                                Timber.e("Key: ${child.key} --- ${child.childrenCount}")
+                            }
+
+                        }
+                    }
+                    Timber.e("Child key: ${childDataSnapshot.key} --- ${childDataSnapshot.childrenCount}")
+                }
+
+            }
+            .addOnFailureListener {
+
+            }
+//        Firebase.database.reference.child("v1").addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
+//                snapshot.children.forEach { childDataSnapshot ->
+//                    Timber.e("Child key: ${childDataSnapshot.key} --- ${childDataSnapshot.childrenCount}")
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                syncExploresLocal()
+//                syncStylesLocal()
+//                syncArtProcessLocal()
+//                syncIapLocal()
+//            }
+//        })
+    }
+
+    private fun syncExploresLocal() {
+        val inputStream = context.assets.open("explore.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 
@@ -70,10 +114,10 @@ class SyncData @Inject constructor(
         exploreDao.inserts(*data)
     }
 
-    private fun syncIap() {
-        val inputStream = context.assets.open("iap_v1.json")
+    private fun syncIapLocal() {
+        val inputStream = context.assets.open("iap.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IAP>::class.java) } ?: arrayOf()
 
         data.forEach { iapPreview ->
             Glide.with(context).asBitmap().load(iapPreview.preview).preload()
@@ -81,12 +125,12 @@ class SyncData @Inject constructor(
             iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
 
-        iapPreviewDao.deleteAll()
-        iapPreviewDao.inserts(*data)
+        iapDao.deleteAll()
+        iapDao.inserts(*data)
     }
 
-    private fun syncStyles() {
-        val inputStream = context.assets.open("style_v1.json")
+    private fun syncStylesLocal() {
+        val inputStream = context.assets.open("style.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
 
@@ -98,17 +142,17 @@ class SyncData @Inject constructor(
         styleDao.inserts(*data)
     }
 
-    private fun syncArtProcess() {
-        val inputStream = context.assets.open("art_process_v1.json")
+    private fun syncArtProcessLocal() {
+        val inputStream = context.assets.open("process.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<ArtProcess>::class.java) } ?: arrayOf()
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Process>::class.java) } ?: arrayOf()
 
         data.forEach {
             Glide.with(context).asBitmap().load(it.preview).preload()
         }
 
-        artProgressDao.deleteAll()
-        artProgressDao.inserts(*data)
+        processDao.deleteAll()
+        processDao.inserts(*data)
     }
 
 }

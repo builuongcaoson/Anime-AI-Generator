@@ -23,14 +23,14 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
+import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.model.Folder
-import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
+import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
+import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -50,20 +50,23 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var folderDao: FolderDao
-    @Inject lateinit var artProgressDao: ArtProcessDao
+    @Inject lateinit var progressDao: ProcessDao
     @Inject lateinit var styleDao: StyleDao
-    @Inject lateinit var iapPreviewDao: IapPreviewDao
+    @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var syncData: SyncData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        initReviewManager()
-        initView()
-        initObservable()
-        initData()
+        syncData.execute(Unit)
+
+//        initReviewManager()
+//        initView()
+//        initObservable()
+//        initData()
     }
 
     private fun initReviewManager() {
@@ -141,7 +144,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun syncExplores() {
-        val inputStream = assets.open("explore_v1.json")
+        val inputStream = assets.open("explore.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 
@@ -156,9 +159,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun syncIap() {
-        val inputStream = assets.open("iap_v1.json")
+        val inputStream = assets.open("iap.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IAP>::class.java) } ?: arrayOf()
 
         data.forEach { iapPreview ->
             Glide.with(this).load(iapPreview.preview).preload()
@@ -166,12 +169,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
 
-        iapPreviewDao.deleteAll()
-        iapPreviewDao.inserts(*data)
+        iapDao.deleteAll()
+        iapDao.inserts(*data)
     }
 
     private fun syncStyles() {
-        val inputStream = assets.open("style_v1.json")
+        val inputStream = assets.open("style.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
 
@@ -184,16 +187,16 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun syncArtProcess() {
-        val inputStream = assets.open("art_process_v1.json")
+        val inputStream = assets.open("process.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<ArtProcess>::class.java) } ?: arrayOf()
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Process>::class.java) } ?: arrayOf()
 
         data.forEach {
             Glide.with(this).load(it.preview).preload()
         }
 
-        artProgressDao.deleteAll()
-        artProgressDao.inserts(*data)
+        progressDao.deleteAll()
+        progressDao.inserts(*data)
     }
 
     private fun syncRemoteConfig(numberSync: Int = 1) {
