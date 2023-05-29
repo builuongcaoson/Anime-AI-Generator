@@ -81,11 +81,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                         val responseTextToImage = it.await()
 
                         responseTextToImage.response?.byteStream()?.use { inputStream ->
-                            // Convert to bitmap
-                            val file = inputStream.toFile(context)
+                            // Convert to file
+                            val file = tryOrNull { inputStream.toFile(context) }
 
                             when {
-                                file != null -> {
+                                file != null && file.exists() -> {
                                     progress(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, file = file))
                                 }
                                 else -> {
@@ -112,25 +112,25 @@ class DezgoApiRepositoryImpl @Inject constructor(
         contentUri: Uri
     ) {
 
-        val requestFile = contentUri.contentUriToRequestBody(context) ?: return
-        val body = MultipartBody.Part.createFormData("init_image", contentUri.authority, requestFile)
+//        val requestFile = contentUri.contentUriToRequestBody(context) ?: return
+//        val body = MultipartBody.Part.createFormData("init_image", contentUri.authority, requestFile)
+//
+//        val response = dezgoApi.image2image(
+//            prompt = "body".toRequestBody(MultipartBody.FORM),
+//            negativePrompt = "Hello".toRequestBody(MultipartBody.FORM),
+//            guidance = "7.5".toRequestBody(MultipartBody.FORM),
+//            upscale = "1".toRequestBody(MultipartBody.FORM),
+//            sampler = "euler_a".toRequestBody(MultipartBody.FORM),
+//            steps = "10".toRequestBody(MultipartBody.FORM),
+//            model = "anything_4_0".toRequestBody(MultipartBody.FORM),
+//            seed = "645524234".toRequestBody(MultipartBody.FORM),
+//            strength = "0.5".toRequestBody(MultipartBody.FORM),
+//            file = body
+//        )
 
-        val response = dezgoApi.image2image(
-            prompt = "body".toRequestBody(MultipartBody.FORM),
-            negativePrompt = "Hello".toRequestBody(MultipartBody.FORM),
-            guidance = "7.5".toRequestBody(MultipartBody.FORM),
-            upscale = "1".toRequestBody(MultipartBody.FORM),
-            sampler = "euler_a".toRequestBody(MultipartBody.FORM),
-            steps = "10".toRequestBody(MultipartBody.FORM),
-            model = "anything_4_0".toRequestBody(MultipartBody.FORM),
-            seed = "645524234".toRequestBody(MultipartBody.FORM),
-            strength = "0.5".toRequestBody(MultipartBody.FORM),
-            file = body
-        )
-
-        response.byteStream().use { inputStream ->
+//        response.byteStream().use { inputStream ->
             // Convert to bitmap
-            val bitmap = inputStream.toBitmap()
+//            val bitmap = inputStream.toBitmap()
 //            val file = bitmap?.toFile(context)
 
 //            when {
@@ -142,12 +142,12 @@ class DezgoApiRepositoryImpl @Inject constructor(
 //                }
 //            }
 
-            Timber.e("Bitmap size: ${bitmap?.width} --- ${bitmap?.height}")
+//            Timber.e("Bitmap size: ${bitmap?.width} --- ${bitmap?.height}")
 
-            bitmap
-        }
+//            bitmap
+//        }
 
-        response.byteStream()
+//        response.byteStream()
     }
 
 }

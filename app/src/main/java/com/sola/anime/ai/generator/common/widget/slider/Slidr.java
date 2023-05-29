@@ -628,211 +628,227 @@ public class Slidr extends FrameLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        try {
+            super.onDraw(canvas);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
-        canvas.save();
-        {
+        try {
+            canvas.save();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
-            final float paddingLeft = settings.paddingCorners;
-            final float paddingRight = settings.paddingCorners;
+        try {
+            {
 
+                final float paddingLeft = settings.paddingCorners;
+                final float paddingRight = settings.paddingCorners;
 
-            if (isRegions()) {
-                if (steps.isEmpty()) {
-                    settings.paintIndicator.setColor(settings.regionColorLeft);
-                    settings.paintBubble.setColor(settings.regionColorLeft);
-                } else {
-                    settings.paintIndicator.setColor(settings.regionColorRight);
-                    settings.paintBubble.setColor(settings.regionColorRight);
-                }
-            } else {
-                final Step stepBeforeCustor = findStepOfCustor();
-                if (stepBeforeCustor != null) {
-                    settings.paintIndicator.setColor(stepBeforeCustor.colorBefore);
-                    settings.paintBubble.setColor(stepBeforeCustor.colorBefore);
-                } else {
-                    if (settings.step_colorizeAfterLast) {
-                        final Step beforeCustor = findStepBeforeCustor();
-                        if (beforeCustor != null) {
-                            settings.paintIndicator.setColor(beforeCustor.colorAfter);
-                            settings.paintBubble.setColor(beforeCustor.colorAfter);
-                        }
-                    } else {
-                        settings.paintIndicator.setColor(settings.colorBackground);
-                        settings.paintBubble.setColor(settings.colorBackground);
-                    }
-                }
-            }
-
-            final float radiusCorner = settings.barHeight / 2f;
-
-            final float indicatorCenterX = indicatorX + paddingLeft;
-
-            { //background
-                final float centerCircleLeft = paddingLeft;
-                final float centerCircleRight = getWidth() - paddingRight;
-
-                //grey background
                 if (isRegions()) {
                     if (steps.isEmpty()) {
-                        settings.paintBar.setColor(settings.colorBackground);
+                        settings.paintIndicator.setColor(settings.regionColorLeft);
+                        settings.paintBubble.setColor(settings.regionColorLeft);
                     } else {
-                        settings.paintBar.setColor(settings.regionColorRight);
+                        settings.paintIndicator.setColor(settings.regionColorRight);
+                        settings.paintBubble.setColor(settings.regionColorRight);
                     }
                 } else {
-                    settings.paintBar.setColor(settings.colorBackground);
-                }
-                canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
-                canvas.drawCircle(centerCircleRight, barCenterY, radiusCorner, settings.paintBar);
-                canvas.drawRect(centerCircleLeft, barY, centerCircleRight, barY + settings.barHeight, settings.paintBar);
-
-                if (isRegions()) {
-                    settings.paintBar.setColor(settings.regionColorLeft);
-
-                    canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
-                    canvas.drawRect(centerCircleLeft, barY, indicatorCenterX, barY + settings.barHeight, settings.paintBar);
-                } else {
-                    float lastX = centerCircleLeft;
-                    boolean first = true;
-                    for (Step step : steps) {
-                        settings.paintBar.setColor(step.colorBefore);
-                        if (first) {
-                            canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
-                        }
-
-                        final float x = step.xStart + paddingLeft;
-                        if (!settings.step_colorizeOnlyBeforeIndicator) {
-                            canvas.drawRect(lastX, barY, x, barY + settings.barHeight, settings.paintBar);
+                    final Step stepBeforeCustor = findStepOfCustor();
+                    if (stepBeforeCustor != null) {
+                        settings.paintIndicator.setColor(stepBeforeCustor.colorBefore);
+                        settings.paintBubble.setColor(stepBeforeCustor.colorBefore);
+                    } else {
+                        if (settings.step_colorizeAfterLast) {
+                            final Step beforeCustor = findStepBeforeCustor();
+                            if (beforeCustor != null) {
+                                settings.paintIndicator.setColor(beforeCustor.colorAfter);
+                                settings.paintBubble.setColor(beforeCustor.colorAfter);
+                            }
                         } else {
-                            canvas.drawRect(lastX, barY, Math.min(x, indicatorCenterX), barY + settings.barHeight, settings.paintBar);
+                            settings.paintIndicator.setColor(settings.colorBackground);
+                            settings.paintBubble.setColor(settings.colorBackground);
                         }
-                        lastX = x;
-
-                        first = false;
                     }
+                }
+
+                final float radiusCorner = settings.barHeight / 2f;
+
+                final float indicatorCenterX = indicatorX + paddingLeft;
+
+                { //background
+                    final float centerCircleLeft = paddingLeft;
+                    final float centerCircleRight = getWidth() - paddingRight;
+
+                    //grey background
+                    if (isRegions()) {
+                        if (steps.isEmpty()) {
+                            settings.paintBar.setColor(settings.colorBackground);
+                        } else {
+                            settings.paintBar.setColor(settings.regionColorRight);
+                        }
+                    } else {
+                        settings.paintBar.setColor(settings.colorBackground);
+                    }
+                    canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
+                    canvas.drawCircle(centerCircleRight, barCenterY, radiusCorner, settings.paintBar);
+                    canvas.drawRect(centerCircleLeft, barY, centerCircleRight, barY + settings.barHeight, settings.paintBar);
+
+                    if (isRegions()) {
+                        settings.paintBar.setColor(settings.regionColorLeft);
+
+                        canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
+                        canvas.drawRect(centerCircleLeft, barY, indicatorCenterX, barY + settings.barHeight, settings.paintBar);
+                    } else {
+                        float lastX = centerCircleLeft;
+                        boolean first = true;
+                        for (Step step : steps) {
+                            settings.paintBar.setColor(step.colorBefore);
+                            if (first) {
+                                canvas.drawCircle(centerCircleLeft, barCenterY, radiusCorner, settings.paintBar);
+                            }
+
+                            final float x = step.xStart + paddingLeft;
+                            if (!settings.step_colorizeOnlyBeforeIndicator) {
+                                canvas.drawRect(lastX, barY, x, barY + settings.barHeight, settings.paintBar);
+                            } else {
+                                canvas.drawRect(lastX, barY, Math.min(x, indicatorCenterX), barY + settings.barHeight, settings.paintBar);
+                            }
+                            lastX = x;
+
+                            first = false;
+                        }
 
 
-                    if (settings.step_colorizeAfterLast) {
-                        //find the step just below currentValue
-                        for (int i = steps.size() - 1; i >= 0; i--) {
-                            final Step step = steps.get(i);
-                            if ((currentValue - min) > step.value) {
-                                settings.paintBar.setColor(step.colorAfter);
-                                canvas.drawRect(step.xStart + paddingLeft, barY, indicatorCenterX, barY + settings.barHeight, settings.paintBar);
-                                break;
+                        if (settings.step_colorizeAfterLast) {
+                            //find the step just below currentValue
+                            for (int i = steps.size() - 1; i >= 0; i--) {
+                                final Step step = steps.get(i);
+                                if ((currentValue - min) > step.value) {
+                                    settings.paintBar.setColor(step.colorAfter);
+                                    canvas.drawRect(step.xStart + paddingLeft, barY, indicatorCenterX, barY + settings.barHeight, settings.paintBar);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-            }
 
 
-            { //texts top (values)
-                if (settings.drawTextOnTop) {
-                    final float textY = barY - dpToPx(DISTANCE_TEXT_BAR);
-                    if (isRegions()) {
-                        float leftValue;
-                        float rightValue;
+                { //texts top (values)
+                    if (settings.drawTextOnTop) {
+                        final float textY = barY - dpToPx(DISTANCE_TEXT_BAR);
+                        if (isRegions()) {
+                            float leftValue;
+                            float rightValue;
 
-                        if (settings.regions_centerText) {
-                            leftValue = currentValue;
-                            rightValue = max - leftValue;
-                        } else {
-                            leftValue = min;
-                            rightValue = max;
-                        }
+                            if (settings.regions_centerText) {
+                                leftValue = currentValue;
+                                rightValue = max - leftValue;
+                            } else {
+                                leftValue = min;
+                                rightValue = max;
+                            }
 
-                        if (settings.regions_textFollowRegionColor) {
-                            settings.paintTextTop.setColor(settings.regionColorLeft);
-                        }
+                            if (settings.regions_textFollowRegionColor) {
+                                settings.paintTextTop.setColor(settings.regionColorLeft);
+                            }
 
-                        float textX;
-                        if (settings.regions_centerText) {
-                            textX = (indicatorCenterX - paddingLeft) / 2f + paddingLeft;
-                        } else {
-                            textX = paddingLeft;
-                        }
+                            float textX;
+                            if (settings.regions_centerText) {
+                                textX = (indicatorCenterX - paddingLeft) / 2f + paddingLeft;
+                            } else {
+                                textX = paddingLeft;
+                            }
 
 //                        drawIndicatorsTextAbove(canvas, formatRegionValue(0, leftValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
 
-                        if (settings.regions_textFollowRegionColor) {
-                            settings.paintTextTop.setColor(settings.regionColorRight);
-                        }
+                            if (settings.regions_textFollowRegionColor) {
+                                settings.paintTextTop.setColor(settings.regionColorRight);
+                            }
 
-                        if (settings.regions_centerText) {
-                            textX = indicatorCenterX + (barWidth - indicatorCenterX - paddingLeft) / 2f + paddingLeft;
-                        } else {
-                            textX = paddingLeft + barWidth;
-                        }
+                            if (settings.regions_centerText) {
+                                textX = indicatorCenterX + (barWidth - indicatorCenterX - paddingLeft) / 2f + paddingLeft;
+                            } else {
+                                textX = paddingLeft + barWidth;
+                            }
 //                        drawIndicatorsTextAbove(canvas, formatRegionValue(1, rightValue), settings.paintTextTop, textX, textY, Layout.Alignment.ALIGN_CENTER);
-                    } else {
+                        } else {
 //                        drawIndicatorsTextAbove(canvas, formatValue(min), settings.paintTextTop, 0 + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
-                        for (Step step : steps) {
-                            drawIndicatorsTextAbove(canvas, formatValue(step.value), settings.paintTextTop, step.xStart + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
-                        }
+                            for (Step step : steps) {
+                                drawIndicatorsTextAbove(canvas, formatValue(step.value), settings.paintTextTop, step.xStart + paddingLeft, textY, Layout.Alignment.ALIGN_CENTER);
+                            }
 //                        drawIndicatorsTextAbove(canvas, formatValue(max), settings.paintTextTop, canvas.getWidth(), textY, Layout.Alignment.ALIGN_CENTER);
+                        }
                     }
                 }
-            }
 
 
-            { //steps + bottom text
-                final float bottomTextY = barY + settings.barHeight + 15;
+                { //steps + bottom text
+                    final float bottomTextY = barY + settings.barHeight + 15;
 
-                for (Step step : steps) {
-                    if (settings.step_drawLines) {
-                        canvas.drawLine(step.xStart + paddingLeft, barY - settings.barHeight / 4f, step.xStart + paddingLeft, barY + settings.barHeight + settings.barHeight / 4f, settings.paintStep);
+                    for (Step step : steps) {
+                        if (settings.step_drawLines) {
+                            canvas.drawLine(step.xStart + paddingLeft, barY - settings.barHeight / 4f, step.xStart + paddingLeft, barY + settings.barHeight + settings.barHeight / 4f, settings.paintStep);
+                        }
+
+                        if (settings.drawTextOnBottom) {
+                            //drawMultilineText(canvas, maxText, canvas.getWidth() - settings.paintText.measureText(maxText), textY, settings.paintText, Layout.Alignment.ALIGN_OPPOSITE);
+                            drawMultilineText(canvas, step.name, step.xStart + paddingLeft, bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
+                        }
                     }
 
                     if (settings.drawTextOnBottom) {
-                        //drawMultilineText(canvas, maxText, canvas.getWidth() - settings.paintText.measureText(maxText), textY, settings.paintText, Layout.Alignment.ALIGN_OPPOSITE);
-                        drawMultilineText(canvas, step.name, step.xStart + paddingLeft, bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
+                        if (!TextUtils.isEmpty(textMax)) {
+                            drawMultilineText(canvas, textMax, canvas.getWidth(), bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
+                        }
+
+                        if (!TextUtils.isEmpty(textMin)) {
+                            drawMultilineText(canvas, textMin, 0, bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
+                        }
                     }
                 }
 
-                if (settings.drawTextOnBottom) {
-                    if (!TextUtils.isEmpty(textMax)) {
-                        drawMultilineText(canvas, textMax, canvas.getWidth(), bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
-                    }
+                //indicator
+                {
+                    final int color = settings.paintIndicator.getColor();
+                    canvas.drawCircle(indicatorCenterX, this.barCenterY, indicatorRadius, settings.paintIndicator);
+                    settings.paintIndicator.setColor(Color.WHITE);
+                    canvas.drawCircle(indicatorCenterX, this.barCenterY, indicatorRadius * 0.85f, settings.paintIndicator);
+                    settings.paintIndicator.setColor(color);
+                }
 
-                    if (!TextUtils.isEmpty(textMin)) {
-                        drawMultilineText(canvas, textMin, 0, bottomTextY, settings.paintTextBottom, Layout.Alignment.ALIGN_CENTER);
+                //bubble
+                {
+                    if (settings.drawBubble) {
+                        float bubbleCenterX = indicatorCenterX;
+                        float trangleCenterX;
+
+                        bubble.x = bubbleCenterX - bubble.width / 2f;
+                        bubble.y = 0;
+
+                        if (bubbleCenterX > canvas.getWidth() - bubble.width / 2f) {
+                            bubbleCenterX = canvas.getWidth() - bubble.width / 2f;
+                        } else if (bubbleCenterX - bubble.width / 2f < 0) {
+                            bubbleCenterX = bubble.width / 2f;
+                        }
+
+                        trangleCenterX = (bubbleCenterX + indicatorCenterX) / 2f;
+
+                        drawBubble(canvas, bubbleCenterX, trangleCenterX, 0);
                     }
                 }
             }
-
-            //indicator
-            {
-                final int color = settings.paintIndicator.getColor();
-                canvas.drawCircle(indicatorCenterX, this.barCenterY, indicatorRadius, settings.paintIndicator);
-                settings.paintIndicator.setColor(Color.WHITE);
-                canvas.drawCircle(indicatorCenterX, this.barCenterY, indicatorRadius * 0.85f, settings.paintIndicator);
-                settings.paintIndicator.setColor(color);
-            }
-
-            //bubble
-            {
-                if (settings.drawBubble) {
-                    float bubbleCenterX = indicatorCenterX;
-                    float trangleCenterX;
-
-                    bubble.x = bubbleCenterX - bubble.width / 2f;
-                    bubble.y = 0;
-
-                    if (bubbleCenterX > canvas.getWidth() - bubble.width / 2f) {
-                        bubbleCenterX = canvas.getWidth() - bubble.width / 2f;
-                    } else if (bubbleCenterX - bubble.width / 2f < 0) {
-                        bubbleCenterX = bubble.width / 2f;
-                    }
-
-                    trangleCenterX = (bubbleCenterX + indicatorCenterX) / 2f;
-
-                    drawBubble(canvas, bubbleCenterX, trangleCenterX, 0);
-                }
-            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
-        canvas.restore();
+        try {
+            canvas.restore();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private String formatValue(float value) {

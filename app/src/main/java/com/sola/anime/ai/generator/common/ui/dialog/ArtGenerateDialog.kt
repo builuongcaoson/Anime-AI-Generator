@@ -29,6 +29,10 @@ class ArtGenerateDialog @Inject constructor() {
             }
         }
 
+        if (isShowing()){
+            return
+        }
+
         dialog.show()
     }
 

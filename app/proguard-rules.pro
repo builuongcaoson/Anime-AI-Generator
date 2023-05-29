@@ -25,3 +25,6 @@
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 #---------------End: Retrofit  ----------
+#----- Revenuecat -----
+-keep class com.revenuecat.purchases.** { *; }
+#---------------End: Revenuecat  ----------

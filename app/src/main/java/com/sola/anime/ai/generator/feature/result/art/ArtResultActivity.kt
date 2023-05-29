@@ -2,17 +2,20 @@ package com.sola.anime.ai.generator.feature.result.art
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -52,6 +55,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var networkDialog: NetworkDialog
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -73,6 +77,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 return
             }
         }
+
+        prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
 
         initView()
         initObservable()
@@ -99,6 +105,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 prompt = history.prompt,
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
+                steps = if (!prefs.isUpgraded.get()) "75" else "100",
                 styleId = history.styleId,
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
@@ -111,6 +118,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         when {
+            !isNetworkAvailable() -> networkDialog.show(this)
+            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
+                startIap()
+            }
             !prefs.isUpgraded.get() -> {
                 admobManager.showRewardCreateAgain(
                     this,
@@ -217,6 +228,16 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .autoDispose(scope())
             .subscribe { index ->
                 startPreview(historyId = historyId, childHistoryIndex = index)
+            }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
             }
     }
 

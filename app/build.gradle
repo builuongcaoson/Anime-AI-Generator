@@ -17,17 +17,33 @@ android {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
         targetSdk 33
-        versionCode 3
-        versionName "3.0"
+        versionCode 13
+        versionName "13.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
+            storePassword '123456'
+            keyPassword '123456'
+            keyAlias 'key0'
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "SCRIPT", "false"
+        }
+        release {
+            buildConfigField "String", "SCRIPT", "false"
+
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
 
@@ -125,8 +141,8 @@ dependencies {
     // Material dialog
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
 
-    // Billing
-    implementation("com.android.billingclient:billing-ktx:5.2.0")
+    // Revenuecat
+    implementation 'com.revenuecat.purchases:purchases:6.1.1'
 
     // InAppReview
     implementation 'com.google.android.play:review-ktx:2.0.1'

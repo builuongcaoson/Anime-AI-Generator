@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.processing.art.adapter
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
@@ -35,13 +36,12 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewAr
 
         Glide
             .with(context)
-            .asBitmap()
             .load(item.preview)
-            .listener(object: RequestListener<Bitmap> {
+            .listener(object: RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
 //                    binding.cardPreview.cardElevation = 0f
@@ -50,15 +50,15 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ArtProcess, ItemPreviewAr
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    resource: Drawable?,
                     model: Any?,
-                    target: Target<Bitmap>?,
+                    target: Target<Drawable>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
                     resource?.let {
 //                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._5sdp)
-                        binding.preview.setImageBitmap(it)
+                        binding.preview.setImageDrawable(resource)
                     } ?: run {
 //                        binding.cardPreview.cardElevation = 0f
                         binding.preview.setImageResource(R.drawable.place_holder_image)

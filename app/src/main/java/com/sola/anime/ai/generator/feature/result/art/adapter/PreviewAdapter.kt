@@ -7,6 +7,7 @@ import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
@@ -35,9 +36,8 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview
 
         Glide
             .with(context)
-            .asBitmap()
             .load(item.pathPreview)
-            .transition(BitmapTransitionOptions.withCrossFade())
+            .transition(DrawableTransitionOptions.withCrossFade())
             .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
             .into(binding.preview)

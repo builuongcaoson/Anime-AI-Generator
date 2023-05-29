@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="No watermark"
+                    android:text="More clarity, better quality"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -267,7 +267,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
-                        android:id="@+id/textLifeTime"
+                        android:id="@+id/textTitle1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
@@ -321,7 +321,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
-                        android:id="@+id/textWeekly"
+                        android:id="@+id/textTitle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
@@ -374,7 +374,7 @@
                         app:layout_constraintWidth_percent="0.2" />
 
                     <com.basic.common.widget.LsTextView
-                        android:id="@+id/textYearly"
+                        android:id="@+id/textTitle3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
