@@ -8,19 +8,15 @@
         <attr name="slidr_textBottom_visible" format="boolean" />
         <attr name="slidr_textBottom_size" format="dimension" />
         <attr name="slidr_backgroundColor" format="color" />
-
         <attr name="slidr_step_colorizeAfterLast" format="boolean" />
         <attr name="slidr_step_drawLine" format="boolean" />
         <attr name="slidr_step_colorizeOnlyBeforeIndicator" format="boolean" />
-
         <attr name="slidr_draw_bubble" format="boolean" />
-
         <attr name="slidr_regions" format="boolean" />
         <attr name="slidr_regions_centerText" format="boolean" />
         <attr name="slidr_regions_textFollowRegionColor" format="boolean" />
         <attr name="slidr_region_leftColor" format="color" />
         <attr name="slidr_region_rightColor" format="color" />
-
         <attr name="slidr_indicator_inside" format="boolean" />
         <attr name="slidr_edditable" format="boolean" />
     </declare-styleable>
@@ -31,6 +27,13 @@
         <attr name="widget" />
         <attr name="icon" />
         <attr name="lottieRes"/>
+    </declare-styleable>
+
+    <declare-styleable name="CardSlider">
+        <attr name="activeCardLeftOffset" format="dimension"/>
+        <attr name="cardWidth" format="dimension"/>
+        <attr name="cardsGap" format="dimension"/>
+        <attr name="viewUpdater" format="string"/>
     </declare-styleable>
 
 </resources>

@@ -25,7 +25,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
+            storeFile file('/Users/sonbui/StudioProjects/Anime-AI-Generator/app/key.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'

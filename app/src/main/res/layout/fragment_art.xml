@@ -75,23 +75,27 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_65sdp">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerPreview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:alpha="0"
-                app:layout_constraintDimensionRatio="6:5"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintVertical_bias="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:alpha="1" />
+                android:clipChildren="false"
+                android:overScrollMode="never"
+                app:layoutManager=".common.widget.cardSlider.CardSliderLayoutManager"
+                app:viewUpdater="com.sola.anime.ai.generator.common.widget.cardSlider.CardsUpdater"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/viewPager">
+                app:layout_constraintTop_toBottomOf="@id/recyclerPreview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
