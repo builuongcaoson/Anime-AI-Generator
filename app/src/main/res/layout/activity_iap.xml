@@ -235,11 +235,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="offers"
+                            android:text="features"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_11ssp" />
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/viewMoreOffers"
                             android:layout_marginStart="@dimen/_3sdp"
                             android:layout_width="@dimen/_15sdp"
                             android:padding="@dimen/_3sdp"

@@ -8,13 +8,13 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 @Entity(tableName = "IAPS")
-data class IAP(
+class IAP{
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: Long = 0
     @SerializedName("preview")
     @Expose
-    val preview: String,
+    var preview: String = ""
     @SerializedName("ratio")
     @Expose
     var ratio: String = "1:1"
-)
+}

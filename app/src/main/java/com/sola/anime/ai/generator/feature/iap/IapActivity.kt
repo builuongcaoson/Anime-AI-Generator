@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.iap
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
@@ -14,6 +15,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.ui.dialog.FeatureDialog
 import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IAPDao
@@ -25,6 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -42,6 +47,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var featureDialog: FeatureDialog
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val sku1 by lazy {
@@ -193,6 +199,19 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 purchaseProduct(product)
             } ?: run {
                 makeToast("Something wrong, please try again!")
+            }
+        }
+        binding.viewMoreOffers.clicks {
+            featureDialog.show(this@IapActivity){
+                lifecycleScope.launch(Dispatchers.Main) {
+                    featureDialog.dismiss()
+                    delay(250)
+                    products.find { it.id.contains(subjectSkuChoose.blockingFirst()) }?.let { product ->
+                        purchaseProduct(product)
+                    } ?: run {
+                        makeToast("Something wrong, please try again!")
+                    }
+                }
             }
         }
     }

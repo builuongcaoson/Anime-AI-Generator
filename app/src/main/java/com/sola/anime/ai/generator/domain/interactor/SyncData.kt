@@ -8,7 +8,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.data.db.query.*
-import com.sola.anime.ai.generator.domain.model.config.Data
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import com.sola.anime.ai.generator.domain.model.config.process.Process
@@ -23,7 +22,6 @@ import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class SyncData @Inject constructor(
@@ -59,44 +57,45 @@ class SyncData @Inject constructor(
         Firebase.database.reference.child("v1").get()
             .addOnSuccessListener { snapshot ->
                 Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
-                val data = snapshot.getValue(Data::class.java)
                 snapshot.children.forEach { childDataSnapshot ->
-                    when {
-                        childDataSnapshot.key == "process" -> {
+                    when (childDataSnapshot.key) {
+                        "explore" -> {
+                            val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
+                            val explores = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
+
+                            exploreDao.deleteAll()
+                            exploreDao.inserts(*explores.toTypedArray())
+                        }
+                        "iap" -> {
+                            val genericTypeIndicator = object : GenericTypeIndicator<List<IAP>>() {}
+                            val iaps = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
+
+                            iapDao.deleteAll()
+                            iapDao.inserts(*iaps.toTypedArray())
+                        }
+                        "process" -> {
                             val genericTypeIndicator = object : GenericTypeIndicator<List<Process>>() {}
-                            val progresses = childDataSnapshot.getValue(genericTypeIndicator)
-                            Timber.e("Process: ${Gson().toJson(progresses)}")
+                            val progresses = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                            childDataSnapshot.children.forEach { child ->
-//                                val processes = childDataSnapshot.getValue(Process::class.java)
-//                                Timber.e("Data: ${Gson().toJson(processes)}")
-//                                Timber.e("Key: ${child.key} --- ${child.childrenCount}")
-                            }
+                            processDao.deleteAll()
+                            processDao.inserts(*progresses.toTypedArray())
+                        }
+                        "style" -> {
+                            val genericTypeIndicator = object : GenericTypeIndicator<List<Style>>() {}
+                            val styles = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
+                            styleDao.deleteAll()
+                            styleDao.inserts(*styles.toTypedArray())
                         }
                     }
-                    Timber.e("Child key: ${childDataSnapshot.key} --- ${childDataSnapshot.childrenCount}")
                 }
-
             }
             .addOnFailureListener {
-
+                syncExploresLocal()
+                syncIapLocal()
+                syncProcessLocal()
+                syncStylesLocal()
             }
-//        Firebase.database.reference.child("v1").addValueEventListener(object: ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
-//                snapshot.children.forEach { childDataSnapshot ->
-//                    Timber.e("Child key: ${childDataSnapshot.key} --- ${childDataSnapshot.childrenCount}")
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                syncExploresLocal()
-//                syncStylesLocal()
-//                syncArtProcessLocal()
-//                syncIapLocal()
-//            }
-//        })
     }
 
     private fun syncExploresLocal() {
@@ -142,7 +141,7 @@ class SyncData @Inject constructor(
         styleDao.inserts(*data)
     }
 
-    private fun syncArtProcessLocal() {
+    private fun syncProcessLocal() {
         val inputStream = context.assets.open("process.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Process>::class.java) } ?: arrayOf()

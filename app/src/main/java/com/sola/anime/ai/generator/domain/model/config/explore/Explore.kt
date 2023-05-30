@@ -8,40 +8,40 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 @Entity(tableName = "Explores")
-data class Explore(
+class Explore{
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: Long = 0
     @SerializedName("preview")
     @Expose
-    val preview: String,
+    var preview: String = ""
     @SerializedName("prompt")
     @Expose
-    var prompt: String,
+    var prompt: String = ""
     @SerializedName("negative")
     @Expose
-    var negative: String,
+    var negative: String = ""
     @SerializedName("guidance")
     @Expose
-    var guidance: Float,
+    var guidance: Float = 7.5f
     @SerializedName("upscale")
     @Expose
-    var upscale: Int,
+    var upscale: Int = 1
     @SerializedName("sampler")
     @Expose
-    var sampler: String,
+    var sampler: String = ""
     @SerializedName("steps")
     @Expose
-    var steps: String,
+    var steps: String = ""
     @SerializedName("modelId")
     @Expose
-    var modelId: Int,
+    var modelId: Int = -1
     @SerializedName("seed")
     @Expose
-    var seed: Long? = null,
+    var seed: Long? = null
     @SerializedName("isPremium")
     @Expose
-    var isPremium: Boolean,
+    var isPremium: Boolean = false
     @SerializedName("ratio")
     @Expose
     var ratio: String = "1:1"
-)
+}

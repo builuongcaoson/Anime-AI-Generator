@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.basic.common.extension.tryOrNull
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
@@ -83,7 +84,7 @@ abstract class LsAdapter<T, VB: ViewBinding>(
     }
 
     fun getItem(position: Int): T {
-        return data[position]
+        return tryOrNull { data[position] } ?: data.first()
     }
 
     override fun getItemCount(): Int {

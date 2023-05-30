@@ -12,6 +12,7 @@ class Preferences @Inject constructor(
 
     companion object {
         const val MAX_NUMBER_CREATE_ARTWORK = 3L
+        const val MAX_NUMBER_CREATE_ARTWORK_PREMIUM_IN_A_DAY = 10L
         const val MAX_SECOND_GENERATE_ART = 30
     }
 

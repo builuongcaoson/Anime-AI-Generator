@@ -8,16 +8,16 @@ import com.google.gson.annotations.Expose
 
 @Keep
 @Entity(tableName = "Process")
-data class Process(
+class Process{
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: Long = 0
     @SerializedName("preview")
     @Expose
-    var preview: String? = null,
+    var preview: String? = null
     @SerializedName("title")
     @Expose
-    var title: String,
+    var title: String = ""
     @SerializedName("artist")
     @Expose
-    var artist: String
-)
+    var artist: String = ""
+}
