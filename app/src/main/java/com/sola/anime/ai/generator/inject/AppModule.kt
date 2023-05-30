@@ -11,8 +11,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.GsonBuilder
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
@@ -57,7 +57,7 @@ class AppModule {
     fun providePreferences(context: Context): Preferences {
         val sharedPreferences = context.getSharedPreferences("Preferences", Context.MODE_PRIVATE)
         val rxSharedPreferences = RxSharedPreferences.create(sharedPreferences)
-        return Preferences(context, rxSharedPreferences)
+        return Preferences(rxSharedPreferences)
     }
 
     @Provides
@@ -91,6 +91,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
+        configApp: ConfigApp,
         loggingInterceptor: HttpLoggingInterceptor,
         networkInterceptor: Interceptor
     ): OkHttpClient {
@@ -99,16 +100,13 @@ class AppModule {
                 val requestBuilder = chain
                     .request()
                     .newBuilder()
-                val decryptKey = when {
-                    !BuildConfig.DEBUG && BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Api.DEZGO_KEY) ?: ""
-                    else -> AESEncyption.decrypt(Constraint.Api.DEZGO_RAPID_KEY) ?: ""
-                }
+
                 when {
                     !BuildConfig.DEBUG && BuildConfig.SCRIPT -> {
-                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_KEY, decryptKey)
+                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_KEY, configApp.decryptKey)
                     }
                     else -> {
-                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_KEY, decryptKey)
+                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_KEY, configApp.decryptKey)
                         requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_HOST, Constraint.Api.DEZGO_RAPID_HOST)
                     }
                 }
@@ -159,7 +157,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideIapPreviewDao(database: Database): IapPreviewDao = database.iapPreviewDao()
+    fun provideIapDao(database: Database): IAPDao = database.iapDao()
 
     @Provides
     @Singleton
@@ -167,7 +165,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideArtProcessDao(database: Database): ArtProcessDao = database.artProcessDao()
+    fun provideProcessDao(database: Database): ProcessDao = database.processDao()
 
     @Provides
     @Singleton

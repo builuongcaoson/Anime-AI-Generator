@@ -20,21 +20,9 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreviewInPreviewBinding>() {
+class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreviewInPreviewBinding>(ItemPreviewInPreviewBinding::inflate) {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewInPreviewBinding> {
-        return LsViewHolder(parent, ItemPreviewInPreviewBinding::inflate)
-    }
-
-    override fun onBindViewHolder(
-        holder: LsViewHolder<ItemPreviewInPreviewBinding>,
-        position: Int
-    ) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: ChildHistory, binding: ItemPreviewInPreviewBinding, position: Int) {
         val context = binding.root.context
 
         val ratio = "${item.width}:${item.height}"

@@ -1,7 +1,6 @@
 package com.sola.anime.ai.generator.feature.processing.art
 
 import android.animation.Animator
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
@@ -15,7 +14,7 @@ import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.ArtProcessDao
+import com.sola.anime.ai.generator.data.db.query.ProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
@@ -37,17 +36,16 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ArtProcessingActivity : LsActivity() {
+class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityArtProcessingBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var artGenerateDialog: ArtGenerateDialog
-    @Inject lateinit var artProcessDao: ArtProcessDao
+    @Inject lateinit var artProcessDao: ProcessDao
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var historyDao: HistoryDao
 
-    private val binding by lazy { ActivityArtProcessingBinding.inflate(layoutInflater) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var animator: Animator? = null

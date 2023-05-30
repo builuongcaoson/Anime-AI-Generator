@@ -4,6 +4,8 @@ import android.content.Context
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.sola.anime.ai.generator.R
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.first.FirstPreview
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
@@ -18,6 +20,12 @@ class ConfigApp @Inject constructor(
 ) {
 
     var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
+    val decryptKey by lazy {
+        when {
+            !BuildConfig.DEBUG && BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Api.DEZGO_KEY) ?: ""
+            else -> AESEncyption.decrypt(Constraint.Api.DEZGO_RAPID_KEY) ?: ""
+        }
+    }
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
 

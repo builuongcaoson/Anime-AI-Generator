@@ -8,16 +8,16 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 @Entity(tableName = "Styles")
-data class Style(
+class Style{
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: Long = 0
     @SerializedName("preview")
     @Expose
-    val preview: String,
+    var preview: String = ""
     @SerializedName("display")
     @Expose
-    val display: String,
+    var display: String = ""
     @SerializedName("prompts")
     @Expose
-    val prompts: List<String>
-)
+    var prompts: List<String> = listOf()
+}

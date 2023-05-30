@@ -1,17 +1,12 @@
 package com.sola.anime.ai.generator.data
 
-import android.content.Context
-import androidx.core.content.res.getColorOrThrow
-import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.sola.anime.ai.generator.common.Constraint
-import com.widget.R
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class Preferences @Inject constructor(
-    private val context: Context,
     private val rxPrefs: RxSharedPreferences
 ) {
 

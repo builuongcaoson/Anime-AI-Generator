@@ -10,7 +10,7 @@ import com.sola.anime.ai.generator.domain.model.CategoryBatch
 import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
 import javax.inject.Inject
 
-class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBatch, ItemPreviewCategoryBatchBinding>() {
+class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBatch, ItemPreviewCategoryBatchBinding>(ItemPreviewCategoryBatchBinding::inflate) {
 
     init {
         data = listOf(
@@ -22,17 +22,11 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
         )
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewCategoryBatchBinding> {
-        return LsViewHolder(parent, ItemPreviewCategoryBatchBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewCategoryBatchBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
-
+    override fun bindItem(
+        item: PreviewCategoryBatch,
+        binding: ItemPreviewCategoryBatchBinding,
+        position: Int
+    ) {
         binding.display.text = item.display
     }
 

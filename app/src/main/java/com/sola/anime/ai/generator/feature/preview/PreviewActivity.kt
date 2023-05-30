@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PreviewActivity : LsActivity() {
+class PreviewActivity : LsActivity<ActivityPreviewBinding>(ActivityPreviewBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var pagePreviewAdapter: PagePreviewAdapter
@@ -30,7 +30,6 @@ class PreviewActivity : LsActivity() {
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
-    private val binding by lazy { ActivityPreviewBinding.inflate(layoutInflater) }
     private val historyId by lazy { intent.getLongExtra(ArtResultActivity.HISTORY_ID_EXTRA, -1L) }
     private val childHistoryIndex by lazy { intent.getIntExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, -1) }
     private var childHistories = arrayListOf<ChildHistory>()

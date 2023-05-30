@@ -2,15 +2,20 @@ package com.basic.common.base
 
 import android.annotation.SuppressLint
 import android.provider.CallLog
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.basic.common.extension.tryOrNull
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder<VB>>() {
+abstract class LsAdapter<T, VB: ViewBinding>(
+    val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+) : RecyclerView.Adapter<LsViewHolder<VB>>() {
 
     var data: List<T> = ArrayList()
         @SuppressLint("NotifyDataSetChanged")
@@ -39,6 +44,16 @@ abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder
     val selectionChanges: Subject<List<Long>> = BehaviorSubject.create()
 
     private val selection = mutableListOf<Long>()
+
+    abstract fun bindItem(item: T, binding: VB, position: Int)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LsViewHolder<VB> {
+        return LsViewHolder(bindingInflater(LayoutInflater.from(parent.context), parent, false))
+    }
+
+    override fun onBindViewHolder(holder: LsViewHolder<VB>, position: Int) {
+        bindItem(getItem(position), holder.binding, position)
+    }
 
     /**
      * Toggles the selected state for a particular view
@@ -69,7 +84,7 @@ abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder
     }
 
     fun getItem(position: Int): T {
-        return data[position]
+        return tryOrNull { data[position] } ?: data.first()
     }
 
     override fun getItemCount(): Int {
@@ -97,7 +112,6 @@ abstract class LsAdapter<T, VB: ViewBinding> : RecyclerView.Adapter<LsViewHolder
     }
 
     protected open fun areItemsTheSame(old: T, new: T): Boolean {
-
         return old == new
     }
 

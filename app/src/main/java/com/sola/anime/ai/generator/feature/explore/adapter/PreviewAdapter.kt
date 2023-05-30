@@ -23,20 +23,11 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExploreBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExploreBinding>(ItemPreviewExploreBinding::inflate) {
 
     val clicks: Subject<Explore> = PublishSubject.create()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewExploreBinding> {
-        return LsViewHolder(parent, ItemPreviewExploreBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewExploreBinding>, position: Int) {
-        val item = getItem(position % data.size)
-        val binding = holder.binding
+    override fun bindItem(item: Explore, binding: ItemPreviewExploreBinding, position: Int) {
         val context = binding.root.context
 
         val set = ConstraintSet()

@@ -1,8 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.batch.adapter
 
-import android.view.ViewGroup
 import com.basic.common.base.LsAdapter
-import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.util.theme.TextViewStyler.Companion.FONT_REGULAR
 import com.basic.common.util.theme.TextViewStyler.Companion.FONT_SEMI
@@ -12,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class CategoryAdapter @Inject constructor(): LsAdapter<CategoryBatch, ItemCategoryBatchBinding>() {
+class CategoryAdapter @Inject constructor(): LsAdapter<CategoryBatch, ItemCategoryBatchBinding>(ItemCategoryBatchBinding::inflate) {
 
     init {
         data = listOf(
@@ -37,16 +35,7 @@ class CategoryAdapter @Inject constructor(): LsAdapter<CategoryBatch, ItemCatego
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemCategoryBatchBinding> {
-        return LsViewHolder(parent, ItemCategoryBatchBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemCategoryBatchBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: CategoryBatch, binding: ItemCategoryBatchBinding, position: Int) {
         val context = binding.root.context
 
         binding.display.text = item.display

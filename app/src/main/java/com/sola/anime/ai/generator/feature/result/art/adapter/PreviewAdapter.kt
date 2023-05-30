@@ -15,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreviewArtResultBinding>() {
+class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreviewArtResultBinding>(ItemPreviewArtResultBinding::inflate) {
 
     val clicks: Subject<ChildHistory> = PublishSubject.create()
     var childHistory: ChildHistory? = null
@@ -31,19 +31,7 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview
             field = value
         }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewArtResultBinding> {
-        return LsViewHolder(parent, ItemPreviewArtResultBinding::inflate)
-    }
-
-    override fun onBindViewHolder(
-        holder: LsViewHolder<ItemPreviewArtResultBinding>,
-        position: Int
-    ) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: ChildHistory, binding: ItemPreviewArtResultBinding, position: Int) {
         val context = binding.root.context
 
         Glide

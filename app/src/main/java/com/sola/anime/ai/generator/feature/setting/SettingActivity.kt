@@ -16,12 +16,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingActivity : LsActivity() {
+class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
 
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var prefs: Preferences
-
-    private val binding by lazy { ActivitySettingBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

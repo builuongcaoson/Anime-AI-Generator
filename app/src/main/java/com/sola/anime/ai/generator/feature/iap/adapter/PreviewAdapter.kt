@@ -1,25 +1,21 @@
 package com.sola.anime.ai.generator.feature.iap.adapter
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
-import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewIapBinding
-import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
+import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIapBinding>() {
+class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding>(ItemPreviewIapBinding::inflate) {
 
     var totalCount = 0
 
@@ -28,16 +24,8 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IapPreview, ItemPreviewIap
         notifyItemInserted(totalCount - 1)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPreviewIapBinding> {
-        return LsViewHolder(parent, ItemPreviewIapBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewIapBinding>, position: Int) {
+    override fun bindItem(item: IAP, binding: ItemPreviewIapBinding, position: Int) {
         val item = getItem(position % data.size)
-        val binding = holder.binding
         val context = binding.root.context
 
         val set = ConstraintSet()

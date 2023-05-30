@@ -29,15 +29,13 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : LsActivity() {
+class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
 
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-//    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
-    private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
@@ -117,8 +115,7 @@ class MainActivity : LsActivity() {
     }
 
     private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
-//    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabMine())
+    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
     private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab1, imageTab1, textTab1)
     private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewTab2, imageTab2, textTab2)
     private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab3, imageTab3, textTab3)

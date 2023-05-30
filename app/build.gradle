@@ -25,7 +25,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
+            storeFile file('/Users/sonbui/StudioProjects/Anime-AI-Generator/app/key.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
@@ -100,6 +100,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-config-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
 
     // Sdp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
@@ -151,5 +152,5 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.0.0'
 
     // Admob
-    implementation 'com.google.android.gms:play-services-ads:22.0.0'
+    implementation 'com.google.android.gms:play-services-ads:22.1.0'
 }

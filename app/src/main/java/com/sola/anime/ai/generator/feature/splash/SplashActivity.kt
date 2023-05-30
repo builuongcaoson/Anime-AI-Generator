@@ -23,14 +23,14 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
+import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.model.Folder
-import com.sola.anime.ai.generator.domain.model.config.artprocess.ArtProcess
+import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import com.sola.anime.ai.generator.domain.model.config.iap.IapPreview
+import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -45,18 +45,17 @@ import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class SplashActivity : LsActivity() {
+class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var folderDao: FolderDao
-    @Inject lateinit var artProgressDao: ArtProcessDao
+    @Inject lateinit var progressDao: ProcessDao
     @Inject lateinit var styleDao: StyleDao
-    @Inject lateinit var iapPreviewDao: IapPreviewDao
+    @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var networkDialog: NetworkDialog
-
-    private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+    @Inject lateinit var syncData: SyncData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +114,8 @@ class SplashActivity : LsActivity() {
                     delay(500)
                     when {
                         !prefs.isSyncedData.get() -> {
-                            syncDatas()
+                            syncData.execute(Unit)
+
                             handleSuccess()
                         }
                         else -> handleSuccess()
@@ -125,78 +125,78 @@ class SplashActivity : LsActivity() {
         }
     }
 
-    private fun syncDatas(){
-        syncFolders()
-        syncArtProcess()
-        syncStyles()
-        syncIap()
-        syncExplores()
-    }
-
-    private fun syncFolders() {
-        if (!prefs.isCreateDefaultFolder.get()){
-            val folder = Folder(display = "All")
-            folderDao.inserts(folder)
-
-            prefs.isCreateDefaultFolder.set(true)
-        }
-    }
-
-    private fun syncExplores() {
-        val inputStream = assets.open("explore_v1.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
-
-        data.forEach { explore ->
-            Glide.with(this).load(explore.preview).preload()
-
-            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-        }
-
-        exploreDao.deleteAll()
-        exploreDao.inserts(*data)
-    }
-
-    private fun syncIap() {
-        val inputStream = assets.open("iap_v1.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IapPreview>::class.java) } ?: arrayOf()
-
-        data.forEach { iapPreview ->
-            Glide.with(this).load(iapPreview.preview).preload()
-
-            iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-        }
-
-        iapPreviewDao.deleteAll()
-        iapPreviewDao.inserts(*data)
-    }
-
-    private fun syncStyles() {
-        val inputStream = assets.open("style_v1.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
-
-        data.forEach {
-            Glide.with(this).load(it.preview).preload()
-        }
-
-        styleDao.deleteAll()
-        styleDao.inserts(*data)
-    }
-
-    private fun syncArtProcess() {
-        val inputStream = assets.open("art_process_v1.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<ArtProcess>::class.java) } ?: arrayOf()
-
-        data.forEach {
-            Glide.with(this).load(it.preview).preload()
-        }
-
-        artProgressDao.deleteAll()
-        artProgressDao.inserts(*data)
-    }
+//    private fun syncDatas(){
+//        syncFolders()
+//        syncArtProcess()
+//        syncStyles()
+//        syncIap()
+//        syncExplores()
+//    }
+//
+//    private fun syncFolders() {
+//        if (!prefs.isCreateDefaultFolder.get()){
+//            val folder = Folder(display = "All")
+//            folderDao.inserts(folder)
+//
+//            prefs.isCreateDefaultFolder.set(true)
+//        }
+//    }
+//
+//    private fun syncExplores() {
+//        val inputStream = assets.open("explore.json")
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
+//
+//        data.forEach { explore ->
+//            Glide.with(this).load(explore.preview).preload()
+//
+//            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+//        }
+//
+//        exploreDao.deleteAll()
+//        exploreDao.inserts(*data)
+//    }
+//
+//    private fun syncIap() {
+//        val inputStream = assets.open("iap.json")
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<IAP>::class.java) } ?: arrayOf()
+//
+//        data.forEach { iapPreview ->
+//            Glide.with(this).load(iapPreview.preview).preload()
+//
+//            iapPreview.ratio = tryOrNull { iapPreview.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+//        }
+//
+//        iapDao.deleteAll()
+//        iapDao.inserts(*data)
+//    }
+//
+//    private fun syncStyles() {
+//        val inputStream = assets.open("style.json")
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Style>::class.java) } ?: arrayOf()
+//
+//        data.forEach {
+//            Glide.with(this).load(it.preview).preload()
+//        }
+//
+//        styleDao.deleteAll()
+//        styleDao.inserts(*data)
+//    }
+//
+//    private fun syncArtProcess() {
+//        val inputStream = assets.open("process.json")
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Process>::class.java) } ?: arrayOf()
+//
+//        data.forEach {
+//            Glide.with(this).load(it.preview).preload()
+//        }
+//
+//        progressDao.deleteAll()
+//        progressDao.inserts(*data)
+//    }
 
     private fun syncRemoteConfig(numberSync: Int = 1) {
         Firebase.remoteConfig.let { config ->

@@ -15,20 +15,11 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PromptAdapter @Inject constructor(): LsAdapter<History, ItemPromptHistoryBinding>() {
+class PromptAdapter @Inject constructor(): LsAdapter<History, ItemPromptHistoryBinding>(ItemPromptHistoryBinding::inflate) {
 
     val closeClicks: Subject<History> = PublishSubject.create()
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): LsViewHolder<ItemPromptHistoryBinding> {
-        return LsViewHolder(parent, ItemPromptHistoryBinding::inflate)
-    }
-
-    override fun onBindViewHolder(holder: LsViewHolder<ItemPromptHistoryBinding>, position: Int) {
-        val item = getItem(position)
-        val binding = holder.binding
+    override fun bindItem(item: History, binding: ItemPromptHistoryBinding, position: Int) {
         val context = binding.root.context
 
         binding.prompt.text = item.childs.lastOrNull()?.prompt ?: ""
