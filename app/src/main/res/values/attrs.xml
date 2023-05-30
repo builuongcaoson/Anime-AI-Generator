@@ -36,4 +36,12 @@
         <attr name="viewUpdater" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="LsShadowLayout">
+        <attr name="sl_shadowed" format="boolean"/>
+        <attr name="sl_shadow_distance" format="dimension"/>
+        <attr name="sl_shadow_angle" format="integer"/>
+        <attr name="sl_shadow_radius" format="dimension"/>
+        <attr name="sl_shadow_color" format="color"/>
+    </declare-styleable>
+
 </resources>

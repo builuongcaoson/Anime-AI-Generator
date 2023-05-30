@@ -67,7 +67,6 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewPremium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -91,6 +90,16 @@
                         app:summary="We have many promotions right now"
                         app:title="Upgrade Premium"
                         app:widget="@layout/preference_next_view" />
+
+                    <com.sola.anime.ai.generator.common.widget.LsPreferenceView
+                        android:id="@+id/viewNsfw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:title="NSFW"
+                        app:icon="@drawable/ic_nsfw"
+                        android:fillViewport="true"
+                        app:summary="Show NSFW Content"
+                        app:widget="@layout/switch_preference_view" />
 
                 </LinearLayout>
 

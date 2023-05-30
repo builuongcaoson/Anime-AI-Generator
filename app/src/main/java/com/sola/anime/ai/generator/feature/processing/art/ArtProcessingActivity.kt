@@ -86,7 +86,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
             .subscribe { millisecond ->
                 when {
                     millisecond >= Preferences.MAX_SECOND_GENERATE_ART -> {
-                        makeToast("An error occurred. Please try again!")
+                        makeToast("Server error, please wait for us to fix the error or try again!")
                         tryOrNull { artGenerateDialog.dismiss() }
                         finish()
                     }
@@ -105,7 +105,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     private fun initData() {
         when {
             configApp.dezgoBodiesTextsToImages.isEmpty() -> {
-                makeToast("An error occurred, please check again!")
+                makeToast("Server error, please wait for us to fix the error or try again!")
                 finish()
                 return
             }
@@ -191,7 +191,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                             finish()
                                         }
                                         else -> {
-                                            makeToast("An error occurred, please check again!")
+                                            makeToast("Server error, please wait for us to fix the error or try again!")
                                             finish()
                                         }
                                     }

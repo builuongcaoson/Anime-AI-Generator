@@ -2,16 +2,14 @@ package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateUtils
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
-import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.google.gson.Gson
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
@@ -27,19 +25,12 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
-import com.sola.anime.ai.generator.domain.model.Folder
-import com.sola.anime.ai.generator.domain.model.config.process.Process
-import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import com.sola.anime.ai.generator.domain.model.config.iap.IAP
-import com.sola.anime.ai.generator.domain.model.config.style.Style
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -94,6 +85,13 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             Timber.tag("Main12345").e("Premium is active: $isActive")
             prefs.isUpgraded.set(isActive)
             prefs.timeExpiredIap.delete()
+
+            when {
+                prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                    prefs.numberCreatedArtwork.delete()
+                    prefs.latestTimeCreatedArtwork.delete()
+                }
+            }
         }
     }
 

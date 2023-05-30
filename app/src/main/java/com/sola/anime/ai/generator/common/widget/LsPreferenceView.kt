@@ -16,7 +16,8 @@ class LsPreferenceView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
-    private val binding = PreferenceViewBinding.inflate(LayoutInflater.from(context))
+    val binding = PreferenceViewBinding.inflate(LayoutInflater.from(context))
+    var viewWidgetFrame: View? = null
 
     var title: String? = null
         set(value) {
@@ -43,7 +44,7 @@ class LsPreferenceView @JvmOverloads constructor(
             summary = getString(R.styleable.LsPreferenceView_summary)
 
             getResourceId(R.styleable.LsPreferenceView_widget, -1).takeIf { it != -1 }?.let { id ->
-                View.inflate(context, id, binding.widgetFrame)
+                viewWidgetFrame = View.inflate(context, id, binding.widgetFrame)
             }
 
             getResourceId(R.styleable.LsPreferenceView_icon, -1).takeIf { it != -1 }?.let { id ->

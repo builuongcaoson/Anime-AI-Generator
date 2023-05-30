@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.iap
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateUtils
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -162,6 +163,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             Timber.tag("Main12345").e("Premium is active: $isActive")
             prefs.isUpgraded.set(isActive)
             prefs.timeExpiredIap.delete()
+
+            when {
+                prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                    prefs.numberCreatedArtwork.delete()
+                    prefs.latestTimeCreatedArtwork.delete()
+                }
+            }
         }
     }
 

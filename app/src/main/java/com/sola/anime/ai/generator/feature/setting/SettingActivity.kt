@@ -4,11 +4,15 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.widget.switchview.SwitchView
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivitySettingBinding
+import com.sola.anime.ai.generator.databinding.SwitchPreferenceViewBinding
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +43,12 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         binding.viewRate.clicks(withAnim = false) { navigator.showRating() }
         binding.viewPrivacy.clicks(withAnim = false) { navigator.showPrivacy() }
         binding.viewTerms.clicks(withAnim = false) { navigator.showTerms() }
+        binding.viewNsfw.clicks(withAnim = false) {
+            when {
+                !prefs.isUpgraded.get() -> startIap()
+                else -> prefs.isEnableNsfw.set(!prefs.isEnableNsfw.get())
+            }
+        }
     }
 
     private fun initData() {
@@ -53,7 +63,17 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { isUpgraded ->
-                binding.viewPremium.isVisible = !isUpgraded
+                binding.viewGetPremium.isVisible = !isUpgraded
+            }
+
+        prefs
+            .isEnableNsfw
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isEnable ->
+                binding.viewNsfw.binding.widgetFrame.findViewById<SwitchView>(R.id.switchView).setChecked(isEnable)
             }
     }
 

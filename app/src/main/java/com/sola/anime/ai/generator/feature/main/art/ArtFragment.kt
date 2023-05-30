@@ -3,9 +3,11 @@ package com.sola.anime.ai.generator.feature.main.art
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.bumptech.glide.Glide
@@ -19,6 +21,8 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
+import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
+import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -37,6 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import java.lang.Math.abs
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -72,7 +77,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun initData() {
         exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
             previewAdapter.data = explores.shuffled()
-//            binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
+            binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
         }
     }
 
@@ -91,8 +96,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe {
                 subjectFirstView.onNext(false)
 
-//                binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false)
-//                binding.viewPager.animate().alpha(1f).setDuration(500).start()
+                binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false)
+                binding.viewPager.animate().alpha(1f).setDuration(500).start()
             }
 
         aspectRatioAdapter
@@ -154,16 +159,16 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.count.text = "${prompt.length}/1000"
             }
 
-//        previewAdapter
-//            .clicks
-//            .autoDispose(scope())
-//            .subscribe {
-//                val index = previewAdapter.data.indexOf(it)
-//                when {
-//                    index != binding.viewPager.currentItem && index != -1 -> binding.viewPager.currentItem = index
-//                    else -> activity?.let { activity -> exploreDialog.show(activity, it, useExploreClicks) }
-//                }
-//            }
+        previewAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe {
+                val index = previewAdapter.data.indexOf(it)
+                when {
+                    index != binding.viewPager.currentItem && index != -1 -> binding.viewPager.currentItem = index
+                    else -> activity?.let { activity -> exploreDialog.show(activity, it, useExploreClicks) }
+                }
+            }
 
         useExploreClicks
             .autoDispose(scope())
@@ -214,20 +219,20 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
-//    override fun onDestroy() {
-//        binding.viewPager.unregisterOnPageChangeCallback(previewChanges)
-//        super.onDestroy()
-//    }
+    override fun onDestroy() {
+        binding.viewPager.unregisterOnPageChangeCallback(previewChanges)
+        super.onDestroy()
+    }
 
-//    private val previewChanges = object: ViewPager2.OnPageChangeCallback() {
-//        override fun onPageSelected(position: Int) {
-//
-//        }
-//    }
+    private val previewChanges = object: ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-//        binding.viewPager.registerOnPageChangeCallback(previewChanges)
+        binding.viewPager.registerOnPageChangeCallback(previewChanges)
 //        binding.recyclerPreview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 //            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
 //                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -265,7 +270,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun generateClicks() {
-        val prompt = binding.editPrompt.text?.toString() ?: ""
+        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
@@ -285,8 +290,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
 
         when {
-            prompt.isEmpty() -> activity?.makeToast("Prompt cannot be blank!")
-            prompt.contains(pattern) -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
+            prompt.contains(pattern) && !prefs.isEnableNsfw.get() -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
             prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
                 activity?.startIap()
@@ -306,6 +310,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     )
                 }
             }
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY -> activity?.makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
             else -> task()
         }
     }
@@ -324,24 +329,26 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
-//            binding.viewPager.apply {
-//                this.adapter = previewAdapter
-//                this.offscreenPageLimit = 1
-//                this.run {
-//                    val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)
-//                    val currentItemHorizontalMarginPx = activity.getDimens(com.intuit.sdp.R.dimen._50sdp)
-//                    val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-//                    this.setPageTransformer { page: View, position: Float ->
-//                        page.translationX = -pageTranslationX * position
-//                        page.scaleY = 1 - (0.25f * abs(position))
-//                    }
-//                }
-//                this.addItemDecoration(HorizontalMarginItemDecoration(activity.getDimens(com.intuit.sdp.R.dimen._50sdp).toInt()))
-//            }
-            binding.recyclerPreview.apply {
+            binding.viewPager.apply {
                 this.adapter = previewAdapter
-                this.setHasFixedSize(true)
+                this.offscreenPageLimit = 1
+                this.run {
+                    val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)
+                    val currentItemHorizontalMarginPx = activity.getDimens(com.intuit.sdp.R.dimen._50sdp)
+                    val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+                    this.setPageTransformer { page: View, position: Float ->
+                        page.translationX = -pageTranslationX * position
+                        page.scaleY = 1 - (0.25f * abs(position))
+                    }
+                }
+                this.addItemDecoration(HorizontalMarginItemDecoration(activity.getDimens(com.intuit.sdp.R.dimen._50sdp).toInt()))
             }
+//            binding.recyclerPreview.apply {
+//                this.adapter = previewAdapter
+//                this.setHasFixedSize(true)
+//
+//                CardSnapHelper().attachToRecyclerView(this)
+//            }
 
             binding.recyclerViewAspectRatio.apply {
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -349,6 +356,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             binding.editPrompt.disableEnter()
+
         }
     }
 

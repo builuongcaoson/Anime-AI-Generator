@@ -75,27 +75,38 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_65sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPreview"
+            <androidx.viewpager2.widget.ViewPager2
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="3:2"
-                app:layout_constraintVertical_bias="0"
+                android:id="@+id/viewPager"
+                android:alpha="0"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="4:3"
                 app:layout_constraintTop_toTopOf="parent"
-                android:clipChildren="false"
-                android:overScrollMode="never"
-                app:layoutManager=".common.widget.cardSlider.CardSliderLayoutManager"
-                app:viewUpdater="com.sola.anime.ai.generator.common.widget.cardSlider.CardsUpdater"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="0dp"/>
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/recyclerPreview"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                app:layout_constraintDimensionRatio="3:1.5"-->
+<!--                app:layout_constraintVertical_bias="0"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                android:clipChildren="false"-->
+<!--                android:overScrollMode="never"-->
+<!--                tools:listitem="@layout/item_preview_art"-->
+<!--                app:layoutManager=".common.widget.cardSlider.CardSliderLayoutManager"-->
+<!--                app:viewUpdater="com.sola.anime.ai.generator.feature.main.art.adapter.PreviewUpdater"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/recyclerPreview">
+                app:layout_constraintTop_toBottomOf="@id/viewPager">
 
                 <LinearLayout
                     android:layout_width="match_parent"
