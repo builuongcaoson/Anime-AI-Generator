@@ -37,7 +37,7 @@ android {
             buildConfigField "boolean", "SCRIPT", "true"
         }
         release {
-            buildConfigField "String", "SCRIPT", "true"
+            buildConfigField "boolean", "SCRIPT", "true"
 
             minifyEnabled true
             shrinkResources true
