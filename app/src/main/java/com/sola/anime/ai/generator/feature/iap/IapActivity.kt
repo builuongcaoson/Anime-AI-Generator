@@ -116,7 +116,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
 
         // Sync user purchased
-        syncUserPurchased()
+//        syncUserPurchased()
 
         // Query products
         syncQueryProduct()
