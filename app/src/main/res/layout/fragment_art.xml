@@ -85,6 +85,25 @@
 <!--                app:layout_constraintStart_toStartOf="parent"-->
 <!--                android:layout_height="0dp"/>-->
 
+            <RelativeLayout
+                android:id="@+id/viewTitleExplore"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Explore"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_13ssp"
+                    app:textFont="semi" />
+
+
+
+            </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPreview"
                 android:layout_width="0dp"
@@ -93,7 +112,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewTitleExplore"
                 android:clipChildren="false"
                 android:overScrollMode="never"
                 android:clipToPadding="false"

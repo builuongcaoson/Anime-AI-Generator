@@ -178,7 +178,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
 
                     when {
-                        index != activeCardPosition -> binding.recyclerPreview.smoothScrollToPosition(index)
+                        index != activeCardPosition -> tryOrNull { binding.recyclerPreview.smoothScrollToPosition(index) }
                         else -> activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
                     }
                 }
