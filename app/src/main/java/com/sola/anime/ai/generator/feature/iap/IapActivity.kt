@@ -117,21 +117,14 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            initRevenuecat()
+            // Query products
+            syncQueryProduct()
+
             delay(500)
 
             // Sync user purchased
             syncUserPurchased()
-
-            // Query products
-            syncQueryProduct()
         }
-    }
-
-    private fun initRevenuecat(){
-        Purchases.logLevel = LogLevel.DEBUG
-        Purchases.debugLogsEnabled = true
-        Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
     }
 
     private fun syncQueryProduct() {

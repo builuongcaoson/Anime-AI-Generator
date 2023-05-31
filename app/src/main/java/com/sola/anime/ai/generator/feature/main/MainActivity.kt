@@ -1,7 +1,9 @@
 package com.sola.anime.ai.generator.feature.main
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
@@ -9,6 +11,8 @@ import com.basic.common.extension.getDimens
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.jakewharton.rxbinding2.view.clicks
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
@@ -25,6 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -51,8 +57,36 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
         }
 
+        syncUserPurchased()
+
         initView()
         initObservable()
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun syncUserPurchased() {
+        // Reset Premium
+        prefs.isUpgraded.delete()
+
+        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
+            customerInfo.entitlements.all.forEach {
+                Timber.tag("Main12345").e("Key: ${it.key} --- ${it.value.isActive}")
+            }
+            customerInfo.latestExpirationDate?.let { date ->
+                Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
+            }
+            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+            Timber.tag("Main12345").e("Premium is active: $isActive")
+            prefs.isUpgraded.set(isActive)
+            prefs.timeExpiredIap.delete()
+
+            when {
+                prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                    prefs.numberCreatedArtwork.delete()
+                    prefs.latestTimeCreatedArtwork.delete()
+                }
+            }
+        }
     }
 
     private fun initObservable() {

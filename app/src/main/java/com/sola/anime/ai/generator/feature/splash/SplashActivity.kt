@@ -62,12 +62,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         App.app.loadReviewInfo()
     }
 
-    private fun initRevenuecat(){
-        Purchases.logLevel = LogLevel.DEBUG
-        Purchases.debugLogsEnabled = true
-        Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-    }
-
     @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
         // Reset Premium
@@ -107,7 +101,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     val token = FirebaseInstallations.getInstance().getToken(false).await().token
                     Timber.e("Token Firebase Installation: $token")
                     syncRemoteConfig()
-                    initRevenuecat()
                     delay(500)
                     syncUserPurchased()
                     delay(500)

@@ -7,6 +7,9 @@ import android.net.Network
 import android.os.Build
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.revenuecat.purchases.LogLevel
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.PurchasesConfiguration
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
@@ -46,6 +49,9 @@ class App : Application() {
             Timber.e("Error: $e")
         }
 
+        // Step Revenuecat
+        initRevenuecat()
+
         // Network listener
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
@@ -59,6 +65,12 @@ class App : Application() {
                 }
             })
         }
+    }
+
+    private fun initRevenuecat(){
+        Purchases.logLevel = LogLevel.DEBUG
+        Purchases.debugLogsEnabled = true
+        Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
     }
 
     fun loadReviewInfo(){
