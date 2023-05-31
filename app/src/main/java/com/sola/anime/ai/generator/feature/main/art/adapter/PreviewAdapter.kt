@@ -11,17 +11,18 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.databinding.ItemPreviewArt2Binding
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBinding>(ItemPreviewArtBinding::inflate) {
+class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArt2Binding>(ItemPreviewArt2Binding::inflate) {
 
     val clicks: Subject<Explore> = PublishSubject.create()
 
-    override fun bindItem(item: Explore, binding: ItemPreviewArtBinding, position: Int) {
+    override fun bindItem(item: Explore, binding: ItemPreviewArt2Binding, position: Int) {
         val context = binding.root.context
 
         Glide
@@ -29,38 +30,38 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArtBin
             .load(item.preview)
             .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
-            .listener(object: RequestListener<Drawable>{
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.cardPreview.cardElevation = 0f
-                    binding.preview.setImageResource(R.drawable.place_holder_image)
-                    binding.preview.animate().alpha(0f).setDuration(100).start()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource?.let {
-                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
-                        binding.preview.setImageDrawable(resource)
-                        binding.preview.animate().alpha(1f).setDuration(100).start()
-                    } ?: run {
-                        binding.cardPreview.cardElevation = 0f
-                        binding.preview.setImageResource(R.drawable.place_holder_image)
-                        binding.preview.animate().alpha(0f).setDuration(100).start()
-                    }
-                    return false
-                }
-            })
+//            .listener(object: RequestListener<Drawable>{
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    binding.cardPreview.cardElevation = 0f
+//                    binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    binding.preview.animate().alpha(0f).setDuration(100).start()
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    resource?.let {
+//                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._3sdp)
+//                        binding.preview.setImageDrawable(resource)
+//                        binding.preview.animate().alpha(1f).setDuration(100).start()
+//                    } ?: run {
+//                        binding.cardPreview.cardElevation = 0f
+//                        binding.preview.setImageResource(R.drawable.place_holder_image)
+//                        binding.preview.animate().alpha(0f).setDuration(100).start()
+//                    }
+//                    return false
+//                }
+//            })
             .into(binding.preview)
 
         binding.cardPreview.clicks(withAnim = false) { clicks.onNext(item) }

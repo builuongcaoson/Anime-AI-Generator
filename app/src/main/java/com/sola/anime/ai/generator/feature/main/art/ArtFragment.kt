@@ -3,11 +3,9 @@ package com.sola.anime.ai.generator.feature.main.art
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.bumptech.glide.Glide
@@ -21,7 +19,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
-import com.sola.anime.ai.generator.common.util.HorizontalMarginItemDecoration
+import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -41,7 +39,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import java.lang.Math.abs
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -77,7 +74,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun initData() {
         exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
             previewAdapter.data = explores.shuffled()
-            binding.viewPager.offscreenPageLimit = if (explores.size >= 5) 3 else 1
+
+            explores.size.takeIf { it > 0 }?.let { it / 2 }?.let { centerIndex ->
+                tryOrNull { binding.recyclerPreview.scrollToPosition(centerIndex) }
+            }
         }
     }
 
@@ -89,15 +89,17 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun initObservable() {
         subjectFirstView
             .filter { it }
-            .debounce(250, TimeUnit.MILLISECONDS)
+            .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
                 subjectFirstView.onNext(false)
 
-                tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false) } } }
-                binding.viewPager.animate().alpha(1f).setDuration(500).start()
+//                tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false) } } }
+//                binding.viewPager.animate().alpha(1f).setDuration(500).start()
+
+                binding.recyclerPreview.animate().alpha(1f).setDuration(500).start()
             }
 
         aspectRatioAdapter
@@ -162,11 +164,23 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         previewAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe {
-                val index = previewAdapter.data.indexOf(it)
-                when {
-                    index != binding.viewPager.currentItem && index != -1 -> binding.viewPager.currentItem = index
-                    else -> activity?.let { activity -> exploreDialog.show(activity, it, useExploreClicks) }
+            .subscribe { explore ->
+                val index = previewAdapter.data.indexOf(explore).takeIf { it != -1 } ?: return@subscribe
+
+                (binding.recyclerPreview.layoutManager as? CardSliderLayoutManager)?.let { layoutManager ->
+                    if (layoutManager.isSmoothScrolling){
+                        return@subscribe
+                    }
+
+                    val activeCardPosition = layoutManager.activeCardPosition
+                    if (activeCardPosition == RecyclerView.NO_POSITION) {
+                        return@subscribe
+                    }
+
+                    when {
+                        index != activeCardPosition -> binding.recyclerPreview.smoothScrollToPosition(index)
+                        else -> activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
+                    }
                 }
             }
 
@@ -219,20 +233,20 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
-    override fun onDestroy() {
-        binding.viewPager.unregisterOnPageChangeCallback(previewChanges)
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//        binding.viewPager.unregisterOnPageChangeCallback(previewChanges)
+//        super.onDestroy()
+//    }
 
-    private val previewChanges = object: ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-
-        }
-    }
+//    private val previewChanges = object: ViewPager2.OnPageChangeCallback() {
+//        override fun onPageSelected(position: Int) {
+//
+//        }
+//    }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-        binding.viewPager.registerOnPageChangeCallback(previewChanges)
+//        binding.viewPager.registerOnPageChangeCallback(previewChanges)
 //        binding.recyclerPreview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 //            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
 //                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -329,26 +343,27 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
-            binding.viewPager.apply {
-                this.adapter = previewAdapter
-                this.offscreenPageLimit = 1
-                this.run {
-                    val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)
-                    val currentItemHorizontalMarginPx = activity.getDimens(com.intuit.sdp.R.dimen._50sdp)
-                    val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-                    this.setPageTransformer { page: View, position: Float ->
-                        page.translationX = -pageTranslationX * position
-                        page.scaleY = 1 - (0.25f * abs(position))
-                    }
-                }
-                this.addItemDecoration(HorizontalMarginItemDecoration(activity.getDimens(com.intuit.sdp.R.dimen._50sdp).toInt()))
-            }
-//            binding.recyclerPreview.apply {
+//            binding.viewPager.apply {
 //                this.adapter = previewAdapter
-//                this.setHasFixedSize(true)
-//
-//                CardSnapHelper().attachToRecyclerView(this)
+//                this.offscreenPageLimit = 1
+//                this.run {
+//                    val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)
+//                    val currentItemHorizontalMarginPx = activity.getDimens(com.intuit.sdp.R.dimen._50sdp)
+//                    val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+//                    this.setPageTransformer { page: View, position: Float ->
+//                        page.translationX = -pageTranslationX * position
+//                        page.scaleY = 1 - (0.25f * abs(position))
+//                    }
+//                }
+//                this.addItemDecoration(HorizontalMarginItemDecoration(activity.getDimens(com.intuit.sdp.R.dimen._50sdp).toInt()))
 //            }
+
+            binding.recyclerPreview.apply {
+                this.adapter = previewAdapter
+                this.setHasFixedSize(true)
+
+                CardSnapHelper().attachToRecyclerView(this)
+            }
 
             binding.recyclerViewAspectRatio.apply {
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
