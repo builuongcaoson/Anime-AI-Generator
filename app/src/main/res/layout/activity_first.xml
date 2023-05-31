@@ -23,10 +23,11 @@
         app:layout_constraintBottom_toTopOf="@id/viewAnim1">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz1xxx1zzz_2" />
+            tools:src="@drawable/first_preview_zzz1xxx1zzz_2" />
 
     </com.google.android.material.card.MaterialCardView>
 

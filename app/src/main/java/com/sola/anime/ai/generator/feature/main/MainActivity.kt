@@ -145,11 +145,10 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         when {
-            !prefs.isRated.get() && App.app.reviewInfo != null -> {
+            App.app.reviewInfo != null -> {
                 val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
                 flow.addOnCompleteListener { task2 ->
                     if (task2.isSuccessful){
-                        prefs.isRated.set(true)
 
                         finish()
                     } else {

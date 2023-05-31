@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityPreviewBinding
@@ -83,13 +84,9 @@ class PreviewActivity : LsActivity<ActivityPreviewBinding>(ActivityPreviewBindin
                     this.data = history.childs
                 }
                 childHistoryIndex.takeIf { it != -1 }?.let {
-                    binding.viewPager.post {
-                        binding.viewPager.setCurrentItem(childHistoryIndex, false)
-                    }
+                    tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem(childHistoryIndex, false) } } }
                 } ?: run {
-                    binding.viewPager.post {
-                        binding.viewPager.setCurrentItem(history.childs.lastIndex, false)
-                    }
+                    tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem(history.childs.lastIndex, false) } } }
                 }
             }
         }

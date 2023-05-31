@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.common
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
@@ -62,15 +61,11 @@ class App : Application() {
         }
     }
 
-    fun loadReviewManager(){
-        when {
-            !prefs.isRated.get() -> {
-                val request = manager.requestReviewFlow()
-                request.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        reviewInfo = task.result
-                    }
-                }
+    fun loadReviewInfo(){
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewInfo = task.result
             }
         }
     }

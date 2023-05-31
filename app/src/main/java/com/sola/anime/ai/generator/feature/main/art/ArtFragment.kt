@@ -96,7 +96,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe {
                 subjectFirstView.onNext(false)
 
-                binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false)
+                tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false) } } }
                 binding.viewPager.animate().alpha(1f).setDuration(500).start()
             }
 

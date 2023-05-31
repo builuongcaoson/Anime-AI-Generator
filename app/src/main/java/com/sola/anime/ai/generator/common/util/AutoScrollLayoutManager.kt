@@ -5,6 +5,7 @@ import android.util.DisplayMetrics
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.basic.common.extension.tryOrNull
 
 class AutoScrollLayoutManager(val context: Context, val scrollSpeed: Float = 5000F) :
     LinearLayoutManager(context, RecyclerView.HORIZONTAL, false) {
@@ -27,7 +28,7 @@ class AutoScrollLayoutManager(val context: Context, val scrollSpeed: Float = 500
                 return scrollSpeed / displayMetrics.densityDpi
             }
         }
-        smoothScroller.targetPosition = position
-        startSmoothScroll(smoothScroller)
+        tryOrNull { smoothScroller.targetPosition = position }
+        tryOrNull { startSmoothScroll(smoothScroller) }
     }
 }

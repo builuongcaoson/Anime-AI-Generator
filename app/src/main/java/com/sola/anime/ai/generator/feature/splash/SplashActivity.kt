@@ -59,7 +59,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initReviewManager() {
-        App.app.loadReviewManager()
+        App.app.loadReviewInfo()
     }
 
     private fun initRevenuecat(){
