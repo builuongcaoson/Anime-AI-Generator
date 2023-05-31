@@ -43,6 +43,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     companion object {
         const val HISTORY_ID_EXTRA = "HISTORY_ID_EXTRA"
         const val CHILD_HISTORY_INDEX_EXTRA = "CHILD_HISTORY_INDEX_EXTRA"
+        const val IS_GALLERY_EXTRA = "IS_GALLERY_EXTRA"
     }
 
     @Inject lateinit var previewAdapter: PreviewAdapter
@@ -59,6 +60,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
     private val childHistoryIndex by lazy { intent.getIntExtra(CHILD_HISTORY_INDEX_EXTRA, -1) }
+    private val isGallery by lazy { intent.getBooleanExtra(IS_GALLERY_EXTRA, true) }
     private var childHistories = arrayListOf<ChildHistory>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +78,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             }
         }
 
-        prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
-        prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
+        if (!isGallery){
+            prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
+            prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
+        }
 
         initView()
         initObservable()
