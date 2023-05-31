@@ -66,7 +66,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.debugLogsEnabled = true
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-        syncUserPurchased()
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -109,6 +108,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Token Firebase Installation: $token")
                     syncRemoteConfig()
                     initRevenuecat()
+                    delay(500)
+                    syncUserPurchased()
                     delay(500)
                     when {
                         !prefs.isSyncedData.get() -> {
@@ -232,7 +233,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             delay(1000)
             binding.textStatus.text = getString(R.string.syncing_data_complete)
             delay(500)
-            prefs.isSyncedData.set(true)
             binding.viewLottie.cancelAnimation()
 
             when {

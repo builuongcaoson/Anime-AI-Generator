@@ -17,6 +17,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureDialog
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IAPDao
@@ -49,6 +50,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var featureDialog: FeatureDialog
+    @Inject lateinit var networkDialog: NetworkDialog
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val sku1 by lazy {
@@ -114,19 +116,22 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             }
         }
 
-        initRevenuecat()
+        lifecycleScope.launch(Dispatchers.Main) {
+            initRevenuecat()
+            delay(500)
+
+            // Sync user purchased
+            syncUserPurchased()
+
+            // Query products
+            syncQueryProduct()
+        }
     }
 
     private fun initRevenuecat(){
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.debugLogsEnabled = true
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-
-        // Sync user purchased
-        syncUserPurchased()
-
-        // Query products
-        syncQueryProduct()
     }
 
     private fun syncQueryProduct() {
@@ -202,23 +207,30 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         binding.viewLifeTime.clicks { subjectSkuChoose.onNext(sku1) }
         binding.viewWeekly.clicks { subjectSkuChoose.onNext(sku2) }
         binding.viewYearly.clicks { subjectSkuChoose.onNext(sku3) }
-        binding.viewContinue.clicks {
-            products.find { it.id.contains(subjectSkuChoose.blockingFirst()) }?.let { product ->
-                purchaseProduct(product)
-            } ?: run {
-                makeToast("Something wrong, please try again!")
-            }
-        }
+        binding.viewContinue.clicks { purchaseClicks() }
         binding.viewMoreOffers.clicks {
-            featureDialog.show(this@IapActivity){
+            featureDialog.show(this){
                 lifecycleScope.launch(Dispatchers.Main) {
                     featureDialog.dismiss()
                     delay(250)
-                    products.find { it.id.contains(subjectSkuChoose.blockingFirst()) }?.let { product ->
-                        purchaseProduct(product)
-                    } ?: run {
-                        makeToast("Something wrong, please try again!")
-                    }
+                    purchaseClicks()
+                }
+            }
+        }
+    }
+
+    private fun purchaseClicks() {
+        when {
+            !isNetworkAvailable() -> networkDialog.show(this){
+                networkDialog.dismiss()
+
+                initData()
+            }
+            else -> {
+                products.find { it.id.contains(subjectSkuChoose.blockingFirst()) }?.let { product ->
+                    purchaseProduct(product)
+                } ?: run {
+                    makeToast("Something wrong, please try again!")
                 }
             }
         }

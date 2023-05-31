@@ -7,6 +7,7 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
@@ -26,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class SyncData @Inject constructor(
     private val context: Context,
+    private val prefs: Preferences,
     private val processDao: ProcessDao,
     private val styleDao: StyleDao,
     private val iapDao: IAPDao,
@@ -63,31 +65,73 @@ class SyncData @Inject constructor(
                             val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
                             val explores = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                            exploreDao.deleteAll()
-                            exploreDao.inserts(*explores.toTypedArray())
+                            when {
+                                explores.isNotEmpty() -> {
+                                    explores.forEach { explore ->
+                                        Glide.with(context).asBitmap().load(explore.preview).preload()
+
+                                        explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+                                    }
+
+                                    exploreDao.deleteAll()
+                                    exploreDao.inserts(*explores.toTypedArray())
+                                }
+                                else -> syncExploresLocal()
+                            }
                         }
                         "iap" -> {
                             val genericTypeIndicator = object : GenericTypeIndicator<List<IAP>>() {}
                             val iaps = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                            iapDao.deleteAll()
-                            iapDao.inserts(*iaps.toTypedArray())
+                            when {
+                                iaps.isNotEmpty() -> {
+                                    iaps.forEach { iap ->
+                                        Glide.with(context).asBitmap().load(iap.preview).preload()
+
+                                        iap.ratio = tryOrNull { iap.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+                                    }
+
+                                    iapDao.deleteAll()
+                                    iapDao.inserts(*iaps.toTypedArray())
+                                }
+                                else -> syncExploresLocal()
+                            }
                         }
                         "process" -> {
                             val genericTypeIndicator = object : GenericTypeIndicator<List<Process>>() {}
-                            val progresses = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
+                            val processes = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                            processDao.deleteAll()
-                            processDao.inserts(*progresses.toTypedArray())
+                            when {
+                                processes.isNotEmpty() -> {
+                                    processes.forEach { process ->
+                                        Glide.with(context).asBitmap().load(process.preview).preload()
+                                    }
+
+                                    processDao.deleteAll()
+                                    processDao.inserts(*processes.toTypedArray())
+                                }
+                                else -> syncExploresLocal()
+                            }
                         }
                         "style" -> {
                             val genericTypeIndicator = object : GenericTypeIndicator<List<Style>>() {}
                             val styles = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                            styleDao.deleteAll()
-                            styleDao.inserts(*styles.toTypedArray())
+                            when {
+                                styles.isNotEmpty() -> {
+                                    styles.forEach { style ->
+                                        Glide.with(context).asBitmap().load(style.preview).preload()
+                                    }
+
+                                    styleDao.deleteAll()
+                                    styleDao.inserts(*styles.toTypedArray())
+                                }
+                                else -> syncExploresLocal()
+                            }
                         }
                     }
+
+                    prefs.isSyncedData.set(true)
                 }
             }
             .addOnFailureListener {
@@ -95,6 +139,8 @@ class SyncData @Inject constructor(
                 syncIapLocal()
                 syncProcessLocal()
                 syncStylesLocal()
+
+                prefs.isSyncedData.set(true)
             }
     }
 
