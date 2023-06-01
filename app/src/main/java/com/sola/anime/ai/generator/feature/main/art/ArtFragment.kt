@@ -39,6 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -66,6 +67,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private var styleId: Long = -1L
 
     override fun onViewCreated() {
+        Timber.e("Credits: ${prefs.creditsTest.get()}")
+
         initView()
         initData()
         listenerView()
@@ -181,6 +184,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         index != activeCardPosition -> tryOrNull { binding.recyclerPreview.smoothScrollToPosition(index) }
                         else -> activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
                     }
+
+                    prefs.creditsTest.set(prefs.creditsTest.get() + 100f)
+                    Timber.e("Credits: ${prefs.creditsTest.get()}")
                 }
             }
 

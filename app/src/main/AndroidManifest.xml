@@ -8,14 +8,20 @@
     <application
         android:name=".common.App"
         android:allowBackup="true"
+        android:fullBackupOnly="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
+        android:manageSpaceActivity=".ManageSpaceActivity"
         android:supportsRtl="true"
         android:theme="@style/Theme.Main"
         tools:targetApi="31">
+
+        <activity
+            android:name=".feature.space.ManagerSpaceActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".feature.tutorial.TutorialActivity"/>
 

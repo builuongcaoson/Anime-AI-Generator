@@ -29,4 +29,5 @@ class Preferences @Inject constructor(
     val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
     val latestTimeCreatedArtwork = rxPrefs.getLong("latestTimeCreatedArt", -1)
+    val creditsTest = rxPrefs.getFloat("creditsTest", -1f)
 }

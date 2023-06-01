@@ -57,7 +57,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
         }
 
-//        syncUserPurchased()
+        syncUserPurchased()
 
         initView()
         initObservable()
@@ -76,6 +76,10 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                 Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
             }
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+
+            if (isActive){
+                prefs.isUpgraded.set(true)
+            }
             Timber.tag("Main12345").e("Premium is active: $isActive")
             prefs.isUpgraded.set(isActive)
             prefs.timeExpiredIap.delete()
