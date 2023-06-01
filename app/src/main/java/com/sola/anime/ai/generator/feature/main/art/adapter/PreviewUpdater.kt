@@ -1,10 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.art.adapter
 
 import android.view.View
+import androidx.annotation.Keep
 import androidx.core.view.ViewCompat
 import com.sola.anime.ai.generator.common.widget.cardSlider.DefaultViewUpdater
 import com.sola.anime.ai.generator.databinding.ItemPreviewArt2Binding
 
+@Keep
 class PreviewUpdater: DefaultViewUpdater() {
 
     override fun updateView(view: View, position: Float) {
