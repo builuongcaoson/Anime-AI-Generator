@@ -57,7 +57,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
         }
 
-        syncUserPurchased()
+//        syncUserPurchased()
 
         initView()
         initObservable()

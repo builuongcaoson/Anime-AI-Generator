@@ -101,8 +101,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     val token = FirebaseInstallations.getInstance().getToken(false).await().token
                     Timber.e("Token Firebase Installation: $token")
                     syncRemoteConfig()
-                    delay(500)
-                    syncUserPurchased()
+//                    delay(500)
+//                    syncUserPurchased()
                     delay(500)
                     when {
                         !prefs.isSyncedData.get() -> {
