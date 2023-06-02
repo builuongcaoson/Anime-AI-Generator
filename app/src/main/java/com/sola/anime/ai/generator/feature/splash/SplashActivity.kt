@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -64,9 +65,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
     @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
-        // Reset Premium
-        prefs.isUpgraded.delete()
-
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             customerInfo.entitlements.all.forEach {
                 Timber.tag("Main12345").e("Key: ${it.key} --- ${it.value.isActive}")
@@ -74,15 +72,40 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             customerInfo.latestExpirationDate?.let { date ->
                 Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
             }
+            for (i in customerInfo.allPurchaseDatesByProduct){
+                i.value?.let { date ->
+                    Timber.tag("Main12345").e("Product: ${i.key} --- Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
+                }
+            }
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("Premium is active: $isActive")
-            prefs.isUpgraded.set(isActive)
-            prefs.timeExpiredIap.delete()
+            if (isActive){
+                customerInfo.allPurchaseDatesByProduct.filter { it.value != null }.takeIf { it.isNotEmpty() }?.maxBy { it.value!! }?.let { map ->
+                    if (map.value == null) return@let
 
-            when {
-                prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
-                    prefs.numberCreatedArtwork.delete()
-                    prefs.latestTimeCreatedArtwork.delete()
+                    val latestPurchasedProduct = map.key
+                    val timeExpired = when {
+                        prefs.isUpgraded.get() -> when {
+                            latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
+                            latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
+                            latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
+                            else -> 21600000L // 6 Hour
+                        }
+                        else -> 21600000L // 6 Hour
+                    }
+
+                    val isUpgraded = Date().time - map.value!!.time <= timeExpired
+                    prefs.isUpgraded.set(isUpgraded)
+                    prefs.timeExpiredIap.delete()
+
+                    Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)} --- isUpgraded: $isUpgraded")
+                }
+
+                when {
+                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                        prefs.numberCreatedArtwork.delete()
+                        prefs.latestTimeCreatedArtwork.delete()
+                    }
                 }
             }
         }
