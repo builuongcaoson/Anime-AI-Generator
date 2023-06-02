@@ -75,11 +75,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+        exploreDao.getAllRatio2x3Live().observe(viewLifecycleOwner){ explores ->
             previewAdapter.data = explores.shuffled()
 
             explores.size.takeIf { it > 0 }?.let { it / 2 }?.let { centerIndex ->
-                tryOrNull { binding.recyclerPreview.scrollToPosition(centerIndex) }
+                tryOrNull { binding.recyclerPreview.smoothScrollToPosition(centerIndex) }
             }
         }
     }

@@ -28,13 +28,16 @@ import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -241,6 +244,30 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
+            }
+
+        Observable
+            .interval(1, TimeUnit.SECONDS)
+            .filter { prefs.isUpgraded.get() }
+            .map { prefs.timeExpiredIap.get() }
+            .filter { differenceInMillis -> differenceInMillis != -1L }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { differenceInMillis ->
+                val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
+                val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
+                val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+
+                when {
+                    days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
+                        prefs.timeExpiredIap.set(differenceInMillis - 1000L)
+                    }
+                    else ->  prefs.isUpgraded.set(false)
+                }
+
+                Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
             }
     }
 

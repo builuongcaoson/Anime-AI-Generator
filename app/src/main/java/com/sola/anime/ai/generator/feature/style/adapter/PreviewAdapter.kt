@@ -49,7 +49,6 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
         }
 
     override fun bindItem(item: Style, binding: ItemPreviewStyleBinding, position: Int) {
-        val item = getItem(position % data.size)
         val context = binding.root.context
 
         binding.display.text = item.display
@@ -70,7 +69,6 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                     binding.viewPreview.cardElevation = 0f
                     binding.viewShadow.isVisible = false
                     binding.preview.setImageResource(R.drawable.place_holder_image)
-                    binding.preview.animate().alpha(0f).setDuration(100).start()
                     return false
                 }
 
@@ -85,17 +83,15 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
                         binding.viewShadow.isVisible = true
                         binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
                         binding.preview.setImageDrawable(resource)
-                        binding.preview.animate().alpha(1f).setDuration(100).start()
                     } ?: run {
                         binding.viewPreview.cardElevation = 0f
                         binding.viewShadow.isVisible = false
                         binding.preview.setImageResource(R.drawable.place_holder_image)
-                        binding.preview.animate().alpha(0f).setDuration(100).start()
                     }
                     return false
                 }
             })
-            .preload()
+            .into(binding.preview)
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

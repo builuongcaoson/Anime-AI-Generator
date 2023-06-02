@@ -18,7 +18,7 @@ class Preferences @Inject constructor(
 
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
-    val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1)
+    val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1) // Milliseconds
 
     // For App
     val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", false)

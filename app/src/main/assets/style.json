@@ -1,5 +1,12 @@
 [
   {
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FNo%20Style%2F1.webp?alt=media&token=9bbfeecd-70e3-4461-9e23-2b3df5a08797",
+    "display": "No Style",
+    "prompts": [
+      ""
+    ]
+  },
+  {
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2F1.webp?alt=media&token=1f347d5c-a8ca-4770-9b1c-50ff2f0c5edd",
     "display": "Fire",
     "prompts": [
