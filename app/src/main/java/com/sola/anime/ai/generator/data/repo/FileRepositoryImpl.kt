@@ -1,23 +1,13 @@
 package com.sola.anime.ai.generator.data.repo
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.data.db.query.HistoryDao
-import com.sola.anime.ai.generator.data.db.query.StyleDao
-import com.sola.anime.ai.generator.domain.model.history.ChildHistory
-import com.sola.anime.ai.generator.domain.model.history.History
 import com.sola.anime.ai.generator.domain.repo.FileRepository
-import com.sola.anime.ai.generator.domain.repo.HistoryRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,7 +37,8 @@ class FileRepositoryImpl @Inject constructor(
         dir.mkdirs()
 
         val destinationFiles = files.map { file ->
-            file.copyTo(File(dir, file.name))
+            val fileCopy = getFileCopy(dir, file.name)
+            file.copyTo(fileCopy)
         }
         destinationFiles.forEach { file ->
             val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
@@ -55,6 +46,17 @@ class FileRepositoryImpl @Inject constructor(
             mediaScanIntent.data = contentUri
             context.sendBroadcast(mediaScanIntent)
         }
+    }
+
+    private fun getFileCopy(fileDir: File, fileName: String, index: Int = 0): File{
+        val file = when (index) {
+            0 -> File(fileDir, fileName)
+            else -> File(fileDir, "${fileName}_$index")
+        }
+        if (file.exists()){
+            return getFileCopy(fileDir, fileName, index = index + 1)
+        }
+        return file
     }
 
 }
