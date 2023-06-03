@@ -8,6 +8,7 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.first.FirstPreview
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -28,13 +29,13 @@ class ConfigApp @Inject constructor(
     }
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
+    var styleChoice: Style? = null
 
     // Art & Batch
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
 
     // RxJava
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
-    var subjectStyleClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
     var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
 
 }

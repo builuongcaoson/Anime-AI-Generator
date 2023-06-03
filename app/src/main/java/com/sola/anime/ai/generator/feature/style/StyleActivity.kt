@@ -47,6 +47,9 @@ class StyleActivity : LsActivity<ActivityStyleBinding>(ActivityStyleBinding::inf
     private fun initData() {
         styleDao.getAllLive().observe(this){
             previewAdapter.data = it
+
+            previewAdapter.style = configApp.styleChoice
+            Timber.e("StyleChoice: ${configApp.styleChoice?.display}")
         }
     }
 
@@ -54,21 +57,10 @@ class StyleActivity : LsActivity<ActivityStyleBinding>(ActivityStyleBinding::inf
         previewAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe {
-                configApp.subjectStyleClicks.onNext(it.id)
+            .subscribe { style ->
+                configApp.styleChoice = style
 
                 back()
-            }
-
-        configApp
-            .subjectStyleClicks
-            .take(1)
-            .map { styleDao.findById(it) }
-            .autoDispose(scope())
-            .subscribe {
-                Timber.e("Style id: ${it?.id}")
-
-                previewAdapter.style = it
             }
     }
 

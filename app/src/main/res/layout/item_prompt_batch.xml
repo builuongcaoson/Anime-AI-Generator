@@ -14,7 +14,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         app:cardBackgroundColor="?android:windowBackground"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp"
         app:strokeColor="?android:colorBackground"
         app:strokeWidth="@dimen/_1sdp">
@@ -66,9 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp">
+                android:paddingBottom="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp">
 
                 <com.basic.common.widget.LsTextView
                     android:layout_width="wrap_content"
@@ -79,6 +79,7 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/viewDropNegative"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentEnd="true"
@@ -89,6 +90,9 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/viewNegative"
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -133,6 +137,7 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/viewDropNumbers"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentEnd="true"
@@ -145,6 +150,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerNumberOfImages"
                 android:layout_width="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingStart="@dimen/_8sdp"
@@ -172,6 +179,7 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/viewDropDimensions"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentEnd="true"
@@ -183,6 +191,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerImageDimensions"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
@@ -212,6 +222,7 @@
                     android:textSize="@dimen/_12ssp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/viewDropAdvanced"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentEnd="true"
@@ -221,121 +232,131 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/viewAdvanced"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp">
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
 
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Guidance"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_17sdp"
-                        android:layout_height="@dimen/_17sdp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?colorPrimary"
-                        android:padding="@dimen/_1sdp"
-                        android:src="@drawable/ic_minus"
-                        android:tint="?colorOnPrimary" />
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp">
 
                     <com.basic.common.widget.LsTextView
-                        android:layout_width="@dimen/_60sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="1"
+                        android:layout_centerVertical="true"
+                        android:text="Guidance"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_12ssp" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_17sdp"
-                        android:layout_height="@dimen/_17sdp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?colorPrimary"
-                        android:padding="@dimen/_1sdp"
-                        android:src="@drawable/ic_plus"
-                        android:tint="?colorOnPrimary" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
 
-                </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_minus"
+                            android:tint="?colorOnPrimary" />
 
-            </RelativeLayout>
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="1"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_12ssp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_plus"
+                            android:tint="?colorOnPrimary" />
 
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="Step"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_17sdp"
-                        android:layout_height="@dimen/_17sdp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?colorPrimary"
-                        android:padding="@dimen/_1sdp"
-                        android:src="@drawable/ic_minus"
-                        android:tint="?colorOnPrimary" />
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp">
 
                     <com.basic.common.widget.LsTextView
-                        android:layout_width="@dimen/_60sdp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="1"
+                        android:layout_centerVertical="true"
+                        android:text="Step"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_12ssp" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_17sdp"
-                        android:layout_height="@dimen/_17sdp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?colorPrimary"
-                        android:padding="@dimen/_1sdp"
-                        android:src="@drawable/ic_plus"
-                        android:tint="?colorOnPrimary" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
 
-                </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_minus"
+                            android:tint="?colorOnPrimary" />
 
-            </RelativeLayout>
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="1"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_plus"
+                            android:tint="?colorOnPrimary" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -52,7 +52,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
         val context = binding.root.context
 
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item == style
+        binding.viewSelected.isVisible = item.id == style?.id
 
         Glide
             .with(context)

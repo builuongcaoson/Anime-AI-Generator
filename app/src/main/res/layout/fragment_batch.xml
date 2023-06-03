@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
+    android:id="@+id/viewRoot"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -80,6 +82,7 @@
                 android:id="@+id/recyclerCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/_10sdp"
@@ -92,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingEnd="@dimen/_10sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:ignore="RtlSymmetry"
@@ -114,7 +118,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardBackgroundColor="?android:windowBackground"
-                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="0dp"
                 app:strokeColor="?android:colorBackground"
                 app:strokeWidth="@dimen/_1sdp">
@@ -160,7 +164,7 @@
         android:layout_marginBottom="@dimen/_10sdp"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_10sdp"
-        app:cardElevation="0dp"
+        app:cardElevation="@dimen/_3sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

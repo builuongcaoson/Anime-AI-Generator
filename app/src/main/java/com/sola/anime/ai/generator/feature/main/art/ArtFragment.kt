@@ -64,8 +64,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val historySheet by lazy { HistorySheet() }
     private val advancedSheet by lazy { AdvancedSheet() }
 
-    private var styleId: Long = -1L
-
     override fun onViewCreated() {
         Timber.e("Credits: ${prefs.creditsTest.get()}")
 
@@ -86,7 +84,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     override fun onResume() {
         initObservable()
+        initDateResult()
         super.onResume()
+    }
+
+    private fun initDateResult() {
+        updateUiStyle(configApp.styleChoice)
     }
 
     private fun initObservable() {
@@ -110,6 +113,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe {
                 when {
+                    it == Ratio.Ratio1x1 -> configApp.subjectRatioClicks.onNext(it)
                     !prefs.isUpgraded.get() -> activity?.startIap()
                     else -> configApp.subjectRatioClicks.onNext(it)
                 }
@@ -120,15 +124,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe { ratio ->
                 aspectRatioAdapter.ratio = ratio
-            }
-
-        configApp
-            .subjectStyleClicks
-            .autoDispose(scope())
-            .subscribe { id ->
-                this.styleId = id
-
-                updateUiStyle(styleDao.findById(id))
             }
 
         configApp
@@ -301,7 +296,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
                 steps = if (!prefs.isUpgraded.get()) "40" else "50",
-                styleId = this.styleId,
+                styleId = configApp.styleChoice?.id ?: -1,
                 ratio = aspectRatioAdapter.ratio,
                 seed = (0..4294967295).random()
             )

@@ -118,7 +118,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:text="Enable NSFW Results"
+                                android:text="Aspect ratios"
                                 android:textColor="?android:textColorPrimary"
                                 android:textSize="@dimen/_12ssp" />
 

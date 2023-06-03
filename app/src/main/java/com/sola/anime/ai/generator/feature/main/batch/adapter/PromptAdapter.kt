@@ -1,9 +1,11 @@
 package com.sola.anime.ai.generator.feature.main.batch.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
+import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
 import com.sola.anime.ai.generator.databinding.ItemImageDimensionsBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemNumberOfImagesBatchBinding
@@ -40,6 +42,11 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             }
             this.adapter = ImageDimensionsAdapter()
         }
+
+        binding.viewDropNegative.clicks { binding.viewNegative.isVisible = !binding.viewNegative.isVisible }
+        binding.viewDropNumbers.clicks { binding.recyclerNumberOfImages.isVisible = !binding.recyclerNumberOfImages.isVisible }
+        binding.viewDropDimensions.clicks { binding.recyclerImageDimensions.isVisible = !binding.recyclerImageDimensions.isVisible }
+        binding.viewDropAdvanced.clicks { binding.viewAdvanced.isVisible = !binding.viewAdvanced.isVisible }
     }
 
     class NumberOfImagesAdapter: LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {

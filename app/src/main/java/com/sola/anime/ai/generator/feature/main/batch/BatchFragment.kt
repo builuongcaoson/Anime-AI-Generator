@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.main.batch
 import android.os.Build
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
+import androidx.transition.TransitionManager
 import com.basic.common.base.LsFragment
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
 
-    @Inject lateinit var categoryAdapter: CategoryAdapter
+//    @Inject lateinit var categoryAdapter: CategoryAdapter
     @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
 
@@ -43,23 +44,23 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initObservable() {
-        categoryAdapter
-            .clicks
-            .autoDispose(scope())
-            .subscribe { categoryAdapter.category = it }
+//        categoryAdapter
+//            .clicks
+//            .autoDispose(scope())
+//            .subscribe { categoryAdapter.category = it }
     }
 
     private fun initView() {
         activity?.let { activity ->
-            binding.recyclerCategory.apply {
-                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-                this.adapter = categoryAdapter
-            }
+//            binding.recyclerCategory.apply {
+//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+//                this.adapter = categoryAdapter
+//            }
 
-            binding.recyclerPreviewCategory.apply {
-                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-                this.adapter = previewCategoryAdapter
-            }
+//            binding.recyclerPreviewCategory.apply {
+//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+//                this.adapter = previewCategoryAdapter
+//            }
 
             binding.recyclerPrompt.apply {
                 this.layoutManager = object: LinearLayoutManager(activity, VERTICAL, false){
@@ -69,6 +70,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 }
                 this.adapter = promptAdapter
             }
+
+            TransitionManager.beginDelayedTransition(binding.viewRoot)
         }
     }
 
