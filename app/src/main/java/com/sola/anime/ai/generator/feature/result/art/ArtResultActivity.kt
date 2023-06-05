@@ -147,11 +147,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private fun downloadClicks() {
         previewAdapter.childHistory?.let { childHistory ->
-            lifecycleScope.launch {
-                fileRepo.downloads(File(childHistory.pathPreview))
-                withContext(Dispatchers.Main){
-                    makeToast("Download successfully!")
+            tryOrNull {
+                lifecycleScope.launch {
+                    fileRepo.downloads(File(childHistory.pathPreview))
+                    withContext(Dispatchers.Main){
+                        makeToast("Download successfully!")
+                    }
                 }
+            } ?: run {
+                makeToast("Something wrong, please try again!")
             }
         }
     }

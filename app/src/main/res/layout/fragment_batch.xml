@@ -111,8 +111,9 @@
                 tools:listitem="@layout/item_prompt_batch" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewPlusPrompt"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"

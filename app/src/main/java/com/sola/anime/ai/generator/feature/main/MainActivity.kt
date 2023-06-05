@@ -45,8 +45,8 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var admobManager: AdmobManager
 
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
-//    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
-    private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
+//    private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
@@ -84,58 +84,55 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("Premium is active: $isActive")
 
-            prefs.isUpgraded.set(isActive)
-            prefs.timeExpiredIap.delete()
+            if (isActive){
+                customerInfo
+                    .allPurchaseDatesByProduct
+                    .filter { it.value != null }
+                    .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
+                    .takeIf { it.isNotEmpty() }
+                    ?.maxBy { it.value!! }
+                    ?.let { map ->
+                        if (map.value == null) return@let
 
-//            if (isActive){
-//                customerInfo
-//                    .allPurchaseDatesByProduct
-//                    .filter { it.value != null }
-//                    .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
-//                    .takeIf { it.isNotEmpty() }
-//                    ?.maxBy { it.value!! }
-//                    ?.let { map ->
-//                        if (map.value == null) return@let
-//
-//                        val latestPurchasedProduct = map.key
-//                        val timeExpired = when {
-//                            prefs.isUpgraded.get() -> when {
-//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
-//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
-//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
-//                                else -> 21600000L // 6 Hour
-//                            }
-//                            else -> 21600000L // 6 Hour
-//                        }
-//
-//                        val differenceInMillis = timeExpired - (Date().time - map.value!!.time)
-//                        val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
-//                        val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
-//                        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
-//                        val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
-//
-//                        when {
-//                            days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-//                                prefs.isUpgraded.set(true)
-//                                prefs.timeExpiredIap.set(differenceInMillis)
-//                            }
-//                            else -> {
-//                                prefs.isUpgraded.set(false)
-//                                prefs.timeExpiredIap.delete()
-//                            }
-//                        }
-//
-//                        Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)}")
-//                        Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
-//                    }
-//
-//                when {
-//                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
-//                        prefs.numberCreatedArtwork.delete()
-//                        prefs.latestTimeCreatedArtwork.delete()
-//                    }
-//                }
-//            }
+                        val latestPurchasedProduct = map.key
+                        val timeExpired = when {
+                            prefs.isUpgraded.get() -> when {
+                                latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
+                                latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
+                                latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
+                                else -> 21600000L // 6 Hour
+                            }
+                            else -> 21600000L // 6 Hour
+                        }
+
+                        val differenceInMillis = timeExpired - (Date().time - map.value!!.time)
+                        val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
+                        val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
+                        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
+                        val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+
+                        when {
+                            days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
+                                prefs.isUpgraded.set(true)
+                                prefs.timeExpiredIap.set(differenceInMillis)
+                            }
+                            else -> {
+                                prefs.isUpgraded.set(false)
+                                prefs.timeExpiredIap.delete()
+                            }
+                        }
+
+                        Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)}")
+                        Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
+                    }
+
+                when {
+                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                        prefs.numberCreatedArtwork.delete()
+                        prefs.latestTimeCreatedArtwork.delete()
+                    }
+                }
+            }
         }
     }
 
@@ -225,8 +222,8 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
 //    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
-//private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabMine())
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabMine())
+private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabMine())
+//    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabMine())
     private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab1, imageTab1, textTab1)
     private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewTab2, imageTab2, textTab2)
     private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab3, imageTab3, textTab3)

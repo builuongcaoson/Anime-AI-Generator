@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.transition.TransitionManager
 import com.basic.common.base.LsFragment
+import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
+import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PreviewCategoryAdapter
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
@@ -18,7 +20,7 @@ import javax.inject.Inject
 class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
 
 //    @Inject lateinit var categoryAdapter: CategoryAdapter
-    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
+//    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
 
     override fun onViewCreated() {
@@ -35,6 +37,14 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 binding.viewShadow.alpha = alpha
                 binding.viewShadowBottom.alpha = alphaBottom
             }
+        }
+
+        binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
+    }
+
+    private fun plusPrompt() {
+        promptAdapter.data = ArrayList(promptAdapter.data).apply {
+            add(PromptBatch(""))
         }
     }
 
@@ -70,8 +80,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 }
                 this.adapter = promptAdapter
             }
-
-            TransitionManager.beginDelayedTransition(binding.viewRoot)
         }
     }
 

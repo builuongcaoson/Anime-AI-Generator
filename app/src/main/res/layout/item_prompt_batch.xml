@@ -93,7 +93,9 @@
             <LinearLayout
                 android:id="@+id/viewNegative"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
@@ -149,9 +151,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerNumberOfImages"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingStart="@dimen/_8sdp"
                 android:paddingEnd="@dimen/_8sdp"

@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit
 class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflate) {
 
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), AvatarFragment()) }
-//    private val fragments by lazy { listOf(ArtFragment(), BatchFragment()) }
-    private val fragments by lazy { listOf(ArtFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment()) }
+//    private val fragments by lazy { listOf(ArtFragment()) }
     private val topTabs by lazy { binding.initTabTop() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
@@ -110,8 +110,8 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
 
     private data class Tab(val viewClicks: View, val textTitle: LsTextView)
 //    private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt(), viewTabTop.initTabBatch(), viewTabTop.initTabAvatar())
-//    private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt(), viewTabTop.initTabBatch())
-    private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt())
+    private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt(), viewTabTop.initTabBatch())
+//    private fun FragmentMineBinding.initTabTop() = listOf(viewTabTop.initTabArt())
     private fun LayoutTopMineBinding.initTabArt() = Tab(viewTab1, textTab1)
     private fun LayoutTopMineBinding.initTabBatch() = Tab(viewTab2, textTab2)
     private fun LayoutTopMineBinding.initTabAvatar() = Tab(viewTab3, textTab3)
