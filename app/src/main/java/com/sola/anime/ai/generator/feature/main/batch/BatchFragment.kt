@@ -44,7 +44,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     private fun plusPrompt() {
         promptAdapter.data = ArrayList(promptAdapter.data).apply {
-            add(PromptBatch(""))
+            add(PromptBatch())
         }
     }
 

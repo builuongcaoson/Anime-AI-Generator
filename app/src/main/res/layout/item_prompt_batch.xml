@@ -201,8 +201,8 @@
                 android:paddingEnd="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_5sdp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="3"
-                tools:itemCount="6"
+                app:spanCount="4"
+                tools:itemCount="7"
                 tools:listitem="@layout/item_image_dimensions_batch" />
 
             <RelativeLayout

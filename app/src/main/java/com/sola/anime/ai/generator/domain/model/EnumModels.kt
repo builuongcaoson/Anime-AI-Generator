@@ -21,11 +21,11 @@ enum class NumberOfImages(val display: String){
     NumberOfImages8(display = "8")
 }
 
-enum class ImageDimensions(val display: String){
-    ImageDimensions512x512(display = "512x512"),
-    ImageDimensions768x768(display = "768x768"),
-    ImageDimensions512x1024(display = "512x1024"),
-    ImageDimensions768x1024(display = "768x1024"),
-    ImageDimensions1024x768(display = "1024x768"),
-    ImageDimensions1024x1024(display = "1024x1024")
-}
+//enum class ImageDimensions(val display: String){
+//    ImageDimensions512x512(display = "512x512"),
+//    ImageDimensions768x768(display = "768x768"),
+//    ImageDimensions512x1024(display = "512x1024"),
+//    ImageDimensions768x1024(display = "768x1024"),
+//    ImageDimensions1024x768(display = "1024x768"),
+//    ImageDimensions1024x1024(display = "1024x1024")
+//}

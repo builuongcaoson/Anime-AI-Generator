@@ -9,17 +9,15 @@ import com.basic.common.extension.resolveAttrColor
 import com.sola.anime.ai.generator.databinding.ItemImageDimensionsBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemNumberOfImagesBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemPromptBatchBinding
-import com.sola.anime.ai.generator.domain.model.ImageDimensions
 import com.sola.anime.ai.generator.domain.model.NumberOfImages
 import com.sola.anime.ai.generator.domain.model.PromptBatch
+import com.sola.anime.ai.generator.domain.model.Ratio
 import javax.inject.Inject
 
 class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatchBinding>(ItemPromptBatchBinding::inflate) {
 
     init {
-        data = listOf(
-            PromptBatch(prompt = "Models")
-        )
+        data = listOf(PromptBatch())
     }
 
     private val sparseNegatives = SparseBooleanArray()
@@ -36,15 +34,15 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
                     return false
                 }
             }
-            this.adapter = NumberOfImagesAdapter()
+            this.adapter = NumberOfImagesAdapter(item)
         }
         binding.recyclerImageDimensions.apply {
-            this.layoutManager = object: GridLayoutManager(context, 3, VERTICAL, false){
+            this.layoutManager = object: GridLayoutManager(context, 4, VERTICAL, false){
                 override fun canScrollVertically(): Boolean {
                     return false
                 }
             }
-            this.adapter = ImageDimensionsAdapter()
+            this.adapter = ImageDimensionsAdapter(item)
         }
 
 //        binding.viewNegative.apply {
@@ -158,11 +156,28 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 //        binding.viewDropNumbers.animate().rotation(rotate).setDuration(250).start()
 //    }
 
-    class NumberOfImagesAdapter: LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {
+    class NumberOfImagesAdapter(private val promptBatch: PromptBatch): LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {
 
         init {
             data = NumberOfImages.values().toList()
         }
+
+        var numberOfImages = promptBatch.numberOfImages
+            set(value) {
+                promptBatch.numberOfImages = value
+
+                if (field == value){
+                    return
+                }
+
+                val oldIndex = data.indexOf(field)
+                val newIndex = data.indexOf(value)
+
+                notifyItemChanged(oldIndex)
+                notifyItemChanged(newIndex)
+
+                field = value
+            }
 
         override fun bindItem(
             item: NumberOfImages,
@@ -173,8 +188,8 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
             binding.display.text = item.display
 
-            when (position) {
-                0 -> {
+            when {
+                numberOfImages == item -> {
                     binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))
                     binding.display.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
                 }
@@ -183,18 +198,37 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
                     binding.display.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
                 }
             }
+
+            binding.viewClicks.clicks(withAnim = false){ numberOfImages = item }
         }
 
     }
 
-    class ImageDimensionsAdapter: LsAdapter<ImageDimensions, ItemImageDimensionsBatchBinding>(ItemImageDimensionsBatchBinding::inflate) {
+    class ImageDimensionsAdapter(private val promptBatch: PromptBatch): LsAdapter<Ratio, ItemImageDimensionsBatchBinding>(ItemImageDimensionsBatchBinding::inflate) {
 
         init {
-            data = ImageDimensions.values().toList()
+            data = Ratio.values().toList()
         }
 
+        var ratio = promptBatch.ratio
+            set(value) {
+                promptBatch.ratio = value
+
+                if (field == value){
+                    return
+                }
+
+                val oldIndex = data.indexOf(field)
+                val newIndex = data.indexOf(value)
+
+                notifyItemChanged(oldIndex)
+                notifyItemChanged(newIndex)
+
+                field = value
+            }
+
         override fun bindItem(
-            item: ImageDimensions,
+            item: Ratio,
             binding: ItemImageDimensionsBatchBinding,
             position: Int
         ) {
@@ -202,8 +236,8 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
             binding.display.text = item.display
 
-            when (position) {
-                0 -> {
+            when {
+                ratio == item -> {
                     binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))
                     binding.display.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
                 }
@@ -212,6 +246,8 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
                     binding.display.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
                 }
             }
+
+            binding.viewClicks.clicks(withAnim = false){ ratio = item }
         }
 
     }
