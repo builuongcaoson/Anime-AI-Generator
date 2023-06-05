@@ -81,55 +81,59 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             }
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("Premium is active: $isActive")
-            if (isActive){
-                customerInfo
-                    .allPurchaseDatesByProduct
-                    .filter { it.value != null }
-                    .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
-                    .takeIf { it.isNotEmpty() }
-                    ?.maxBy { it.value!! }
-                    ?.let { map ->
-                        if (map.value == null) return@let
 
-                        val latestPurchasedProduct = map.key
-                        val timeExpired = when {
-                            prefs.isUpgraded.get() -> when {
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
-                                else -> 21600000L // 6 Hour
-                            }
-                            else -> 21600000L // 6 Hour
-                        }
+            prefs.isUpgraded.set(isActive)
+            prefs.timeExpiredIap.delete()
 
-                        val differenceInMillis = timeExpired - (Date().time - map.value!!.time)
-                        val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
-                        val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
-                        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
-                        val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
-
-                        when {
-                            days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredIap.set(differenceInMillis)
-                            }
-                            else -> {
-                                prefs.isUpgraded.set(false)
-                                prefs.timeExpiredIap.delete()
-                            }
-                        }
-
-                        Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)}")
-                        Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
-                }
-
-                when {
-                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
-                        prefs.numberCreatedArtwork.delete()
-                        prefs.latestTimeCreatedArtwork.delete()
-                    }
-                }
-            }
+//            if (isActive){
+//                customerInfo
+//                    .allPurchaseDatesByProduct
+//                    .filter { it.value != null }
+//                    .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
+//                    .takeIf { it.isNotEmpty() }
+//                    ?.maxBy { it.value!! }
+//                    ?.let { map ->
+//                        if (map.value == null) return@let
+//
+//                        val latestPurchasedProduct = map.key
+//                        val timeExpired = when {
+//                            prefs.isUpgraded.get() -> when {
+//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
+//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
+//                                latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
+//                                else -> 21600000L // 6 Hour
+//                            }
+//                            else -> 21600000L // 6 Hour
+//                        }
+//
+//                        val differenceInMillis = timeExpired - (Date().time - map.value!!.time)
+//                        val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
+//                        val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
+//                        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
+//                        val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+//
+//                        when {
+//                            days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
+//                                prefs.isUpgraded.set(true)
+//                                prefs.timeExpiredIap.set(differenceInMillis)
+//                            }
+//                            else -> {
+//                                prefs.isUpgraded.set(false)
+//                                prefs.timeExpiredIap.delete()
+//                            }
+//                        }
+//
+//                        Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)}")
+//                        Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
+//                }
+//
+//                when {
+//                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+//                        prefs.numberCreatedArtwork.delete()
+//                        prefs.latestTimeCreatedArtwork.delete()
+//                    }
+//                }
+//            }
         }
     }
 
