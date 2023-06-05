@@ -20,6 +20,7 @@
         app:strokeWidth="@dimen/_1sdp">
 
         <LinearLayout
+            android:id="@+id/viewGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -91,10 +92,8 @@
 
             <LinearLayout
                 android:id="@+id/viewNegative"
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"

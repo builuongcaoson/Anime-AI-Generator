@@ -1,7 +1,9 @@
 package com.sola.anime.ai.generator.feature.main.batch.adapter
 
+import android.animation.ValueAnimator
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.GridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
@@ -43,10 +45,33 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             this.adapter = ImageDimensionsAdapter()
         }
 
-        binding.viewDropNegative.clicks { binding.viewNegative.isVisible = !binding.viewNegative.isVisible }
+        binding.viewDropNegative.clicks { animShowOrHideNegative(binding = binding, isShow = true) }
         binding.viewDropNumbers.clicks { binding.recyclerNumberOfImages.isVisible = !binding.recyclerNumberOfImages.isVisible }
         binding.viewDropDimensions.clicks { binding.recyclerImageDimensions.isVisible = !binding.recyclerImageDimensions.isVisible }
         binding.viewDropAdvanced.clicks { binding.viewAdvanced.isVisible = !binding.viewAdvanced.isVisible }
+    }
+
+    private fun animShowOrHideNegative(binding: ItemPromptBatchBinding, isShow: Boolean){
+        val startHeight = if (isShow) 0 else ViewGroup.LayoutParams.WRAP_CONTENT
+        val endHeight = if (isShow) 200 else 0
+        val valueAnimator = ValueAnimator.ofInt(startHeight, endHeight)
+        valueAnimator.addUpdateListener { animation ->
+            val height = animation.animatedValue as Int
+            val layoutParams = binding.viewNegative.layoutParams
+            layoutParams.height = height
+            binding.viewNegative.layoutParams = layoutParams
+
+//            when {
+//                isShow -> binding.viewGroup.updateLayoutParams<ViewGroup.LayoutParams> {
+//                    this.height += height
+//                }
+//                else -> binding.viewGroup.updateLayoutParams<ViewGroup.LayoutParams> {
+//                    this.height -= height
+//                }
+//            }
+        }
+        valueAnimator.duration = 1000
+        valueAnimator.start()
     }
 
     class NumberOfImagesAdapter: LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {

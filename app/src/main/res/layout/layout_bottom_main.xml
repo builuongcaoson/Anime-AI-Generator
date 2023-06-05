@@ -43,6 +43,7 @@
         <RelativeLayout
             android:id="@+id/viewTab2"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toStartOf="@id/viewTab3"
             app:layout_constraintStart_toEndOf="@id/viewTab1">
