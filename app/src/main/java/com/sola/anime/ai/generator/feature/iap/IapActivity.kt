@@ -11,6 +11,7 @@ import com.basic.common.extension.*
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
@@ -151,6 +152,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+            Timber.tag("Main12345").e("##### SPLASH #####")
+            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
 
             if (isActive){
                 customerInfo
@@ -166,7 +169,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                         val expiredDateTime = when {
                             prefs.isUpgraded.get() -> expiredDate.time
-                            else -> latestDatePurchased.time + 21600000L // Day time purchased + 6 hours
+                            else -> latestDatePurchased.time + if (BuildConfig.DEBUG) 0 else 21600000L // Day time purchased + 6 hours
                         }
 
                         val differenceInMillis = expiredDateTime - Date().time
@@ -175,22 +178,26 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                             val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
                             val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
                             val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+
                             when {
-                                days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredIap.set(differenceInMillis)
-                                }
-                                else -> {
+                                days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
                                     prefs.isUpgraded.delete()
                                     prefs.timeExpiredIap.delete()
                                 }
+                                else -> {
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredIap.set(expiredDate.time)
+                                }
                             }
 
-                            Timber.tag("Main12345").e("##### IAP #####")
                             Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(latestDatePurchased)}")
                             Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(expiredDate)}")
                             Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
+                        } else {
+                            prefs.isUpgraded.delete()
+                            prefs.timeExpiredIap.delete()
                         }
+                        Timber.tag("Main12345").e("DifferenceInMillis: $differenceInMillis --- ${latestDatePurchased.time} --- ${Date().time}")
                     }
                 when {
                     prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
@@ -280,10 +287,10 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                         val timeExpired = when {
                             item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
-                            item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time - purchase.purchaseTime
-                            item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time - purchase.purchaseTime
-                            item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time - purchase.purchaseTime
-                            item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time - purchase.purchaseTime
+                            item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time
+                            item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time
+                            item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time
+                            item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
                             else -> -3L
                         }
                         prefs.timeExpiredIap.set(timeExpired)

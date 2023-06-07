@@ -37,8 +37,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResultBinding::inflate) {
@@ -254,7 +256,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .interval(1, TimeUnit.SECONDS)
             .filter { prefs.isUpgraded.get() }
             .map { prefs.timeExpiredIap.get() }
-            .filter { differenceInMillis -> differenceInMillis != -1L && differenceInMillis != -2L }
+            .filter { timeExpired -> timeExpired != -1L && timeExpired != -2L }
+            .map { timeExpired -> timeExpired - Date().time }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -265,13 +268,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
 
                 when {
-                    days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-                        prefs.timeExpiredIap.set(differenceInMillis - 1000L)
+                    days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
+                        prefs.isUpgraded.delete()
+                        prefs.timeExpiredIap.delete()
                     }
-                    else ->  prefs.isUpgraded.set(false)
                 }
 
-                Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
+                Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
             }
     }
 

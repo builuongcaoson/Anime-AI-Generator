@@ -10,9 +10,9 @@ import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.revenuecat.purchases.BuildConfig
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
@@ -71,6 +71,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+            Timber.tag("Main12345").e("##### SPLASH #####")
+            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
 
             if (isActive){
                 customerInfo
@@ -86,7 +88,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                         val expiredDateTime = when {
                             prefs.isUpgraded.get() -> expiredDate.time
-                            else -> latestDatePurchased.time + 21600000L // Day time purchased + 6 hours
+                            else -> latestDatePurchased.time + if (BuildConfig.DEBUG) 0 else 21600000L // Day time purchased + 6 hours
                         }
 
                         val differenceInMillis = expiredDateTime - Date().time
@@ -97,22 +99,25 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                             val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
 
                             when {
-                                days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredIap.set(differenceInMillis)
-                                }
-                                else -> {
+                                days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
                                     prefs.isUpgraded.delete()
                                     prefs.timeExpiredIap.delete()
                                 }
+                                else -> {
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredIap.set(expiredDate.time)
+                                }
                             }
 
-                            Timber.tag("Main12345").e("##### SPLASH #####")
                             Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(latestDatePurchased)}")
                             Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(expiredDate)}")
                             Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
+                        } else {
+                            prefs.isUpgraded.delete()
+                            prefs.timeExpiredIap.delete()
                         }
-                }
+                        Timber.tag("Main12345").e("DifferenceInMillis: $differenceInMillis --- ${latestDatePurchased.time} --- ${Date().time}")
+                    }
                 when {
                     prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
                         prefs.numberCreatedArtwork.delete()
@@ -237,7 +242,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
-                    Timber.tag("Main12345").e("############### FETCH AND ACTIVATE $numberSync ##############")
                     if (config.getString("script_iap").isEmpty()) {
                         if (numberSync > 1) {
                             syncRemoteConfig(numberSync - 1)
