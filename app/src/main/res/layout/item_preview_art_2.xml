@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardPreview"
     android:layout_width="@dimen/_120sdp"
     android:layout_height="@dimen/_160sdp"
-    app:cardPreventCornerOverlap="false"
-    android:id="@+id/cardPreview"
     app:cardBackgroundColor="?android:windowBackground"
     app:cardCornerRadius="@dimen/_15sdp"
-    app:cardElevation="@dimen/_3sdp">
+    app:cardElevation="@dimen/_3sdp"
+    app:cardPreventCornerOverlap="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,8 +27,8 @@
                 android:id="@+id/placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/place_holder_image"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -39,8 +39,8 @@
                 android:id="@+id/preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/first_preview_zzz2xxx3zzz_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
         android:id="@+id/viewAlpha"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:alpha="0"/>
+        android:alpha="0"
+        android:background="@android:color/white" />
 
 </com.google.android.material.card.MaterialCardView>

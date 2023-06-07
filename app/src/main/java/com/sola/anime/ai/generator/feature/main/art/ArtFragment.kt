@@ -3,7 +3,9 @@ package com.sola.anime.ai.generator.feature.main.art
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
@@ -65,7 +67,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val advancedSheet by lazy { AdvancedSheet() }
 
     override fun onViewCreated() {
-        Timber.e("Credits: ${prefs.creditsTest.get()}")
+        Timber.tag("Main11111").e("Credits: ${prefs.creditsTest.get()}")
+        Timber.tag("Main11111").e("Status bar height: ${activity?.getStatusBarHeight()}")
 
         initView()
         initData()
@@ -101,9 +104,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe {
                 subjectFirstView.onNext(false)
-
-//                tryOrNull { binding.viewPager.post { tryOrNull { binding.viewPager.setCurrentItem((binding.viewPager.adapter?.itemCount ?: 2) / 2, false) } } }
-//                binding.viewPager.animate().alpha(1f).setDuration(500).start()
 
                 binding.recyclerPreview.animate().alpha(1f).setDuration(500).start()
             }
@@ -234,27 +234,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
-//    override fun onDestroy() {
-//        binding.viewPager.unregisterOnPageChangeCallback(previewChanges)
-//        super.onDestroy()
-//    }
-
-//    private val previewChanges = object: ViewPager2.OnPageChangeCallback() {
-//        override fun onPageSelected(position: Int) {
-//
-//        }
-//    }
-
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-//        binding.viewPager.registerOnPageChangeCallback(previewChanges)
-//        binding.recyclerPreview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//
-//                }
-//            }
-//        })
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
                 val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
@@ -344,20 +325,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
-//            binding.viewPager.apply {
-//                this.adapter = previewAdapter
-//                this.offscreenPageLimit = 1
-//                this.run {
-//                    val nextItemVisiblePx = activity.getDimens(com.intuit.sdp.R.dimen._40sdp)
-//                    val currentItemHorizontalMarginPx = activity.getDimens(com.intuit.sdp.R.dimen._50sdp)
-//                    val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
-//                    this.setPageTransformer { page: View, position: Float ->
-//                        page.translationX = -pageTranslationX * position
-//                        page.scaleY = 1 - (0.25f * abs(position))
-//                    }
-//                }
-//                this.addItemDecoration(HorizontalMarginItemDecoration(activity.getDimens(com.intuit.sdp.R.dimen._50sdp).toInt()))
-//            }
+            binding.viewTop.updateLayoutParams<MarginLayoutParams> {
+                this.topMargin = when(val statusBarHeight = activity.getStatusBarHeight()) {
+                    0 -> activity.getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                    else -> statusBarHeight
+                }
+            }
 
             binding.recyclerPreview.apply {
                 this.adapter = previewAdapter

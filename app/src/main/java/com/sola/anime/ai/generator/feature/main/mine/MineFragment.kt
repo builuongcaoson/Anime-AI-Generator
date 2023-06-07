@@ -3,12 +3,16 @@ package com.sola.anime.ai.generator.feature.main.mine
 import android.animation.ValueAnimator
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import com.basic.common.base.LsFragment
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.widget.LsTextView
 import com.jakewharton.rxbinding2.view.clicks
+import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startSetting
 import com.sola.anime.ai.generator.databinding.FragmentMineBinding
 import com.sola.anime.ai.generator.databinding.LayoutTopMineBinding
@@ -50,6 +54,15 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     }
 
     private fun initView() {
+        activity?.let { activity ->
+            binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.topMargin = when(val statusBarHeight = activity.getStatusBarHeight()) {
+                    0 -> activity.getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                    else -> statusBarHeight
+                }
+            }
+        }
+
         binding.viewPager.apply {
             this.adapter = LsPageAdapter(childFragmentManager).apply {
                 this.addFragment(fragments = fragments.toTypedArray())

@@ -8,12 +8,10 @@
     <RelativeLayout
         android:id="@+id/viewTop"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_height="@dimen/_40sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_marginTop="0dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.basic.common.widget.LsTextView
             android:layout_width="wrap_content"

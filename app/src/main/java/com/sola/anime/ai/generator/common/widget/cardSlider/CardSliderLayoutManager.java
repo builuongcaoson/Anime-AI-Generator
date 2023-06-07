@@ -127,7 +127,7 @@ public class CardSliderLayoutManager extends RecyclerView.LayoutManager
     public CardSliderLayoutManager(@NonNull Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         final float density = context.getResources().getDisplayMetrics().density;
 
-        final int defaultCardWidth = (int) (DEFAULT_CARD_WIDTH * density);
+        final int defaultCardWidth = (int) context.getResources().getDimension(com.intuit.sdp.R.dimen._120sdp);
         final int defaultActiveCardLeft = (int) (DEFAULT_ACTIVE_CARD_LEFT_OFFSET * density);
         final float defaultCardsGap = DEFAULT_CARDS_GAP * density;
 
