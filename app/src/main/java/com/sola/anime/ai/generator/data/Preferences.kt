@@ -22,6 +22,7 @@ class Preferences @Inject constructor(
 
     // For App
     val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", false)
+    val isShowedWaringPremiumDialog = rxPrefs.getBoolean("isShowedWaringPremiumDialog", false)
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
     val isViewTutorial = rxPrefs.getBoolean("isViewTutorial", false)
     val isRated = rxPrefs.getBoolean("isRated", false)

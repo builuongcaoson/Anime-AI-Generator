@@ -16,6 +16,7 @@ import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
@@ -43,6 +44,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var warningPremiumDialog: WarningPremiumDialog
 
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
@@ -217,6 +219,10 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                 this.addFragment(fragments = fragments.toTypedArray())
             }
             this.offscreenPageLimit = this.adapter?.count ?: 0
+        }
+
+        when {
+            prefs.isUpgraded.get() && !prefs.isShowedWaringPremiumDialog.get() -> warningPremiumDialog.show(this)
         }
     }
 

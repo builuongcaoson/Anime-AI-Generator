@@ -6,7 +6,7 @@ class Constraint {
 
             const val DEZGO_URL = "https://api.dezgo.com/"
             const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
-            const val DEZGO_KEY = "LVVGJuOraUCqa9uD3oMyalY9vX0vb3KrVpUP16PWElXAStwwPBYPmbF2pjMYqQJNmV5kK6q9y+I4q+ts+rszV23j0SmrExlkQHRNZmOtSX4="
+            const val DEZGO_KEY = "P2nRPcZUgLlF+ng0USu+Qxh+w3fPQjzxfQ81sohhwvQgq2ClhD5f1EDOevmKFEDZ6CWDNesbRHNuwpibIPgmjSf7xCr7AXlRzYioubAxY+/+xQ5XdepOMDfskrq96CmmpSGowynNl+FMa8fNcNuq8g=="
 
             const val DEZGO_RAPID_URL = "https://dezgo.p.rapidapi.com/"
             const val DEZGO_HEADER_RAPID_KEY = "X-RapidAPI-Key"
