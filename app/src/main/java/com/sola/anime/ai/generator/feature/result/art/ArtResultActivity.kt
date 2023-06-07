@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.ActivityArtResultBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.repo.FileRepository
@@ -60,6 +61,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var analyticManager: AnalyticManager
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -84,6 +86,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS, "generate_success")
+
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
             prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
         }

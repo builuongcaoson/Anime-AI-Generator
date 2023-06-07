@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:lineHeight="@dimen/_15sdp"
-                android:text="Must not contain sensitive keywords, please check again!"
+                android:text="Your prompt contains sensitive words, you can turn off this feature in the settings."
                 android:textAlignment="center"
                 android:textColor="?android:textColorSecondary"
                 android:textSize="@dimen/_12ssp" />

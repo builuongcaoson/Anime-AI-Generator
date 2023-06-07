@@ -28,6 +28,15 @@
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_20ssp" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/warning" />
+
             <com.basic.common.widget.LsTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +44,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:text="We will not be responsible for users who intentionally exceed our daily photo creation limit, such as deleting data or uninstalling and reinstalling apps, etc."
                 android:textAlignment="center"
                 android:textColor="?android:textColorSecondary"

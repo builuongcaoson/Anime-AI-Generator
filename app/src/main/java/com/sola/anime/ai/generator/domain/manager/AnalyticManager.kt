@@ -7,7 +7,9 @@ interface AnalyticManager {
         CLICKED_INVITE,
         CLICKED_RATING,
         CLICKED_SUPPORT,
-        ADMOB_CLICKED
+        ADMOB_CLICKED,
+        GENERATE_SUCCESS,
+        GENERATE_FAILED
     }
 
     fun logEvent(type: TYPE, event: String)

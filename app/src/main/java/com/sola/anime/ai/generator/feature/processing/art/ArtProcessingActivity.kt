@@ -17,6 +17,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
@@ -45,6 +46,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var historyDao: HistoryDao
+    @Inject lateinit var analyticManager: AnalyticManager
 
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
@@ -86,6 +88,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
             .subscribe { millisecond ->
                 when {
                     millisecond >= Preferences.MAX_SECOND_GENERATE_ART -> {
+                        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+
                         makeToast("Server error, please wait for us to fix the error or try again!")
                         tryOrNull { artGenerateDialog.dismiss() }
                         finish()
@@ -105,6 +109,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     private fun initData() {
         when {
             configApp.dezgoBodiesTextsToImages.isEmpty() -> {
+                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+
                 makeToast("Server error, please wait for us to fix the error or try again!")
                 finish()
                 return
@@ -191,6 +197,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                             finish()
                                         }
                                         else -> {
+                                            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+
                                             makeToast("Server error, please wait for us to fix the error or try again!")
                                             finish()
                                         }
