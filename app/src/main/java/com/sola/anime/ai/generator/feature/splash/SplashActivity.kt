@@ -56,6 +56,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+//        val encrypt = AESEncyption.encrypt("DEZGO-677ADADF008D43E746840EF0A88000892E435F3ECB11A537CCC322B11511AB524D2EE56D") ?: ""
+//        Timber.tag("Main12345").e("Key: $encrypt")
+//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Api.DEZGO_KEY)}")
+
         initReviewManager()
         initView()
         initObservable()

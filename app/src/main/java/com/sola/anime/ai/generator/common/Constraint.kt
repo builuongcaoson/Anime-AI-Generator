@@ -3,10 +3,9 @@ package com.sola.anime.ai.generator.common
 class Constraint {
     class Api {
         companion object {
-
             const val DEZGO_URL = "https://api.dezgo.com/"
             const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
-            const val DEZGO_KEY = "P2nRPcZUgLlF+ng0USu+Qxh+w3fPQjzxfQ81sohhwvQgq2ClhD5f1EDOevmKFEDZ6CWDNesbRHNuwpibIPgmjSf7xCr7AXlRzYioubAxY+/+xQ5XdepOMDfskrq96CmmpSGowynNl+FMa8fNcNuq8g=="
+            const val DEZGO_KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
 
             const val DEZGO_RAPID_URL = "https://dezgo.p.rapidapi.com/"
             const val DEZGO_HEADER_RAPID_KEY = "X-RapidAPI-Key"

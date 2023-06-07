@@ -293,7 +293,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 maxGroupId = 0,
                 maxChildId = 0,
                 prompt = prompt,
-                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
                 steps = if (!prefs.isUpgraded.get()) "40" else "50",
                 styleId = configApp.styleChoice?.id ?: -1,
