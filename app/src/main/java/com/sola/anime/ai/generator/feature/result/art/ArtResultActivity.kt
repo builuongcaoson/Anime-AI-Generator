@@ -254,7 +254,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .interval(1, TimeUnit.SECONDS)
             .filter { prefs.isUpgraded.get() }
             .map { prefs.timeExpiredIap.get() }
-            .filter { differenceInMillis -> differenceInMillis != -1L }
+            .filter { differenceInMillis -> differenceInMillis != -1L && differenceInMillis != -2L }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())

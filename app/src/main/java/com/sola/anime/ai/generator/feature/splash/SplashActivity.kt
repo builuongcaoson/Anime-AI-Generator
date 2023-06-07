@@ -10,9 +10,8 @@ import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.revenuecat.purchases.LogLevel
+import com.revenuecat.purchases.BuildConfig
 import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
@@ -21,7 +20,6 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
@@ -33,7 +31,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -73,19 +70,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            customerInfo.entitlements.all.forEach {
-                Timber.tag("Main12345").e("Key: ${it.key} --- ${it.value.isActive}")
-            }
-            customerInfo.latestExpirationDate?.let { date ->
-                Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
-            }
-            for (i in customerInfo.allPurchaseDatesByProduct){
-                i.value?.let { date ->
-                    Timber.tag("Main12345").e("Product: ${i.key} --- Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(date)}")
-                }
-            }
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("Premium is active: $isActive")
 
             if (isActive){
                 customerInfo
@@ -93,48 +78,50 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     .filter { it.value != null }
                     .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
                     .takeIf { it.isNotEmpty() }
-                    ?.maxBy { it.value!! }
+                    ?.maxByOrNull { it.value!! }
                     ?.let { map ->
-                        if (map.value == null) return@let
-
                         val latestPurchasedProduct = map.key
-                        val timeExpired = when {
-                            prefs.isUpgraded.get() -> when {
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_WEEK) -> 604800016L // 1 Week
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_MONTH) -> 2629800000L // 1 Month
-                                latestPurchasedProduct.contains(Constraint.Iap.SKU_YEAR) -> 31557600000L // 1 Year
-                                else -> 21600000L // 6 Hour
-                            }
-                            else -> 21600000L // 6 Hour
+                        val latestDatePurchased = map.value ?: return@let
+                        val expiredDate = customerInfo.getExpirationDateForProductId(latestPurchasedProduct) ?: return@let
+
+                        val expiredDateTime = when {
+                            prefs.isUpgraded.get() -> expiredDate.time
+                            else -> latestDatePurchased.time + 21600000L // Day time purchased + 6 hours
                         }
 
-                        val differenceInMillis = timeExpired - (Date().time - map.value!!.time)
-                        val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
-                        val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
-                        val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
-                        val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+                        val differenceInMillis = expiredDateTime - Date().time
+                        if (differenceInMillis > 0){
+                            val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
+                            val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
+                            val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
+                            val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
 
-                        when {
-                            days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredIap.set(differenceInMillis)
+                            when {
+                                days >= 0 && hours >= 0 && minutes >= 0 && seconds > 0 -> {
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredIap.set(differenceInMillis)
+                                }
+                                else -> {
+                                    prefs.isUpgraded.delete()
+                                    prefs.timeExpiredIap.delete()
+                                }
                             }
-                            else -> {
-                                prefs.isUpgraded.set(false)
-                                prefs.timeExpiredIap.delete()
-                            }
+
+                            Timber.tag("Main12345").e("##### SPLASH #####")
+                            Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(latestDatePurchased)}")
+                            Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(expiredDate)}")
+                            Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
                         }
-
-                        Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(map.value!!)}")
-                        Timber.tag("Main12345").e("Date Expired: $days --- $hours:$minutes:$seconds")
                 }
-
                 when {
                     prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
                         prefs.numberCreatedArtwork.delete()
                         prefs.latestTimeCreatedArtwork.delete()
                     }
                 }
+            } else {
+                prefs.isUpgraded.delete()
+                prefs.timeExpiredIap.delete()
             }
         }
     }
