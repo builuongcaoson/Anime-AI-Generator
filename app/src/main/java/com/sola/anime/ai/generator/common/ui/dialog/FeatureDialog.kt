@@ -10,16 +10,6 @@ import android.text.method.ScrollingMovementMethod
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.extension.copyToClipboard
-import com.sola.anime.ai.generator.databinding.DialogExploreBinding
 import com.sola.anime.ai.generator.databinding.DialogFeatureBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import io.reactivex.subjects.Subject

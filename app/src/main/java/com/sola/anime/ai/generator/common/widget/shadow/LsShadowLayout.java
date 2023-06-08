@@ -103,9 +103,13 @@ public class LsShadowLayout extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         // Clear shadow bitmap
-        if (mBitmap != null) {
-            mBitmap.recycle();
-            mBitmap = null;
+        try {
+            if (mBitmap != null) {
+                mBitmap.recycle();
+                mBitmap = null;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -215,11 +219,15 @@ public class LsShadowLayout extends FrameLayout {
                 // If bounds is zero
                 if (mBounds.width() != 0 && mBounds.height() != 0) {
                     // Reset bitmap to bounds
-                    mBitmap = Bitmap.createBitmap(
-                            mBounds.width(), mBounds.height(), Bitmap.Config.ARGB_8888
-                    );
-                    // Canvas reset
-                    mCanvas.setBitmap(mBitmap);
+                    try {
+                        mBitmap = Bitmap.createBitmap(
+                                mBounds.width(), mBounds.height(), Bitmap.Config.ARGB_8888
+                        );
+                        // Canvas reset
+                        mCanvas.setBitmap(mBitmap);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                     // We just redraw
                     mInvalidateShadow = false;
@@ -242,15 +250,23 @@ public class LsShadowLayout extends FrameLayout {
                     extractedAlpha.recycle();
                 } else {
                     // Create placeholder bitmap when size is zero and wait until new size coming up
-                    mBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+                    try {
+                        mBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
 
             // Reset alpha to draw child with full alpha
             mPaint.setColor(adjustShadowAlpha(true));
             // Draw shadow bitmap
-            if (mCanvas != null && mBitmap != null && !mBitmap.isRecycled())
-                canvas.drawBitmap(mBitmap, 0.0F, 0.0F, mPaint);
+            try {
+                if (mCanvas != null && mBitmap != null && !mBitmap.isRecycled())
+                    canvas.drawBitmap(mBitmap, 0.0F, 0.0F, mPaint);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         // Draw child`s

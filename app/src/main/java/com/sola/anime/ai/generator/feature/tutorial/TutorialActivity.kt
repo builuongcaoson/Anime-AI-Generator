@@ -7,11 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.transition.TransitionManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityTutorialBinding

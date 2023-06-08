@@ -3,10 +3,8 @@ package com.sola.anime.ai.generator.feature.result.art.adapter
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
-import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtResultBinding

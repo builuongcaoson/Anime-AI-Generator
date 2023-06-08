@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Environment
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.repo.FileRepository
@@ -36,9 +37,11 @@ class FileRepositoryImpl @Inject constructor(
         val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name))
         dir.mkdirs()
 
-        val destinationFiles = files.map { file ->
-            val fileCopy = getFileCopy(dir, file.name)
-            file.copyTo(fileCopy)
+        val destinationFiles = files.filter { file -> file.exists() }.mapNotNull { file ->
+            tryOrNull {
+                val fileCopy = getFileCopy(dir, file.name)
+                file.copyTo(fileCopy)
+            }
         }
         destinationFiles.forEach { file ->
             val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
