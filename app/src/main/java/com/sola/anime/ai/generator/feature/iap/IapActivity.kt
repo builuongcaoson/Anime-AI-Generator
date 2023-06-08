@@ -156,6 +156,16 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
 
             if (isActive){
+                if (configApp.skipSyncPremium){
+                    customerInfo
+                        .latestExpirationDate
+                        ?.let { expiredDate ->
+                            prefs.isUpgraded.set(true)
+                            prefs.timeExpiredIap.set(expiredDate.time)
+                        }
+                    return@getCustomerInfoWith
+                }
+
                 customerInfo
                     .allPurchaseDatesByProduct
                     .filter { it.value != null }

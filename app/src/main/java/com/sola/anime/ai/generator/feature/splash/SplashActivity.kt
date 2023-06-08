@@ -77,6 +77,16 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
 
             if (isActive){
+                if (configApp.skipSyncPremium){
+                    customerInfo
+                        .latestExpirationDate
+                        ?.let { expiredDate ->
+                            prefs.isUpgraded.set(true)
+                            prefs.timeExpiredIap.set(expiredDate.time)
+                        }
+                    return@getCustomerInfoWith
+                }
+
                 customerInfo
                     .allPurchaseDatesByProduct
                     .filter { it.value != null }
@@ -143,19 +153,26 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     initData()
                 }
                 else -> {
-                    val token = FirebaseInstallations.getInstance().getToken(false).await().token
+                    val token = try {
+                        FirebaseInstallations.getInstance().getToken(false).await().token
+                    } catch (e: Exception){
+                        e.printStackTrace()
+                        null
+                    }
                     Timber.e("Token Firebase Installation: $token")
-                    syncRemoteConfig()
-                    delay(500)
-                    syncUserPurchased()
-                    delay(500)
-                    when {
-                        !prefs.isSyncedData.get() -> {
-                            syncData.execute(Unit)
+                    syncRemoteConfig {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            syncUserPurchased()
+                            delay(500)
+                            when {
+                                !prefs.isSyncedData.get() -> {
+                                    syncData.execute(Unit)
 
-                            handleSuccess()
+                                    handleSuccess()
+                                }
+                                else -> handleSuccess()
+                            }
                         }
-                        else -> handleSuccess()
                     }
                 }
             }
@@ -235,7 +252,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 //        progressDao.inserts(*data)
 //    }
 
-    private fun syncRemoteConfig() {
+    private fun syncRemoteConfig(done: () -> Unit) {
         Firebase.remoteConfig.let { config ->
             val configSettings = remoteConfigSettings {
                 minimumFetchIntervalInSeconds = 0
@@ -248,7 +265,13 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.scriptIap = config.getString("script_iap").takeIf { it.isNotEmpty() } ?: configApp.scriptIap
 
                     Timber.tag("Main12345").e("###############")
+                    Timber.tag("Main12345").e("skipSyncPremium: ${configApp.skipSyncPremium}")
                     Timber.tag("Main12345").e("script_show_iap: ${configApp.scriptIap}")
+
+                    done()
+                }
+                .addOnFailureListener {
+                    done()
                 }
         }
     }
