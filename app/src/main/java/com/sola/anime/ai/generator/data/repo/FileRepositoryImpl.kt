@@ -10,6 +10,9 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,7 +43,7 @@ class FileRepositoryImpl @Inject constructor(
         val destinationFiles = files.filter { file -> file.exists() }.mapNotNull { file ->
             tryOrNull {
                 val fileCopy = getFileCopy(dir, file.name)
-                file.copyTo(fileCopy)
+                copyFile(file, fileCopy)
             }
         }
         destinationFiles.forEach { file ->
@@ -49,6 +52,37 @@ class FileRepositoryImpl @Inject constructor(
             mediaScanIntent.data = contentUri
             context.sendBroadcast(mediaScanIntent)
         }
+    }
+
+    private fun copyFile(sourceFile: File, destinationFile: File): File? {
+        var inputStream: FileInputStream? = null
+        var outputStream: FileOutputStream? = null
+        var file: File? = null
+
+        try {
+            inputStream = FileInputStream(sourceFile)
+            outputStream = FileOutputStream(destinationFile)
+
+            val buffer = ByteArray(1024)
+            var length: Int
+
+            while (inputStream.read(buffer).also { length = it } > 0) {
+                outputStream.write(buffer, 0, length)
+            }
+
+            println("File copied successfully.")
+            file = destinationFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream?.close()
+                outputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return file
     }
 
     private fun getFileCopy(fileDir: File, fileName: String, index: Int = 0): File{

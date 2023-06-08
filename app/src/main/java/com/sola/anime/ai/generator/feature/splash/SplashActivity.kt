@@ -6,6 +6,8 @@ import android.text.format.DateUtils
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.tryOrNull
+import com.google.firebase.database.ktx.database
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -233,7 +235,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 //        progressDao.inserts(*data)
 //    }
 
-    private fun syncRemoteConfig(numberSync: Int = 1) {
+    private fun syncRemoteConfig() {
         Firebase.remoteConfig.let { config ->
             val configSettings = remoteConfigSettings {
                 minimumFetchIntervalInSeconds = 0
@@ -242,15 +244,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
-                    if (config.getString("script_iap").isEmpty()) {
-                        if (numberSync > 1) {
-                            syncRemoteConfig(numberSync - 1)
-                        }
-                        return@addOnSuccessListener
-                    }
-
-                    configApp.scriptIap = config.getString("script_iap").takeIf { it.isNotEmpty() }
-                        ?: configApp.scriptIap
+                    configApp.skipSyncPremium = tryOrNull { config.getBoolean("skipSyncPremium") } ?: false
+                    configApp.scriptIap = config.getString("script_iap").takeIf { it.isNotEmpty() } ?: configApp.scriptIap
 
                     Timber.tag("Main12345").e("###############")
                     Timber.tag("Main12345").e("script_show_iap: ${configApp.scriptIap}")
