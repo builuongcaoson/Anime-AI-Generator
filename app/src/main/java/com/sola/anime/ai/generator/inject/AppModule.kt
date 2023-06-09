@@ -78,13 +78,10 @@ class AppModule {
     fun provideDezgoApi(
         configApp: ConfigApp
     ): DezgoApi {
-        val loggingInterceptor = {
-            val logging = HttpLoggingInterceptor { message ->
-                Timber.d(message)
-            }
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            logging
+        val loggingInterceptor = HttpLoggingInterceptor { message ->
+            Timber.d(message)
         }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val networkInterceptor = Interceptor {
             val request = it.request().newBuilder().build()
@@ -108,7 +105,7 @@ class AppModule {
                 }
                 chain.proceed(requestBuilder.build())
             }
-            .addInterceptor(loggingInterceptor())
+            .addInterceptor(loggingInterceptor)
             .addNetworkInterceptor(networkInterceptor)
             .addNetworkInterceptor(StethoInterceptor())
             .hostnameVerifier { _, _ -> true }
@@ -134,13 +131,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideServerApi(): ServerApi {
-        val loggingInterceptor = {
-            val logging = HttpLoggingInterceptor { message ->
-                Timber.d(message)
-            }
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            logging
+        val loggingInterceptor = HttpLoggingInterceptor { message ->
+            Timber.d(message)
         }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val networkInterceptor = Interceptor {
             val request = it.request().newBuilder().build()
@@ -155,7 +149,7 @@ class AppModule {
 
                 chain.proceed(requestBuilder.build())
             }
-            .addInterceptor(loggingInterceptor())
+            .addInterceptor(loggingInterceptor)
             .addNetworkInterceptor(networkInterceptor)
             .addNetworkInterceptor(StethoInterceptor())
             .hostnameVerifier { _, _ -> true }

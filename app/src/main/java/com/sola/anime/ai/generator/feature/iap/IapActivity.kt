@@ -157,6 +157,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("##### IAP #####")
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
+            Timber.tag("Main12345").e("Is active: $isActive")
 
             if (isActive){
                 when {
@@ -242,8 +243,16 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     }
                 }
             } else {
-                prefs.isUpgraded.delete()
-                prefs.timeExpiredPremium.delete()
+                customerInfo
+                    .allPurchasedProductIds
+                    .find { productId -> productId.contains(Constraint.Iap.SKU_LIFE_TIME) }
+                    ?.let {
+                        prefs.isUpgraded.set(true)
+                        prefs.timeExpiredPremium.set(-2)
+                    } ?: run {
+                    prefs.isUpgraded.delete()
+                    prefs.timeExpiredPremium.delete()
+                }
             }
         }
     }

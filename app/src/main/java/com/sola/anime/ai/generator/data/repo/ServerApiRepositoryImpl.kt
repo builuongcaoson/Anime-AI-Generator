@@ -26,14 +26,29 @@ class ServerApiRepositoryImpl @Inject constructor(
 ): ServerApiRepository {
 
     override suspend fun syncUser(appUserId: String, success: (UserPremium?) -> Unit) {
+        Timber.tag("Main11111").e("##### SYNC USER #####")
+
         val json = withContext(Dispatchers.IO) {
-            serverApi.syncUser(appUserId.toRequestBody())
+            try {
+                serverApi.syncUser(appUserId.toRequestBody())
+            } catch (e: Exception){
+                e.printStackTrace()
+                null
+            }
+        } ?: run {
+            prefs.userPremium.delete()
+            prefs.isSyncUserPurchased.delete()
+            prefs.isSyncUserPurchasedFailed.delete()
+
+            analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
+
+            success(null)
+            return
         }
         val gson = Gson()
         val userPremium = tryOrNull { gson.fromJson(json, UserPremium::class.java) }
         when {
             userPremium?.id != null -> {
-                Timber.tag("Main11111").e("##### SYNC USER #####")
                 Timber.tag("Main11111").e("Id: ${userPremium.id}")
                 Timber.tag("Main11111").e("AppUserId: ${userPremium.appUserId}")
                 Timber.tag("Main11111").e("isUpgraded: ${userPremium.isUpgraded}")
@@ -63,6 +78,8 @@ class ServerApiRepositoryImpl @Inject constructor(
                 success(null)
             }
         }
+        Timber.tag("Main11111").e("AppUserId: $appUserId")
+        Timber.tag("Main11111").e("User premium: ${userPremium?.appUserId}")
     }
 
     override suspend fun insertUserPremium(
@@ -72,7 +89,19 @@ class ServerApiRepositoryImpl @Inject constructor(
         success: () -> Unit
     ) {
         val json = withContext(Dispatchers.IO) {
-            serverApi.insertUserPremium(appUserId = appUserId.toRequestBody(), timePurchased = timePurchased.toRequestBody(), timeExpired = timeExpired.toRequestBody())
+            try {
+                serverApi.insertUserPremium(appUserId = appUserId.toRequestBody(), timePurchased = timePurchased.toRequestBody(), timeExpired = timeExpired.toRequestBody())
+            } catch (e: Exception){
+                e.printStackTrace()
+                null
+            }
+        } ?: run {
+            prefs.userPremium.delete()
+            prefs.isSyncUserPurchased.delete()
+            prefs.isSyncUserPurchasedFailed.delete()
+
+            success()
+            return
         }
         val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
         when {
@@ -115,8 +144,16 @@ class ServerApiRepositoryImpl @Inject constructor(
         Timber.tag("Main12345").e("AppUserId: ${userPremium?.appUserId}")
         userPremium?.let {
             val json = withContext(Dispatchers.IO) {
-                val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
-                serverApi.updateCreatedArtworkInDay(appUserId = userPremium.appUserId.toRequestBody(), numberCreated = numberCreated.toRequestBody())
+                try {
+                    val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
+                    serverApi.updateCreatedArtworkInDay(appUserId = userPremium.appUserId.toRequestBody(), numberCreated = numberCreated.toRequestBody())
+                } catch (e: Exception){
+                    e.printStackTrace()
+                    null
+                }
+            } ?: run {
+                prefs.numberCreatedArtworkInDayFailed.set(prefs.numberCreatedArtworkInDayFailed.get() + 1)
+                return
             }
             val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
             when {

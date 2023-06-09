@@ -78,6 +78,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("##### MAIN #####")
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
+            Timber.tag("Main12345").e("Is active: $isActive")
 
             if (isActive){
                 when {
@@ -163,8 +164,30 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                     }
                 }
             } else {
-                prefs.isUpgraded.delete()
-                prefs.timeExpiredPremium.delete()
+                Timber.tag("Main12345").e("Size: ${customerInfo.allPurchasedProductIds.size}")
+                Timber.tag("Main12345").e("Size 2: ${customerInfo.allPurchaseDatesByProduct.size}")
+
+                customerInfo.allPurchasedProductIds
+                    .forEach {
+                        Timber.tag("Main12345").e("Product id: $it")
+                    }
+
+                customerInfo
+                    .allPurchaseDatesByProduct
+                    .forEach {
+                        Timber.tag("Main12345").e("Product id 2: ${it.key}")
+                    }
+
+                customerInfo
+                    .allPurchasedProductIds
+                    .find { productId -> productId.contains(Constraint.Iap.SKU_LIFE_TIME) }
+                    ?.let {
+                        prefs.isUpgraded.set(true)
+                        prefs.timeExpiredPremium.set(-2)
+                    } ?: run {
+                    prefs.isUpgraded.delete()
+                    prefs.timeExpiredPremium.delete()
+                }
             }
         }
     }

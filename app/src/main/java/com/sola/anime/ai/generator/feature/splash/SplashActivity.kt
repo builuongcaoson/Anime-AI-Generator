@@ -76,6 +76,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
             Timber.tag("Main12345").e("##### SPLASH #####")
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
+            Timber.tag("Main12345").e("Is active: $isActive")
 
             if (isActive){
                 when {
@@ -161,8 +162,16 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     }
                 }
             } else {
-                prefs.isUpgraded.delete()
-                prefs.timeExpiredPremium.delete()
+                customerInfo
+                    .allPurchasedProductIds
+                    .find { productId -> productId.contains(Constraint.Iap.SKU_LIFE_TIME) }
+                    ?.let {
+                        prefs.isUpgraded.set(true)
+                        prefs.timeExpiredPremium.set(-2)
+                    } ?: run {
+                    prefs.isUpgraded.delete()
+                    prefs.timeExpiredPremium.delete()
+                }
             }
         }
     }
@@ -215,9 +224,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.skipSyncPremium = tryOrNull { config.getBoolean("skipSyncPremium") } ?: false
                     configApp.scriptIap = config.getString("script_iap").takeIf { it.isNotEmpty() } ?: configApp.scriptIap
 
-                    Timber.tag("Main12345").e("###############")
-                    Timber.tag("Main12345").e("skipSyncPremium: ${configApp.skipSyncPremium}")
-                    Timber.tag("Main12345").e("script_show_iap: ${configApp.scriptIap}")
+                    Timber.e("###############")
+                    Timber.e("skipSyncPremium: ${configApp.skipSyncPremium}")
+                    Timber.e("script_show_iap: ${configApp.scriptIap}")
 
                     done()
                 }
