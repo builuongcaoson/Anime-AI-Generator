@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.Settings
 import android.text.format.DateUtils
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.text.isDigitsOnly
 import com.basic.common.extension.tryOrNull
 import com.google.gson.Gson
+import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.server.Message
@@ -30,7 +31,7 @@ class ServerApiRepositoryImpl @Inject constructor(
 
         val json = withContext(Dispatchers.IO) {
             try {
-                serverApi.syncUser(appUserId.toRequestBody())
+                serverApi.syncUser(appUserId.toRequestBody(), context.getDeviceId().toRequestBody())
             } catch (e: Exception){
                 e.printStackTrace()
                 null
@@ -90,7 +91,7 @@ class ServerApiRepositoryImpl @Inject constructor(
     ) {
         val json = withContext(Dispatchers.IO) {
             try {
-                serverApi.insertUserPremium(appUserId = appUserId.toRequestBody(), timePurchased = timePurchased.toRequestBody(), timeExpired = timeExpired.toRequestBody())
+                serverApi.insertUserPremium(appUserId.toRequestBody(), context.getDeviceId().toRequestBody(), timePurchased.toRequestBody(), timeExpired.toRequestBody())
             } catch (e: Exception){
                 e.printStackTrace()
                 null
@@ -146,7 +147,7 @@ class ServerApiRepositoryImpl @Inject constructor(
             val json = withContext(Dispatchers.IO) {
                 try {
                     val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
-                    serverApi.updateCreatedArtworkInDay(appUserId = userPremium.appUserId.toRequestBody(), numberCreated = numberCreated.toRequestBody())
+                    serverApi.updateCreatedArtworkInDay(userPremium.appUserId.toRequestBody(), context.getDeviceId().toRequestBody(), numberCreated.toRequestBody())
                 } catch (e: Exception){
                     e.printStackTrace()
                     null

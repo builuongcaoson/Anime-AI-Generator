@@ -14,6 +14,9 @@ public class UserPremium {
     @SerializedName("appUserId")
     @Expose
     public String appUserId;
+    @SerializedName("deviceId")
+    @Expose
+    public String deviceId;
     @SerializedName("isUpgraded")
     @Expose
     public String isUpgraded;

@@ -11,7 +11,7 @@ class Preferences @Inject constructor(
 ) {
 
     companion object {
-        const val MAX_NUMBER_CREATE_ARTWORK = 10L
+        const val MAX_NUMBER_CREATE_ARTWORK = 5L
         const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 15L
         const val MAX_SECOND_GENERATE_ART = 30
     }
@@ -19,7 +19,7 @@ class Preferences @Inject constructor(
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
-    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased", false)
+    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased_v2", false)
     val isSyncUserPurchasedFailed = rxPrefs.getBoolean("isSyncUserPurchasedFailed", true)
     val userPremium = rxPrefs.getString("userPremium", "")
 

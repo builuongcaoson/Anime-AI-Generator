@@ -13,7 +13,8 @@ interface ServerApi {
     @POST("sync-user.php")
     @Streaming
     suspend fun syncUser(
-        @Part("appUserId") appUserId: RequestBody
+        @Part("appUserId") appUserId: RequestBody,
+        @Part("deviceId") deviceId: RequestBody,
     ): JsonElement?
 
     @Multipart
@@ -21,6 +22,7 @@ interface ServerApi {
     @Streaming
     suspend fun updateCreatedArtworkInDay(
         @Part("appUserId") appUserId: RequestBody,
+        @Part("deviceId") deviceId: RequestBody,
         @Part("numberCreated") numberCreated: RequestBody
     ): JsonElement?
 
@@ -29,6 +31,7 @@ interface ServerApi {
     @Streaming
     suspend fun insertUserPremium(
         @Part("appUserId") appUserId: RequestBody,
+        @Part("deviceId") deviceId: RequestBody,
         @Part("timePurchased") timePurchased: RequestBody,
         @Part("timeExpired") timeExpired: RequestBody
     ): JsonElement?
