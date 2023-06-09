@@ -25,7 +25,7 @@ class ServerApiRepositoryImpl @Inject constructor(
     private val analyticManager: AnalyticManager
 ): ServerApiRepository {
 
-    override suspend fun syncUser(appUserId: String, success: () -> Unit) {
+    override suspend fun syncUser(appUserId: String, success: (UserPremium?) -> Unit) {
         val json = withContext(Dispatchers.IO) {
             serverApi.syncUser(appUserId.toRequestBody())
         }
@@ -51,7 +51,7 @@ class ServerApiRepositoryImpl @Inject constructor(
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isSyncUserPurchasedFailed.set(false)
 
-                success()
+                success(userPremium)
             }
             else -> {
                 prefs.userPremium.delete()
@@ -60,7 +60,7 @@ class ServerApiRepositoryImpl @Inject constructor(
 
                 analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
 
-                success()
+                success(null)
             }
         }
     }

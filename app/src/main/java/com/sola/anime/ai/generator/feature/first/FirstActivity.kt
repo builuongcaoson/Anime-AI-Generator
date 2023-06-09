@@ -68,7 +68,13 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
                 when {
                     !prefs.isSyncUserPurchased.get() -> {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) {
+                            serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) { userPremium ->
+                                if (userPremium != null && userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredPremium.set(-2)
+                                    return@syncUser
+                                }
+
                                 customerInfo
                                     .latestExpirationDate
                                     ?.takeIf { it.time > System.currentTimeMillis() }
@@ -83,10 +89,14 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
                         if (configApp.skipSyncPremium){
                             customerInfo
                                 .latestExpirationDate
+                                ?.takeIf { it.time > System.currentTimeMillis() }
                                 ?.let { expiredDate ->
                                     prefs.isUpgraded.set(true)
                                     prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
+                                } ?: run {
+                                prefs.isUpgraded.set(true)
+                                prefs.timeExpiredPremium.set(-2)
+                            }
                             return@getCustomerInfoWith
                         }
 

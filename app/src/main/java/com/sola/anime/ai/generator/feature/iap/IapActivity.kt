@@ -162,7 +162,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 when {
                     !prefs.isSyncUserPurchased.get() -> {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) {
+                            serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) { userPremium ->
+                                if (userPremium != null && userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredPremium.set(-2)
+                                    return@syncUser
+                                }
+
                                 customerInfo
                                     .latestExpirationDate
                                     ?.takeIf { it.time > System.currentTimeMillis() }
@@ -177,10 +183,14 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                         if (configApp.skipSyncPremium){
                             customerInfo
                                 .latestExpirationDate
+                                ?.takeIf { it.time > System.currentTimeMillis() }
                                 ?.let { expiredDate ->
                                     prefs.isUpgraded.set(true)
                                     prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
+                                } ?: run {
+                                prefs.isUpgraded.set(true)
+                                prefs.timeExpiredPremium.set(-2)
+                            }
                             return@getCustomerInfoWith
                         }
 
@@ -297,6 +307,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun purchaseProduct(item: StoreProduct) {
+        binding.viewLoading.isVisible = true
+
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, customerInfo ->
@@ -309,30 +321,43 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                 when {
                     isActive -> {
-                        val expiredDate = customerInfo.getExpirationDateForProductId(item.id) ?: return@purchaseWith
+                        customerInfo.getExpirationDateForProductId(item.id)?.let { expiredDate ->
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                serverApiRepo.insertUserPremium(appUserId = customerInfo.originalAppUserId, timePurchased = purchase.purchaseTime.toString(), timeExpired = expiredDate.time.toString()){
+                                    binding.viewLoading.isVisible = false
 
-                        binding.viewLoading.isVisible = true
+                                    val timeExpired = when {
+                                        item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time
+                                        item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time
+                                        item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time
+                                        item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
+                                        else -> -3L
+                                    }
 
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            serverApiRepo.insertUserPremium(appUserId = customerInfo.originalAppUserId, timePurchased = purchase.purchaseTime.toString(), timeExpired = expiredDate.time.toString()){
-                                binding.viewLoading.isVisible = false
+                                    prefs.timeExpiredPremium.set(timeExpired)
+                                    prefs.isShowedWaringPremiumDialog.delete()
 
-                                val timeExpired = when {
-                                    item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
-                                    item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time
-                                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time
-                                    item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time
-                                    item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
-                                    else -> -3L
+                                    prefs.isUpgraded.set(true)
                                 }
-                                prefs.timeExpiredPremium.set(timeExpired)
-                                prefs.isShowedWaringPremiumDialog.delete()
+                            }
+                        } ?: run {
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                serverApiRepo.insertUserPremium(appUserId = customerInfo.originalAppUserId, timePurchased = purchase.purchaseTime.toString(), timeExpired = Constraint.Iap.SKU_LIFE_TIME){
+                                    binding.viewLoading.isVisible = false
 
-                                prefs.isUpgraded.set(true)
+                                    val timeExpired = -2L
+
+                                    prefs.timeExpiredPremium.set(timeExpired)
+                                    prefs.isShowedWaringPremiumDialog.delete()
+
+                                    prefs.isUpgraded.set(true)
+                                }
                             }
                         }
                     }
                     else -> {
+                        binding.viewLoading.isVisible = false
+
                         prefs.timeExpiredPremium.delete()
                         prefs.isUpgraded.delete()
                     }
