@@ -162,8 +162,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Token Firebase Installation: $token")
                     syncRemoteConfig {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            syncUserPurchased()
-                            delay(500)
+//                            syncUserPurchased()
+//                            delay(500)
                             when {
                                 !prefs.isSyncedData.get() -> {
                                     syncData.execute(Unit)

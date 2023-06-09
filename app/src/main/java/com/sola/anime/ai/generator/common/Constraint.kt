@@ -5,7 +5,8 @@ class Constraint {
         companion object {
             const val DEZGO_URL = "https://api.dezgo.com/"
             const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
-            const val DEZGO_KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
+//            const val DEZGO_KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
+            const val DEZGO_KEY = "DEZGO-95543768008D43E746840EF0A88000892E435F3E80ECF236C6AAEF077F53E5BC017FB9D4"
 
             const val DEZGO_RAPID_URL = "https://dezgo.p.rapidapi.com/"
             const val DEZGO_HEADER_RAPID_KEY = "X-RapidAPI-Key"

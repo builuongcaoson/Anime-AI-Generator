@@ -12,6 +12,6 @@ interface AnalyticManager {
         GENERATE_FAILED
     }
 
-    fun logEvent(type: TYPE, event: String)
+    fun logEvent(type: TYPE)
 
 }

@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml:2:1-4:12
+ADDED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml:2:1-4:12
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml:2:1-4:12
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml:2:1-4:12
 	package
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml:2:11-52
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
+		ADDED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml:2:11-52
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml:2:1-4:12
+		ADDED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml:2:1-4:12
 uses-sdk
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+		ADDED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-		ADDED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\ADMIN\AndroidStudioProjects\AnimeAiGenerator\photoView\src\main\AndroidManifest.xml
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+		ADDED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonbui/StudioProjects/Anime-AI-Generator/photoView/src/main/AndroidManifest.xml

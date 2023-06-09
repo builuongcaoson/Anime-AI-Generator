@@ -22,12 +22,7 @@ class ConfigApp @Inject constructor(
 
     var skipSyncPremium = false // True for skip sync premium
     var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
-    val decryptKey by lazy {
-        when {
-            !BuildConfig.DEBUG && BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Api.DEZGO_KEY) ?: ""
-            else -> AESEncyption.decrypt(Constraint.Api.DEZGO_RAPID_KEY) ?: ""
-        }
-    }
+    val decryptKey by lazy { Constraint.Api.DEZGO_KEY }
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
     var styleChoice: Style? = null

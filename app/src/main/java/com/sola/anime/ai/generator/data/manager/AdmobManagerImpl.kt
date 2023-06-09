@@ -73,7 +73,7 @@ class AdmobManagerImpl @Inject constructor(
                 }
 
                 override fun onAdClicked() {
-                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED, "admob_clicked")
+                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
                 }
             }
             it.show(activity){
@@ -129,7 +129,7 @@ class AdmobManagerImpl @Inject constructor(
                 }
 
                 override fun onAdClicked() {
-                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED, "admob_clicked")
+                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
                 }
             }
             it.show(activity){

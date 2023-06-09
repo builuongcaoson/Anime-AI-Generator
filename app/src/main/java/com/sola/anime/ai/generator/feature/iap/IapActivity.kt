@@ -123,10 +123,10 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             // Query products
             syncQueryProduct()
 
-            delay(500)
+//            delay(500)
 
-            // Sync user purchased
-            syncUserPurchased()
+//            // Sync user purchased
+//            syncUserPurchased()
         }
     }
 

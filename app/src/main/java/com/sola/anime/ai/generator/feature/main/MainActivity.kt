@@ -63,7 +63,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         }
 
         initView()
-        syncUserPurchased()
+//        syncUserPurchased()
         initObservable()
     }
 
