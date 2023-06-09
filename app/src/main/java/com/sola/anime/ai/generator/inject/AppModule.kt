@@ -21,12 +21,15 @@ import com.sola.anime.ai.generator.data.manager.AnalyticManagerImpl
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
+import com.sola.anime.ai.generator.data.repo.ServerApiRepositoryImpl
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
+import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
+import com.sola.anime.ai.generator.inject.server.ServerApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,33 +72,26 @@ class AppModule {
     }
 
     // Server
+
     @Provides
     @Singleton
-    fun provideNetworkInterceptor(): Interceptor {
-        return Interceptor {
+    fun provideDezgoApi(
+        configApp: ConfigApp
+    ): DezgoApi {
+        val loggingInterceptor = {
+            val logging = HttpLoggingInterceptor { message ->
+                Timber.d(message)
+            }
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            logging
+        }
+
+        val networkInterceptor = Interceptor {
             val request = it.request().newBuilder().build()
             it.proceed(request)
         }
-    }
 
-    @Provides
-    @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        val logging = HttpLoggingInterceptor { message ->
-            Timber.d(message)
-        }
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        return logging
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(
-        configApp: ConfigApp,
-        loggingInterceptor: HttpLoggingInterceptor,
-        networkInterceptor: Interceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+        val okHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val requestBuilder = chain
                     .request()
@@ -103,16 +99,16 @@ class AppModule {
 
                 when {
                     !BuildConfig.DEBUG && BuildConfig.SCRIPT -> {
-                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_KEY, configApp.decryptKey)
+                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_KEY, configApp.decryptKey)
                     }
                     else -> {
-                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_KEY, configApp.decryptKey)
-                        requestBuilder.addHeader(Constraint.Api.DEZGO_HEADER_RAPID_HOST, Constraint.Api.DEZGO_RAPID_HOST)
+                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_RAPID_KEY, configApp.decryptKey)
+                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_RAPID_HOST, Constraint.Dezgo.DEZGO_RAPID_HOST)
                     }
                 }
                 chain.proceed(requestBuilder.build())
             }
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(loggingInterceptor())
             .addNetworkInterceptor(networkInterceptor)
             .addNetworkInterceptor(StethoInterceptor())
             .hostnameVerifier { _, _ -> true }
@@ -121,24 +117,65 @@ class AppModule {
             .writeTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
             .build()
-    }
 
-    @Provides
-    @Singleton
-    fun provideDezgoApi(
-        okHttpClient: OkHttpClient
-    ): DezgoApi {
         val gson = GsonBuilder()
             .setLenient()
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(if (!BuildConfig.DEBUG && BuildConfig.SCRIPT) Constraint.Api.DEZGO_URL else Constraint.Api.DEZGO_RAPID_URL)
+            .baseUrl(if (!BuildConfig.DEBUG && BuildConfig.SCRIPT) Constraint.Dezgo.DEZGO_URL else Constraint.Dezgo.DEZGO_RAPID_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         return retrofit.create(DezgoApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideServerApi(): ServerApi {
+        val loggingInterceptor = {
+            val logging = HttpLoggingInterceptor { message ->
+                Timber.d(message)
+            }
+            logging.level = HttpLoggingInterceptor.Level.BODY
+            logging
+        }
+
+        val networkInterceptor = Interceptor {
+            val request = it.request().newBuilder().build()
+            it.proceed(request)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val requestBuilder = chain
+                    .request()
+                    .newBuilder()
+
+                chain.proceed(requestBuilder.build())
+            }
+            .addInterceptor(loggingInterceptor())
+            .addNetworkInterceptor(networkInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
+            .hostnameVerifier { _, _ -> true }
+            .retryOnConnectionFailure(false)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .build()
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constraint.Server.SERVER_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        return retrofit.create(ServerApi::class.java)
     }
 
     // Database
@@ -183,6 +220,10 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideServerApiRepositoryImpl(repo: ServerApiRepositoryImpl): ServerApiRepository = repo
+
+    @Provides
+    @Singleton
     fun provideHistoryRepositoryImpl(repo: HistoryRepositoryImpl): HistoryRepository = repo
 
     @Provides
@@ -190,6 +231,7 @@ class AppModule {
     fun provideFileRepositoryImpl(repo: FileRepositoryImpl): FileRepository = repo
 
     // Manager
+
     @Provides
     @Singleton
     fun provideAnalyticManagerImpl(manager: AnalyticManagerImpl): AnalyticManager = manager

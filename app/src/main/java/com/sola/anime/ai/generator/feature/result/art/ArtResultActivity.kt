@@ -89,6 +89,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
 
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
+            prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
             prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
         }
 

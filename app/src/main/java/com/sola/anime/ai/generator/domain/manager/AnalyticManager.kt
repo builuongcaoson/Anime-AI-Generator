@@ -9,7 +9,8 @@ interface AnalyticManager {
         CLICKED_SUPPORT,
         ADMOB_CLICKED,
         GENERATE_SUCCESS,
-        GENERATE_FAILED
+        GENERATE_FAILED,
+        SYNC_USER_PREMIUM_FAILED
     }
 
     fun logEvent(type: TYPE)

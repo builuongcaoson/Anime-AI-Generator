@@ -213,11 +213,11 @@
                     android:tint="?android:textColorPrimary" />
 
                 <LinearLayout
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
@@ -241,12 +241,12 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/viewMoreOffers"
-                            android:layout_marginStart="@dimen/_3sdp"
                             android:layout_width="@dimen/_15sdp"
-                            android:padding="@dimen/_3sdp"
+                            android:layout_height="@dimen/_15sdp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_help"
-                            android:layout_height="@dimen/_15sdp"/>
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/ic_help" />
 
                     </LinearLayout>
 
@@ -265,26 +265,26 @@
                 android:id="@+id/viewLifeTime"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:cardBackgroundColor="?colorAccent"
-                app:cardCornerRadius="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp"
+                app:cardBackgroundColor="?colorAccent"
+                app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/viewWeekly"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="#DCDCDC"
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="0dp"
                         android:id="@+id/imageLifeTime"
+                        android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -320,17 +320,17 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 app:cardBackgroundColor="?android:colorBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toStartOf="@id/viewYearly"
                 app:layout_constraintStart_toEndOf="@id/viewLifeTime"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="#DCDCDC"
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -377,13 +377,13 @@
                 app:cardBackgroundColor="?android:colorBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/viewWeekly"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="#DCDCDC"
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -481,10 +481,10 @@
 
             <com.basic.common.widget.LsTextView
                 android:id="@+id/textPrice"
-                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="0đ"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_12ssp"
@@ -493,5 +493,30 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/art_generate_lottie" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

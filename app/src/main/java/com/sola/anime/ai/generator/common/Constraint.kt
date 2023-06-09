@@ -1,17 +1,9 @@
 package com.sola.anime.ai.generator.common
 
 class Constraint {
-    class Api {
+    class Server {
         companion object {
-            const val DEZGO_URL = "https://api.dezgo.com/"
-            const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
-            const val DEZGO_KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
-
-            const val DEZGO_RAPID_URL = "https://dezgo.p.rapidapi.com/"
-            const val DEZGO_HEADER_RAPID_KEY = "X-RapidAPI-Key"
-            const val DEZGO_RAPID_KEY = "yC52kE9ygotYegfeFSY1gW/Sm2UR5Cfh75TZY+Rj+9Woa1aELndKpW8zMbLG2NJega2aRsbXhlmT15BazsMdGg=="
-            const val DEZGO_HEADER_RAPID_HOST = "X-RapidAPI-Host"
-            const val DEZGO_RAPID_HOST = "dezgo.p.rapidapi.com"
+            const val SERVER_URL = "https://sonbui.000webhostapp.com/anime/"
         }
     }
 
@@ -30,6 +22,16 @@ class Constraint {
     class Dezgo {
         companion object {
             const val DEFAULT_NEGATIVE = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears"
+
+            const val DEZGO_URL = "https://api.dezgo.com/"
+            const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
+            const val DEZGO_KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
+
+            const val DEZGO_RAPID_URL = "https://dezgo.p.rapidapi.com/"
+            const val DEZGO_HEADER_RAPID_KEY = "X-RapidAPI-Key"
+            const val DEZGO_RAPID_KEY = "yC52kE9ygotYegfeFSY1gW/Sm2UR5Cfh75TZY+Rj+9Woa1aELndKpW8zMbLG2NJega2aRsbXhlmT15BazsMdGg=="
+            const val DEZGO_HEADER_RAPID_HOST = "X-RapidAPI-Host"
+            const val DEZGO_RAPID_HOST = "dezgo.p.rapidapi.com"
         }
     }
 

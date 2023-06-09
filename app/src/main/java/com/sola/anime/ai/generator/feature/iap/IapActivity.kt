@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.iap
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.format.DateUtils
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IAPDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
+import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -54,6 +56,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var featureDialog: FeatureDialog
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var serverApiRepo: ServerApiRepository
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val sku1 by lazy {
@@ -295,18 +298,26 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     isActive -> {
                         val expiredDate = customerInfo.getExpirationDateForProductId(item.id) ?: return@purchaseWith
 
-                        val timeExpired = when {
-                            item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
-                            item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time
-                            item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time
-                            item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time
-                            item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
-                            else -> -3L
-                        }
-                        prefs.timeExpiredIap.set(timeExpired)
-                        prefs.isShowedWaringPremiumDialog.delete()
+                        binding.viewLoading.isVisible = true
 
-                        prefs.isUpgraded.set(true)
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            serverApiRepo.insertUserPremium(appUserId = customerInfo.originalAppUserId, timePurchased = purchase.purchaseTime.toString(), timeExpired = expiredDate.time.toString()){
+                                binding.viewLoading.isVisible = false
+
+                                val timeExpired = when {
+                                    item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
+                                    item.id.contains(Constraint.Iap.SKU_WEEK) -> expiredDate.time
+                                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> expiredDate.time
+                                    item.id.contains(Constraint.Iap.SKU_MONTH) -> expiredDate.time
+                                    item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
+                                    else -> -3L
+                                }
+                                prefs.timeExpiredIap.set(timeExpired)
+                                prefs.isShowedWaringPremiumDialog.delete()
+
+                                prefs.isUpgraded.set(true)
+                            }
+                        }
                     }
                     else -> {
                         prefs.timeExpiredIap.delete()

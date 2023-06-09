@@ -19,6 +19,8 @@ class Preferences @Inject constructor(
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1) // Milliseconds
+    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased", false)
+    val isSyncUserPurchasedFailed = rxPrefs.getBoolean("isSyncUserPurchasedFailed", false)
 
     // For App
     val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", false)
@@ -29,6 +31,7 @@ class Preferences @Inject constructor(
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
     val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
+    val totalNumberCreatedArtwork = rxPrefs.getLong("totalNumberCreatedArtwork", 0)
     val latestTimeCreatedArtwork = rxPrefs.getLong("latestTimeCreatedArt", -1)
     val creditsTest = rxPrefs.getFloat("creditsTest", -1f)
 }
