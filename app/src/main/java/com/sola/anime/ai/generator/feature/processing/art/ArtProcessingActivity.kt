@@ -88,7 +88,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
             .subscribe { millisecond ->
                 when {
                     millisecond >= Preferences.MAX_SECOND_GENERATE_ART -> {
-                        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+                        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
 
                         makeToast("Server error, please wait for us to fix the error or try again!")
                         tryOrNull { artGenerateDialog.dismiss() }
@@ -109,7 +109,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     private fun initData() {
         when {
             configApp.dezgoBodiesTextsToImages.isEmpty() -> {
-                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
 
                 makeToast("Server error, please wait for us to fix the error or try again!")
                 finish()
@@ -197,7 +197,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                             finish()
                                         }
                                         else -> {
-                                            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED, "generate_failed")
+                                            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
 
                                             makeToast("Server error, please wait for us to fix the error or try again!")
                                             finish()

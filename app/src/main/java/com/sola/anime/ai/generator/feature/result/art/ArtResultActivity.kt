@@ -86,7 +86,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS, "generate_success")
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
 
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
             prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())

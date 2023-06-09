@@ -48,7 +48,7 @@ class Navigator @Inject constructor(
     }
 
     fun showTerms() {
-        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_SUPPORT, "Clicked Support")
+        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_SUPPORT)
         try {
             val intent =
                 Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
@@ -63,7 +63,7 @@ class Navigator @Inject constructor(
     }
 
     fun showSupport() {
-        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_SUPPORT, "Clicked Support")
+        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_SUPPORT)
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constraint.Info.MAIL_SUPPORT))
@@ -82,7 +82,7 @@ class Navigator @Inject constructor(
     }
 
     fun showInvite() {
-        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_INVITE, "Clicked Invite")
+        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_INVITE)
         Intent(Intent.ACTION_SEND)
             .setType("text/plain")
             .putExtra(
@@ -94,7 +94,7 @@ class Navigator @Inject constructor(
     }
 
     fun showRating() {
-        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_RATING, "Clicked Rating")
+        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_RATING)
         val intent = Intent(
             Intent.ACTION_VIEW,
             Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
