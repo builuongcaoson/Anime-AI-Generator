@@ -153,6 +153,13 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     initData()
                 }
                 else -> {
+                    when {
+                        prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                            prefs.numberCreatedArtwork.delete()
+                            prefs.latestTimeCreatedArtwork.delete()
+                        }
+                    }
+
                     val token = try {
                         FirebaseInstallations.getInstance().getToken(false).await().token
                     } catch (e: Exception){

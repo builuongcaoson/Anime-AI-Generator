@@ -193,7 +193,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
                                     when {
                                         dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
-                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = true)
+                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
                                             finish()
                                         }
                                         else -> {

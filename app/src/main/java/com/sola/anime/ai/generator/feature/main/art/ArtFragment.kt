@@ -270,6 +270,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
+            Timber.tag("Main11111").e("Number created in day: ${prefs.numberCreatedArtwork.get()}")
+
             configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                 maxGroupId = 0,
                 maxChildId = 0,
@@ -288,7 +290,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         when {
             prompt.contains(pattern) && !prefs.isEnableNsfw.get() -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK -> {
                 activity?.startIap()
             }
             !prefs.isUpgraded.get() -> {
