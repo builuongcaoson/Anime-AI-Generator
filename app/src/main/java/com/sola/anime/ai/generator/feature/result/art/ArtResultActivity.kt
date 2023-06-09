@@ -24,6 +24,7 @@ import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.repo.FileRepository
+import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -62,6 +63,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var serverApiRepo: ServerApiRepository
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -86,6 +88,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
+            lifecycleScope.launch {
+                serverApiRepo.updateCreatedArtworkInDay()
+            }
+
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
 
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)

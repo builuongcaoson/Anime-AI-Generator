@@ -32,8 +32,5 @@ public class UserPremium {
     @SerializedName("latestTimeCreatedArtwork")
     @Expose
     public String latestTimeCreatedArtwork;
-    @SerializedName("country")
-    @Expose
-    public String country;
 
 }

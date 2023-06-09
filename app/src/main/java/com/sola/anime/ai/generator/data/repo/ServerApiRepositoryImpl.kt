@@ -28,7 +28,8 @@ class ServerApiRepositoryImpl @Inject constructor(
         val json = withContext(Dispatchers.IO) {
             serverApi.syncUser(appUserId.toRequestBody())
         }
-        val userPremium = tryOrNull { Gson().fromJson(json, UserPremium::class.java) }
+        val gson = Gson()
+        val userPremium = tryOrNull { gson.fromJson(json, UserPremium::class.java) }
         when {
             userPremium?.id != null -> {
                 Timber.tag("Main11111").e("##### SYNC USER #####")
@@ -40,14 +41,15 @@ class ServerApiRepositoryImpl @Inject constructor(
                 Timber.tag("Main11111").e("numberCreatedArtworkInDay: ${userPremium.numberCreatedArtworkInDay}")
                 Timber.tag("Main11111").e("totalNumberCreatedArtwork: ${userPremium.totalNumberCreatedArtwork}")
                 Timber.tag("Main11111").e("latestTimeCreatedArtwork: ${userPremium.latestTimeCreatedArtwork}")
-                Timber.tag("Main11111").e("country: ${userPremium.country}")
 
+                prefs.userPremium.set(gson.toJson(userPremium))
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isSyncUserPurchasedFailed.set(false)
             }
             else -> {
-                prefs.isSyncUserPurchased.set(false)
-                prefs.isSyncUserPurchasedFailed.set(true)
+                prefs.userPremium.delete()
+                prefs.isSyncUserPurchased.delete()
+                prefs.isSyncUserPurchasedFailed.delete()
 
                 analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
             }
@@ -66,14 +68,25 @@ class ServerApiRepositoryImpl @Inject constructor(
         val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
         when {
             message?.message != null && message.message == "Insert success" -> {
+                val userPremium = UserPremium().apply {
+                    this.id = "-1"
+                    this.appUserId = appUserId
+                    this.timePurchased = timePurchased
+                    this.timeExpired = timeExpired
+                    this.numberCreatedArtworkInDay = "0"
+                    this.totalNumberCreatedArtwork = "0"
+                    this.latestTimeCreatedArtwork = "0"
+                }
+                prefs.userPremium.set(Gson().toJson(userPremium))
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isSyncUserPurchasedFailed.set(false)
 
                 success()
             }
             else -> {
-                prefs.isSyncUserPurchased.set(false)
-                prefs.isSyncUserPurchasedFailed.set(true)
+                prefs.userPremium.delete()
+                prefs.isSyncUserPurchased.delete()
+                prefs.isSyncUserPurchasedFailed.delete()
 
                 success()
             }
