@@ -164,23 +164,15 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                     }
                 }
             } else {
-                Timber.tag("Main12345").e("Size: ${customerInfo.allPurchasedProductIds.size}")
-                Timber.tag("Main12345").e("Size 2: ${customerInfo.allPurchaseDatesByProduct.size}")
-
-                customerInfo.allPurchasedProductIds
-                    .forEach {
-                        Timber.tag("Main12345").e("Product id: $it")
-                    }
+                Timber.tag("Main12345").e("1: ${customerInfo.nonSubscriptionTransactions.size}")
+                Timber.tag("Main12345").e("2: ${customerInfo.getExpirationDateForEntitlement("premium")?.time}")
+                Timber.tag("Main12345").e("3: ${customerInfo.getPurchaseDateForEntitlement("premium")?.time}")
+                Timber.tag("Main12345").e("4: ${customerInfo.getPurchaseDateForProductId(Constraint.Iap.SKU_LIFE_TIME)?.time}")
+                Timber.tag("Main12345").e("5: ${customerInfo.allPurchasedSkus.size}")
 
                 customerInfo
-                    .allPurchaseDatesByProduct
-                    .forEach {
-                        Timber.tag("Main12345").e("Product id 2: ${it.key}")
-                    }
-
-                customerInfo
-                    .allPurchasedProductIds
-                    .find { productId -> productId.contains(Constraint.Iap.SKU_LIFE_TIME) }
+                    .nonSubscriptionTransactions
+                    .find { transaction -> transaction.productIdentifier.contains(Constraint.Iap.SKU_LIFE_TIME) }
                     ?.let {
                         prefs.isUpgraded.set(true)
                         prefs.timeExpiredPremium.set(-2)
@@ -188,6 +180,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                     prefs.isUpgraded.delete()
                     prefs.timeExpiredPremium.delete()
                 }
+
             }
         }
     }

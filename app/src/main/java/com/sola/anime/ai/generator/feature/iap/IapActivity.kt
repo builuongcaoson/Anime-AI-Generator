@@ -244,8 +244,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 }
             } else {
                 customerInfo
-                    .allPurchasedProductIds
-                    .find { productId -> productId.contains(Constraint.Iap.SKU_LIFE_TIME) }
+                    .nonSubscriptionTransactions
+                    .find { transaction -> transaction.productIdentifier.contains(Constraint.Iap.SKU_LIFE_TIME) }
                     ?.let {
                         prefs.isUpgraded.set(true)
                         prefs.timeExpiredPremium.set(-2)
@@ -371,6 +371,9 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                         prefs.isUpgraded.delete()
                     }
                 }
+            },
+            onError = { _, _ ->
+                binding.viewLoading.isVisible = false
             })
     }
 
