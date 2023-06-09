@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.textChanges
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
@@ -31,6 +33,7 @@ import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
+import com.sola.anime.ai.generator.domain.model.server.UserPremium
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
@@ -202,7 +205,22 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
                 binding.iconWatchAd.isVisible = !isUpgraded
-                binding.textWatchAd.isVisible = !isUpgraded
+
+                binding.textDescription.text = when {
+                    !isUpgraded -> "Watch an ad"
+                    else -> "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - prefs.numberCreatedArtwork.get()} times left today"
+                }
+            }
+
+        prefs
+            .numberCreatedArtwork
+            .asObservable()
+            .filter { prefs.isUpgraded.get() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { numberCreatedInDay ->
+                binding.textDescription.text = "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - numberCreatedInDay} times left today"
             }
     }
 
@@ -270,27 +288,30 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
-            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                maxGroupId = 0,
-                maxChildId = 0,
-                prompt = prompt,
-                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                guidance = advancedSheet.guidance.toString(),
-                steps = if (!prefs.isUpgraded.get()) "40" else "50",
-                styleId = configApp.styleChoice?.id ?: -1,
-                ratio = aspectRatioAdapter.ratio,
-                seed = (0..4294967295).random()
-            )
-
-            activity?.startArtProcessing()
+            val userPremium = when {
+                prefs.userPremium.get().isNotEmpty() -> tryOrNull { Gson().fromJson(prefs.userPremium.get(), UserPremium::class.java) }
+                else -> null
+            }
+            Timber.tag("Main12345").e("AppUserId: ${userPremium?.appUserId}")
+//            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+//                maxGroupId = 0,
+//                maxChildId = 0,
+//                prompt = prompt,
+//                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+//                guidance = advancedSheet.guidance.toString(),
+//                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
+//                styleId = configApp.styleChoice?.id ?: -1,
+//                ratio = aspectRatioAdapter.ratio,
+//                seed = (0..4294967295).random()
+//            )
+//
+//            activity?.startArtProcessing()
         }
 
         when {
             prompt.contains(pattern) && !prefs.isEnableNsfw.get() -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
-                activity?.startIap()
-            }
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK -> activity?.startIap()
             !prefs.isUpgraded.get() -> {
                 activity?.let { activity ->
                     admobManager.showRewardCreate(

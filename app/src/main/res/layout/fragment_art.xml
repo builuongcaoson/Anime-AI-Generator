@@ -540,11 +540,11 @@
                         app:textFont="semi" />
 
                     <com.basic.common.widget.LsTextView
-                        android:id="@+id/textWatchAd"
+                        android:id="@+id/textDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Watch an ad"
+                        android:text="You have 10 times left today"
                         android:textColor="?colorOnSecondary"
                         android:textSize="@dimen/_10ssp" />
 

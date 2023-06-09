@@ -11,14 +11,14 @@ class Preferences @Inject constructor(
 ) {
 
     companion object {
-        const val MAX_NUMBER_CREATE_ARTWORK = 3L
+        const val MAX_NUMBER_CREATE_ARTWORK = 10L
         const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 15L
         const val MAX_SECOND_GENERATE_ART = 30
     }
 
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
-    val timeExpiredIap = rxPrefs.getLong("timeExpiredIap", -1) // Milliseconds
+    val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
     val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased", false)
     val isSyncUserPurchasedFailed = rxPrefs.getBoolean("isSyncUserPurchasedFailed", true)
     val userPremium = rxPrefs.getString("userPremium", "")
@@ -31,6 +31,7 @@ class Preferences @Inject constructor(
     val isRated = rxPrefs.getBoolean("isRated", false)
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
     val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
+    val numberCreatedArtworkInDayFailed = rxPrefs.getLong("numberCreatedArtworkInDayFailed", 1)
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
     val totalNumberCreatedArtwork = rxPrefs.getLong("totalNumberCreatedArtwork", 0)
     val latestTimeCreatedArtwork = rxPrefs.getLong("latestTimeCreatedArt", -1)

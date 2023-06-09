@@ -263,7 +263,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         Observable
             .interval(1, TimeUnit.SECONDS)
             .filter { prefs.isUpgraded.get() }
-            .map { prefs.timeExpiredIap.get() }
+            .map { prefs.timeExpiredPremium.get() }
             .filter { timeExpired -> timeExpired != -1L && timeExpired != -2L }
             .map { timeExpired -> timeExpired - Date().time }
             .observeOn(AndroidSchedulers.mainThread())
@@ -278,7 +278,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 when {
                     days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
                         prefs.isUpgraded.delete()
-                        prefs.timeExpiredIap.delete()
+                        prefs.timeExpiredPremium.delete()
                     }
                 }
 

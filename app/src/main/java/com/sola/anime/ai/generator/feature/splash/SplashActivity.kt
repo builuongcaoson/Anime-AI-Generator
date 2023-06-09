@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.tryOrNull
-import com.google.firebase.database.ktx.database
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -27,7 +26,6 @@ import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
-import com.sola.anime.ai.generator.inject.server.ServerApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -84,7 +82,13 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     !prefs.isSyncUserPurchased.get() -> {
                         lifecycleScope.launch(Dispatchers.Main) {
                             serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) {
-
+                                customerInfo
+                                    .latestExpirationDate
+                                    ?.takeIf { it.time > System.currentTimeMillis() }
+                                    ?.let { expiredDate ->
+                                        prefs.isUpgraded.set(true)
+                                        prefs.timeExpiredPremium.set(expiredDate.time)
+                                    }
                             }
                         }
                     }
@@ -94,7 +98,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                 .latestExpirationDate
                                 ?.let { expiredDate ->
                                     prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredIap.set(expiredDate.time)
+                                    prefs.timeExpiredPremium.set(expiredDate.time)
                                 }
                             return@getCustomerInfoWith
                         }
@@ -110,10 +114,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                 val latestDatePurchased = map.value ?: return@let
                                 val expiredDate = customerInfo.getExpirationDateForProductId(latestPurchasedProduct) ?: return@let
 
-                                val expiredDateTime = when {
-                                    prefs.isUpgraded.get() -> expiredDate.time
-                                    else -> latestDatePurchased.time + if (BuildConfig.DEBUG) 0 else 21600000L // Day time purchased + 6 hours
-                                }
+                                val expiredDateTime = expiredDate.time
 
                                 val differenceInMillis = expiredDateTime - Date().time
                                 if (differenceInMillis > 0){
@@ -125,11 +126,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                     when {
                                         days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
                                             prefs.isUpgraded.delete()
-                                            prefs.timeExpiredIap.delete()
+                                            prefs.timeExpiredPremium.delete()
                                         }
                                         else -> {
                                             prefs.isUpgraded.set(true)
-                                            prefs.timeExpiredIap.set(expiredDate.time)
+                                            prefs.timeExpiredPremium.set(expiredDate.time)
                                         }
                                     }
 
@@ -138,21 +139,20 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                     Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
                                 } else {
                                     prefs.isUpgraded.delete()
-                                    prefs.timeExpiredIap.delete()
+                                    prefs.timeExpiredPremium.delete()
                                 }
                                 Timber.tag("Main12345").e("DifferenceInMillis: $differenceInMillis --- ${latestDatePurchased.time} --- ${Date().time}")
                             }
                         when {
                             prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
                                 prefs.numberCreatedArtwork.delete()
-                                prefs.latestTimeCreatedArtwork.delete()
                             }
                         }
                     }
                 }
             } else {
                 prefs.isUpgraded.delete()
-                prefs.timeExpiredIap.delete()
+                prefs.timeExpiredPremium.delete()
             }
         }
     }

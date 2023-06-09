@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
+import androidx.core.text.isDigitsOnly
 import com.basic.common.extension.tryOrNull
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.data.Preferences
@@ -42,9 +43,15 @@ class ServerApiRepositoryImpl @Inject constructor(
                 Timber.tag("Main11111").e("totalNumberCreatedArtwork: ${userPremium.totalNumberCreatedArtwork}")
                 Timber.tag("Main11111").e("latestTimeCreatedArtwork: ${userPremium.latestTimeCreatedArtwork}")
 
+                prefs.numberCreatedArtwork.set(userPremium.numberCreatedArtworkInDay.takeIf { it.isNotEmpty() && it.isDigitsOnly() }?.toLong() ?: 0)
+                prefs.totalNumberCreatedArtwork.set(userPremium.totalNumberCreatedArtwork.takeIf { it.isNotEmpty() && it.isDigitsOnly() }?.toLong() ?: 0)
+                prefs.latestTimeCreatedArtwork.set(userPremium.latestTimeCreatedArtwork.takeIf { it.isNotEmpty() && it.isDigitsOnly() }?.toLong() ?: -1)
+
                 prefs.userPremium.set(gson.toJson(userPremium))
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isSyncUserPurchasedFailed.set(false)
+
+                success()
             }
             else -> {
                 prefs.userPremium.delete()
@@ -52,6 +59,8 @@ class ServerApiRepositoryImpl @Inject constructor(
                 prefs.isSyncUserPurchasedFailed.delete()
 
                 analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
+
+                success()
             }
         }
     }
@@ -77,6 +86,9 @@ class ServerApiRepositoryImpl @Inject constructor(
                     this.totalNumberCreatedArtwork = "0"
                     this.latestTimeCreatedArtwork = "0"
                 }
+
+                prefs.numberCreatedArtwork.delete()
+
                 prefs.userPremium.set(Gson().toJson(userPremium))
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isSyncUserPurchasedFailed.set(false)
@@ -96,7 +108,29 @@ class ServerApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateCreatedArtworkInDay() {
+        val userPremium = when {
+            prefs.userPremium.get().isNotEmpty() -> tryOrNull { Gson().fromJson(prefs.userPremium.get(), UserPremium::class.java) }
+            else -> null
+        }
+        Timber.tag("Main12345").e("AppUserId: ${userPremium?.appUserId}")
+        userPremium?.let {
+            val json = withContext(Dispatchers.IO) {
+                val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
+                serverApi.updateCreatedArtworkInDay(appUserId = userPremium.appUserId.toRequestBody(), numberCreated = numberCreated.toRequestBody())
+            }
+            val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
+            when {
+                message?.message != null && message.message == "Update success" -> {
+                    prefs.numberCreatedArtworkInDayFailed.delete()
+                }
+                else -> {
+                    prefs.numberCreatedArtworkInDayFailed.set(prefs.numberCreatedArtworkInDayFailed.get() + 1)
+                }
+            }
 
+            Timber.tag("Main11111").e("##### UPDATE USER PREMIUM #####")
+            Timber.tag("Main11111").e("Message: $message")
+        }
     }
 
 

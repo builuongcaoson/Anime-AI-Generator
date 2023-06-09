@@ -155,72 +155,85 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("##### SPLASH #####")
+            Timber.tag("Main12345").e("##### IAP #####")
             Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
 
             if (isActive){
-                if (configApp.skipSyncPremium){
-                    customerInfo
-                        .latestExpirationDate
-                        ?.let { expiredDate ->
-                            prefs.isUpgraded.set(true)
-                            prefs.timeExpiredIap.set(expiredDate.time)
-                        }
-                    return@getCustomerInfoWith
-                }
-
-                customerInfo
-                    .allPurchaseDatesByProduct
-                    .filter { it.value != null }
-                    .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
-                    .takeIf { it.isNotEmpty() }
-                    ?.maxByOrNull { it.value!! }
-                    ?.let { map ->
-                        val latestPurchasedProduct = map.key
-                        val latestDatePurchased = map.value ?: return@let
-                        val expiredDate = customerInfo.getExpirationDateForProductId(latestPurchasedProduct) ?: return@let
-
-                        val expiredDateTime = when {
-                            prefs.isUpgraded.get() -> expiredDate.time
-                            else -> latestDatePurchased.time + if (BuildConfig.DEBUG) 0 else 21600000L // Day time purchased + 6 hours
-                        }
-
-                        val differenceInMillis = expiredDateTime - Date().time
-                        if (differenceInMillis > 0){
-                            val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
-                            val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
-                            val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
-                            val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
-
-                            when {
-                                days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
-                                    prefs.isUpgraded.delete()
-                                    prefs.timeExpiredIap.delete()
-                                }
-                                else -> {
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredIap.set(expiredDate.time)
-                                }
-                            }
-
-                            Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(latestDatePurchased)}")
-                            Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(expiredDate)}")
-                            Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
-                        } else {
-                            prefs.isUpgraded.delete()
-                            prefs.timeExpiredIap.delete()
-                        }
-                        Timber.tag("Main12345").e("DifferenceInMillis: $differenceInMillis --- ${latestDatePurchased.time} --- ${Date().time}")
-                    }
                 when {
-                    prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
-                        prefs.numberCreatedArtwork.delete()
-                        prefs.latestTimeCreatedArtwork.delete()
+                    !prefs.isSyncUserPurchased.get() -> {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            serverApiRepo.syncUser(appUserId = customerInfo.originalAppUserId) {
+                                customerInfo
+                                    .latestExpirationDate
+                                    ?.takeIf { it.time > System.currentTimeMillis() }
+                                    ?.let { expiredDate ->
+                                        prefs.isUpgraded.set(true)
+                                        prefs.timeExpiredPremium.set(expiredDate.time)
+                                    }
+                            }
+                        }
+                    }
+                    prefs.isSyncUserPurchasedFailed.get() -> {
+                        if (configApp.skipSyncPremium){
+                            customerInfo
+                                .latestExpirationDate
+                                ?.let { expiredDate ->
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredPremium.set(expiredDate.time)
+                                }
+                            return@getCustomerInfoWith
+                        }
+
+                        customerInfo
+                            .allPurchaseDatesByProduct
+                            .filter { it.value != null }
+                            .filter { it.key.contains(Constraint.Iap.SKU_WEEK) || it.key.contains(Constraint.Iap.SKU_MONTH) ||it.key.contains(Constraint.Iap.SKU_YEAR) }
+                            .takeIf { it.isNotEmpty() }
+                            ?.maxByOrNull { it.value!! }
+                            ?.let { map ->
+                                val latestPurchasedProduct = map.key
+                                val latestDatePurchased = map.value ?: return@let
+                                val expiredDate = customerInfo.getExpirationDateForProductId(latestPurchasedProduct) ?: return@let
+
+                                val expiredDateTime = expiredDate.time
+
+                                val differenceInMillis = expiredDateTime - Date().time
+                                if (differenceInMillis > 0){
+                                    val days = TimeUnit.MILLISECONDS.toDays(differenceInMillis)
+                                    val hours = TimeUnit.MILLISECONDS.toHours(differenceInMillis) % 24
+                                    val minutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60
+                                    val seconds = TimeUnit.MILLISECONDS.toSeconds(differenceInMillis) % 60
+
+                                    when {
+                                        days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 -> {
+                                            prefs.isUpgraded.delete()
+                                            prefs.timeExpiredPremium.delete()
+                                        }
+                                        else -> {
+                                            prefs.isUpgraded.set(true)
+                                            prefs.timeExpiredPremium.set(expiredDate.time)
+                                        }
+                                    }
+
+                                    Timber.tag("Main12345").e("Time Purchased: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(latestDatePurchased)}")
+                                    Timber.tag("Main12345").e("Time Expired: ${SimpleDateFormat("dd/MM/yyyy - hh:mm:ss").format(expiredDate)}")
+                                    Timber.tag("Main12345").e("Date: $days --- $hours:$minutes:$seconds")
+                                } else {
+                                    prefs.isUpgraded.delete()
+                                    prefs.timeExpiredPremium.delete()
+                                }
+                                Timber.tag("Main12345").e("DifferenceInMillis: $differenceInMillis --- ${latestDatePurchased.time} --- ${Date().time}")
+                            }
+                        when {
+                            prefs.isUpgraded.get() && !DateUtils.isToday(prefs.latestTimeCreatedArtwork.get()) -> {
+                                prefs.numberCreatedArtwork.delete()
+                            }
+                        }
                     }
                 }
             } else {
                 prefs.isUpgraded.delete()
-                prefs.timeExpiredIap.delete()
+                prefs.timeExpiredPremium.delete()
             }
         }
     }
@@ -312,7 +325,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                                     item.id.contains(Constraint.Iap.SKU_YEAR) -> expiredDate.time
                                     else -> -3L
                                 }
-                                prefs.timeExpiredIap.set(timeExpired)
+                                prefs.timeExpiredPremium.set(timeExpired)
                                 prefs.isShowedWaringPremiumDialog.delete()
 
                                 prefs.isUpgraded.set(true)
@@ -320,7 +333,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                         }
                     }
                     else -> {
-                        prefs.timeExpiredIap.delete()
+                        prefs.timeExpiredPremium.delete()
                         prefs.isUpgraded.delete()
                     }
                 }
