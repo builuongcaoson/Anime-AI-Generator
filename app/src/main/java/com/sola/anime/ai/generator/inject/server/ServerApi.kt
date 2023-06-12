@@ -24,4 +24,12 @@ interface ServerApi {
         @Part("numberCreated") numberCreated: RequestBody
     ): JsonElement?
 
+    @Multipart
+    @POST("promo-code.php")
+    @Streaming
+    suspend fun promoCode(
+        @Part("deviceId") deviceId: RequestBody,
+        @Part("promoCode") promoCode: RequestBody
+    ): JsonElement?
+
 }

@@ -8,4 +8,6 @@ interface ServerApiRepository {
 
     suspend fun updateCreatedArtworkInDay()
 
+    suspend fun promoCode(promoCode: String, success: (isActive: Boolean, promo: String) -> Unit, failed: () -> Unit)
+
 }

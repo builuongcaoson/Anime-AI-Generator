@@ -44,4 +44,11 @@ class Constraint {
             const val SKU_YEAR = "buy_year"
         }
     }
+
+    class Promo {
+        companion object {
+            const val USER_PURCHASED_LIFE_TIME = "USER_PURCHASED_LIFE_TIME"
+            const val TRY_USER_PURCHASED = "TRY_USER_PURCHASED"
+        }
+    }
 }

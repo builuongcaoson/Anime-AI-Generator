@@ -4,21 +4,27 @@ import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.View
 import android.view.WindowManager
 import com.basic.common.extension.clicks
-import com.sola.anime.ai.generator.R
+import com.basic.common.extension.makeToast
+import com.sola.anime.ai.generator.databinding.DialogPromoCodeBinding
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class BlockSensitivesDialog @Inject constructor() {
+class PromoCodeDialog @Inject constructor() {
 
+    private lateinit var binding: DialogPromoCodeBinding
     private lateinit var dialog: Dialog
+
+    val confirmClicks: Subject<String> = PublishSubject.create()
 
     fun show(activity: Activity){
         if (!::dialog.isInitialized){
+            binding = DialogPromoCodeBinding.inflate(activity.layoutInflater)
             dialog = Dialog(activity)
-            dialog.setContentView(R.layout.dialog_block_sensitives)
-            dialog.setCancelable(false)
+            dialog.setContentView(binding.root)
+            dialog.setCancelable(true)
 
             dialog.window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -28,7 +34,14 @@ class BlockSensitivesDialog @Inject constructor() {
                 attributes = lp
             }
 
-            dialog.findViewById<View>(R.id.viewGotIt).clicks{ dismiss() }
+            binding.later.clicks { dismiss() }
+            binding.confirm.clicks {
+                val promoCode = binding.editPromoCode.text?.toString()?.trim() ?: ""
+                when {
+                    promoCode.isEmpty() -> activity.makeToast("Promo code cannot be empty!")
+                    else -> confirmClicks.onNext(promoCode)
+                }
+            }
         }
 
         if (isShowing()){

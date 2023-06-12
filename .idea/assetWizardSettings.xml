@@ -329,8 +329,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="preview_no_style" />
-                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\3978527-ai.svg" />
+                            <entry key="outputName" value="ic_ticket" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/ticket.svg" />
                           </map>
                         </option>
                       </PersistentState>
