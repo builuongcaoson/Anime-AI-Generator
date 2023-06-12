@@ -96,7 +96,6 @@
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/_10sdp"
-                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_category_batch" />
 
@@ -107,7 +106,6 @@
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/_10sdp"
-                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:ignore="RtlSymmetry"
                 tools:listitem="@layout/item_preview_category_batch" />

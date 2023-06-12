@@ -45,116 +45,52 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             this.adapter = ImageDimensionsAdapter(item)
         }
 
-//        binding.viewNegative.apply {
-//            measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            updateLayoutParams<ViewGroup.LayoutParams> {
-//                this.height = if (sparseNegatives[position]) measuredHeight else 0
-//            }
-//        }
-//
-//        binding.recyclerNumberOfImages.apply {
-//            measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            updateLayoutParams<ViewGroup.LayoutParams> {
-//                this.height = if (sparseNumbers[position]) measuredHeight else 0
-//            }
-//        }
+        showOrHideNegative(binding, sparseNegatives[position])
+        showOrHideNumber(binding, sparseNumbers.get(0, true))
+        showOrHideDimension(binding, sparseDimensions.get(0, true))
+        showOrHideAdvanced(binding, sparseAdvanceds[position])
 
-        binding.viewNegative.isVisible = sparseNegatives[position]
-        binding.recyclerNumberOfImages.isVisible = sparseNumbers[position]
-        binding.recyclerImageDimensions.isVisible = sparseDimensions[position]
-        binding.viewAdvanced.isVisible = sparseAdvanceds[position]
-
-        binding.viewDropNegative.clicks { showOrHideNegative(binding, position, !sparseNegatives[position]) }
-        binding.viewDropNumbers.clicks { showOrHideNumber(binding, position, !sparseNumbers[position]) }
-        binding.viewDropDimensions.clicks { showOrHideDimension(binding, position, !sparseDimensions[position] )}
-        binding.viewDropAdvanced.clicks { showOrHideAdvanced(binding, position, !sparseAdvanceds[position]) }
+        binding.viewDropNegative.clicks {
+            val isShow = !sparseNegatives[position]
+            showOrHideNegative(binding, isShow)
+            sparseNegatives.put(position, isShow)
+        }
+        binding.viewDropNumbers.clicks {
+            val isShow = !sparseNumbers.get(position, true)
+            showOrHideNumber(binding, isShow)
+            sparseNumbers.put(position, isShow)
+        }
+        binding.viewDropDimensions.clicks {
+            val isShow = !sparseDimensions.get(position, true)
+            showOrHideDimension(binding, isShow)
+            sparseDimensions.put(position, isShow)
+        }
+        binding.viewDropAdvanced.clicks {
+            val isShow = !sparseAdvanceds[position]
+            showOrHideAdvanced(binding, isShow)
+            sparseAdvanceds.put(position, isShow)
+        }
     }
 
-    private fun showOrHideNegative(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
+    private fun showOrHideNegative(binding: ItemPromptBatchBinding, isShow: Boolean){
         binding.viewNegative.isVisible = isShow
         binding.viewDropNegative.rotation = if (isShow) 0f else 90f
-
-        sparseNegatives.put(position, isShow)
     }
 
-    private fun showOrHideNumber(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
+    private fun showOrHideNumber(binding: ItemPromptBatchBinding, isShow: Boolean){
         binding.recyclerNumberOfImages.isVisible = isShow
         binding.viewDropNumbers.rotation = if (isShow) 0f else 90f
-
-        sparseNumbers.put(position, isShow)
     }
 
-    private fun showOrHideDimension(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
+    private fun showOrHideDimension(binding: ItemPromptBatchBinding, isShow: Boolean){
         binding.recyclerImageDimensions.isVisible = isShow
         binding.viewDropDimensions.rotation = if (isShow) 0f else 90f
-
-        sparseDimensions.put(position, isShow)
     }
 
-    private fun showOrHideAdvanced(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
+    private fun showOrHideAdvanced(binding: ItemPromptBatchBinding, isShow: Boolean){
         binding.viewAdvanced.isVisible = isShow
         binding.viewDropAdvanced.rotation = if (isShow) 0f else 90f
-
-        sparseAdvanceds.put(position, isShow)
     }
-
-//    private fun animShowOrHideNegative(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
-//        binding.viewNegative.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//
-//        val startHeight = if (isShow) 0 else binding.viewNegative.measuredHeight
-//        val endHeight = if (isShow) binding.viewNegative.measuredHeight else 0
-//        ValueAnimator.ofInt(startHeight, endHeight).apply {
-//            addUpdateListener { animation ->
-//                val height = animation.animatedValue as Int
-//
-//                binding.viewNegative.updateLayoutParams<ViewGroup.LayoutParams> {
-//                    this.height = height
-//                }
-//            }
-//            doOnStart {
-//                binding.viewDropNegative.isClickable = false
-//            }
-//            doOnEnd {
-//                binding.viewDropNegative.isClickable = true
-//
-//                sparseNegatives.put(position, isShow)
-//            }
-//            duration = 250
-//            start()
-//        }
-//
-//        val rotate = if (isShow) 0f else 90f
-//        binding.viewDropNegative.animate().rotation(rotate).setDuration(250).start()
-//    }
-
-//    private fun animShowOrHideNumber(binding: ItemPromptBatchBinding, position: Int, isShow: Boolean){
-//        binding.recyclerNumberOfImages.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//
-//        val startHeight = if (isShow) 0 else binding.recyclerNumberOfImages.measuredHeight
-//        val endHeight = if (isShow) binding.recyclerNumberOfImages.measuredHeight else 0
-//        ValueAnimator.ofInt(startHeight, endHeight).apply {
-//            addUpdateListener { animation ->
-//                val height = animation.animatedValue as Int
-//
-//                binding.recyclerNumberOfImages.updateLayoutParams<ViewGroup.LayoutParams> {
-//                    this.height = height
-//                }
-//            }
-//            doOnStart {
-//                binding.viewDropNumbers.isClickable = false
-//            }
-//            doOnEnd {
-//                binding.viewDropNumbers.isClickable = true
-//
-//                sparseNumbers.put(position, isShow)
-//            }
-//            duration = 250
-//            start()
-//        }
-//
-//        val rotate = if (isShow) 0f else 90f
-//        binding.viewDropNumbers.animate().rotation(rotate).setDuration(250).start()
-//    }
 
     class NumberOfImagesAdapter(private val promptBatch: PromptBatch): LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {
 

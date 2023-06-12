@@ -277,7 +277,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                 prefs.timeExpiredPremium.set(timeExpired)
                 prefs.isShowedWaringPremiumDialog.delete()
-
+                prefs.isSyncUserPurchased.set(true)
                 prefs.isUpgraded.set(true)
             },
             onError = { _, _ ->

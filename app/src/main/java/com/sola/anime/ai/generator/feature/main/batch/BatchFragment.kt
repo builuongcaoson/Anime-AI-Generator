@@ -19,8 +19,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
 
-//    @Inject lateinit var categoryAdapter: CategoryAdapter
-//    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
+    @Inject lateinit var categoryAdapter: CategoryAdapter
+    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
 
     override fun onViewCreated() {
@@ -54,23 +54,23 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initObservable() {
-//        categoryAdapter
-//            .clicks
-//            .autoDispose(scope())
-//            .subscribe { categoryAdapter.category = it }
+        categoryAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { categoryAdapter.category = it }
     }
 
     private fun initView() {
         activity?.let { activity ->
-//            binding.recyclerCategory.apply {
-//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-//                this.adapter = categoryAdapter
-//            }
+            binding.recyclerCategory.apply {
+                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+                this.adapter = categoryAdapter
+            }
 
-//            binding.recyclerPreviewCategory.apply {
-//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-//                this.adapter = previewCategoryAdapter
-//            }
+            binding.recyclerPreviewCategory.apply {
+                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+                this.adapter = previewCategoryAdapter
+            }
 
             binding.recyclerPrompt.apply {
                 this.layoutManager = object: LinearLayoutManager(activity, VERTICAL, false){
