@@ -32,6 +32,7 @@ import com.sola.anime.ai.generator.feature.iap.billing.model.DataWrappers
 import com.sola.anime.ai.generator.feature.iap.billing.model.Response
 import com.sola.anime.ai.generator.feature.main.mine.MineFragment
 import com.sola.anime.ai.generator.feature.main.art.ArtFragment
+import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,8 +59,8 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var serverApiRepo: ServerApiRepository
 
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
-//    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
-    private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
+//    private val fragments by lazy { listOf(ArtFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
@@ -217,8 +218,8 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
 //    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
-//private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabMine())
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabMine())
+private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabMine())
+//    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabMine())
     private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab1, imageTab1, textTab1)
     private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewTab2, imageTab2, textTab2)
     private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab3, imageTab3, textTab3)

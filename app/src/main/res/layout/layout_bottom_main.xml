@@ -42,7 +42,6 @@
 
         <RelativeLayout
             android:id="@+id/viewTab2"
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toStartOf="@id/viewTab3"

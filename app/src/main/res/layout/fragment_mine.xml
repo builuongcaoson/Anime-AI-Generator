@@ -67,7 +67,6 @@
             android:orientation="vertical">
 
             <include
-                android:visibility="gone"
                 android:id="@+id/viewTabTop"
                 layout="@layout/layout_top_mine" />
 
