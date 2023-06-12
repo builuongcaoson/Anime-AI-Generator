@@ -19,9 +19,6 @@ public class UserPremium {
     public String deviceId;
     @SerializedName("isUpgraded")
     @Expose
-    public String isUpgraded;
-    @SerializedName("timePurchased")
-    @Expose
     public String timePurchased;
     @SerializedName("timeExpired")
     @Expose

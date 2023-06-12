@@ -19,7 +19,7 @@ class Preferences @Inject constructor(
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
-    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased_v2", false)
+    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased_v3", false)
     val isSyncUserPurchasedFailed = rxPrefs.getBoolean("isSyncUserPurchasedFailed", true)
     val userPremium = rxPrefs.getString("userPremium", "")
 

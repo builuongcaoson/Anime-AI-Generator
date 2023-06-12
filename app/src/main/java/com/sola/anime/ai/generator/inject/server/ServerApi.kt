@@ -10,10 +10,9 @@ import retrofit2.http.*
 interface ServerApi {
 
     @Multipart
-    @POST("sync-user.php")
+    @POST("sync-user-v2.php")
     @Streaming
     suspend fun syncUser(
-        @Part("appUserId") appUserId: RequestBody,
         @Part("deviceId") deviceId: RequestBody,
     ): JsonElement?
 
@@ -21,19 +20,8 @@ interface ServerApi {
     @POST("update-created-artwork-in-day.php")
     @Streaming
     suspend fun updateCreatedArtworkInDay(
-        @Part("appUserId") appUserId: RequestBody,
         @Part("deviceId") deviceId: RequestBody,
         @Part("numberCreated") numberCreated: RequestBody
-    ): JsonElement?
-
-    @Multipart
-    @POST("insert-user-premium.php")
-    @Streaming
-    suspend fun insertUserPremium(
-        @Part("appUserId") appUserId: RequestBody,
-        @Part("deviceId") deviceId: RequestBody,
-        @Part("timePurchased") timePurchased: RequestBody,
-        @Part("timeExpired") timeExpired: RequestBody
     ): JsonElement?
 
 }

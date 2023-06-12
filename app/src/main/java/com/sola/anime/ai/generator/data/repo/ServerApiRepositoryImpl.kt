@@ -26,12 +26,12 @@ class ServerApiRepositoryImpl @Inject constructor(
     private val analyticManager: AnalyticManager
 ): ServerApiRepository {
 
-    override suspend fun syncUser(appUserId: String, success: (UserPremium?) -> Unit) {
+    override suspend fun syncUser(success: (UserPremium?) -> Unit) {
         Timber.tag("Main11111").e("##### SYNC USER #####")
 
         val json = withContext(Dispatchers.IO) {
             try {
-                serverApi.syncUser(appUserId.toRequestBody(), context.getDeviceId().toRequestBody())
+                serverApi.syncUser(context.getDeviceId().toRequestBody())
             } catch (e: Exception){
                 e.printStackTrace()
                 null
@@ -52,7 +52,6 @@ class ServerApiRepositoryImpl @Inject constructor(
             userPremium?.id != null -> {
                 Timber.tag("Main11111").e("Id: ${userPremium.id}")
                 Timber.tag("Main11111").e("AppUserId: ${userPremium.appUserId}")
-                Timber.tag("Main11111").e("isUpgraded: ${userPremium.isUpgraded}")
                 Timber.tag("Main11111").e("timePurchased: ${userPremium.timePurchased}")
                 Timber.tag("Main11111").e("timeExpired: ${userPremium.timeExpired}")
                 Timber.tag("Main11111").e("numberCreatedArtworkInDay: ${userPremium.numberCreatedArtworkInDay}")
@@ -79,96 +78,33 @@ class ServerApiRepositoryImpl @Inject constructor(
                 success(null)
             }
         }
-        Timber.tag("Main11111").e("AppUserId: $appUserId")
-        Timber.tag("Main11111").e("User premium: ${userPremium?.appUserId}")
     }
 
-    override suspend fun insertUserPremium(
-        appUserId: String,
-        timePurchased: String,
-        timeExpired: String,
-        success: () -> Unit
-    ) {
+    override suspend fun updateCreatedArtworkInDay() {
         val json = withContext(Dispatchers.IO) {
             try {
-                serverApi.insertUserPremium(appUserId.toRequestBody(), context.getDeviceId().toRequestBody(), timePurchased.toRequestBody(), timeExpired.toRequestBody())
+                val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
+                serverApi.updateCreatedArtworkInDay(context.getDeviceId().toRequestBody(), numberCreated.toRequestBody())
             } catch (e: Exception){
                 e.printStackTrace()
                 null
             }
         } ?: run {
-            prefs.userPremium.delete()
-            prefs.isSyncUserPurchased.delete()
-            prefs.isSyncUserPurchasedFailed.delete()
-
-            success()
+            prefs.numberCreatedArtworkInDayFailed.set(prefs.numberCreatedArtworkInDayFailed.get() + 1)
             return
         }
         val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
         when {
-            message?.message != null && message.message == "Insert success" -> {
-                val userPremium = UserPremium().apply {
-                    this.id = "-1"
-                    this.appUserId = appUserId
-                    this.timePurchased = timePurchased
-                    this.timeExpired = timeExpired
-                    this.numberCreatedArtworkInDay = "0"
-                    this.totalNumberCreatedArtwork = "0"
-                    this.latestTimeCreatedArtwork = "0"
-                }
-
-                prefs.numberCreatedArtwork.delete()
-
-                prefs.userPremium.set(Gson().toJson(userPremium))
-                prefs.isSyncUserPurchased.set(true)
-                prefs.isSyncUserPurchasedFailed.set(false)
-
-                success()
+            message?.message != null && message.message == "Update success" -> {
+                prefs.numberCreatedArtworkInDayFailed.delete()
             }
             else -> {
-                prefs.userPremium.delete()
-                prefs.isSyncUserPurchased.delete()
-                prefs.isSyncUserPurchasedFailed.delete()
-
-                success()
-            }
-        }
-        Timber.tag("Main11111").e("##### INSERT USER PREMIUM #####")
-        Timber.tag("Main11111").e("Message: $message")
-    }
-
-    override suspend fun updateCreatedArtworkInDay() {
-        val userPremium = when {
-            prefs.userPremium.get().isNotEmpty() -> tryOrNull { Gson().fromJson(prefs.userPremium.get(), UserPremium::class.java) }
-            else -> null
-        }
-        Timber.tag("Main12345").e("AppUserId: ${userPremium?.appUserId}")
-        userPremium?.let {
-            val json = withContext(Dispatchers.IO) {
-                try {
-                    val numberCreated = prefs.numberCreatedArtworkInDayFailed.get().toString()
-                    serverApi.updateCreatedArtworkInDay(userPremium.appUserId.toRequestBody(), context.getDeviceId().toRequestBody(), numberCreated.toRequestBody())
-                } catch (e: Exception){
-                    e.printStackTrace()
-                    null
-                }
-            } ?: run {
                 prefs.numberCreatedArtworkInDayFailed.set(prefs.numberCreatedArtworkInDayFailed.get() + 1)
-                return
             }
-            val message = tryOrNull { Gson().fromJson(json, Message::class.java) }
-            when {
-                message?.message != null && message.message == "Update success" -> {
-                    prefs.numberCreatedArtworkInDayFailed.delete()
-                }
-                else -> {
-                    prefs.numberCreatedArtworkInDayFailed.set(prefs.numberCreatedArtworkInDayFailed.get() + 1)
-                }
-            }
-
-            Timber.tag("Main11111").e("##### UPDATE USER PREMIUM #####")
-            Timber.tag("Main11111").e("Message: $message")
         }
+
+        Timber.tag("Main11111").e("##### UPDATE USER PREMIUM #####")
+        Timber.tag("Main11111").e("Message: $message")
     }
 
 
