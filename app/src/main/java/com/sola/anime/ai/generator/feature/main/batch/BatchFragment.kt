@@ -9,6 +9,7 @@ import androidx.transition.TransitionManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.basic.common.extension.hideKeyboard
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.model.PromptBatch
@@ -68,6 +69,16 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .clicks
             .autoDispose(scope())
             .subscribe { previewCategoryAdapter.category = it }
+
+        promptAdapter
+            .numberOfImagesChanges
+            .autoDispose(scope())
+            .subscribe { pair ->
+                promptAdapter.data.getOrNull(pair.second)?.numberOfImages = pair.first
+                promptAdapter.notifyItemChanged(pair.second)
+
+                activity?.hideKeyboard()
+            }
     }
 
     private fun initView() {
@@ -95,6 +106,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                         return false
                     }
                 }
+                this.itemAnimator = null
                 this.adapter = promptAdapter
             }
         }

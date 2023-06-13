@@ -10,7 +10,7 @@ enum class Ratio(val display: String, val ratio: String, val width: String, val 
     Ratio3x2(display = "3x2", ratio = "3:2", width = "510", height = "340")
 }
 
-enum class NumberOfImages(val display: String){
+enum class NumberOfImages(var display: String){
     NumberOfImages1(display = "1"),
     NumberOfImages2(display = "2"),
     NumberOfImages3(display = "3"),
@@ -18,7 +18,7 @@ enum class NumberOfImages(val display: String){
     NumberOfImages5(display = "5"),
     NumberOfImages6(display = "6"),
     NumberOfImages7(display = "7"),
-    NumberOfImages8(display = "8")
+    NumberOfImagesEdit(display = "8")
 }
 
 //enum class ImageDimensions(val display: String){

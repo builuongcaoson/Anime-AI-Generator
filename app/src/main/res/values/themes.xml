@@ -20,10 +20,10 @@
         <item name="colorOnPrimary">@color/textPrimaryDark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorOnSecondary">@color/textPrimaryDark</item>
+        <item name="colorOnSecondary">@color/textSecondaryDark</item>
         <!-- Tertiary brand color. -->
         <item name="colorTertiary">@color/colorTertiary</item>
-        <item name="colorOnTertiary">@color/textPrimaryDark</item>
+        <item name="colorOnTertiary">@color/textTertiaryDark</item>
     </style>
 
     <style name="Theme.Preview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
