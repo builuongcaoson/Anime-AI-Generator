@@ -154,13 +154,13 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
             .start()
 
         animateColorChange(context.resolveAttrColor(android.R.attr.colorAccent))
-        animateElevation(25F)
+        animateElevation(15F)
     }
 
     private fun checked() {
         thumb.translationX = if (resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL) 0F else (w - p * 2 - thumbWidth).toFloat()
         this.backgroundTintList = ColorStateList.valueOf(context.resolveAttrColor(android.R.attr.colorAccent))
-        this.elevation = 25F
+        this.elevation = 15F
     }
 
     private fun animateElevation(elevation: Float) {

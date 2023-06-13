@@ -279,6 +279,7 @@
                         android:layout_centerVertical="true">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/minusGuidance"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -289,6 +290,7 @@
                             android:tint="?colorOnPrimary" />
 
                         <com.basic.common.widget.LsTextView
+                            android:id="@+id/textGuidance"
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -300,6 +302,7 @@
                             tools:text="7.5" />
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/plusGuidance"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -337,6 +340,7 @@
                         android:layout_centerVertical="true">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/minusStep"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -347,6 +351,7 @@
                             android:tint="?colorOnPrimary" />
 
                         <com.basic.common.widget.LsTextView
+                            android:id="@+id/textStep"
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -358,6 +363,7 @@
                             tools:text="40" />
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/plusStep"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -395,6 +401,7 @@
                         android:layout_centerVertical="true">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/minusSampler"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -405,6 +412,7 @@
                             android:tint="?colorOnPrimary" />
 
                         <com.basic.common.widget.LsTextView
+                            android:id="@+id/textSampler"
                             android:layout_width="@dimen/_60sdp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -416,6 +424,7 @@
                             android:textSize="@dimen/_12ssp" />
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/plusSampler"
                             android:layout_width="@dimen/_17sdp"
                             android:layout_height="@dimen/_17sdp"
                             android:layout_gravity="center_vertical"
@@ -429,14 +438,12 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_5sdp">
+                    android:layout_marginEnd="@dimen/_5sdp">
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
@@ -444,19 +451,30 @@
                         android:layout_centerVertical="true"
                         android:text="Full HD"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/viewSwitchFullHd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true">
+                        android:layout_centerVertical="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <com.sola.anime.ai.generator.common.widget.switchview.SwitchView
-                            android:id="@+id/switchView"
+                            android:id="@+id/switchFullHd"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:clickable="false"
                             android:clipChildren="false"
                             android:clipToPadding="false"
@@ -465,9 +483,19 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </RelativeLayout>
+                    <View
+                        android:id="@+id/viewClicksFullHd"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:elevation="@dimen/_3sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/viewSwitchFullHd"
+                        app:layout_constraintEnd_toEndOf="@id/viewSwitchFullHd"
+                        app:layout_constraintStart_toStartOf="@id/viewSwitchFullHd"
+                        app:layout_constraintTop_toTopOf="@id/viewSwitchFullHd" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 

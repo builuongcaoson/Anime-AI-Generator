@@ -10,12 +10,14 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.common.widget.switchview.SwitchCallbacks
 import com.sola.anime.ai.generator.databinding.ItemImageDimensionsBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemNumberOfImagesBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemPromptBatchBinding
 import com.sola.anime.ai.generator.domain.model.NumberOfImages
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.Sampler
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
@@ -49,6 +51,68 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         binding.viewDropNumbers.clicks { dropNumbersClicks(binding, position) }
         binding.viewDropDimensions.clicks { dropDimensionsClicks(binding, position) }
         binding.viewDropAdvanced.clicks { dropAdvancedClicks(binding, position) }
+
+        binding.minusGuidance.clicks { minusOrPlusGuidance(binding, item, true) }
+        binding.plusGuidance.clicks { minusOrPlusGuidance(binding, item, false) }
+        binding.minusStep.clicks { minusOrPlusStep(binding, item, true) }
+        binding.plusStep.clicks { minusOrPlusStep(binding, item, false) }
+        binding.minusSampler.clicks { minusOrPlusSampler(binding, item, true) }
+        binding.plusSampler.clicks { minusOrPlusSampler(binding, item, false) }
+//        binding.switchFullHd.setOnSwitchCheckedChangeListener { isChecked -> item.isFullHd = isChecked }
+        binding.viewClicksFullHd.clicks(withAnim = false) { toggleFullHd(binding, item) }
+    }
+
+    private fun toggleFullHd(binding: ItemPromptBatchBinding, item: PromptBatch) {
+        val newChecked = !item.isFullHd
+        binding.switchFullHd.setChecked(newChecked)
+        item.isFullHd = newChecked
+    }
+
+    private fun minusOrPlusSampler(
+        binding: ItemPromptBatchBinding,
+        item: PromptBatch,
+        isMinus: Boolean
+    ) {
+        val samplers = Sampler.values()
+        var index = samplers.indexOf(item.sampler)
+        when {
+            isMinus -> {
+                index = if (index == 0) samplers.lastIndex else index - 1
+            }
+            else -> {
+                index = if (index == samplers.lastIndex) samplers.lastIndex else index + 1
+            }
+        }
+        item.sampler = samplers.getOrNull(index) ?: Sampler.Random
+        binding.textSampler.text = samplers.getOrNull(index)?.display ?: Sampler.Random.display
+    }
+
+    private fun minusOrPlusStep(binding: ItemPromptBatchBinding, item: PromptBatch, isMinus: Boolean) {
+        var step = item.step
+        when {
+            isMinus && step > 30 -> {
+                step -= 5
+            }
+            !isMinus && step < 60 -> {
+                step += 5
+            }
+        }
+        item.step = step
+        binding.textStep.text = step.toString()
+    }
+
+    private fun minusOrPlusGuidance(binding: ItemPromptBatchBinding, item: PromptBatch, isMinus: Boolean) {
+        var guidance = item.guidance
+        when {
+            isMinus && guidance > 5f -> {
+                guidance -= 0.5f
+            }
+            !isMinus && guidance < 10f -> {
+                guidance += 0.5f
+            }
+        }
+        item.guidance = guidance
+        binding.textGuidance.text = guidance.toString()
     }
 
     private fun initView(binding: ItemPromptBatchBinding, context: Context, item: PromptBatch, position: Int) {
@@ -71,7 +135,12 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             this.itemAnimator = null
             this.adapter = ImageDimensionsAdapter(item)
         }
+
         binding.delete.isVisible = position != 0
+        binding.textGuidance.text = item.guidance.toString()
+        binding.textStep.text = item.step.toString()
+        binding.textSampler.text = item.sampler.display
+        binding.switchFullHd.setChecked(item.isFullHd)
     }
 
     private fun dropAdvancedClicks(binding: ItemPromptBatchBinding, position: Int) {

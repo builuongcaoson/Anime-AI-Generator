@@ -12,9 +12,10 @@ data class PromptBatch(
     val prompt: String = "",
     var numberOfImages: NumberOfImages = NumberOfImages.NumberOfImages1,
     var ratio: Ratio = Ratio.Ratio1x1,
-    val guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5
-    val step: Int = 40, // Min 30 Max 60 Step 5
-    val sampler: Sampler = Sampler.Random
+    var guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5
+    var step: Int = 45, // Min 30 Max 60 Step 5
+    var sampler: Sampler = Sampler.Random,
+    var isFullHd: Boolean = false
 )
 
 @Keep
