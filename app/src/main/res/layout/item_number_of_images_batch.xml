@@ -31,25 +31,23 @@
                 android:gravity="center"
                 android:text="2"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_11ssp"
-                tools:visibility="visible"
-                android:visibility="gone" />
+                android:textSize="@dimen/_11ssp" />
 
-            <com.basic.common.widget.LsEditText
-                android:id="@+id/edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="2"
-                android:hint="8"
-                android:textColorHint="?colorOnTertiary"
-                android:singleLine="true"
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_11ssp"
-                android:visibility="gone" />
+<!--            <com.basic.common.widget.LsEditText-->
+<!--                android:id="@+id/edit"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@null"-->
+<!--                android:ellipsize="end"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="2"-->
+<!--                android:hint="8"-->
+<!--                android:textColorHint="?colorOnTertiary"-->
+<!--                android:singleLine="true"-->
+<!--                android:textColor="?colorOnPrimary"-->
+<!--                android:textSize="@dimen/_11ssp"-->
+<!--                android:visibility="gone" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

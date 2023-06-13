@@ -21,7 +21,7 @@ class Constraint {
 
     class Dezgo {
         companion object {
-            const val DEFAULT_NEGATIVE = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears"
+            const val DEFAULT_NEGATIVE = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears"
 
             const val DEZGO_URL = "https://api.dezgo.com/"
             const val DEZGO_HEADER_KEY = "X-Dezgo-Key"
@@ -51,4 +51,10 @@ class Constraint {
             const val TRY_USER_PURCHASED = "TRY_USER_PURCHASED"
         }
     }
+
+    // Ratio 320x320 with step 50: -0.0038
+    // Ratio 512x512 with step 50 with second 10.16s: -0.0045
+    // Ratio 324x576 with step 50: -0.0042
+    // Ratio 9x16 with step 50: -0.0042
+    // Ratio 9x16 with step 50: -0.0042
 }

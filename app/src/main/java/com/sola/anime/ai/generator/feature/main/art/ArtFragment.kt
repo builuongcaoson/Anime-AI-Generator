@@ -288,24 +288,19 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
-            val userPremium = when {
-                prefs.userPremium.get().isNotEmpty() -> tryOrNull { Gson().fromJson(prefs.userPremium.get(), UserPremium::class.java) }
-                else -> null
-            }
-            Timber.tag("Main12345").e("AppUserId: ${userPremium?.appUserId}")
-//            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-//                maxGroupId = 0,
-//                maxChildId = 0,
-//                prompt = prompt,
-//                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-//                guidance = advancedSheet.guidance.toString(),
-//                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
-//                styleId = configApp.styleChoice?.id ?: -1,
-//                ratio = aspectRatioAdapter.ratio,
-//                seed = (0..4294967295).random()
-//            )
-//
-//            activity?.startArtProcessing()
+            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                maxGroupId = 0,
+                maxChildId = 0,
+                prompt = prompt,
+                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                guidance = advancedSheet.guidance.toString(),
+                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
+                styleId = configApp.styleChoice?.id ?: -1,
+                ratio = aspectRatioAdapter.ratio,
+                seed = (0..4294967295).random()
+            )
+
+            activity?.startArtProcessing()
         }
 
         when {

@@ -1,7 +1,9 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
 import android.os.Build
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
@@ -52,6 +54,9 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         promptAdapter.data = ArrayList(promptAdapter.data).apply {
             add(PromptBatch())
         }
+        binding.nestedScrollView.post { binding.nestedScrollView.smoothScrollTo(0, binding.nestedScrollView.getChildAt(0).height) }
+
+        binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. 10
     }
 
     override fun onResume() {
@@ -77,8 +82,27 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 promptAdapter.data.getOrNull(pair.second)?.numberOfImages = pair.first
                 promptAdapter.notifyItemChanged(pair.second)
 
-                activity?.hideKeyboard()
+//                activity?.hideKeyboard()
             }
+
+        promptAdapter
+            .deleteClicks
+            .autoDispose(scope())
+            .subscribe { index ->
+                promptAdapter.data = ArrayList(promptAdapter.data).apply {
+                    removeAt(index)
+                }
+
+                binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. 10
+            }
+    }
+
+    private fun updateUiCredit(){
+        val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number }
+        val creditRatio = 100
+        val creditFor1Image = 15
+        val discount = 0.1
+
     }
 
     private fun initView() {

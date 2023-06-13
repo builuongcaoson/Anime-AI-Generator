@@ -26,14 +26,34 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/_5sdp">
 
-            <com.basic.common.widget.LsTextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="Input prompt"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp" />
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Input prompt"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/delete"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/rec_corner_10dp"
+                    android:backgroundTint="?android:colorBackground"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_trash"
+                    android:tint="?colorAccent" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,9 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_10sdp">
+                android:paddingBottom="@dimen/_5sdp">
 
                 <com.basic.common.widget.LsTextView
                     android:layout_width="wrap_content"
@@ -93,13 +113,13 @@
                 android:id="@+id/viewNegative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <com.basic.common.widget.LsEditText
                     android:layout_width="match_parent"
@@ -228,12 +248,12 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:id="@+id/viewAdvanced"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -275,9 +295,9 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="1"
                             android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_12ssp"
+                            tools:text="7.5" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_17sdp"
@@ -333,7 +353,65 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="1"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_12ssp"
+                            tools:text="40" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_plus"
+                            android:tint="?colorOnPrimary" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Sampler"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_17sdp"
+                            android:layout_height="@dimen/_17sdp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle"
+                            android:backgroundTint="?colorPrimary"
+                            android:padding="@dimen/_1sdp"
+                            android:src="@drawable/ic_minus"
+                            android:tint="?colorOnPrimary" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="Random"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_12ssp" />
 
@@ -346,6 +424,46 @@
                             android:padding="@dimen/_1sdp"
                             android:src="@drawable/ic_plus"
                             android:tint="?colorOnPrimary" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Full HD"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <com.sola.anime.ai.generator.common.widget.switchview.SwitchView
+                            android:id="@+id/switchView"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:focusable="false"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </LinearLayout>
 

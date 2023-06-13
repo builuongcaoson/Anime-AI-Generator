@@ -8,7 +8,14 @@ data class CategoryBatch(val display: String)
 
 data class PreviewCategoryBatch(val display: String, val preview: Int, val isPremium: Boolean = false)
 
-data class PromptBatch(val prompt: String = "", var numberOfImages: NumberOfImages = NumberOfImages.NumberOfImages1, var ratio: Ratio = Ratio.Ratio1x1)
+data class PromptBatch(
+    val prompt: String = "",
+    var numberOfImages: NumberOfImages = NumberOfImages.NumberOfImages1,
+    var ratio: Ratio = Ratio.Ratio1x1,
+    val guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5
+    val step: Int = 40, // Min 30 Max 60 Step 5
+    val sampler: Sampler = Sampler.Random
+)
 
 @Keep
 @Entity(tableName = "Folders")

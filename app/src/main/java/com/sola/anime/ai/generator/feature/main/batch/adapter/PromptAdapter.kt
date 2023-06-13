@@ -26,6 +26,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         data = listOf(PromptBatch())
     }
 
+    val deleteClicks: Subject<Int> = PublishSubject.create()
     val numberOfImagesChanges: Subject<Pair<NumberOfImages, Int>> = PublishSubject.create()
 
     private val sparseNegatives = SparseBooleanArray()
@@ -43,6 +44,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         showOrHideDimension(binding, sparseDimensions.get(0, true))
         showOrHideAdvanced(binding, sparseAdvanceds[position])
 
+        binding.delete.clicks { deleteClicks.onNext(position) }
         binding.viewDropNegative.clicks { dropNegativeClicks(binding, position) }
         binding.viewDropNumbers.clicks { dropNumbersClicks(binding, position) }
         binding.viewDropDimensions.clicks { dropDimensionsClicks(binding, position) }
@@ -69,6 +71,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             this.itemAnimator = null
             this.adapter = ImageDimensionsAdapter(item)
         }
+        binding.delete.isVisible = position != 0
     }
 
     private fun dropAdvancedClicks(binding: ItemPromptBatchBinding, position: Int) {
@@ -118,7 +121,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
     class NumberOfImagesAdapter(
         private val promptBatch: PromptBatch,
         private val numberOfImagesChanges: Subject<Pair<NumberOfImages, Int>>,
-        val promptPosition: Int
+        private val promptPosition: Int
     ): LsAdapter<NumberOfImages, ItemNumberOfImagesBatchBinding>(ItemNumberOfImagesBatchBinding::inflate) {
 
         init {
@@ -148,48 +151,48 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             position: Int
         ) {
             val context = binding.root.context
-            var isUserInput = true
+//            var isUserInput = true
 
             binding.display.text = item.display
-            binding.display.isVisible = position != data.lastIndex
-            when {
-                numberOfImages == item -> binding.edit.setText(item.display)
-                else -> binding.edit.hint = item.display
-            }
-            binding.edit.isVisible = position == data.lastIndex
-            binding.edit.doAfterTextChanged {
-                val value = it?.trim()?.takeIf { value -> value.isNotEmpty() && value.isDigitsOnly() }?.toString()?.let { value -> tryOrNull { value.toInt() } } ?: 0
-                when {
-                    isUserInput && (value <= 0 || value > 50) -> {
-                        isUserInput = false
-                        binding.edit.setText(binding.edit.text?.firstOrNull()?.toString()?.takeIf { firstChar -> firstChar != "0" }?: "")
-                        binding.edit.setSelection(binding.edit.text?.firstOrNull()?.toString()?.takeIf { firstChar -> firstChar != "0" }?.let { 1 } ?: 0)
-                        isUserInput = true
-                    }
-                    else -> {
-                        item.display = value.toString()
-                    }
-                }
-            }
-            binding.edit.setOnFocusChangeListener { v, hasFocus ->
-                when {
-                    v == binding.edit && hasFocus -> numberOfImages = item
-                    else -> {}
-                }
-            }
+//            binding.display.isVisible = position != data.lastIndex
+//            when {
+//                numberOfImages == item -> binding.edit.setText(item.display)
+//                else -> binding.edit.hint = item.display
+//            }
+//            binding.edit.isVisible = position == data.lastIndex
+//            binding.edit.doAfterTextChanged {
+//                val value = it?.trim()?.takeIf { value -> value.isNotEmpty() && value.isDigitsOnly() }?.toString()?.let { value -> tryOrNull { value.toInt() } } ?: 0
+//                when {
+//                    isUserInput && (value <= 0 || value > 50) -> {
+//                        isUserInput = false
+//                        binding.edit.setText(binding.edit.text?.firstOrNull()?.toString()?.takeIf { firstChar -> firstChar != "0" }?: "")
+//                        binding.edit.setSelection(binding.edit.text?.firstOrNull()?.toString()?.takeIf { firstChar -> firstChar != "0" }?.let { 1 } ?: 0)
+//                        isUserInput = true
+//                    }
+//                    else -> {
+//                        item.display = value.toString()
+//                    }
+//                }
+//            }
+//            binding.edit.setOnFocusChangeListener { v, hasFocus ->
+//                when {
+//                    v == binding.edit && hasFocus -> numberOfImages = item
+//                    else -> {}
+//                }
+//            }
 
             when {
                 numberOfImages == item -> {
                     binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))
                     binding.display.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
-                    binding.edit.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
-                    binding.edit.setHintTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnTertiary))
+//                    binding.edit.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
+//                    binding.edit.setHintTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnTertiary))
                 }
                 else -> {
                     binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorBackground))
                     binding.display.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
-                    binding.edit.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
-                    binding.edit.setHintTextColor(context.resolveAttrColor(android.R.attr.textColorTertiary))
+//                    binding.edit.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
+//                    binding.edit.setHintTextColor(context.resolveAttrColor(android.R.attr.textColorTertiary))
                 }
             }
 

@@ -56,11 +56,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.negativePrompt + ""
                                 else -> body.negativePrompt
                             }
-                            val upscale = when {
-                                body.width == "513" && body.height == "912" -> "1"
-                                body.width == "912" && body.height == "513" -> "1"
-                                else -> "2"
-                            }
+                            val upscale = "2"
 
                             try {
                                 val response = dezgoApi.text2image(

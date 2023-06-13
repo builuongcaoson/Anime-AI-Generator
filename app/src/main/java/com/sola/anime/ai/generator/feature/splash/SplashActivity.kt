@@ -23,6 +23,7 @@ import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
@@ -38,6 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.max
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -60,7 +62,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
 //        val encrypt = AESEncyption.encrypt("DEZGO-677ADADF008D43E746840EF0A88000892E435F3ECB11A537CCC322B11511AB524D2EE56D") ?: ""
 //        Timber.tag("Main12345").e("Key: $encrypt")
-//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Api.DEZGO_KEY)}")
+//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Dezgo.DEZGO_KEY)}")
 
         initReviewManager()
         initView()
