@@ -1,11 +1,15 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
 import android.os.Build
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.transition.TransitionManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
+import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
@@ -40,6 +44,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         }
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
+        binding.textSeeAll.clicks(withAnim = true) {  }
     }
 
     private fun plusPrompt() {
@@ -58,10 +63,22 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .clicks
             .autoDispose(scope())
             .subscribe { categoryAdapter.category = it }
+
+        previewCategoryAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { previewCategoryAdapter.category = it }
     }
 
     private fun initView() {
         activity?.let { activity ->
+            binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.topMargin = when(val statusBarHeight = activity.getStatusBarHeight()) {
+                    0 -> activity.getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                    else -> statusBarHeight
+                }
+            }
+
             binding.recyclerCategory.apply {
                 this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
                 this.adapter = categoryAdapter

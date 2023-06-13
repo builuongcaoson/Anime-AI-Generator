@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="@dimen/_40sdp"
     android:background="?android:windowBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -10,12 +10,10 @@
     <RelativeLayout
         android:id="@+id/viewTop"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_height="@dimen/_40sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_marginTop="0dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.basic.common.widget.LsTextView
             android:layout_width="wrap_content"
@@ -33,17 +31,19 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:cardCornerRadius="@dimen/_10sdp"
             app:cardBackgroundColor="?android:colorBackground"
+            app:cardCornerRadius="@dimen/_10sdp"
             app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingBottom="@dimen/_3sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_3sdp"
                     android:src="@drawable/ic_coin" />
@@ -89,15 +89,38 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/_65sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_category_batch" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_toStartOf="@id/textSeeAll"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_category_batch" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="See all"
+                    android:textColor="?colorAccent"
+                    android:textSize="@dimen/_13ssp" />
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPreviewCategory"

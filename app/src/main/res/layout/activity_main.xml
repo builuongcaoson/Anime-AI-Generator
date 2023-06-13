@@ -25,7 +25,7 @@
         android:id="@+id/viewBottom"
         layout="@layout/layout_bottom_main"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/_40sdp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
