@@ -11,6 +11,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
+import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
@@ -20,6 +21,7 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
@@ -47,6 +49,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
         binding.textSeeAll.clicks(withAnim = true) {  }
+        binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
     }
 
     private fun plusPrompt() {
@@ -56,6 +59,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         binding.nestedScrollView.post { binding.nestedScrollView.smoothScrollTo(0, binding.nestedScrollView.getChildAt(0).height) }
 
         binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. 10
+
+        updateUiCredit()
     }
 
     override fun onResume() {
@@ -78,8 +83,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .numberOfImagesChanges
             .autoDispose(scope())
             .subscribe { pair ->
-                promptAdapter.data.getOrNull(pair.second)?.numberOfImages = pair.first
-                promptAdapter.notifyItemChanged(pair.second)
+//                promptAdapter.data.getOrNull(pair.second)?.numberOfImages = pair.first
+//                promptAdapter.notifyItemChanged(pair.second)
 
 //                activity?.hideKeyboard()
                 updateUiCredit()
@@ -103,16 +108,16 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number }
         val creditForRatio = 5f
         val creditFor1Image = 15f
-        val discount = 0.1f
+        val discount = 0.2f
 
-        val discountCredit = (creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)
-        val totalCredit = (creditNumbers * (creditForRatio + creditFor1Image))
+        val discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
+        val totalCredit = ((creditNumbers * (creditForRatio + creditFor1Image))).roundToInt()
 
-        binding.discountCredit.text = discountCredit.toInt().toString()
+        binding.discountCredit.text = discountCredit.toString()
         binding.totalCredit.apply {
-            text = totalCredit.toInt().toString()
+            text = totalCredit.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = discountCredit.toInt() != totalCredit.toInt()
+            isVisible = discountCredit != totalCredit
         }
     }
 

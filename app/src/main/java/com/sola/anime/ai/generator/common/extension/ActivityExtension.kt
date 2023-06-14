@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.feature.credit.CreditActivity
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
@@ -31,6 +32,13 @@ fun Activity.startTutorial(){
     val intent = Intent(this, TutorialActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startCredit(isKill: Boolean = true){
+    val intent = Intent(this, CreditActivity::class.java)
+    intent.putExtra(CreditActivity.IS_KILL_EXTRA, isKill)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
 fun Activity.startIap(isKill: Boolean = true){

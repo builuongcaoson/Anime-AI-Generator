@@ -265,7 +265,11 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
                 }
             }
 
-            binding.viewClicks.clicks(withAnim = false){ numberOfImagesChanges.onNext(item to promptPosition) }
+//            binding.viewClicks.clicks(withAnim = false){ numberOfImagesChanges.onNext(item to promptPosition) }
+            binding.viewClicks.clicks(withAnim = false){
+                numberOfImages = item
+                numberOfImagesChanges.onNext(item to promptPosition)
+            }
         }
 
     }

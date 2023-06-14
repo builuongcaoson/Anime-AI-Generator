@@ -26,6 +26,7 @@
             app:textFont="semi" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewCredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -240,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:text="15"
+                    android:text="20"
                     android:textColor="?colorOnPrimary"
                     android:textSize="@dimen/_17ssp"
                     app:textFont="bold" />
