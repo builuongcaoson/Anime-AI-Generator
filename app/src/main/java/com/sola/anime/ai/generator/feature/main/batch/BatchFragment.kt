@@ -105,8 +105,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         val creditFor1Image = 15f
         val discount = 0.1f
 
-        val discountCredit = (creditNumbers * (creditForRatio + creditFor1Image))
-        val totalCredit = (creditNumbers * (creditForRatio + creditFor1Image)) * discount
+        val discountCredit = (creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)
+        val totalCredit = (creditNumbers * (creditForRatio + creditFor1Image))
 
         binding.discountCredit.text = discountCredit.toInt().toString()
         binding.totalCredit.apply {

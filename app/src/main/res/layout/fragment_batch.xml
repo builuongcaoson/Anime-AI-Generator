@@ -242,7 +242,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:text="15"
                     android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_17ssp"
                     app:textFont="bold" />
 
                 <com.basic.common.widget.LsTextView
@@ -253,7 +253,7 @@
                     android:layout_marginStart="@dimen/_5sdp"
                     android:text="15"
                     android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:visibility="gone" />
 
             </LinearLayout>
