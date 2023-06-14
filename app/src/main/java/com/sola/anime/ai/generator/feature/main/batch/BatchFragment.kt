@@ -1,17 +1,15 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
+import android.graphics.Paint
 import android.os.Build
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
-import androidx.transition.TransitionManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
-import com.basic.common.extension.hideKeyboard
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.model.PromptBatch
@@ -22,6 +20,7 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
@@ -83,6 +82,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 promptAdapter.notifyItemChanged(pair.second)
 
 //                activity?.hideKeyboard()
+                updateUiCredit()
             }
 
         promptAdapter
@@ -94,15 +94,26 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 }
 
                 binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. 10
+
+                updateUiCredit()
             }
     }
 
     private fun updateUiCredit(){
         val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number }
-        val creditRatio = 100
-        val creditFor1Image = 15
-        val discount = 0.1
+        val creditForRatio = 5f
+        val creditFor1Image = 15f
+        val discount = 0.1f
 
+        val discountCredit = (creditNumbers * (creditForRatio + creditFor1Image))
+        val totalCredit = (creditNumbers * (creditForRatio + creditFor1Image)) * discount
+
+        binding.discountCredit.text = discountCredit.toInt().toString()
+        binding.totalCredit.apply {
+            text = totalCredit.toInt().toString()
+            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            isVisible = discountCredit.toInt() != totalCredit.toInt()
+        }
     }
 
     private fun initView() {

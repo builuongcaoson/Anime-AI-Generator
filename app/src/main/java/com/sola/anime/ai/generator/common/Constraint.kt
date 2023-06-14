@@ -43,6 +43,7 @@ class Constraint {
             const val SKU_MONTH = "buy_month"
             const val SKU_YEAR = "buy_year"
         }
+
     }
 
     class Promo {
@@ -52,9 +53,11 @@ class Constraint {
         }
     }
 
+    // 100 x
+
     // Ratio 320x320 with step 50: -0.0038
     // Ratio 512x512 with step 50 with second 10.16s: -0.0045
     // Ratio 324x576 with step 50: -0.0042
     // Ratio 9x16 with step 50: -0.0042
-    // Ratio 9x16 with step 50: -0.0042
+    // CreditFor1Image = 0.15
 }
