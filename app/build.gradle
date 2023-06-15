@@ -153,4 +153,7 @@ dependencies {
 
     // Admob
     implementation 'com.google.android.gms:play-services-ads:22.1.0'
+
+    // Page indicator
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
 }

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.iap.IapActivity">
+    tools:background="@drawable/preview_credit_1"
+    tools:context=".feature.credit.CreditActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/preview_credit_1"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/back"
@@ -26,35 +26,368 @@
             android:layout_height="@dimen/_20sdp"
             android:layout_centerInParent="true"
             android:background="@drawable/circle"
-            android:backgroundTint="?android:windowBackground"
+            android:backgroundTint="#80FDFFFF"
             android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_baseline_close"
             android:tint="?android:textColorPrimary" />
 
     </RelativeLayout>
 
+    <com.rd.PageIndicatorView
+        android:id="@+id/pageIndicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@id/viewBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:piv_animationType="scale"
+        app:piv_dynamicCount="true"
+        app:piv_interactiveAnimation="true"
+        app:piv_padding="@dimen/_5sdp"
+        app:piv_radius="@dimen/_3sdp"
+        app:piv_selectedColor="?colorOnPrimary"
+        app:piv_unselectedColor="#80FDFFFF"
+        app:piv_viewPager="@id/viewPager" />
+
     <LinearLayout
         android:id="@+id/viewBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/rec_corner_top_15dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/_50sdp"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            app:cardElevation="0dp"
-            app:strokeColor="?colorAccent"
-            app:strokeWidth="@dimen/_2sdp"
             app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_height="@dimen/_50sdp">
+            app:cardElevation="@dimen/_3sdp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="@dimen/_2sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/checkbox4"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:background="@drawable/circle_stroke_2dp"
+                    android:backgroundTint="?colorAccent"
+                    android:src="@drawable/circle"
+                    android:tint="?colorAccent"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/checkbox4"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="1000"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_13ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Credits"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pro +100"
+                            android:textColor="?colorAccent"
+                            android:textSize="@dimen/_10ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Credits"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="$9.99"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textFont="semi" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="@dimen/_2sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/checkbox3"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:background="@drawable/circle_stroke_2dp"
+                    android:backgroundTint="?colorAccent"
+                    android:src="@drawable/circle"
+                    android:tint="?colorAccent"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/checkbox3"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="3000"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_13ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Credits"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="+150 credits"
+                            android:textColor="?colorAccent"
+                            android:textSize="@dimen/_10ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Pro +300"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="$29.99"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textFont="semi" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="@dimen/_2sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/checkbox2"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:background="@drawable/circle_stroke_2dp"
+                    android:backgroundTint="?colorAccent"
+                    android:src="@drawable/circle"
+                    android:tint="?colorAccent"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/checkbox2"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="5000"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_13ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Credits"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="+500 credits"
+                            android:textColor="?colorAccent"
+                            android:textSize="@dimen/_10ssp"
+                            app:textFont="semi" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Pro +500"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_10ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:text="$49.99"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textFont="semi" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:strokeColor="?colorAccent"
+            app:strokeWidth="@dimen/_2sdp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -62,84 +395,89 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/checkbox1"
-                    android:layout_width="@dimen/_20sdp"
+                    android:layout_width="@dimen/_17sdp"
+                    android:layout_height="@dimen/_17sdp"
                     android:layout_marginStart="@dimen/_15sdp"
+                    android:background="@drawable/circle_stroke_2dp"
+                    android:backgroundTint="?colorAccent"
+                    android:src="@drawable/circle"
+                    android:tint="?colorAccent"
+                    android:padding="@dimen/_4sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/circle_stroke_1dp"
-                    android:backgroundTint="?colorAccent"
-                    android:layout_height="@dimen/_20sdp"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/checkbox1"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/checkbox1"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <com.basic.common.widget.LsTextView
-                            android:text="10000"
-                            app:textFont="semi"
-                            android:textSize="@dimen/_15ssp"
-                            android:textColor="?android:textColorPrimary"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="10000"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_13ssp"
+                            app:textFont="semi" />
 
                         <com.basic.common.widget.LsTextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:textSize="@dimen/_12ssp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:text="Credits"
                             android:textColor="?android:textColorPrimary"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="@dimen/_10ssp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp">
 
                         <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="+5000 credits for fist purchase"
-                            app:textFont="semi"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="?colorTertiary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="?colorAccent"
+                            android:textSize="@dimen/_10ssp"
+                            app:textFont="semi" />
 
                         <com.basic.common.widget.LsTextView
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:textSize="@dimen/_12ssp"
-                            android:visibility="gone"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:text="Credits"
                             android:textColor="?android:textColorPrimary"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="@dimen/_10ssp"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <com.basic.common.widget.LsTextView
-                    android:text="$99.99"
-                    android:textSize="@dimen/_15ssp"
-                    app:textFont="semi"
-                    android:textColor="?android:textColorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="$99.99"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:textFont="semi" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -158,24 +496,25 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/rec_gradient">
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:text="Continue"
                         android:textColor="?colorOnPrimary"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_15ssp"
                         app:textFont="semi" />
 
                     <com.basic.common.widget.LsTextView
@@ -193,27 +532,37 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewPremium"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/_15sdp"
             app:cardBackgroundColor="?colorAccent"
-            android:layout_height="wrap_content">
+            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardElevation="@dimen/_3sdp">
 
             <LinearLayout
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingTop="@dimen/_3sdp"
-                android:paddingBottom="@dimen/_3sdp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_gradient"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_3sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_tags"
+                    app:tint="?colorOnPrimary" />
 
                 <com.basic.common.widget.LsTextView
-                    android:textSize="@dimen/_10ssp"
-                    android:textColor="?colorOnPrimary"
-                    android:text="Get extra credits discount with subscription"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Get extra credits discount with subscription"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_10ssp" />
 
             </LinearLayout>
 
@@ -221,59 +570,59 @@
 
         <LinearLayout
             android:id="@+id/viewPrice"
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.basic.common.widget.LsTextView
-                android:text="Why it's paid?"
-                android:textColor="?android:textColorPrimary"
-                app:textFont="semi"
-                android:textSize="@dimen/_15ssp"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_height="wrap_content"/>
+            android:orientation="vertical">
 
             <com.basic.common.widget.LsTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Why it's paid?"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:textFont="semi" />
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_gravity="center_vertical"
-                android:text="• Batch production will launch a separate server resource to produce batch pictures at a super fast speed. It's expensive, but we made it as affordable as possible"
+                android:text="• Batch production will launch a dedicated server resource to mass produce images at lightning speed. It's quite expensive, but we've made it as affordable as possible and the resulting image quality is excellent."
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_10ssp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/viewLoading"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:background="#80000000"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:visibility="gone"-->
-<!--        tools:visibility="visible">-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/viewLoading"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="#80000000"-->
+    <!--        android:clickable="true"-->
+    <!--        android:focusable="true"-->
+    <!--        android:visibility="gone"-->
+    <!--        tools:visibility="visible">-->
 
-<!--        <com.airbnb.lottie.LottieAnimationView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintDimensionRatio="1:1"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintWidth_percent="0.3"-->
-<!--            app:lottie_autoPlay="true"-->
-<!--            app:lottie_loop="true"-->
-<!--            app:lottie_rawRes="@raw/art_generate_lottie" />-->
+    <!--        <com.airbnb.lottie.LottieAnimationView-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintDimensionRatio="1:1"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:layout_constraintWidth_percent="0.3"-->
+    <!--            app:lottie_autoPlay="true"-->
+    <!--            app:lottie_loop="true"-->
+    <!--            app:lottie_rawRes="@raw/art_generate_lottie" />-->
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

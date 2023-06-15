@@ -42,6 +42,11 @@ class Constraint {
             const val SKU_WEEK_3D_TRIAl = "buy_week_3d_trial"
             const val SKU_MONTH = "buy_month"
             const val SKU_YEAR = "buy_year"
+
+            const val SKU_CREDIT_500 = "buy_lifetime"
+            const val SKU_CREDIT_1000 = "buy_week"
+            const val SKU_CREDIT_3000 = "buy_week_3d_trial"
+            const val SKU_CREDIT_5000 = "buy_month"
         }
 
     }

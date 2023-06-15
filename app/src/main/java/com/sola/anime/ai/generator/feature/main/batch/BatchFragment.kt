@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
@@ -105,8 +106,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun updateUiCredit(){
-        val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number }
-        val creditForRatio = 5f
+        val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number + if (BuildConfig.DEBUG) 0 else if (it.isFullHd) 5 else 0 }
+        val creditForRatio = 0f
         val creditFor1Image = 15f
         val discount = 0.2f
 
