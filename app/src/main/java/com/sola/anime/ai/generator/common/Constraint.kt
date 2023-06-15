@@ -43,10 +43,10 @@ class Constraint {
             const val SKU_MONTH = "buy_month"
             const val SKU_YEAR = "buy_year"
 
-            const val SKU_CREDIT_500 = "buy_lifetime"
-            const val SKU_CREDIT_1000 = "buy_week"
-            const val SKU_CREDIT_3000 = "buy_week_3d_trial"
-            const val SKU_CREDIT_5000 = "buy_month"
+            const val SKU_CREDIT_1000 = "buy_credit_1000"
+            const val SKU_CREDIT_3000 = "buy_credit_3000"
+            const val SKU_CREDIT_5000 = "buy_credit_5000"
+            const val SKU_CREDIT_10000 = "buy_credit_10000"
         }
 
     }

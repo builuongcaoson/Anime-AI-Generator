@@ -18,7 +18,9 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
         data = listOf(
             PreviewCategoryBatch(display = "Anime V5", preview = R.drawable.preview_model_anime_v5),
             PreviewCategoryBatch(display = "Anime V4", preview = R.drawable.preview_model_anime_v4),
-            PreviewCategoryBatch(display = "Anime V3", preview = R.drawable.preview_model_anime_v3)
+            PreviewCategoryBatch(display = "Anime V3", preview = R.drawable.preview_model_anime_v3),
+            PreviewCategoryBatch(display = "Waifu V4", preview = R.drawable.preview_model_waifu_v4),
+            PreviewCategoryBatch(display = "Waifu V3", preview = R.drawable.preview_model_waifu_v3),
         )
     }
 

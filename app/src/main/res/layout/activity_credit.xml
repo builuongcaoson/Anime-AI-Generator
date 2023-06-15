@@ -63,6 +63,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view4"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_10sdp"
@@ -153,10 +154,11 @@
                 </LinearLayout>
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/price4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:text="$9.99"
+                    android:text="$0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -169,6 +171,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_10sdp"
@@ -258,10 +261,11 @@
                 </LinearLayout>
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/price3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:text="$29.99"
+                    android:text="$0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -274,6 +278,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_10sdp"
@@ -363,10 +368,11 @@
                 </LinearLayout>
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/price2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:text="$49.99"
+                    android:text="$0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -379,6 +385,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_10sdp"
@@ -468,10 +475,11 @@
                 </LinearLayout>
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/price1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_15sdp"
-                    android:text="$99.99"
+                    android:text="$0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -600,29 +608,29 @@
 
     </LinearLayout>
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/viewLoading"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:background="#80000000"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        android:visibility="gone"-->
-    <!--        tools:visibility="visible">-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    <!--        <com.airbnb.lottie.LottieAnimationView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="0dp"-->
-    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--            app:layout_constraintDimensionRatio="1:1"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent"-->
-    <!--            app:layout_constraintWidth_percent="0.3"-->
-    <!--            app:lottie_autoPlay="true"-->
-    <!--            app:lottie_loop="true"-->
-    <!--            app:lottie_rawRes="@raw/art_generate_lottie" />-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/art_generate_lottie" />
 
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

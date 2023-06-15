@@ -15,7 +15,7 @@ class CategoryAdapter @Inject constructor(): LsAdapter<CategoryBatch, ItemCatego
     init {
         data = listOf(
             CategoryBatch(display = "Models"),
-            CategoryBatch(display = "Characters")
+//            CategoryBatch(display = "Characters")
         )
     }
 

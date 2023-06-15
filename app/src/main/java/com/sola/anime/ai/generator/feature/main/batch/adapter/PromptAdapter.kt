@@ -30,6 +30,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
     val deleteClicks: Subject<Int> = PublishSubject.create()
     val numberOfImagesChanges: Subject<Pair<NumberOfImages, Int>> = PublishSubject.create()
+    val fullHdChanges: Subject<Unit> = PublishSubject.create()
 
     private val sparseNegatives = SparseBooleanArray()
     private val sparseNumbers = SparseBooleanArray()
@@ -59,7 +60,11 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         binding.minusSampler.clicks { minusOrPlusSampler(binding, item, true) }
         binding.plusSampler.clicks { minusOrPlusSampler(binding, item, false) }
 //        binding.switchFullHd.setOnSwitchCheckedChangeListener { isChecked -> item.isFullHd = isChecked }
-        binding.viewClicksFullHd.clicks(withAnim = false) { toggleFullHd(binding, item) }
+        binding.viewClicksFullHd.clicks(withAnim = false) {
+            toggleFullHd(binding, item)
+
+            fullHdChanges.onNext(Unit)
+        }
     }
 
     private fun toggleFullHd(binding: ItemPromptBatchBinding, item: PromptBatch) {
