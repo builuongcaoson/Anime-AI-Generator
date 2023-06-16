@@ -15,7 +15,7 @@ class Constraint {
 
             const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
 
-            const val DATA_VERSION = 3
+            const val DATA_VERSION = 4
         }
     }
 

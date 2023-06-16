@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.main.batch
 
 import android.graphics.Paint
 import android.os.Build
+import android.util.Log
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -83,7 +84,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
 
                 initDezgoBodyTextsToImages(
-                    maxGroupId = index,
+                    groupId = index.toLong(),
                     maxChildId = item.numberOfImages.number - 1,
                     prompt = prompt,
                     negativePrompt = negativePrompt,
@@ -94,9 +95,11 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     upscale = if (item.isFullHd) "2" else "1",
                     styleId = -1,
                     ratio = item.ratio,
-                    seed = null
+                    seed = null,
+                    type = 1
                 )
             }
+
             configApp.dezgoBodiesTextsToImages = dezgoBodies
 
             activity?.startBatchProcessing()

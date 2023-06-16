@@ -120,7 +120,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         val task = {
             configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                maxGroupId = 0,
+                groupId = 0,
                 maxChildId = 0,
                 prompt = history.prompt,
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
@@ -128,12 +128,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
                 model = history.childs.firstOrNull()?.model ?: "anything_4_0",
                 sampler = history.childs.firstOrNull()?.sampler ?: "euler_a",
-                upscale = "1",
+                upscale = history.childs.firstOrNull()?.upscale ?: "1",
                 styleId = history.styleId,
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
                 } ?: Ratio.Ratio1x1,
-                seed = null
+                seed = null,
+                type = history.childs.firstOrNull()?.type ?: 0
             )
 
             startArtProcessing()
@@ -229,6 +230,9 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private fun initObservable() {
         subjectPageChanges
+            .debounce(100, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
                 previewAdapter.childHistory = it
@@ -263,7 +267,14 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
             }
+    }
 
+    override fun onResume() {
+        initPremiumObservable()
+        super.onResume()
+    }
+
+    private fun initPremiumObservable() {
         Observable
             .interval(1, TimeUnit.SECONDS)
             .filter { prefs.isUpgraded.get() }
@@ -295,7 +306,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             this.adapter = pagePreviewAdapter
         }
         binding.recyclerPreview.apply {
-            this.layoutManager = LinearLayoutManager(this@ArtResultActivity, LinearLayoutManager.HORIZONTAL, false)
+            this.itemAnimator = null
             this.adapter = previewAdapter
         }
         binding.textPrompt.movementMethod = ScrollingMovementMethod()

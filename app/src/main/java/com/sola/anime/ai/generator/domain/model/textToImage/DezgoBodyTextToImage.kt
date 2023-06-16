@@ -32,6 +32,7 @@ data class BodyTextToImage(
     val seed: String?
 ) {
     var styleId: Long = -1L
+    var type: Int = 0 // 0: Artwork, 1: Batch, 2: Avatar
 }
 
 @Keep

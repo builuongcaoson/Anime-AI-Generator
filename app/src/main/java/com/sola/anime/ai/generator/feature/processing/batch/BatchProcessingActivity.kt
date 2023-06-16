@@ -70,6 +70,21 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             }
         }
 
+//        dezgoStatusTextsToImages = configApp
+//            .dezgoBodiesTextsToImages
+//            .flatMap { dezgo ->
+//                dezgo
+//                    .bodies
+//                    .map { body ->
+//                        DezgoStatusTextToImage(
+//                            body = body,
+//                            status = StatusBodyTextToImage.Loading
+//                        )
+//                    }
+//            }
+//
+//        previewAdapter.data = dezgoStatusTextsToImages
+
         generate()
     }
 

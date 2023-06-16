@@ -32,7 +32,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var folderDao: FolderDao
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var historyRepo: HistoryRepository
+//    @Inject lateinit var historyRepo: HistoryRepository
 
     private val addFolderSheet by lazy { AddFolderSheet() }
 
@@ -76,12 +76,13 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
 
     private fun initData() {
         historyDao.getAllLive().observe(viewLifecycleOwner){ histories ->
-            val historiesNotHadPremium = histories.filter { history -> history.childs.any { !it.isPremium } }
+            val historiesNotHadPremium = histories.filter { history -> history.childs.any { !it.isPremium && it.type == 0 } }
 
             binding.textCount.text = "${historiesNotHadPremium.sumOf { history -> history.childs.filter { !it.isPremium }.size }}/20"
 
             historyAdapter.data = historiesNotHadPremium
         }
+
         folderDao.getAllLive().observe(viewLifecycleOwner){ folders ->
             if (folders.isEmpty()){
                 return@observe

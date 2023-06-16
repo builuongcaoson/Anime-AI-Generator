@@ -166,7 +166,14 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                     isUpgraded && !prefs.isShowedWaringPremiumDialog.get() -> warningPremiumDialog.show(this)
                 }
             }
+    }
 
+    override fun onResume() {
+        initPremiumObservable()
+        super.onResume()
+    }
+
+    private fun initPremiumObservable() {
         Observable
             .interval(1, TimeUnit.SECONDS)
             .filter { prefs.isUpgraded.get() }

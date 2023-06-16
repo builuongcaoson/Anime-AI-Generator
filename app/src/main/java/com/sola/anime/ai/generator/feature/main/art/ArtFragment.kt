@@ -283,7 +283,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         val task = {
             configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                maxGroupId = 0,
+                groupId = 0,
                 maxChildId = 0,
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
@@ -294,7 +294,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 upscale = "2",
                 styleId = configApp.styleChoice?.id ?: -1,
                 ratio = aspectRatioAdapter.ratio,
-                seed = null
+                seed = null,
+                type = 0
             )
 
             activity?.startArtProcessing()

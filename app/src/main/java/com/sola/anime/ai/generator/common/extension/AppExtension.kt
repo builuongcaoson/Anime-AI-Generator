@@ -31,11 +31,12 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory{
         seed = this.seed
     ).apply {
         this.styleId = this@toChildHistory.styleId
+        this.type = this@toChildHistory.type
     }
 }
 
 fun initDezgoBodyTextsToImages(
-    maxGroupId: Int = 0,
+    groupId: Long = 0,
     maxChildId: Int = 0,
     prompt: String,
     negativePrompt: String,
@@ -46,30 +47,30 @@ fun initDezgoBodyTextsToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long?
+    seed: Long?,
+    type: Int,
 ): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()
-    (0..maxGroupId).forEach { id ->
-        datas.add(
-            DezgoBodyTextToImage(
-                id = id.toLong(),
-                bodies = initBodyTextsToImages(
-                    groupId = id.toLong(),
-                    maxChildId = maxChildId,
-                    prompt = prompt,
-                    negativePrompt = negativePrompt,
-                    guidance = guidance,
-                    steps = steps,
-                    model = model,
-                    sampler = sampler,
-                    upscale = upscale,
-                    styleId = styleId,
-                    ratio = ratio,
-                    seed = seed
-                )
+    datas.add(
+        DezgoBodyTextToImage(
+            id = groupId,
+            bodies = initBodyTextsToImages(
+                groupId = groupId,
+                maxChildId = maxChildId,
+                prompt = prompt,
+                negativePrompt = negativePrompt,
+                guidance = guidance,
+                steps = steps,
+                model = model,
+                sampler = sampler,
+                upscale = upscale,
+                styleId = styleId,
+                ratio = ratio,
+                seed = seed,
+                type = type
             )
         )
-    }
+    )
     return datas
 }
 
@@ -85,7 +86,8 @@ fun initBodyTextsToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long?
+    seed: Long?,
+    type: Int
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
@@ -105,6 +107,7 @@ fun initBodyTextsToImages(
                 seed = seed?.toString()
             ).apply {
                 this.styleId = styleId
+                this.type = type
             }
         )
     }
