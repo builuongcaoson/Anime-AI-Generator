@@ -154,6 +154,20 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             }
 
         prefs
+            .isPurchasedCredit
+            .asObservable()
+            .filter { isPurchasedCredit -> isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded.get() }
+            .delay(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isPurchasedCredit ->
+                when {
+                    isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded.get() -> warningPremiumDialog.show(this)
+                }
+            }
+
+        prefs
             .isUpgraded
             .asObservable()
             .filter { isUpgraded -> isUpgraded && !prefs.isShowedWaringPremiumDialog.get() }

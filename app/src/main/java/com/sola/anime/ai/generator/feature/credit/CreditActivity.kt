@@ -148,6 +148,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
                 prefs.isShowedWaringPremiumDialog.delete()
                 prefs.isSyncUserPurchased.set(true)
+                prefs.isPurchasedCredit.set(true)
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
             },
             onError = { _, _ ->

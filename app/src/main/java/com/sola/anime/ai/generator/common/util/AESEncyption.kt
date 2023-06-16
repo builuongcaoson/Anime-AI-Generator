@@ -1,12 +1,14 @@
 package com.sola.anime.ai.generator.common.util
 
 import android.util.Base64
+import androidx.annotation.Keep
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
+@Keep
 object AESEncyption {
 
     private const val secretKey = "tK5UTui+DPh8lIlBxya5XVsmeDCoUl6vHhdIESMB6sQ="
