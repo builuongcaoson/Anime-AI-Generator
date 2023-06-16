@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
@@ -30,6 +31,7 @@ import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.processing.batch.adapter.PreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -85,6 +87,15 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 //
 //        previewAdapter.data = dezgoStatusTextsToImages
 
+//        lifecycleScope.launch {
+//            repeat(10){
+//                lifecycleScope.launch {
+//                    delay(3000)
+//                    prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
+//                }
+//            }
+//        }
+
         generate()
     }
 
@@ -121,7 +132,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - configApp.discountCredit / dezgoStatusTextsToImages.size)
+                                prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp
@@ -235,19 +246,24 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
         }
         binding.recyclerView.apply {
             this.itemAnimator = null
+            this.layoutManager = object: StaggeredGridLayoutManager(2, VERTICAL){
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
             this.adapter = previewAdapter
         }
     }
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
-
-                binding.viewShadow.alpha = alpha
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+//                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+//
+//                binding.viewShadow.alpha = alpha
+//            }
+//        }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
