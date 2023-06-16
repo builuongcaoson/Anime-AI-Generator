@@ -288,7 +288,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
+                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
                 model = "anything_4_0",
                 sampler = "euler_a",
                 upscale = "2",

@@ -55,20 +55,25 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 else -> body.negativePrompt
                             }
 
-                            val response = dezgoApi.text2image(
-                                prompt = prompt.toRequestBody(MultipartBody.FORM),
-                                negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-                                guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-                                sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                model = body.model.toRequestBody(MultipartBody.FORM),
-                                width = body.width.toRequestBody(MultipartBody.FORM),
-                                height = body.height.toRequestBody(MultipartBody.FORM),
-                                seed = body.seed?.toRequestBody(MultipartBody.FORM)
-                            )
+                            try {
+                                val response = dezgoApi.text2image(
+                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                    model = body.model.toRequestBody(MultipartBody.FORM),
+                                    width = body.width.toRequestBody(MultipartBody.FORM),
+                                    height = body.height.toRequestBody(MultipartBody.FORM),
+                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
+                                )
 
-                            ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
+                                ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
+                            } catch (e: Exception){
+                                e.printStackTrace()
+                                ResponseTextToImage(groupId = body.groupId, childId = body.id)
+                            }
                         }
                     }.map {
                         val responseTextToImage = it.await()
