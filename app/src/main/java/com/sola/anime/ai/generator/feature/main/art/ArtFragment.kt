@@ -70,9 +70,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val advancedSheet by lazy { AdvancedSheet() }
 
     override fun onViewCreated() {
-        Timber.tag("Main11111").e("Credits: ${prefs.creditsTest.get()}")
-        Timber.tag("Main11111").e("Status bar height: ${activity?.getStatusBarHeight()}")
-
         initView()
         initData()
         listenerView()
@@ -182,9 +179,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         index != activeCardPosition -> tryOrNull { binding.recyclerPreview.smoothScrollToPosition(index) }
                         else -> activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
                     }
-
-                    prefs.creditsTest.set(prefs.creditsTest.get() + 100f)
-                    Timber.e("Credits: ${prefs.creditsTest.get()}")
                 }
             }
 
@@ -294,7 +288,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
+                steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
+                model = "anything_4_0",
+                sampler = "euler_a",
+                upscale = "2",
                 styleId = configApp.styleChoice?.id ?: -1,
                 ratio = aspectRatioAdapter.ratio,
                 seed = (0..4294967295).random()

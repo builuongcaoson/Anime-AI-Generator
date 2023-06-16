@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
@@ -40,6 +41,9 @@ fun initDezgoBodyTextsToImages(
     negativePrompt: String,
     guidance: String,
     steps: String,
+    model: String,
+    sampler: String,
+    upscale: String,
     styleId: Long,
     ratio: Ratio,
     seed: Long
@@ -56,6 +60,9 @@ fun initDezgoBodyTextsToImages(
                     negativePrompt = negativePrompt,
                     guidance = guidance,
                     steps = steps,
+                    model = model,
+                    sampler = sampler,
+                    upscale = upscale,
                     styleId = styleId,
                     ratio = ratio,
                     seed = seed
@@ -73,6 +80,9 @@ fun initBodyTextsToImages(
     negativePrompt: String,
     guidance: String,
     steps: String,
+    model: String,
+    sampler: String,
+    upscale: String,
     styleId: Long,
     ratio: Ratio,
     seed: Long
@@ -87,6 +97,9 @@ fun initBodyTextsToImages(
                 negativePrompt = negativePrompt,
                 guidance = guidance,
                 steps = steps,
+                model = model,
+                sampler = sampler,
+                upscale = upscale,
                 width = ratio.width,
                 height = ratio.height,
                 seed = seed.toString()

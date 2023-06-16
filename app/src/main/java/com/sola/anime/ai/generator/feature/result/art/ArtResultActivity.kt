@@ -11,6 +11,7 @@ import com.basic.common.extension.clicks
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -124,7 +125,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 prompt = history.prompt,
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
-                steps = if (!prefs.isUpgraded.get()) "40" else "50",
+                steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
+                model = history.childs.firstOrNull()?.model ?: "anything_4_0",
+                sampler = history.childs.firstOrNull()?.sampler ?: "euler_a",
+                upscale = "1",
                 styleId = history.styleId,
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")

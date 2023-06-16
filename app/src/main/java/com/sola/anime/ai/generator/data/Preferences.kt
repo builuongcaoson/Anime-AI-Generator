@@ -35,5 +35,6 @@ class Preferences @Inject constructor(
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
     val totalNumberCreatedArtwork = rxPrefs.getLong("totalNumberCreatedArtwork", 0)
     val latestTimeCreatedArtwork = rxPrefs.getLong("latestTimeCreatedArt", -1)
-    val creditsTest = rxPrefs.getFloat("creditsTest", -1f)
+    val credits = rxPrefs.getFloat("credits", 0f)
+    val isFirstPurchaseCredits10000 = rxPrefs.getBoolean("isFirstPurchaseCredits10000", false)
 }

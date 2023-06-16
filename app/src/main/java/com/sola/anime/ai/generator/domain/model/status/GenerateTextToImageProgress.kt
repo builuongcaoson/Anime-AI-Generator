@@ -1,6 +1,6 @@
 package com.sola.anime.ai.generator.domain.model.status
 
-import android.graphics.Bitmap
+import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import java.io.File
 
 sealed class GenerateTextsToImagesProgress(val isLoading: Boolean = false) {
@@ -13,13 +13,11 @@ sealed class GenerateTextsToImagesProgress(val isLoading: Boolean = false) {
 }
 
 data class DezgoStatusTextToImage(
-    val id: Long,
-    val groupId: Long,
+    val body: BodyTextToImage,
     var status: StatusBodyTextToImage
 )
 
-sealed class StatusBodyTextToImage{
-    object Idle: StatusBodyTextToImage()
+sealed class StatusBodyTextToImage {
     object Loading: StatusBodyTextToImage()
     data class Success(val file: File): StatusBodyTextToImage()
     data class Failure(val error: String? = null): StatusBodyTextToImage()

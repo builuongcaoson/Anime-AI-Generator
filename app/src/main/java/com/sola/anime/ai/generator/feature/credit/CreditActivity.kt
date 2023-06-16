@@ -16,18 +16,15 @@ import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.revenuecat.purchases.purchaseWith
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.extension.animateHorizontalShake
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
-import com.sola.anime.ai.generator.common.ui.dialog.FeatureDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.IAPDao
 import com.sola.anime.ai.generator.databinding.ActivityCreditBinding
 import com.sola.anime.ai.generator.databinding.ItemPreviewCreditBinding
-import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,9 +46,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     }
 
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var featureDialog: FeatureDialog
     @Inject lateinit var networkDialog: NetworkDialog
-    @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var previewAdapter: PreviewAdapter
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
@@ -102,10 +97,10 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private fun updateUIPrice() {
         products.forEach {
             when {
-                it.id.contains(Constraint.Iap.SKU_CREDIT_1000) -> binding.price4.text = it.price.formatted
-                it.id.contains(Constraint.Iap.SKU_CREDIT_3000) -> binding.price3.text = it.price.formatted
-                it.id.contains(Constraint.Iap.SKU_CREDIT_5000) -> binding.price2.text = it.price.formatted
-                it.id.contains(Constraint.Iap.SKU_CREDIT_10000) -> binding.price1.text = it.price.formatted
+                it.id == Constraint.Iap.SKU_CREDIT_1000 -> binding.price4.text = it.price.formatted
+                it.id == Constraint.Iap.SKU_CREDIT_3000 -> binding.price3.text = it.price.formatted
+                it.id == Constraint.Iap.SKU_CREDIT_5000 -> binding.price2.text = it.price.formatted
+                it.id == Constraint.Iap.SKU_CREDIT_10000 -> binding.price1.text = it.price.formatted
             }
         }
     }
@@ -118,7 +113,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 initData()
             }
             else -> {
-                products.find { it.id.contains(subjectSkuChoice.blockingFirst()) }?.let { product ->
+                products.find { it.id == subjectSkuChoice.blockingFirst() }?.let { product ->
                     purchaseProduct(product)
                 } ?: run {
                     makeToast("Something wrong, please try again!")
@@ -132,30 +127,28 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
-            onSuccess = { purchase, customerInfo ->
+            onSuccess = { purchase, _ ->
                 if (purchase == null) {
                     return@purchaseWith
                 }
 
                 binding.viewLoading.isVisible = false
 
-                val timeExpiredWithPremium = customerInfo
-                    .latestExpirationDate
-                    ?.takeIf { it.time > System.currentTimeMillis() }?.time ?: 0
-
-                val timeExpired = when {
-                    item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
-                    item.id.contains(Constraint.Iap.SKU_WEEK) -> timeExpiredWithPremium
-                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpiredWithPremium
-                    item.id.contains(Constraint.Iap.SKU_MONTH) -> timeExpiredWithPremium
-                    item.id.contains(Constraint.Iap.SKU_YEAR) -> timeExpiredWithPremium
-                    else -> -3L
+                val creditsReceived = when (item.id) {
+                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
+                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3450 else 3150
+                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
+                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded.get()) 12000 else 11000
+                    else -> 0
                 }
 
-                prefs.timeExpiredPremium.set(timeExpired)
+                if (item.id == Constraint.Iap.SKU_CREDIT_10000){
+                    prefs.isFirstPurchaseCredits10000.set(false)
+                }
+
                 prefs.isShowedWaringPremiumDialog.delete()
                 prefs.isSyncUserPurchased.set(true)
-                prefs.isUpgraded.set(true)
+                prefs.credits.set(prefs.credits.get() + creditsReceived)
             },
             onError = { _, _ ->
                 binding.viewLoading.isVisible = false
@@ -165,7 +158,22 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     override fun onResume() {
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
         initPreviewView()
+        initShakingPremiumView()
         super.onResume()
+    }
+
+    private fun initShakingPremiumView() {
+        Observable
+            .interval(3, TimeUnit.SECONDS)
+            .filter { !prefs.isUpgraded.get() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewPremium.apply {
+                    this.animateHorizontalShake(50f, repeatCount = 4, duration = 1000L)
+                }
+            }
     }
 
     private fun initPreviewView() {
@@ -245,6 +253,17 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                         binding.checkbox1.setImageResource(R.drawable.circle)
                     }
                 }
+            }
+
+        prefs
+            .isFirstPurchaseCredits10000
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isFirst ->
+                binding.firstPurchase1.isVisible = isFirst
+                binding.description1.isVisible = !isFirst
             }
         
         prefs
