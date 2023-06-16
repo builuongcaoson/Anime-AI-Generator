@@ -39,7 +39,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-
 @AndroidEntryPoint
 class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inflate) {
 
@@ -95,7 +94,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     upscale = if (item.isFullHd) "2" else "1",
                     styleId = -1,
                     ratio = item.ratio,
-                    seed = (0..4294967294).random()
+                    seed = null
                 )
             }
             configApp.dezgoBodiesTextsToImages = dezgoBodies
@@ -105,8 +104,10 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         activity?.let { activity ->
             when {
-                activity.isNetworkAvailable() -> networkDialog.show(activity) { }
-                configApp.discountCredit > prefs.credits.get().roundToInt() -> activity.startCredit()
+                !activity.isNetworkAvailable() -> networkDialog.show(activity) {
+                    networkDialog.dismiss()
+                }
+                configApp.discountCredit > prefs.getCredits().roundToInt() -> activity.startCredit()
                 else -> task()
             }
         }
@@ -169,8 +170,9 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             }
 
         prefs
-            .credits
+            .creditsChanges
             .asObservable()
+            .map { prefs.getCredits() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())

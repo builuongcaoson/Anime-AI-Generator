@@ -46,7 +46,7 @@ fun initDezgoBodyTextsToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long
+    seed: Long?
 ): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()
     (0..maxGroupId).forEach { id ->
@@ -85,7 +85,7 @@ fun initBodyTextsToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
-    seed: Long
+    seed: Long?
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
@@ -102,7 +102,7 @@ fun initBodyTextsToImages(
                 upscale = upscale,
                 width = ratio.width,
                 height = ratio.height,
-                seed = seed.toString()
+                seed = seed?.toString()
             ).apply {
                 this.styleId = styleId
             }

@@ -21,7 +21,7 @@ interface DezgoApi {
         @Part("model") model: RequestBody,
         @Part("width") width: RequestBody,
         @Part("height") height: RequestBody,
-        @Part("seed") seed: RequestBody
+        @Part("seed") seed: RequestBody?
     ): ResponseBody
 
     @Multipart
@@ -35,7 +35,7 @@ interface DezgoApi {
         @Part("sampler") sampler: RequestBody,
         @Part("steps") steps: RequestBody,
         @Part("model") model: RequestBody,
-        @Part("seed") seed: RequestBody,
+        @Part("seed") seed: RequestBody?,
         @Part("strength") strength: RequestBody,
         @Part file: MultipartBody.Part
     ): ResponseBody

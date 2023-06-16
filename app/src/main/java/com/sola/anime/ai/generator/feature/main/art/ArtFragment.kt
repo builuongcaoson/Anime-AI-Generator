@@ -294,7 +294,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 upscale = "2",
                 styleId = configApp.styleChoice?.id ?: -1,
                 ratio = aspectRatioAdapter.ratio,
-                seed = (0..4294967295).random()
+                seed = null
             )
 
             activity?.startArtProcessing()

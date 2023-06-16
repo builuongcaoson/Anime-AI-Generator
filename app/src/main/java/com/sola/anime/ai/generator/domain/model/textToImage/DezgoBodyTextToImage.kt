@@ -29,7 +29,7 @@ data class BodyTextToImage(
     val model: String,
     val width: String,
     val height: String,
-    val seed: String
+    val seed: String?
 ) {
     var styleId: Long = -1L
 }
@@ -46,7 +46,7 @@ data class BodyImageToImage(
     val sampler: String,
     val steps: String,
     val model: String,
-    val seed: String,
+    val seed: String?,
     val strength: String
 ) {
     var styleId: Long = -1L

@@ -9,6 +9,7 @@ import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
@@ -251,7 +252,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        finish()
+        back()
     }
 
 }

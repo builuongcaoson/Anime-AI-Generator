@@ -65,7 +65,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 model = body.model.toRequestBody(MultipartBody.FORM),
                                 width = body.width.toRequestBody(MultipartBody.FORM),
                                 height = body.height.toRequestBody(MultipartBody.FORM),
-                                seed = body.seed.toRequestBody(MultipartBody.FORM)
+                                seed = body.seed?.toRequestBody(MultipartBody.FORM)
                             )
 
                             ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)

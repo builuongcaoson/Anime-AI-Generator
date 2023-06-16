@@ -1,18 +1,25 @@
 package com.sola.anime.ai.generator.feature.processing.batch
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
@@ -36,6 +43,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
+    @Inject lateinit var prefs: Preferences
 
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var isSuccessAll = false
@@ -98,6 +106,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                                prefs.setCredits(prefs.getCredits() - configApp.discountCredit / dezgoStatusTextsToImages.size)
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp
@@ -124,12 +133,10 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                                 Timber.e("DONE")
 
                                 launch {
-                                    val historyIds = deferredHistoryIds.mapNotNull { it }
+//                                    val historyIds = deferredHistoryIds.mapNotNull { it }
 
                                     launch(Dispatchers.Main) {
-                                        runOnUiThread {
-                                            previewAdapter.notifyDataSetChanged()
-                                        }
+                                        previewAdapter.notifyDataSetChanged()
 //                                    when {
 //                                        dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
 //                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
@@ -166,7 +173,9 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->
-                previewAdapter.notifyItemChanged(index)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    previewAdapter.notifyItemChanged(index)
+                }
             }
     }
 
@@ -180,7 +189,9 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->
-                previewAdapter.notifyItemChanged(index)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    previewAdapter.notifyItemChanged(index)
+                }
             }
     }
 
@@ -194,11 +205,19 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->
-                previewAdapter.notifyItemChanged(index)
+                lifecycleScope.launch(Dispatchers.Main) {
+                    previewAdapter.notifyItemChanged(index)
+                }
             }
     }
 
     private fun initView() {
+        binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            this.topMargin = when(val statusBarHeight = getStatusBarHeight()) {
+                0 -> getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                else -> statusBarHeight
+            }
+        }
         binding.recyclerView.apply {
             this.itemAnimator = null
             this.adapter = previewAdapter
@@ -207,6 +226,13 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+
+                binding.viewShadow.alpha = alpha
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
@@ -218,14 +244,14 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                         title(text = "Processing")
                         message(text = "Do you want to cancel the image creation process in progress?")
                         positiveButton(text = "Yes") {
-                            finish()
+                            back()
                         }
                         negativeButton(text = "No") { dialog ->
                             dialog.dismiss()
                         }
                 }
             }
-            else -> finish()
+            else -> back()
         }
     }
 

@@ -133,7 +133,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 ratio = Ratio.values().firstOrNull {
                     it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
                 } ?: Ratio.Ratio1x1,
-                seed = (0..4294967295).random()
+                seed = null
             )
 
             startArtProcessing()

@@ -15,7 +15,7 @@ data class PromptBatch(
     var ratio: Ratio = Ratio.Ratio1x1,
     var guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5
     var step: Int = 45, // Min 30 Max 60 Step 5
-    var sampler: Sampler = Sampler.Random,
+    var sampler: Sampler = Sampler.EulerA,
     var isFullHd: Boolean = false
 )
 
