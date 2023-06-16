@@ -25,18 +25,9 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
     }
 
     val clicks: Subject<PreviewCategoryBatch> = PublishSubject.create()
-    var category: PreviewCategoryBatch? = data.firstOrNull()
+    var category: PreviewCategoryBatch = data.firstOrNull() ?: PreviewCategoryBatch(display = "Anime V5", preview = R.drawable.preview_model_anime_v5, modelId = "anything_5_0")
         set(value) {
             if (field == value){
-                return
-            }
-
-            if (value == null){
-                val oldIndex = data.indexOf(field)
-
-                field = null
-
-                notifyItemChanged(oldIndex)
                 return
             }
 
@@ -54,7 +45,7 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
         val context = binding.root.context
 
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item.display == category?.display
+        binding.viewSelected.isVisible = item.display == category.display
 
         Glide
             .with(context)

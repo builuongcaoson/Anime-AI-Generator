@@ -33,6 +33,7 @@ class ConfigApp @Inject constructor(
 
     // Art & Batch
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
+    var discountCredit: Int = 10 // For tab batch
 
     // RxJava
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)

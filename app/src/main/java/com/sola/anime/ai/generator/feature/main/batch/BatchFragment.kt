@@ -10,11 +10,25 @@ import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.makeToast
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
+import com.sola.anime.ai.generator.common.extension.initDezgoBodyTextsToImages
+import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
+import com.sola.anime.ai.generator.common.extension.startArtProcessing
+import com.sola.anime.ai.generator.common.extension.startBatchProcessing
 import com.sola.anime.ai.generator.common.extension.startCredit
+import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.model.PromptBatch
+import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PreviewCategoryAdapter
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
@@ -35,6 +49,10 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     @Inject lateinit var categoryAdapter: CategoryAdapter
     @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
+    @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var prefs: Preferences
+    @Inject lateinit var networkDialog: NetworkDialog
 
     override fun onViewCreated() {
         initView()
@@ -55,6 +73,42 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
         binding.textSeeAll.clicks(withAnim = true) {  }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
+        binding.cardGenerate.clicks { generateClicks() }
+    }
+
+    private fun generateClicks() {
+        val task = {
+            val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
+                val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
+                val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
+
+                initDezgoBodyTextsToImages(
+                    maxGroupId = index,
+                    maxChildId = item.numberOfImages.number - 1,
+                    prompt = prompt,
+                    negativePrompt = negativePrompt,
+                    guidance = item.guidance.toString(),
+                    steps = item.step.toString(),
+                    model = previewCategoryAdapter.category.modelId,
+                    sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
+                    upscale = if (item.isFullHd) "2" else "1",
+                    styleId = -1,
+                    ratio = item.ratio,
+                    seed = (0..4294967294).random()
+                )
+            }
+            configApp.dezgoBodiesTextsToImages = dezgoBodies
+
+            activity?.startBatchProcessing()
+        }
+
+        activity?.let { activity ->
+            when {
+                activity.isNetworkAvailable() -> networkDialog.show(activity) { }
+                configApp.discountCredit > prefs.credits.get() -> activity.startCredit()
+                else -> task()
+            }
+        }
     }
 
     private fun plusPrompt() {
@@ -120,14 +174,14 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         val creditFor1Image = 10f
         val discount = 0.2f
 
-        val discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
+        configApp.discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
         val totalCredit = ((creditNumbers * (creditForRatio + creditFor1Image))).roundToInt()
 
-        binding.discountCredit.text = discountCredit.toString()
+        binding.discountCredit.text = configApp.discountCredit.toString()
         binding.totalCredit.apply {
             text = totalCredit.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = discountCredit != totalCredit
+            isVisible = configApp.discountCredit != totalCredit
         }
         binding.timeGenerate.text = "About ${((promptAdapter.data.sumOf { it.numberOfImages.number } / 10) + 1)} minute"
     }

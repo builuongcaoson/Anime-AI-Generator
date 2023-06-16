@@ -9,7 +9,8 @@ data class CategoryBatch(val display: String)
 data class PreviewCategoryBatch(val display: String, val preview: Int, val modelId: String, val isPremium: Boolean = false)
 
 data class PromptBatch(
-    val prompt: String = "",
+    var prompt: String = "",
+    var negativePrompt: String = "",
     var numberOfImages: NumberOfImages = NumberOfImages.NumberOfImages1,
     var ratio: Ratio = Ratio.Ratio1x1,
     var guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5

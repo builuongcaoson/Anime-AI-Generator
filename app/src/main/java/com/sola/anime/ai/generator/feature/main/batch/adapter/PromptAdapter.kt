@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.SparseBooleanArray
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.GridLayoutManager
+import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
@@ -53,13 +55,14 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         binding.viewDropDimensions.clicks { dropDimensionsClicks(binding, position) }
         binding.viewDropAdvanced.clicks { dropAdvancedClicks(binding, position) }
 
+        binding.prompt.textChanged { edit -> item.prompt = edit.trim().takeIf { edit.isNotEmpty() }?.toString() ?: "" }
+        binding.negative.textChanged { edit -> item.negativePrompt = edit.trim().takeIf { edit.isNotEmpty() }?.toString() ?: "" }
         binding.minusGuidance.clicks { minusOrPlusGuidance(binding, item, true) }
         binding.plusGuidance.clicks { minusOrPlusGuidance(binding, item, false) }
         binding.minusStep.clicks { minusOrPlusStep(binding, item, true) }
         binding.plusStep.clicks { minusOrPlusStep(binding, item, false) }
         binding.minusSampler.clicks { minusOrPlusSampler(binding, item, true) }
         binding.plusSampler.clicks { minusOrPlusSampler(binding, item, false) }
-//        binding.switchFullHd.setOnSwitchCheckedChangeListener { isChecked -> item.isFullHd = isChecked }
         binding.viewClicksFullHd.clicks(withAnim = false) {
             toggleFullHd(binding, item)
 

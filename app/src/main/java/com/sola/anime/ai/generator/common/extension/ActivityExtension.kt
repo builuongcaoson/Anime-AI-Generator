@@ -54,6 +54,12 @@ fun Activity.startArtProcessing(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
+fun Activity.startBatchProcessing(){
+    val intent = Intent(this, ArtProcessingActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
 fun Activity.startArtResult(historyId: Long, childHistoryIndex: Int = -1, isGallery: Boolean){
     val intent = Intent(this, ArtResultActivity::class.java)
     intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
