@@ -45,8 +45,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
                         async {
                             progress(GenerateTextsToImagesProgress.LoadingWithId(groupId = body.groupId, childId = body.id))
 
-                            Timber.e("Loading group id: ${body.groupId} --- Child id: ${body.id}")
-
                             val style = styleDao.findById(body.styleId)
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
@@ -56,27 +54,21 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.negativePrompt + ""
                                 else -> body.negativePrompt
                             }
-                            val upscale = "2"
 
-                            try {
-                                val response = dezgoApi.text2image(
-                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
-                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                    upscale = upscale.toRequestBody(MultipartBody.FORM),
-                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                    model = body.model.toRequestBody(MultipartBody.FORM),
-                                    width = body.width.toRequestBody(MultipartBody.FORM),
-                                    height = body.height.toRequestBody(MultipartBody.FORM),
-                                    seed = body.seed.toRequestBody(MultipartBody.FORM)
-                                )
+                            val response = dezgoApi.text2image(
+                                prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                model = body.model.toRequestBody(MultipartBody.FORM),
+                                width = body.width.toRequestBody(MultipartBody.FORM),
+                                height = body.height.toRequestBody(MultipartBody.FORM),
+                                seed = body.seed.toRequestBody(MultipartBody.FORM)
+                            )
 
-                                ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
-                            } catch (e: Exception){
-                                e.printStackTrace()
-                                ResponseTextToImage(groupId = body.groupId, childId = body.id)
-                            }
+                            ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
                         }
                     }.map {
                         val responseTextToImage = it.await()
@@ -99,7 +91,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
                         }
                     }
-                Timber.e("Chunked: ${dataChunked.lastIndex} --- $index")
                 delay(if (dataChunked.lastIndex == index) 0 else 5000)
                 responses
             }

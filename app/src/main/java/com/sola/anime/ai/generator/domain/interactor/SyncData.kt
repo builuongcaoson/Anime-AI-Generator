@@ -9,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import com.sola.anime.ai.generator.domain.model.config.process.Process
@@ -31,7 +32,8 @@ class SyncData @Inject constructor(
     private val processDao: ProcessDao,
     private val styleDao: StyleDao,
     private val iapDao: IAPDao,
-    private val exploreDao: ExploreDao
+    private val exploreDao: ExploreDao,
+    private val analyticManager: AnalyticManager
 ) : Interactor<Unit>() {
 
     sealed class Progress{
@@ -46,6 +48,7 @@ class SyncData @Inject constructor(
 
     override fun buildObservable(params: Unit): Flowable<*> {
         return Flowable.just(System.currentTimeMillis())
+            .doOnNext { analyticManager.logEvent(AnalyticManager.TYPE.FIRST_SYNC) }
             .doOnNext { syncProgress.onNext(Progress.Running) }
             .delay(1, TimeUnit.SECONDS)
             .doOnNext { syncData() }

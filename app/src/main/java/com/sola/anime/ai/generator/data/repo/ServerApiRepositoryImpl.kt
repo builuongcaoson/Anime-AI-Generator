@@ -28,6 +28,8 @@ class ServerApiRepositoryImpl @Inject constructor(
 ): ServerApiRepository {
 
     override suspend fun syncUser(success: (UserPremium?) -> Unit) {
+        analyticManager.logEvent(AnalyticManager.TYPE.FIRST_SYNC_PURCHASED)
+
         Timber.tag("Main11111").e("##### SYNC USER #####")
 
         val json = withContext(Dispatchers.IO) {

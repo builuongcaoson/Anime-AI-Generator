@@ -50,6 +50,7 @@
                     android:src="@drawable/ic_coin" />
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/credits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

@@ -35,6 +35,7 @@ import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -105,7 +106,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         activity?.let { activity ->
             when {
                 activity.isNetworkAvailable() -> networkDialog.show(activity) { }
-                configApp.discountCredit > prefs.credits.get() -> activity.startCredit()
+                configApp.discountCredit > prefs.credits.get().roundToInt() -> activity.startCredit()
                 else -> task()
             }
         }
@@ -165,6 +166,16 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. MAX_PROMPT
 
                 updateUiCredit()
+            }
+
+        prefs
+            .credits
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { credits ->
+                binding.credits.text = credits.roundToInt().toString()
             }
     }
 

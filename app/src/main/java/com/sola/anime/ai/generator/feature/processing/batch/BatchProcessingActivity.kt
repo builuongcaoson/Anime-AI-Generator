@@ -1,7 +1,9 @@
 package com.sola.anime.ai.generator.feature.processing.batch
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.lightStatusBar
@@ -36,6 +38,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var historyRepo: HistoryRepository
 
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
+    private var isSuccessAll = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,63 +62,74 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             }
         }
 
-        lifecycleScope.launch {
-            val deferredHistoryIds = arrayListOf<Long?>()
+        generate()
+    }
 
-            dezgoApiRepo.generateTextsToImages(
-                datas = ArrayList(configApp.dezgoBodiesTextsToImages),
-                progress = { progress ->
-                    when (progress){
-                        GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
-                        GenerateTextsToImagesProgress.Loading -> {
-                            dezgoStatusTextsToImages = configApp
-                                .dezgoBodiesTextsToImages
-                                .flatMap { dezgo ->
-                                    dezgo
-                                        .bodies
-                                        .map { body ->
-                                            DezgoStatusTextToImage(
-                                                body = body,
-                                                status = StatusBodyTextToImage.Loading
-                                            )
+    @SuppressLint("NotifyDataSetChanged")
+    private fun generate() {
+        tryOrNull {
+            lifecycleScope.launch {
+                val deferredHistoryIds = arrayListOf<Long?>()
+
+                dezgoApiRepo.generateTextsToImages(
+                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+                    progress = { progress ->
+                        when (progress){
+                            GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
+                            GenerateTextsToImagesProgress.Loading -> {
+                                dezgoStatusTextsToImages = configApp
+                                    .dezgoBodiesTextsToImages
+                                    .flatMap { dezgo ->
+                                        dezgo
+                                            .bodies
+                                            .map { body ->
+                                                DezgoStatusTextToImage(
+                                                    body = body,
+                                                    status = StatusBodyTextToImage.Loading
+                                                )
+                                            }
+                                    }
+
+                                previewAdapter.data = dezgoStatusTextsToImages
+                            }
+                            is GenerateTextsToImagesProgress.LoadingWithId -> {
+                                Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                                markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            }
+                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                                Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                                configApp
+                                    .dezgoBodiesTextsToImages
+                                    .find { dezgo ->
+                                        dezgo.id == progress.groupId
+                                    }?.bodies
+                                    ?.find { body ->
+                                        body.id == progress.childId && body.groupId == progress.groupId
+                                    }?.toChildHistory(progress.file.path)?.let {
+                                        deferredHistoryIds.add(historyRepo.markHistory(it))
+                                    }
+
+                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+                            }
+                            is GenerateTextsToImagesProgress.FailureWithId ->  {
+                                Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                                markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            }
+                            is GenerateTextsToImagesProgress.Done ->  {
+                                isSuccessAll = true
+
+                                Timber.e("DONE")
+
+                                launch {
+                                    val historyIds = deferredHistoryIds.mapNotNull { it }
+
+                                    launch(Dispatchers.Main) {
+                                        runOnUiThread {
+                                            previewAdapter.notifyDataSetChanged()
                                         }
-                                }
-
-                            previewAdapter.data = dezgoStatusTextsToImages
-                        }
-                        is GenerateTextsToImagesProgress.LoadingWithId -> {
-                            Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                        }
-                        is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                            Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            configApp
-                                .dezgoBodiesTextsToImages
-                                .find { dezgo ->
-                                    dezgo.id == progress.groupId
-                                }?.bodies
-                                ?.find { body ->
-                                    body.id == progress.childId && body.groupId == progress.groupId
-                                }?.toChildHistory(progress.file.path)?.let {
-                                    deferredHistoryIds.add(historyRepo.markHistory(it))
-                                }
-
-                            markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-                        }
-                        is GenerateTextsToImagesProgress.FailureWithId ->  {
-                            Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                        }
-                        is GenerateTextsToImagesProgress.Done ->  {
-                            Timber.e("DONE")
-
-                            launch {
-                                val historyIds = deferredHistoryIds.mapNotNull { it }
-
-                                launch(Dispatchers.Main) {
 //                                    when {
 //                                        dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
 //                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
@@ -128,13 +142,17 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 //                                            finish()
 //                                        }
 //                                    }
+                                    }
                                 }
                             }
                         }
-                    }
 
-                }
-            )
+                    }
+                )
+            }
+        } ?: run {
+            makeToast("Server error, please wait for us to fix the error or try again!")
+            finish()
         }
     }
 
@@ -193,7 +211,22 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        finish()
+        when {
+            !isSuccessAll -> {
+                MaterialDialog(this)
+                    .show {
+                        title(text = "Processing")
+                        message(text = "Do you want to cancel the image creation process in progress?")
+                        positiveButton(text = "Yes") {
+                            finish()
+                        }
+                        negativeButton(text = "No") { dialog ->
+                            dialog.dismiss()
+                        }
+                }
+            }
+            else -> finish()
+        }
     }
 
 }

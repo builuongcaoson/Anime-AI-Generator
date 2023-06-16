@@ -139,76 +139,81 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                 }
         }
 
-        lifecycleScope.launch {
-            val deferredHistoryIds = arrayListOf<Long?>()
+        tryOrNull {
+            lifecycleScope.launch {
+                val deferredHistoryIds = arrayListOf<Long?>()
 
-            dezgoApiRepo.generateTextsToImages(
-                datas = ArrayList(configApp.dezgoBodiesTextsToImages),
-                progress = { progress ->
-                    when (progress){
-                        GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
-                        GenerateTextsToImagesProgress.Loading -> {
-                            Timber.e("LOADING")
-
-                            launch(Dispatchers.Main) {
-                                artGenerateDialog.show(this@ArtProcessingActivity)
-                            }
-                        }
-                        is GenerateTextsToImagesProgress.LoadingWithId -> {
-                            Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                        }
-                        is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                            Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            configApp
-                                .dezgoBodiesTextsToImages
-                                .find { dezgo ->
-                                    dezgo.id == progress.groupId
-                                }?.bodies
-                                ?.find { body ->
-                                    body.id == progress.childId && body.groupId == progress.groupId
-                                }?.toChildHistory(progress.file.path)?.let {
-                                    deferredHistoryIds.add(historyRepo.markHistory(it))
-                                }
-
-                            markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-                        }
-                        is GenerateTextsToImagesProgress.FailureWithId ->  {
-                            Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                            markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                        }
-                        is GenerateTextsToImagesProgress.Done ->  {
-                            Timber.e("DONE")
-
-                            launch {
-                                val historyIds = deferredHistoryIds.mapNotNull { it }
+                dezgoApiRepo.generateTextsToImages(
+                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+                    progress = { progress ->
+                        when (progress){
+                            GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
+                            GenerateTextsToImagesProgress.Loading -> {
+                                Timber.e("LOADING")
 
                                 launch(Dispatchers.Main) {
-                                    tryOrNull { animator?.cancel() }
-                                    tryOrNull { artGenerateDialog.dismiss() }
+                                    artGenerateDialog.show(this@ArtProcessingActivity)
+                                }
+                            }
+                            is GenerateTextsToImagesProgress.LoadingWithId -> {
+                                Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
 
-                                    when {
-                                        dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
-                                            startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
-                                            finish()
-                                        }
-                                        else -> {
-                                            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
+                                markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            }
+                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                                Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
-                                            makeToast("Server error, please wait for us to fix the error or try again!")
-                                            finish()
+                                configApp
+                                    .dezgoBodiesTextsToImages
+                                    .find { dezgo ->
+                                        dezgo.id == progress.groupId
+                                    }?.bodies
+                                    ?.find { body ->
+                                        body.id == progress.childId && body.groupId == progress.groupId
+                                    }?.toChildHistory(progress.file.path)?.let {
+                                        deferredHistoryIds.add(historyRepo.markHistory(it))
+                                    }
+
+                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+                            }
+                            is GenerateTextsToImagesProgress.FailureWithId ->  {
+                                Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
+
+                                markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            }
+                            is GenerateTextsToImagesProgress.Done ->  {
+                                Timber.e("DONE")
+
+                                launch {
+                                    val historyIds = deferredHistoryIds.mapNotNull { it }
+
+                                    launch(Dispatchers.Main) {
+                                        tryOrNull { animator?.cancel() }
+                                        tryOrNull { artGenerateDialog.dismiss() }
+
+                                        when {
+                                            dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
+                                                startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
+                                                finish()
+                                            }
+                                            else -> {
+                                                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
+
+                                                makeToast("Server error, please wait for us to fix the error or try again!")
+                                                finish()
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
-                }
-            )
+                    }
+                )
+            }
+        } ?: {
+            makeToast("Server error, please wait for us to fix the error or try again!")
+            finish()
         }
     }
 
