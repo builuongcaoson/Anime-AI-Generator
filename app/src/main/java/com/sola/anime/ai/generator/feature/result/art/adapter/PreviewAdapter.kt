@@ -35,8 +35,9 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview
         Glide
             .with(context)
             .load(item.pathPreview)
+            .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
-            .placeholder(R.drawable.place_holder_image)
+//            .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
             .into(binding.preview)
 

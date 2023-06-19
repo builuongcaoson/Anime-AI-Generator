@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.ui.dialog.FeatureVersionDialog
 import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
@@ -57,6 +58,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var warningPremiumDialog: WarningPremiumDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
+    @Inject lateinit var featureVersionDialog: FeatureVersionDialog
 
 //    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), MineFragment()) }
@@ -78,6 +80,12 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         when {
             !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
                 syncUserPurchased()
+            }
+        }
+
+        when {
+            configApp.version < BuildConfig.VERSION_CODE && !prefs.isShowFeatureDialog(configApp.version).get() -> {
+                featureVersionDialog.show(this, configApp.version, configApp.feature)
             }
         }
 

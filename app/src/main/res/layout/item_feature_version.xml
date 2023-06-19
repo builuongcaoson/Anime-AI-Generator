@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/_6sdp"
+        android:layout_height="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/circle"
+        android:backgroundTint="?android:textColorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.basic.common.widget.LsTextView
+        android:layout_width="0dp"
+        android:id="@+id/feature"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:text="Backup and restore\nback"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

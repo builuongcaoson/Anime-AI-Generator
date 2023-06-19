@@ -89,8 +89,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
-            lifecycleScope.launch {
-                serverApiRepo.updateCreatedArtworkInDay()
+            tryOrNull {
+                lifecycleScope.launch {
+                    serverApiRepo.updateCreatedArtworkInDay()
+                }
             }
 
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
@@ -197,7 +199,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             positionOffset: Float,
             positionOffsetPixels: Int
         ) {
-            childHistories.getOrNull(position)?.let { childHistory -> subjectPageChanges.onNext(childHistory) }
+            tryOrNull { childHistories.getOrNull(position)?.let { childHistory -> subjectPageChanges.onNext(childHistory) } }
         }
     }
 
@@ -235,7 +237,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
-                previewAdapter.childHistory = it
+                tryOrNull { previewAdapter.childHistory = it }
             }
 
         previewAdapter
@@ -244,8 +246,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe { index ->
-                binding.viewPager.post {
-                    binding.viewPager.currentItem = index
+                tryOrNull {
+                    binding.viewPager.post {
+                        binding.viewPager.currentItem = index
+                    }
                 }
             }
 
@@ -255,7 +259,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe { index ->
-                startPreview(historyId = historyId, childHistoryIndex = index)
+                tryOrNull { startPreview(historyId = historyId, childHistoryIndex = index) }
             }
 
         prefs

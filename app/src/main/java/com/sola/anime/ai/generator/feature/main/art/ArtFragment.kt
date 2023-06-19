@@ -30,6 +30,7 @@ import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.style.Style
@@ -62,6 +63,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var analyticManager: AnalyticManager
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -283,6 +285,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val pattern = configApp.sensitiveKeywords.joinToString(separator = "|").toRegex(RegexOption.IGNORE_CASE)
 
         val task = {
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
+
             configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                 groupId = 0,
                 maxChildId = 0,
