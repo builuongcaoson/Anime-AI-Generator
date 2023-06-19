@@ -155,6 +155,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .fetchAndActivate()
                 .addOnSuccessListener {
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
+                    configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
                     configApp.version = tryOrNull { config.getLong("version") } ?: configApp.version
                     configApp.versionExplore = tryOrNull { config.getLong("version_explore") } ?: configApp.versionExplore
                     configApp.versionIap = tryOrNull { config.getLong("version_iap") } ?: configApp.versionIap

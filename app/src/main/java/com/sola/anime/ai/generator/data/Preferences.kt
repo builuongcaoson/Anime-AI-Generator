@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.data
 
 import com.basic.common.extension.tryOrNull
+import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.Constraint
@@ -47,6 +48,10 @@ class Preferences @Inject constructor(
     private val credits2 = rxPrefs.getFloat("credits2", 0f)
     val creditsChanges = rxPrefs.getLong("creditsChanges", -1)
     val isFirstPurchaseCredits10000 = rxPrefs.getBoolean("isFirstPurchaseCredits10000", true)
+
+    fun isShowFeatureDialog(version: Long): Preference<Boolean> {
+        return rxPrefs.getBoolean("isShowFeatureDialog_$version", false)
+    }
 
     fun setCredits(newCredits: Float){
         AESEncyption.encrypt(newCredits.toString())?.let { encryptCredits ->
