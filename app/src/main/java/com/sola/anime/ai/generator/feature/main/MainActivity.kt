@@ -13,6 +13,7 @@ import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.getDimens
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
+import com.basic.common.extension.tryOrNull
 import com.jakewharton.rxbinding2.view.clicks
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
@@ -84,7 +85,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         }
 
         when {
-            configApp.version < BuildConfig.VERSION_CODE && !prefs.isShowFeatureDialog(configApp.version).get() -> {
+            configApp.version > BuildConfig.VERSION_CODE && !prefs.isShowFeatureDialog(configApp.version).get() -> {
                 featureVersionDialog.show(this, configApp.version, configApp.feature)
             }
         }
@@ -277,13 +278,15 @@ private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt()
     override fun onBackPressed() {
         when {
             App.app.reviewInfo != null -> {
-                val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
-                flow.addOnCompleteListener { task2 ->
-                    if (task2.isSuccessful){
+                tryOrNull {
+                    val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
+                    flow.addOnCompleteListener { task2 ->
+                        if (task2.isSuccessful){
 
-                        finish()
-                    } else {
-                        finish()
+                            finish()
+                        } else {
+                            finish()
+                        }
                     }
                 }
             }

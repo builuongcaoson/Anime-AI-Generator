@@ -309,7 +309,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         when {
             prompt.contains(pattern) && !prefs.isEnableNsfw.get() -> activity?.let { activity -> blockSensitivesDialog.show(activity) }
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK -> activity?.startIap()
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> activity?.startIap()
             !prefs.isUpgraded.get() -> {
                 activity?.let { activity ->
                     admobManager.showRewardCreate(
@@ -325,7 +325,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     )
                 }
             }
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY -> activity?.makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> activity?.makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
             else -> task()
         }
     }

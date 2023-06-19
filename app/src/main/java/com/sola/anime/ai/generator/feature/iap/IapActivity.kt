@@ -207,7 +207,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             Constraint.Iap.SKU_MONTH -> getString(R.string.description_price_month)
             else -> getString(R.string.description_price_year)
         }
+        val description3 = when (sku) {
+            Constraint.Iap.SKU_LIFE_TIME -> "Get 2000 credits"
+            Constraint.Iap.SKU_WEEK -> "Get 200 credits"
+            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "Get 200 credits"
+            Constraint.Iap.SKU_MONTH -> "Get 500 credits"
+            else -> "Get 1000 credits"
+        }
         binding.textDescription.text = description
+        binding.description3.text = description3
 
         products.find { it.id.contains(sku) }?.let { product ->
             binding.textPrice.text = "${product.price.formatted}$namePackage"
@@ -275,6 +283,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     else -> -3L
                 }
 
+                val creditsReceived = when {
+                    item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> 2000
+                    item.id.contains(Constraint.Iap.SKU_WEEK) -> 200
+                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 200
+                    item.id.contains(Constraint.Iap.SKU_MONTH) -> 500
+                    else -> 0
+                }
+
+                prefs.setCredits(prefs.getCredits() + creditsReceived)
                 prefs.timeExpiredPremium.set(timeExpired)
                 prefs.isShowedWaringPremiumDialog.delete()
                 prefs.isSyncUserPurchased.set(true)

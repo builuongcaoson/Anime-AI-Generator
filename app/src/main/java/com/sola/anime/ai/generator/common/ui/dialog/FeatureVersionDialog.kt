@@ -28,7 +28,7 @@ class FeatureVersionDialog @Inject constructor(
             binding = DialogFeatureVersionBinding.inflate(activity.layoutInflater)
             dialog = Dialog(activity)
             dialog.setContentView(binding.root)
-            dialog.setCancelable(true)
+            dialog.setCancelable(false)
 
             dialog.window?.apply {
                 setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

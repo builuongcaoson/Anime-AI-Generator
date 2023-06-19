@@ -189,11 +189,12 @@
                     android:tint="?android:textColorPrimary" />
 
                 <com.basic.common.widget.LsTextView
+                    android:id="@+id/description3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="More clarity, better quality"
+                    android:text="Get 1000 credits"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 

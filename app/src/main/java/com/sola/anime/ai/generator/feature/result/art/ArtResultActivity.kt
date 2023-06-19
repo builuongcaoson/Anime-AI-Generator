@@ -12,6 +12,7 @@ import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -77,8 +78,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        when {
-            !prefs.isUpgraded.get() -> admobManager.loadRewardCreateAgain()
+        tryOrNull {
+            when {
+                !prefs.isUpgraded.get() -> admobManager.loadRewardCreateAgain()
+            }
         }
 
         when (historyId) {
@@ -89,17 +92,28 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
-            tryOrNull {
-                lifecycleScope.launch {
-                    serverApiRepo.updateCreatedArtworkInDay()
+            tryOrNull { lifecycleScope.launch { serverApiRepo.updateCreatedArtworkInDay() } }
+
+            tryOrNull { analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS) }
+
+            when {
+                App.app.reviewInfo != null -> {
+                    tryOrNull {
+                        val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
+                        flow.addOnCompleteListener { task2 ->
+                            if (task2.isSuccessful){
+
+                            }
+                        }
+                    }
                 }
             }
 
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
-
-            prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
-            prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
-            prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
+            tryOrNull {
+                prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
+                prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
+                prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
+            }
         }
 
         initView()
@@ -145,7 +159,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            prefs.numberCreatedArtwork.get() >= Preferences.MAX_NUMBER_CREATE_ARTWORK && !prefs.isUpgraded.get() -> {
+            prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && !prefs.isUpgraded.get() -> {
                 startIap()
             }
             !prefs.isUpgraded.get() -> {
@@ -206,25 +220,17 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun initData() {
         historyDao.getWithIdLive(id = historyId).observe(this){ history ->
             history?.let {
-                binding.displayStyle.text = styleDao.findById(history.styleId)?.display ?: "No Style"
-                binding.textPrompt.text = history.prompt
+                tryOrNull { binding.displayStyle.text = styleDao.findById(history.styleId)?.display ?: "No Style" }
+                tryOrNull { binding.textPrompt.text = history.prompt }
 
-                childHistories = ArrayList(history.childs)
+                tryOrNull { childHistories = ArrayList(history.childs) }
+                tryOrNull { previewAdapter.data = ArrayList(history.childs) }
+                tryOrNull { pagePreviewAdapter.data = ArrayList(history.childs) }
 
-                previewAdapter.apply {
-                    this.data = history.childs
-                }
-                pagePreviewAdapter.apply {
-                    this.data = history.childs
-                }
                 childHistoryIndex.takeIf { it != -1 }?.let {
-                    binding.viewPager.post {
-                        binding.viewPager.setCurrentItem(childHistoryIndex, false)
-                    }
+                    tryOrNull { binding.viewPager.post { binding.viewPager.setCurrentItem(childHistoryIndex, false) } }
                 } ?: run {
-                    binding.viewPager.post {
-                        binding.viewPager.setCurrentItem(history.childs.lastIndex, false)
-                    }
+                    tryOrNull { binding.viewPager.post { binding.viewPager.setCurrentItem(history.childs.lastIndex, false) } }
                 }
             }
         }
@@ -246,11 +252,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe { index ->
-                tryOrNull {
-                    binding.viewPager.post {
-                        binding.viewPager.currentItem = index
-                    }
-                }
+                tryOrNull { binding.viewPager.post { binding.viewPager.currentItem = index } }
             }
 
         pagePreviewAdapter
@@ -306,13 +308,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun initView() {
-        binding.viewPager.apply {
-            this.adapter = pagePreviewAdapter
-        }
+        binding.viewPager.adapter = pagePreviewAdapter
+
         binding.recyclerPreview.apply {
             this.itemAnimator = null
             this.adapter = previewAdapter
         }
+
         binding.textPrompt.movementMethod = ScrollingMovementMethod()
     }
 

@@ -138,7 +138,7 @@
                         android:paddingTop="@dimen/_7sdp"
                         android:paddingEnd="@dimen/_25sdp"
                         android:paddingBottom="@dimen/_7sdp"
-                        android:text="Buy now"
+                        android:text="Update now"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"
                         app:textFont="semi"/>

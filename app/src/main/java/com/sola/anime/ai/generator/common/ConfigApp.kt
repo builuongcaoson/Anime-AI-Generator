@@ -23,6 +23,8 @@ class ConfigApp @Inject constructor(
 ) {
 
     var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
+    var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK
+    var maxNumberGeneratePremium = Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY
     var feature = context.getString(R.string.default_feature)
     var version = BuildConfig.VERSION_CODE.toLong()
     var versionExplore = prefs.versionExplore.get()
