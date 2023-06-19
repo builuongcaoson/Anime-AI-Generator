@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
@@ -62,6 +63,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         prefs.creditsChanges.delete()
 
+//        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
 //        val encrypt = AESEncyption.encrypt("DEZGO-677ADADF008D43E746840EF0A88000892E435F3ECB11A537CCC322B11511AB524D2EE56D") ?: ""
 //        Timber.tag("Main12345").e("Key: $encrypt")
 //        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Dezgo.DEZGO_KEY)}")
@@ -133,14 +135,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                     delay(500)
                                 }
                             }
-                            when {
-                                !prefs.isSyncedData.get() -> {
-                                    syncData.execute(Unit)
+                            syncData.execute(Unit)
 
-                                    handleSuccess()
-                                }
-                                else -> handleSuccess()
-                            }
+                            handleSuccess()
                         }
                     }
                 }
@@ -157,7 +154,18 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
-                    configApp.scriptIap = config.getString("script_iap").takeIf { it.isNotEmpty() } ?: configApp.scriptIap
+                    configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
+                    configApp.version = tryOrNull { config.getLong("version") } ?: configApp.version
+                    configApp.versionExplore = tryOrNull { config.getLong("version_explore") } ?: configApp.versionExplore
+                    configApp.versionIap = tryOrNull { config.getLong("version_iap") } ?: configApp.versionIap
+                    configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
+                    configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
+
+                    Timber.e("version: ${configApp.version}")
+                    Timber.e("versionExplore: ${configApp.versionExplore}")
+                    Timber.e("versionIap: ${configApp.versionIap}")
+                    Timber.e("versionProcess: ${configApp.versionProcess}")
+                    Timber.e("versionStyle: ${configApp.versionStyle}")
 
                     done()
                 }

@@ -1,12 +1,8 @@
 package com.sola.anime.ai.generator.feature.style.adapter
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
-import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide

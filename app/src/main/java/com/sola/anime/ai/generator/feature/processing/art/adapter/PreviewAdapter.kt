@@ -5,6 +5,7 @@ import com.basic.common.base.LsAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
@@ -32,37 +33,39 @@ class PreviewAdapter @Inject constructor() : LsAdapter<Process, ItemPreviewArtPr
         Glide
             .with(context)
             .load(item.preview)
-            .listener(object: RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-//                    binding.cardPreview.cardElevation = 0f
-                    binding.preview.setImageResource(R.drawable.place_holder_image)
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource?.let {
-//                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._5sdp)
-                        binding.preview.setImageDrawable(resource)
-                    } ?: run {
-//                        binding.cardPreview.cardElevation = 0f
-                        binding.preview.setImageResource(R.drawable.place_holder_image)
-                    }
-                    return false
-                }
-
-            })
-            .preload()
+            .centerCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
+//            .listener(object: RequestListener<Drawable> {
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+////                    binding.cardPreview.cardElevation = 0f
+//                    binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    resource?.let {
+////                        binding.cardPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._5sdp)
+//                        binding.preview.setImageDrawable(resource)
+//                    } ?: run {
+////                        binding.cardPreview.cardElevation = 0f
+//                        binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    }
+//                    return false
+//                }
+//
+//            })
+            .into(binding.preview)
 
         binding.textTitle.text = item.title
         binding.textArtist.text = item.artist

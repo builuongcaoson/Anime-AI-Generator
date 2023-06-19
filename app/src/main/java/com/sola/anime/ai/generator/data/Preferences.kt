@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.data
 
 import com.basic.common.extension.tryOrNull
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import javax.inject.Inject
@@ -26,6 +27,10 @@ class Preferences @Inject constructor(
     val userPremium = rxPrefs.getString("userPremium", "")
 
     // For App
+    val versionExplore = rxPrefs.getLong("versionExplore", 0)
+    val versionIap = rxPrefs.getLong("versionIap", 0)
+    val versionProcess = rxPrefs.getLong("versionProcess", 0)
+    val versionStyle = rxPrefs.getLong("versionStyle", 0)
     val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", false)
     val isShowedWaringPremiumDialog = rxPrefs.getBoolean("isShowedWaringPremiumDialog", false)
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)

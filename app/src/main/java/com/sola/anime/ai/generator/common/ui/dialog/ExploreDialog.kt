@@ -2,7 +2,6 @@ package com.sola.anime.ai.generator.common.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable

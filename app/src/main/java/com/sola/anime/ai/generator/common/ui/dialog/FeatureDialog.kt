@@ -2,17 +2,11 @@ package com.sola.anime.ai.generator.common.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.text.method.ScrollingMovementMethod
 import android.view.WindowManager
-import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.databinding.DialogFeatureBinding
-import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class FeatureDialog @Inject constructor() {

@@ -28,6 +28,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
@@ -54,6 +55,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var analyticManager: AnalyticManager
 
     override fun onViewCreated() {
         initView()
@@ -79,6 +81,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     private fun generateClicks() {
         val task = {
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
+
             val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
                 val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
                 val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
