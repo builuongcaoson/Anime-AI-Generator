@@ -6,9 +6,9 @@ import java.io.File
 sealed class GenerateTextsToImagesProgress(val isLoading: Boolean = false) {
     object Idle: GenerateTextsToImagesProgress()
     object Loading: GenerateTextsToImagesProgress(isLoading = true)
-    data class LoadingWithId(val groupId: Long, val childId: Long): GenerateTextsToImagesProgress(isLoading = true)
-    data class SuccessWithId(val groupId: Long, val childId: Long, val file: File): GenerateTextsToImagesProgress(isLoading = true)
-    data class FailureWithId(val groupId: Long, val childId: Long, val error: String? = null): GenerateTextsToImagesProgress(isLoading = true)
+    data class LoadingWithId(val body: BodyTextToImage): GenerateTextsToImagesProgress(isLoading = true)
+    data class SuccessWithId(val body: BodyTextToImage, val file: File): GenerateTextsToImagesProgress(isLoading = true)
+    data class FailureWithId(val body: BodyTextToImage, val error: String? = null): GenerateTextsToImagesProgress(isLoading = true)
     object Done: GenerateTextsToImagesProgress()
 }
 

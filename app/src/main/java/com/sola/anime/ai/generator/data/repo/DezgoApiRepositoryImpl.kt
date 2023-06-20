@@ -23,6 +23,8 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
@@ -38,12 +40,13 @@ class DezgoApiRepositoryImpl @Inject constructor(
         progress(GenerateTextsToImagesProgress.Loading)
         delay(250)
         val dataChunked = datas.flatMap { it.bodies }.chunked(5)
+
         dataChunked
-            .flatMapIndexed { index: Int, bodies ->
-                val responses = bodies
+            .forEachIndexed { index: Int, bodies ->
+                bodies
                     .map { body ->
                         async {
-                            progress(GenerateTextsToImagesProgress.LoadingWithId(groupId = body.groupId, childId = body.id))
+                            progress(GenerateTextsToImagesProgress.LoadingWithId(body = body))
 
                             val style = styleDao.findById(body.styleId)
                             val prompt = when {
@@ -57,52 +60,65 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                             try {
                                 val response = dezgoApi.text2image(
-                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
-                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                    model = body.model.toRequestBody(MultipartBody.FORM),
-                                    width = body.width.toRequestBody(MultipartBody.FORM),
-                                    height = body.height.toRequestBody(MultipartBody.FORM),
-                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
+                                    prompt = prompt.toRequestBody(),
+                                    negativePrompt = negativePrompt.toRequestBody(),
+                                    guidance = body.guidance.toRequestBody(),
+                                    upscale = body.upscale.toRequestBody(),
+                                    sampler = body.sampler.toRequestBody(),
+                                    steps = body.steps.toRequestBody(),
+                                    model = body.model.toRequestBody(),
+                                    width = body.width.toRequestBody(),
+                                    height = body.height.toRequestBody(),
+                                    seed = body.seed?.toRequestBody()
                                 )
 
-                                ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
+                                ResponseTextToImage(body = body, response = response)
                             } catch (e: Exception){
                                 e.printStackTrace()
-                                ResponseTextToImage(groupId = body.groupId, childId = body.id)
+                                ResponseTextToImage(body = body)
                             }
                         }
                     }.map {
-                        val responseTextToImage = it.await()
+                        val response = it.await()
 
-                        responseTextToImage.response?.byteStream()?.use { inputStream ->
-                            // Convert to file
-                            val file = tryOrNull { inputStream.toFile(context) }
-
-                            when {
-                                file != null && file.exists() -> {
-                                    progress(GenerateTextsToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, file = file))
+                        response
+                            .response
+                            ?.byteStream()
+                            ?.use { inputStream -> tryOrNull { inputStream.toFile(context) } }
+                            ?.takeIf { file -> file.exists() }
+                            ?.let { file ->
+                                val doOnSuccess = suspendCoroutine { continuation ->
+                                    doOnSuccess { result ->
+                                        continuation.resume(result)
+                                    }
                                 }
-                                else -> {
-                                    progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
+
+                                progress(GenerateTextsToImagesProgress.SuccessWithId(body = response.body, file = file))
+                        } ?: run {
+                            val doOnFailed = suspendCoroutine { continuation ->
+                                doOnFailed { result ->
+                                    continuation.resume(result)
                                 }
                             }
 
-                            file
-                        } ?: run {
-                            progress(GenerateTextsToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
+                            progress(GenerateTextsToImagesProgress.FailureWithId(body = response.body))
                         }
                     }
-                delay(if (dataChunked.lastIndex == index) 0 else 5000)
-                responses
+
+                delay(if (dataChunked.lastIndex == index) 0 else 3000)
             }
 
         progress(GenerateTextsToImagesProgress.Done)
         delay(1000)
         progress(GenerateTextsToImagesProgress.Idle)
+    }
+
+    private fun doOnSuccess(done: (Boolean) -> Unit){
+        done(true)
+    }
+
+    private fun doOnFailed(done: (Boolean) -> Unit){
+        done(true)
     }
 
     override suspend fun generateImagesToImages(
@@ -113,15 +129,15 @@ class DezgoApiRepositoryImpl @Inject constructor(
 //        val body = MultipartBody.Part.createFormData("init_image", contentUri.authority, requestFile)
 //
 //        val response = dezgoApi.image2image(
-//            prompt = "body".toRequestBody(MultipartBody.FORM),
-//            negativePrompt = "Hello".toRequestBody(MultipartBody.FORM),
-//            guidance = "7.5".toRequestBody(MultipartBody.FORM),
-//            upscale = "1".toRequestBody(MultipartBody.FORM),
-//            sampler = "euler_a".toRequestBody(MultipartBody.FORM),
-//            steps = "10".toRequestBody(MultipartBody.FORM),
-//            model = "anything_4_0".toRequestBody(MultipartBody.FORM),
-//            seed = "645524234".toRequestBody(MultipartBody.FORM),
-//            strength = "0.5".toRequestBody(MultipartBody.FORM),
+//            prompt = "body".toRequestBody(),
+//            negativePrompt = "Hello".toRequestBody(),
+//            guidance = "7.5".toRequestBody(),
+//            upscale = "1".toRequestBody(),
+//            sampler = "euler_a".toRequestBody(),
+//            steps = "10".toRequestBody(),
+//            model = "anything_4_0".toRequestBody(),
+//            seed = "645524234".toRequestBody(),
+//            strength = "0.5".toRequestBody(),
 //            file = body
 //        )
 

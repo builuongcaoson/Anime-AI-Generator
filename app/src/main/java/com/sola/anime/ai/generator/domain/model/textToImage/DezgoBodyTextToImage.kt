@@ -5,8 +5,7 @@ import com.sola.anime.ai.generator.domain.model.Ratio
 import okhttp3.ResponseBody
 
 data class ResponseTextToImage(
-    val groupId: Long,
-    val childId: Long,
+    val body: BodyTextToImage,
     val response: ResponseBody? = null
 )
 
