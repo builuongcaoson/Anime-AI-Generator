@@ -16,6 +16,7 @@ import javax.inject.Inject
 class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview2ArtResultBinding>(ItemPreview2ArtResultBinding::inflate) {
 
     val clicks: Subject<ChildHistory> = PublishSubject.create()
+    val upscaleClicks: Subject<ChildHistory> = PublishSubject.create()
 
     override fun bindItem(
         item: ChildHistory,
@@ -77,6 +78,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
         }
 
         binding.cardPreview.clicks(withAnim = false){ clicks.onNext(item) }
+        binding.viewEnhance.clicks(withAnim = false){ upscaleClicks.onNext(item) }
     }
 
 }

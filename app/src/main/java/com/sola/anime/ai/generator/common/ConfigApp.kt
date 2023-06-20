@@ -3,12 +3,10 @@ package com.sola.anime.ai.generator.common
 import android.content.Context
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.sola.anime.ai.generator.R
-import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
-import com.sola.anime.ai.generator.domain.model.config.first.FirstPreview
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
@@ -33,8 +31,8 @@ class ConfigApp @Inject constructor(
     var versionStyle = prefs.versionStyle.get()
     val decryptKey by lazy {
         when {
-            !BuildConfig.DEBUG || BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Dezgo.DEZGO_KEY) ?: ""
-            else -> AESEncyption.decrypt(Constraint.Dezgo.DEZGO_RAPID_KEY) ?: ""
+            !BuildConfig.DEBUG || BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+            else -> AESEncyption.decrypt(Constraint.Dezgo.RAPID_KEY) ?: ""
         }
     }
 

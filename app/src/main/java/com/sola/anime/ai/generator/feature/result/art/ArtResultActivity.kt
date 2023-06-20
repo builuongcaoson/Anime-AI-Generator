@@ -256,6 +256,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             }
 
         pagePreviewAdapter
+            .upscaleClicks
+            .map { previewAdapter.data.indexOf(it) }
+            .filter { it != -1 }
+            .autoDispose(scope())
+            .subscribe { index ->
+
+            }
+
+        pagePreviewAdapter
             .clicks
             .map { previewAdapter.data.indexOf(it) }
             .filter { it != -1 }

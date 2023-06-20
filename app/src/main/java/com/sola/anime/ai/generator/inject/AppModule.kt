@@ -29,6 +29,7 @@ import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
+import com.sola.anime.ai.generator.inject.upscale.UpscaleApi
 import com.sola.anime.ai.generator.inject.server.ServerApi
 import dagger.Module
 import dagger.Provides
@@ -96,13 +97,14 @@ class AppModule {
 
                 when {
                     !BuildConfig.DEBUG || BuildConfig.SCRIPT -> {
-                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_KEY, configApp.decryptKey)
+                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_KEY, configApp.decryptKey)
                     }
                     else -> {
-                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_RAPID_KEY, configApp.decryptKey)
-                        requestBuilder.addHeader(Constraint.Dezgo.DEZGO_HEADER_RAPID_HOST, Constraint.Dezgo.DEZGO_RAPID_HOST)
+                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_KEY, configApp.decryptKey)
+                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_HOST, Constraint.Dezgo.RAPID_HOST)
                     }
                 }
+
                 chain.proceed(requestBuilder.build())
             }
             .addInterceptor(loggingInterceptor)
@@ -120,7 +122,7 @@ class AppModule {
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(if (!BuildConfig.DEBUG || BuildConfig.SCRIPT) Constraint.Dezgo.DEZGO_URL else Constraint.Dezgo.DEZGO_RAPID_URL)
+            .baseUrl(if (!BuildConfig.DEBUG || BuildConfig.SCRIPT) Constraint.Dezgo.URL else Constraint.Dezgo.RAPID_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -164,12 +166,59 @@ class AppModule {
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(Constraint.Server.SERVER_URL)
+            .baseUrl(Constraint.Server.URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         return retrofit.create(ServerApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpscaleApi(): UpscaleApi {
+        val loggingInterceptor = HttpLoggingInterceptor { message ->
+            Timber.d(message)
+        }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val networkInterceptor = Interceptor {
+            val request = it.request().newBuilder().build()
+            it.proceed(request)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val requestBuilder = chain
+                    .request()
+                    .newBuilder()
+
+                requestBuilder.addHeader(Constraint.Upscale.HEADER_RAPID_KEY, Constraint.Upscale.RAPID_KEY)
+                requestBuilder.addHeader(Constraint.Upscale.HEADER_RAPID_HOST, Constraint.Upscale.RAPID_HOST)
+
+                chain.proceed(requestBuilder.build())
+            }
+            .addInterceptor(loggingInterceptor)
+            .addNetworkInterceptor(networkInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
+            .hostnameVerifier { _, _ -> true }
+            .retryOnConnectionFailure(false)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .build()
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constraint.Upscale.URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        return retrofit.create(UpscaleApi::class.java)
     }
 
     // Database
