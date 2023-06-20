@@ -201,23 +201,24 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
                 binding.iconWatchAd.isVisible = !isUpgraded
+                binding.textDescription.isVisible = !isUpgraded
 
-                binding.textDescription.text = when {
-                    !isUpgraded -> "Watch an ad"
-                    else -> "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - prefs.numberCreatedArtwork.get()} times left today"
-                }
+//                binding.textDescription.text = when {
+//                    !isUpgraded -> "Watch an ad"
+//                    else -> "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - prefs.numberCreatedArtwork.get()} times left today"
+//                }
             }
 
-        prefs
-            .numberCreatedArtwork
-            .asObservable()
-            .filter { prefs.isUpgraded.get() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe { numberCreatedInDay ->
-                binding.textDescription.text = "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - numberCreatedInDay} times left today"
-            }
+//        prefs
+//            .numberCreatedArtwork
+//            .asObservable()
+//            .filter { prefs.isUpgraded.get() }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .autoDispose(scope())
+//            .subscribe { numberCreatedInDay ->
+//                binding.textDescription.text = "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - numberCreatedInDay} times left today"
+//            }
     }
 
     private fun updateUiExplore(explore: Explore?) {
