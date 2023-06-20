@@ -498,7 +498,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:src="@drawable/ic_arrow_right"
                 android:tint="?colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -510,7 +510,7 @@
                 android:layout_width="@dimen/_15sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 android:src="@drawable/ic_video_clip"
                 android:tint="?colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"

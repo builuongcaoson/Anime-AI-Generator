@@ -17,6 +17,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -73,6 +74,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private val childHistoryIndex by lazy { intent.getIntExtra(CHILD_HISTORY_INDEX_EXTRA, -1) }
     private val isGallery by lazy { intent.getBooleanExtra(IS_GALLERY_EXTRA, true) }
     private var childHistories = arrayListOf<ChildHistory>()
+
+    private val upscaleSheet by lazy { UpscaleSheet() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -261,7 +264,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe { index ->
-
+                upscaleSheet.show(this)
             }
 
         pagePreviewAdapter
