@@ -2,15 +2,21 @@ package com.sola.anime.ai.generator.feature.result.art
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
 import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
+import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
+import com.google.android.gms.ads.rewarded.RewardedAd
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
@@ -28,8 +34,10 @@ import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
+import com.sola.anime.ai.generator.domain.repo.UpscaleApiRepository
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.inject.upscale.UpscaleApi
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +46,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -67,23 +76,29 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var serverApiRepo: ServerApiRepository
+    @Inject lateinit var upscaleApiRepo: UpscaleApiRepository
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
     private val historyId by lazy { intent.getLongExtra(HISTORY_ID_EXTRA, -1L) }
     private val childHistoryIndex by lazy { intent.getIntExtra(CHILD_HISTORY_INDEX_EXTRA, -1) }
     private val isGallery by lazy { intent.getBooleanExtra(IS_GALLERY_EXTRA, true) }
-    private var childHistories = arrayListOf<ChildHistory>()
 
+    private var childHistories = arrayListOf<ChildHistory>()
     private val upscaleSheet by lazy { UpscaleSheet() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        transparent()
+        lightStatusBar()
         setContentView(binding.root)
 
         tryOrNull {
             when {
-                !prefs.isUpgraded.get() -> admobManager.loadRewardCreateAgain()
+                !prefs.isUpgraded.get() -> {
+                    admobManager.loadRewardUpscale()
+                    admobManager.loadRewardCreateAgain()
+                }
             }
         }
 
@@ -131,7 +146,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
         binding.cardShare.clicks { tryOrNull { shareClicks() } }
         binding.cardDownload.clicks { tryOrNull { downloadClicks() } }
-        binding.cardGenerate.clicks { generateAgainClicks() }
+        binding.cardGenerate.clicks { tryOrNull { generateAgainClicks() } }
     }
 
     private fun generateAgainClicks() {
@@ -183,13 +198,11 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun downloadClicks() {
-        previewAdapter.childHistory?.let { childHistory ->
+        childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             tryOrNull {
                 lifecycleScope.launch {
-                    fileRepo.downloads(File(childHistory.pathPreview))
-                    withContext(Dispatchers.Main){
-                        makeToast("Download successfully!")
-                    }
+                    fileRepo.downloads(File(childHistory.upscalePathPreview ?: childHistory.pathPreview))
+                    launch(Dispatchers.Main) { makeToast("Download successfully!") }
                 }
             } ?: run {
                 makeToast("Something wrong, please try again!")
@@ -198,9 +211,9 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun shareClicks() {
-        previewAdapter.childHistory?.let { childHistory ->
+        childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             lifecycleScope.launch {
-                fileRepo.shares(File(childHistory.pathPreview))
+                fileRepo.shares(File(childHistory.upscalePathPreview ?: childHistory.pathPreview))
             }
         }
     }
@@ -263,7 +276,11 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .map { previewAdapter.data.indexOf(it) }
             .filter { it != -1 }
             .autoDispose(scope())
-            .subscribe { index ->
+            .subscribe {
+                if (upscaleSheet.isAdded){
+                    return@subscribe
+                }
+
                 upscaleSheet.show(this)
             }
 
@@ -285,6 +302,84 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
             }
+
+        upscaleSheet
+            .upscaleClicks
+            .debounce(250, TimeUnit.MILLISECONDS)
+            .map { binding.viewPager.currentItem }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { index ->
+                tryOrNull { upscaleSheet.dismiss() }
+
+                val task = {
+                    binding.viewLoading.isVisible = true
+                    upscaleClicks(index)
+                }
+
+                when {
+                    !prefs.isUpgraded.get() -> {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            delay(250)
+                            admobManager.showRewardUpscale(
+                                this@ArtResultActivity,
+                                success = {
+                                    task()
+                                    admobManager.loadRewardUpscale()
+                                },
+                                failed = {
+                                    makeToast("Please watch all ads to perform the function!")
+                                    admobManager.loadRewardUpscale()
+                                }
+                            )
+                        }
+                    }
+                    else -> task()
+                }
+            }
+    }
+
+    private fun upscaleClicks(index: Int){
+        val doOnSuccess = {
+            lifecycleScope.launch(Dispatchers.Main) {
+                binding.viewLoading.isVisible = false
+                makeToast("Upscale success!")
+            }
+        }
+
+        val doOnFailed = {
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(1000)
+                binding.viewLoading.isVisible = false
+                makeToast("An error occurred, please try again or report it to us!")
+            }
+        }
+
+        previewAdapter
+            .data
+            .getOrNull(index)
+            ?.pathPreview
+            ?.let { path -> File(path) }
+            ?.takeIf { file -> file.exists() }
+            ?.let { file ->
+                lifecycleScope.launch {
+                    upscaleApiRepo.upscale(file){ fileUpscale ->
+                        when {
+                            fileUpscale != null && fileUpscale.exists() -> {
+                                val history = historyDao.findById(historyId) ?: return@upscale
+                                history.childs.getOrNull(index)?.upscalePathPreview = fileUpscale.path
+                                historyDao.update(history)
+
+                                doOnSuccess()
+                            }
+                            else -> doOnFailed()
+                        }
+                    }
+                }
+        } ?: run {
+            doOnFailed()
+        }
     }
 
     override fun onResume() {
@@ -320,6 +415,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun initView() {
+        binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            this.topMargin = when(val statusBarHeight = getStatusBarHeight()) {
+                0 -> getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                else -> statusBarHeight
+            }
+        }
+
         binding.viewPager.adapter = pagePreviewAdapter
 
         binding.recyclerPreview.apply {

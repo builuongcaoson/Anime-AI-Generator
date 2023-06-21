@@ -266,7 +266,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewExplore.clicks(withAnim = false) { activity?.startExplore() }
         binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
-        binding.history.clicks(debounce = 500) { historySheet.show(this) }
+        binding.history.clicks {
+            if (historySheet.isAdded){
+                return@clicks
+            }
+
+            historySheet.show(this)
+        }
         binding.editPrompt.setOnTouchListener { view, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -278,7 +284,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
             false
         }
-        binding.viewAdvancedSetting.clicks(debounce = 500, withAnim = false) { advancedSheet.show(this) }
+        binding.viewAdvancedSetting.clicks(withAnim = false) {
+            if (advancedSheet.isAdded){
+                return@clicks
+            }
+
+            advancedSheet.show(this)
+        }
     }
 
     private fun generateClicks() {
@@ -294,7 +306,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (BuildConfig.DEBUG) "10" else if (!prefs.isUpgraded.get()) "40" else "50",
+                steps = if (BuildConfig.DEBUG) "40" else if (!prefs.isUpgraded.get()) "40" else "50",
                 model = "anything_4_0",
                 sampler = "euler_a",
                 upscale = "2",

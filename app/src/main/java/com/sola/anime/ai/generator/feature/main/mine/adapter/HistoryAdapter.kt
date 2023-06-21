@@ -35,9 +35,11 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
 //        val layoutParams = binding.root.layoutParams as StaggeredGridLayoutManager.LayoutParams
 //        layoutParams.isFullSpan = ratio == "${Ratio.Ratio16x9.width}:${Ratio.Ratio16x9.height}"
 
+        val lastChild = item.childs.lastOrNull()
+
         Glide
             .with(context)
-            .load(item.childs.lastOrNull()?.pathPreview)
+            .load(lastChild?.upscalePathPreview ?: lastChild?.pathPreview)
             .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
             .listener(object: RequestListener<Drawable>{

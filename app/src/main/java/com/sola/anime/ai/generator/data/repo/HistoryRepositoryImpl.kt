@@ -34,7 +34,7 @@ class HistoryRepositoryImpl @Inject constructor(
 
             it.id
         } ?: run {
-            File(childHistory.pathPreview)
+            File(childHistory.upscalePathPreview ?: childHistory.pathPreview)
                 .takeIf { file -> file.exists() }
                 ?.let {
                     historyDao.insert(

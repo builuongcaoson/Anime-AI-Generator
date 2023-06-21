@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.domain.model.history
 
 data class ChildHistory(
     val pathPreview: String,
+    var upscalePathPreview: String? = null,
     val prompt: String,
     val negativePrompt: String,
     val guidance: String,

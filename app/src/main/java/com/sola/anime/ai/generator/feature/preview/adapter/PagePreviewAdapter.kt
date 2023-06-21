@@ -30,7 +30,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
 
         Glide
             .with(context)
-            .load(item.pathPreview)
+            .load(item.upscalePathPreview ?: item.pathPreview)
             .placeholder(R.drawable.place_holder_image)
             .error(R.drawable.place_holder_image)
             .listener(object: RequestListener<Drawable> {

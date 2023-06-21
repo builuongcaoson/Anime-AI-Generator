@@ -22,12 +22,14 @@ import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.ServerApiRepositoryImpl
+import com.sola.anime.ai.generator.data.repo.UpscaleApiRepositoryImpl
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
+import com.sola.anime.ai.generator.domain.repo.UpscaleApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import com.sola.anime.ai.generator.inject.upscale.UpscaleApi
 import com.sola.anime.ai.generator.inject.server.ServerApi
@@ -264,6 +266,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideServerApiRepositoryImpl(repo: ServerApiRepositoryImpl): ServerApiRepository = repo
+
+    @Provides
+    @Singleton
+    fun provideUpscaleApiRepositoryImpl(repo: UpscaleApiRepositoryImpl): UpscaleApiRepository = repo
 
     @Provides
     @Singleton

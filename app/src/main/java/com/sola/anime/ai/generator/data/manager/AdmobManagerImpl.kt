@@ -23,10 +23,12 @@ class AdmobManagerImpl @Inject constructor(
     companion object {
         var rewardCreate: RewardedAd? = null
         var rewardCreateAgain: RewardedAd? = null
+        var rewardUpscale: RewardedAd? = null
     }
 
     private var isLoadingRewardCreate = false
     private var isLoadingRewardCreateAgain = false
+    private var isLoadingRewardUpscale = false
 
     override fun loadRewardCreate() {
         when {
@@ -124,6 +126,62 @@ class AdmobManagerImpl @Inject constructor(
                 }
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                     rewardCreateAgain = null
+
+                    failed()
+                }
+
+                override fun onAdClicked() {
+                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
+                }
+            }
+            it.show(activity){
+                isRewarded = true
+            }
+        } ?: run {
+            failed()
+        }
+    }
+
+    override fun loadRewardUpscale() {
+        when {
+            isLoadingRewardUpscale || rewardUpscale != null -> return
+        }
+
+        isLoadingRewardUpscale = true
+
+        RewardedAd.load(context,
+            context.getString(R.string.key_reward_upscale),
+            AdRequest.Builder().build(),
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    rewardUpscale = null
+
+                    isLoadingRewardUpscale = false
+                }
+
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewardUpscale = ad
+
+                    isLoadingRewardUpscale = false
+                }
+            })
+    }
+
+    override fun showRewardUpscale(activity: Activity, success: () -> Unit, failed: () -> Unit) {
+        var isRewarded = false
+
+        rewardUpscale?.let {
+            it.fullScreenContentCallback = object: FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    rewardUpscale = null
+
+                    when {
+                        isRewarded -> success()
+                        else -> failed()
+                    }
+                }
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    rewardUpscale = null
 
                     failed()
                 }

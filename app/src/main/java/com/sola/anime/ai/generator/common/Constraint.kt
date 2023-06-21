@@ -5,9 +5,9 @@ class Constraint {
         companion object {
             const val URL = "https://super-image1.p.rapidapi.com/"
             const val HEADER_RAPID_KEY = "X-RapidAPI-Key"
-            const val RAPID_KEY = "yC52kE9ygotYegfeFSY1gW/Sm2UR5Cfh75TZY+Rj+9Woa1aELndKpW8zMbLG2NJega2aRsbXhlmT15BazsMdGg=="
+            const val RAPID_KEY = "6dc18db382mshf55f8c8958b8188p1dff71jsnb059d3d58467"
             const val HEADER_RAPID_HOST = "X-RapidAPI-Host"
-            const val RAPID_HOST = "dezgo.p.rapidapi.com"
+            const val RAPID_HOST = "super-image1.p.rapidapi.com"
         }
     }
 
@@ -41,7 +41,7 @@ class Constraint {
 
             const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
 
-            const val DATA_VERSION = 4
+            const val DATA_VERSION = 5
         }
     }
 

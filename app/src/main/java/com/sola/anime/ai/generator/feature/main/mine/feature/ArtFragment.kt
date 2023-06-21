@@ -59,7 +59,13 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
         folderAdapter
             .plusClicks
             .autoDispose(scope())
-            .subscribe { addFolderSheet.show(this) }
+            .subscribe {
+                if (addFolderSheet.isAdded){
+                    return@subscribe
+                }
+
+                addFolderSheet.show(this)
+            }
 
         prefs
             .isUpgraded

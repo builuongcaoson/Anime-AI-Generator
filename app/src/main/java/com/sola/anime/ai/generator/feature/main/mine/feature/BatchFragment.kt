@@ -59,7 +59,13 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
         folderAdapter
             .plusClicks
             .autoDispose(scope())
-            .subscribe { addFolderSheet.show(this) }
+            .subscribe {
+                if (addFolderSheet.isAdded){
+                    return@subscribe
+                }
+
+                addFolderSheet.show(this)
+            }
     }
 
     private fun initData() {

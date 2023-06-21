@@ -11,4 +11,8 @@ interface AdmobManager {
     fun loadRewardCreateAgain()
 
     fun showRewardCreateAgain(activity: Activity, success: () -> Unit, failed: () -> Unit = {})
+
+    fun loadRewardUpscale()
+
+    fun showRewardUpscale(activity: Activity, success: () -> Unit, failed: () -> Unit = {})
 }

@@ -12,7 +12,10 @@ interface AnalyticManager {
         GENERATE_FAILED,
         SYNC_USER_PREMIUM_FAILED,
         GENERATE_CLICKED,
-        GENERATE_BATCH_CLICKED
+        GENERATE_BATCH_CLICKED,
+        UPSCALE_CLICKED,
+        UPSCALE_SUCCESS,
+        UPSCALE_FAILED
     }
 
     fun logEvent(type: TYPE)
