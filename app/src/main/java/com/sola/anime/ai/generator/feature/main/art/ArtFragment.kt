@@ -71,11 +71,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private val historySheet by lazy { HistorySheet() }
     private val advancedSheet by lazy { AdvancedSheet() }
-    private val upscaleSheet by lazy { UpscaleSheet() }
 
     override fun onViewCreated() {
-        upscaleSheet.show(this)
-
         initView()
         initData()
         listenerView()

@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.BuildConfig
@@ -118,19 +121,23 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
     }
 
     private fun initView() {
-        binding.textPrivacy.makeLinks(
-            "Privacy Policy" to View.OnClickListener {
-                navigator.showPrivacy()
-            },
-            "Terms of Use" to View.OnClickListener {
-                navigator.showTerms()
-            }
-        )
+        tryOrNull { binding.textPrivacy.makeLinks("Privacy Policy" to View.OnClickListener { navigator.showPrivacy() }, "Terms of Use" to View.OnClickListener { navigator.showTerms() }) }
 
-        tryOrNull {
-            binding.image2.setImageResource(R.drawable.first_preview_zzz1xxx1zzz_2)
-        } ?: run {
-            binding.image2.setImageResource(R.drawable.place_holder_image)
+        listOf<Pair<ImageView, Int>>(
+            binding.image1 to R.drawable.first_preview_zzz2xxx3zzz_1,
+            binding.image2 to R.drawable.first_preview_zzz1xxx1zzz_2,
+            binding.image3 to R.drawable.first_preview_zzz4xxx3zzz_3,
+            binding.image4 to R.drawable.first_preview_zzz3xxx4zzz_4,
+            binding.image5 to R.drawable.first_preview_zzz16xxx9zzz_5,
+            binding.image6 to R.drawable.first_preview_zzz1xxx1zzz_6,
+            binding.image7 to R.drawable.first_preview_zzz9xxx16zzz_7,
+            binding.image8 to R.drawable.first_preview_zzz2xxx3zzz_8
+        ).forEach { pair ->
+            Glide.with(this)
+                .load(pair.second)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.place_holder_image)
+                .into(pair.first)
         }
 
         listOf(
@@ -141,8 +148,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
             binding.viewAnim5,
             binding.viewAnim6,
             binding.viewAnim7,
-            binding.viewAnim8,
-            binding.viewAnim9
+            binding.viewAnim8
         ).forEachIndexed { index, view ->
             view.animScale(index)
         }

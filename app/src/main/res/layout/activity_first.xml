@@ -9,18 +9,17 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim2"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.3"
-        android:layout_marginTop="@dimen/_120sdp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/_20sdp"
-        app:layout_constraintStart_toEndOf="@id/viewAnim7"
-        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_120sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintDimensionRatio="1:1"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintBottom_toTopOf="@id/viewAnim1">
+        app:layout_constraintBottom_toTopOf="@id/viewAnim1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toEndOf="@id/viewAnim7"
+        app:layout_constraintWidth_percent="0.3">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image2"
@@ -35,108 +34,115 @@
         android:id="@+id/viewAnim3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.45"
         android:layout_marginTop="@dimen/_100sdp"
         android:layout_marginEnd="@dimen/_minus50sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1536:1016"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintTop_toBottomOf="@id/viewAnim2">
+        app:layout_constraintDimensionRatio="4:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewAnim2"
+        app:layout_constraintWidth_percent="0.45">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz1536xxx1016zzz_3" />
+            tools:src="@drawable/first_preview_zzz4xxx3zzz_3" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim4"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.4"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_10sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="680:1024"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintTop_toBottomOf="@id/viewAnim3">
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewAnim3"
+        app:layout_constraintWidth_percent="0.4">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz680xxx1024zzz_4" />
+            tools:src="@drawable/first_preview_zzz3xxx4zzz_4" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim5"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.45"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintDimensionRatio="1024:576"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintBottom_toBottomOf="@id/viewAnim4">
+        app:layout_constraintBottom_toBottomOf="@id/viewAnim4"
+        app:layout_constraintDimensionRatio="16:9"
+        android:layout_marginEnd="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/viewAnim4">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz1024xxx576zzz_5" />
+            tools:src="@drawable/first_preview_zzz16xxx9zzz_5" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim6"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.35"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_minus10sdp"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintDimensionRatio="1:1"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintBottom_toTopOf="@id/viewAnim5">
+        app:layout_constraintBottom_toTopOf="@id/viewAnim5"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.35">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz1xxx1zzz_6" />
+            tools:src="@drawable/first_preview_zzz1xxx1zzz_6" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim7"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.4"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintDimensionRatio="768:1024"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        app:layout_constraintBottom_toTopOf="@id/viewAnim6">
+        app:layout_constraintBottom_toTopOf="@id/viewAnim6"
+        app:layout_constraintDimensionRatio="9:16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.4">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image7"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz768xxx1024zzz_7" />
+            tools:src="@drawable/first_preview_zzz9xxx16zzz_7" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -144,91 +150,70 @@
         android:id="@+id/viewAnim8"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="2:4"
-        app:cardBackgroundColor="?android:windowBackground"
-        app:cardCornerRadius="@dimen/_15sdp"
-        app:cardElevation="@dimen/_3sdp"
-        android:layout_marginEnd="@dimen/_minus20sdp"
         android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_minus20sdp"
         android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintBottom_toTopOf="@id/viewAnim3"
-        app:layout_constraintStart_toEndOf="@id/viewAnim1"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz2xxx3zzz_8" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewAnim9"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="3:2"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
-        android:layout_marginStart="@dimen/_minus15sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_20sdp"
-        app:layout_constraintBottom_toTopOf="@id/viewAnim7"
-        app:layout_constraintEnd_toStartOf="@id/viewAnim2"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/viewAnim3"
+        app:layout_constraintDimensionRatio="2:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/viewAnim1">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image8"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz3xxx2zzz_9" />
+            tools:src="@drawable/first_preview_zzz2xxx3zzz_8" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewAnim1"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.55"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="2:3"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="@dimen/_3sdp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="2:3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.55">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/first_preview_zzz2xxx3zzz_1" />
+            tools:src="@drawable/first_preview_zzz2xxx3zzz_1" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:src="@drawable/ab_shadow_top_white"
         android:elevation="@dimen/_3sdp"
+        android:src="@drawable/ab_shadow_top_white"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-        android:src="@drawable/ab_shadow_bottom_white"
         android:elevation="@dimen/_3sdp"
+        android:src="@drawable/ab_shadow_bottom_white"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.basic.common.widget.LsTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
-        android:elevation="@dimen/_3sdp"
         android:layout_marginTop="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_50sdp"
+        android:elevation="@dimen/_3sdp"
         android:text="Creating Images from Text"
         android:textColor="?android:textColorPrimary"
         android:textSize="@dimen/_30ssp"
@@ -238,9 +223,9 @@
         app:textFont="bold" />
 
     <LinearLayout
-        android:elevation="@dimen/_3sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/_3sdp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
