@@ -76,7 +76,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
         binding.textSeeAll.clicks(withAnim = true) {  }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
-        binding.cardGenerate.clicks { generateClicks() }
+        binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
     }
 
     private fun generateClicks() {

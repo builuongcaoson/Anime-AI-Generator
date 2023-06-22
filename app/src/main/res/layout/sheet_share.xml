@@ -230,7 +230,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/viewDownload"
+            android:id="@+id/viewShare"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_10sdp"

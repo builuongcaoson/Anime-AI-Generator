@@ -359,15 +359,17 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .downloadFrameClicks
             .autoDispose(scope())
             .subscribe { view ->
-                tryOrNull { downloadSheet.dismiss() }
-
                 tryOrNull {
                     analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_CLICKED)
 
                     lifecycleScope.launch(Dispatchers.IO) {
                         val bitmap = tryOrNull { view.drawToBitmap() } ?: return@launch
                         fileRepo.downloads(bitmap)
-                        launch(Dispatchers.Main) { makeToast("Download successfully!") }
+                        launch(Dispatchers.Main) {
+                            tryOrNull { downloadSheet.dismiss() }
+
+                            makeToast("Download successfully!")
+                        }
                     }
                 }
             }
@@ -376,14 +378,19 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .downloadOriginalClicks
             .autoDispose(scope())
             .subscribe { file ->
-                tryOrNull { downloadSheet.dismiss() }
 
                 val task = {
                     analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_ORIGINAL_CLICKED)
 
                     lifecycleScope.launch {
                         fileRepo.downloads(file)
-                        launch(Dispatchers.Main) { makeToast("Download successfully!") }
+                        launch(Dispatchers.Main) {
+                            prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
+
+                            tryOrNull { downloadSheet.dismiss() }
+
+                            makeToast("Download successfully!")
+                        }
                     }
                 }
 
@@ -412,8 +419,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .shareFrameClicks
             .autoDispose(scope())
             .subscribe { view ->
-                tryOrNull { shareSheet.dismiss() }
-
                 tryOrNull {
                     analyticManager.logEvent(AnalyticManager.TYPE.SHARE_CLICKED)
 
@@ -428,8 +433,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .shareOriginalClicks
             .autoDispose(scope())
             .subscribe { file ->
-                tryOrNull { shareSheet.dismiss() }
-
                 val task = {
                     analyticManager.logEvent(AnalyticManager.TYPE.SHARE_ORIGINAL_CLICKED)
 

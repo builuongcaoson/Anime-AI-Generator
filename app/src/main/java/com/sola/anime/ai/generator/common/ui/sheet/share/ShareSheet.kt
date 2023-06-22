@@ -36,9 +36,17 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
 
     @Inject lateinit var prefs: Preferences
 
-    private val subjectFrameChanges: Subject<Boolean> by lazy { BehaviorSubject.createDefault(true) }
     val shareFrameClicks: Subject<View> by lazy { PublishSubject.create() }
     val shareOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
+    private var isFrame: Boolean = true
+        set(value) {
+            if (!value && !prefs.isUpgraded.get()){
+                activity?.startIap()
+                return
+            }
+            field = value
+            updateUiFrame()
+        }
     var file: File? = null
     var ratio: String = "1:1"
 
@@ -48,9 +56,35 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
         listenerView()
     }
 
+    private fun updateUiFrame() {
+        when {
+            !isFrame -> activity?.startIap()
+            else -> {
+                activity?.let { activity ->
+                    binding.viewFrame.isVisible = isFrame
+                    binding.previewOriginal.isVisible = !isFrame
+
+                    binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+                    binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+                    binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                    binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                    binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                }
+            }
+        }
+    }
+
     private fun listenerView() {
-        binding.viewTabFrame.clicks(withAnim = false) { shareFrameClicks.onNext(binding.viewFrame) }
-        binding.viewTabOriginal.clicks(withAnim = false) { file?.takeIf { file -> file.exists() }?.let { file -> shareOriginalClicks.onNext(file) } }
+        binding.viewTabFrame.clicks(withAnim = false) { isFrame = true }
+        binding.viewTabOriginal.clicks(withAnim = false) { isFrame = false }
+        binding.viewShare.clicks(withAnim = false) { shareClicks() }
+    }
+
+    private fun shareClicks() {
+        when {
+            isFrame -> shareFrameClicks.onNext(binding.viewFrame)
+            else -> file?.takeIf { file -> file.exists() }?.let { file -> shareOriginalClicks.onNext(file) }
+        }
     }
 
     override fun onResume() {
@@ -59,25 +93,7 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
     }
 
     private fun initObservable() {
-        subjectFrameChanges
-            .autoDispose(scope())
-            .subscribe { isFrame ->
-                when {
-                    !isFrame && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL -> activity?.startIap()
-                    else -> {
-                        activity?.let { activity ->
-                            binding.viewFrame.isVisible = isFrame
-                            binding.previewOriginal.isVisible = !isFrame
 
-                            binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
-                            binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
-                            binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-                            binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-                            binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-                        }
-                    }
-                }
-            }
     }
 
     private fun initData() {

@@ -35,9 +35,17 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
 
     @Inject lateinit var prefs: Preferences
 
-    private val subjectFrameChanges: Subject<Boolean> by lazy { BehaviorSubject.createDefault(true) }
     val downloadFrameClicks: Subject<View> by lazy { PublishSubject.create() }
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
+    private var isFrame: Boolean = true
+        set(value) {
+            if (!value && !prefs.isUpgraded.get() && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL){
+                activity?.startIap()
+                return
+            }
+            field = value
+            updateUiFrame()
+        }
     var file: File? = null
     var ratio: String = "1:1"
 
@@ -47,9 +55,33 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
         listenerView()
     }
 
+    private fun updateUiFrame() {
+        activity?.let { activity ->
+            binding.viewFrame.isVisible = isFrame
+            binding.previewOriginal.isVisible = !isFrame
+
+            binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+            binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+            binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+            binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+            binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+
+            binding.iconWatchAd.isVisible = !prefs.isUpgraded.get() && !isFrame
+            binding.textDescription.isVisible = !prefs.isUpgraded.get() && !isFrame
+        }
+    }
+
     private fun listenerView() {
-        binding.viewTabFrame.clicks(withAnim = false) { downloadFrameClicks.onNext(binding.viewFrame) }
-        binding.viewTabOriginal.clicks(withAnim = false) { file?.takeIf { file -> file.exists() }?.let { file -> downloadOriginalClicks.onNext(file) } }
+        binding.viewTabFrame.clicks(withAnim = false) { isFrame = true }
+        binding.viewTabOriginal.clicks(withAnim = false) { isFrame = false }
+        binding.viewDownload.clicks(withAnim = false) { downloadClicks() }
+    }
+
+    private fun downloadClicks() {
+        when {
+            isFrame -> downloadFrameClicks.onNext(binding.viewFrame)
+            else -> file?.takeIf { file -> file.exists() }?.let { file -> downloadOriginalClicks.onNext(file) }
+        }
     }
 
     override fun onResume() {
@@ -58,29 +90,6 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     }
 
     private fun initObservable() {
-        subjectFrameChanges
-            .autoDispose(scope())
-            .subscribe { isFrame ->
-                when {
-                    !isFrame && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL -> activity?.startIap()
-                    else -> {
-                        activity?.let { activity ->
-                            binding.viewFrame.isVisible = isFrame
-                            binding.previewOriginal.isVisible = !isFrame
-
-                            binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
-                            binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
-                            binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-                            binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-                            binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-
-                            binding.iconWatchAd.isVisible = !prefs.isUpgraded.get() && !isFrame
-                            binding.textDescription.isVisible = !prefs.isUpgraded.get() && !isFrame
-                        }
-                    }
-                }
-            }
-
         prefs
             .isUpgraded
             .asObservable()
@@ -89,8 +98,8 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
             .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.imagePremiumOriginal.isVisible = !isUpgraded
-                binding.iconWatchAd.isVisible = !isUpgraded && !subjectFrameChanges.blockingFirst()
-                binding.textDescription.isVisible = !isUpgraded && !subjectFrameChanges.blockingFirst()
+                binding.iconWatchAd.isVisible = !isUpgraded && !isFrame
+                binding.textDescription.isVisible = !isUpgraded && !isFrame
             }
     }
 

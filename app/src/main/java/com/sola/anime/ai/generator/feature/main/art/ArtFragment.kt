@@ -262,7 +262,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
         }
         binding.viewPro.clicks { activity?.startIap() }
-        binding.cardGenerate.clicks { generateClicks() }
+        binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
         binding.viewExplore.clicks(withAnim = false) { activity?.startExplore() }
         binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }

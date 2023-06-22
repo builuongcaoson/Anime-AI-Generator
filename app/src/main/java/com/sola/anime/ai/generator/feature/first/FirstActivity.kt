@@ -98,7 +98,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
     }
 
     private fun listenerView() {
-        binding.cardStart.clicks(withAnim = true){
+        binding.cardStart.clicks(withAnim = false){
             lifecycleScope.launch {
                 delay(100)
 
