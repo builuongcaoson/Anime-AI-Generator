@@ -26,7 +26,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
     ) {
         val context = binding.root.context
 
-        binding.viewEnhance.isVisible = item.upscalePathPreview == null
+        binding.viewUpscale.isVisible = item.upscalePathPreview == null
 
         tryOrNull {
             val ratio = "${item.width}:${item.height}"
@@ -47,7 +47,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
         }
 
         binding.cardPreview.clicks(withAnim = false){ clicks.onNext(item) }
-        binding.viewEnhance.clicks(withAnim = false){ upscaleClicks.onNext(item) }
+        binding.viewUpscale.clicks(withAnim = false){ upscaleClicks.onNext(item) }
     }
 
 }
