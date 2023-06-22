@@ -40,11 +40,11 @@ class ServerApiRepositoryImpl @Inject constructor(
                 null
             }
         } ?: run {
+            analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
+
             prefs.userPremium.delete()
             prefs.isSyncUserPurchased.delete()
             prefs.isSyncUserPurchasedFailed.delete()
-
-            analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
 
             success(null)
             return
@@ -72,11 +72,11 @@ class ServerApiRepositoryImpl @Inject constructor(
                 success(userPremium)
             }
             else -> {
+                analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
+
                 prefs.userPremium.delete()
                 prefs.isSyncUserPurchased.delete()
                 prefs.isSyncUserPurchasedFailed.delete()
-
-                analyticManager.logEvent(AnalyticManager.TYPE.SYNC_USER_PREMIUM_FAILED)
 
                 success(null)
             }

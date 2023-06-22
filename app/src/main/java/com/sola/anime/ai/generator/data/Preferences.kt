@@ -17,6 +17,7 @@ class Preferences @Inject constructor(
     companion object {
         const val MAX_NUMBER_CREATE_ARTWORK = 5L
         const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 15L
+        const val MAX_NUMBER_DOWNLOAD_ORIGINAL = 3L
         const val MAX_SECOND_GENERATE_ART = 30
     }
 
@@ -39,6 +40,7 @@ class Preferences @Inject constructor(
     val isRated = rxPrefs.getBoolean("isRated", false)
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
     val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
+    val numberDownloadedOriginal = rxPrefs.getLong("numberDownloadedOriginal", 0)
     val numberCreatedArtworkInDayFailed = rxPrefs.getLong("numberCreatedArtworkInDayFailed", 1)
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
     val totalNumberCreatedArtwork = rxPrefs.getLong("totalNumberCreatedArtwork", 0)

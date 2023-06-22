@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.result.art
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
@@ -86,6 +88,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private var childHistories = arrayListOf<ChildHistory>()
     private val upscaleSheet by lazy { UpscaleSheet() }
+    private val downloadSheet by lazy { DownloadSheet() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,26 +115,20 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         if (!isGallery){
             tryOrNull { lifecycleScope.launch { serverApiRepo.updateCreatedArtworkInDay() } }
 
-            tryOrNull { analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS) }
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
 
-            when {
-                App.app.reviewInfo != null -> {
+            tryOrNull {
+                App.app.reviewInfo?.let { reviewInfo ->
                     tryOrNull {
-                        val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
-                        flow.addOnCompleteListener { task2 ->
-                            if (task2.isSuccessful){
-
-                            }
-                        }
+                        val flow = App.app.manager.launchReviewFlow(this, reviewInfo)
+                        flow.addOnCompleteListener { }
                     }
                 }
             }
 
-            tryOrNull {
-                prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
-                prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
-                prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
-            }
+            prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
+            prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
+            prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
         }
 
         initView()
@@ -198,20 +195,27 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun downloadClicks() {
-        childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
-            tryOrNull {
-                lifecycleScope.launch {
-                    fileRepo.downloads(File(childHistory.upscalePathPreview ?: childHistory.pathPreview))
-                    launch(Dispatchers.Main) { makeToast("Download successfully!") }
-                }
-            } ?: run {
-                makeToast("Something wrong, please try again!")
-            }
+        if (downloadSheet.isAdded){
+            return
+        }
+
+        childHistories
+            .getOrNull(binding.viewPager.currentItem)
+            ?.let { childHistory ->
+                File(childHistory.upscalePathPreview ?: childHistory.pathPreview)
+            }?.takeIf { file -> file.exists() }
+            ?.let { file ->
+                downloadSheet.file = file
+                downloadSheet.show(this)
+        } ?: run {
+            makeToast("Something wrong, please try again!")
         }
     }
 
     private fun shareClicks() {
         childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
+            analyticManager.logEvent(AnalyticManager.TYPE.SHARE_CLICKED)
+
             lifecycleScope.launch {
                 fileRepo.shares(File(childHistory.upscalePathPreview ?: childHistory.pathPreview))
             }
@@ -316,6 +320,64 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 val task = {
                     binding.viewLoading.isVisible = true
                     upscaleClicks(index)
+                }
+
+                when {
+                    !prefs.isUpgraded.get() -> {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            delay(250)
+                            admobManager.showRewardUpscale(
+                                this@ArtResultActivity,
+                                success = {
+                                    task()
+                                    admobManager.loadRewardUpscale()
+                                },
+                                failed = {
+                                    makeToast("Please watch all ads to perform the function!")
+                                    admobManager.loadRewardUpscale()
+                                }
+                            )
+                        }
+                    }
+                    else -> task()
+                }
+            }
+
+        downloadSheet
+            .downloadFrameClicks
+            .autoDispose(scope())
+            .subscribe { view ->
+                tryOrNull { upscaleSheet.dismiss() }
+
+                tryOrNull {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_CLICKED)
+
+                    lifecycleScope.launch {
+                        launch(Dispatchers.Main){ binding.viewLoading.isVisible = true }
+                        val bitmap = view.drawToBitmap()
+                        fileRepo.downloads(bitmap)
+                        launch(Dispatchers.Main) {
+                            delay(500)
+                            binding.viewLoading.isVisible = false
+                            makeToast("Download successfully!")
+                        }
+                    }
+                }
+            }
+
+        downloadSheet
+            .downloadOriginalClicks
+            .autoDispose(scope())
+            .subscribe { file ->
+                tryOrNull { downloadSheet.dismiss() }
+
+                val task = {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_ORIGINAL_CLICKED)
+
+                    lifecycleScope.launch {
+                        fileRepo.downloads(file)
+                        launch(Dispatchers.Main) { makeToast("Download successfully!") }
+                    }
                 }
 
                 when {

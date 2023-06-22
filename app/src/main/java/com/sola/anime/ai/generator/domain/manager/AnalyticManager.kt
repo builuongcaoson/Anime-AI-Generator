@@ -15,7 +15,10 @@ interface AnalyticManager {
         GENERATE_BATCH_CLICKED,
         UPSCALE_CLICKED,
         UPSCALE_SUCCESS,
-        UPSCALE_FAILED
+        UPSCALE_FAILED,
+        DOWNLOAD_CLICKED,
+        DOWNLOAD_ORIGINAL_CLICKED,
+        SHARE_CLICKED
     }
 
     fun logEvent(type: TYPE)

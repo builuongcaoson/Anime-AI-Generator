@@ -18,3 +18,4 @@ rootProject.name = "Anime Ai Generator"
 include ':app'
 include ':basic'
 include ':photoView'
+include ':blurview'
