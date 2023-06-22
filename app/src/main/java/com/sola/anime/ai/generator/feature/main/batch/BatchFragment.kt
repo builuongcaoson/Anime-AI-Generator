@@ -38,6 +38,7 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -189,13 +190,18 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun updateUiCredit(){
-        val creditNumbers = promptAdapter.data.sumOf { it.numberOfImages.number + if (it.isFullHd) 5 else 0 }
-        val creditForRatio = 0f
-        val creditFor1Image = 10f
-        val discount = 0.2f
+        val numbersOfImages = promptAdapter.data.sumOf { it.numberOfImages.number }
+        val creditForNumbersOfImages = promptAdapter.data.sumByDouble { (it.numberOfImages.number * if (it.isFullHd) 15.0 else 10.0) }
+//        val creditForRatio = 0f
+//        val creditFor1Image = 10f
+        val discount = 0.02
 
-        configApp.discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
-        val totalCredit = ((creditNumbers * (creditForRatio + creditFor1Image))).roundToInt()
+        Timber.e("DiscountCredits: ${(creditForNumbersOfImages - (creditForNumbersOfImages * discount))}")
+
+//        configApp.discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
+        configApp.discountCredit = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
+//        val totalCredit = ((creditNumbers * (creditForRatio + creditFor1Image))).roundToInt()
+        val totalCredit = creditForNumbersOfImages.roundToInt()
 
         binding.discountCredit.text = configApp.discountCredit.toString()
         binding.totalCredit.apply {

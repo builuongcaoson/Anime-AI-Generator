@@ -16,8 +16,8 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
 
     init {
         data = listOf(
-            PreviewCategoryBatch(display = "Anime V5", preview = R.drawable.preview_model_anime_v5, modelId = "anything_5_0"),
-            PreviewCategoryBatch(display = "Anime V4", preview = R.drawable.preview_model_anime_v4, modelId = "anything_4_0"),
+            PreviewCategoryBatch(display = "Anime V5", preview = R.drawable.preview_model_anime_v5, modelId = "anything_5_0", description = "New"),
+            PreviewCategoryBatch(display = "Anime V4", preview = R.drawable.preview_model_anime_v4, modelId = "anything_4_0", description = "Most used"),
             PreviewCategoryBatch(display = "Anime V3", preview = R.drawable.preview_model_anime_v3, modelId = "anything_3_0"),
             PreviewCategoryBatch(display = "Waifu V4", preview = R.drawable.preview_model_waifu_v4, modelId = "waifudiffusion_1_4"),
             PreviewCategoryBatch(display = "Waifu V3", preview = R.drawable.preview_model_waifu_v3, modelId = "waifudiffusion_1_3"),
@@ -46,6 +46,8 @@ class PreviewCategoryAdapter @Inject constructor(): LsAdapter<PreviewCategoryBat
 
         binding.display.text = item.display
         binding.viewSelected.isVisible = item.display == category.display
+        binding.viewDescription.isVisible = item.description.isNotEmpty()
+        binding.description.text = item.description
 
         Glide
             .with(context)

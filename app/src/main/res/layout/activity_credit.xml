@@ -250,7 +250,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="+150 credits"
+                            android:text="+250 credits"
                             android:textColor="?colorAccent"
                             android:textSize="@dimen/_10ssp"
                             app:textFont="semi" />
@@ -562,6 +562,7 @@
                         app:textFont="semi" />
 
                     <com.basic.common.widget.LsTextView
+                        android:id="@+id/creditsReceived"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -651,8 +652,7 @@
         android:background="#80000000"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="0dp"

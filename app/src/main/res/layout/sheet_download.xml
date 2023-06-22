@@ -69,6 +69,7 @@
                                 tools:src="@drawable/first_preview_zzz1xxx1zzz_2" />
 
                             <com.basic.common.widget.LsTextView
+                                android:id="@+id/style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="?colorOnPrimary"
@@ -111,7 +112,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/previewFrame2"
-                                tools:text="@string/app_name" />
+                                android:text="@string/app_name" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 

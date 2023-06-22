@@ -74,8 +74,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private val sku2 by lazy {
         when (configApp.scriptIap) {
             "0" -> Constraint.Iap.SKU_WEEK
-            "1" -> Constraint.Iap.SKU_MONTH
-            else -> Constraint.Iap.SKU_WEEK_3D_TRIAl
+            "1" -> Constraint.Iap.SKU_WEEK_3D_TRIAl
+            else -> Constraint.Iap.SKU_MONTH
         }
     }
     private val sku3 by lazy {

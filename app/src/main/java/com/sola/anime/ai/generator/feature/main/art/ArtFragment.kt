@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
@@ -306,7 +305,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (BuildConfig.DEBUG) "40" else if (!prefs.isUpgraded.get()) "40" else "50",
+                steps = if (BuildConfig.DEBUG) configApp.stepDefault else if (!prefs.isUpgraded.get()) configApp.stepDefault else configApp.stepPremium,
                 model = "anything_4_0",
                 sampler = "euler_a",
                 upscale = "2",

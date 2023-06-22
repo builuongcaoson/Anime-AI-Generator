@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 data class CategoryBatch(val display: String)
 
-data class PreviewCategoryBatch(val display: String, val preview: Int, val modelId: String, val isPremium: Boolean = false, val description: String)
+data class PreviewCategoryBatch(val display: String, val preview: Int, val modelId: String, val isPremium: Boolean = false, val description: String = "")
 
 data class PromptBatch(
     var prompt: String = "",

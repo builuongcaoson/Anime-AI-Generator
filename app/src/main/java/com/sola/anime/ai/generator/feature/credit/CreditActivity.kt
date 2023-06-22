@@ -136,7 +136,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
                 val creditsReceived = when (item.id) {
                     Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
-                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3450 else 3150
+                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
                     Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
                     Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded.get()) 12000 else 11000
                     else -> 0
@@ -227,7 +227,12 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private fun initObservable() {
         subjectSkuChoice
             .autoDispose(scope())
-            .subscribe { 
+            .subscribe {
+                binding.view4.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_1000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+                binding.view3.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_3000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+                binding.view2.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_5000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+                binding.view1.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_10000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+
                 when {
                     it == Constraint.Iap.SKU_CREDIT_1000 -> {
                         binding.checkbox4.setImageResource(R.drawable.circle)
@@ -254,6 +259,16 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                         binding.checkbox1.setImageResource(R.drawable.circle)
                     }
                 }
+
+                val creditsReceived = when (it) {
+                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
+                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
+                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
+                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded.get()) 12000 else 11000
+                    else -> 0
+                }
+
+                binding.creditsReceived.text = "Get $creditsReceived Credits"
             }
 
         prefs

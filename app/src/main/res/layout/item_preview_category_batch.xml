@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/_10sdp"
-    android:layout_marginTop="@dimen/_15sdp"
+    android:layout_marginTop="@dimen/_10sdp"
     android:layout_marginBottom="@dimen/_10sdp"
     android:orientation="vertical">
 
@@ -28,6 +28,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewDescription"
+                android:layout_width="wrap_content"
+                app:cardElevation="@dimen/_3sdp"
+                app:cardCornerRadius="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:cardBackgroundColor="?colorAccent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content">
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/description"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    tools:text="New"
+                    android:textSize="@dimen/_8ssp"
+                    android:textColor="?colorOnPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewSelected"

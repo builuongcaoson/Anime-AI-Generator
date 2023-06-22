@@ -209,6 +209,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             ?.let { file ->
                 downloadSheet.file = file
                 downloadSheet.ratio = "${childHistories.getOrNull(binding.viewPager.currentItem)?.width ?: "1"}:${childHistories.getOrNull(binding.viewPager.currentItem)?.height ?: "1"}"
+                downloadSheet.style = childHistories.getOrNull(binding.viewPager.currentItem)?.styleId?.let { styleId -> styleDao.findById(styleId)?.display } ?: "No Style"
                 downloadSheet.show(this)
         } ?: run {
             makeToast("Something wrong, please try again!")
@@ -228,6 +229,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             ?.let { file ->
                 shareSheet.file = file
                 shareSheet.ratio = "${childHistories.getOrNull(binding.viewPager.currentItem)?.width ?: "1"}:${childHistories.getOrNull(binding.viewPager.currentItem)?.height ?: "1"}"
+                shareSheet.style = childHistories.getOrNull(binding.viewPager.currentItem)?.styleId?.let { styleId -> styleDao.findById(styleId)?.display } ?: "No Style"
                 shareSheet.show(this)
             } ?: run {
             makeToast("Something wrong, please try again!")

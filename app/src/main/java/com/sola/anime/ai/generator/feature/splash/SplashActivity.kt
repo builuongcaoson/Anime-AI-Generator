@@ -155,6 +155,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .fetchAndActivate()
                 .addOnSuccessListener {
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
+                    configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
+                    configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
                     configApp.maxNumberGeneratePremium = tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
@@ -164,6 +166,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
 
+                    Timber.e("scriptIap: ${configApp.scriptIap}")
+                    Timber.e("stepDefault: ${configApp.stepDefault}")
+                    Timber.e("stepPremium: ${configApp.stepPremium}")
                     Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
                     Timber.e("maxNumberGeneratePremium: ${configApp.maxNumberGeneratePremium}")
                     Timber.e("feature: ${configApp.feature}")
