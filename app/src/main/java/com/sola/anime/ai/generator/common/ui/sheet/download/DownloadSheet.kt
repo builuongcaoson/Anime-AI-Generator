@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.common.ui.sheet.download
 
 import android.graphics.Color
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import com.basic.common.extension.clicks
 import com.basic.common.extension.makeToast
@@ -38,6 +39,7 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     val downloadFrameClicks: Subject<View> by lazy { PublishSubject.create() }
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
     var file: File? = null
+    var ratio: String = "1:1"
 
     override fun onViewCreated() {
         initView()
@@ -46,8 +48,8 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     }
 
     private fun listenerView() {
-        binding.viewTabFrame.clicks(withAnim = false) {  }
-        binding.viewTabOriginal.clicks(withAnim = false) {  }
+        binding.viewTabFrame.clicks(withAnim = false) { downloadFrameClicks.onNext(binding.viewFrame) }
+        binding.viewTabOriginal.clicks(withAnim = false) { file?.takeIf { file -> file.exists() }?.let { file -> downloadOriginalClicks.onNext(file) } }
     }
 
     override fun onResume() {
@@ -63,6 +65,9 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
                     !isFrame && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL -> activity?.startIap()
                     else -> {
                         activity?.let { activity ->
+                            binding.viewFrame.isVisible = isFrame
+                            binding.previewOriginal.isVisible = !isFrame
+
                             binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
                             binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
                             binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
@@ -94,6 +99,12 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     }
 
     private fun initView() {
+        ConstraintSet().apply {
+            clone(binding.viewRoot)
+            setDimensionRatio(binding.previewRatio.id, ratio)
+            applyTo(binding.viewRoot)
+        }
+
         tryOrNull { binding.blurView.blur(binding.viewFrame) }
 
         file?.let {
@@ -108,6 +119,12 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .error(R.drawable.place_holder_image)
                 .into(binding.previewFrame2)
+
+            Glide.with(this)
+                .load(file)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.place_holder_image)
+                .into(binding.previewOriginal)
         }
     }
 

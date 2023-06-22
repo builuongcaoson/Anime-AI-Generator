@@ -1,15 +1,46 @@
 package com.sola.anime.ai.generator.common.ui.sheet.share
 
+import android.graphics.Color
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
+import com.basic.common.extension.clicks
+import com.basic.common.extension.makeToast
+import com.basic.common.extension.resolveAttrColor
+import com.basic.common.extension.setTint
+import com.basic.common.extension.tryOrNull
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
+import com.sola.anime.ai.generator.common.extension.blur
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.databinding.SheetDownloadBinding
+import com.sola.anime.ai.generator.databinding.SheetShareBinding
 import com.sola.anime.ai.generator.databinding.SheetUpscaleBinding
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShareSheet: LsBottomSheet<SheetUpscaleBinding>(SheetUpscaleBinding::inflate) {
+class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
 
     @Inject lateinit var prefs: Preferences
+
+    private val subjectFrameChanges: Subject<Boolean> by lazy { BehaviorSubject.createDefault(true) }
+    val shareFrameClicks: Subject<View> by lazy { PublishSubject.create() }
+    val shareOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
+    var file: File? = null
+    var ratio: String = "1:1"
 
     override fun onViewCreated() {
         initView()
@@ -18,7 +49,8 @@ class ShareSheet: LsBottomSheet<SheetUpscaleBinding>(SheetUpscaleBinding::inflat
     }
 
     private fun listenerView() {
-
+        binding.viewTabFrame.clicks(withAnim = false) { shareFrameClicks.onNext(binding.viewFrame) }
+        binding.viewTabOriginal.clicks(withAnim = false) { file?.takeIf { file -> file.exists() }?.let { file -> shareOriginalClicks.onNext(file) } }
     }
 
     override fun onResume() {
@@ -27,7 +59,25 @@ class ShareSheet: LsBottomSheet<SheetUpscaleBinding>(SheetUpscaleBinding::inflat
     }
 
     private fun initObservable() {
+        subjectFrameChanges
+            .autoDispose(scope())
+            .subscribe { isFrame ->
+                when {
+                    !isFrame && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL -> activity?.startIap()
+                    else -> {
+                        activity?.let { activity ->
+                            binding.viewFrame.isVisible = isFrame
+                            binding.previewOriginal.isVisible = !isFrame
 
+                            binding.viewTabFrame.setCardBackgroundColor(if (isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+                            binding.viewTabOriginal.setCardBackgroundColor(if (!isFrame) activity.resolveAttrColor(android.R.attr.colorAccent) else Color.TRANSPARENT)
+                            binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                            binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                            binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
+                        }
+                    }
+                }
+            }
     }
 
     private fun initData() {
@@ -35,7 +85,33 @@ class ShareSheet: LsBottomSheet<SheetUpscaleBinding>(SheetUpscaleBinding::inflat
     }
 
     private fun initView() {
+        ConstraintSet().apply {
+            clone(binding.viewRoot)
+            setDimensionRatio(binding.previewRatio.id, ratio)
+            applyTo(binding.viewRoot)
+        }
 
+        tryOrNull { binding.blurView.blur(binding.viewFrame) }
+
+        file?.let {
+            Glide.with(this)
+                .load(file)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.place_holder_image)
+                .into(binding.previewFrame1)
+
+            Glide.with(this)
+                .load(file)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.place_holder_image)
+                .into(binding.previewFrame2)
+
+            Glide.with(this)
+                .load(file)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.place_holder_image)
+                .into(binding.previewOriginal)
+        }
     }
 
 }

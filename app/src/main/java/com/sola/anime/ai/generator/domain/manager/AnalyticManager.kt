@@ -18,7 +18,8 @@ interface AnalyticManager {
         UPSCALE_FAILED,
         DOWNLOAD_CLICKED,
         DOWNLOAD_ORIGINAL_CLICKED,
-        SHARE_CLICKED
+        SHARE_CLICKED,
+        SHARE_ORIGINAL_CLICKED
     }
 
     fun logEvent(type: TYPE)

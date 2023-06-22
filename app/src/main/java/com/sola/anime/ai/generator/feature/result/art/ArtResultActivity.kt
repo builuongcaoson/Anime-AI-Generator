@@ -25,6 +25,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
+import com.sola.anime.ai.generator.common.ui.sheet.share.ShareSheet
 import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
@@ -89,6 +90,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private var childHistories = arrayListOf<ChildHistory>()
     private val upscaleSheet by lazy { UpscaleSheet() }
     private val downloadSheet by lazy { DownloadSheet() }
+    private val shareSheet by lazy { ShareSheet() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,6 +208,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             }?.takeIf { file -> file.exists() }
             ?.let { file ->
                 downloadSheet.file = file
+                downloadSheet.ratio = "${childHistories.getOrNull(binding.viewPager.currentItem)?.width ?: "1"}:${childHistories.getOrNull(binding.viewPager.currentItem)?.height ?: "1"}"
                 downloadSheet.show(this)
         } ?: run {
             makeToast("Something wrong, please try again!")
@@ -213,12 +216,21 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun shareClicks() {
-        childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
-            analyticManager.logEvent(AnalyticManager.TYPE.SHARE_CLICKED)
+        if (shareSheet.isAdded){
+            return
+        }
 
-            lifecycleScope.launch {
-                fileRepo.shares(File(childHistory.upscalePathPreview ?: childHistory.pathPreview))
-            }
+        childHistories
+            .getOrNull(binding.viewPager.currentItem)
+            ?.let { childHistory ->
+                File(childHistory.upscalePathPreview ?: childHistory.pathPreview)
+            }?.takeIf { file -> file.exists() }
+            ?.let { file ->
+                shareSheet.file = file
+                shareSheet.ratio = "${childHistories.getOrNull(binding.viewPager.currentItem)?.width ?: "1"}:${childHistories.getOrNull(binding.viewPager.currentItem)?.height ?: "1"}"
+                shareSheet.show(this)
+            } ?: run {
+            makeToast("Something wrong, please try again!")
         }
     }
 
@@ -347,20 +359,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .downloadFrameClicks
             .autoDispose(scope())
             .subscribe { view ->
-                tryOrNull { upscaleSheet.dismiss() }
+                tryOrNull { downloadSheet.dismiss() }
 
                 tryOrNull {
                     analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_CLICKED)
 
-                    lifecycleScope.launch {
-                        launch(Dispatchers.Main){ binding.viewLoading.isVisible = true }
-                        val bitmap = view.drawToBitmap()
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val bitmap = tryOrNull { view.drawToBitmap() } ?: return@launch
                         fileRepo.downloads(bitmap)
-                        launch(Dispatchers.Main) {
-                            delay(500)
-                            binding.viewLoading.isVisible = false
-                            makeToast("Download successfully!")
-                        }
+                        launch(Dispatchers.Main) { makeToast("Download successfully!") }
                     }
                 }
             }
@@ -397,6 +404,39 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                             )
                         }
                     }
+                    else -> task()
+                }
+            }
+
+        shareSheet
+            .shareFrameClicks
+            .autoDispose(scope())
+            .subscribe { view ->
+                tryOrNull { shareSheet.dismiss() }
+
+                tryOrNull {
+                    analyticManager.logEvent(AnalyticManager.TYPE.SHARE_CLICKED)
+
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val file = tryOrNull { view.drawToBitmap().toFile(this@ArtResultActivity) } ?: return@launch
+                        launch(Dispatchers.Main){ fileRepo.shares(file) }
+                    }
+                }
+            }
+
+        shareSheet
+            .shareOriginalClicks
+            .autoDispose(scope())
+            .subscribe { file ->
+                tryOrNull { shareSheet.dismiss() }
+
+                val task = {
+                    analyticManager.logEvent(AnalyticManager.TYPE.SHARE_ORIGINAL_CLICKED)
+
+                    lifecycleScope.launch(Dispatchers.Main) { fileRepo.shares(file) }
+                }
+
+                when {
                     else -> task()
                 }
             }
