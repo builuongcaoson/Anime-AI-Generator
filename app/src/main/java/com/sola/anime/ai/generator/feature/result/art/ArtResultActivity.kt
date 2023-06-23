@@ -397,22 +397,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
 
                 when {
-                    !prefs.isUpgraded.get() -> {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            delay(250)
-                            admobManager.showRewardUpscale(
-                                this@ArtResultActivity,
-                                success = {
-                                    task()
-                                    admobManager.loadRewardUpscale()
-                                },
-                                failed = {
-                                    makeToast("Please watch all ads to perform the function!")
-                                    admobManager.loadRewardUpscale()
-                                }
-                            )
-                        }
-                    }
+                    !prefs.isUpgraded.get() -> startIap()
                     else -> task()
                 }
             }

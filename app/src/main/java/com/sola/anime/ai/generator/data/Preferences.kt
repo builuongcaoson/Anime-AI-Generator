@@ -19,7 +19,6 @@ class Preferences @Inject constructor(
         const val STEP_PREMIUM = "50"
         const val MAX_NUMBER_CREATE_ARTWORK = 5L
         const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 15L
-        const val MAX_NUMBER_DOWNLOAD_ORIGINAL = 3L
         const val MAX_SECOND_GENERATE_ART = 30
     }
 

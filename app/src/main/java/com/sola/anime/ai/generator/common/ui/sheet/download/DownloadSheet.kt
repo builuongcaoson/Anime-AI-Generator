@@ -39,7 +39,7 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
     private var isFrame: Boolean = true
         set(value) {
-            if (!value && !prefs.isUpgraded.get() && prefs.numberDownloadedOriginal.get() >= Preferences.MAX_NUMBER_DOWNLOAD_ORIGINAL){
+            if (!value && !prefs.isUpgraded.get()){
                 activity?.startIap()
                 return
             }
