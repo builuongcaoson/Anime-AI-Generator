@@ -24,6 +24,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.makeLinks
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.extension.startTutorial
 import com.sola.anime.ai.generator.data.Preferences
@@ -105,6 +106,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
                 prefs.isFirstTime.set(false)
                 when {
 //                    !prefs.isViewTutorial.get() -> startTutorial()
+                    !prefs.isUpgraded.get() -> startIap(isKill = false)
                     else -> startMain()
                 }
                 finish()

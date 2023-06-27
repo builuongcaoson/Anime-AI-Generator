@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.Settings
 import android.text.format.DateUtils
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.tryOrNull
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -22,6 +25,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.startFirst
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -29,6 +33,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -48,14 +53,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
-    @Inject lateinit var folderDao: FolderDao
-    @Inject lateinit var progressDao: ProcessDao
-    @Inject lateinit var styleDao: StyleDao
-    @Inject lateinit var iapDao: IAPDao
-    @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var syncData: SyncData
     @Inject lateinit var serverApiRepo: ServerApiRepository
+    @Inject lateinit var admobManager: AdmobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,24 +192,31 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun handleSuccess(){
-        lifecycleScope.launch(Dispatchers.Main) {
-            binding.textStatus.text = getString(R.string.syncing_data_please_wait)
-            delay(1000)
-            binding.textStatus.text = getString(R.string.syncing_data_complete)
-            delay(500)
-            binding.viewLottie.cancelAnimation()
+        val task = {
+            lifecycleScope.launch(Dispatchers.Main) {
+                when {
+                    prefs.isFirstTime.get() -> startFirst()
+                    !prefs.isUpgraded.get() -> startIap(isKill = false)
+                    else -> startMain()
+                }
 
-            when {
-                prefs.isFirstTime.get() -> startFirst()
-                else -> startMain()
+                finish()
             }
+        }
 
-            finish()
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.textLoadingAd.text = "Loading ads..."
+            admobManager.loadAndShowOpenSplash(this@SplashActivity, loaded = {
+                binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
+            }, success = { task() }, failed = { task() })
         }
     }
 
     private fun initView() {
-
+        Glide.with(this)
+            .load(R.drawable.ic_launcher)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(binding.image)
     }
 
 }

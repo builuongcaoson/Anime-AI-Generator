@@ -15,4 +15,6 @@ interface AdmobManager {
     fun loadRewardUpscale()
 
     fun showRewardUpscale(activity: Activity, success: () -> Unit, failed: () -> Unit = {})
+
+    fun loadAndShowOpenSplash(activity: Activity, loaded: () -> Unit, success: () -> Unit, failed: () -> Unit)
 }
