@@ -459,6 +459,72 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.basic.common.widget.LsTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="Inspirations!"
+                                android:layout_centerVertical="true"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_13ssp"
+                                app:textFont="semi" />
+
+                            <LinearLayout
+                                android:id="@+id/viewSeeAllExplore"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_width="wrap_content"
+                                android:paddingStart="@dimen/_5sdp"
+                                android:paddingEnd="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_3sdp"
+                                android:paddingBottom="@dimen/_3sdp"
+                                android:layout_height="wrap_content">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:text="Inspirations!"
+                                    android:layout_gravity="center_vertical"
+                                    android:textColor="?android:textColorSecondary"
+                                    android:textSize="@dimen/_10ssp"
+                                    app:textFont="semi" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/_10sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:tint="?android:textColorSecondary"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:layout_height="@dimen/_10sdp"/>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerViewExplore"
+                            app:spanCount="2"
+                            android:nestedScrollingEnabled="false"
+                            android:clipToPadding="false"
+                            android:padding="@dimen/_5sdp"
+                            tools:listitem="@layout/item_preview_explore"
+                            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>

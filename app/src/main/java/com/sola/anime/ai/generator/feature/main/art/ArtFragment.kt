@@ -38,6 +38,7 @@ import com.sola.anime.ai.generator.domain.model.server.UserPremium
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewExploreAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var previewExploreAdapter: PreviewExploreAdapter
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -84,6 +86,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             explores.size.takeIf { it > 0 }?.let { it / 2 }?.let { centerIndex ->
                 tryOrNull { binding.recyclerPreview.smoothScrollToPosition(centerIndex) }
             }
+        }
+
+        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+            previewExploreAdapter.data = explores
         }
     }
 
@@ -373,6 +379,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             binding.recyclerViewAspectRatio.apply {
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = aspectRatioAdapter
+            }
+
+            binding.recyclerViewExplore.apply {
+                this.adapter = previewExploreAdapter
             }
 
             binding.editPrompt.disableEnter()
