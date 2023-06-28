@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewGroup"
     android:layout_height="match_parent">
 
@@ -15,7 +16,7 @@
         android:layout_marginBottom="@dimen/_3sdp"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_10sdp"
-        app:cardElevation="0dp"
+        app:cardElevation="@dimen/_3sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:alpha="0"
+                tools:src="@drawable/preview_processing_batch"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
