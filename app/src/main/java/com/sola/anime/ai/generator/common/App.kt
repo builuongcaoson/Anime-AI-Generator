@@ -11,6 +11,7 @@ import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
@@ -73,6 +74,7 @@ class App : Application() {
         Purchases.debugLogsEnabled = true
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
         Purchases.sharedInstance.setDisplayName(getDeviceId())
+        Purchases.sharedInstance.setEmail(getDeviceModel())
     }
 
     fun loadReviewInfo(){

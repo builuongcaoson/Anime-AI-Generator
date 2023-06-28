@@ -25,6 +25,7 @@ import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IAPDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
 import com.sola.anime.ai.generator.feature.iap.billing.LsBilling
@@ -62,6 +63,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var featureDialog: FeatureDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
+    @Inject lateinit var analyticManager: AnalyticManager
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val sku1 by lazy {
@@ -268,6 +270,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     return@purchaseWith
                 }
 
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+
                 binding.viewLoading.isVisible = false
 
                 val timeExpiredWithPremium = customerInfo
@@ -298,6 +302,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 prefs.isUpgraded.set(true)
             },
             onError = { _, _ ->
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
+
                 binding.viewLoading.isVisible = false
             })
     }

@@ -10,6 +10,7 @@
         tools:ignore="ScopedStorage" />
 
     <application
+        android:largeHeap="true"
         android:name=".common.App"
         android:allowBackup="true"
         android:fullBackupOnly="true"
@@ -70,7 +71,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.sola.anime.ai.generator.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
 

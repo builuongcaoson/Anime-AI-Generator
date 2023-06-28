@@ -104,7 +104,6 @@ class FileRepositoryImpl @Inject constructor(
                 outputStream.write(buffer, 0, length)
             }
 
-            println("File copied successfully.")
             file = destinationFile
         } catch (e: Exception) {
             e.printStackTrace()

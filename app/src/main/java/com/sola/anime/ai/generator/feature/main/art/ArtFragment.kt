@@ -88,7 +88,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
         }
 
-        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+        exploreDao.getAllOtherRatio2x3Live().observe(viewLifecycleOwner){ explores ->
             previewExploreAdapter.data = explores
         }
     }
@@ -104,6 +104,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initObservable() {
+        previewExploreAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { explore ->
+                activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
+            }
+
         subjectFirstView
             .filter { it }
             .debounce(500, TimeUnit.MILLISECONDS)
@@ -162,7 +169,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe { prompt ->
                 binding.viewClear.isVisible = !prompt.isNullOrEmpty()
-                binding.history.isVisible = prompt.isNullOrEmpty()
+                binding.viewActionPrompt.isVisible = prompt.isNullOrEmpty()
 
                 binding.count.text = "${prompt.length}/1000"
             }
@@ -268,7 +275,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
-        binding.viewExplore.clicks(withAnim = false) { activity?.startExplore() }
         binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
         binding.history.clicks {
@@ -296,6 +302,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             advancedSheet.show(this)
         }
+        binding.viewSeeAllExplore.clicks { activity?.startExplore() }
     }
 
     private fun generateClicks() {

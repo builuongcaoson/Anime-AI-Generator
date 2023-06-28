@@ -384,14 +384,16 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 val task = {
                     analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_ORIGINAL_CLICKED)
 
-                    lifecycleScope.launch {
-                        fileRepo.downloads(file)
-                        launch(Dispatchers.Main) {
-                            prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
+                    tryOrNull {
+                        lifecycleScope.launch {
+                            fileRepo.downloads(file)
+                            launch(Dispatchers.Main) {
+                                prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
 
-                            tryOrNull { downloadSheet.dismiss() }
+                                tryOrNull { downloadSheet.dismiss() }
 
-                            makeToast("Download successfully!")
+                                makeToast("Download successfully!")
+                            }
                         }
                     }
                 }

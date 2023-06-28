@@ -25,6 +25,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCreditBinding
 import com.sola.anime.ai.generator.databinding.ItemPreviewCreditBinding
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +49,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var previewAdapter: PreviewAdapter
+    @Inject lateinit var analyticManager: AnalyticManager
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
@@ -132,6 +134,8 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                     return@purchaseWith
                 }
 
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+
                 binding.viewLoading.isVisible = false
 
                 val creditsReceived = when (item.id) {
@@ -152,6 +156,8 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
             },
             onError = { _, _ ->
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+
                 binding.viewLoading.isVisible = false
             })
     }
