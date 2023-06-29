@@ -205,7 +205,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            binding.textLoadingAd.text = "Loading ads..."
+            binding.textLoadingAd.text = "This action contains ads..."
             admobManager.loadAndShowOpenSplash(this@SplashActivity, loaded = {
                 binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
             }, success = { task() }, failed = { task() })

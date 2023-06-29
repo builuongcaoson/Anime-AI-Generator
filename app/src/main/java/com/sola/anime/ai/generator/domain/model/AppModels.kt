@@ -28,3 +28,10 @@ data class Folder(
 )
 
 data class PreviewIap(val preview: String, val ratio: String)
+
+@Entity(tableName = "PhotoStorages")
+data class PhotoStorage(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val uriString: String
+)

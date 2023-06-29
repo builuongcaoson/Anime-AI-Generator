@@ -7,6 +7,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.data.db.converter.Converters
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.domain.model.Folder
+import com.sola.anime.ai.generator.domain.model.PhotoStorage
 import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
@@ -20,7 +21,8 @@ import com.sola.anime.ai.generator.domain.model.history.History
         Explore::class,
         Process::class,
         History::class,
-        Folder::class
+        Folder::class,
+        PhotoStorage::class
                ],
     version = Constraint.Info.DATA_VERSION
 )
@@ -38,6 +40,8 @@ abstract class Database : RoomDatabase() {
     abstract fun historyDao(): HistoryDao
 
     abstract fun folderDao(): FolderDao
+
+    abstract fun photoStorageDao(): PhotoStorageDao
 
     companion object {
         const val DB_NAME = "App_database"

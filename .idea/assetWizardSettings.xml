@@ -329,8 +329,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_picture" />
-                            <entry key="sourceFile" value="C:\Users\Admin\Downloads\picture.svg" />
+                            <entry key="outputName" value="ic_camera" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/camera.svg" />
                           </map>
                         </option>
                       </PersistentState>

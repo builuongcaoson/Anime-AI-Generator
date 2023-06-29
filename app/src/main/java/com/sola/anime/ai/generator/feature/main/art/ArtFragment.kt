@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
@@ -22,6 +23,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
+import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
@@ -72,6 +74,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private val historySheet by lazy { HistorySheet() }
     private val advancedSheet by lazy { AdvancedSheet() }
+    private val sheetPhoto by lazy { SheetPhoto() }
 
     override fun onViewCreated() {
         initView()
@@ -104,6 +107,20 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initObservable() {
+        configApp
+            .subjectUriPhotoChanges
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewPhoto.isVisible = configApp.uriPhoto != null
+                configApp.uriPhoto?.let { uri ->
+                    Glide.with(this)
+                        .load(uri)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.drawable.place_holder_image)
+                        .into(binding.previewPhoto)
+                }
+            }
+
         previewExploreAdapter
             .clicks
             .autoDispose(scope())
@@ -303,6 +320,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             advancedSheet.show(this)
         }
         binding.viewSeeAllExplore.clicks { activity?.startExplore() }
+        binding.closePhoto.clicks { configApp.uriPhoto = null }
+        binding.photo.clicks {
+            if (sheetPhoto.isAdded){
+                return@clicks
+            }
+
+            sheetPhoto.show(this)
+        }
     }
 
     private fun generateClicks() {

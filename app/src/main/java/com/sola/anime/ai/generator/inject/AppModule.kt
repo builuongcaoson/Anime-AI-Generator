@@ -257,6 +257,10 @@ class AppModule {
     @Singleton
     fun provideFolderDao(database: Database): FolderDao = database.folderDao()
 
+    @Provides
+    @Singleton
+    fun providePhotoStorageDao(database: Database): PhotoStorageDao = database.photoStorageDao()
+
     // Repository
 
     @Provides
