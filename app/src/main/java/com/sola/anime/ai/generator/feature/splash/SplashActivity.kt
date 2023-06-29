@@ -62,8 +62,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        prefs.creditsChanges.delete()
-
 //        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
 //        val encrypt = AESEncyption.encrypt("DEZGO-677ADADF008D43E746840EF0A88000892E435F3ECB11A537CCC322B11511AB524D2EE56D") ?: ""
 //        Timber.tag("Main12345").e("Key: $encrypt")
@@ -112,6 +110,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initData() {
+        // Reset credits changes
+        prefs.creditsChanges.delete()
+
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
             when {
@@ -174,10 +175,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("maxNumberGeneratePremium: ${configApp.maxNumberGeneratePremium}")
                     Timber.e("feature: ${configApp.feature}")
                     Timber.e("version: ${configApp.version}")
-                    Timber.e("versionExplore: ${configApp.versionExplore}")
-                    Timber.e("versionIap: ${configApp.versionIap}")
-                    Timber.e("versionProcess: ${configApp.versionProcess}")
-                    Timber.e("versionStyle: ${configApp.versionStyle}")
+                    Timber.e("versionExplore: ${configApp.versionExplore} --- ${prefs.versionExplore.get()}")
+                    Timber.e("versionIap: ${configApp.versionIap} --- ${prefs.versionIap.get()}")
+                    Timber.e("versionProcess: ${configApp.versionProcess} --- ${prefs.versionProcess.get()}")
+                    Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
 
                     done()
                 }

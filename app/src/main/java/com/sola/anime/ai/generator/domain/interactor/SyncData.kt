@@ -59,7 +59,7 @@ class SyncData @Inject constructor(
     }
 
     private fun syncData() {
-        if (prefs.versionExplore.get() < configApp.versionExplore){
+        if (prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty()){
             Firebase.database.reference.child("v1/explore").get()
                 .addOnSuccessListener { snapshot ->
                     val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
@@ -77,14 +77,18 @@ class SyncData @Inject constructor(
                         else -> syncExploresLocal()
                     }
 
+                    Timber.e("Sync explore: ${explores.size}")
+
                     prefs.versionExplore.set(configApp.versionExplore)
                 }
                 .addOnFailureListener {
+                    Timber.e("Error explore: ${it.message}")
+
                     syncExploresLocal()
                 }
         }
 
-        if (prefs.versionIap.get() < configApp.versionIap){
+        if (prefs.versionIap.get() < configApp.versionIap || iapDao.getAll().isEmpty()){
             Firebase.database.reference.child("v1/iap").get()
                 .addOnSuccessListener { snapshot ->
                     Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
@@ -103,14 +107,18 @@ class SyncData @Inject constructor(
                         else -> syncIapLocal()
                     }
 
+                    Timber.e("Sync iap: ${iaps.size}")
+
                     prefs.versionIap.set(configApp.versionIap)
                 }
                 .addOnFailureListener {
+                    Timber.e("Error iap: ${it.message}")
+
                     syncIapLocal()
                 }
         }
 
-        if (prefs.versionProcess.get() < configApp.versionProcess){
+        if (prefs.versionProcess.get() < configApp.versionProcess || processDao.getAll().isEmpty()){
             Firebase.database.reference.child("v1/process").get()
                 .addOnSuccessListener { snapshot ->
                     Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
@@ -125,108 +133,41 @@ class SyncData @Inject constructor(
                         else -> syncProcessLocal()
                     }
 
+                    Timber.e("Sync process: ${processes.size}")
+
                     prefs.versionProcess.set(configApp.versionProcess)
                 }
                 .addOnFailureListener {
+                    Timber.e("Error process: ${it.message}")
+
                     syncProcessLocal()
                 }
         }
 
-        if (prefs.versionStyle.get() < configApp.versionStyle)
-        Firebase.database.reference.child("v1/style").get()
-            .addOnSuccessListener { snapshot ->
-                Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
-                val genericTypeIndicator = object : GenericTypeIndicator<List<Style>>() {}
-                val styles = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+        if (prefs.versionStyle.get() < configApp.versionStyle || styleDao.getAll().isEmpty()){
+            Firebase.database.reference.child("v1/style").get()
+                .addOnSuccessListener { snapshot ->
+                    Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
+                    val genericTypeIndicator = object : GenericTypeIndicator<List<Style>>() {}
+                    val styles = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-                when {
-                    styles.isNotEmpty() -> {
-                        styleDao.deleteAll()
-                        styleDao.inserts(*styles.toTypedArray())
+                    when {
+                        styles.isNotEmpty() -> {
+                            styleDao.deleteAll()
+                            styleDao.inserts(*styles.toTypedArray())
+                        }
+                        else -> syncStylesLocal()
                     }
-                    else -> syncStylesLocal()
+                    Timber.e("Sync styles: ${styles.size}")
+
+                    prefs.versionStyle.set(configApp.versionStyle)
                 }
+                .addOnFailureListener {
+                    Timber.e("Error styles: ${it.message}")
 
-                prefs.versionStyle.set(configApp.versionStyle)
-            }
-            .addOnFailureListener {
-                syncStylesLocal()
-            }
-
-//        Firebase.database.reference.child("v1/").get()
-//            .addOnSuccessListener { snapshot ->
-//                Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
-//                snapshot.children.forEach { childDataSnapshot ->
-//                    when (childDataSnapshot.key) {
-//                        "explore" -> {
-//                            val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
-//                            val explores = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
-//
-//                            when {
-//                                explores.isNotEmpty() -> {
-//                                    explores.forEach { explore ->
-//                                        explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-//                                    }
-//
-//                                    exploreDao.deleteAll()
-//                                    exploreDao.inserts(*explores.toTypedArray())
-//                                }
-//                                else -> syncExploresLocal()
-//                            }
-//                        }
-//                        "iap" -> {
-//                            val genericTypeIndicator = object : GenericTypeIndicator<List<IAP>>() {}
-//                            val iaps = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
-//
-//                            when {
-//                                iaps.isNotEmpty() -> {
-//                                    iaps.forEach { iap ->
-//                                        iap.ratio = tryOrNull { iap.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-//                                    }
-//
-//                                    iapDao.deleteAll()
-//                                    iapDao.inserts(*iaps.toTypedArray())
-//                                }
-//                                else -> syncExploresLocal()
-//                            }
-//                        }
-//                        "process" -> {
-//                            val genericTypeIndicator = object : GenericTypeIndicator<List<Process>>() {}
-//                            val processes = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
-//
-//                            when {
-//                                processes.isNotEmpty() -> {
-//                                    processDao.deleteAll()
-//                                    processDao.inserts(*processes.toTypedArray())
-//                                }
-//                                else -> syncExploresLocal()
-//                            }
-//                        }
-//                        "style" -> {
-//                            val genericTypeIndicator = object : GenericTypeIndicator<List<Style>>() {}
-//                            val styles = tryOrNull { childDataSnapshot.getValue(genericTypeIndicator) } ?: emptyList()
-//
-//                            when {
-//                                styles.isNotEmpty() -> {
-//                                    styleDao.deleteAll()
-//                                    styleDao.inserts(*styles.toTypedArray())
-//                                }
-//                                else -> syncExploresLocal()
-//                            }
-//                        }
-//                    }
-//
-//                    prefs.isSyncedData.set(true)
-//                }
-//            }
-//            .addOnFailureListener {
-//                syncExploresLocal()
-//                syncIapLocal()
-//                syncProcessLocal()
-//                syncStylesLocal()
-//
-//                prefs.isSyncedData.set(true)
-//            }
+                    syncStylesLocal()
+                }
+        }
     }
 
     private fun syncExploresLocal() {

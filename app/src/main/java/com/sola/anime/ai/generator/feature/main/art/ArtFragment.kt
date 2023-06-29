@@ -138,6 +138,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 subjectFirstView.onNext(false)
 
                 binding.recyclerPreview.animate().alpha(1f).setDuration(500).start()
+                binding.recyclerViewExplore.animate().alpha(1f).setDuration(500).start()
             }
 
         aspectRatioAdapter

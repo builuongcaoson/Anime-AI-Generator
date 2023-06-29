@@ -42,13 +42,11 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
              val data = arrayListOf(
                 PhotoType.ChoosePhoto,
                 PhotoType.ChooseCamera,
-//                PhotoType.Photo(R.drawable.preview_input_photo_1),
-//                PhotoType.Photo(R.drawable.preview_input_photo_2),
-//                PhotoType.Photo(R.drawable.preview_input_photo_3),
-//                PhotoType.Photo(R.drawable.preview_input_photo_4),
-//                PhotoType.Photo(R.drawable.preview_input_photo_5),
-//                PhotoType.Photo(R.drawable.preview_input_photo_6),
-//                PhotoType.Photo(R.drawable.preview_input_photo_7)
+                PhotoType.Photo(R.drawable.preview_photo_1),
+                PhotoType.Photo(R.drawable.preview_photo_2),
+                PhotoType.Photo(R.drawable.preview_photo_3),
+                PhotoType.Photo(R.drawable.preview_photo_4),
+                PhotoType.Photo(R.drawable.preview_photo_5)
             ).apply {
                 addAll(it.map { PhotoType.Photo(photoStorage = it) })
              }
