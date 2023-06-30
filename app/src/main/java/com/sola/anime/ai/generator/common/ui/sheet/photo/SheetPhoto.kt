@@ -36,7 +36,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
     private fun initData() {
         photoStorageDao.getAllLive().observe(viewLifecycleOwner){
-            binding.tick.isVisible = false
+            binding.confirm.isVisible = false
             binding.cancel.isVisible = false
 
              val data = arrayListOf(
@@ -46,31 +46,34 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                 PhotoType.Photo(R.drawable.preview_photo_2),
                 PhotoType.Photo(R.drawable.preview_photo_3),
                 PhotoType.Photo(R.drawable.preview_photo_4),
-                PhotoType.Photo(R.drawable.preview_photo_5)
+                PhotoType.Photo(R.drawable.preview_photo_5),
+                PhotoType.Photo(R.drawable.preview_photo_6),
+                PhotoType.Photo(R.drawable.preview_photo_7)
             ).apply {
                 addAll(it.map { PhotoType.Photo(photoStorage = it) })
              }
-            photoAdapter.isTypeDeleted = false
+
+            photoAdapter.canDelete = false
             photoAdapter.data = data
         }
     }
 
     private fun listenerView() {
-        binding.delete.clicks(debounce = 250, withAnim = true) {
+        binding.delete.clicks {
             binding.cancel.isVisible = true
             binding.delete.isVisible = false
 
-            photoAdapter.isTypeDeleted = true
+            photoAdapter.canDelete = true
         }
-        binding.cancel.clicks(debounce = 250, withAnim = true) {
+        binding.cancel.clicks {
             binding.cancel.isVisible = false
             binding.delete.isVisible = true
-            binding.tick.isVisible = false
+            binding.confirm.isVisible = false
 
-            photoAdapter.isTypeDeleted = false
+            photoAdapter.canDelete = false
         }
-        binding.tick.clicks(debounce = 250, withAnim = true) {
-           val imageStorage = photoAdapter.listChooseDelete.map { photoAdapter.data[it] }
+        binding.confirm.clicks {
+           val imageStorage = photoAdapter.itemsChoiceDelete.map { photoAdapter.data[it] }
                .filterIsInstance<PhotoType.Photo>()
                .mapNotNull { it.photoStorage }
 
@@ -88,7 +91,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             .subjectDeleteChanges
             .autoDispose(scope())
             .subscribe {
-                binding.tick.isVisible = photoAdapter.listChooseDelete.isNotEmpty()
+                binding.confirm.isVisible = photoAdapter.itemsChoiceDelete.isNotEmpty()
             }
     }
 
@@ -108,93 +111,60 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     class PhotoAdapter @Inject constructor(): LsAdapter<PhotoType, ItemPhotoBinding>(ItemPhotoBinding::inflate) {
 
         var clicks: (PhotoType) -> Unit = {}
-        var isTypeDeleted: Boolean = false
+        var canDelete: Boolean = false
             @SuppressLint("NotifyDataSetChanged")
             set(value) {
                 field = value
 
-                listChooseDelete.clear()
+                itemsChoiceDelete.clear()
 
                 notifyDataSetChanged()
             }
-        val listChooseDelete = arrayListOf<Int>()
+        val itemsChoiceDelete = arrayListOf<Int>()
         val subjectDeleteChanges: Subject<Unit> = PublishSubject.create()
 
         override fun bindItem(item: PhotoType, binding: ItemPhotoBinding, position: Int) {
+            binding.photo.isVisible = item == PhotoType.ChoosePhoto
+            binding.camera.isVisible = item == PhotoType.ChooseCamera
+            binding.preview.isVisible = item is PhotoType.Photo
+            binding.imageCheck.isVisible = canDelete && item is PhotoType.Photo && item.photoStorage != null
+
+            val isChecked = itemsChoiceDelete.contains(position)
+            binding.imageCheck.setImageResource(if (isChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
+
             when (item){
-                PhotoType.ChoosePhoto -> {
-                    binding.camera.isVisible = false
-                    binding.photo.isVisible = true
-                    binding.preview.isVisible = false
-
-                    binding.imageCheck.isVisible = false
-
-                    binding.viewClicks.clicks(debounce = 250, withAnim = true){
-                        clicks(item)
-                    }
-                }
-                PhotoType.ChooseCamera -> {
-                    binding.camera.isVisible = true
-                    binding.photo.isVisible = false
-                    binding.preview.isVisible = false
-
-                    binding.imageCheck.isVisible = false
-
-                    binding.viewClicks.clicks(debounce = 250, withAnim = true){
-                        clicks(item)
-                    }
-                }
                 is PhotoType.Photo -> {
-                    binding.camera.isVisible = false
-                    binding.photo.isVisible = false
-                    binding.preview.isVisible = true
-
                     when {
                         item.preview != null -> {
-                            binding.imageCheck.isVisible = false
-
                             binding.preview.setImageResource(item.preview)
                         }
                         item.photoStorage != null -> {
                             Glide.with(binding.root.context)
                                 .load(item.photoStorage.uriString)
                                 .sizeMultiplier(0.5f)
-                                .placeholder(R.drawable.place_holder_image)
                                 .error(R.drawable.place_holder_image)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(binding.preview)
 
-                            binding.imageCheck.isVisible = isTypeDeleted
-
-                            val isChecked = listChooseDelete.contains(position)
-
-                            when {
-                                isChecked -> binding.imageCheck.setImageResource(R.drawable.ic_check)
-                                else -> binding.imageCheck.setImageResource(R.drawable.ic_uncheck)
-                            }
-
                             binding.imageCheck.setOnClickListener {
                                 val newChecked = !isChecked
 
-                                when {
-                                    newChecked -> binding.imageCheck.setImageResource(R.drawable.ic_check)
-                                    else -> binding.imageCheck.setImageResource(R.drawable.ic_uncheck)
-                                }
+                                binding.imageCheck.setImageResource(if (newChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
 
                                 when {
-                                    listChooseDelete.contains(position) -> listChooseDelete.remove(position)
-                                    else -> listChooseDelete.add(position)
+                                    itemsChoiceDelete.contains(position) -> itemsChoiceDelete.remove(position)
+                                    else -> itemsChoiceDelete.add(position)
                                 }
+
                                 subjectDeleteChanges.onNext(Unit)
                             }
                         }
                     }
-
-                    binding.viewClicks.clicks(debounce = 250, withAnim = true){
-                        clicks(item)
-                    }
                 }
+                else -> {}
             }
+
+            binding.viewClicks.clicks{ clicks(item) }
         }
     }
 
