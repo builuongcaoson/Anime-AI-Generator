@@ -450,7 +450,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             binding.editPrompt.disableEnter()
-
         }
     }
 
