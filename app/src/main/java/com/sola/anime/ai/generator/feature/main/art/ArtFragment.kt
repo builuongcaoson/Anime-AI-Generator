@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -107,17 +108,41 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initObservable() {
+        sheetPhoto
+            .clicks
+            .autoDispose(scope())
+            .subscribe { photo ->
+                when {
+                    photo.preview != null -> configApp.resPhoto = photo.preview
+                    photo.photoStorage != null -> configApp.uriPhoto = tryOrNull { photo.photoStorage.uriString.toUri() }
+                }
+            }
+
         configApp
             .subjectUriPhotoChanges
             .autoDispose(scope())
             .subscribe {
-                binding.viewPhoto.isVisible = configApp.uriPhoto != null
-                configApp.uriPhoto?.let { uri ->
-                    Glide.with(this)
-                        .load(uri)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .error(R.drawable.place_holder_image)
-                        .into(binding.previewPhoto)
+                binding.viewPhoto.isVisible = configApp.uriPhoto != null || configApp.resPhoto != null
+
+                when {
+                    configApp.uriPhoto != null -> {
+                        val uri = configApp.uriPhoto ?: return@subscribe
+
+                        Glide.with(this)
+                            .load(uri)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .error(R.drawable.place_holder_image)
+                            .into(binding.previewPhoto)
+                    }
+                    configApp.resPhoto != null -> {
+                        val res = configApp.resPhoto ?: return@subscribe
+
+                        Glide.with(this)
+                            .load(res)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .error(R.drawable.place_holder_image)
+                            .into(binding.previewPhoto)
+                    }
                 }
             }
 
@@ -321,7 +346,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             advancedSheet.show(this)
         }
         binding.viewSeeAllExplore.clicks { activity?.startExplore() }
-        binding.closePhoto.clicks { configApp.uriPhoto = null }
+        binding.closePhoto.clicks {
+            configApp.resPhoto = null
+            configApp.uriPhoto = null
+
+            tryOrNull { sheetPhoto.photoAdapter.photo = null }
+        }
         binding.photo.clicks {
             if (sheetPhoto.isAdded){
                 return@clicks
@@ -329,6 +359,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             sheetPhoto.show(this)
         }
+        binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
     }
 
     private fun generateClicks() {

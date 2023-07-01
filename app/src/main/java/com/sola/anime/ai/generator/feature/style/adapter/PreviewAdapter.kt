@@ -51,39 +51,39 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
             .with(context)
             .load(item.preview)
             .error(R.drawable.place_holder_image)
-            .placeholder(R.drawable.place_holder_image)
-            .listener(object: RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.viewPreview.cardElevation = 0f
-                    binding.viewShadow.isVisible = false
-                    binding.preview.setImageResource(R.drawable.place_holder_image)
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    resource?.let {
-                        binding.viewShadow.isVisible = true
-                        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-                        binding.preview.setImageDrawable(resource)
-                    } ?: run {
-                        binding.viewPreview.cardElevation = 0f
-                        binding.viewShadow.isVisible = false
-                        binding.preview.setImageResource(R.drawable.place_holder_image)
-                    }
-                    return false
-                }
-            })
+//            .placeholder(R.drawable.place_holder_image)
+//            .listener(object: RequestListener<Drawable> {
+//                override fun onLoadFailed(
+//                    e: GlideException?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    binding.viewPreview.cardElevation = 0f
+//                    binding.viewShadow.isVisible = false
+//                    binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    return false
+//                }
+//
+//                override fun onResourceReady(
+//                    resource: Drawable?,
+//                    model: Any?,
+//                    target: Target<Drawable>?,
+//                    dataSource: DataSource?,
+//                    isFirstResource: Boolean
+//                ): Boolean {
+//                    resource?.let {
+//                        binding.viewShadow.isVisible = true
+//                        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
+//                        binding.preview.setImageDrawable(resource)
+//                    } ?: run {
+//                        binding.viewPreview.cardElevation = 0f
+//                        binding.viewShadow.isVisible = false
+//                        binding.preview.setImageResource(R.drawable.place_holder_image)
+//                    }
+//                    return false
+//                }
+//            })
             .into(binding.preview)
 
         binding.viewPreview.clicks { clicks.onNext(item) }

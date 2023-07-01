@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.data.db.query.PhotoStorageDao
 import com.sola.anime.ai.generator.databinding.ItemPhotoBinding
 import com.sola.anime.ai.generator.databinding.SheetPhotoBinding
 import com.sola.anime.ai.generator.domain.model.PhotoStorage
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     @Inject lateinit var photoAdapter: PhotoAdapter
     @Inject lateinit var photoStorageDao: PhotoStorageDao
 
-    var clicks: (PhotoType) -> Unit = {}
+    val clicks: Subject<PhotoType.Photo> = PublishSubject.create()
 
     override fun onViewCreated() {
         initView()
@@ -93,6 +94,19 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             .subscribe {
                 binding.confirm.isVisible = photoAdapter.itemsChoiceDelete.isNotEmpty()
             }
+
+        photoAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { photoType ->
+                when {
+                    photoType is PhotoType.Photo -> {
+                        photoAdapter.photo = photoType
+
+                        clicks.onNext(photoType)
+                    }
+                }
+            }
     }
 
     private fun initView(){
@@ -102,15 +116,14 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                     return false
                 }
             }
-            this.adapter = photoAdapter.apply {
-                this.clicks = this@SheetPhoto.clicks
-            }
+            this.adapter = photoAdapter
         }
     }
 
     class PhotoAdapter @Inject constructor(): LsAdapter<PhotoType, ItemPhotoBinding>(ItemPhotoBinding::inflate) {
 
-        var clicks: (PhotoType) -> Unit = {}
+        val clicks: Subject<PhotoType> = PublishSubject.create()
+        val subjectDeleteChanges: Subject<Unit> = PublishSubject.create()
         var canDelete: Boolean = false
             @SuppressLint("NotifyDataSetChanged")
             set(value) {
@@ -121,13 +134,33 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                 notifyDataSetChanged()
             }
         val itemsChoiceDelete = arrayListOf<Int>()
-        val subjectDeleteChanges: Subject<Unit> = PublishSubject.create()
+        var photo: PhotoType? = null
+            set(value) {
+                if (field == value){
+                    return
+                }
+
+                if (value == null){
+                    val oldIndex = data.indexOf(field)
+
+                    field = null
+
+                    notifyItemChanged(oldIndex)
+                    return
+                }
+
+                data.indexOf(field).takeIf { it != -1 }?.let { notifyItemChanged(it) }
+                data.indexOf(value).takeIf { it != -1 }?.let { notifyItemChanged(it) }
+
+                field = value
+            }
 
         override fun bindItem(item: PhotoType, binding: ItemPhotoBinding, position: Int) {
             binding.photo.isVisible = item == PhotoType.ChoosePhoto
             binding.camera.isVisible = item == PhotoType.ChooseCamera
             binding.preview.isVisible = item is PhotoType.Photo
             binding.imageCheck.isVisible = canDelete && item is PhotoType.Photo && item.photoStorage != null
+            binding.viewSelected.isVisible = photo == item
 
             val isChecked = itemsChoiceDelete.contains(position)
             binding.imageCheck.setImageResource(if (isChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
@@ -164,7 +197,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                 else -> {}
             }
 
-            binding.viewClicks.clicks{ clicks(item) }
+            binding.viewClicks.clicks{ clicks.onNext(item) }
         }
     }
 

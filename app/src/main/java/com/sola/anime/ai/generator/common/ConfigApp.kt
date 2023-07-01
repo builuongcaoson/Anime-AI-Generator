@@ -44,6 +44,11 @@ class ConfigApp @Inject constructor(
     var styleChoice: Style? = null
 
     // Art & Batch
+    var resPhoto: Int? = null
+        set(value) {
+            field = value
+            subjectUriPhotoChanges.onNext(Unit)
+        }
     var uriPhoto: Uri? = null
         set(value) {
             field = value

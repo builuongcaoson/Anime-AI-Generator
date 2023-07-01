@@ -148,22 +148,21 @@
                             <com.basic.common.widget.LsEditText
                                 android:id="@+id/editPrompt"
                                 android:layout_width="0dp"
-                                android:layout_height="0dp"
+                                android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:gravity="center_vertical"
+                                android:gravity="top"
                                 android:hint="What do you want to create?"
                                 android:maxLength="1000"
                                 android:maxLines="5"
                                 app:layout_constraintHeight_min="@dimen/_40sdp"
                                 android:minHeight="@dimen/_40sdp"
                                 android:paddingStart="@dimen/_10sdp"
-                                android:paddingTop="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_12sdp"
                                 android:paddingEnd="@dimen/_10sdp"
-                                android:paddingBottom="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_12sdp"
                                 android:textColor="?android:textColorPrimary"
                                 android:textColorHint="?colorPrimary"
                                 android:textSize="@dimen/_12ssp"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/viewPhoto"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -180,6 +179,7 @@
                                 app:cardBackgroundColor="?android:windowBackground"
                                 app:cardCornerRadius="@dimen/_15sdp"
                                 app:cardElevation="0dp"
+                                tools:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/editPrompt"
@@ -198,10 +198,10 @@
 
                                     <androidx.appcompat.widget.AppCompatImageView
                                         android:id="@+id/closePhoto"
-                                        android:layout_width="@dimen/_17sdp"
-                                        android:layout_height="@dimen/_17sdp"
-                                        android:layout_marginTop="@dimen/_3sdp"
-                                        android:layout_marginEnd="@dimen/_3sdp"
+                                        android:layout_width="@dimen/_13sdp"
+                                        android:layout_height="@dimen/_13sdp"
+                                        android:layout_marginTop="@dimen/_5sdp"
+                                        android:layout_marginEnd="@dimen/_5sdp"
                                         android:background="@drawable/circle"
                                         android:backgroundTint="?android:colorBackground"
                                         android:padding="@dimen/_3sdp"
@@ -226,6 +226,7 @@
                             android:backgroundTint="?colorPrimaryVariant">
 
                             <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/random"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
