@@ -239,6 +239,10 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideModelDao(database: Database): ModelDao = database.modelDao()
+
+    @Provides
+    @Singleton
     fun provideIapDao(database: Database): IAPDao = database.iapDao()
 
     @Provides

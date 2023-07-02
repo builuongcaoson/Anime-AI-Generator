@@ -34,6 +34,7 @@ class Preferences @Inject constructor(
     val versionIap = rxPrefs.getLong("versionIap", 0)
     val versionProcess = rxPrefs.getLong("versionProcess", 0)
     val versionStyle = rxPrefs.getLong("versionStyle", 0)
+    val versionModel = rxPrefs.getLong("versionModel", 0)
     val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", false)
     val isShowedWaringPremiumDialog = rxPrefs.getBoolean("isShowedWaringPremiumDialog", false)
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)

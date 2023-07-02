@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.Flowable
@@ -32,6 +33,7 @@ class SyncData @Inject constructor(
     private val prefs: Preferences,
     private val processDao: ProcessDao,
     private val styleDao: StyleDao,
+    private val modelDao: ModelDao,
     private val iapDao: IAPDao,
     private val exploreDao: ExploreDao,
     private val configApp: ConfigApp
@@ -168,6 +170,31 @@ class SyncData @Inject constructor(
                     syncStylesLocal()
                 }
         }
+
+        if (prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty()){
+            Firebase.database.reference.child("v1/model").get()
+                .addOnSuccessListener { snapshot ->
+                    Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
+                    val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
+                    val styles = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+
+                    when {
+                        styles.isNotEmpty() -> {
+                            modelDao.deleteAll()
+                            modelDao.inserts(*styles.toTypedArray())
+                        }
+                        else -> syncModelsLocal()
+                    }
+                    Timber.e("Sync models: ${styles.size}")
+
+                    prefs.versionModel.set(configApp.versionModel)
+                }
+                .addOnFailureListener {
+                    Timber.e("Error models: ${it.message}")
+
+                    syncModelsLocal()
+                }
+        }
     }
 
     private fun syncExploresLocal() {
@@ -203,6 +230,15 @@ class SyncData @Inject constructor(
 
         styleDao.deleteAll()
         styleDao.inserts(*data)
+    }
+
+    private fun syncModelsLocal() {
+        val inputStream = context.assets.open("model.json")
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
+
+        modelDao.deleteAll()
+        modelDao.inserts(*data)
     }
 
     private fun syncProcessLocal() {

@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/viewTop"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -358,7 +358,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
                             app:cardBackgroundColor="?android:colorBackground"
                             app:cardCornerRadius="@dimen/_10sdp"
                             app:cardElevation="0dp">
@@ -370,33 +370,23 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:orientation="vertical"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="@dimen/_5sdp">
+                                    android:layout_marginStart="@dimen/_10sdp">
 
-                                    <com.google.android.material.card.MaterialCardView
-                                        android:id="@+id/cardModel"
-                                        android:layout_width="@dimen/_35sdp"
-                                        android:layout_height="@dimen/_35sdp"
+                                    <com.basic.common.widget.LsTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:visibility="gone"
-                                        app:cardCornerRadius="@dimen/_10sdp"
-                                        app:cardElevation="0dp"
-                                        tools:visibility="visible">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/previewModel"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            tools:src="@tools:sample/avatars" />
-
-                                    </com.google.android.material.card.MaterialCardView>
+                                        android:text="Model"
+                                        android:textColor="?android:textColorSecondary"
+                                        android:textSize="@dimen/_10ssp" />
 
                                     <com.basic.common.widget.LsTextView
                                         android:id="@+id/displayModel"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Pick a Model"
                                         android:textColor="?android:textColorPrimary"
                                         android:textSize="@dimen/_12ssp" />
@@ -409,16 +399,6 @@
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginEnd="@dimen/_10sdp">
-
-                                    <com.basic.common.widget.LsTextView
-                                        android:id="@+id/viewMoreModel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginEnd="@dimen/_10sdp"
-                                        android:text="View more"
-                                        android:textColor="?android:textColorPrimary"
-                                        android:textSize="@dimen/_10ssp" />
 
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
@@ -461,7 +441,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toEndOf="@id/viewModel"
                             android:layout_height="@dimen/_40sdp"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -477,32 +457,22 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="@dimen/_5sdp">
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="@dimen/_10sdp">
 
-                                    <com.google.android.material.card.MaterialCardView
-                                        android:id="@+id/cardStyle"
-                                        android:layout_width="@dimen/_35sdp"
-                                        android:layout_height="@dimen/_35sdp"
+                                    <com.basic.common.widget.LsTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:visibility="gone"
-                                        app:cardCornerRadius="@dimen/_10sdp"
-                                        app:cardElevation="0dp"
-                                        tools:visibility="visible">
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/previewStyle"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            tools:src="@tools:sample/avatars" />
-
-                                    </com.google.android.material.card.MaterialCardView>
+                                        android:text="Style"
+                                        android:textColor="?android:textColorSecondary"
+                                        android:textSize="@dimen/_10ssp" />
 
                                     <com.basic.common.widget.LsTextView
                                         android:id="@+id/displayStyle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
-                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Pick a Style"
                                         android:textColor="?android:textColorPrimary"
                                         android:textSize="@dimen/_12ssp" />
@@ -515,16 +485,6 @@
                                     android:layout_alignParentEnd="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginEnd="@dimen/_10sdp">
-
-                                    <com.basic.common.widget.LsTextView
-                                        android:id="@+id/viewMoreStyle"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_marginEnd="@dimen/_10sdp"
-                                        android:text="View more"
-                                        android:textColor="?android:textColorPrimary"
-                                        android:textSize="@dimen/_10ssp" />
 
                                     <RelativeLayout
                                         android:layout_width="wrap_content"

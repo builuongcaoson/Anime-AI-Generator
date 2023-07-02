@@ -22,6 +22,7 @@ class ConfigApp @Inject constructor(
     private val prefs: Preferences
 ) {
 
+    var scriptOpenSplash = 1L // 0: (Not show), 1: (Show)
     var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
@@ -33,6 +34,7 @@ class ConfigApp @Inject constructor(
     var versionIap = prefs.versionIap.get()
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()
+    var versionModel = prefs.versionModel.get()
     val decryptKey by lazy {
         when {
             !BuildConfig.DEBUG || BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""

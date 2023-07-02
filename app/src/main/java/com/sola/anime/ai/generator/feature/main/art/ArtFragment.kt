@@ -283,8 +283,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun updateUiStyle(style: Style?){
         binding.viewNoStyle.isVisible = style == null
-        binding.cardStyle.isVisible = style != null
-        binding.viewMoreStyle.isVisible = style != null
+//        binding.cardStyle.isVisible = style != null
+//        binding.viewMoreStyle.isVisible = style != null
         binding.viewHadStyle.isVisible = style != null
 
         binding.displayStyle.text = when (style) {
@@ -292,17 +292,17 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             else -> style.display
         }
 
-        style?.let {
-            activity?.let { activity ->
-                Glide
-                    .with(activity)
-                    .load(style.preview)
-                    .thumbnail(0.7f)
-                    .placeholder(R.drawable.place_holder_image)
-                    .error(R.drawable.place_holder_image)
-                    .into(binding.previewStyle)
-            }
-        }
+//        style?.let {
+//            activity?.let { activity ->
+//                Glide
+//                    .with(activity)
+//                    .load(style.preview)
+//                    .thumbnail(0.7f)
+//                    .placeholder(R.drawable.place_holder_image)
+//                    .error(R.drawable.place_holder_image)
+//                    .into(binding.previewStyle)
+//            }
+//        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -318,6 +318,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
+        binding.viewModel.clicks(withAnim = false) { activity?.startModel() }
         binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
         binding.history.clicks {

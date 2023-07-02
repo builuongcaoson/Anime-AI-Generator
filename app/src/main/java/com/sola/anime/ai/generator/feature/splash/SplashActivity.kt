@@ -156,6 +156,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
+                    configApp.scriptOpenSplash = tryOrNull { config.getLong("scriptOpenSplash") } ?: configApp.scriptOpenSplash
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
@@ -167,7 +168,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionIap = tryOrNull { config.getLong("version_iap") } ?: configApp.versionIap
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
+                    configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
 
+                    Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("scriptIap: ${configApp.scriptIap}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
@@ -179,6 +182,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionIap: ${configApp.versionIap} --- ${prefs.versionIap.get()}")
                     Timber.e("versionProcess: ${configApp.versionProcess} --- ${prefs.versionProcess.get()}")
                     Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
+                    Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
 
                     done()
                 }
@@ -206,10 +210,18 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            binding.textLoadingAd.text = "This action contains ads..."
-            admobManager.loadAndShowOpenSplash(this@SplashActivity, loaded = {
-                binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
-            }, success = { task() }, failed = { task() })
+            when {
+                !prefs.isUpgraded.get() && configApp.scriptOpenSplash == 1L -> {
+                    binding.textLoadingAd.text = "This action contains ads..."
+                    admobManager.loadAndShowOpenSplash(this@SplashActivity
+                        , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }
+                        , success = { task() }
+                        , failed = { task() })
+                }
+                else -> {
+                    task()
+                }
+            }
         }
     }
 

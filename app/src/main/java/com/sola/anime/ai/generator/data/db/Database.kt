@@ -11,6 +11,7 @@ import com.sola.anime.ai.generator.domain.model.PhotoStorage
 import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.history.History
 
@@ -22,7 +23,8 @@ import com.sola.anime.ai.generator.domain.model.history.History
         Process::class,
         History::class,
         Folder::class,
-        PhotoStorage::class
+        PhotoStorage::class,
+        Model::class
                ],
     version = Constraint.Info.DATA_VERSION
 )
@@ -30,6 +32,8 @@ import com.sola.anime.ai.generator.domain.model.history.History
 abstract class Database : RoomDatabase() {
 
     abstract fun styleDao(): StyleDao
+
+    abstract fun modelDao(): ModelDao
 
     abstract fun iapDao(): IAPDao
 
