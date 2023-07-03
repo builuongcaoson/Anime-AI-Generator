@@ -1,9 +1,93 @@
 [
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FNo%20Style%2F1.webp?alt=media&token=9bbfeecd-70e3-4461-9e23-2b3df5a08797",
-    "display": "No Style",
-    "model": "",
-    "category": ""
+    "preview": "",
+    "display": "Anime V5",
+    "model": "anything_5_0",
+    "description": "New"
+  },
+  {
+    "preview": "",
+    "display": "Anime V4",
+    "model": "anything_4_0",
+    "description": "Most used"
+  },
+  {
+    "preview": "",
+    "display": "Anime V3",
+    "model": "anything_3_0",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Abyss Orange Mix V2",
+    "model": "abyss_orange_mix_2",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Blood Orange Mix",
+    "model": "blood_orange_mix",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Classic",
+    "model": "dh_classicanime",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "DucHaiten",
+    "model": "duchaiten_anime",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Eimis Diffusion",
+    "model": "eimis_anime_diffusion_1",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Pastel Mix",
+    "model": "pastel_mix",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Trinart V2",
+    "model": "trinart_2_0",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Something V2",
+    "model": "something_2",
+    "description": "Anime"
+  },
+  {
+    "preview": "",
+    "display": "Realistic V4",
+    "model": "dreamshaper_6",
+    "description": "Realistic"
+  },
+  {
+    "preview": "",
+    "display": "Realistic V3",
+    "model": "absolute_reality_1",
+    "description": "Realistic"
+  },
+  {
+    "preview": "",
+    "display": "Realistic V2",
+    "model": "icbinp",
+    "description": "Realistic"
+  },
+  {
+    "preview": "",
+    "display": "Realistic V1",
+    "model": "cyberrealistic_3_1",
+    "description": "Realistic"
   }
 ]
 

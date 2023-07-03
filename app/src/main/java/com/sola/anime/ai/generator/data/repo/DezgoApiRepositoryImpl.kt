@@ -41,10 +41,14 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
+                            }.apply {
+                                tryOrNull { replace("\"", "") }
                             }
                             val negativePrompt = when {
                                 style != null -> body.negativePrompt + ""
                                 else -> body.negativePrompt
+                            }.apply {
+                                tryOrNull { replace("\"", "") }
                             }
 
                             try {
