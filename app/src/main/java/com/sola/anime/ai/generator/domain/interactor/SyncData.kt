@@ -2,7 +2,6 @@ package com.sola.anime.ai.generator.domain.interactor
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -10,7 +9,6 @@ import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
-import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -176,16 +174,19 @@ class SyncData @Inject constructor(
                 .addOnSuccessListener { snapshot ->
                     Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
                     val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
-                    val styles = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+                    val models = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
                     when {
-                        styles.isNotEmpty() -> {
+                        models.isNotEmpty() -> {
                             modelDao.deleteAll()
-                            modelDao.inserts(*styles.toTypedArray())
+                            modelDao.inserts(*models.toTypedArray())
                         }
                         else -> syncModelsLocal()
                     }
-                    Timber.e("Sync models: ${styles.size}")
+                    Timber.e("Sync models: ${models.size}")
+                    for (i in models){
+                        Timber.e("Model display 1: ${i.display} --- ${i.premium}")
+                    }
 
                     prefs.versionModel.set(configApp.versionModel)
                 }
@@ -236,6 +237,10 @@ class SyncData @Inject constructor(
         val inputStream = context.assets.open("model.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
+
+        for (i in data){
+            Timber.e("Model display 2: ${i.display} --- ${i.premium}")
+        }
 
         modelDao.deleteAll()
         modelDao.inserts(*data)

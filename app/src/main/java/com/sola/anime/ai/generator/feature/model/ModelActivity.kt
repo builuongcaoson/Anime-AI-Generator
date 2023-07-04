@@ -7,13 +7,14 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityModelBinding
 import com.sola.anime.ai.generator.feature.model.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,6 +23,7 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var prefs: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,6 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
             previewAdapter.data = it
 
             previewAdapter.model = configApp.modelChoice
-            Timber.e("StyleChoice: ${configApp.styleChoice?.display}")
         }
     }
 
@@ -58,9 +59,14 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
             .clicks
             .autoDispose(scope())
             .subscribe { model ->
-                configApp.modelChoice = model
+                when {
+                    model.premium && !prefs.isUpgraded.get() -> startIap()
+                    else -> {
+                        configApp.modelChoice = model
 
-                back()
+                        back()
+                    }
+                }
             }
     }
 

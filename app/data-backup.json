@@ -3,7 +3,7 @@
     "explore": [
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F1_zzz1xxx1zzz.webp?alt=media&token=6a797c51-8072-4798-af16-8c2b55bc3a8a",
@@ -13,7 +13,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4), ng_deepnegative_v1_75t",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F2_zzz1xxx2zzz.webp?alt=media&token=84ce1c63-2833-4e08-a829-bf7554532c54",
@@ -23,7 +23,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F3_zzz2xxx3zzz.webp?alt=media&token=ee79c841-ec01-4c3b-9d58-b6e4c732f8ad",
@@ -33,7 +33,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4), ng_deepnegative_v1_75t",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F4_zzz2xxx3zzz.webp?alt=media&token=a7c2c326-91eb-42cd-91c5-654f9086d1b2",
@@ -43,7 +43,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "worst quality, large head, low quality, extra digits, bad eyes, EasyNegativeV2, ng_deepnegative_v1_75t",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F5_zzz2xxx3zzz.webp?alt=media&token=9d8282ef-1b05-4c27-aa2f-dd43b7ea29ab",
@@ -53,7 +53,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "worst quality, large head, low quality, extra digits, bad eyes, EasyNegativeV2, ng_deepnegative_v1_75t, bad anatomy, bad hands, bad drawing, bad face, bad eyes, nsfw, felmael, woman, 1girl, young, loli, shota",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F6_zzz9xxx16zzz.webp?alt=media&token=f6e08f23-7e28-47eb-84dc-43477cfa72e5",
@@ -63,7 +63,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F7_zzz1xxx1zzz.webp?alt=media&token=b48be5f2-6ccd-4b7c-b6da-7c4dbff403af",
@@ -73,7 +73,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "nsfw, (worst quality, low quality:1.3), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), 3D face, nose, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, (tan, muscular, loli, petite, child, infant, toddlers, chibi, sd character:1.1), multiple view, Reference sheet,",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F8_zzz1xxx1zzz.webp?alt=media&token=205784c5-9bb3-45d8-ae21-cfd939e05eb4",
@@ -83,7 +83,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative, not revealing",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F9_zzz2xxx3zzz.webp?alt=media&token=12378da5-f6a4-42f8-a920-a422b7279192",
@@ -93,7 +93,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F10_zzz1xxx1zzz.webp?alt=media&token=38883e9a-c0a1-4d65-97f1-a63f13c9beb6",
@@ -103,7 +103,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F11_zzz1xxx1zzz.webp?alt=media&token=ba624fcf-b50d-40b0-8c90-37f622aeeaaf",
@@ -113,7 +113,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative,",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F12_zzz3xxx4zzz.webp?alt=media&token=d6775627-534e-4420-9a88-c6fa9185a270",
@@ -123,7 +123,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F13_zzz9xxx16zzz.webp?alt=media&token=4532ee9e-f09d-40dd-a9bc-1174641a59b0",
@@ -133,7 +133,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4),",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F14_zzz2xxx3zzz.webp?alt=media&token=e9a57923-e24a-4235-b92b-59e487d48e4b",
@@ -143,7 +143,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(worst quality, low quality, large head, extra digits:1.4), normal quality, bad hands, missing fingers, few fingers, extra fingers",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F15_zzz3xxx2zzz.webp?alt=media&token=43a7ffa3-5bc1-4d65-addc-074d588b3b44",
@@ -153,7 +153,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F16_zzz2xxx3zzz.webp?alt=media&token=0d0093b9-a51b-483c-a029-a9ddd353fc1c",
@@ -163,7 +163,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F17_zzz2xxx3zzz.webp?alt=media&token=6bf9e51f-6f76-4d79-931a-d2433e42b7b7",
@@ -173,7 +173,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F18_zzz3xxx2zzz.webp?alt=media&token=5c0a5f1e-816b-4731-8df5-6e2bee72dd69",
@@ -183,7 +183,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F19_zzz2xxx3zzz.webp?alt=media&token=5a3cf9cb-9b56-4f6b-96b5-553df8795ee2",
@@ -193,7 +193,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F20_zzz2xxx3zzz.webp?alt=media&token=a5dbeeec-a0f7-47b3-b09a-6adc82b05d08",
@@ -203,7 +203,7 @@
       },
       {
         "guidance": 7.5,
-        "isPremium": false,
+        "premium": false,
         "modelId": -1,
         "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F21_zzz2xxx3zzz.webp?alt=media&token=c1ba721c-c2ae-4ff2-ae32-7c7ba73ac3ee",
@@ -465,112 +465,112 @@
         "display": "Anime V5",
         "model": "anything_5_0",
         "description": "New",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAnime%20V4%2F1.webp?alt=media&token=76abca85-e78c-4841-b8a4-1830481718fb",
         "display": "Anime V4",
         "model": "anything_4_0",
         "description": "Most used",
-        "isPremium": false
+        "premium": false
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAnime%20V3%2F1.webp?alt=media&token=7ebb2096-478f-4879-991e-7ca67417e0cf",
         "display": "Anime V3",
         "model": "anything_3_0",
         "description": "",
-        "isPremium": false
+        "premium": false
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FPastel%20Mix%2F1.webp?alt=media&token=ddf4ce0d-e816-47cb-baf9-d93590a5acbf",
         "display": "Pastel Mix",
         "model": "pastel_mix",
         "description": "",
-        "isPremium": false
+        "premium": false
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAbyss%20Orange%20Mix%20V2%2F1.webp?alt=media&token=a7a7fd29-9a72-4951-af03-2c5df8c5a587",
         "display": "Abyss Orange Mix V2",
         "model": "abyss_orange_mix_2",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FBlood%20Orange%20Mix%2F1.webp?alt=media&token=da5671ee-d622-4569-a0a3-d54108f3f062",
         "display": "Blood Orange Mix",
         "model": "blood_orange_mix",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FDucHaiten%2F1.webp?alt=media&token=3d499e55-281e-46cf-a2ad-617d010dcf13",
         "display": "DucHaiten",
         "model": "duchaiten_anime",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FSomething%20V2%2F1.webp?alt=media&token=130a5494-af4b-4f33-a9f7-026d7a24e320",
         "display": "Something V2",
         "model": "something_2",
         "description": "",
-        "isPremium": false
+        "premium": false
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FClassic%2F1.webp?alt=media&token=10aaa1ac-aa40-4d3f-824f-ca3ca3fcd56d",
         "display": "Classic",
         "model": "dh_classicanime",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FEimis%20Diffusion%2F1.webp?alt=media&token=b06bb407-91d9-4923-bd44-e927d1961bf5",
         "display": "Eimis Diffusion",
         "model": "eimis_anime_diffusion_1",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FWaifu%20V4%2F1.webp?alt=media&token=711f6e70-a41f-406e-9f23-2397c1847976",
         "display": "Waifu V4",
         "model": "waifudiffusion_1_4",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FWaifu%20V3%2F1.webp?alt=media&token=0584daeb-c9a6-4562-bd30-eb8e4eff0e1f",
         "display": "Waifu V3",
         "model": "waifudiffusion_1_3",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V4%2F1.webp?alt=media&token=02bb2703-8495-4f69-b94f-c71ba2ec8294",
         "display": "Realistic V4",
         "model": "dreamshaper_6",
         "description": "",
-        "isPremium": false
+        "premium": false
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V3%2F1.webp?alt=media&token=1ad5e5ce-1f2d-4b50-a1eb-a545361db7f0",
         "display": "Realistic V3",
         "model": "absolute_reality_1",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V2%2F1.webp?alt=media&token=75a1669b-b30b-4fca-8471-e900110a0386",
         "display": "Realistic V2",
         "model": "icbinp",
         "description": "",
-        "isPremium": true
+        "premium": true
       },
       {
         "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V1%2F1.webp?alt=media&token=dd4c86e7-22a0-4c5f-89a9-3d2ad8570f01",
         "display": "Realistic V1",
         "model": "cyberrealistic_3_1",
         "description": "",
-        "isPremium": true
+        "premium": true
       }
     ]
   }

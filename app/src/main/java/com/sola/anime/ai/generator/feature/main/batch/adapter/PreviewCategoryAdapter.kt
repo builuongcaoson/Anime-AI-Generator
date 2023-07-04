@@ -5,7 +5,6 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ItemPreviewCategoryBatchBinding
 import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
@@ -19,7 +18,7 @@ class PreviewCategoryAdapter @Inject constructor(
 
     init {
         data = ArrayList(modelDao.getAll().map {
-            PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.isPremium)
+            PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
         })
         data.firstOrNull().also { this.category = it }
     }
