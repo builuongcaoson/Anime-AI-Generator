@@ -89,29 +89,43 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPremium"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#BF000000"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_diamond"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/viewDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/viewDescription" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewDescription"
                 android:layout_width="wrap_content"
-                app:cardElevation="@dimen/_3sdp"
-                app:cardCornerRadius="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 app:cardBackgroundColor="?colorAccent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="@dimen/_15sdp"
+                app:cardElevation="@dimen/_3sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_height="wrap_content">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.basic.common.widget.LsTextView
                     android:id="@+id/description"
-                    android:paddingStart="@dimen/_7sdp"
-                    android:paddingEnd="@dimen/_7sdp"
-                    android:paddingTop="@dimen/_3sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    tools:text="New"
-                    android:textSize="@dimen/_8ssp"
-                    android:textColor="?colorOnPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_8ssp"
+                    tools:text="New" />
 
             </com.google.android.material.card.MaterialCardView>
 

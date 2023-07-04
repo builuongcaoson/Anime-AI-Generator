@@ -79,6 +79,20 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPremium"
+                android:layout_width="@dimen/_17sdp"
+                android:layout_height="@dimen/_17sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#BF000000"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_diamond"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/viewDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/viewDescription" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

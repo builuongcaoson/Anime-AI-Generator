@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.model.adapter
 
+import android.view.View
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
@@ -40,8 +41,9 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBin
 
         binding.display.text = item.display
         binding.viewSelected.isVisible = item.id == model?.id
-        binding.viewDescription.isVisible = item.description.isNotEmpty()
+        binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
+        binding.viewPremium.isVisible = item.premium
 
         Glide
             .with(context)

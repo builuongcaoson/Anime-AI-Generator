@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.batch.adapter
 
+import android.view.View
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
@@ -20,7 +21,7 @@ class PreviewCategoryAdapter @Inject constructor(
         data = ArrayList(modelDao.getAll().map {
             PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
         })
-        data.firstOrNull().also { this.category = it }
+        data.firstOrNull{ !it.isPremium }.also { this.category = it }
     }
 
     val clicks: Subject<PreviewCategoryBatch> = PublishSubject.create()
@@ -45,8 +46,9 @@ class PreviewCategoryAdapter @Inject constructor(
 
         binding.display.text = item.display
         binding.viewSelected.isVisible = item.display == category?.display
-        binding.viewDescription.isVisible = item.description.isNotEmpty()
+        binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
+        binding.viewPremium.isVisible = item.isPremium
 
         Glide
             .with(context)
