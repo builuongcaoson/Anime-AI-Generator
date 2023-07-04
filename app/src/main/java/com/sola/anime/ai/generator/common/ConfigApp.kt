@@ -8,6 +8,7 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
@@ -44,6 +45,7 @@ class ConfigApp @Inject constructor(
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
     var styleChoice: Style? = null
+    var modelChoice: Model? = null
 
     // Art & Batch
     var resPhoto: Int? = null

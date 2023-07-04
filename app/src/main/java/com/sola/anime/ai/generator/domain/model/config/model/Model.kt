@@ -20,7 +20,10 @@ class Model{
     @SerializedName("model")
     @Expose
     var model: String = ""
-    @SerializedName("category")
+    @SerializedName("description")
     @Expose
-    var category: String = ""
+    var description: String = ""
+    @SerializedName("isPremium")
+    @Expose
+    var isPremium: Boolean = true
 }

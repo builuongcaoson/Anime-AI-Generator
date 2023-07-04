@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 data class CategoryBatch(val display: String)
 
-data class PreviewCategoryBatch(val display: String, val preview: Int, val modelId: String, val isPremium: Boolean = false, val description: String = "")
+data class PreviewCategoryBatch(val preview: String, val display: String, val model: String, val description: String = "", val isPremium: Boolean = false)
 
 data class PromptBatch(
     var prompt: String = "",
@@ -27,11 +27,10 @@ data class Folder(
     val display: String
 )
 
-data class PreviewIap(val preview: String, val ratio: String)
-
 @Entity(tableName = "PhotoStorages")
 data class PhotoStorage(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val uriString: String
+    val uriString: String,
+    val ratio: Ratio
 )

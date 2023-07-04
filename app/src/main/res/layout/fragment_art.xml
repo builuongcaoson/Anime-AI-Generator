@@ -154,7 +154,6 @@
                                 android:hint="What do you want to create?"
                                 android:maxLength="1000"
                                 android:maxLines="5"
-                                app:layout_constraintHeight_min="@dimen/_40sdp"
                                 android:minHeight="@dimen/_40sdp"
                                 android:paddingStart="@dimen/_10sdp"
                                 android:paddingTop="@dimen/_12sdp"
@@ -164,6 +163,7 @@
                                 android:textColorHint="?colorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 app:layout_constraintEnd_toStartOf="@id/viewPhoto"
+                                app:layout_constraintHeight_min="@dimen/_40sdp"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -174,16 +174,16 @@
                                 android:layout_marginStart="@dimen/_10sdp"
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:layout_marginEnd="@dimen/_10sdp"
-                                android:visibility="gone"
                                 android:layout_marginBottom="@dimen/_10sdp"
+                                android:visibility="gone"
                                 app:cardBackgroundColor="?android:windowBackground"
                                 app:cardCornerRadius="@dimen/_15sdp"
                                 app:cardElevation="0dp"
-                                tools:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/editPrompt"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:visibility="visible">
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
@@ -352,27 +352,29 @@
                             android:id="@+id/viewModel"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/_40sdp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/viewStyle"
-                            app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
                             app:cardBackgroundColor="?android:colorBackground"
                             app:cardCornerRadius="@dimen/_10sdp"
-                            app:cardElevation="0dp">
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/viewStyle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
                                     android:layout_centerVertical="true"
-                                    android:layout_marginStart="@dimen/_10sdp">
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:layout_toStartOf="@id/viewPlusOrNextModel"
+                                    android:orientation="vertical">
 
                                     <com.basic.common.widget.LsTextView
                                         android:layout_width="wrap_content"
@@ -387,6 +389,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
                                         android:text="Pick a Model"
                                         android:textColor="?android:textColorPrimary"
                                         android:textSize="@dimen/_12ssp" />
@@ -394,6 +398,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/viewPlusOrNextModel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
@@ -437,28 +442,30 @@
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/viewStyle"
                             android:layout_width="0dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/viewModel"
                             android:layout_height="@dimen/_40sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:cardBackgroundColor="?android:colorBackground"
                             app:cardCornerRadius="@dimen/_10sdp"
-                            app:cardElevation="0dp">
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/viewModel"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
                                 <LinearLayout
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:orientation="vertical"
-                                    android:layout_marginStart="@dimen/_10sdp">
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:layout_toStartOf="@id/viewPlusOrNextStyle"
+                                    android:orientation="vertical">
 
                                     <com.basic.common.widget.LsTextView
                                         android:layout_width="wrap_content"
@@ -473,6 +480,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
+                                        android:ellipsize="end"
+                                        android:singleLine="true"
                                         android:text="Pick a Style"
                                         android:textColor="?android:textColorPrimary"
                                         android:textSize="@dimen/_12ssp" />
@@ -480,6 +489,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/viewPlusOrNextStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
@@ -660,13 +670,13 @@
                             android:id="@+id/recyclerViewExplore"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clipToPadding="false"
                             android:alpha="0"
-                            tools:alpha="1"
+                            android:clipToPadding="false"
                             android:nestedScrollingEnabled="false"
                             android:padding="@dimen/_5sdp"
                             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                             app:spanCount="2"
+                            tools:alpha="1"
                             tools:listitem="@layout/item_preview_explore" />
 
                     </LinearLayout>

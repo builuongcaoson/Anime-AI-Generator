@@ -36,6 +36,7 @@ import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.server.UserPremium
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
@@ -105,6 +106,31 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initDateResult() {
         updateUiStyle(configApp.styleChoice)
+        updateUiModel(configApp.modelChoice)
+    }
+
+    private fun updateUiModel(model: Model?) {
+        binding.viewNoModel.isVisible = model == null
+//        binding.cardModel.isVisible = style != null
+//        binding.viewMoreModel.isVisible = style != null
+        binding.viewHadModel.isVisible = model != null
+
+        binding.displayModel.text = when (model) {
+            null -> "Pick a model"
+            else -> model.display
+        }
+
+//        model?.let {
+//            activity?.let { activity ->
+//                Glide
+//                    .with(activity)
+//                    .load(model.preview)
+//                    .thumbnail(0.7f)
+//                    .placeholder(R.drawable.place_holder_image)
+//                    .error(R.drawable.place_holder_image)
+//                    .into(binding.previewModel)
+//            }
+//        }
     }
 
     private fun initObservable() {
@@ -377,7 +403,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
                 steps = if (BuildConfig.DEBUG) configApp.stepDefault else if (!prefs.isUpgraded.get()) configApp.stepDefault else configApp.stepPremium,
-                model = "anything_4_0",
+                model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
                 sampler = "euler_a",
                 upscale = "2",
                 styleId = configApp.styleChoice?.id ?: -1,

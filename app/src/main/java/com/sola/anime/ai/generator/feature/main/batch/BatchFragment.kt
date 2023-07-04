@@ -24,6 +24,7 @@ import com.sola.anime.ai.generator.common.extension.startArtProcessing
 import com.sola.anime.ai.generator.common.extension.startBatchProcessing
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startModel
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -75,7 +76,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         }
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
-        binding.textSeeAll.clicks(withAnim = true) {  }
+        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel() }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
     }
@@ -95,7 +96,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     negativePrompt = negativePrompt,
                     guidance = item.guidance.toString(),
                     steps = item.step.toString(),
-                    model = previewCategoryAdapter.category.modelId,
+                    model = previewCategoryAdapter.category?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
                     sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
                     upscale = if (item.isFullHd) "2" else "1",
                     styleId = -1,

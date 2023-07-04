@@ -7,10 +7,9 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.data.db.query.StyleDao
+import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityModelBinding
-import com.sola.anime.ai.generator.databinding.ActivityStyleBinding
-import com.sola.anime.ai.generator.feature.style.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.feature.model.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +20,7 @@ import javax.inject.Inject
 class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
-    @Inject lateinit var styleDao: StyleDao
+    @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var configApp: ConfigApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +45,10 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
     }
 
     private fun initData() {
-        styleDao.getAllLive().observe(this){
+        modelDao.getAllLive().observe(this){
             previewAdapter.data = it
 
-            previewAdapter.style = configApp.styleChoice
+            previewAdapter.model = configApp.modelChoice
             Timber.e("StyleChoice: ${configApp.styleChoice?.display}")
         }
     }
@@ -58,8 +57,8 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
         previewAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { style ->
-                configApp.styleChoice = style
+            .subscribe { model ->
+                configApp.modelChoice = model
 
                 back()
             }

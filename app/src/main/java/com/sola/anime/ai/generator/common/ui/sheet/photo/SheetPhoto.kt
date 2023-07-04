@@ -161,6 +161,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             binding.preview.isVisible = item is PhotoType.Photo
             binding.imageCheck.isVisible = canDelete && item is PhotoType.Photo && item.photoStorage != null
             binding.viewSelected.isVisible = photo == item
+            binding.viewRatio.isVisible = item is PhotoType.Photo
 
             val isChecked = itemsChoiceDelete.contains(position)
             binding.imageCheck.setImageResource(if (isChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
@@ -170,8 +171,11 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                     when {
                         item.preview != null -> {
                             binding.preview.setImageResource(item.preview)
+                            binding.ratio.text = "1:1"
                         }
                         item.photoStorage != null -> {
+                            binding.ratio.text = item.photoStorage.ratio.display
+
                             Glide.with(binding.root.context)
                                 .load(item.photoStorage.uriString)
                                 .sizeMultiplier(0.5f)

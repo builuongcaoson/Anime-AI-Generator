@@ -1,26 +1,20 @@
 package com.sola.anime.ai.generator.feature.model.adapter
 
-import android.graphics.drawable.Drawable
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.basic.common.extension.getDimens
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.databinding.ItemPreviewStyleBinding
-import com.sola.anime.ai.generator.domain.model.config.style.Style
+import com.sola.anime.ai.generator.databinding.ItemPreviewModelBinding
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBinding>(ItemPreviewStyleBinding::inflate) {
+class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBinding>(ItemPreviewModelBinding::inflate) {
 
-    val clicks: Subject<Style> = PublishSubject.create()
-    var style: Style? = null
+    val clicks: Subject<Model> = PublishSubject.create()
+    var model: Model? = null
         set(value) {
             if (field == value){
                 return
@@ -41,49 +35,18 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
             field = value
         }
 
-    override fun bindItem(item: Style, binding: ItemPreviewStyleBinding, position: Int) {
+    override fun bindItem(item: Model, binding: ItemPreviewModelBinding, position: Int) {
         val context = binding.root.context
 
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item.id == style?.id
+        binding.viewSelected.isVisible = item.id == model?.id
+        binding.viewDescription.isVisible = item.description.isNotEmpty()
+        binding.description.text = item.description
 
         Glide
             .with(context)
             .load(item.preview)
             .error(R.drawable.place_holder_image)
-//            .placeholder(R.drawable.place_holder_image)
-//            .listener(object: RequestListener<Drawable> {
-//                override fun onLoadFailed(
-//                    e: GlideException?,
-//                    model: Any?,
-//                    target: Target<Drawable>?,
-//                    isFirstResource: Boolean
-//                ): Boolean {
-//                    binding.viewPreview.cardElevation = 0f
-//                    binding.viewShadow.isVisible = false
-//                    binding.preview.setImageResource(R.drawable.place_holder_image)
-//                    return false
-//                }
-//
-//                override fun onResourceReady(
-//                    resource: Drawable?,
-//                    model: Any?,
-//                    target: Target<Drawable>?,
-//                    dataSource: DataSource?,
-//                    isFirstResource: Boolean
-//                ): Boolean {
-//                    resource?.let {
-//                        binding.viewShadow.isVisible = true
-//                        binding.viewPreview.cardElevation = context.getDimens(com.intuit.sdp.R.dimen._2sdp)
-//                        binding.preview.setImageDrawable(resource)
-//                    } ?: run {
-//                        binding.viewPreview.cardElevation = 0f
-//                        binding.viewShadow.isVisible = false
-//                        binding.preview.setImageResource(R.drawable.place_holder_image)
-//                    }
-//                    return false
-//                }
-//            })
             .into(binding.preview)
 
         binding.viewPreview.clicks { clicks.onNext(item) }

@@ -159,7 +159,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
                 steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
-                model = history.childs.firstOrNull()?.model ?: "anything_4_0",
+                model = history.childs.firstOrNull()?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
                 sampler = history.childs.firstOrNull()?.sampler ?: "euler_a",
                 upscale = history.childs.firstOrNull()?.upscale ?: "1",
                 styleId = history.styleId,
