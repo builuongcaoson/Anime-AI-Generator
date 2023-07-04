@@ -55,15 +55,21 @@
   },
   {
     "preview": "",
-    "display": "Trinart V2",
-    "model": "trinart_2_0",
+    "display": "Something V2",
+    "model": "something_2",
     "description": "Anime"
   },
   {
     "preview": "",
-    "display": "Something V2",
-    "model": "something_2",
-    "description": "Anime"
+    "display": "Waifu V4",
+    "model": "waifudiffusion_1_4",
+    "description": "Waifu"
+  },
+  {
+    "preview": "",
+    "display": "Waifu V3",
+    "model": "waifudiffusion_1_3",
+    "description": "Waifu"
   },
   {
     "preview": "",
