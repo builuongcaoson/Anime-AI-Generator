@@ -36,16 +36,20 @@ class ConfigApp @Inject constructor(
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()
     var versionModel = prefs.versionModel.get()
-    val decryptKey by lazy {
-        when {
-            !BuildConfig.DEBUG || BuildConfig.SCRIPT -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
-            else -> AESEncyption.decrypt(Constraint.Dezgo.RAPID_KEY) ?: ""
-        }
-    }
+
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
     var styleChoice: Style? = null
     var modelChoice: Model? = null
+        set(value) {
+            field = value
+            subjectModelChanges.onNext(Unit)
+        }
+    var modelBatchChoice: Model? = null
+        set(value) {
+            field = value
+            subjectModelBatchChanges.onNext(Unit)
+        }
 
     // Art & Batch
     var resPhoto: Int? = null
@@ -65,5 +69,7 @@ class ConfigApp @Inject constructor(
     var subjectUriPhotoChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
+    var subjectModelChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
+    var subjectModelBatchChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
 
 }

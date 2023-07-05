@@ -275,6 +275,7 @@
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/photo"
+                                    android:visibility="gone"
                                     android:layout_width="@dimen/_20sdp"
                                     android:layout_height="@dimen/_20sdp"
                                     android:layout_gravity="center_vertical"

@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.inject.dezgo
 
+import com.sola.anime.ai.generator.common.Constraint
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -12,6 +13,7 @@ interface DezgoApi {
     @POST("text2image")
     @Streaming
     suspend fun text2image(
+        @Header(Constraint.Dezgo.HEADER_KEY) headerKey: String,
         @Part("prompt") prompt: RequestBody,
         @Part("negative_prompt") negativePrompt: RequestBody,
         @Part("guidance") guidance: RequestBody,

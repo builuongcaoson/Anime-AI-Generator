@@ -96,8 +96,9 @@ fun Activity.startStyle(){
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
-fun Activity.startModel(){
+fun Activity.startModel(isBatch: Boolean = false){
     val intent = Intent(this, ModelActivity::class.java)
+    intent.putExtra(ModelActivity.IS_BATCH_EXTRA, isBatch)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

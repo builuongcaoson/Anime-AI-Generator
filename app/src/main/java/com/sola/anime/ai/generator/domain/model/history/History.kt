@@ -9,6 +9,7 @@ data class History(
     val id: Long = 0,
     val title: String = "No Style",
     val prompt: String,
+    val model: String,
     val childs: ArrayList<ChildHistory> = arrayListOf()
 ){
 

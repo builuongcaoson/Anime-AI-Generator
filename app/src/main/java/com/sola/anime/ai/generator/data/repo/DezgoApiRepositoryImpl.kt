@@ -3,7 +3,12 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import android.net.Uri
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.toFile
+import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
@@ -19,6 +24,8 @@ import javax.inject.Singleton
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
+    private val configApp: ConfigApp,
+    private val prefs: Preferences,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao
 ): DezgoApiRepository {
@@ -52,7 +59,15 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             try {
+                                val decryptKey = when {
+                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+                                    else -> AESEncyption.decrypt(Constraint.Dezgo.RAPID_KEY) ?: ""
+                                }
+
+
                                 val response = dezgoApi.text2image(
+                                    headerKey = decryptKey,
                                     prompt = prompt.toRequestBody(MultipartBody.FORM),
                                     negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),

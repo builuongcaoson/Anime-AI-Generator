@@ -28,8 +28,10 @@ import com.sola.anime.ai.generator.common.extension.startModel
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
+import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
@@ -58,10 +60,24 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var modelDao: ModelDao
 
     override fun onViewCreated() {
         initView()
+        initData()
         listenerView()
+    }
+
+    private fun initData() {
+        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+            previewCategoryAdapter.data = ArrayList(models.map {
+                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
+            })
+            previewCategoryAdapter.data.firstOrNull{ !it.isPremium }.also { previewCategory ->
+                previewCategoryAdapter.category = previewCategory
+                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
+            }
+        }
     }
 
     private fun listenerView() {
@@ -76,7 +92,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         }
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
-        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel() }
+        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel(isBatch = true) }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
     }
@@ -96,9 +112,9 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     negativePrompt = negativePrompt,
                     guidance = item.guidance.toString(),
                     steps = item.step.toString(),
-                    model = previewCategoryAdapter.category?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
                     sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
-                    upscale = if (item.isFullHd) "2" else "1",
+                    upscale = "2",
                     styleId = -1,
                     ratio = item.ratio,
                     seed = null,
@@ -139,15 +155,28 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initObservable() {
+        configApp
+            .subjectModelBatchChanges
+            .map { configApp.modelBatchChoice }
+            .autoDispose(scope())
+            .subscribe { model ->
+                previewCategoryAdapter.category = previewCategoryAdapter.data.find { it.display == model?.display }
+            }
+
         categoryAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { categoryAdapter.category = it }
+            .subscribe { categoryBatch ->
+                categoryAdapter.category = categoryBatch
+            }
 
         previewCategoryAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { previewCategoryAdapter.category = it }
+            .subscribe { previewCategory ->
+                previewCategoryAdapter.category = previewCategory
+                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
+            }
 
         promptAdapter
             .fullHdChanges

@@ -99,15 +99,15 @@ class AppModule {
                     .request()
                     .newBuilder()
 
-                when {
-                    !BuildConfig.DEBUG || BuildConfig.SCRIPT -> {
-                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_KEY, configApp.decryptKey)
-                    }
-                    else -> {
-                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_KEY, configApp.decryptKey)
-                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_HOST, Constraint.Dezgo.RAPID_HOST)
-                    }
-                }
+//                when {
+//                    !BuildConfig.DEBUG || BuildConfig.SCRIPT -> {
+//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_KEY, configApp.decryptKey)
+//                    }
+//                    else -> {
+//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_KEY, configApp.decryptKey)
+//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_HOST, Constraint.Dezgo.RAPID_HOST)
+//                    }
+//                }
 
                 chain.proceed(requestBuilder.build())
             }

@@ -25,7 +25,7 @@ class Constraint {
             const val URL = "https://api.dezgo.com/"
             const val HEADER_KEY = "X-Dezgo-Key"
             const val KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
-            const val KEY_PREMIUM = "DEZGO-24D2AAAC003B8BE83E94792A9AD0D3E6DCB7F20E1DF617974F7EDA3AFDFF30C357660239"
+            const val KEY_PREMIUM = "1Nx2znPpNX0KvzDWDdqJ8SK9j1YhZlR4R1/Kbe3+FVilNwT8MbMlJS0vDumE/yynGICLFDUVHPCEaLI8u66IlU1HauAo/PlBMp9Zu57qABM="
 
             const val RAPID_URL = "https://dezgo.p.rapidapi.com/"
             const val HEADER_RAPID_KEY = "X-RapidAPI-Key"
@@ -43,7 +43,7 @@ class Constraint {
 
             const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
 
-            const val DATA_VERSION = 9
+            const val DATA_VERSION = 10
         }
     }
 

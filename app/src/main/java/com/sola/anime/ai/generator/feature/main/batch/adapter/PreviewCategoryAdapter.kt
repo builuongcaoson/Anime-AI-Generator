@@ -6,6 +6,7 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ItemPreviewCategoryBatchBinding
 import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
@@ -14,15 +15,8 @@ import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class PreviewCategoryAdapter @Inject constructor(
-    private val modelDao: ModelDao
+    private val prefs: Preferences
 ): LsAdapter<PreviewCategoryBatch, ItemPreviewCategoryBatchBinding>(ItemPreviewCategoryBatchBinding::inflate) {
-
-    init {
-        data = ArrayList(modelDao.getAll().map {
-            PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
-        })
-        data.firstOrNull{ !it.isPremium }.also { this.category = it }
-    }
 
     val clicks: Subject<PreviewCategoryBatch> = PublishSubject.create()
     var category: PreviewCategoryBatch? = null
@@ -48,7 +42,7 @@ class PreviewCategoryAdapter @Inject constructor(
         binding.viewSelected.isVisible = item.display == category?.display
         binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
-        binding.viewPremium.isVisible = item.isPremium
+        binding.viewPremium.isVisible = item.isPremium && !prefs.isUpgraded.get()
 
         Glide
             .with(context)

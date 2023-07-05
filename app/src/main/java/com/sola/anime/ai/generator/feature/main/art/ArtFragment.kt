@@ -30,6 +30,7 @@ import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutMana
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
+import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
@@ -70,6 +71,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var previewExploreAdapter: PreviewExploreAdapter
+    @Inject lateinit var modelDao: ModelDao
 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -96,6 +98,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         exploreDao.getAllOtherRatio2x3Live().observe(viewLifecycleOwner){ explores ->
             previewExploreAdapter.data = explores
         }
+
+        modelDao.getAllLive().observe(viewLifecycleOwner) { models ->
+            models.firstOrNull{ !it.premium }.also { configApp.modelChoice = it }
+        }
     }
 
     override fun onResume() {
@@ -106,7 +112,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initDateResult() {
         updateUiStyle(configApp.styleChoice)
-        updateUiModel(configApp.modelChoice)
     }
 
     private fun updateUiModel(model: Model?) {
@@ -134,6 +139,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initObservable() {
+        configApp
+            .subjectModelChanges
+            .map { configApp.modelChoice }
+            .autoDispose(scope())
+            .subscribe { model ->
+                updateUiModel(model)
+            }
+
         sheetPhoto
             .clicks
             .autoDispose(scope())
@@ -187,6 +200,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe {
                 subjectFirstView.onNext(false)
+
+                updateUiModel(configApp.modelChoice)
 
                 binding.recyclerPreview.animate().alpha(1f).setDuration(500).start()
                 binding.recyclerViewExplore.animate().alpha(1f).setDuration(500).start()

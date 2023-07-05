@@ -25,7 +25,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding
     }
 
     override fun bindItem(item: IAP, binding: ItemPreviewIapBinding, position: Int) {
-        val item = getItem(position % data.size)
+        val item = getItem(position % data.size) ?: return
         val context = binding.root.context
 
         val set = ConstraintSet()

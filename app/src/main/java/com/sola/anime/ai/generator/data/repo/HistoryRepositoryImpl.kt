@@ -26,7 +26,7 @@ class HistoryRepositoryImpl @Inject constructor(
             else ->  getTotalChildCount() >= 20
         }
 
-        return historyDao.findByPrompt(childHistory.prompt, childHistory.styleId)?.let {
+        return historyDao.findByPrompt(childHistory.prompt, childHistory.styleId, childHistory.model)?.let {
             it.childs.add(childHistory)
             it.updateAt = System.currentTimeMillis()
 
@@ -40,7 +40,8 @@ class HistoryRepositoryImpl @Inject constructor(
                     historyDao.insert(
                         History(
                             title = styleDao.findById(childHistory.styleId)?.display ?: "Fantasy",
-                            prompt = childHistory.prompt
+                            prompt = childHistory.prompt,
+                            model = childHistory.model
                         ).apply {
                             this.styleId = childHistory.styleId
                             this.childs.add(childHistory)

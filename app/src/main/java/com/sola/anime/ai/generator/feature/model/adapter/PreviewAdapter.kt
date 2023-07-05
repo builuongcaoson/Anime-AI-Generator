@@ -6,13 +6,16 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ItemPreviewModelBinding
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBinding>(ItemPreviewModelBinding::inflate) {
+class PreviewAdapter @Inject constructor(
+    private val prefs: Preferences
+): LsAdapter<Model, ItemPreviewModelBinding>(ItemPreviewModelBinding::inflate) {
 
     val clicks: Subject<Model> = PublishSubject.create()
     var model: Model? = null
@@ -43,7 +46,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBin
         binding.viewSelected.isVisible = item.id == model?.id
         binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
-        binding.viewPremium.isVisible = item.premium
+        binding.viewPremium.isVisible = item.premium && !prefs.isUpgraded.get()
 
         Glide
             .with(context)

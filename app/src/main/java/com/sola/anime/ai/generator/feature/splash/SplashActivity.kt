@@ -65,9 +65,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         setContentView(binding.root)
 
 //        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
-//        val encrypt = AESEncyption.encrypt("DEZGO-677ADADF008D43E746840EF0A88000892E435F3ECB11A537CCC322B11511AB524D2EE56D") ?: ""
+//        val encrypt = AESEncyption.encrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 //        Timber.tag("Main12345").e("Key: $encrypt")
-//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Dezgo.DEZGO_KEY)}")
+//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM)}")
 
         initReviewManager()
         initView()
