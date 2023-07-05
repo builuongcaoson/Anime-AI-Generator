@@ -52,7 +52,8 @@ abstract class LsAdapter<T, VB: ViewBinding>(
     }
 
     override fun onBindViewHolder(holder: LsViewHolder<VB>, position: Int) {
-        bindItem(getItem(position), holder.binding, position)
+        val item = getItem(position) ?: return
+        bindItem(item, holder.binding, position)
     }
 
     /**
@@ -83,8 +84,8 @@ abstract class LsAdapter<T, VB: ViewBinding>(
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): T {
-        return tryOrNull { data[position] } ?: data.first()
+    fun getItem(position: Int): T? {
+        return data.getOrNull(position)
     }
 
     override fun getItemCount(): Int {

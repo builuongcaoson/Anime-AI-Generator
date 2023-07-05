@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.common.extension
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import android.text.format.DateUtils
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.domain.model.config.style.Style
@@ -116,4 +117,8 @@ fun initBodyTextsToImages(
         )
     }
     return bodies
+}
+
+fun Long.isToday(): Boolean {
+    return DateUtils.isToday(this)
 }

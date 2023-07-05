@@ -18,6 +18,7 @@ import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.SheetDownloadBinding
 import com.sola.anime.ai.generator.databinding.SheetUpscaleBinding
+import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::inflate) {
 
+    companion object {
+        const val RESULT_STORAGE_PERMISSION = 1
+    }
+
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var permissionManager: PermissionManager
 
     val downloadFrameClicks: Subject<View> by lazy { PublishSubject.create() }
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
@@ -75,7 +81,23 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     private fun listenerView() {
         binding.viewTabFrame.clicks(withAnim = false) { isFrame = true }
         binding.viewTabOriginal.clicks(withAnim = false) { isFrame = false }
-        binding.viewDownload.clicks(withAnim = false) { downloadClicks() }
+        binding.viewDownload.clicks(withAnim = false) {
+            when {
+                permissionManager.hasStorage() -> downloadClicks()
+                else -> permissionManager.requestStorage(this, RESULT_STORAGE_PERMISSION)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when {
+            requestCode == RESULT_STORAGE_PERMISSION && permissionManager.hasStorage() -> downloadClicks()
+        }
     }
 
     private fun downloadClicks() {

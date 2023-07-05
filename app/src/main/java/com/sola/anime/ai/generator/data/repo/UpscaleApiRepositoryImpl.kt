@@ -50,7 +50,7 @@ class UpscaleApiRepositoryImpl @Inject constructor(
             val responseUpscale = withContext(Dispatchers.IO) {
                 try {
                     val body = BodyUpscale().apply {
-                        this.upscale = 4
+                        this.upscale = 3
                         this.image = fileUrl.toString()
                     }
                     upscaleApi.upscale(body)

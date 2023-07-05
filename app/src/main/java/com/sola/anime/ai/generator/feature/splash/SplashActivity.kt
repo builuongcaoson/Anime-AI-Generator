@@ -24,6 +24,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
+import com.sola.anime.ai.generator.common.extension.isToday
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
@@ -42,6 +43,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -112,6 +114,14 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun initData() {
         // Reset credits changes
         prefs.creditsChanges.delete()
+
+        // Reset number created in days if different days
+        when {
+            prefs.latestTimeCreatedArtwork.get() != -1L && !prefs.latestTimeCreatedArtwork.get().isToday() -> {
+                prefs.numberCreatedArtwork.delete()
+                prefs.latestTimeCreatedArtwork.delete()
+            }
+        }
 
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
