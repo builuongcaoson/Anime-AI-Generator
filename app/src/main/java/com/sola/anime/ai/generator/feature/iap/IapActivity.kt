@@ -298,6 +298,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
                 prefs.timeExpiredPremium.set(timeExpired)
                 prefs.isShowedWaringPremiumDialog.delete()
+                prefs.numberCreatedArtwork.delete()
                 prefs.isSyncUserPurchased.set(true)
                 prefs.isUpgraded.set(true)
             },
