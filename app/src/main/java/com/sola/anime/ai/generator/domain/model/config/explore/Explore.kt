@@ -31,7 +31,7 @@ class Explore{
     var sampler: String = ""
     @SerializedName("steps")
     @Expose
-    var steps: String = ""
+    var steps: String = "45"
     @SerializedName("modelId")
     @Expose
     var modelId: Int = -1

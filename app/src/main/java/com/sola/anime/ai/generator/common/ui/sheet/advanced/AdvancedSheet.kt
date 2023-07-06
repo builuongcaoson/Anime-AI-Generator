@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
@@ -15,6 +16,7 @@ import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,6 +28,7 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
 
     var negative: String = ""
     var guidance: Float = 7.5f
+    var step: String = Preferences.STEP_DEFAULT
 
     override fun onViewCreated() {
         initView()
@@ -48,9 +51,24 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             }
             false
         }
+        binding.sliderStep.setListener { _, currentValue ->
+            step = tryOrNull { currentValue.toString() } ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
+        }
+        binding.sliderStep.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    view.parent.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
         binding.clear.clicks { binding.editNegative.setText("") }
-        binding.viewPinNegative.clicks {  }
-        binding.viewPinRatio.clicks {  }
+        binding.viewPremiumStep.clicks { activity?.startIap() }
+//        binding.viewPinNegative.clicks {  }
+//        binding.viewPinRatio.clicks {  }
 //        binding.viewPinCFG.clicks {  }
 //        binding.viewPinSeed.clicks {  }
     }
@@ -88,6 +106,16 @@ class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
                 binding.viewClear.isVisible = !negative.isNullOrEmpty()
 
                 binding.count.text = "${negative.length}/1000"
+            }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isUpgraded ->
+                binding.viewPremiumStep.isVisible = !isUpgraded
             }
     }
 

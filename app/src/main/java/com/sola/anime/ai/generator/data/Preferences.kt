@@ -15,11 +15,11 @@ class Preferences @Inject constructor(
 ) {
 
     companion object {
-        const val STEP_DEFAULT = "40"
+        const val STEP_DEFAULT = "45"
         const val STEP_PREMIUM = "50"
         const val MAX_NUMBER_CREATE_ARTWORK = 5L
-        const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 15L
-        const val MAX_SECOND_GENERATE_ART = 30
+        const val MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY = 20L
+        const val MAX_SECOND_GENERATE_ART = 60
     }
 
     // Config

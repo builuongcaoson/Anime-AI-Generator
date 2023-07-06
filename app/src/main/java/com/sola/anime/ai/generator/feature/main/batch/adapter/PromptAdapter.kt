@@ -88,7 +88,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
                 index = if (index == 0) samplers.lastIndex else index - 1
             }
             else -> {
-                index = if (index == samplers.lastIndex) samplers.lastIndex else index + 1
+                index = if (index == samplers.lastIndex) 0 else index + 1
             }
         }
         item.sampler = samplers.getOrNull(index) ?: Sampler.Random

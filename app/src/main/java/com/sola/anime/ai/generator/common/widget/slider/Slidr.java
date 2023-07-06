@@ -62,9 +62,6 @@ public class Slidr extends FrameLayout {
     private BubbleClickedListener bubbleClickedListener;
     private GestureDetectorCompat detector;
     private Settings settings;
-    private float max = 10f;
-    private float min = 5f;
-    private float currentValue = 7.5f;
     private float oldValue = Float.MIN_VALUE;
     private List<Step> steps = new ArrayList<>();
     private float barY;
@@ -125,20 +122,20 @@ public class Slidr extends FrameLayout {
 
         isEditing = false;
         if (TextUtils.isEmpty(textEditing)) {
-            textEditing = String.valueOf(currentValue);
+            textEditing = String.valueOf(settings.currentValue);
         }
         Float value;
         try {
             value = Float.valueOf(textEditing);
         } catch (Exception e) {
             e.printStackTrace();
-            value = min;
+            value = settings.min;
         }
 
 
-        value = Math.min(value, max);
-        value = Math.max(value, min);
-        final ValueAnimator valueAnimator = ValueAnimator.ofFloat(currentValue, value);
+        value = Math.min(value, settings.max);
+        value = Math.max(value, settings.min);
+        final ValueAnimator valueAnimator = ValueAnimator.ofFloat(settings.currentValue, value);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -206,7 +203,7 @@ public class Slidr extends FrameLayout {
             editText.setPadding(0, 0, 0, 0);
             editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, dpToPx(settings.textSizeBubbleCurrent));
 
-            textEditing = String.valueOf((int) currentValue);
+            textEditing = String.valueOf((int) settings.currentValue);
             editText.setText(textEditing);
 
             final ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -345,34 +342,34 @@ public class Slidr extends FrameLayout {
     }
 
     public float getMax() {
-        return max;
+        return settings.max;
     }
 
     public void setMax(float max) {
-        this.max = max;
+        this.settings.max = max;
         updateValues();
         update();
     }
 
     public void setMin(float min) {
-        this.min = min;
+        this.settings.min = min;
         updateValues();
         update();
     }
 
     public float getCurrentValue() {
-        return currentValue;
+        return settings.currentValue;
     }
 
     public void setCurrentValue(float value) {
-        this.currentValue = value;
+        this.settings.currentValue = value;
         updateValues();
         update();
     }
 
     private void setCurrentValueNoUpdate(float value) {
-        this.currentValue = value;
-        listener.valueChanged(Slidr.this, currentValue);
+        this.settings.currentValue = value;
+        listener.valueChanged(Slidr.this, settings.currentValue);
         updateValues();
 
     }
@@ -473,12 +470,12 @@ public class Slidr extends FrameLayout {
     public void update() {
         if (barWidth > 0f) {
             float currentPercent = indicatorX / barWidth;
-            currentValue = currentPercent * (max - min) + min;
-            currentValue = Math.round(currentValue);
+            settings.currentValue = currentPercent * (settings.max - settings.min) + settings.min;
+            settings.currentValue = Math.round(settings.currentValue);
 
-            if (listener != null && oldValue != currentValue) {
-                oldValue = currentValue;
-                listener.valueChanged(Slidr.this, currentValue);
+            if (listener != null && oldValue != settings.currentValue) {
+                oldValue = settings.currentValue;
+                listener.valueChanged(Slidr.this, settings.currentValue);
             } else {
 
             }
@@ -513,8 +510,8 @@ public class Slidr extends FrameLayout {
 
     private void updateValues() {
 
-        if (currentValue < min) {
-            currentValue = min;
+        if (settings.currentValue < settings.min) {
+            settings.currentValue = settings.min;
         }
 
         settings.paddingCorners = settings.barHeight;
@@ -567,11 +564,11 @@ public class Slidr extends FrameLayout {
         }
 
         for (Step step : steps) {
-            final float stoppoverPercent = step.value / (max - min);
+            final float stoppoverPercent = step.value / (settings.max - settings.min);
             step.xStart = stoppoverPercent * barWidth;
         }
 
-        indicatorX = (currentValue - min) / (max - min) * barWidth;
+        indicatorX = (settings.currentValue - settings.min) / (settings.max - settings.min) * barWidth;
 
         calculatedHieght = (int) (barCenterY + indicatorRadius);
 
@@ -598,7 +595,7 @@ public class Slidr extends FrameLayout {
     private Step findStepBeforeCustor() {
         for (int i = steps.size() - 1; i >= 0; i--) {
             final Step step = steps.get(i);
-            if ((currentValue - min) >= step.value) {
+            if ((settings.currentValue - settings.min) >= step.value) {
                 return step;
             }
             break;
@@ -609,7 +606,7 @@ public class Slidr extends FrameLayout {
     private Step findStepOfCustor() {
         for (int i = 0; i < steps.size(); ++i) {
             final Step step = steps.get(i);
-            if ((currentValue - min) <= step.value) {
+            if ((settings.currentValue - settings.min) <= step.value) {
                 return step;
             }     
         }
@@ -725,7 +722,7 @@ public class Slidr extends FrameLayout {
                             //find the step just below currentValue
                             for (int i = steps.size() - 1; i >= 0; i--) {
                                 final Step step = steps.get(i);
-                                if ((currentValue - min) > step.value) {
+                                if ((settings.currentValue - settings.min) > step.value) {
                                     settings.paintBar.setColor(step.colorAfter);
                                     canvas.drawRect(step.xStart + paddingLeft, barY, indicatorCenterX, barY + settings.barHeight, settings.paintBar);
                                     break;
@@ -744,11 +741,11 @@ public class Slidr extends FrameLayout {
                             float rightValue;
 
                             if (settings.regions_centerText) {
-                                leftValue = currentValue;
-                                rightValue = max - leftValue;
+                                leftValue = settings.currentValue;
+                                rightValue = settings.max - leftValue;
                             } else {
-                                leftValue = min;
-                                rightValue = max;
+                                leftValue = settings.min;
+                                rightValue = settings.max;
                             }
 
                             if (settings.regions_textFollowRegionColor) {
@@ -1105,6 +1102,9 @@ public class Slidr extends FrameLayout {
         private int regionColorRight = Color.parseColor("#ed5564");
         private boolean editOnBubbleClick = true;
         private int bubbleColorEditing = Color.WHITE;
+        private float max = 10f;
+        private float min = 5f;
+        private float currentValue = 7.5f;
 
         public Settings(Slidr slidr) {
             this.slidr = slidr;
@@ -1150,6 +1150,11 @@ public class Slidr extends FrameLayout {
         private void init(Context context, AttributeSet attrs) {
             if (attrs != null) {
                 final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Slidr);
+
+                this.max = a.getFloat(R.styleable.Slidr_slidr_barMax, this.max);
+                this.min = a.getFloat(R.styleable.Slidr_slidr_barMin, this.min);
+                this.currentValue = a.getFloat(R.styleable.Slidr_slidr_barValue, this.currentValue);
+
                 setColorBackground(a.getColor(R.styleable.Slidr_slidr_backgroundColor, colorBackground));
 
                 this.step_colorizeAfterLast = a.getBoolean(R.styleable.Slidr_slidr_step_colorizeAfterLast, step_colorizeAfterLast);

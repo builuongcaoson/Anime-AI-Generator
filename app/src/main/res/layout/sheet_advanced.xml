@@ -244,6 +244,9 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:paddingTop="@dimen/_5sdp"
             app:slidr_backgroundColor="?android:colorBackground"
+            app:slidr_barMax="10"
+            app:slidr_barMin="5"
+            app:slidr_barValue="7.5"
             app:slidr_draw_bubble="false"
             app:slidr_region_leftColor="?colorAccent"
             app:slidr_textBottom_visible="false"
@@ -270,6 +273,105 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="Match Prompt"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="@dimen/_10ssp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Step"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:textFont="medium" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/viewPinStep"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="?android:colorBackground"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_pin"
+                android:tint="?android:textColorPrimary"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.sola.anime.ai.generator.common.widget.slider.Slidr
+                android:id="@+id/sliderStep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:slidr_backgroundColor="?android:colorBackground"
+                app:slidr_barMax="55"
+                app:slidr_barMin="30"
+                app:slidr_barValue="45"
+                app:slidr_draw_bubble="false"
+                app:slidr_region_leftColor="?colorAccent"
+                app:slidr_textBottom_visible="false"
+                app:slidr_textTop_visible="true" />
+
+            <View
+                android:id="@+id/viewPremiumStep"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/sliderStep"
+                app:layout_constraintEnd_toEndOf="@id/sliderStep"
+                app:layout_constraintStart_toStartOf="@id/sliderStep"
+                app:layout_constraintTop_toTopOf="@id/sliderStep" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Faster processing"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="@dimen/_10ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="Better Quality"
                 android:textColor="?android:textColorTertiary"
                 android:textSize="@dimen/_10ssp" />
 

@@ -236,6 +236,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
                 advancedSheet.negative = explore?.negative ?: ""
                 advancedSheet.guidance = explore?.guidance ?: 7.5f
+                advancedSheet.step = explore?.steps ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
 
                 when {
                     prefs.isUpgraded.get() -> {
@@ -385,6 +386,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 return@clicks
             }
 
+            advancedSheet.step = if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
             advancedSheet.show(this)
         }
         binding.viewSeeAllExplore.clicks { activity?.startExplore() }
@@ -417,7 +419,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 prompt = prompt,
                 negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                 guidance = advancedSheet.guidance.toString(),
-                steps = if (BuildConfig.DEBUG) configApp.stepDefault else if (!prefs.isUpgraded.get()) configApp.stepDefault else configApp.stepPremium,
+                steps = advancedSheet.step,
                 model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
                 sampler = "euler_a",
                 upscale = "2",
