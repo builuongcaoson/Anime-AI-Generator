@@ -7,15 +7,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.makeToast
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.resizeAndReturnUri
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCropBinding
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.feature.crop.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -23,6 +26,8 @@ import com.yalantis.ucrop.callback.BitmapCropCallback
 import com.yalantis.ucrop.view.TransformImageView
 import com.yalantis.ucrop.view.widget.HorizontalProgressWheelView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.util.Locale
@@ -130,14 +135,30 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
                                 imageWidth: Int,
                                 imageHeight: Int
                             ) {
-                                binding.viewLoading.isVisible = false
+                                val ratio = aspectRatioAdapter.ratio
 
-                                val intent = Intent().apply {
-                                    this.data = resultUri
-                                    this.putExtra("ratioDisplay", aspectRatioAdapter.aspectRatioSelect.display)
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    resultUri.resizeAndReturnUri(this@CropActivity, targetWidth = ratio.width.toInt(), targetHeight = ratio.height.toInt())?.let { newResizeUri ->
+                                        launch(Dispatchers.Main){
+                                            binding.viewLoading.isVisible = false
+
+                                            val intent = Intent().apply {
+                                                this.data = newResizeUri
+                                                this.putExtra("ratioDisplay", ratio)
+                                            }
+                                            setResult(Activity.RESULT_OK, intent)
+                                            back()
+                                        }
+                                    } ?: run {
+                                        launch(Dispatchers.Main) {
+                                            binding.viewLoading.isVisible = false
+
+                                            setResult(Activity.RESULT_CANCELED)
+                                            makeToast("Crop failed, please try again or report it to us!")
+                                            back()
+                                        }
+                                    }
                                 }
-                                setResult(Activity.RESULT_OK, intent)
-                                back()
                             }
 
                             override fun onCropFailure(t: Throwable) {
@@ -162,8 +183,8 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
             .autoDispose(scope())
             .subscribe { ratio ->
                 when {
-                    prefs.isUpgraded.get() || ratio == AspectRatioAdapter.AspectRatio.OneToOne -> {
-                        aspectRatioAdapter.aspectRatioSelect = ratio
+                    prefs.isUpgraded.get() || ratio == Ratio.Ratio1x1 -> {
+                        aspectRatioAdapter.ratio = ratio
 
                         cropImageView.targetAspectRatio = ratio.aspectRatio
                         cropImageView.setImageToWrapCropBounds()
@@ -180,7 +201,7 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
             setTransformImageListener(transformImageListener)
             setImageUri(uri, Uri.fromFile(File(filesDir, "${System.currentTimeMillis()}.png")))
             isRotateEnabled = true
-            targetAspectRatio = AspectRatioAdapter.AspectRatio.OneToOne.aspectRatio
+            targetAspectRatio = Ratio.Ratio1x1.aspectRatio
         }
 
         binding.recyclerAspectRadioCrop.apply {

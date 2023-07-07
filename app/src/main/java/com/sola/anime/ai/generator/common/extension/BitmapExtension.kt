@@ -14,6 +14,10 @@ fun InputStream.toBitmap(): Bitmap? {
     return BitmapFactory.decodeStream(this, null, options)
 }
 
+fun Bitmap.resizeBitmap(newWidth: Int, newHeight: Int): Bitmap {
+    return Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
+}
+
 fun Bitmap.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File? {
     //create a file to write bitmap data
     var file: File? = null
