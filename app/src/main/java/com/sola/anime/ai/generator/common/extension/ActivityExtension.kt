@@ -2,9 +2,12 @@ package com.sola.anime.ai.generator.common.extension
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.feature.credit.CreditActivity
+import com.sola.anime.ai.generator.feature.crop.CropActivity
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
@@ -33,6 +36,13 @@ fun Activity.startSetting(){
 fun Activity.startTutorial(){
     val intent = Intent(this, TutorialActivity::class.java)
     startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startCrop(fragment: Fragment, uri: Uri, requestCode: Int){
+    val intent = Intent(this, CropActivity::class.java)
+    intent.data = uri
+    fragment.startActivityForResult(intent, requestCode)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 

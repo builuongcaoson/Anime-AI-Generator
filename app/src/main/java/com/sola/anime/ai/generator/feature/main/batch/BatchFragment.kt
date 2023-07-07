@@ -174,8 +174,13 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .clicks
             .autoDispose(scope())
             .subscribe { previewCategory ->
-                previewCategoryAdapter.category = previewCategory
-                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
+                when {
+                    previewCategory.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
+                    else -> {
+                        previewCategoryAdapter.category = previewCategory
+                        configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
+                    }
+                }
             }
 
         promptAdapter

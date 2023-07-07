@@ -1,33 +1,60 @@
 package com.sola.anime.ai.generator.common.ui.sheet.photo
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
+import com.sola.anime.ai.generator.common.extension.startCrop
 import com.sola.anime.ai.generator.data.db.query.PhotoStorageDao
 import com.sola.anime.ai.generator.databinding.ItemPhotoBinding
 import com.sola.anime.ai.generator.databinding.SheetPhotoBinding
 import com.sola.anime.ai.generator.domain.model.PhotoStorage
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
+    companion object {
+        private const val CROP_RESULT = 1
+    }
+
     @Inject lateinit var photoAdapter: PhotoAdapter
     @Inject lateinit var photoStorageDao: PhotoStorageDao
 
+    private lateinit var pickLauncherResult: ActivityResultLauncher<PickVisualMediaRequest>
     val clicks: Subject<PhotoType.Photo> = PublishSubject.create()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            uri?.let {
+                activity?.startCrop(fragment = this, uri = uri, requestCode = CROP_RESULT)
+            }
+        }
+    }
 
     override fun onViewCreated() {
         initView()
@@ -56,6 +83,23 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
             photoAdapter.canDelete = false
             photoAdapter.data = data
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when {
+            requestCode == CROP_RESULT && resultCode == Activity.RESULT_OK -> {
+                data?.data?.let { uri ->
+                    val ratioDisplay = tryOrNull { Ratio.values().find { it.ratio == data.getStringExtra("ratioDisplay") } } ?: Ratio.Ratio1x1
+
+                    lifecycleScope.launch(Dispatchers.Main){
+                        delay(500)
+
+                        photoStorageDao.inserts(PhotoStorage(uriString = uri.toString(), ratio = ratioDisplay))
+                    }
+                }
+            }
         }
     }
 
@@ -99,14 +143,26 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             .clicks
             .autoDispose(scope())
             .subscribe { photoType ->
-                when {
-                    photoType is PhotoType.Photo -> {
+                when (photoType) {
+                    is PhotoType.Photo -> {
                         photoAdapter.photo = photoType
 
                         clicks.onNext(photoType)
                     }
+
+                    is PhotoType.ChooseCamera -> {
+
+                    }
+
+                    is PhotoType.ChoosePhoto -> {
+                        launchPickPhoto()
+                    }
                 }
             }
+    }
+
+    private fun launchPickPhoto() {
+        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun initView(){
@@ -178,7 +234,6 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
                             Glide.with(binding.root.context)
                                 .load(item.photoStorage.uriString)
-                                .sizeMultiplier(0.5f)
                                 .error(R.drawable.place_holder_image)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(binding.preview)

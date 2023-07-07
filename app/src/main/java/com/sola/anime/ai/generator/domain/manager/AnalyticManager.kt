@@ -21,7 +21,9 @@ interface AnalyticManager {
         SHARE_CLICKED,
         SHARE_ORIGINAL_CLICKED,
         PURCHASE_SUCCESS,
-        PURCHASE_CANCEL
+        PURCHASE_CANCEL,
+        PURCHASE_SUCCESS_CREDITS,
+        PURCHASE_CANCEL_CREDITS
     }
 
     fun logEvent(type: TYPE)

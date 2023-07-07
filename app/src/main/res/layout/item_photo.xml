@@ -68,22 +68,26 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewRatio"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_3sdp"
-                app:cardBackgroundColor="#BF000000"
+                app:cardBackgroundColor="#80000000"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/ratio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingStart="@dimen/_15sdp"
                     android:paddingTop="@dimen/_3sdp"
+                    android:paddingEnd="@dimen/_15sdp"
                     android:paddingBottom="@dimen/_3sdp"
                     android:textColor="?colorOnPrimary"
                     android:textSize="@dimen/_8ssp"

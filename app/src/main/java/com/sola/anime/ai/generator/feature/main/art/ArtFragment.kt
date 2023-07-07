@@ -116,26 +116,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun updateUiModel(model: Model?) {
         binding.viewNoModel.isVisible = model == null
-//        binding.cardModel.isVisible = style != null
-//        binding.viewMoreModel.isVisible = style != null
         binding.viewHadModel.isVisible = model != null
 
         binding.displayModel.text = when (model) {
             null -> "Pick a model"
             else -> model.display
         }
-
-//        model?.let {
-//            activity?.let { activity ->
-//                Glide
-//                    .with(activity)
-//                    .load(model.preview)
-//                    .thumbnail(0.7f)
-//                    .placeholder(R.drawable.place_holder_image)
-//                    .error(R.drawable.place_holder_image)
-//                    .into(binding.previewModel)
-//            }
-//        }
     }
 
     private fun initObservable() {
@@ -300,23 +286,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.viewPro.isVisible = !isUpgraded
                 binding.iconWatchAd.isVisible = !isUpgraded
                 binding.textDescription.isVisible = !isUpgraded
-
-//                binding.textDescription.text = when {
-//                    !isUpgraded -> "Watch an ad"
-//                    else -> "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - prefs.numberCreatedArtwork.get()} times left today"
-//                }
             }
-
-//        prefs
-//            .numberCreatedArtwork
-//            .asObservable()
-//            .filter { prefs.isUpgraded.get() }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { numberCreatedInDay ->
-//                binding.textDescription.text = "You have ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY - numberCreatedInDay} times left today"
-//            }
     }
 
     private fun updateUiExplore(explore: Explore?) {
@@ -325,26 +295,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun updateUiStyle(style: Style?){
         binding.viewNoStyle.isVisible = style == null
-//        binding.cardStyle.isVisible = style != null
-//        binding.viewMoreStyle.isVisible = style != null
         binding.viewHadStyle.isVisible = style != null
 
         binding.displayStyle.text = when (style) {
             null -> "Pick a style"
             else -> style.display
         }
-
-//        style?.let {
-//            activity?.let { activity ->
-//                Glide
-//                    .with(activity)
-//                    .load(style.preview)
-//                    .thumbnail(0.7f)
-//                    .placeholder(R.drawable.place_holder_image)
-//                    .error(R.drawable.place_holder_image)
-//                    .into(binding.previewStyle)
-//            }
-//        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -455,18 +411,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             else -> task()
         }
     }
-
-//    private val pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-//        uri?.let {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                dezgoApiRepo.generateImagesToImages(uri)
-//            }
-//        }
-//    }
-//
-//    private fun launchPickPhoto() {
-//        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-//    }
 
     private fun initView() {
         activity?.let { activity ->

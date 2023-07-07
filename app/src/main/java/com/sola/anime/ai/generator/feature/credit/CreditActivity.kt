@@ -134,7 +134,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                     return@purchaseWith
                 }
 
-                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS_CREDITS)
 
                 binding.viewLoading.isVisible = false
 
@@ -156,7 +156,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
             },
             onError = { _, _ ->
-                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
 
                 binding.viewLoading.isVisible = false
             })

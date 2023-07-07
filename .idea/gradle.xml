@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/basic" />
             <option value="$PROJECT_DIR$/blurview" />
             <option value="$PROJECT_DIR$/photoView" />
+            <option value="$PROJECT_DIR$/ucrop" />
           </set>
         </option>
       </GradleProjectSettings>

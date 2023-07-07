@@ -32,6 +32,11 @@
         <attr name="lottieRes"/>
     </declare-styleable>
 
+    <declare-styleable name="LsActionView">
+        <attr name="title" />
+        <attr name="icon" />
+    </declare-styleable>
+
     <declare-styleable name="CardSlider">
         <attr name="activeCardLeftOffset" format="dimension"/>
         <attr name="cardWidth" format="dimension"/>

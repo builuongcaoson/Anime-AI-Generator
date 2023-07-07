@@ -6,6 +6,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.toFile
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
@@ -48,14 +49,10 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
-                            }.apply {
-                                tryOrNull { replace("\"", "") }
                             }
                             val negativePrompt = when {
-                                style != null -> body.negativePrompt + ""
-                                else -> body.negativePrompt
-                            }.apply {
-                                tryOrNull { replace("\"", "") }
+                                style != null -> body.negativePrompt + ", " + context.getDeviceId()
+                                else -> body.negativePrompt + ", " + context.getDeviceId()
                             }
 
                             try {
