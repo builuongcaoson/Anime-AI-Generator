@@ -3,10 +3,12 @@ package com.sola.anime.ai.generator.common.ui.sheet.photo
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,7 +25,6 @@ import com.sola.anime.ai.generator.databinding.ItemPhotoBinding
 import com.sola.anime.ai.generator.databinding.SheetPhotoBinding
 import com.sola.anime.ai.generator.domain.model.PhotoStorage
 import com.sola.anime.ai.generator.domain.model.Ratio
-import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,9 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
@@ -44,14 +47,21 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     @Inject lateinit var photoAdapter: PhotoAdapter
     @Inject lateinit var photoStorageDao: PhotoStorageDao
 
-    private lateinit var pickLauncherResult: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var pickPhoto: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var takePhoto: ActivityResultLauncher<Uri>
+    private var uriTakePhoto: Uri? = null
     val clicks: Subject<PhotoType.Photo> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pickLauncherResult = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
                 activity?.startCrop(fragment = this, uri = uri, requestCode = CROP_RESULT)
+            }
+        }
+        takePhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            uriTakePhoto?.takeIf { success }?.let { uriTakePhoto ->
+                activity?.startCrop(fragment = this, uri = uriTakePhoto, requestCode = CROP_RESULT)
             }
         }
     }
@@ -149,11 +159,9 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
                         clicks.onNext(photoType)
                     }
-
                     is PhotoType.ChooseCamera -> {
-
+                        launchTakePhoto()
                     }
-
                     is PhotoType.ChoosePhoto -> {
                         launchPickPhoto()
                     }
@@ -162,16 +170,20 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     }
 
     private fun launchPickPhoto() {
-        pickLauncherResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private fun launchTakePhoto() {
+        activity?.let { activity ->
+            val file = File(activity.filesDir, "${System.currentTimeMillis()}.png")
+            uriTakePhoto = FileProvider.getUriForFile(activity,  "${activity.packageName}.provider", file)
+            takePhoto.launch(uriTakePhoto)
+        }
     }
 
     private fun initView(){
         binding.recyclerView.apply {
-            this.layoutManager = object: GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false){
-                override fun canScrollVertically(): Boolean {
-                    return false
-                }
-            }
+            this.layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
             this.adapter = photoAdapter
         }
     }

@@ -100,6 +100,7 @@
 
             <com.sola.anime.ai.generator.common.widget.LsActionView
                 android:id="@+id/mirror"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"

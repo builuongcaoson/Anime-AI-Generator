@@ -17,8 +17,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_height="@dimen/_35sdp">
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_5sdp">
 
         <com.basic.common.widget.LsTextView
             android:id="@+id/confirm"
@@ -86,12 +86,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_250sdp"
         android:clipToPadding="false"
+        android:orientation="horizontal"
         android:paddingStart="@dimen/_5sdp"
         android:paddingTop="@dimen/_5sdp"
         android:paddingEnd="@dimen/_5sdp"
-        android:paddingBottom="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_5sdp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
         tools:listitem="@layout/item_photo" />
