@@ -14,6 +14,7 @@ import com.basic.common.extension.makeToast
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCropBinding
 import com.sola.anime.ai.generator.feature.crop.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -37,6 +38,7 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
+    @Inject lateinit var prefs: Preferences
 
     private val cropImageView by lazy { binding.cropView.cropImageView }
     private val uri by lazy { intent.data }
@@ -158,11 +160,18 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
         aspectRatioAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe {
-                aspectRatioAdapter.aspectRatioSelect = it
+            .subscribe { ratio ->
+                when {
+                    prefs.isUpgraded.get() || ratio == AspectRatioAdapter.AspectRatio.OneToOne -> {
+                        aspectRatioAdapter.aspectRatioSelect = ratio
 
-                cropImageView.targetAspectRatio = it.aspectRatio
-                cropImageView.setImageToWrapCropBounds()
+                        cropImageView.targetAspectRatio = ratio.aspectRatio
+                        cropImageView.setImageToWrapCropBounds()
+                    }
+                    else -> {
+                        startIap()
+                    }
+                }
             }
     }
 

@@ -15,7 +15,6 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<AspectRatioAdapter.Asp
     }
 
     val clicks: Subject<AspectRatio> = PublishSubject.create()
-
     var aspectRatioSelect = AspectRatio.OneToOne
         set(value) {
             if (field == value) return
