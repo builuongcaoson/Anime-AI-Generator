@@ -15,25 +15,29 @@ import com.bumptech.glide.request.RequestOptions
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-@SuppressLint("Recycle")
-fun Uri.contentUriToRequestBody(context: Context): RequestBody? {
+fun Uri.cropAndToRequestBody(context: Context): RequestBody? {
     try {
-        val inputStream = context.contentResolver.openInputStream(this)
-        val outputStream = ByteArrayOutputStream()
+        val bitmap = this.getBitmapFromUri(context)?.cropAndResizeBitmap() ?: return null
 
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        var n: Int
-        while (inputStream?.read(buffer).also { n = it ?: -1 } != -1) {
-            outputStream.write(buffer, 0, n)
-        }
+        return bitmap.getByteArray().toRequestBody("image/*".toMediaTypeOrNull())
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
+}
 
-        val bytes = outputStream.toByteArray()
-        return context.contentResolver.getType(this)?.let { RequestBody.create(it.toMediaTypeOrNull(), bytes) }
+fun Uri.toRequestBody(context: Context): RequestBody? {
+    try {
+        val bitmap = this.getBitmapFromUri(context) ?: return null
+
+        return bitmap.getByteArray().toRequestBody("image/*".toMediaTypeOrNull())
     } catch (e: Exception) {
         e.printStackTrace()
     }

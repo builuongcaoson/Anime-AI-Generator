@@ -252,7 +252,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                                     }?.bodies
                                                     ?.find { body ->
                                                         body.id == progress.childId && body.groupId == progress.groupId
-                                                    }?.toChildHistory(progress.file.path)?.let {
+                                                    }?.toChildHistory(progress.photoUri.toString(), progress.file.path)?.let {
                                                         deferredHistoryIds.add(historyRepo.markHistory(it))
                                                     }
                                             }

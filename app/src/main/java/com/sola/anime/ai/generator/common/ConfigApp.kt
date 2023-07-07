@@ -24,6 +24,7 @@ class ConfigApp @Inject constructor(
 
     var scriptOpenSplash = 1L // 0: (Not show), 1: (Show)
     var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
+    var scriptImg2Img = false // False: (Off), True: (On)
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
     var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK
@@ -35,7 +36,6 @@ class ConfigApp @Inject constructor(
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()
     var versionModel = prefs.versionModel.get()
-
 
     val sensitiveKeywords = context.getStringArray(R.array.sensitives)
     var styleChoice: Style? = null

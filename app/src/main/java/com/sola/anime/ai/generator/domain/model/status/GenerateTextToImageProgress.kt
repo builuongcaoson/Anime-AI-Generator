@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.domain.model.status
 
+import android.net.Uri
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import java.io.File
@@ -17,7 +18,7 @@ sealed class GenerateImagesToImagesProgress(val isLoading: Boolean = false) {
     object Idle: GenerateImagesToImagesProgress()
     object Loading: GenerateImagesToImagesProgress(isLoading = true)
     data class LoadingWithId(val groupId: Long, val childId: Long): GenerateImagesToImagesProgress(isLoading = true)
-    data class SuccessWithId(val groupId: Long, val childId: Long, val file: File): GenerateImagesToImagesProgress(isLoading = true)
+    data class SuccessWithId(val groupId: Long, val childId: Long, val photoUri: Uri, val file: File): GenerateImagesToImagesProgress(isLoading = true)
     data class FailureWithId(val groupId: Long, val childId: Long, val error: String? = null): GenerateImagesToImagesProgress(isLoading = true)
     object Done: GenerateImagesToImagesProgress()
 }

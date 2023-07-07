@@ -3,6 +3,12 @@ package com.sola.anime.ai.generator.common.extension
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Rect
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -16,6 +22,41 @@ fun InputStream.toBitmap(): Bitmap? {
 
 fun Bitmap.resizeBitmap(newWidth: Int, newHeight: Int): Bitmap {
     return Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
+}
+
+fun Bitmap.cropAndToRequestBody(): RequestBody? {
+    try {
+        val bitmap = this.cropAndResizeBitmap()
+
+        Timber.e("Bitmap width: ${bitmap.width} --- ${bitmap.height}")
+
+        return bitmap.getByteArray().toRequestBody("image/*".toMediaTypeOrNull())
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun Bitmap.cropAndResizeBitmap(): Bitmap {
+    val dimen = Math.min(this.width, this.height)
+    val croppedBitmap = Bitmap.createBitmap(dimen, dimen, Bitmap.Config.ARGB_8888)
+    val dx = (this.width - dimen) / 2
+    val dy = (this.height - dimen) / 2
+    val canvas = Canvas(croppedBitmap)
+    val srcRect = Rect(dx, dy, dx + dimen, dy + dimen)
+    val dstRect = Rect(0, 0, dimen, dimen)
+    canvas.drawBitmap(this, srcRect, dstRect, null)
+    return resize(this.width, this.height)
+}
+
+fun Bitmap.resize(width: Int, height: Int): Bitmap {
+    return Bitmap.createScaledBitmap(this, width, height, true)
+}
+
+fun Bitmap.getByteArray(): ByteArray {
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+    return byteArrayOutputStream.toByteArray()
 }
 
 fun Bitmap.toFile(context: Context, fileName: String = "${System.currentTimeMillis()}.png"): File? {

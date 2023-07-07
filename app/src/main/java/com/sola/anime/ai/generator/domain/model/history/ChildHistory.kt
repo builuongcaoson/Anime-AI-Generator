@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.domain.model.history
 
 data class ChildHistory(
+    val photoUriString: String? = null,
     val pathPreview: String,
     var upscalePathPreview: String? = null,
     val prompt: String,

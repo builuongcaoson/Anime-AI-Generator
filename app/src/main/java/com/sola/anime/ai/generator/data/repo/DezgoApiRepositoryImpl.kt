@@ -1,14 +1,11 @@
 package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
-import android.net.Uri
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.contentUriToRequestBody
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.toFile
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.StyleDao
@@ -23,13 +20,13 @@ import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import kotlinx.coroutines.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val configApp: ConfigApp,
     private val prefs: Preferences,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao
@@ -69,16 +66,16 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                                 val response = dezgoApi.text2image(
                                     headerKey = decryptKey,
-                                    prompt = prompt.toRequestBody(),
-                                    negativePrompt = negativePrompt.toRequestBody(),
-                                    guidance = body.guidance.toRequestBody(),
-                                    upscale = body.upscale.toRequestBody(),
-                                    sampler = body.sampler.toRequestBody(),
-                                    steps = body.steps.toRequestBody(),
-                                    model = body.model.toRequestBody(),
-                                    width = body.width.toRequestBody(),
-                                    height = body.height.toRequestBody(),
-                                    seed = body.seed?.toRequestBody()
+                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                    model = body.model.toRequestBody(MultipartBody.FORM),
+                                    width = body.width.toRequestBody(MultipartBody.FORM),
+                                    height = body.height.toRequestBody(MultipartBody.FORM),
+                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
                                 )
 
                                 ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
@@ -142,8 +139,8 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             try {
-                                val photoRequestBody = body.initImage.contentUriToRequestBody(context)
-                                val photoPart = MultipartBody.Part.createFormData("init_image", body.initImage.authority, photoRequestBody!!)
+                                val photoRequestBody = body.initImage.toRequestBody(context)
+                                val photoPart = MultipartBody.Part.createFormData("init_image", "${System.currentTimeMillis()}.png", photoRequestBody!!)
 
                                 val decryptKey = when {
                                     (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
@@ -153,43 +150,44 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
                                 val response = dezgoApi.image2image(
                                     headerKey = decryptKey,
-                                    prompt = prompt.toRequestBody(),
-                                    negativePrompt = negativePrompt.toRequestBody(),
-                                    guidance = body.guidance.toRequestBody(),
-                                    upscale = body.upscale.toRequestBody(),
-                                    sampler = body.sampler.toRequestBody(),
-                                    steps = body.steps.toRequestBody(),
-                                    model = body.model.toRequestBody(),
-                                    seed = body.seed?.toRequestBody(),
-                                    strength = body.strength.toRequestBody(),
+                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                    model = body.model.toRequestBody(MultipartBody.FORM),
+                                    seed = body.seed?.toRequestBody(MultipartBody.FORM),
+                                    strength = body.strength.toRequestBody(MultipartBody.FORM),
                                     file = photoPart
                                 )
 
-                                ResponseImageToImage(groupId = body.groupId, childId = body.id, response = response)
+                                ResponseImageToImage(groupId = body.groupId, childId = body.id, photoUri = body.initImage, response = response)
                             } catch (e: Exception){
+                                Timber.e("Error: $e")
                                 e.printStackTrace()
                                 ResponseImageToImage(groupId = body.groupId, childId = body.id)
                             }
                         }
                     }.map {
-                        val responseTextToImage = it.await()
+                        val responseImg2Img = it.await()
 
-                        responseTextToImage.response?.byteStream()?.use { inputStream ->
+                        responseImg2Img.response?.byteStream()?.use { inputStream ->
                             // Convert to file
                             val file = tryOrNull { inputStream.toFile(context) }
 
                             when {
-                                file != null && file.exists() -> {
-                                    progress(GenerateImagesToImagesProgress.SuccessWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId, file = file))
+                                file != null && file.exists() && responseImg2Img.photoUri != null -> {
+                                    progress(GenerateImagesToImagesProgress.SuccessWithId(groupId = responseImg2Img.groupId, childId = responseImg2Img.childId, photoUri = responseImg2Img.photoUri, file = file))
                                 }
                                 else -> {
-                                    progress(GenerateImagesToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
+                                    progress(GenerateImagesToImagesProgress.FailureWithId(groupId = responseImg2Img.groupId, childId = responseImg2Img.childId))
                                 }
                             }
 
                             file
                         } ?: run {
-                            progress(GenerateImagesToImagesProgress.FailureWithId(groupId = responseTextToImage.groupId, childId = responseTextToImage.childId))
+                            progress(GenerateImagesToImagesProgress.FailureWithId(groupId = responseImg2Img.groupId, childId = responseImg2Img.childId))
                         }
                     }
                 delay(if (dataChunked.lastIndex == index) 0 else 5000)

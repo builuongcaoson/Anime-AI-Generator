@@ -24,8 +24,28 @@ fun Context.getDeviceId(): String {
     return Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID) ?: UUID.randomUUID().toString()
 }
 
-fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory{
+fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory {
     return ChildHistory(
+        pathPreview = pathPreview,
+        prompt = this.prompt,
+        negativePrompt = this.negativePrompt,
+        guidance = this.guidance,
+        upscale = this.upscale,
+        sampler = this.sampler,
+        steps = this.steps,
+        model = this.model,
+        width = this.width,
+        height = this.height,
+        seed = this.seed
+    ).apply {
+        this.styleId = this@toChildHistory.styleId
+        this.type = this@toChildHistory.type
+    }
+}
+
+fun BodyTextToImage.toChildHistory(photoUriString: String, pathPreview: String): ChildHistory {
+    return ChildHistory(
+        photoUriString = photoUriString,
         pathPreview = pathPreview,
         prompt = this.prompt,
         negativePrompt = this.negativePrompt,

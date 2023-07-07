@@ -14,6 +14,7 @@ data class ResponseTextToImage(
 data class ResponseImageToImage(
     val groupId: Long,
     val childId: Long,
+    val photoUri: Uri? = null,
     val response: ResponseBody? = null
 )
 

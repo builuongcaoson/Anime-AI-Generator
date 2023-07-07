@@ -168,6 +168,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .addOnSuccessListener {
                     configApp.scriptOpenSplash = tryOrNull { config.getLong("scriptOpenSplash") } ?: configApp.scriptOpenSplash
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
+                    configApp.scriptImg2Img = tryOrNull { config.getBoolean("script_img2img") } ?: configApp.scriptImg2Img
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
@@ -182,6 +183,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                     Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("scriptIap: ${configApp.scriptIap}")
+                    Timber.e("scriptImg2Img: ${configApp.scriptImg2Img}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
                     Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")

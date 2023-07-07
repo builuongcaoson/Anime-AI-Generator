@@ -448,6 +448,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
+            binding.photo.isVisible = configApp.scriptImg2Img
+
             binding.viewTop.updateLayoutParams<MarginLayoutParams> {
                 this.topMargin = when(val statusBarHeight = activity.getStatusBarHeight()) {
                     0 -> activity.getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
