@@ -14,7 +14,6 @@ import com.basic.common.extension.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jakewharton.rxbinding2.widget.textChanges
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
@@ -25,7 +24,6 @@ import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
 import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
-import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
@@ -39,7 +37,6 @@ import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
-import com.sola.anime.ai.generator.domain.model.server.UserPremium
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
@@ -51,7 +48,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -139,7 +135,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { photo ->
                 when {
                     photo.preview != null -> configApp.resPhoto = photo.preview
-                    photo.photoStorage != null -> configApp.uriPhoto = tryOrNull { photo.photoStorage.uriString.toUri() }
+                    photo.photoStorage != null -> configApp.pairUriPhoto = tryOrNull { photo.photoStorage.uriString.toUri() to photo.photoStorage.ratio }
                 }
             }
 
@@ -147,17 +143,19 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subjectUriPhotoChanges
             .autoDispose(scope())
             .subscribe {
-                binding.viewPhoto.isVisible = configApp.uriPhoto != null || configApp.resPhoto != null
+                binding.viewPhoto.isVisible = configApp.pairUriPhoto != null || configApp.resPhoto != null
 
                 when {
-                    configApp.uriPhoto != null -> {
-                        val uri = configApp.uriPhoto ?: return@subscribe
+                    configApp.pairUriPhoto != null -> {
+                        val pair = configApp.pairUriPhoto ?: return@subscribe
 
                         Glide.with(this)
-                            .load(uri)
+                            .load(pair.first)
                             .transition(DrawableTransitionOptions.withCrossFade())
                             .error(R.drawable.place_holder_image)
                             .into(binding.previewPhoto)
+
+                        configApp.subjectRatioClicks.onNext(pair.second)
                     }
                     configApp.resPhoto != null -> {
                         val res = configApp.resPhoto ?: return@subscribe
@@ -167,6 +165,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             .transition(DrawableTransitionOptions.withCrossFade())
                             .error(R.drawable.place_holder_image)
                             .into(binding.previewPhoto)
+
+                        configApp.subjectRatioClicks.onNext(Ratio.Ratio1x1)
                     }
                 }
             }
@@ -348,7 +348,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewSeeAllExplore.clicks { activity?.startExplore() }
         binding.closePhoto.clicks {
             configApp.resPhoto = null
-            configApp.uriPhoto = null
+            configApp.pairUriPhoto = null
 
             tryOrNull { sheetPhoto.photoAdapter.photo = null }
         }
@@ -369,21 +369,55 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val task = {
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
-            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                groupId = 0,
-                maxChildId = 0,
-                prompt = prompt,
-                negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                guidance = advancedSheet.guidance.toString(),
-                steps = advancedSheet.step,
-                model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                sampler = "euler_a",
-                upscale = "2",
-                styleId = configApp.styleChoice?.id ?: -1,
-                ratio = aspectRatioAdapter.ratio,
-                seed = null,
-                type = 0
-            )
+            val photoType = sheetPhoto.photoAdapter.photo
+            val photoUri = when {
+                photoType is SheetPhoto.PhotoType.Photo && photoType.photoStorage != null -> {
+                    photoType.photoStorage.uriString.toUri()
+                }
+                photoType is SheetPhoto.PhotoType.Photo && photoType.preview != null -> {
+                    activity?.getDrawableUri(photoType.preview)
+                }
+                else -> null
+            }
+            when {
+                photoUri != null -> {
+                    configApp.dezgoBodiesTextsToImages = emptyList()
+                    configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
+                        groupId = 0,
+                        maxChildId = 0,
+                        initImage = photoUri,
+                        prompt = prompt,
+                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        guidance = advancedSheet.guidance.toString(),
+                        steps = advancedSheet.step,
+                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        sampler = "euler_a",
+                        upscale = "2",
+                        styleId = configApp.styleChoice?.id ?: -1,
+                        ratio = aspectRatioAdapter.ratio,
+                        seed = null,
+                        type = 0
+                    )
+                }
+                else -> {
+                    configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                        groupId = 0,
+                        maxChildId = 0,
+                        prompt = prompt,
+                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        guidance = advancedSheet.guidance.toString(),
+                        steps = advancedSheet.step,
+                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        sampler = "euler_a",
+                        upscale = "2",
+                        styleId = configApp.styleChoice?.id ?: -1,
+                        ratio = aspectRatioAdapter.ratio,
+                        seed = null,
+                        type = 0
+                    )
+                    configApp.dezgoBodiesImagesToImages = emptyList()
+                }
+            }
 
             activity?.startArtProcessing()
         }

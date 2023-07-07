@@ -5,14 +5,13 @@ import android.net.Uri
 import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
+import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -57,12 +56,13 @@ class ConfigApp @Inject constructor(
             field = value
             subjectUriPhotoChanges.onNext(Unit)
         }
-    var uriPhoto: Uri? = null
+    var pairUriPhoto: Pair<Uri, Ratio>? = null
         set(value) {
             field = value
             subjectUriPhotoChanges.onNext(Unit)
         }
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
+    var dezgoBodiesImagesToImages: List<DezgoBodyImageToImage> = listOf()
     var discountCredit: Int = 10 // For tab batch
 
     // RxJava

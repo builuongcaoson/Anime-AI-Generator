@@ -30,6 +30,7 @@ interface DezgoApi {
     @POST("image2image")
     @Streaming
     suspend fun image2image(
+        @Header(Constraint.Dezgo.HEADER_KEY) headerKey: String,
         @Part("prompt") prompt: RequestBody,
         @Part("negative_prompt") negativePrompt: RequestBody,
         @Part("guidance") guidance: RequestBody,
