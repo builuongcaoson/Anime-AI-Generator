@@ -99,16 +99,6 @@ class AppModule {
                     .request()
                     .newBuilder()
 
-//                when {
-//                    !BuildConfig.DEBUG || BuildConfig.SCRIPT -> {
-//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_KEY, configApp.decryptKey)
-//                    }
-//                    else -> {
-//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_KEY, configApp.decryptKey)
-//                        requestBuilder.addHeader(Constraint.Dezgo.HEADER_RAPID_HOST, Constraint.Dezgo.RAPID_HOST)
-//                    }
-//                }
-
                 chain.proceed(requestBuilder.build())
             }
             .addInterceptor(loggingInterceptor)
@@ -126,7 +116,7 @@ class AppModule {
             .create()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(if (!BuildConfig.DEBUG || BuildConfig.SCRIPT) Constraint.Dezgo.URL else Constraint.Dezgo.RAPID_URL)
+            .baseUrl(Constraint.Dezgo.URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

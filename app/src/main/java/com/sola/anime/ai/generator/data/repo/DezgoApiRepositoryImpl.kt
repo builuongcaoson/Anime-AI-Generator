@@ -2,8 +2,6 @@ package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -51,18 +49,13 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
-                            val negativePrompt = when {
-                                style != null -> body.negativePrompt + ", " + context.getDeviceId()
-                                else -> body.negativePrompt + ", " + context.getDeviceId()
-                            }
+                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + context.getDeviceId()
 
                             try {
                                 val decryptKey = when {
-                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
-                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                                    else -> AESEncyption.decrypt(Constraint.Dezgo.RAPID_KEY) ?: ""
+                                    !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                                    else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                                 }
-
 
                                 val response = dezgoApi.text2image(
                                     headerKey = decryptKey,
@@ -143,9 +136,8 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val photoPart = MultipartBody.Part.createFormData("init_image", "${System.currentTimeMillis()}.png", photoRequestBody!!)
 
                                 val decryptKey = when {
-                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
-                                    (!BuildConfig.DEBUG || BuildConfig.SCRIPT) && prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                                    else -> AESEncyption.decrypt(Constraint.Dezgo.RAPID_KEY) ?: ""
+                                    !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                                    else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                                 }
 
                                 val response = dezgoApi.image2image(
