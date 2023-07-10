@@ -16,10 +16,12 @@ import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
@@ -55,6 +57,8 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
         transparent()
         lightStatusBar()
         setContentView(binding.root)
+
+        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_BATCH)
 
         initView()
         initData()
@@ -105,7 +109,10 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
+                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+
                 dezgoApiRepo.generateTextsToImages(
+                    keyApi = decryptKey,
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){

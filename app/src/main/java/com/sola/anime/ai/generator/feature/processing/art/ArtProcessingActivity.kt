@@ -9,11 +9,13 @@ import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
@@ -52,6 +54,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var prefs: Preferences
 
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
@@ -63,6 +66,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         transparent()
         lightStatusBar()
         setContentView(binding.root)
+
+        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING)
 
         initView()
         initObservable()
@@ -132,7 +137,13 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
+                        val decryptKey = when {
+                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+                        }
+
                         dezgoApiRepo.generateTextsToImages(
+                            keyApi = decryptKey,
                             datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                             progress = { progress ->
                                 when (progress){
@@ -223,7 +234,13 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
+                        val decryptKey = when {
+                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+                        }
+
                         dezgoApiRepo.generateImagesToImages(
+                            keyApi = decryptKey,
                             datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                             progress = { progress ->
                                 when (progress){

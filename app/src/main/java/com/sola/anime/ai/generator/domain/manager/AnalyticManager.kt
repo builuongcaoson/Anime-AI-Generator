@@ -8,6 +8,8 @@ interface AnalyticManager {
         CLICKED_RATING,
         CLICKED_SUPPORT,
         ADMOB_CLICKED,
+        GENERATE_PROCESSING,
+        GENERATE_PROCESSING_BATCH,
         GENERATE_SUCCESS,
         GENERATE_FAILED,
         SYNC_USER_PREMIUM_FAILED,

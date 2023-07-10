@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -31,6 +32,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
+        keyApi: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -49,16 +51,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
-                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + context.getDeviceId()
+                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + "${context.getDeviceId()}_V${BuildConfig.VERSION_CODE}"
 
                             try {
-                                val decryptKey = when {
-                                    !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
-                                    else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                                }
-
                                 val response = dezgoApi.text2image(
-                                    headerKey = decryptKey,
+                                    headerKey = keyApi,
                                     prompt = prompt.toRequestBody(MultipartBody.FORM),
                                     negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),
@@ -108,6 +105,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun generateImagesToImages(
+        keyApi: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -126,22 +124,14 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
-                            val negativePrompt = when {
-                                style != null -> body.negativePrompt + ", " + context.getDeviceId()
-                                else -> body.negativePrompt + ", " + context.getDeviceId()
-                            }
+                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + "${context.getDeviceId()}_V${BuildConfig.VERSION_CODE}"
 
                             try {
                                 val photoRequestBody = body.initImage.toRequestBody(context)
                                 val photoPart = MultipartBody.Part.createFormData("init_image", "${System.currentTimeMillis()}.png", photoRequestBody!!)
 
-                                val decryptKey = when {
-                                    !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
-                                    else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                                }
-
                                 val response = dezgoApi.image2image(
-                                    headerKey = decryptKey,
+                                    headerKey = keyApi,
                                     prompt = prompt.toRequestBody(MultipartBody.FORM),
                                     negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),
