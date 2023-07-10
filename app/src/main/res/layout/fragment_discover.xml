@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewAvatar"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/_10sdp"
@@ -117,8 +118,6 @@
                             app:left_image="@drawable/preview_left_avatar"
                             app:right_image="@drawable/preview_right_avatar"
                             app:slider_icon="@drawable/slider_thumb" />
-
-
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -27,9 +27,11 @@
 
         <FrameLayout
             android:id="@+id/target"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -68,10 +70,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:text="Experience the magic of AI in turning your profile picture into Anime art."
-                android:textColor="?colorOnPrimary"
+                android:textColor="?colorOnSecondary"
                 android:textSize="@dimen/_10ssp" />
 
         </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewTry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            app:cardBackgroundColor="?colorAccent"
+            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardElevation="@dimen/_3sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="Try now"
+                android:textColor="?colorOnPrimary"
+                android:textSize="@dimen/_12sdp" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <View
             android:id="@+id/slider_bar"
@@ -101,7 +128,7 @@
             android:id="@+id/sbImageSeek"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#00ffffff"
+            android:background="@android:color/transparent"
             android:max="1000"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
@@ -109,10 +136,10 @@
             android:progressDrawable="@android:color/transparent"
             android:splitTrack="false"
             android:thumb="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/slideIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/slideIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

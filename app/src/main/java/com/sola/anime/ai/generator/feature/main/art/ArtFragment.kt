@@ -369,12 +369,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val task = {
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
-            val photoType = sheetPhoto.photoAdapter.photo
+            val photoType = tryOrNull { sheetPhoto.photoAdapter.photo }
             val photoUri = when {
-                photoType is SheetPhoto.PhotoType.Photo && photoType.photoStorage != null -> {
+                photoType != null && photoType is SheetPhoto.PhotoType.Photo && photoType.photoStorage != null -> {
                     photoType.photoStorage.uriString.toUri()
                 }
-                photoType is SheetPhoto.PhotoType.Photo && photoType.preview != null -> {
+                photoType != null && photoType is SheetPhoto.PhotoType.Photo && photoType.preview != null -> {
                     activity?.getDrawableUri(photoType.preview)
                 }
                 else -> null
