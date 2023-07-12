@@ -26,13 +26,13 @@ import javax.inject.Singleton
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val prefs: Preferences,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
         keyApi: String,
+        subNegative: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -51,7 +51,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
-                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + "${context.getDeviceId()}_V${BuildConfig.VERSION_CODE}"
+
+                            val negativePrompt = when {
+                                body.negativePrompt.endsWith(",") -> body.negativePrompt + " " + subNegative
+                                else -> body.negativePrompt + ", " + subNegative
+                            }
 
                             try {
                                 val response = dezgoApi.text2image(
@@ -106,6 +110,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
     override suspend fun generateImagesToImages(
         keyApi: String,
+        subNegative: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -124,7 +129,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
                             }
-                            val negativePrompt = body.negativePrompt + if (body.negativePrompt.endsWith(",")) " " else ", " + "${context.getDeviceId()}_V${BuildConfig.VERSION_CODE}"
+
+                            val negativePrompt = when {
+                                body.negativePrompt.endsWith(",") -> body.negativePrompt + " " + subNegative
+                                else -> body.negativePrompt + ", " + subNegative
+                            }
 
                             try {
                                 val photoRequestBody = body.initImage.toRequestBody(context)

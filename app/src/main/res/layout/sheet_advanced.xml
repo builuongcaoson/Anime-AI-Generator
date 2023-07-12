@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="Don't include..."
-                    android:maxLength="1000"
+                    android:maxLength="500"
                     android:maxLines="5"
                     android:minHeight="@dimen/_40sdp"
                     android:paddingStart="@dimen/_10sdp"

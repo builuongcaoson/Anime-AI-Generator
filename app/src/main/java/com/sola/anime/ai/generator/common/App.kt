@@ -5,8 +5,11 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
@@ -67,6 +70,16 @@ class App : Application() {
                 }
             })
         }
+
+        // Register firebase token
+        Firebase.messaging.isAutoInitEnabled = true
+        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Timber.w( "Fetching FCM registration token failed")
+                return@OnCompleteListener
+            }
+            Timber.d("Token FCM: " + task.result)
+        })
     }
 
     private fun initRevenuecat(){

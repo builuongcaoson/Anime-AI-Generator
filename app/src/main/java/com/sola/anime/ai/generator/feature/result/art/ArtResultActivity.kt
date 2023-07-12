@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.result.art
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -150,25 +151,50 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private fun generateAgainClicks() {
         val history = historyDao.findById(historyId) ?: return
+        val childHistory = history.childs.firstOrNull() ?: return
 
         val task = {
-            configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                groupId = 0,
-                maxChildId = 0,
-                prompt = history.prompt,
-                negativePrompt = history.childs.firstOrNull()?.negativePrompt?.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                guidance = history.childs.firstOrNull()?.guidance ?: "7.5",
-                steps = if (BuildConfig.DEBUG) "5" else if (!prefs.isUpgraded.get()) "40" else "50",
-                model = history.childs.firstOrNull()?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                sampler = history.childs.firstOrNull()?.sampler ?: "euler_a",
-                upscale = history.childs.firstOrNull()?.upscale ?: "1",
-                styleId = history.styleId,
-                ratio = Ratio.values().firstOrNull {
-                    it.width == (history.childs.firstOrNull()?.width ?: "") && it.height == (history.childs.firstOrNull()?.height ?: "")
-                } ?: Ratio.Ratio1x1,
-                seed = null,
-                type = history.childs.firstOrNull()?.type ?: 0
-            )
+            val photoUri = tryOrNull { childHistory.photoUriString?.toUri() }
+            when {
+                photoUri != null -> {
+                    configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
+                        groupId = 0,
+                        maxChildId = 0,
+                        initImage = photoUri,
+                        prompt = history.prompt,
+                        negativePrompt = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        guidance = childHistory.guidance,
+                        steps = childHistory.steps,
+                        model = childHistory.model,
+                        sampler = childHistory.sampler,
+                        upscale = childHistory.upscale,
+                        styleId = history.styleId,
+                        ratio = Ratio.values().firstOrNull { it.width == childHistory.width && it.height == childHistory.height } ?: Ratio.Ratio1x1,
+                        seed = null,
+                        type = childHistory.type
+                    )
+                    configApp.dezgoBodiesTextsToImages = listOf()
+                }
+                else -> {
+                    configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                        groupId = 0,
+                        maxChildId = 0,
+                        prompt = history.prompt,
+                        negativePrompt = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        guidance = childHistory.guidance,
+                        steps = childHistory.steps,
+                        model = childHistory.model,
+                        sampler = childHistory.sampler,
+                        upscale = childHistory.upscale,
+                        styleId = history.styleId,
+                        ratio = Ratio.values().firstOrNull { it.width == childHistory.width && it.height == childHistory.height } ?: Ratio.Ratio1x1,
+                        seed = null,
+                        type = childHistory.type
+                    )
+                    configApp.dezgoBodiesImagesToImages = listOf()
+                }
+            }
+
 
             startArtProcessing()
             finish()
@@ -176,22 +202,18 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && !prefs.isUpgraded.get() -> {
-                startIap()
-            }
-            !prefs.isUpgraded.get() -> {
-                admobManager.showRewardCreateAgain(
-                    this,
-                    success = {
-                        task()
-                        admobManager.loadRewardCreateAgain()
-                    },
-                    failed = {
-                        makeToast("Please watch all ads to perform the function!")
-                        admobManager.loadRewardCreateAgain()
-                    }
-                )
-            }
+            prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && !prefs.isUpgraded.get() -> startIap()
+            !prefs.isUpgraded.get() -> admobManager.showRewardCreateAgain(
+                this,
+                success = {
+                    task()
+                    admobManager.loadRewardCreateAgain()
+                },
+                failed = {
+                    makeToast("Please watch all ads to perform the function!")
+                    admobManager.loadRewardCreateAgain()
+                }
+            )
             else -> task()
         }
     }

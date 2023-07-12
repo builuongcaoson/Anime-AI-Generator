@@ -15,9 +15,12 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
@@ -111,8 +114,11 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                 val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
+                val subNegative = "${getDeviceModel()}_${getDeviceId()}_${BuildConfig.VERSION_CODE}_${prefs.isUpgraded.get()}_${prefs.getCredits()}_${prefs.numberCreatedArtwork.get()}"
+
                 dezgoApiRepo.generateTextsToImages(
                     keyApi = decryptKey,
+                    subNegative = subNegative,
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){

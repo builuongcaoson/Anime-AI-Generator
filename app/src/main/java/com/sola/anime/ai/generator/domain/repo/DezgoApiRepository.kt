@@ -12,12 +12,14 @@ interface DezgoApiRepository {
 
     suspend fun generateTextsToImages(
         keyApi: String,
+        subNegative: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
     )
 
     suspend fun generateImagesToImages(
         keyApi: String,
+        subNegative: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit
     )
