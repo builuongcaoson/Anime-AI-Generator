@@ -32,6 +32,10 @@
         <attr name="lottieRes"/>
     </declare-styleable>
 
+    <declare-styleable name="LsSwitchView">
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="LsActionView">
         <attr name="title" />
         <attr name="icon" />

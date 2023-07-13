@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.sola.anime.ai.generator.common.widget.switchview.SwitchView
+    <com.sola.anime.ai.generator.common.widget.switchview.LsSwitchView
         android:layout_width="@dimen/_40sdp"
         android:layout_height="wrap_content"
         android:id="@+id/switchView"

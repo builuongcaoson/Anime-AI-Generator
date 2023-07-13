@@ -8,6 +8,9 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import com.google.gson.GsonBuilder
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
@@ -20,6 +23,7 @@ import com.sola.anime.ai.generator.data.manager.AdmobManagerImpl
 import com.sola.anime.ai.generator.data.manager.AnalyticManagerImpl
 import com.sola.anime.ai.generator.data.manager.NotificationManagerImpl
 import com.sola.anime.ai.generator.data.manager.PermissionManagerImpl
+import com.sola.anime.ai.generator.data.repo.DetectFaceRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
@@ -29,6 +33,7 @@ import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.manager.NotificationManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
+import com.sola.anime.ai.generator.domain.repo.DetectFaceRepository
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
@@ -76,6 +81,26 @@ class AppModule {
         val sharedPreferences = context.getSharedPreferences("PreferencesConfig", Context.MODE_PRIVATE)
         val rxSharedPreferences = RxSharedPreferences.create(sharedPreferences)
         return PreferencesConfig(context, rxSharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFaceDetectorOptions(): FirebaseVisionFaceDetectorOptions {
+        return FirebaseVisionFaceDetectorOptions.Builder()
+            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
+            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.NO_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.NO_CLASSIFICATIONS)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFaceDetector(
+        options: FirebaseVisionFaceDetectorOptions = provideFaceDetectorOptions()
+    ): FirebaseVisionFaceDetector {
+        return FirebaseVision
+            .getInstance()
+            .getVisionFaceDetector(options)
     }
 
     // Server
@@ -280,6 +305,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideFileRepositoryImpl(repo: FileRepositoryImpl): FileRepository = repo
+
+    @Provides
+    @Singleton
+    fun provideDetectFaceRepositoryImpl(repo: DetectFaceRepositoryImpl): DetectFaceRepository = repo
 
     // Manager
 

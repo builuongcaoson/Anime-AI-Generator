@@ -93,6 +93,14 @@
 
         </provider>
 
+<!--        Detect Face-->
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="face" />
+
+<!--        Detect Face-->
+
 <!--        Backup-->
 
         <meta-data

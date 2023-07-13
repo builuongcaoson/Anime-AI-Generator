@@ -213,7 +213,6 @@
                     app:textFont="semi" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/viewSwitchFullHd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -222,8 +221,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.sola.anime.ai.generator.common.widget.switchview.SwitchView
-                        android:id="@+id/switchFullHd"
+                    <com.sola.anime.ai.generator.common.widget.switchview.LsSwitchView
+                        android:id="@+id/switchDetectFace"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -235,21 +234,12 @@
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:focusable="false"
+                        app:isChecked="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:id="@+id/viewClicksFullHd"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:elevation="@dimen/_3sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/viewSwitchFullHd"
-                    app:layout_constraintEnd_toEndOf="@id/viewSwitchFullHd"
-                    app:layout_constraintStart_toStartOf="@id/viewSwitchFullHd"
-                    app:layout_constraintTop_toTopOf="@id/viewSwitchFullHd" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -379,5 +369,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/art_generate_lottie" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,10 @@ class FirebaseFCMService : FirebaseMessagingService(){
                         notificationManager.notify(title, body)
                     }
                 }
+                val title = it.getString("gcm.notification.title") ?: return
+                val body = it.getString("gcm.notification.body") ?: return
+
+                Timber.e("Title: $title --- $body")
             }
         }
     }

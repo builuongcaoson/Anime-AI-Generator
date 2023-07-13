@@ -2,17 +2,12 @@ package com.sola.anime.ai.generator.feature.main.batch.adapter
 
 import android.content.Context
 import android.util.SparseBooleanArray
-import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.utils.MDUtil.textChanged
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
-import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.common.widget.switchview.SwitchCallbacks
 import com.sola.anime.ai.generator.databinding.ItemImageDimensionsBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemNumberOfImagesBatchBinding
 import com.sola.anime.ai.generator.databinding.ItemPromptBatchBinding
@@ -72,7 +67,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
     private fun toggleFullHd(binding: ItemPromptBatchBinding, item: PromptBatch) {
         val newChecked = !item.isFullHd
-        binding.switchFullHd.setChecked(newChecked)
+        binding.switchFullHd.setNewChecked(newChecked)
         item.isFullHd = newChecked
     }
 
@@ -148,7 +143,7 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         binding.textGuidance.text = item.guidance.toString()
         binding.textStep.text = item.step.toString()
         binding.textSampler.text = item.sampler.display
-        binding.switchFullHd.setChecked(item.isFullHd)
+        binding.switchFullHd.setNewChecked(item.isFullHd)
     }
 
     private fun dropAdvancedClicks(binding: ItemPromptBatchBinding, position: Int) {

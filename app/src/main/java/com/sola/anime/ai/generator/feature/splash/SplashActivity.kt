@@ -2,9 +2,6 @@ package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.Settings
-import android.text.format.DateUtils
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
@@ -17,24 +14,21 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.isToday
 import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
+import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -42,16 +36,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.max
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
+
+    companion object {
+        private const val PERMISSION_NOTIFICATION = 1
+    }
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
@@ -59,6 +53,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var syncData: SyncData
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var permissionManager: PermissionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,11 +144,25 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                             }
                             syncData.execute(Unit)
 
-                            handleSuccess()
+                            when {
+                                !permissionManager.hasPermissionNotification() -> permissionManager.requestPermissionNotification(this@SplashActivity, PERMISSION_NOTIFICATION)
+                                else -> doTask()
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_NOTIFICATION -> doTask()
         }
     }
 
@@ -208,7 +217,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
     }
 
-    private fun handleSuccess(){
+    private fun doTask(){
         val task = {
             lifecycleScope.launch(Dispatchers.Main) {
                 when {

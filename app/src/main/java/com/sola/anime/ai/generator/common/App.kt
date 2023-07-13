@@ -40,9 +40,6 @@ class App : Application() {
     val manager by lazy { ReviewManagerFactory.create(this) }
     var reviewInfo: ReviewInfo? = null
 
-    // For network
-    val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
-
     override fun onCreate() {
         super.onCreate()
 
@@ -56,20 +53,6 @@ class App : Application() {
 
         // Step Revenuecat
         initRevenuecat()
-
-        // Network listener
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-            connectivityManager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-                override fun onAvailable(network: Network) {
-                    subjectNetworkChanges.onNext(true)
-                }
-
-                override fun onLost(network: Network) {
-                    subjectNetworkChanges.onNext(false)
-                }
-            })
-        }
 
         // Register firebase token
         Firebase.messaging.isAutoInitEnabled = true

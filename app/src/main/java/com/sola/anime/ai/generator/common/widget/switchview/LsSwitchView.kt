@@ -15,14 +15,15 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.util.ColorUtils.animateColorChange
-import com.basic.common.util.LocaleHelper.isRTL
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.widget.switchview.SwitchFrameLayout
 import com.sola.anime.ai.generator.common.widget.switchview.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
-class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : SwitchFrameLayout(context, attrs, defStyleAttr) {
+class LsSwitchView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : SwitchFrameLayout(context, attrs, defStyleAttr) {
 
     private var thumb: ImageView
     private var switchCallbacks: SwitchCallbacks? = null
@@ -32,10 +33,16 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     val p = context.resources.getDimensionPixelOffset(com.intuit.sdp.R.dimen._5sdp)
     private val thumbWidth = context.resources.getDimensionPixelOffset(com.intuit.sdp.R.dimen._15sdp)
 
-    private var isChecked: Boolean = false
+    var isChecked: Boolean = false
 
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.switch_view, this, true)
+
+        context.obtainStyledAttributes(attrs, R.styleable.LsSwitchView).run {
+            isChecked = getBoolean(R.styleable.LsSwitchView_isChecked, false)
+
+            recycle()
+        }
 
         thumb = view.findViewById(R.id.switch_thumb)
 
@@ -60,7 +67,10 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         // Disable click
         view.isClickable = false
 
-        unchecked()
+        when {
+            isChecked -> checked()
+            else -> unchecked()
+        }
         requestLayout()
     }
 
@@ -103,7 +113,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * This method will animate the checked status, to
      * change without animation use [animateChecked] method.
      */
-    fun setChecked(boolean: Boolean) {
+    fun setNewChecked(boolean: Boolean) {
         isChecked = if (boolean) {
             animateChecked()
             boolean
@@ -117,7 +127,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * Change checked status of the switch without animation.
      *
      * This method will animate the checked status, to
-     * change with animation use [setChecked] method.
+     * change with animation use [setNewChecked] method.
      */
     fun staticChecked(boolean: Boolean) {
         isChecked = if (boolean) {

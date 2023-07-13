@@ -114,7 +114,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                 val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegative = "${getDeviceModel()}_${getDeviceId()}_${BuildConfig.VERSION_CODE}_${prefs.isUpgraded.get()}_${prefs.getCredits()}_${prefs.numberCreatedArtwork.get()}"
+                val subNegative = "${getDeviceId()}_${BuildConfig.VERSION_CODE}_batch_${prefs.isUpgraded.get()}_${prefs.getCredits()}_${prefs.numberCreatedArtwork.get()}"
 
                 dezgoApiRepo.generateTextsToImages(
                     keyApi = decryptKey,

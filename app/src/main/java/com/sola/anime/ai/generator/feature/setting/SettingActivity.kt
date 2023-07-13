@@ -13,7 +13,6 @@ import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
-import com.basic.common.extension.tryOrNull
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.R
@@ -24,10 +23,9 @@ import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.dialog.PromoCodeDialog
-import com.sola.anime.ai.generator.common.widget.switchview.SwitchView
+import com.sola.anime.ai.generator.common.widget.switchview.LsSwitchView
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivitySettingBinding
-import com.sola.anime.ai.generator.databinding.SwitchPreferenceViewBinding
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -99,7 +97,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { isEnable ->
-                binding.viewNsfw.binding.widgetFrame.findViewById<SwitchView>(R.id.switchView).setChecked(isEnable)
+                binding.viewNsfw.binding.widgetFrame.findViewById<LsSwitchView>(R.id.switchView).setNewChecked(isEnable)
             }
 
         promoCodeDialog
