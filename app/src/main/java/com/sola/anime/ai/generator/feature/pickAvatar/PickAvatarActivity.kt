@@ -10,10 +10,22 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.initDezgoBodyImagesToImages
+import com.sola.anime.ai.generator.common.extension.initDezgoBodyTextsToImages
+import com.sola.anime.ai.generator.common.extension.startBatchProcessing
 import com.sola.anime.ai.generator.common.extension.startCredit
+import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityPickAvatarBinding
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.model.PromptBatch
+import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.domain.repo.DetectFaceRepository
 import com.sola.anime.ai.generator.feature.pickAvatar.adapter.ObjectAdapter
 import com.sola.anime.ai.generator.feature.pickAvatar.adapter.PhotoAdapter
@@ -23,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAvatarBinding::inflate) {
@@ -35,6 +48,10 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
     @Inject lateinit var objectAdapter: ObjectAdapter
     @Inject lateinit var photoAdapter: PhotoAdapter
     @Inject lateinit var detectFaceRepo: DetectFaceRepository
+    @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var configApp: ConfigApp
+    @Inject lateinit var prefs: Preferences
 
     private var urisHadFace: List<Uri> = emptyList()
         set(value) {
@@ -87,7 +104,43 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
     }
 
     private fun generateClicks() {
+        val task = {
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_AVATAR_CLICKED)
 
+            val dezgoBodies = photoAdapter.data.flatMapIndexed { index: Int, uri: Uri ->
+                val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
+                val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
+
+                initDezgoBodyImagesToImages(
+                    groupId = index.toLong(),
+                    maxChildId = 1,
+                    initImage = uri,
+                    prompt = prompt,
+                    negativePrompt = negativePrompt,
+                    guidance = "7.5",
+                    steps = configApp.stepPremium,
+                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+                    sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
+                    upscale = "2",
+                    styleId = -1,
+                    ratio = Ratio.Ratio1x1,
+                    seed = null,
+                    type = 1
+                )
+            }
+
+            configApp.dezgoBodiesImagesToImages = dezgoBodies
+
+            startBatchProcessing()
+        }
+
+        when {
+            !isNetworkAvailable() -> networkDialog.show(this) {
+                networkDialog.dismiss()
+            }
+            configApp.discountCredit > prefs.getCredits().roundToInt() -> startCredit()
+            else -> task()
+        }
     }
 
     private fun initData() {

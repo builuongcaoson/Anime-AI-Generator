@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.processing.batch.adapter
+package com.sola.anime.ai.generator.feature.processing.avatar.adapter
 
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
@@ -6,43 +6,39 @@ import com.basic.common.extension.clicks
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.databinding.ItemPreviewBatchProcessingBinding
+import com.sola.anime.ai.generator.databinding.ItemPreviewAvatarProcessingBinding
+import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
+import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusTextToImage, ItemPreviewBatchProcessingBinding>(ItemPreviewBatchProcessingBinding::inflate) {
+class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusImageToImage, ItemPreviewAvatarProcessingBinding>(ItemPreviewAvatarProcessingBinding::inflate) {
 
-    val downloadClicks: Subject<DezgoStatusTextToImage> = PublishSubject.create()
+    val downloadClicks: Subject<DezgoStatusImageToImage> = PublishSubject.create()
 
     override fun bindItem(
-        item: DezgoStatusTextToImage,
-        binding: ItemPreviewBatchProcessingBinding,
+        item: DezgoStatusImageToImage,
+        binding: ItemPreviewAvatarProcessingBinding,
         position: Int
     ) {
-//        ConstraintSet().apply {
-//            clone(binding.viewRoot)
-//            setDimensionRatio(binding.viewPreviewRatio.id, "${item.body.width}:${item.body.height}")
-//            applyTo(binding.viewRoot)
-//        }
-
         val status = item.status
 
-        binding.viewDownload.isVisible = status is StatusBodyTextToImage.Success
+        binding.viewDownload.isVisible = status is StatusBodyImageToImage.Success
 
         when (status) {
-            StatusBodyTextToImage.Loading -> {
+            StatusBodyImageToImage.Loading -> {
                 binding.viewLoading.isVisible = true
             }
-            is StatusBodyTextToImage.Failure -> {
+            is StatusBodyImageToImage.Failure -> {
                 binding.viewLoading.isVisible = false
 
                 binding.preview.setImageResource(R.drawable.place_holder_image)
             }
 
-            is StatusBodyTextToImage.Success -> {
+            is StatusBodyImageToImage.Success -> {
                 binding.viewLoading.isVisible = false
 
                 Glide

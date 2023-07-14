@@ -145,7 +145,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                         }
 
-                        val subNegative = "${getDeviceId()}_${BuildConfig.VERSION_CODE}_art_${prefs.isUpgraded.get()}_${prefs.getCredits()}_${prefs.numberCreatedArtwork.get()}"
+                        val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_art_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                         dezgoApiRepo.generateTextsToImages(
                             keyApi = decryptKey,
@@ -245,7 +245,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                         }
 
-                        val subNegative = "${getDeviceId()}_${BuildConfig.VERSION_CODE}_art_${prefs.isUpgraded.get()}_${prefs.getCredits()}_${prefs.numberCreatedArtwork.get()}"
+                        val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_art_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                         dezgoApiRepo.generateImagesToImages(
                             keyApi = decryptKey,

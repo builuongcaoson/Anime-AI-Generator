@@ -16,6 +16,7 @@ import com.sola.anime.ai.generator.feature.model.ModelActivity
 import com.sola.anime.ai.generator.feature.pickAvatar.PickAvatarActivity
 import com.sola.anime.ai.generator.feature.preview.PreviewActivity
 import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
+import com.sola.anime.ai.generator.feature.processing.avatar.AvatarProcessingActivity
 import com.sola.anime.ai.generator.feature.processing.batch.BatchProcessingActivity
 import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
 import com.sola.anime.ai.generator.feature.setting.SettingActivity
@@ -75,6 +76,12 @@ fun Activity.startArtProcessing(){
 
 fun Activity.startBatchProcessing(){
     val intent = Intent(this, BatchProcessingActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startAvatarProcessing(){
+    val intent = Intent(this, AvatarProcessingActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

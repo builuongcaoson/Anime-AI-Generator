@@ -1,7 +1,6 @@
-package com.sola.anime.ai.generator.feature.processing.batch
+package com.sola.anime.ai.generator.feature.processing.avatar
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
@@ -20,34 +19,31 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
-import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
+import com.sola.anime.ai.generator.databinding.ActivityAvatarProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
-import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
-import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
+import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
+import com.sola.anime.ai.generator.domain.model.status.GenerateImagesToImagesProgress
+import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
-import com.sola.anime.ai.generator.feature.processing.batch.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.feature.processing.avatar.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(ActivityBatchProcessingBinding::inflate) {
+class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(ActivityAvatarProcessingBinding::inflate) {
 
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var configApp: ConfigApp
@@ -56,7 +52,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
 
-    private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
+    private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
     private var isSuccessAll = false
     private val downloadSheet by lazy { DownloadSheet() }
 
@@ -66,7 +62,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
         lightStatusBar()
         setContentView(binding.root)
 
-        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_BATCH)
+        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_AVATAR)
 
         initView()
         initData()
@@ -80,7 +76,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             .autoDispose(scope())
             .subscribe { dezgoStatus ->
                 when (val status = dezgoStatus.status) {
-                    is StatusBodyTextToImage.Success -> {
+                    is StatusBodyImageToImage.Success -> {
                         val file = status.file
 
                         if (!file.exists()){
@@ -102,8 +98,8 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     private fun initData() {
         when {
-            configApp.dezgoBodiesTextsToImages.isEmpty() -> {
-                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_BATCH)
+            configApp.dezgoBodiesImagesToImages.isEmpty() -> {
+                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_AVATAR)
 
                 makeToast("Server error, please wait for us to fix the error or try again!")
                 finish()
@@ -122,42 +118,42 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                 val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_batch_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
+                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_avatar_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
-                dezgoApiRepo.generateTextsToImages(
+                dezgoApiRepo.generateImagesToImages(
                     keyApi = decryptKey,
                     subNegative = subNegative,
-                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+                    datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->
                         when (progress){
-                            GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
-                            GenerateTextsToImagesProgress.Loading -> {
-                                dezgoStatusTextsToImages = configApp
-                                    .dezgoBodiesTextsToImages
+                            GenerateImagesToImagesProgress.Idle -> Timber.e("IDLE")
+                            GenerateImagesToImagesProgress.Loading -> {
+                                dezgoStatusImagesToImages = configApp
+                                    .dezgoBodiesImagesToImages
                                     .flatMap { dezgo ->
                                         dezgo
                                             .bodies
                                             .map { body ->
-                                                DezgoStatusTextToImage(
+                                                DezgoStatusImageToImage(
                                                     body = body,
-                                                    status = StatusBodyTextToImage.Loading
+                                                    status = StatusBodyImageToImage.Loading
                                                 )
                                             }
                                     }
 
-                                previewAdapter.data = dezgoStatusTextsToImages
+                                previewAdapter.data = dezgoStatusImagesToImages
                             }
-                            is GenerateTextsToImagesProgress.LoadingWithId -> {
+                            is GenerateImagesToImagesProgress.LoadingWithId -> {
                                 Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
-                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
+                            is GenerateImagesToImagesProgress.SuccessWithId ->  {
+                                prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusImagesToImages.size.toFloat()))
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp
-                                    .dezgoBodiesTextsToImages
+                                    .dezgoBodiesImagesToImages
                                     .find { dezgo ->
                                         dezgo.id == progress.groupId
                                     }?.bodies
@@ -169,12 +165,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                                 markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
                             }
-                            is GenerateTextsToImagesProgress.FailureWithId ->  {
+                            is GenerateImagesToImagesProgress.FailureWithId ->  {
                                 Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
-                            is GenerateTextsToImagesProgress.Done ->  {
+                            is GenerateImagesToImagesProgress.Done ->  {
                                 isSuccessAll = true
 
                                 Timber.e("DONE")
@@ -195,12 +191,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     }
 
     private fun markLoadingWithIdAndChildId(groupId: Long, childId: Long) {
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .find { status ->
                 status.body.id == childId && status.body.groupId == groupId
-            }?.status = StatusBodyTextToImage.Loading
+            }?.status = StatusBodyImageToImage.Loading
 
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->
@@ -211,12 +207,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     }
 
     private fun markSuccessWithIdAndChildId(groupId: Long, childId: Long, file: File) {
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .find { status ->
                 status.body.id == childId && status.body.groupId == groupId
-            }?.status = StatusBodyTextToImage.Success(file)
+            }?.status = StatusBodyImageToImage.Success(file)
 
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->
@@ -227,12 +223,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     }
 
     private fun markFailureWithIdAndChildId(groupId: Long, childId: Long) {
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .find { status ->
                 status.body.id == childId && status.body.groupId == groupId
-            }?.status = StatusBodyTextToImage.Failure()
+            }?.status = StatusBodyImageToImage.Failure()
 
-        dezgoStatusTextsToImages
+        dezgoStatusImagesToImages
             .indexOfFirst { status ->
                 status.body.id == childId && status.body.groupId == groupId
             }.takeIf { it != -1 }?.let { index ->

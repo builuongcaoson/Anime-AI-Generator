@@ -28,6 +28,8 @@
         tools:replace="allowBackup, fullBackupOnly, fullBackupContent"
         tools:targetApi="31">
 
+        <activity android:name=".feature.processing.avatar.AvatarProcessingActivity"/>
+
         <activity android:name=".feature.pickAvatar.PickAvatarActivity"/>
 
         <activity
