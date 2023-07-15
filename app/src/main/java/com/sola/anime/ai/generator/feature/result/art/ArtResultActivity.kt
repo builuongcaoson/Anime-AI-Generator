@@ -170,6 +170,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         upscale = childHistory.upscale,
                         styleId = history.styleId,
                         ratio = Ratio.values().firstOrNull { it.width == childHistory.width && it.height == childHistory.height } ?: Ratio.Ratio1x1,
+                        strength = childHistory.strength ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG,
                         seed = null,
                         type = childHistory.type
                     )

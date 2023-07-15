@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class PhotoAdapter @Inject constructor() : LsAdapter<Uri, ItemPhotoInAvatarBinding>(ItemPhotoInAvatarBinding::inflate) {
 
-    val subjectDeleteChanges: Subject<Uri> = PublishSubject.create()
+    val subjectDeleteClicks: Subject<Uri> = PublishSubject.create()
 
     var item: Uri? = null
         set(value) {
@@ -43,6 +43,6 @@ class PhotoAdapter @Inject constructor() : LsAdapter<Uri, ItemPhotoInAvatarBindi
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.preview)
 
-        binding.closePhoto.clicks { subjectDeleteChanges.onNext(item) }
+        binding.closePhoto.clicks { subjectDeleteClicks.onNext(item) }
     }
 }

@@ -1,20 +1,28 @@
 package com.sola.anime.ai.generator.feature.pickAvatar
 
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getDimens
 import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.lightNavigationBar
+import com.basic.common.extension.lightStatusBar
+import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.initDezgoBodyImagesToImages
 import com.sola.anime.ai.generator.common.extension.initDezgoBodyTextsToImages
 import com.sola.anime.ai.generator.common.extension.startBatchProcessing
@@ -34,6 +42,7 @@ import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -55,27 +64,52 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
 
     private var urisHadFace: List<Uri> = emptyList()
         set(value) {
-            field = value
-            photoAdapter.data = value
+            tryOrNull {
+                field = value
+                photoAdapter.data = value
+                binding.recyclerView.isVisible = value.isNotEmpty()
+                updateUiCredit()
+            }
         }
     private val pickPhotoLaunchers = (MAX_PHOTO_PICK downTo MIN_PHOTO_PICK).map {
         it to pickPhotoResult(limit = it) { urisHadNull ->
             val uris = urisHadNull.mapNotNull { uri -> uri }
             when {
                 binding.switchDetectFace.isChecked -> detectFaceUris(uris)
-                else -> this@PickAvatarActivity.urisHadFace = this@PickAvatarActivity.urisHadFace + urisHadFace
+                else -> this@PickAvatarActivity.urisHadFace = this@PickAvatarActivity.urisHadFace + uris
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        transparent()
+        lightStatusBar()
+        lightNavigationBar()
         setContentView(binding.root)
 
         initView()
         initObservable()
         initData()
         listenerView()
+    }
+
+    private fun updateUiCredit(){
+        val creditForNumbersOfImages = photoAdapter.data.size * 40.0f
+        val discount = 0.02
+
+        Timber.e("DiscountCredits: ${(creditForNumbersOfImages - (creditForNumbersOfImages * discount))}")
+
+        configApp.discountCreditAvatar = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
+        val totalCredit = creditForNumbersOfImages.roundToInt()
+
+        binding.discountCredit.text = configApp.discountCreditAvatar.toString()
+        binding.totalCredit.apply {
+            text = totalCredit.toString()
+            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            isVisible = configApp.discountCreditAvatar != totalCredit
+        }
+        binding.timeGenerate.text = "About ${((photoAdapter.data.size * 4 / 10) + 1)} minute"
     }
 
     private fun detectFaceUris(uris: List<Uri>) {
@@ -101,6 +135,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
             }
         }
         binding.cardGenerate.clicks { tryOrNull { generateClicks() } }
+        binding.viewSwitchClicks.clicks { binding.switchDetectFace.setNewChecked(!binding.switchDetectFace.isChecked) }
     }
 
     private fun generateClicks() {
@@ -124,6 +159,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                     upscale = "2",
                     styleId = -1,
                     ratio = Ratio.Ratio1x1,
+                    strength = "0.5",
                     seed = null,
                     type = 1
                 )
@@ -138,7 +174,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
             !isNetworkAvailable() -> networkDialog.show(this) {
                 networkDialog.dismiss()
             }
-            configApp.discountCredit > prefs.getCredits().roundToInt() -> startCredit()
+            configApp.discountCreditAvatar > prefs.getCredits().roundToInt() -> startCredit()
             else -> task()
         }
     }
@@ -151,12 +187,27 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
         objectAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe {
+            .subscribe { itemObject ->
+                objectAdapter.item = itemObject
+            }
 
+        photoAdapter
+            .subjectDeleteClicks
+            .autoDispose(scope())
+            .subscribe { uri ->
+                urisHadFace = ArrayList(urisHadFace).apply {
+                    remove(uri)
+                }
             }
     }
 
     private fun initView() {
+        binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            this.topMargin = when(val statusBarHeight = getStatusBarHeight()) {
+                0 -> getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                else -> statusBarHeight
+            }
+        }
         binding.recyclerObject.apply {
             this.adapter = objectAdapter.apply {
                 this.data = Object.values().toList()

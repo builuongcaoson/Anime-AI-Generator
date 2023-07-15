@@ -269,32 +269,16 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                     is GenerateImagesToImagesProgress.SuccessWithId ->  {
                                         Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
-                                        when {
-                                            dezgoStatusTextsToImages.isNotEmpty() -> {
-                                                configApp
-                                                    .dezgoBodiesTextsToImages
-                                                    .find { dezgo ->
-                                                        dezgo.id == progress.groupId
-                                                    }?.bodies
-                                                    ?.find { body ->
-                                                        body.id == progress.childId && body.groupId == progress.groupId
-                                                    }?.toChildHistory(progress.photoUri.toString(), progress.file.path)?.let {
-                                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-                                                    }
+                                        configApp
+                                            .dezgoBodiesImagesToImages
+                                            .find { dezgo ->
+                                                dezgo.id == progress.groupId
+                                            }?.bodies
+                                            ?.find { body ->
+                                                body.id == progress.childId && body.groupId == progress.groupId
+                                            }?.toChildHistory(progress.photoUri.toString(), progress.file.path)?.let {
+                                                deferredHistoryIds.add(historyRepo.markHistory(it))
                                             }
-                                            dezgoStatusImagesToImages.isNotEmpty() -> {
-                                                configApp
-                                                    .dezgoBodiesImagesToImages
-                                                    .find { dezgo ->
-                                                        dezgo.id == progress.groupId
-                                                    }?.bodies
-                                                    ?.find { body ->
-                                                        body.id == progress.childId && body.groupId == progress.groupId
-                                                    }?.toChildHistory(progress.file.path)?.let {
-                                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-                                                    }
-                                            }
-                                        }
 
                                         markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
                                     }

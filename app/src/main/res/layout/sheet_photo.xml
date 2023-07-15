@@ -97,4 +97,71 @@
         app:spanCount="3"
         tools:listitem="@layout/item_photo" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Strength"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:textFont="medium" />
+
+        </RelativeLayout>
+
+        <com.sola.anime.ai.generator.common.widget.slider.Slidr
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            app:slidr_backgroundColor="?android:colorBackground"
+            app:slidr_barMax="1"
+            app:slidr_barMin="0"
+            app:slidr_barValue="0.5"
+            app:slidr_draw_bubble="false"
+            app:slidr_region_leftColor="?colorAccent"
+            app:slidr_textBottom_visible="false"
+            app:slidr_textTop_visible="true" />
+
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Subtle"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="@dimen/_10ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:text="Drastic"
+                android:textColor="?android:textColorTertiary"
+                android:textSize="@dimen/_10ssp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

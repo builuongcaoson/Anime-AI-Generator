@@ -1,11 +1,15 @@
 package com.sola.anime.ai.generator.data
 
+import android.net.Uri
 import com.basic.common.extension.tryOrNull
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -74,6 +78,27 @@ class Preferences @Inject constructor(
             }
             else -> 0f
         }
+    }
+
+    fun hadFaceWithUri(uri: Uri): Boolean {
+        val urisHadFacePrefs = rxPrefs.getString("urisHadFace", "")
+        val urisHadFace = when {
+            urisHadFacePrefs.get().isEmpty() -> arrayListOf<String>()
+            else -> tryOrNull { Gson().fromJson(urisHadFacePrefs.get(), object : TypeToken<List<String>>() {}.type) } ?: arrayListOf<String>()
+        }
+        return urisHadFace.contains(uri.toString())
+    }
+
+    fun saveFaceWithUri(uri: Uri){
+        val urisHadFacePrefs = rxPrefs.getString("urisHadFace", "")
+        val urisHadFace = when {
+            urisHadFacePrefs.get().isEmpty() -> arrayListOf<String>()
+            else -> tryOrNull { Gson().fromJson(urisHadFacePrefs.get(), object : TypeToken<List<String>>() {}.type) } ?: arrayListOf<String>()
+        }
+        if (!urisHadFace.contains(uri.toString())){
+            urisHadFace.add(uri.toString())
+        }
+        urisHadFacePrefs.set(Gson().toJson(urisHadFace))
     }
 
 }

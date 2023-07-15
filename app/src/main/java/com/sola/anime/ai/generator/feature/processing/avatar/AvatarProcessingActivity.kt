@@ -149,7 +149,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateImagesToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusImagesToImages.size.toFloat()))
+                                prefs.setCredits(prefs.getCredits() - (configApp.discountCreditAvatar.toFloat() / dezgoStatusImagesToImages.size.toFloat()))
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp
@@ -159,7 +159,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                                     }?.bodies
                                     ?.find { body ->
                                         body.id == progress.childId && body.groupId == progress.groupId
-                                    }?.toChildHistory(progress.file.path)?.let {
+                                    }?.toChildHistory(progress.photoUri.toString(), progress.file.path)?.let {
                                         deferredHistoryIds.add(historyRepo.markHistory(it))
                                     }
 

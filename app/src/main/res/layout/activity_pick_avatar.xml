@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".feature.style.StyleActivity">
 
     <RelativeLayout
@@ -193,6 +194,20 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:visibility="gone"
+                android:paddingEnd="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_photo_in_avatar" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,6 +228,7 @@
                     app:textFont="semi" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/viewSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -230,10 +246,8 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_5sdp"
-                        android:clickable="false"
                         android:clipChildren="false"
                         android:clipToPadding="false"
-                        android:focusable="false"
                         app:isChecked="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -241,20 +255,83 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <View
+                    android:id="@+id/viewSwitchClicks"
+                    app:layout_constraintBottom_toBottomOf="@id/viewSwitch"
+                    app:layout_constraintTop_toTopOf="@id/viewSwitch"
+                    app:layout_constraintEnd_toEndOf="@id/viewSwitch"
+                    app:layout_constraintStart_toStartOf="@id/viewSwitch"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_90sdp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_photo_in_avatar" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Strength"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        app:textFont="medium" />
+
+                </RelativeLayout>
+
+                <com.sola.anime.ai.generator.common.widget.slider.Slidr
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    app:slidr_backgroundColor="?android:colorBackground"
+                    app:slidr_barMax="1"
+                    app:slidr_barMin="0"
+                    app:slidr_barValue="0.5"
+                    app:slidr_draw_bubble="false"
+                    app:slidr_region_leftColor="?colorAccent"
+                    app:slidr_textBottom_visible="false"
+                    app:slidr_textTop_visible="true" />
+
+                <RelativeLayout
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="Subtle"
+                        android:textColor="?android:textColorTertiary"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="Drastic"
+                        android:textColor="?android:textColorTertiary"
+                        android:textSize="@dimen/_10ssp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -313,7 +390,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="?colorOnPrimary"
                     android:textSize="@dimen/_17ssp"
                     app:textFont="bold" />
@@ -358,7 +435,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="About 1 minute"
+                        android:text="About 0 minute"
                         android:textColor="?colorOnSecondary"
                         android:textSize="@dimen/_10ssp" />
 
@@ -376,6 +453,7 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
+        android:elevation="@dimen/_3sdp"
         android:focusable="true"
         android:visibility="gone">
 

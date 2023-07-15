@@ -381,6 +381,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
             when {
                 photoUri != null -> {
+                    val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
+
                     configApp.dezgoBodiesTextsToImages = emptyList()
                     configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
                         groupId = 0,
@@ -395,6 +397,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         upscale = "2",
                         styleId = configApp.styleChoice?.id ?: -1,
                         ratio = aspectRatioAdapter.ratio,
+                        strength = strength.toString(),
                         seed = null,
                         type = 0
                     )

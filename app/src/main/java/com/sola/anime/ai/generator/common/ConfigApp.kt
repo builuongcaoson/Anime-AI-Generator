@@ -64,6 +64,7 @@ class ConfigApp @Inject constructor(
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
     var dezgoBodiesImagesToImages: List<DezgoBodyImageToImage> = listOf()
     var discountCredit: Int = 10 // For tab batch
+    var discountCreditAvatar: Int = 0 // For avatar
 
     // RxJava
     var subjectUriPhotoChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)

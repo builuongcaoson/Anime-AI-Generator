@@ -36,6 +36,7 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory {
         model = this.model,
         width = this.width,
         height = this.height,
+        strength = null,
         seed = this.seed
     ).apply {
         this.styleId = this@toChildHistory.styleId
@@ -43,7 +44,7 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory {
     }
 }
 
-fun BodyTextToImage.toChildHistory(photoUriString: String, pathPreview: String): ChildHistory {
+fun BodyImageToImage.toChildHistory(photoUriString: String, pathPreview: String): ChildHistory {
     return ChildHistory(
         photoUriString = photoUriString,
         pathPreview = pathPreview,
@@ -56,25 +57,7 @@ fun BodyTextToImage.toChildHistory(photoUriString: String, pathPreview: String):
         model = this.model,
         width = this.width,
         height = this.height,
-        seed = this.seed
-    ).apply {
-        this.styleId = this@toChildHistory.styleId
-        this.type = this@toChildHistory.type
-    }
-}
-
-fun BodyImageToImage.toChildHistory(pathPreview: String): ChildHistory{
-    return ChildHistory(
-        pathPreview = pathPreview,
-        prompt = this.prompt,
-        negativePrompt = this.negativePrompt,
-        guidance = this.guidance,
-        upscale = this.upscale,
-        sampler = this.sampler,
-        steps = this.steps,
-        model = this.model,
-        width = this.width,
-        height = this.height,
+        strength = null,
         seed = this.seed
     ).apply {
         this.styleId = this@toChildHistory.styleId
@@ -174,6 +157,7 @@ fun initDezgoBodyImagesToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
+    strength: String,
     seed: Long?,
     type: Int,
 ): List<DezgoBodyImageToImage>{
@@ -194,6 +178,7 @@ fun initDezgoBodyImagesToImages(
                 upscale = upscale,
                 styleId = styleId,
                 ratio = ratio,
+                strength = strength,
                 seed = seed,
                 type = type
             )
@@ -215,6 +200,7 @@ fun initBodyImagesToImages(
     upscale: String,
     styleId: Long,
     ratio: Ratio,
+    strength: String,
     seed: Long?,
     type: Int
 ): List<BodyImageToImage>{
@@ -235,7 +221,7 @@ fun initBodyImagesToImages(
                 width = ratio.width,
                 height = ratio.height,
                 seed = seed?.toString(),
-                strength = "0.5"
+                strength = strength
             ).apply {
                 this.styleId = styleId
                 this.type = type

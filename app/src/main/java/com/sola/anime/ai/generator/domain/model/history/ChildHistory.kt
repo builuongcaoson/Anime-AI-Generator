@@ -13,6 +13,7 @@ data class ChildHistory(
     val model: String,
     val width: String,
     val height: String,
+    val strength: String?,
     val seed: String?
 ){
 

@@ -21,6 +21,7 @@ class Constraint {
         companion object {
             const val DEFAULT_NEGATIVE = "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears"
             const val DEFAULT_MODEL = "anything_4_0"
+            const val DEFAULT_STRENGTH_IMG_TO_IMG = "0.5"
 
             const val URL = "https://api.dezgo.com/"
             const val HEADER_KEY = "X-Dezgo-Key"
@@ -37,7 +38,7 @@ class Constraint {
 
             const val REVENUECAT_KEY = "goog_fmHtyzfMVxWqZjzwrVeWaMexRIq"
 
-            const val DATA_VERSION = 11
+            const val DATA_VERSION = 12
         }
     }
 

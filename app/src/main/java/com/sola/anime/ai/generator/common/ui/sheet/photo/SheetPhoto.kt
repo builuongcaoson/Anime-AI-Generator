@@ -9,6 +9,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -51,6 +53,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     private lateinit var takePhoto: ActivityResultLauncher<Uri>
     private var uriTakePhoto: Uri? = null
     val clicks: Subject<PhotoType.Photo> = PublishSubject.create()
+    var strength: Float = 0.5f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +110,14 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                         delay(500)
 
                         photoStorageDao.inserts(PhotoStorage(uriString = uri.toString(), ratio = ratioDisplay))
+
+                        delay(500)
+
+                        tryOrNull {
+                            binding.recyclerView.post {
+                                binding.recyclerView.smoothScrollToPosition(photoAdapter.data.lastIndex)
+                            }
+                        }
                     }
                 }
             }
@@ -114,6 +125,9 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
     }
 
     private fun listenerView() {
+        binding.slider.setListener { _, currentValue ->
+            strength = currentValue
+        }
         binding.delete.clicks {
             binding.cancel.isVisible = true
             binding.delete.isVisible = false
@@ -186,6 +200,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             this.layoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
             this.adapter = photoAdapter
         }
+        binding.slider.currentValue = strength
     }
 
     class PhotoAdapter @Inject constructor(): LsAdapter<PhotoType, ItemPhotoBinding>(ItemPhotoBinding::inflate) {
@@ -228,11 +243,14 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
             binding.camera.isVisible = item == PhotoType.ChooseCamera
             binding.preview.isVisible = item is PhotoType.Photo
             binding.imageCheck.isVisible = canDelete && item is PhotoType.Photo && item.photoStorage != null
-            binding.viewSelected.isVisible = photo == item
+            binding.viewSelected.isVisible = when {
+                canDelete -> false
+                else -> photo == item
+            }
             binding.viewRatio.isVisible = item is PhotoType.Photo
 
             val isChecked = itemsChoiceDelete.contains(position)
-            binding.imageCheck.setImageResource(if (isChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
+            binding.imageCheck.setImageResource(if (isChecked) R.drawable.ic_check_2 else R.drawable.ic_uncheck)
 
             when (item){
                 is PhotoType.Photo -> {
@@ -249,26 +267,28 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                                 .error(R.drawable.place_holder_image)
                                 .transition(DrawableTransitionOptions.withCrossFade())
                                 .into(binding.preview)
-
-                            binding.imageCheck.setOnClickListener {
-                                val newChecked = !isChecked
-
-                                binding.imageCheck.setImageResource(if (newChecked) R.drawable.ic_check else R.drawable.ic_uncheck)
-
-                                when {
-                                    itemsChoiceDelete.contains(position) -> itemsChoiceDelete.remove(position)
-                                    else -> itemsChoiceDelete.add(position)
-                                }
-
-                                subjectDeleteChanges.onNext(Unit)
-                            }
                         }
                     }
                 }
                 else -> {}
             }
 
-            binding.viewClicks.clicks{ clicks.onNext(item) }
+            binding.viewClicks.clicks {
+                when {
+                    canDelete && item is PhotoType.Photo && item.photoStorage != null -> {
+                        when {
+                            itemsChoiceDelete.contains(position) -> itemsChoiceDelete.remove(position)
+                            else -> itemsChoiceDelete.add(position)
+                        }
+
+                        val newChecked = itemsChoiceDelete.contains(position)
+                        binding.imageCheck.setImageResource(if (newChecked) R.drawable.ic_check_2 else R.drawable.ic_uncheck)
+
+                        subjectDeleteChanges.onNext(Unit)
+                    }
+                    !canDelete -> clicks.onNext(item)
+                }
+            }
         }
     }
 
