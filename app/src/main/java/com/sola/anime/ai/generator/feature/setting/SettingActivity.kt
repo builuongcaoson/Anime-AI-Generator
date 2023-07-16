@@ -157,7 +157,6 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased(done: () -> Unit) {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false

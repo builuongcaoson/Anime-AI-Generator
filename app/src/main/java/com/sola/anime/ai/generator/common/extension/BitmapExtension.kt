@@ -24,19 +24,6 @@ fun Bitmap.resizeBitmap(newWidth: Int, newHeight: Int): Bitmap {
     return Bitmap.createScaledBitmap(this, newWidth, newHeight, false)
 }
 
-fun Bitmap.cropAndToRequestBody(): RequestBody? {
-    try {
-        val bitmap = this.cropAndResizeBitmap()
-
-        Timber.e("Bitmap width: ${bitmap.width} --- ${bitmap.height}")
-
-        return bitmap.getByteArray().toRequestBody("image/*".toMediaTypeOrNull())
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return null
-}
-
 fun Bitmap.cropAndResizeBitmap(): Bitmap {
     val dimen = Math.min(this.width, this.height)
     val croppedBitmap = Bitmap.createBitmap(dimen, dimen, Bitmap.Config.ARGB_8888)
@@ -46,7 +33,7 @@ fun Bitmap.cropAndResizeBitmap(): Bitmap {
     val srcRect = Rect(dx, dy, dx + dimen, dy + dimen)
     val dstRect = Rect(0, 0, dimen, dimen)
     canvas.drawBitmap(this, srcRect, dstRect, null)
-    return resize(this.width, this.height)
+    return resize(512, 512)
 }
 
 fun Bitmap.resize(width: Int, height: Int): Bitmap {

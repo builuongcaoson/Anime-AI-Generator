@@ -5,13 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/previewDiscover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/preview_discover"
+        app:layout_constraintDimensionRatio="428:222"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <RelativeLayout
         android:id="@+id/viewTop"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/previewDiscover">
 
         <com.basic.common.widget.LsTextView
             android:layout_width="wrap_content"

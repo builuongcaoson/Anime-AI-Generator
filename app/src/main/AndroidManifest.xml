@@ -21,7 +21,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:manageSpaceActivity=".ManageSpaceActivity"
         android:supportsRtl="true"
         android:theme="@style/Theme.Main"
         android:usesCleartextTraffic="true"
@@ -39,11 +38,6 @@
         <activity android:name=".feature.processing.batch.BatchProcessingActivity" />
 
         <activity android:name=".feature.credit.CreditActivity" />
-
-        <activity
-            android:name=".feature.space.ManagerSpaceActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
 
         <activity android:name=".feature.tutorial.TutorialActivity" />
 

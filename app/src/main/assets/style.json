@@ -1,14 +1,14 @@
 [
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FNo%20Style%2F1.webp?alt=media&token=9bbfeecd-70e3-4461-9e23-2b3df5a08797",
     "display": "No Style",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FNo%20Style%2F1.webp?alt=media&token=9bbfeecd-70e3-4461-9e23-2b3df5a08797",
     "prompts": [
-      ""
+      "\"\""
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2F1.webp?alt=media&token=1f347d5c-a8ca-4770-9b1c-50ff2f0c5edd",
     "display": "Fire",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2F1.webp?alt=media&token=1f347d5c-a8ca-4770-9b1c-50ff2f0c5edd",
     "prompts": [
       ", fire around",
       ", fire magic",
@@ -17,8 +17,8 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2F1.webp?alt=media&token=5812c6f1-367d-470b-82f6-8cbd8df57ac3",
     "display": "Water",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2F1.webp?alt=media&token=5812c6f1-367d-470b-82f6-8cbd8df57ac3",
     "prompts": [
       ", water around",
       ", sea around",
@@ -28,8 +28,8 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2F1.webp?alt=media&token=544f05b7-bdb3-4f52-85c5-3c08d477bd5c",
     "display": "Wind",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2F1.webp?alt=media&token=544f05b7-bdb3-4f52-85c5-3c08d477bd5c",
     "prompts": [
       ", wind",
       ", wind around",
@@ -38,15 +38,15 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2F1.webp?alt=media&token=21faab51-110a-4c33-bb4f-f4e05735c45a",
     "display": "Ice",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2F1.webp?alt=media&token=21faab51-110a-4c33-bb4f-f4e05735c45a",
     "prompts": [
       ", ice magic"
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2F1.webp?alt=media&token=d7a7faab-3d26-4fdc-a42c-0e0b4804deef",
     "display": "Love",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2F1.webp?alt=media&token=d7a7faab-3d26-4fdc-a42c-0e0b4804deef",
     "prompts": [
       ", heart shaped gift",
       ", heart-shaped gift in hand",
@@ -56,8 +56,8 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2F1.webp?alt=media&token=89063224-9e53-4daf-97c5-50916671b706",
     "display": "Christmas",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2F1.webp?alt=media&token=89063224-9e53-4daf-97c5-50916671b706",
     "prompts": [
       ", christmas",
       ", christmas tree",
@@ -65,8 +65,8 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2F1.webp?alt=media&token=d77936ce-d862-427f-ae95-5e06ce5585f3",
     "display": "Plant",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2F1.webp?alt=media&token=d77936ce-d862-427f-ae95-5e06ce5585f3",
     "prompts": [
       ", in the forest",
       ", holding colorful bouquet in hand",
@@ -75,8 +75,8 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FAngel%2F1.webp?alt=media&token=4c401fdb-f249-4249-b295-b3087139c15e",
     "display": "Angel",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FAngel%2F1.webp?alt=media&token=4c401fdb-f249-4249-b295-b3087139c15e",
     "prompts": [
       ", angel wings",
       ", majestic angel",
@@ -89,16 +89,34 @@
     ]
   },
   {
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPrincess%2F1.webp?alt=media&token=5cd2b2f2-9d7b-4e8d-818a-8d7618d0d1be",
-    "display": "Princess",
+    "display": "Library",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLibrary%2F1.webp?alt=media&token=01b0b809-8ea6-446a-a5bb-526b79fa117b",
     "prompts": [
-      ", wearing a princess crown",
-      ", wearing a princess crown, powerful princess scepter",
-      ", brilliant, detailed crown",
-      ", the crown of the king",
-      ", brilliant princess costume",
-      ", princess aristocratic costume"
+      ", in the library",
+      ", reading books in the library",
+      ", find books in the library"
+    ]
+  },
+  {
+    "display": "Cool boy",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FCool%20boy%2F1.webp?alt=media&token=51145933-fce6-4a91-8d7f-f1a56f071833",
+    "prompts": [
+      ", sleek black leather jacket",
+      ", stylish aviator sunglasses",
+      ", vintage denim jeans",
+      ", classic fedora hat",
+      ", trendy graphic t-shirt"
+    ]
+  },
+  {
+    "display": "Cool girl",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FCool%20girl%2F1.webp?alt=media&token=ee88ac32-9950-48f4-b0dd-b69ce3afaf5c",
+    "prompts": [
+      ", fitted leather jacket, powerful and edgy",
+      ", cool trucker hat, carefree and adventurous",
+      ", high-waisted biker pants, captivating and daring",
+      ", thick knit sweater, vintage and stylish",
+      ", black trilby hat, sophisticated and charismatic"
     ]
   }
 ]
-

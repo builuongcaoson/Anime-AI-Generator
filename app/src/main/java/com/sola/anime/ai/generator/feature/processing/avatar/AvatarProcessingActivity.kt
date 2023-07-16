@@ -40,8 +40,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
+@SuppressLint("SimpleDateFormat")
 @AndroidEntryPoint
 class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(ActivityAvatarProcessingBinding::inflate) {
 
@@ -55,6 +59,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
     private var isSuccessAll = false
     private val downloadSheet by lazy { DownloadSheet() }
+    private val newPrompt by lazy { SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(Date()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +164,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                                     }?.bodies
                                     ?.find { body ->
                                         body.id == progress.childId && body.groupId == progress.groupId
-                                    }?.toChildHistory(progress.photoUri.toString(), progress.file.path)?.let {
+                                    }?.toChildHistory(newPrompt, progress.photoUri.toString(), progress.file.path)?.let {
                                         deferredHistoryIds.add(historyRepo.markHistory(it))
                                     }
 

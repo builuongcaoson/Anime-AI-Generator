@@ -22,15 +22,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-fun Uri.cropAndToRequestBody(context: Context): RequestBody? {
-    try {
-        val bitmap = this.getBitmapFromUri(context)?.cropAndResizeBitmap() ?: return null
-
-        return bitmap.getByteArray().toRequestBody("image/*".toMediaTypeOrNull())
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return null
+fun Uri.resizeAndCropImage(context: Context): Uri? {
+    return this.getBitmapFromUri(context)?.cropAndResizeBitmap()?.toFile(context)?.toUri()
 }
 
 fun Uri.toRequestBody(context: Context): RequestBody? {

@@ -65,6 +65,27 @@ fun BodyImageToImage.toChildHistory(photoUriString: String, pathPreview: String)
     }
 }
 
+fun BodyImageToImage.toChildHistory(newPrompt: String, photoUriString: String, pathPreview: String): ChildHistory {
+    return ChildHistory(
+        photoUriString = photoUriString,
+        pathPreview = pathPreview,
+        prompt = newPrompt,
+        negativePrompt = this.negativePrompt,
+        guidance = this.guidance,
+        upscale = this.upscale,
+        sampler = this.sampler,
+        steps = this.steps,
+        model = this.model,
+        width = this.width,
+        height = this.height,
+        strength = null,
+        seed = this.seed
+    ).apply {
+        this.styleId = this@toChildHistory.styleId
+        this.type = this@toChildHistory.type
+    }
+}
+
 fun initDezgoBodyTextsToImages(
     groupId: Long = 0,
     maxChildId: Int = 0,

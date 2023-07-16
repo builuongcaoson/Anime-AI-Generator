@@ -151,7 +151,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     private fun generateAgainClicks() {
         val history = historyDao.findById(historyId) ?: return
-        val childHistory = history.childs.firstOrNull() ?: return
+        val childHistory = tryOrNull { history.childs.getOrNull(binding.viewPager.currentItem) } ?: history.childs.firstOrNull() ?: return
 
         val task = {
             val photoUri = tryOrNull { childHistory.photoUriString?.toUri() }

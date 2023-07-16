@@ -12,21 +12,10 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
-import com.basic.common.extension.clicks
-import com.basic.common.extension.getDimens
-import com.basic.common.extension.isNetworkAvailable
-import com.basic.common.extension.lightNavigationBar
-import com.basic.common.extension.lightStatusBar
-import com.basic.common.extension.transparent
-import com.basic.common.extension.tryOrNull
+import com.basic.common.extension.*
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
-import com.sola.anime.ai.generator.common.extension.initDezgoBodyImagesToImages
-import com.sola.anime.ai.generator.common.extension.initDezgoBodyTextsToImages
-import com.sola.anime.ai.generator.common.extension.startBatchProcessing
-import com.sola.anime.ai.generator.common.extension.startCredit
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityPickAvatarBinding
@@ -40,8 +29,10 @@ import com.sola.anime.ai.generator.feature.pickAvatar.adapter.PhotoAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -140,37 +131,52 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
 
     private fun generateClicks() {
         val task = {
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_AVATAR_CLICKED)
+            lifecycleScope.launch(Dispatchers.Main) {
+                binding.viewLoading.isVisible = true
 
-            val dezgoBodies = photoAdapter.data.flatMapIndexed { index: Int, uri: Uri ->
-                val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
-                val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
+                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_AVATAR_CLICKED)
 
-                initDezgoBodyImagesToImages(
-                    groupId = index.toLong(),
-                    maxChildId = 1,
-                    initImage = uri,
-                    prompt = prompt,
-                    negativePrompt = negativePrompt,
-                    guidance = "7.5",
-                    steps = configApp.stepPremium,
-                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                    sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
-                    upscale = "2",
-                    styleId = -1,
-                    ratio = Ratio.Ratio1x1,
-                    strength = "0.5",
-                    seed = null,
-                    type = 1
-                )
+                val urisCropCenter = withContext(Dispatchers.IO){
+                    photoAdapter.data.mapNotNull { uri ->
+                        uri.resizeAndCropImage(this@PickAvatarActivity)
+                    }
+                }
+
+                val dezgoBodies = urisCropCenter.flatMapIndexed { index: Int, uri: Uri ->
+                    val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
+                    val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
+                    val strength = tryOrNull { binding.slider.currentValue } ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG
+
+                    initDezgoBodyImagesToImages(
+                        groupId = index.toLong(),
+                        maxChildId = 3,
+                        initImage = uri,
+                        prompt = prompt,
+                        negativePrompt = negativePrompt,
+                        guidance = "7.5",
+                        steps = configApp.stepPremium,
+                        model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
+                        upscale = "2",
+                        styleId = -1,
+                        ratio = Ratio.Ratio1x1,
+                        strength = strength.toString(),
+                        seed = null,
+                        type = 2
+                    )
+                }
+
+                configApp.dezgoBodiesImagesToImages = dezgoBodies
+
+                launch(Dispatchers.Main){
+                    startAvatarProcessing()
+                    finish()
+                }
             }
-
-            configApp.dezgoBodiesImagesToImages = dezgoBodies
-
-            startBatchProcessing()
         }
 
         when {
+            photoAdapter.data.isEmpty() -> makeToast("Please choose 1-5 photos to perform the function!")
             !isNetworkAvailable() -> networkDialog.show(this) {
                 networkDialog.dismiss()
             }
@@ -198,6 +204,17 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                 urisHadFace = ArrayList(urisHadFace).apply {
                     remove(uri)
                 }
+            }
+
+        prefs
+            .creditsChanges
+            .asObservable()
+            .map { prefs.getCredits() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { credits ->
+                binding.credits.text = credits.roundToInt().toString()
             }
     }
 

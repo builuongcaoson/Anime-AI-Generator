@@ -35,9 +35,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,7 +63,6 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
         listenerView()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false

@@ -44,10 +44,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -93,7 +91,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         initObservable()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false

@@ -74,7 +74,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         App.app.loadReviewInfo()
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun syncUserPurchased() {
         Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
             val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
