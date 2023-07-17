@@ -96,6 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:title="NSFW"
+                        android:visibility="gone"
                         app:icon="@drawable/ic_nsfw"
                         android:fillViewport="true"
                         app:summary="Show NSFW Content"
