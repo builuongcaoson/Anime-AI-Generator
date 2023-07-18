@@ -111,7 +111,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         // Reset number created in days if different days
         when {
-            prefs.latestTimeCreatedArtwork.get() != -1L && !prefs.latestTimeCreatedArtwork.get().isToday() -> {
+            prefs.latestTimeCreatedArtwork.isSet && !prefs.latestTimeCreatedArtwork.get().isToday() -> {
                 prefs.numberCreatedArtwork.delete()
                 prefs.latestTimeCreatedArtwork.delete()
             }

@@ -365,9 +365,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun generateClicks() {
         val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
 
-        val task = {
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
+        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
+        val task = {
             val photoType = tryOrNull { sheetPhoto.photoAdapter.photo }
             val photoUri = when {
                 photoType != null && photoType is SheetPhoto.PhotoType.Photo && photoType.photoStorage != null -> {

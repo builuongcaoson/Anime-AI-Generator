@@ -40,3 +40,7 @@
    *;
 }
 #---------------End: Firebase Realtime Database  ----------
+
+### Work around admob crash. Only reproduced on release APK on emulator or certain devices
+-keep class com.google.android.gms.internal.ads.** { *; }
+### End workaround
