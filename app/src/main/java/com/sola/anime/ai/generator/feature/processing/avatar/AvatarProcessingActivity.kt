@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 @SuppressLint("SimpleDateFormat")
 @AndroidEntryPoint
@@ -123,7 +124,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
 
                 val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_avatar_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
+                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_avatar_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                 dezgoApiRepo.generateImagesToImages(
                     keyApi = decryptKey,

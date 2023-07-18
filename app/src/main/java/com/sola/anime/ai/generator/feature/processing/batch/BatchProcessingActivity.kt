@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(ActivityBatchProcessingBinding::inflate) {
@@ -122,7 +123,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                 val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_batch_(${prefs.isUpgraded.get()}_${prefs.getCredits()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
+                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_batch_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                 dezgoApiRepo.generateTextsToImages(
                     keyApi = decryptKey,
