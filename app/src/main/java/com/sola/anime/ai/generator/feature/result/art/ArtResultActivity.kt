@@ -196,7 +196,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-
             startArtProcessing()
             finish()
         }
@@ -215,6 +214,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     admobManager.loadRewardCreateAgain()
                 }
             )
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
             else -> task()
         }
     }
@@ -551,7 +551,20 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        back()
+        when {
+            !prefs.isUpgraded.get() && isNetworkAvailable() -> admobManager.showRewardCreateAgain(
+                this,
+                success = {
+                    back()
+                    admobManager.loadRewardCreateAgain()
+                },
+                failed = {
+                    back()
+                    admobManager.loadRewardCreateAgain()
+                }
+            )
+            else -> back()
+        }
     }
 
 }

@@ -55,6 +55,10 @@ class App : Application() {
         initRevenuecat()
 
         // Register firebase token
+        initFirebaseCloudMessaging()
+    }
+
+    private fun initFirebaseCloudMessaging() {
         Firebase.messaging.isAutoInitEnabled = true
         Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
