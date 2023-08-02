@@ -36,8 +36,8 @@ class ConfigApp @Inject constructor(
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()
     var versionModel = prefs.versionModel.get()
+    var keyDezgo = Constraint.Dezgo.KEY
 
-//    val sensitiveKeywords = context.getStringArray(R.array.sensitives)
     var styleChoice: Style? = null
     var modelChoice: Model? = null
         set(value) {

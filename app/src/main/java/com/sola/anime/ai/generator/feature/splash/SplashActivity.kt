@@ -23,6 +23,7 @@ import com.sola.anime.ai.generator.common.extension.startFirst
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
@@ -188,6 +189,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
+                    configApp.keyDezgo = tryOrNull { config.getString("key_dezgo").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
 
                     Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("scriptIap: ${configApp.scriptIap}")

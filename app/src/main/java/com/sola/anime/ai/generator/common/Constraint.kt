@@ -25,7 +25,7 @@ class Constraint {
 
             const val URL = "https://api.dezgo.com/"
             const val HEADER_KEY = "X-Dezgo-Key"
-            const val KEY = "sdt0vcv+Iz4D/V/7HER47txE+5HyViNlMFiJr6hDDnI9OlqCRY0BczetLn79wmy7OCieVADKSa1qlhTOnM1JCUQB2zWROss816XQq12TCas="
+            const val KEY = "Gt8zA+OMwHWNPgBZotF452X6qJSpVIzY9FgesTlf1xfgfJUnOuuirw1j6JUpWxsTV0+hCTYqUW6F1R5jTX6IrC3nm3vPo+Gc14Hm52kc6us="
             const val KEY_PREMIUM = "1Nx2znPpNX0KvzDWDdqJ8SK9j1YhZlR4R1/Kbe3+FVilNwT8MbMlJS0vDumE/yynGICLFDUVHPCEaLI8u66IlU1HauAo/PlBMp9Zu57qABM="
         }
     }

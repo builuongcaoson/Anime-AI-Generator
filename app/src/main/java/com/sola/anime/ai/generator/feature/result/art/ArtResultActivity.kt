@@ -202,7 +202,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && !prefs.isUpgraded.get() -> startIap()
+            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> startIap()
             !prefs.isUpgraded.get() -> admobManager.showRewardCreateAgain(
                 this,
                 success = {
