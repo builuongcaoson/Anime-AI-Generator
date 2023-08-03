@@ -40,6 +40,7 @@ import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.domain.repo.UpscaleApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
+import com.sola.anime.ai.generator.inject.ls.LsApi
 import com.sola.anime.ai.generator.inject.upscale.UpscaleApi
 import com.sola.anime.ai.generator.inject.server.ServerApi
 import dagger.Module
@@ -107,9 +108,51 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideDezgoApi(
-        configApp: ConfigApp
-    ): DezgoApi {
+    fun provideLsApi(): LsApi {
+        val loggingInterceptor = HttpLoggingInterceptor { message ->
+            Timber.d(message)
+        }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        val networkInterceptor = Interceptor {
+            val request = it.request().newBuilder().build()
+            it.proceed(request)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val requestBuilder = chain
+                    .request()
+                    .newBuilder()
+
+                chain.proceed(requestBuilder.build())
+            }
+            .addInterceptor(loggingInterceptor)
+            .addNetworkInterceptor(networkInterceptor)
+            .addNetworkInterceptor(StethoInterceptor())
+            .hostnameVerifier { _, _ -> true }
+            .retryOnConnectionFailure(false)
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .build()
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constraint.Ls.URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
+        return retrofit.create(LsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDezgoApi(): DezgoApi {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
             Timber.d(message)
         }

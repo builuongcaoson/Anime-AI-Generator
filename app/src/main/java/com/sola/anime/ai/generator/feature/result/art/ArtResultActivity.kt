@@ -116,7 +116,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
-            tryOrNull { lifecycleScope.launch { serverApiRepo.updateCreatedArtworkInDay() } }
+//            tryOrNull { lifecycleScope.launch { serverApiRepo.updateCreatedArtworkInDay() } }
 
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
 
@@ -552,7 +552,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() -> admobManager.showRewardCreateAgain(
+            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showRewardCreateAgain(
                 this,
                 success = {
                     back()

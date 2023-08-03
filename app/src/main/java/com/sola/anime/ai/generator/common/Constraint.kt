@@ -30,6 +30,12 @@ class Constraint {
         }
     }
 
+    class Ls {
+        companion object {
+            const val URL = "https://sonbui.000webhostapp.com/anime/"
+        }
+    }
+
     class Info {
         companion object {
             const val MAIL_SUPPORT = "sola.company.help@gmail.com"

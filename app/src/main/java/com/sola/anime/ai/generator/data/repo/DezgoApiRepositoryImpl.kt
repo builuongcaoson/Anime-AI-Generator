@@ -16,6 +16,7 @@ import com.sola.anime.ai.generator.domain.model.textToImage.ResponseImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
+import com.sola.anime.ai.generator.inject.ls.LsApi
 import kotlinx.coroutines.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -27,7 +28,8 @@ import javax.inject.Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
     private val dezgoApi: DezgoApi,
-    private val styleDao: StyleDao
+    private val styleDao: StyleDao,
+    private val lsApi: LsApi
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
@@ -58,8 +60,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             try {
-                                val response = dezgoApi.text2image(
-                                    headerKey = keyApi,
+                                val response = lsApi.text2image(
                                     prompt = prompt.toRequestBody(MultipartBody.FORM),
                                     negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),
@@ -69,7 +70,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                     model = body.model.toRequestBody(MultipartBody.FORM),
                                     width = body.width.toRequestBody(MultipartBody.FORM),
                                     height = body.height.toRequestBody(MultipartBody.FORM),
-                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
+                                    key = keyApi.toRequestBody(MultipartBody.FORM)
                                 )
 
                                 ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
