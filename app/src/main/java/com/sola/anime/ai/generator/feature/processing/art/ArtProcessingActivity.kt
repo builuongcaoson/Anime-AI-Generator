@@ -142,7 +142,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                         val deferredHistoryIds = arrayListOf<Long?>()
 
                         val decryptKey = when {
-                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                            !prefs.isUpgraded.get() -> configApp.keyDezgo ?: ""
                             else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                         }
 
@@ -242,7 +242,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                         val deferredHistoryIds = arrayListOf<Long?>()
 
                         val decryptKey = when {
-                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+                            !prefs.isUpgraded.get() -> configApp.keyDezgo ?: ""
                             else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
                         }
 
