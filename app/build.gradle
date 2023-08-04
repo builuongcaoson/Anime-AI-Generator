@@ -102,6 +102,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-ml-vision-face-model:20.0.1'
+    // Fix duplicate firebase iid
     implementation 'com.google.firebase:firebase-iid:21.1.0'
 
     // Sdp
@@ -155,4 +156,8 @@ dependencies {
 
     // Page indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
+    // Safetynet
+    implementation 'com.google.android.play:integrity:1.2.0'
+
 }

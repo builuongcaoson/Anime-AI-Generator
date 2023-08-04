@@ -6,17 +6,24 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.format.DateUtils
 import com.sola.anime.ai.generator.domain.model.Ratio
-import com.sola.anime.ai.generator.domain.model.Sampler
-import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
+import java.security.SecureRandom
 import java.util.*
 
 fun getDeviceModel(): String {
     return android.os.Build.MODEL
+}
+
+fun generateRandomNonce(): ByteArray {
+    val secureRandom = SecureRandom()
+    val randomBytes = ByteArray(16)
+    secureRandom.nextBytes(randomBytes)
+
+    return randomBytes
 }
 
 @SuppressLint("HardwareIds")

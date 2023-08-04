@@ -1,15 +1,9 @@
 package com.sola.anime.ai.generator.common
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.os.Build
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
+import com.google.firebase.installations.FirebaseInstallations
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
@@ -18,8 +12,6 @@ import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,14 +51,14 @@ class App : Application() {
     }
 
     private fun initFirebaseCloudMessaging() {
-        Firebase.messaging.isAutoInitEnabled = true
-        Firebase.messaging.token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Timber.w( "Fetching FCM registration token failed")
-                return@OnCompleteListener
+        FirebaseInstallations.getInstance().getToken(false)
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Timber.w( "Fetching FCM registration token failed")
+                    return@addOnCompleteListener
+                }
+                Timber.d("Token FCM: " + task.result)
             }
-            Timber.d("Token FCM: " + task.result)
-        })
     }
 
     private fun initRevenuecat(){

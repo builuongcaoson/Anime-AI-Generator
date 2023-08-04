@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "561110823355",
+    "firebase_url": "https://anime-ai-generator-default-rtdb.firebaseio.com",
     "project_id": "anime-ai-generator",
     "storage_bucket": "anime-ai-generator.appspot.com"
   },

@@ -3,6 +3,8 @@ package com.sola.anime.ai.generator.domain.model
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 data class CategoryBatch(val display: String)
 
