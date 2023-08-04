@@ -6,28 +6,24 @@ import android.util.Base64
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.google.android.play.core.integrity.IntegrityManagerFactory
-import com.google.android.play.core.integrity.IntegrityTokenRequest
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.google.gson.Gson
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.generateRandomNonce
-import com.sola.anime.ai.generator.common.extension.isToday
-import com.sola.anime.ai.generator.common.extension.startFirst
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.common.util.CommonUtil
+import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
@@ -131,27 +127,34 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     initData()
                 }
                 else -> {
-                    val integrityManager = IntegrityManagerFactory.create(applicationContext)
-                    val integrityTokenResponse = integrityManager.requestIntegrityToken(
-                            IntegrityTokenRequest.builder()
-                                .setNonce(Base64.encodeToString(generateRandomNonce(), Base64.URL_SAFE or Base64.NO_WRAP))
-                                .build())
-                    val integrityToken = integrityTokenResponse.await()
+//                    val integrityManager = IntegrityManagerFactory.create(applicationContext)
+//                    val integrityTokenResponse = integrityManager.requestIntegrityToken(
+//                            IntegrityTokenRequest.builder()
+//                                .setCloudProjectNumber(561110823355)
+//                                .setNonce(Base64.encodeToString(generateRandomNonce(), Base64.URL_SAFE or Base64.NO_WRAP))
+//                                .build())
+//                    val integrityToken = integrityTokenResponse.await().token()
+//                    Timber.tag("Main12345").e("Integrity Token: $integrityToken")
 
-                    Timber.tag("Main12345").e("Integrity Token: ${Gson().toJson(integrityToken)}")
-                    syncRemoteConfig {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            when {
-                                !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
-                                    syncUserPurchased()
-                                    delay(500)
+                    when {
+                        RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity) -> {
+                            makeToast("Your device is on our blocked list!")
+                            finish()
+                        }
+                        else ->  syncRemoteConfig {
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                when {
+                                    !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
+                                        syncUserPurchased()
+                                        delay(500)
+                                    }
                                 }
-                            }
-                            syncData.execute(Unit)
+                                syncData.execute(Unit)
 
-                            when {
-                                !permissionManager.hasPermissionNotification() -> permissionManager.requestPermissionNotification(this@SplashActivity, PERMISSION_NOTIFICATION)
-                                else -> doTask()
+                                when {
+                                    !permissionManager.hasPermissionNotification() -> permissionManager.requestPermissionNotification(this@SplashActivity, PERMISSION_NOTIFICATION)
+                                    else -> doTask()
+                                }
                             }
                         }
                     }

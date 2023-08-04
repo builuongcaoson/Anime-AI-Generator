@@ -121,12 +121,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+//                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
                 val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_batch_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                 dezgoApiRepo.generateTextsToImages(
-                    keyApi = decryptKey,
+                    isPremium = true,
                     subNegative = subNegative,
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->

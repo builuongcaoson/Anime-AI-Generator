@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "561110823355-pm19vvrpbr9a7ipkljbabdt99uoh1inq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sola.anime.ai.generator",
+            "certificate_hash": "ee1ed057ec578bc5ca6fd6c907af07e9025514ee"
+          }
+        },
+        {
           "client_id": "561110823355-7ea9aimbmsnkdcpsuortcfape4007dis.apps.googleusercontent.com",
           "client_type": 3
         }

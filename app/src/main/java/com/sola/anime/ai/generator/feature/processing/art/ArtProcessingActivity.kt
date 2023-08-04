@@ -141,15 +141,16 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
-                        val decryptKey = when {
-                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                        }
+//                        val decryptKey = when {
+//                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+//                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+//                        }
 
                         val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_art_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                         dezgoApiRepo.generateTextsToImages(
-                            keyApi = decryptKey,
+//                            keyApi = decryptKey,
+                            isPremium = prefs.isUpgraded.get(),
                             subNegative = subNegative,
                             datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                             progress = { progress ->
@@ -241,15 +242,16 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
-                        val decryptKey = when {
-                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-                        }
+//                        val decryptKey = when {
+//                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+//                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+//                        }
 
                         val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_art_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                         dezgoApiRepo.generateImagesToImages(
-                            keyApi = decryptKey,
+//                            keyApi = decryptKey,
+                            isPremium = prefs.isUpgraded.get(),
                             subNegative = subNegative,
                             datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                             progress = { progress ->

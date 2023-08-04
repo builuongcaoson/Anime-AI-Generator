@@ -157,7 +157,7 @@ dependencies {
     // Page indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
 
-    // Safetynet
-    implementation 'com.google.android.play:integrity:1.2.0'
+//     Safetynet
+//    implementation 'com.google.android.play:integrity:1.2.0'
 
 }

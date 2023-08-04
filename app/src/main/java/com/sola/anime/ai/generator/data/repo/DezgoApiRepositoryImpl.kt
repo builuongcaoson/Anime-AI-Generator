@@ -29,11 +29,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao,
-//    private val lsApi: LsApi
+    private val lsApi: LsApi
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
-        keyApi: String,
+        isPremium: Boolean,
         subNegative: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
@@ -60,32 +60,36 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             try {
-                                val response = dezgoApi.text2image(
-                                    headerKey = keyApi,
-                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
-                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                    model = body.model.toRequestBody(MultipartBody.FORM),
-                                    width = body.width.toRequestBody(MultipartBody.FORM),
-                                    height = body.height.toRequestBody(MultipartBody.FORM),
-                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
-                                )
-
-//                                val response = lsApi.text2image(
-//                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
-//                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-//                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-//                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-//                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-//                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
-//                                    model = body.model.toRequestBody(MultipartBody.FORM),
-//                                    width = body.width.toRequestBody(MultipartBody.FORM),
-//                                    height = body.height.toRequestBody(MultipartBody.FORM),
-//                                    key = keyApi.toRequestBody(MultipartBody.FORM)
-//                                )
+                                val response = when {
+                                    isPremium -> {
+                                        dezgoApi.text2image(
+                                            headerKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: "",
+                                            prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                            negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                            guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                            upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                            sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                            steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                            model = body.model.toRequestBody(MultipartBody.FORM),
+                                            width = body.width.toRequestBody(MultipartBody.FORM),
+                                            height = body.height.toRequestBody(MultipartBody.FORM),
+                                            seed = body.seed?.toRequestBody(MultipartBody.FORM)
+                                        )
+                                    }
+                                    else -> {
+                                        lsApi.text2image(
+                                            prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                            negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                            guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                            upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                            sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                            steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                            model = body.model.toRequestBody(MultipartBody.FORM),
+                                            width = body.width.toRequestBody(MultipartBody.FORM),
+                                            height = body.height.toRequestBody(MultipartBody.FORM)
+                                        )
+                                    }
+                                }
 
                                 ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
                             } catch (e: Exception){
@@ -124,7 +128,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun generateImagesToImages(
-        keyApi: String,
+        isPremium: Boolean,
         subNegative: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit
@@ -154,19 +158,36 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val photoRequestBody = body.initImage.toRequestBody(context)
                                 val photoPart = MultipartBody.Part.createFormData("init_image", "${System.currentTimeMillis()}.png", photoRequestBody!!)
 
-                                val response = dezgoApi.image2image(
-                                    headerKey = keyApi,
-                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
-                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
-                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
-                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
-                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
-                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
-                                    model = body.model.toRequestBody(MultipartBody.FORM),
-                                    seed = body.seed?.toRequestBody(MultipartBody.FORM),
-                                    strength = body.strength.toRequestBody(MultipartBody.FORM),
-                                    file = photoPart
-                                )
+                                val response = when {
+                                    isPremium -> {
+                                        dezgoApi.image2image(
+                                            headerKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: "",
+                                            prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                            negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                            guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                            upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                            sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                            steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                            model = body.model.toRequestBody(MultipartBody.FORM),
+                                            seed = body.seed?.toRequestBody(MultipartBody.FORM),
+                                            strength = body.strength.toRequestBody(MultipartBody.FORM),
+                                            file = photoPart
+                                        )
+                                    }
+                                    else -> {
+                                        lsApi.img2img(
+                                            prompt = prompt.toRequestBody(MultipartBody.FORM),
+                                            negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+                                            guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+                                            upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+                                            sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+                                            steps = body.steps.toRequestBody(MultipartBody.FORM),
+                                            model = body.model.toRequestBody(MultipartBody.FORM),
+                                            strength = body.strength.toRequestBody(MultipartBody.FORM),
+                                            file = photoPart
+                                        )
+                                    }
+                                }
 
                                 ResponseImageToImage(groupId = body.groupId, childId = body.id, photoUri = body.initImage, response = response)
                             } catch (e: Exception){

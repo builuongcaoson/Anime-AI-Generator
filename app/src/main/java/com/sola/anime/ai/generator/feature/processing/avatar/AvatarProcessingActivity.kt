@@ -122,12 +122,13 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
+//                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
                 val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_avatar_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
 
                 dezgoApiRepo.generateImagesToImages(
-                    keyApi = decryptKey,
+//                    keyApi = decryptKey,
+                    isPremium = true,
                     subNegative = subNegative,
                     datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->

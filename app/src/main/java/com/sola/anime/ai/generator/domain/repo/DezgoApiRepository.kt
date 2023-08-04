@@ -11,14 +11,14 @@ import java.io.File
 interface DezgoApiRepository {
 
     suspend fun generateTextsToImages(
-        keyApi: String,
+        isPremium: Boolean,
         subNegative: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
     )
 
     suspend fun generateImagesToImages(
-        keyApi: String,
+        isPremium: Boolean,
         subNegative: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit

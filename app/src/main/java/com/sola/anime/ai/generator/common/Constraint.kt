@@ -32,7 +32,7 @@ class Constraint {
 
     class Ls {
         companion object {
-            const val URL = "https://sonbui.000webhostapp.com/anime/"
+            const val URL = "https://overhanging-mixes.000webhostapp.com/"
         }
     }
 
