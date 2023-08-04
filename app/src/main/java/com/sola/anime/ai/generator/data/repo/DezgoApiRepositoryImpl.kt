@@ -29,7 +29,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao,
-    private val lsApi: LsApi
+//    private val lsApi: LsApi
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
@@ -60,7 +60,8 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             try {
-                                val response = lsApi.text2image(
+                                val response = dezgoApi.text2image(
+                                    headerKey = keyApi,
                                     prompt = prompt.toRequestBody(MultipartBody.FORM),
                                     negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                     guidance = body.guidance.toRequestBody(MultipartBody.FORM),
@@ -70,8 +71,21 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                     model = body.model.toRequestBody(MultipartBody.FORM),
                                     width = body.width.toRequestBody(MultipartBody.FORM),
                                     height = body.height.toRequestBody(MultipartBody.FORM),
-                                    key = keyApi.toRequestBody(MultipartBody.FORM)
+                                    seed = body.seed?.toRequestBody(MultipartBody.FORM)
                                 )
+
+//                                val response = lsApi.text2image(
+//                                    prompt = prompt.toRequestBody(MultipartBody.FORM),
+//                                    negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
+//                                    guidance = body.guidance.toRequestBody(MultipartBody.FORM),
+//                                    upscale = body.upscale.toRequestBody(MultipartBody.FORM),
+//                                    sampler = body.sampler.toRequestBody(MultipartBody.FORM),
+//                                    steps = body.steps.toRequestBody(MultipartBody.FORM),
+//                                    model = body.model.toRequestBody(MultipartBody.FORM),
+//                                    width = body.width.toRequestBody(MultipartBody.FORM),
+//                                    height = body.height.toRequestBody(MultipartBody.FORM),
+//                                    key = keyApi.toRequestBody(MultipartBody.FORM)
+//                                )
 
                                 ResponseTextToImage(groupId = body.groupId, childId = body.id, response = response)
                             } catch (e: Exception){

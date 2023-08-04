@@ -206,6 +206,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
                     Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
                     Timber.e("keyDezgo: ${configApp.keyDezgo}")
+                    Timber.e("keyDezgo decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
 
                     done()
                 }
