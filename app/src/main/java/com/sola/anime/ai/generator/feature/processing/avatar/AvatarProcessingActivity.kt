@@ -124,7 +124,11 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
 
 //                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegative = "(${getDeviceId()}_${BuildConfig.VERSION_CODE})_avatar_(${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()})_(${prefs.numberCreatedArtwork.get()}_${configApp.maxNumberGeneratePremium})"
+                val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
+                val subFeature = "avatar"
+                val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
+                val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+                val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
                 dezgoApiRepo.generateImagesToImages(
 //                    keyApi = decryptKey,

@@ -263,6 +263,19 @@ fun Long.isToday(): Boolean {
     return DateUtils.isToday(this)
 }
 
+fun Long.isOlderThanYesterday(): Boolean {
+    val currentTime = System.currentTimeMillis()
+
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = currentTime
+    val todayDate = calendar.get(Calendar.DAY_OF_YEAR)
+
+    calendar.timeInMillis = this
+    val inputDate = calendar.get(Calendar.DAY_OF_YEAR)
+
+    return inputDate <= todayDate - 1
+}
+
 fun Context.getDrawableUri(drawableResId: Int): Uri {
     return Uri.parse("android.resource://${packageName}/$drawableResId")
 }

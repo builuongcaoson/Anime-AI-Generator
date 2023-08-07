@@ -60,10 +60,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-//        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
-        val encrypt = AESEncyption.encrypt("DEZGO-EB7294CF008D43E746840EF0A88000892E435F3E1D3381B555BB9A76E5CE1FBC0F942263") ?: ""
-        Timber.tag("Main12345").e("Key: $encrypt")
-        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt("EQ0ZHqdX8RfMxK0MzqhP3knekWDlOhpfmoneWFnW81CPM7vfBxsxgOhX5gozRasooSMzd+fcOAcDO/cS+9T4091L4cE8PbbHkaCrDPbPqLw=")}")
+        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
+        Timber.tag("Main12345").e("Device id: ${getDeviceId()}")
+//        val encrypt = AESEncyption.encrypt("DEZGO-EB7294CF008D43E746840EF0A88000892E435F3E1D3381B555BB9A76E5CE1FBC0F942263") ?: ""
+//        Timber.tag("Main12345").e("Key: $encrypt")
+//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt("EQ0ZHqdX8RfMxK0MzqhP3knekWDlOhpfmoneWFnW81CPM7vfBxsxgOhX5gozRasooSMzd+fcOAcDO/cS+9T4091L4cE8PbbHkaCrDPbPqLw=")}")
 
         initReviewManager()
         initView()
@@ -112,7 +113,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         // Reset number created in days if different days
         when {
-            prefs.latestTimeCreatedArtwork.isSet && !prefs.latestTimeCreatedArtwork.get().isToday() -> {
+            prefs.latestTimeCreatedArtwork.isSet && prefs.latestTimeCreatedArtwork.get().isToday() -> {}
+            prefs.latestTimeCreatedArtwork.isSet && prefs.latestTimeCreatedArtwork.get().isOlderThanYesterday() -> {
+                prefs.isUpgraded.delete()
+                prefs.timeExpiredPremium.delete()
+            }
+            else -> {
                 prefs.numberCreatedArtwork.delete()
                 prefs.latestTimeCreatedArtwork.delete()
             }
@@ -142,6 +148,14 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                             finish()
                         }
                         else ->  syncRemoteConfig {
+                            when {
+                                configApp.blockDeviceIds.contains(getDeviceId()) -> {
+                                    makeToast("Your device is on our blocked list!")
+                                    finish()
+                                    return@syncRemoteConfig
+                                }
+                            }
+
                             lifecycleScope.launch(Dispatchers.Main) {
                                 when {
                                     !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
@@ -185,7 +199,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .addOnSuccessListener {
                     configApp.scriptOpenSplash = tryOrNull { config.getLong("scriptOpenSplash") } ?: configApp.scriptOpenSplash
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
-                    configApp.scriptImg2Img = tryOrNull { config.getBoolean("script_img2img") } ?: configApp.scriptImg2Img
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
@@ -198,10 +211,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
                     configApp.keyDezgo = tryOrNull { config.getString("key_dezgo").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
+                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
 
                     Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("scriptIap: ${configApp.scriptIap}")
-                    Timber.e("scriptImg2Img: ${configApp.scriptImg2Img}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
                     Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
@@ -213,8 +227,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionProcess: ${configApp.versionProcess} --- ${prefs.versionProcess.get()}")
                     Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
                     Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
-                    Timber.e("keyDezgo: ${configApp.keyDezgo}")
-                    Timber.e("keyDezgo decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
+                    Timber.e("key_dezgo: ${configApp.keyDezgo}")
+                    Timber.e("key_dezgo decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
+                    Timber.e("key_dezgo premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
+                    configApp.blockDeviceIds.forEach { value ->
+                        Timber.e("Block device id: $value")
+                    }
 
                     done()
                 }
