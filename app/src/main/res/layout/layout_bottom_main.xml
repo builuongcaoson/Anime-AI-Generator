@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_art"
+                android:src="@drawable/ic_explore"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:alpha="0"
-                android:text="Art"
+                android:text="Explore"
                 android:textColor="?colorAccent"
                 android:textSize="@dimen/_12ssp"
                 android:translationY="@dimen/_30sdp"
@@ -83,11 +83,41 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_discover"
+                android:src="@drawable/ic_art"
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
                 android:id="@+id/textTab3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:alpha="0"
+                android:text="Art"
+                android:textColor="?colorAccent"
+                android:textSize="@dimen/_12ssp"
+                android:translationY="@dimen/_30sdp"
+                app:textFont="semi" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viewTab4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toStartOf="@id/viewTab5"
+            app:layout_constraintStart_toEndOf="@id/viewTab3">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageTab4"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/_7sdp"
+                android:src="@drawable/ic_discover"
+                android:tint="?android:textColorPrimary" />
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/textTab4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -101,14 +131,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/viewTab4"
+            android:id="@+id/viewTab5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/viewTab3">
+            app:layout_constraintStart_toEndOf="@id/viewTab4">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab4"
+                android:id="@+id/imageTab5"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
@@ -117,7 +147,7 @@
                 android:tint="?android:textColorPrimary" />
 
             <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab4"
+                android:id="@+id/textTab5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

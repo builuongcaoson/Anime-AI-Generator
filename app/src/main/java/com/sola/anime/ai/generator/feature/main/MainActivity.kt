@@ -36,6 +36,7 @@ import com.sola.anime.ai.generator.feature.main.mine.MineFragment
 import com.sola.anime.ai.generator.feature.main.art.ArtFragment
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
+import com.sola.anime.ai.generator.feature.main.explore.ExploreFragment
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,9 +61,9 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var featureVersionDialog: FeatureVersionDialog
 
-    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), ArtFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
-    private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
+    private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(2) // Default tab home
     private var tabIndex = 0 // Default tab home
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -243,11 +244,12 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     }
 
     private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabArt(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
-    private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab1, imageTab1, textTab1)
+    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabExplore(), viewBottom.initTabBatch(), viewBottom.initTabArt(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
+    private fun LayoutBottomMainBinding.initTabExplore() = Tab(viewTab1, imageTab1, textTab1)
     private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewTab2, imageTab2, textTab2)
-    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab3, imageTab3, textTab3)
-    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewTab4, imageTab4, textTab4)
+    private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab3, imageTab3, textTab3)
+    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab4, imageTab4, textTab4)
+    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewTab5, imageTab5, textTab5)
     private fun View.animHideTop() { animate().translationY(-getDimens(com.intuit.sdp.R.dimen._30sdp)).alpha(0f).setDuration(100).start() }
     private fun View.animShowTop() { animate().translationY(0f).alpha(1f).setDuration(100).start() }
     private fun View.animHideBottom() { animate().translationY(getDimens(com.intuit.sdp.R.dimen._30sdp)).alpha(0f).setDuration(100).start() }
