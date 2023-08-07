@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -27,6 +28,7 @@ import javax.inject.Singleton
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
+    private val configApp: ConfigApp,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao,
     private val lsApi: LsApi
@@ -63,7 +65,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = when {
                                     isPremium -> {
                                         dezgoApi.text2image(
-                                            headerKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: "",
+                                            headerKey = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
                                             prompt = prompt.toRequestBody(MultipartBody.FORM),
                                             negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                             guidance = body.guidance.toRequestBody(MultipartBody.FORM),
@@ -161,7 +163,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = when {
                                     isPremium -> {
                                         dezgoApi.image2image(
-                                            headerKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: "",
+                                            headerKey = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
                                             prompt = prompt.toRequestBody(MultipartBody.FORM),
                                             negativePrompt = negativePrompt.toRequestBody(MultipartBody.FORM),
                                             guidance = body.guidance.toRequestBody(MultipartBody.FORM),
