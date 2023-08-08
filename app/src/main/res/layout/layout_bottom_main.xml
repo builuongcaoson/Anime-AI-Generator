@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_40sdp"
-    android:background="?android:windowBackground">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/viewBottom"
+        android:background="?android:windowBackground"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/_45sdp">
 
         <RelativeLayout
             android:id="@+id/viewTab1"
@@ -17,26 +21,32 @@
             app:layout_constraintEnd_toStartOf="@id/viewTab2"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab1"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerInParent="true"
-                android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_explore"
-                android:tint="?android:textColorPrimary" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab1"
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0"
-                android:text="Explore"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                android:translationY="@dimen/_30sdp"
-                app:textFont="semi" />
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageTab1"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/selector_explore"
+                    android:tint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textTab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:text="Explore"
+                    android:textColor="?colorAccent"
+                    android:textSize="@dimen/_9ssp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -47,26 +57,32 @@
             app:layout_constraintEnd_toStartOf="@id/viewTab3"
             app:layout_constraintStart_toEndOf="@id/viewTab1">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab2"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerInParent="true"
-                android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_layer_plus"
-                android:tint="?android:textColorPrimary" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab2"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0"
-                android:text="Batch"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                android:translationY="@dimen/_30sdp"
-                app:textFont="semi" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageTab2"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/selector_batch"
+                    android:tint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textTab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:text="Batch"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_9ssp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -77,27 +93,6 @@
             app:layout_constraintEnd_toStartOf="@id/viewTab4"
             app:layout_constraintStart_toEndOf="@id/viewTab2">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab3"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerInParent="true"
-                android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_art"
-                android:tint="?android:textColorPrimary" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0"
-                android:text="Art"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                android:translationY="@dimen/_30sdp"
-                app:textFont="semi" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -107,26 +102,32 @@
             app:layout_constraintEnd_toStartOf="@id/viewTab5"
             app:layout_constraintStart_toEndOf="@id/viewTab3">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab4"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerInParent="true"
-                android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_discover"
-                android:tint="?android:textColorPrimary" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab4"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0"
-                android:text="Discover"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                android:translationY="@dimen/_30sdp"
-                app:textFont="semi" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageTab4"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/selector_discover"
+                    android:tint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textTab4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:text="Discover"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_9ssp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -137,42 +138,62 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/viewTab4">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageTab5"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerInParent="true"
-                android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_mine"
-                android:tint="?android:textColorPrimary" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textTab5"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:alpha="0"
-                android:text="Mine"
-                android:textColor="?colorAccent"
-                android:textSize="@dimen/_12ssp"
-                android:translationY="@dimen/_30sdp"
-                app:textFont="semi" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageTab5"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/selector_mine"
+                    android:tint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/textTab5"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Mine"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_9ssp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
-        <View
-            android:id="@+id/viewDividerTab"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_2sdp"
-            android:background="@drawable/rec_corner_bottom_5dp"
-            android:backgroundTint="?colorAccent"
-            android:translationX="@dimen/_minus30sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:translationX="0dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="?android:windowBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.15"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_3sdp"
+            android:layout_marginBottom="@dimen/_3sdp"
+            android:background="@drawable/circle"
+            android:backgroundTint="?colorAccent"
+            android:padding="@dimen/_12sdp"
+            android:src="@drawable/ic_art"
+            android:tint="?android:windowBackground" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

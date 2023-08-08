@@ -5,7 +5,7 @@
     android:id="@+id/viewRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:paddingBottom="@dimen/_40sdp">
 
     <RelativeLayout
         android:id="@+id/viewTop"

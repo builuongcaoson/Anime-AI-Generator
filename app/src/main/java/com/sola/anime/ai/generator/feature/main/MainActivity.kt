@@ -1,19 +1,13 @@
 package com.sola.anime.ai.generator.feature.main
 
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
-import com.basic.common.extension.getDimens
-import com.basic.common.extension.lightStatusBar
-import com.basic.common.extension.transparent
-import com.basic.common.extension.tryOrNull
+import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.view.clicks
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
@@ -28,12 +22,7 @@ import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
-import com.sola.anime.ai.generator.feature.iap.billing.LsBilling
-import com.sola.anime.ai.generator.feature.iap.billing.listener.BillingListener
-import com.sola.anime.ai.generator.feature.iap.billing.model.DataWrappers
-import com.sola.anime.ai.generator.feature.iap.billing.model.Response
 import com.sola.anime.ai.generator.feature.main.mine.MineFragment
-import com.sola.anime.ai.generator.feature.main.art.ArtFragment
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
 import com.sola.anime.ai.generator.feature.main.explore.ExploreFragment
@@ -61,9 +50,9 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var featureVersionDialog: FeatureVersionDialog
 
-    private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), ArtFragment(), DiscoverFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
-    private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(2) // Default tab home
+    private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -221,14 +210,15 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     }
 
     private fun scrollToPage(index: Int) {
-        if (tabIndex != index){
-            bottomTabs.getOrNull(tabIndex)?.viewHide?.animShowTop()
-            bottomTabs.getOrNull(tabIndex)?.viewShow?.animHideBottom()
-        }
+        val oldTab = bottomTabs.getOrNull(tabIndex)
+        oldTab?.image?.isActivated = index == oldTab?.index
+        oldTab?.image?.setTint(resolveAttrColor(if (index == oldTab.index) android.R.attr.colorAccent else android.R.attr.textColorPrimary))
+        oldTab?.display?.setTextColor(resolveAttrColor(if (index == oldTab.index) android.R.attr.colorAccent else android.R.attr.textColorPrimary))
 
-        bottomTabs.getOrNull(index)?.viewHide?.animHideTop()
-        bottomTabs.getOrNull(index)?.viewShow?.animShowBottom()
-        bottomTabs.getOrNull(index)?.let { binding.viewBottom.viewDividerTab.animToCenterView(it.viewClicks, it.viewShow.width) }
+        val newTab = bottomTabs.getOrNull(index)
+        newTab?.image?.isActivated = index == newTab?.index
+        newTab?.image?.setTint(resolveAttrColor(if (index == newTab.index) android.R.attr.colorAccent else android.R.attr.textColorPrimary))
+        newTab?.display?.setTextColor(resolveAttrColor(if (index == newTab.index) android.R.attr.colorAccent else android.R.attr.textColorPrimary))
 
         binding.viewPager.currentItem = index
         tabIndex = index
@@ -243,32 +233,12 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         }
     }
 
-    private data class Tab(val viewClicks: View, val viewHide: View, val viewShow: View)
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabExplore(), viewBottom.initTabBatch(), viewBottom.initTabArt(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
-    private fun LayoutBottomMainBinding.initTabExplore() = Tab(viewTab1, imageTab1, textTab1)
-    private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewTab2, imageTab2, textTab2)
-    private fun LayoutBottomMainBinding.initTabArt() = Tab(viewTab3, imageTab3, textTab3)
-    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewTab4, imageTab4, textTab4)
-    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewTab5, imageTab5, textTab5)
-    private fun View.animHideTop() { animate().translationY(-getDimens(com.intuit.sdp.R.dimen._30sdp)).alpha(0f).setDuration(100).start() }
-    private fun View.animShowTop() { animate().translationY(0f).alpha(1f).setDuration(100).start() }
-    private fun View.animHideBottom() { animate().translationY(getDimens(com.intuit.sdp.R.dimen._30sdp)).alpha(0f).setDuration(100).start() }
-    private fun View.animShowBottom() { animate().translationY(0f).alpha(1f).setDuration(100).start() }
-    private fun View.animToCenterView(centerView: View, newWidth: Int) {
-        val newLayoutParams = this.layoutParams
-        ValueAnimator.ofInt(width, newWidth).apply {
-            this.duration = 100
-            this.addUpdateListener {
-                val value = it.animatedValue as Int
-                newLayoutParams.width = value
-                this@animToCenterView.layoutParams = newLayoutParams
-            }
-            this.start()
-        }
-
-        val endX = centerView.x + centerView.width / 2 - newWidth / 2
-        animate().translationX(endX).setDuration(100).start()
-    }
+    private data class Tab(val viewClicks: View, val image: ImageView, val display: TextView, val index: Int)
+    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabExplore(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
+    private fun LayoutBottomMainBinding.initTabExplore() = Tab(viewClicks = viewTab1, image = imageTab1, display = textTab1, index = 0)
+    private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewClicks = viewTab2, image = imageTab2, display = textTab2, index = 1)
+    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewClicks = viewTab4, image = imageTab4, display = textTab4, index = 2)
+    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 3)
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
