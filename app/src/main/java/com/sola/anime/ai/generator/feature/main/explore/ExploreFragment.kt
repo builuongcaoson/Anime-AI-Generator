@@ -1,14 +1,36 @@
 package com.sola.anime.ai.generator.feature.main.explore
 
 import com.basic.common.base.LsFragment
+import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.databinding.FragmentExploreBinding
+import com.sola.anime.ai.generator.feature.main.explore.adapter.TopPreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
 
-    override fun onViewCreated() {
+    @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
 
+    override fun onViewCreated() {
+        initView()
+        initData()
+        listenerView()
+    }
+
+    private fun listenerView() {
+        binding.viewGenerate.clicks {  }
+    }
+
+    private fun initData() {
+
+    }
+
+    private fun initView() {
+        binding.viewPager.apply {
+            this.adapter = topPreviewAdapter
+            this.isUserInputEnabled = false
+        }
     }
 
 }

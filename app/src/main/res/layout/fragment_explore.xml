@@ -1,7 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/_40sdp"
     android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="0dp"
+        android:id="@+id/viewPager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:background="@drawable/ab_shadow_bottom_white"
+        android:layout_width="0dp"
+        app:layout_constraintDimensionRatio="3:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/viewPager"
+        android:layout_height="0dp"/>
+
+    <com.basic.common.widget.LsTextView
+        android:id="@+id/title"
+        android:textColor="?colorOnPrimary"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:textSize="@dimen/_25ssp"
+        app:textFont="bold"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:shadowColor="?android:textColorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.basic.common.widget.LsTextView
+        android:textColor="?colorOnPrimary"
+        android:textSize="@dimen/_13ssp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:shadowRadius="2"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:shadowColor="?android:textColorPrimary"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:text="Anime Character Creator with AI"
+        android:textAllCaps="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewGenerate"
+        android:layout_width="0dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/viewPager"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:cardBackgroundColor="?android:textColorPrimary"
+        android:layout_height="@dimen/_45sdp">
+
+        <com.basic.common.widget.LsTextView
+            android:gravity="center"
+            android:textColor="?colorOnPrimary"
+            android:textSize="@dimen/_12ssp"
+            android:text="Start Generating AI Arts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/viewGenerate">
+
+        <com.basic.common.widget.LsTextView
+            android:text="Try amazing Models or LoRAs now"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_12ssp"
+            app:textFont="semi"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerModel"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_preview_category_batch"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="wrap_content"/>
+
+        <com.basic.common.widget.LsTextView
+            android:text="Explores"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_15ssp"
+            app:textFont="semi"
+            android:textColor="?android:textColorPrimary"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExplore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:padding="@dimen/_5sdp"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_preview_explore" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

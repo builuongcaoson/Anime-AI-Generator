@@ -58,7 +58,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
-        lightStatusBar()
         setContentView(binding.root)
 
         when {
