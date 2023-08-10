@@ -1,0 +1,274 @@
+[
+  {
+    "preview": "",
+    "display": "Anime V5",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "anything_5_0",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Anime V4",
+    "description": "Most used",
+    "favourite_count": 0,
+    "modelId": "anything_4_0",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Anime V3",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "anything_3_0",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Pastel Mix",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "pastel_mix",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Something V2",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "something_2",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Classic",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "dh_classicanime",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display" :"Abyss Orange Mix V2",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "abyss_orange_mix_2",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Blood Orange Mix",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "blood_orange_mix",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Ely Orange Mix",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "ely_orange_mix",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DucHaiten V2",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "duchaiten_anime",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DucHaiten V1",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "duchaiten_dreamworld",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DucHaiten Dark",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "duchaiten_darkside",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Eimis Diffusion",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "eimis_anime_diffusion_1",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Waifu V4",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "waifudiffusion_1_4",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Waifu V3",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "waifudiffusion_1_3",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Future Diffusion",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "future_diffusion",
+    "active": "future style"
+  },
+  {
+    "preview": "",
+    "display": "HASDX",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "hasdx",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "ICBINP",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "icbinp",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Inkpunk Diffusion",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "inkpunk_diffusion",
+    "active": "nvinkpunk"
+  },
+  {
+    "preview": "",
+    "display": "Nightmare Shaper",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "nightmareshaper",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Openjourney V2",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "openjourney_2",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Openjourney",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "openjourney",
+    "active": "mdjrny-v4 style"
+  },
+  {
+    "preview": "",
+    "display": "OpenNiji",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "openniji",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Realistic Vision V5.1",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "realistic_vision_1_3",
+    "active": "RAW photo, *subject*, high detailed skin, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+  },
+  {
+    "preview": "",
+    "display": "SteampunkAI",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "steampunk_diffusion",
+    "active": "Steampunk-Character"
+  },
+  {
+    "preview": "",
+    "display": "SynthwavePunk",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "synthwavepunk_v2",
+    "active": "snthwve style nvinkpunk"
+  },
+  {
+    "preview": "",
+    "display": "Vintedois diffusion-v0-1",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "vintedois_diffusion_v0_1",
+    "active": "estilovintedois"
+  },
+  {
+    "preview": "",
+    "display": "Absolute Reality V1.6",
+    "description": "Most used",
+    "favourite_count": 0,
+    "modelId": "absolute_reality_1_6",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DreamShaper V7",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "dreamshaper_7",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DreamShaper V6",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "dreamshaper_6",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DreamShaper V5",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "dreamshaper_5",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "DreamShaper",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "dreamshaper",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Absolute Reality",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "absolute_reality_1",
+    "active": ""
+  },
+  {
+    "preview": "",
+    "display": "Cyber Realistic V3.1",
+    "description": "",
+    "favourite_count": 0,
+    "modelId": "cyberrealistic_3_1",
+    "active": ""
+  }
+]
