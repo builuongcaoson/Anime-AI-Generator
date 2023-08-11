@@ -34,8 +34,6 @@
 
         <activity android:name=".feature.credit.CreditActivity" />
 
-        <activity android:name=".feature.tutorial.TutorialActivity" />
-
         <activity android:name=".feature.first.FirstActivity" />
 
         <activity
