@@ -98,13 +98,32 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_height="wrap_content"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerModel"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            tools:listitem="@layout/item_preview_category_batch"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingModelAndLoRA"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerInParent="true"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerModelAndLoRA"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:clipToPadding="false"
+                android:padding="@dimen/_5sdp"
+                android:alpha="0"
+                tools:alpha="1"
+                tools:listitem="@layout/item_model_lora_in_batch"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="@dimen/_120sdp"/>
+
+        </RelativeLayout>
 
         <com.basic.common.widget.LsTextView
             android:text="Explores"

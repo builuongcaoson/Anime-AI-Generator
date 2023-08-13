@@ -16,7 +16,9 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4ba728df-1ddf-4f87-ace5-b102ff39bdcb/width=2500/00081-755822547.0.jpeg"
         ],
         "display": "Kirara",
-        "trigger_words": "kirara_genshin, beautiful face, sweet girl,(cowboy shot), hair ornament, cat ears, blonde long hair, green eyes, detached sleeves, kirara's upshirt, stomach cutout, kirara's short skirt, two cat tails, bare legs,(black leg warmers), ((white fur-trimmed cat feet shoe covers)),",
+        "trigger_words": [
+          "kirara_genshin, beautiful face, sweet girl,(cowboy shot), hair ornament, cat ears, blonde long hair, green eyes, detached sleeves, kirara's upshirt, stomach cutout, kirara's short skirt, two cat tails, bare legs,(black leg warmers), ((white fur-trimmed cat feet shoe covers)),"
+        ],
         "sha256": "4B79F8A4B46DC81A7F65B392E37BDC0865E9D09545E808F72AB8AA453F4500BF"
       },
       {
@@ -30,7 +32,9 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/29c19b7c-a3c1-41bd-9485-f455be74c198/width=2000/00006-1763016813.0.jpeg"
         ],
         "display": "Jean",
-        "trigger_words": "jean_genshin, 1girl, beautiful face,(close-up), (cowboy shot), blonde hair, hair bow,bare shoulders, detached sleeves, jean's upshirt, jean's puffy white shorts, belt, thigh strap, sandals,",
+        "trigger_words": [
+          "jean_genshin, 1girl, beautiful face,(close-up), (cowboy shot), blonde hair, hair bow,bare shoulders, detached sleeves, jean's upshirt, jean's puffy white shorts, belt, thigh strap, sandals,"
+        ],
         "sha256": "19E1D1905B81AA9D99713E813981F3498736EE509921274FE980EC37D90109C3"
       },
       {
@@ -45,7 +49,9 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/266dbc3e-fb22-4f1d-a163-e034c2c03167/width=2048/00008-3371477864.0.jpeg"
         ],
         "display": "Fischl",
-        "trigger_words": "fischl_genshin, cowboy shot, 1girl, hair over one eye, blonde long hair, tiara,bare shoulders, detached sleeves, fischl's short dress, white thighhighs, black shoes,",
+        "trigger_words": [
+          "fischl_genshin, cowboy shot, 1girl, hair over one eye, blonde long hair, tiara,bare shoulders, detached sleeves, fischl's short dress, white thighhighs, black shoes,"
+        ],
         "sha256": "822E45699FAB3F6869C0C642D4AAA112C60ADB2AC8C1DECC53142BE204E770B9"
       },
       {
@@ -56,7 +62,9 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a883bb55-85c2-4119-83ef-f63a5875d084/width=2000/00001-3719911605.0.jpeg"
         ],
         "display": "Lumine",
-        "trigger_words": "1girl, close-up, cowboy shot, lumine_genshin, blonde hair, hair flower, hair between eyes, hair ornament, bangs, white dress, detached sleeves, bare shoulders, lumine's thigh boots,",
+        "trigger_words": [
+          "1girl, close-up, cowboy shot, lumine_genshin, blonde hair, hair flower, hair between eyes, hair ornament, bangs, white dress, detached sleeves, bare shoulders, lumine's thigh boots,"
+        ],
         "sha256": "75F8C181E312C9CCA80BE25426D49E8BE7B40475D8B44642B6C94A9A9335B50B"
       },
       {
@@ -65,7 +73,9 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2ce37b11-3019-42cb-8e2a-f4ce5c39fd63/width=2048/00006-3441147603.0.jpeg"
         ],
         "display": "Babara",
-        "trigger_words": "((1girl)), babara_in_swimsuit, cowboy shot, blonde hair, blue eyes, twintails, sailor hat, sailor collar, babara's swimsuit, detached sleeves, bare legs, thigh strap, babara's strap, babara's sandals,",
+        "trigger_words": [
+          "((1girl)), babara_in_swimsuit, cowboy shot, blonde hair, blue eyes, twintails, sailor hat, sailor collar, babara's swimsuit, detached sleeves, bare legs, thigh strap, babara's strap, babara's sandals,"
+        ],
         "sha256": "05601AFA1777823A38F9DCE508A1A6005FE88EBFC2A2CD70E06067A5528E4636"
       },
       {
@@ -80,7 +90,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/044b8802-d349-40cb-8b67-78ac1ee30ca5/width=2048/00024-2756947400.0.jpeg"
         ],
         "display": "Yoimiya",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "C09C67D0F2C8B82325C82C0D34977782C9BB105067401092D78F1F1F2EE40812"
       },
       {
@@ -96,7 +106,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a83cbe6e-e49e-49cb-ac08-68a5c82d32e3/width=2048/00001-1757376441.0.jpeg"
         ],
         "display": "Ganyu",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "398BE394E3100BF941102A388B50E0D524B89D1C1F934DC822181005E095CDE8"
       },
       {
@@ -111,7 +121,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/be573b30-bc82-4b44-86b7-d87e86f1cd33/width=2048/00013-4240693968.0.jpeg"
         ],
         "display": "TheGreaterLordRukkhadeva",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "75D3282B28A11C0B58A81896ADCB672F1D4F87D32CE719E9113A6D9F91A11C10"
       },
       {
@@ -124,7 +134,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cc43141f-73ef-4266-961e-5178cdc87b29/width=2048/00004-2583324714.0.jpeg"
         ],
         "display": "Sangonomiya Kokomi",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "98F8E02021EC0A1F7100D5D30A7E8F55E955052058E7BEBE1A219E743B133935"
       },
       {
@@ -136,7 +146,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e5548528-9fc7-4c80-9b00-1028f9b9aa6f/width=2048/00004-4186837616.0.jpeg"
         ],
         "display": "Miss Hina",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "23D613514F147EC9D54F026E817B5D57A12239AA02B9085D9E79EE25F28C600A"
       },
       {
@@ -150,7 +160,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f2e44bb9-4fd9-4a28-b51b-16647580a18d/width=2048/00015-1435153713.0.jpeg"
         ],
         "display": "Ning Guang",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "547221279EB769A6682E34FCB3ACE028FEFBF0B1F84EDFF6B2DDDF3EF9A073C9"
       },
       {
@@ -165,7 +175,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/378ef442-9da1-4ccb-bc16-f5ecb87a515e/width=2048/00009-4061691277.0.jpeg"
         ],
         "display": "HuTao",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "0FBB8E475668DDF1C22A3D188DD62988008C893C1AA16FABD8ECEAD1D6B4AB62"
       },
       {
@@ -178,7 +188,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/758aef14-a420-433e-a813-07aeac54a0bf/width=2048/00006-2965884910.0.jpeg"
         ],
         "display": "shenhe",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "8039D368EE5314BEE600C893B201AA8A2B85607DF573B7A840604F4AE01F6154"
       },
       {
@@ -195,7 +205,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bdd61971-2a58-4503-b86c-3b8050b954d2/width=2000/00014-4236173101.jpeg"
         ],
         "display": "Raiden Shogun",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "7F7EA59FD181A44732E1BAA88958C87740575A945E55B62776FCF90A9D4F3180"
       },
       {
@@ -212,7 +222,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5005bbc3-abc6-4cf4-84a7-5f51b8c6e0e3/width=2048/00004-82281796.0.jpeg"
         ],
         "display": "Yae Miko",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "6EFC2A1FF1B43057ECAF0A36E8E3387075A1EAE3E07E17A2A39682D182DE765B"
       },
       {
@@ -228,7 +238,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ed30f8b6-d8a0-4d3a-97f3-a304c7463ec2/width=2496/00010-2065743192.0.jpeg"
         ],
         "display": "Keqing",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "A58BEAB552253999F5BBA77DA8C71C2F32EB27C0D270E9C3C1929386B74003F7"
       },
       {
@@ -278,7 +288,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/62148804-5ab2-43b2-99cb-dc78e5708d97/width=1856/N12.jpeg"
         ],
         "display": "Nilou",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "80418206C4D58D7B2DA293ACC9196953B2C8EBD4B3F4394EA40FA9CFEBB96CF7"
       }
     ]
@@ -296,7 +306,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82bc4ca0-ca79-4913-ad57-7866e02b996a/width=1024/00102-1775031743.jpeg"
         ],
         "display": "AstralMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "A10AE741278436F98C17828DFFA71659F647311DCE12EB1D5648DF287BB6DC5F"
       },
       {
@@ -306,7 +316,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/71c5c9cd-a4f4-48c1-ad3b-120c2922e597/width=1024/00074-1633759490.jpeg"
         ],
         "display": "LavaMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "2809CB6908608439ECF0648768DB8EACA1DCE6269F33E1FAD68D22AF8785C41E"
       },
       {
@@ -317,7 +327,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/477af13b-7f7f-4fa2-8877-c9b719e9cc11/width=1024/00150-3540534258.jpeg"
         ],
         "display": "InkMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "8CA11AC15B1DDBC1E008C69F417D8BC1E2745DAFB2D954F642B1446CF0CC2868"
       },
       {
@@ -328,7 +338,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/42024705-9d46-40e2-a467-bb46ef8f731a/width=1024/00117-196816248.jpeg"
         ],
         "display": "SharpieMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "5DC8810EDF8D0D58B9E9AA99C8B83B22F4676B6112BBAE258ADBA761DA91A397"
       },
       {
@@ -339,7 +349,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/751e56c3-05ce-443a-9a89-7d3edfd14af0/width=1024/00163-530851755.jpeg"
         ],
         "display": "MinimalVectorMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "55ABA0E959CCC224BFC15E1AFE2DAC9C77E295199D34E768B5144C94B12818B6"
       },
       {
@@ -349,7 +359,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/694fd4fc-7e60-4693-8204-8a7e55bf73ba/width=1024/00121-2869921814.jpeg"
         ],
         "display": "BokehMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "6D79D0DD492346360AE0E5B618015A93AFC6F49DDBB7BCD628B4B2FF4902F652"
       },
       {
@@ -362,7 +372,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0e1e3435-10a2-4262-ac8a-e72f96d79f5a/width=1024/00070-1650235082.jpeg"
         ],
         "display": "HologramMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "5BD8D6339D4E5E693E6723EC50A703E6BC48F5193A69B736635B7F1134EF4A46"
       },
       {
@@ -373,7 +383,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/64ed8997-f77d-462f-b424-3cd28f20e415/width=1024/00271-1148584074.jpeg"
         ],
         "display": "GlassSteelMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "2A8389F815716CD1DEEB0C8716AE00388E072E1FE31076B8280E0D02A9E378BE"
       },
       {
@@ -384,7 +394,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5d130286-4284-427b-b751-138577aac0d7/width=1024/00483-139774155.jpeg"
         ],
         "display": "TalDarimMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "722D6D7D6AD627EED8B6F0322BB5F02DBB487F7C74EE756099851D3FEF304A6F"
       },
       {
@@ -395,7 +405,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/00d255e2-0e56-49c5-8779-6537d1d6a542/width=1024/00244-1933482299.jpeg"
         ],
         "display": "EbonyGoldMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "E62E48C5178CD0A5402DF1EECC1A62584C117FA400B0E3EAE5F75C557B224855"
       },
       {
@@ -406,7 +416,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/34bc7ba0-2ebe-4d95-8793-0c502b1fb7ff/width=1024/00313-1590870167.jpeg"
         ],
         "display": "KhalaiMecha",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "3BE67705C70653A535BFF4E5223A3FFF1111565DFAEE622F028EC6A6A72C96E6"
       }
     ]
@@ -430,7 +440,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/83ec3f2b-0f44-464c-a27c-49b4f431f5bc/width=512/00462-2785414211.jpeg"
         ],
         "display": "Pixel V3",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "8A2E1EA746EAFF717CD8451D9A28349EE7D1D5594E15D7B91E0ED6F9EF743FD3"
       },
       {
@@ -447,7 +457,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/12a46d46-2a31-48d9-9223-cd5fa99916a9/width=512/00042-621222771.jpeg"
         ],
         "display": "Pixel V2",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "FE63E814FF9028EF86C148BC00BB4F746669191DA56026ACBD64852A911F4482"
       },
       {
@@ -463,7 +473,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/275fe0a2-c4aa-4efc-c811-bff75b1f4e00/width=768/01250-revAnimated_v122_1223923630.jpeg"
         ],
         "display": "Pixel V1",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "3C182FB45674A38A6F2DAF407632132076F820FE46B08859B3F2AF96B1C24717"
       }
     ]
@@ -479,7 +489,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3d69d989-43c5-4c4b-b7c8-ea18006ad298/width=1024/00190-2770478334.jpeg"
         ],
         "display": "Linevichit V1",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "1DD27F546185918163F6114F25CE296E8D34B12BF143756B1B6366AB143145F3"
       }
     ]
@@ -498,7 +508,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4cc05dc9-860a-4f03-a006-ffc68fedac2b/width=1024/02027-1771952102.jpeg"
         ],
         "display": "Locker room V0.1",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "F5CB3AF844CC6B2DBC76B2168738C50BFD5ADF1320F2E1AAB207CEF871C84EEB"
       }
     ]
@@ -517,7 +527,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/69e21216-d958-418d-bb11-faf802c99f1a/width=1024/02009-2870610032.jpeg"
         ],
         "display": "School gym V0.1",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "8C749717FEDB7B3D63CFBFB4137B9E312A795699454B652E20F88EC95E9C7B54"
       }
     ]
@@ -545,7 +555,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7b5680b4-c0de-4557-f646-100022b5c300/width=1024/17911-1059807032-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20cyborg%20woman%20in%20a%20green%20circle%20light%20up%20cyberhelmet%20with%20orange%20ears,%20wearing%20oran.jpeg"
         ],
         "display": "Cyberhelmet V0.7",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "11EB8DDE45EF4353DB56B3A601880D57F4E51EFED9E8B1039E46CEC2F9B0D2E0"
       },
       {
@@ -565,7 +575,7 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c42f2c13-9c6d-4b64-79f7-1ab09964ac00/width=1024/348039.jpeg"
         ],
         "display": "Cyberhelmet V0.2",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "2D02DB3D49F690233352275B33240E6095F9A0E6F603EB8DDD4F79A1A1B66DE9"
       },
       {
@@ -584,36 +594,117 @@
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9fb92abb-3cc8-4f2d-e9f5-d88cfb8d8900/width=1152/344778.jpeg"
         ],
         "display": "Cyberhelmet V0.1",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "2EA72D2D94B95E50B265089D84ECD1F53F7CAD94DFEE07F27B7C461F51D9834D"
       }
     ]
   },
   {
     "display": "Detail Enhancer / Tweaker",
-    "favourite_count": 266602,
+    "favourite_count": 7329,
     "childs": [
       {
         "previews": [
           "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c1697174-7c8d-4bde-b053-7b1ec0692b64/width=1197/xyz_grid-0361-132340235-8k%20portrait%20of%20beautiful%20cyborg%20with%20brown%20hair,%20intricate,%20elegant,%20highly%20detailed,%20majestic,%20digital%20photography,%20art%20by%20artg_.jpeg"
         ],
         "display": "Detail Enhancer / Tweaker V1.0",
-        "trigger_words": "",
+        "trigger_words": [],
         "sha256": "D9CF2F88DEC53A8DD8C09ABA2B1D67963B265EBDF8255660F5BCD7F1C8EDBA33"
       }
     ]
   },
   {
-    "display": "",
+    "display": "FireVFX",
+    "favourite_count": 1559,
+    "childs": [
+      {
+        "previews": [
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/68f89db9-29bc-407b-b469-377260778e00/width=1150/253828.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/96031dd2-c8b2-4c51-7beb-8261ffc2b300/width=1152/253214.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bab3ea70-da89-45bc-04a6-dbdf8c180e00/width=2304/253212.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3e1b5dc1-c62e-4d31-2466-77ed678d3100/width=1152/253213.jpeg"
+        ],
+        "display": "FireVFX V2",
+        "trigger_words": [
+          "Holding fire with her 2 hands",
+          "Fireball being thrown",
+          "Holding fire in one hand",
+          "Fireball with a red glow",
+          "Fireball about to be released",
+          "Surrounded by flames"
+        ],
+        "sha256": "CF047F8885C47D202F966131FA490D1A8955BBED46658F1E5851996D8A3F88B8"
+      },
+      {
+        "previews": [
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2abecd43-a196-454b-1e5d-2ace2596ef00/width=1024/00331-466098627-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20with%20long,%20flowing%20orange%20hair%20and%20vibrant%20green%20eyes,%20dressed%20in%20a%20dark%20ro.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/fb0b59b7-c331-4a2e-78c9-5a7b34e04d00/width=512/00948-279906027-Masterpiece,%20best%20quality,%201girl,%20her%20naked%20body%20enveloped%20by%20dancing%20flames,%20as%20if%20the%20fire%20itself%20is%20trying%20to%20protect%20her.%20He.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4334ee37-3893-40ca-c428-8ca313ac6c00/width=1024/00332-3407030234-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20holding%20a%20flaming%20sword%20with%20both%20hands,%20her%20eyes%20glowing%20with%20intensity.%20S.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0ebed883-b5b4-4b5c-fbec-175a9d09da00/width=1024/00333-2506935937-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20holding%20a%20flaming%20sword%20with%20both%20hands,%20her%20eyes%20glowing%20with%20intensity.%20S.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4d494dea-2c10-4cfd-e87a-5dc172e6ee00/width=1024/00337-2033255633-_lora_FireVFX_0.5_%20close%20up,%20protrait%20of%20a%201boy,%20glowing%20yellow%20eyes,%20(fire%20green_1.5),%20wind,%20spark%20fire,.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7337ffd0-a1a8-49c0-9ee5-f01573928100/width=512/00916-2207798966-Masterpiece,%20best%20quality,%201girl,%20with%20shimmering%20iridescent%20hair%20that%20seems%20to%20flicker%20like%20flames.%20Her%20eyes%20are%20a%20bright,%20inte.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/fb5309ae-73ce-48ba-2a80-5c38b261ea00/width=512/00918-1634349797-multicolored%20hair,%20glow%20hair,%20bloom,%20Masterpiece,%20best%20quality,%201girl,%20with%20shimmering%20iridescent%20hair%20that%20seems%20to%20flicker%20lik.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9107a163-ca06-4aad-8edf-4d0d4c35ca00/width=512/00923-2248506731-1man,%20white%20hair,%20a%20fireball%20about%20to%20be%20released,%20magic%20spell,%20circle%20magic,.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2e4391ff-bf0d-4390-52fc-e6d794252300/width=1024/00322-1415348647-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20with%20long%20curly%20orange%20hair,%20wearing%20a%20red%20cloak%20with%20gold%20accents%20and%20a%20ma.jpeg"
+        ],
+        "display": "FireVFX V1",
+        "trigger_words": "<lora:firevfx:0.5>",
+        "sha256": "8F17FFDFC8A94C8EE0A33A2A3176F7FC6ACE55EB002B828C55FEEF282D29A63F"
+      }
+    ]
+  },
+  {
+    "display": "Twitch Emotes",
+    "favourite_count": 1562,
+    "childs": [
+      {
+        "previews": [
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82ccacc9-4d38-4625-d11c-0d8521c34900/width=512/241442.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7ced791a-c327-4203-9f57-faf7f39f7b00/width=512/241460.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/44a18e00-1c82-4ab8-62a8-e913a19b0200/width=512/241459.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/130c997a-18bf-4598-865c-0355ef409500/width=512/241458.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c23dde5c-b1ef-490c-5cbc-a500389f0b00/width=512/241457.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef8c0d6a-14dd-4491-6c1a-4197ecad8c00/width=512/241456.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef8c0d6a-14dd-4491-6c1a-4197ecad8c00/width=512/241456.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7c9fe5ce-c02a-4603-370f-7f61f595dc00/width=512/241455.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7c9fe5ce-c02a-4603-370f-7f61f595dc00/width=512/241455.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b8df2fb4-038a-4d08-19e8-94f17522b400/width=512/241453.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/26941b4e-847e-4865-95ab-5ca41843b000/width=512/241452.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/885b7f31-26b7-469b-b6a3-3801621b9d00/width=512/241451.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/885b7f31-26b7-469b-b6a3-3801621b9d00/width=512/241451.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/143eb90c-1f42-48dd-e235-3bde85bbda00/width=512/241449.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ca800bb3-8813-4561-035a-8025c3e5d100/width=512/241448.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/22a02a0e-94ec-4103-1724-bc666f77f400/width=512/241447.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f6eb2623-7c9e-4b5a-34fc-fb85bddad100/width=512/241446.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1328753c-1819-41dd-0ac3-58e6ef98b700/width=512/241445.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e27a4d82-0eb0-425d-a31f-ce9d6d220100/width=512/241444.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/08dcc74f-ad3d-4eac-e526-7a4152d0bc00/width=512/241443.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/94b5d443-faea-46b0-e009-262cb6e85f00/width=512/241462.jpeg"
+        ],
+        "display": "Twitch Emotes V1.3",
+        "trigger_words": [
+          "twitch emoji"
+        ],
+        "sha256": "6CBD2102908FDC1AE3CAE79C179ACBBDBE9AED06890A1FBB41A8C90949CADAF7"
+      }
+    ]
+  },
+  {
+    "display": "Minimalist Anime",
     "favourite_count": 2539,
     "childs": [
       {
         "previews": [
-          ""
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3dc34bb7-c730-4f14-556d-b9dd36493400/width=768/336272.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cc16fa99-8afb-40ef-2a59-b37d75036600/width=768/336271.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85f78fe2-403a-48ec-068e-c3cae0740000/width=512/336274.jpeg",
+          "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef69ed48-237e-46c2-a404-89011420f500/width=1152/336273.jpeg"
         ],
-        "display": "",
-        "trigger_words": "",
-        "sha256": ""
+        "display": "Minimalist Anime V1",
+        "trigger_words": [
+          "<lora:anime_minimalist_v1-000020:0.9>, anime minimalist"
+        ],
+        "sha256": "F16F6504EF57EAC0D0ABE857D9A4665681E935438FE3315F6045337F4FCEFD71"
       }
     ]
   }

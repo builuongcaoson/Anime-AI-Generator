@@ -1,38 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewPreview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:cardBackgroundColor="?android:windowBackground"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/preview"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/place_holder_image"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
             <View
                 android:id="@+id/viewShadow"
@@ -47,72 +39,61 @@
 
             <com.basic.common.widget.LsTextView
                 android:id="@+id/display"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toTopOf="@id/favouriteCount"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:ellipsize="marquee"
-                android:gravity="center_horizontal"
-                android:maxLines="2"
+                android:ellipsize="end"
                 android:textAllCaps="true"
+                android:singleLine="true"
                 android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:textFont="semi"
                 tools:text="@tools:sample/first_names" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/viewSelected"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#B3000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/favouriteCount"
+                tools:text="1K Uses"
+                android:textSize="@dimen/_12ssp"
+                android:layout_toStartOf="@id/favourite"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintEnd_toStartOf="@id/favourite"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/ic_check"
-                    android:tint="?colorOnPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.15" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="?colorOnPrimary"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_height="wrap_content"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/viewPremium"
-                android:layout_width="@dimen/_17sdp"
-                android:layout_height="@dimen/_17sdp"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:background="@drawable/circle"
-                android:backgroundTint="#BF000000"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_diamond"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_heart_full"
                 android:tint="?colorOnPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/viewDescription"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/viewDescription" />
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/favourite"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 app:cardBackgroundColor="?colorAccent"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="@dimen/_3sdp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.basic.common.widget.LsTextView
@@ -133,4 +114,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

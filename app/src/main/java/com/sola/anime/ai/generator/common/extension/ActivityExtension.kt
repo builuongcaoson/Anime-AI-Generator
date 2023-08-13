@@ -21,7 +21,6 @@ import com.sola.anime.ai.generator.feature.processing.batch.BatchProcessingActiv
 import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
 import com.sola.anime.ai.generator.feature.setting.SettingActivity
 import com.sola.anime.ai.generator.feature.style.StyleActivity
-import com.sola.anime.ai.generator.feature.tutorial.TutorialActivity
 
 fun Activity.startMain(){
     val intent = Intent(this, MainActivity::class.java)
@@ -37,12 +36,6 @@ fun Activity.startSetting(){
 
 fun Activity.startPickAvatar(){
     val intent = Intent(this, PickAvatarActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
-}
-
-fun Activity.startTutorial(){
-    val intent = Intent(this, TutorialActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

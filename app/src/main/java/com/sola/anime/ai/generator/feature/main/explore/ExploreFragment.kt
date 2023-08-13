@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.main.explore
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.databinding.FragmentExploreBinding
+import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAPreviewAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.TopPreviewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -11,6 +12,7 @@ import javax.inject.Inject
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
 
     @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
+    @Inject lateinit var modelAndLoRAPreviewAdapter: ModelAndLoRAPreviewAdapter
 
     override fun onViewCreated() {
         initView()
@@ -30,6 +32,9 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
         binding.viewPager.apply {
             this.adapter = topPreviewAdapter
             this.isUserInputEnabled = false
+        }
+        binding.recyclerModelAndLoRA.apply {
+            this.adapter = modelAndLoRAPreviewAdapter
         }
     }
 

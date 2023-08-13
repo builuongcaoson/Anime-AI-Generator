@@ -26,7 +26,6 @@ import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.makeLinks
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startMain
-import com.sola.anime.ai.generator.common.extension.startTutorial
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
