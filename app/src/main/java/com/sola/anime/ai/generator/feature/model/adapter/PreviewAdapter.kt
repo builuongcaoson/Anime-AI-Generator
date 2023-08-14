@@ -46,7 +46,7 @@ class PreviewAdapter @Inject constructor(
         binding.viewSelected.isVisible = item.id == model?.id
         binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
-        binding.viewPremium.isVisible = item.premium && !prefs.isUpgraded.get()
+//        binding.viewPremium.isVisible = item.premium && !prefs.isUpgraded.get()
 
         Glide
             .with(context)

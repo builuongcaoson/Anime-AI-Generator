@@ -69,7 +69,7 @@ class ModelActivity : LsActivity<ActivityModelBinding>(ActivityModelBinding::inf
             .autoDispose(scope())
             .subscribe { model ->
                 when {
-                    model.premium && !prefs.isUpgraded.get() -> startIap()
+//                    model.premium && !prefs.isUpgraded.get() -> startIap()
                     else -> {
                         when {
                             isBatch -> configApp.modelBatchChoice = model

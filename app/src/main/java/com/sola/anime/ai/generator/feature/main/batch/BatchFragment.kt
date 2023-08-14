@@ -69,15 +69,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initData() {
-        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
-            previewCategoryAdapter.data = ArrayList(models.map {
-                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
-            })
-            previewCategoryAdapter.data.firstOrNull{ !it.isPremium }.also { previewCategory ->
-                previewCategoryAdapter.category = previewCategory
-                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
-            }
-        }
+//        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+//            previewCategoryAdapter.data = ArrayList(models.map {
+//                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
+//            })
+//            previewCategoryAdapter.data.firstOrNull{ !it.isPremium }.also { previewCategory ->
+//                previewCategoryAdapter.category = previewCategory
+//                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
+//            }
+//        }
     }
 
     private fun listenerView() {
@@ -101,28 +101,28 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         val task = {
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
 
-            val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
-                val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
-                val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
+//            val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
+//                val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
+//                val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
+//
+//                initDezgoBodyTextsToImages(
+//                    groupId = index.toLong(),
+//                    maxChildId = item.numberOfImages.number - 1,
+//                    prompt = prompt,
+//                    negativePrompt = negativePrompt,
+//                    guidance = item.guidance.toString(),
+//                    steps = item.step.toString(),
+//                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+//                    sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
+//                    upscale = "2",
+//                    styleId = -1,
+//                    ratio = item.ratio,
+//                    seed = null,
+//                    type = 1
+//                )
+//            }
 
-                initDezgoBodyTextsToImages(
-                    groupId = index.toLong(),
-                    maxChildId = item.numberOfImages.number - 1,
-                    prompt = prompt,
-                    negativePrompt = negativePrompt,
-                    guidance = item.guidance.toString(),
-                    steps = item.step.toString(),
-                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                    sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
-                    upscale = "2",
-                    styleId = -1,
-                    ratio = item.ratio,
-                    seed = null,
-                    type = 1
-                )
-            }
-
-            configApp.dezgoBodiesTextsToImages = dezgoBodies
+//            configApp.dezgoBodiesTextsToImages = dezgoBodies
 
             activity?.startBatchProcessing()
         }

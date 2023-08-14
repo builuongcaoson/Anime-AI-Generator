@@ -63,27 +63,9 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var analyticManager: AnalyticManager
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
-    private val sku1 by lazy {
-        when (configApp.scriptIap) {
-            "0" -> Constraint.Iap.SKU_LIFE_TIME
-            "1" -> Constraint.Iap.SKU_LIFE_TIME
-            else -> Constraint.Iap.SKU_LIFE_TIME
-        }
-    }
-    private val sku2 by lazy {
-        when (configApp.scriptIap) {
-            "0" -> Constraint.Iap.SKU_WEEK
-            "1" -> Constraint.Iap.SKU_WEEK_3D_TRIAl
-            else -> Constraint.Iap.SKU_MONTH
-        }
-    }
-    private val sku3 by lazy {
-        when (configApp.scriptIap) {
-            "0" -> Constraint.Iap.SKU_YEAR
-            "1" -> Constraint.Iap.SKU_YEAR
-            else -> Constraint.Iap.SKU_YEAR
-        }
-    }
+    private val sku1 by lazy { Constraint.Iap.SKU_LIFE_TIME }
+    private val sku2 by lazy { Constraint.Iap.SKU_WEEK }
+    private val sku3 by lazy { Constraint.Iap.SKU_YEAR }
     private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku1) }
     private var products = listOf<StoreProduct>()
 

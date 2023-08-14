@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 @Keep
 @Entity(tableName = "LoRAGroups")
 class LoRAGroup{
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     var id: Long = 0

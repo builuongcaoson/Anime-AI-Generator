@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 @Keep
 @Entity(tableName = "Models")
 class Model{
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     var id: Long = 0

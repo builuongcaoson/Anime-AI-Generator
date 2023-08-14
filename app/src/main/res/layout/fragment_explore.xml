@@ -135,16 +135,32 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_height="wrap_content"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewExplore"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:nestedScrollingEnabled="false"
-            android:padding="@dimen/_5sdp"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/item_preview_explore" />
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingExplore"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_50sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewExplore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:padding="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_preview_explore" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

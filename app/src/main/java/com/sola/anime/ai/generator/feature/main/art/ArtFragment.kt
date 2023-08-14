@@ -95,9 +95,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             previewExploreAdapter.data = explores
         }
 
-        modelDao.getAllLive().observe(viewLifecycleOwner) { models ->
-            models.firstOrNull{ !it.premium }.also { configApp.modelChoice = it }
-        }
+//        modelDao.getAllLive().observe(viewLifecycleOwner) { models ->
+//            models.firstOrNull{ !it.premium }.also { configApp.modelChoice = it }
+//        }
     }
 
     override fun onResume() {
@@ -378,48 +378,48 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 }
                 else -> null
             }
-            when {
-                photoUri != null -> {
-                    val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
-
-                    configApp.dezgoBodiesTextsToImages = emptyList()
-                    configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
-                        groupId = 0,
-                        maxChildId = 0,
-                        initImage = photoUri,
-                        prompt = prompt,
-                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                        guidance = advancedSheet.guidance.toString(),
-                        steps = advancedSheet.step,
-                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                        sampler = "euler_a",
-                        upscale = "2",
-                        styleId = configApp.styleChoice?.id ?: -1,
-                        ratio = aspectRatioAdapter.ratio,
-                        strength = strength.toString(),
-                        seed = null,
-                        type = 0
-                    )
-                }
-                else -> {
-                    configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
-                        groupId = 0,
-                        maxChildId = 0,
-                        prompt = prompt,
-                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                        guidance = advancedSheet.guidance.toString(),
-                        steps = advancedSheet.step,
-                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-                        sampler = "euler_a",
-                        upscale = "2",
-                        styleId = configApp.styleChoice?.id ?: -1,
-                        ratio = aspectRatioAdapter.ratio,
-                        seed = null,
-                        type = 0
-                    )
-                    configApp.dezgoBodiesImagesToImages = emptyList()
-                }
-            }
+//            when {
+//                photoUri != null -> {
+//                    val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
+//
+//                    configApp.dezgoBodiesTextsToImages = emptyList()
+//                    configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
+//                        groupId = 0,
+//                        maxChildId = 0,
+//                        initImage = photoUri,
+//                        prompt = prompt,
+//                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+//                        guidance = advancedSheet.guidance.toString(),
+//                        steps = advancedSheet.step,
+//                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+//                        sampler = "euler_a",
+//                        upscale = "2",
+//                        styleId = configApp.styleChoice?.id ?: -1,
+//                        ratio = aspectRatioAdapter.ratio,
+//                        strength = strength.toString(),
+//                        seed = null,
+//                        type = 0
+//                    )
+//                }
+//                else -> {
+//                    configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+//                        groupId = 0,
+//                        maxChildId = 0,
+//                        prompt = prompt,
+//                        negativePrompt = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+//                        guidance = advancedSheet.guidance.toString(),
+//                        steps = advancedSheet.step,
+//                        model = configApp.modelChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
+//                        sampler = "euler_a",
+//                        upscale = "2",
+//                        styleId = configApp.styleChoice?.id ?: -1,
+//                        ratio = aspectRatioAdapter.ratio,
+//                        seed = null,
+//                        type = 0
+//                    )
+//                    configApp.dezgoBodiesImagesToImages = emptyList()
+//                }
+//            }
 
             activity?.startArtProcessing()
         }

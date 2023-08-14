@@ -7,7 +7,7 @@ interface SyncRepository {
         object SyncedModelsAndLoRAs: Progress()
     }
 
-    fun syncModelsAndLoRAs(progress: (Progress) -> Unit)
+    suspend fun syncModelsAndLoRAs(progress: (Progress) -> Unit)
 
     fun syncExplore()
 
