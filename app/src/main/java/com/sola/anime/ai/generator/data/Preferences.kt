@@ -35,14 +35,13 @@ class Preferences @Inject constructor(
 
     // For App
     val versionExplore = rxPrefs.getLong("versionExplore", 0)
+    val versionLoRA = rxPrefs.getLong("versionLoRA", 0)
     val versionIap = rxPrefs.getLong("versionIap", 0)
     val versionProcess = rxPrefs.getLong("versionProcess", 0)
     val versionStyle = rxPrefs.getLong("versionStyle", 0)
     val versionModel = rxPrefs.getLong("versionModel", 0)
-    val isEnableNsfw = rxPrefs.getBoolean("isEnableNsfw", true)
     val isShowedWaringPremiumDialog = rxPrefs.getBoolean("isShowedWaringPremiumDialog", false)
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
-    val isViewTutorial = rxPrefs.getBoolean("isViewTutorial", false)
     val isRated = rxPrefs.getBoolean("isRated", false)
     val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
     val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)

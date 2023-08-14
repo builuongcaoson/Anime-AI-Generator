@@ -9,7 +9,8 @@ import com.google.gson.annotations.SerializedName
 @Keep
 @Entity(tableName = "Models")
 class Model{
-    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
+    @Expose
     var id: Long = 0
     @SerializedName("preview")
     @Expose
@@ -17,13 +18,16 @@ class Model{
     @SerializedName("display")
     @Expose
     var display: String = ""
-    @SerializedName("model")
-    @Expose
-    var model: String = ""
     @SerializedName("description")
     @Expose
     var description: String = ""
-    @SerializedName("premium")
+    @SerializedName("favourite_count")
     @Expose
-    var premium: Boolean = true
+    var favouriteCount: Long = 0
+    @SerializedName("modelId")
+    @Expose
+    var modelId: String = ""
+    @SerializedName("active")
+    @Expose
+    var active: String = ""
 }

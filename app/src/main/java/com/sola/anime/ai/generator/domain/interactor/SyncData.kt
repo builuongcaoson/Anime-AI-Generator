@@ -169,33 +169,6 @@ class SyncData @Inject constructor(
                 }
         }
 
-        if (prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty()){
-            Firebase.database.reference.child("v1/model").get()
-                .addOnSuccessListener { snapshot ->
-                    Timber.e("Key: ${snapshot.key} --- ${snapshot.childrenCount}")
-                    val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
-                    val models = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
-
-                    when {
-                        models.isNotEmpty() -> {
-                            modelDao.deleteAll()
-                            modelDao.inserts(*models.toTypedArray())
-                        }
-                        else -> syncModelsLocal()
-                    }
-                    Timber.e("Sync models: ${models.size}")
-                    for (i in models){
-                        Timber.e("Model display 1: ${i.display} --- ${i.premium}")
-                    }
-
-                    prefs.versionModel.set(configApp.versionModel)
-                }
-                .addOnFailureListener {
-                    Timber.e("Error models: ${it.message}")
-
-                    syncModelsLocal()
-                }
-        }
     }
 
     private fun syncExploresLocal() {
@@ -231,19 +204,6 @@ class SyncData @Inject constructor(
 
         styleDao.deleteAll()
         styleDao.inserts(*data)
-    }
-
-    private fun syncModelsLocal() {
-        val inputStream = context.assets.open("model.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
-
-        for (i in data){
-            Timber.e("Model display 2: ${i.display} --- ${i.premium}")
-        }
-
-        modelDao.deleteAll()
-        modelDao.inserts(*data)
     }
 
     private fun syncProcessLocal() {

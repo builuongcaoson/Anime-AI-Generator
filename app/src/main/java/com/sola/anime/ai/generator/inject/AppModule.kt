@@ -28,6 +28,7 @@ import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.ServerApiRepositoryImpl
+import com.sola.anime.ai.generator.data.repo.SyncRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.UpscaleApiRepositoryImpl
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
@@ -38,6 +39,7 @@ import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
+import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import com.sola.anime.ai.generator.domain.repo.UpscaleApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
 import com.sola.anime.ai.generator.inject.ls.LsApi
@@ -327,6 +329,10 @@ class AppModule {
     @Singleton
     fun providePhotoStorageDao(database: Database): PhotoStorageDao = database.photoStorageDao()
 
+    @Provides
+    @Singleton
+    fun provideLoRAGroupDao(database: Database): LoRAGroupDao = database.loRAGroupDao()
+
     // Repository
 
     @Provides
@@ -352,6 +358,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDetectFaceRepositoryImpl(repo: DetectFaceRepositoryImpl): DetectFaceRepository = repo
+
+    @Provides
+    @Singleton
+    fun provideSyncRepositoryImpl(repo: SyncRepositoryImpl): SyncRepository = repo
 
     // Manager
 

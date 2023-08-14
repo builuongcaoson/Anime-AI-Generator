@@ -23,7 +23,6 @@ class ConfigApp @Inject constructor(
 ) {
 
     var scriptOpenSplash = 1L // 0: (Not show), 1: (Show)
-    var scriptIap = "0" // 0: (Nothing), 1: (LifeTime - 3 Day Trial Week - Year), 2: (Lifetime - Month - Year)
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
     var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK
@@ -31,6 +30,7 @@ class ConfigApp @Inject constructor(
     var feature = context.getString(R.string.default_feature)
     var version = BuildConfig.VERSION_CODE.toLong()
     var versionExplore = prefs.versionExplore.get()
+    var versionLoRA = prefs.versionLoRA.get()
     var versionIap = prefs.versionIap.get()
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()

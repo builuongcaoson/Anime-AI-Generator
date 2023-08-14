@@ -11,6 +11,7 @@ import com.sola.anime.ai.generator.domain.model.PhotoStorage
 import com.sola.anime.ai.generator.domain.model.config.process.Process
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
+import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.history.History
@@ -24,8 +25,9 @@ import com.sola.anime.ai.generator.domain.model.history.History
         History::class,
         Folder::class,
         PhotoStorage::class,
-        Model::class
-               ],
+        Model::class,
+        LoRAGroup::class
+    ],
     version = Constraint.Info.DATA_VERSION
 )
 @TypeConverters(Converters::class)
@@ -46,6 +48,8 @@ abstract class Database : RoomDatabase() {
     abstract fun folderDao(): FolderDao
 
     abstract fun photoStorageDao(): PhotoStorageDao
+
+    abstract fun loRAGroupDao(): LoRAGroupDao
 
     companion object {
         const val DB_NAME = "App_database"

@@ -198,7 +198,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .fetchAndActivate()
                 .addOnSuccessListener {
                     configApp.scriptOpenSplash = tryOrNull { config.getLong("scriptOpenSplash") } ?: configApp.scriptOpenSplash
-                    configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
@@ -206,6 +205,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
                     configApp.version = tryOrNull { config.getLong("version") } ?: configApp.version
                     configApp.versionExplore = tryOrNull { config.getLong("version_explore") } ?: configApp.versionExplore
+                    configApp.versionLoRA = tryOrNull { config.getLong("version_loRA") } ?: configApp.versionLoRA
                     configApp.versionIap = tryOrNull { config.getLong("version_iap") } ?: configApp.versionIap
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
@@ -215,7 +215,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
 
                     Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
-                    Timber.e("scriptIap: ${configApp.scriptIap}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
                     Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
