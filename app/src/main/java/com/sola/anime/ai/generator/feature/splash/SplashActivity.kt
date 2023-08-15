@@ -133,15 +133,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     initData()
                 }
                 else -> {
-//                    val integrityManager = IntegrityManagerFactory.create(applicationContext)
-//                    val integrityTokenResponse = integrityManager.requestIntegrityToken(
-//                            IntegrityTokenRequest.builder()
-//                                .setCloudProjectNumber(561110823355)
-//                                .setNonce(Base64.encodeToString(generateRandomNonce(), Base64.URL_SAFE or Base64.NO_WRAP))
-//                                .build())
-//                    val integrityToken = integrityTokenResponse.await().token()
-//                    Timber.tag("Main12345").e("Integrity Token: $integrityToken")
-
                     when {
                         RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity) -> {
                             makeToast("Your device is on our blocked list!")

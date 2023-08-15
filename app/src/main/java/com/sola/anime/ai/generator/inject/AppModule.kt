@@ -7,6 +7,8 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
@@ -69,6 +71,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideFirebaseAnalytic(): FirebaseAnalytics = Firebase.analytics
+
+    @Provides
+    @Singleton
+    fun provideDatabaseReference(): DatabaseReference = Firebase.database.reference
 
     @Provides
     @Singleton

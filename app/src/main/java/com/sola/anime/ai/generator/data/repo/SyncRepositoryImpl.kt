@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.data.repo
 import android.content.Context
 import com.basic.common.extension.tryOrNull
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -26,6 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class SyncRepositoryImpl @Inject constructor(
     private val context: Context,
+    private val reference: DatabaseReference,
     private val prefs: Preferences,
     private val configApp: ConfigApp,
     private val modelDao: ModelDao,
@@ -33,72 +35,88 @@ class SyncRepositoryImpl @Inject constructor(
 ): SyncRepository {
 
     override suspend fun syncModelsAndLoRAs(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
+        progress(SyncRepository.Progress.Running)
+
         val deferredModels = async {
             when {
-                prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> Firebase.database.reference.child("v2/models").get().await()
+                prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> reference.child("v2/models").get().await()
                 else -> null
             }
         }
         val deferredLoRAs = async {
             when {
-                prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> Firebase.database.reference.child("v2/loRAs").get().await()
+                prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> reference.child("v2/loRAs").get().await()
                 else -> null
             }
         }
 
         val (snapshotModels, snapshotLoRAs) = awaitAll(deferredModels, deferredLoRAs)
 
-        snapshotModels?.let { snapshot ->
-            val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
-            val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+        launch(Dispatchers.IO) {
+            snapshotModels?.let { snapshot ->
+                val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
+                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
 
-            when {
-                datas.isNotEmpty() -> {
-                    modelDao.deleteAll()
-                    modelDao.inserts(*datas.toTypedArray())
+                when {
+                    datas.isNotEmpty() -> {
+                        modelDao.deleteAll()
+                        modelDao.inserts(*datas.toTypedArray())
+                    }
+                    else -> syncModelsLocal()
                 }
-                else -> syncModelsLocal()
-            }
 
-            prefs.versionModel.set(configApp.versionModel)
-        } ?: run {
-            syncModelsLocal()
+                Timber.e("Model data: ${datas.size}")
+
+                prefs.versionModel.set(configApp.versionModel)
+            } ?: run {
+                syncModelsLocal()
+            }
+        }
+        launch(Dispatchers.IO) {
+            snapshotLoRAs?.let { snapshot ->
+                val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
+                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+
+                when {
+                    datas.isNotEmpty() -> {
+                        loRAGroupDao.deleteAll()
+                        loRAGroupDao.inserts(*datas.toTypedArray())
+                    }
+                    else -> syncLoRAsLocal()
+                }
+
+                Timber.e("LoRA data: ${datas.size}")
+
+                prefs.versionLoRA.set(configApp.versionLoRA)
+            } ?: run {
+                syncLoRAsLocal()
+            }
         }
 
-        snapshotLoRAs?.let { snapshot ->
-            val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
-            val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
-
-            when {
-                datas.isNotEmpty() -> {
-                    loRAGroupDao.deleteAll()
-                    loRAGroupDao.inserts(*datas.toTypedArray())
-                }
-                else -> syncLoRAsLocal()
-            }
-
-            prefs.versionLoRA.set(configApp.versionLoRA)
-        } ?: run {
-            syncLoRAsLocal()
-        }
+        delay(1000)
+        progress(SyncRepository.Progress.SyncedModelsAndLoRAs)
     }
 
     private fun syncLoRAsLocal() {
         val inputStream = context.assets.open("loRA_v2.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<LoRAGroup>::class.java) } ?: arrayOf()
+        val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<LoRAGroup>::class.java) } ?: arrayOf()
+
+        Timber.e("LoRA data: ${datas.size}")
 
         loRAGroupDao.deleteAll()
-        loRAGroupDao.inserts(*data)
+        loRAGroupDao.inserts(*datas)
     }
 
     private fun syncModelsLocal() {
         val inputStream = context.assets.open("model_v2.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
+        val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
+
+        Timber.e("Model data: ${datas.size}")
 
         modelDao.deleteAll()
-        modelDao.inserts(*data)
+        modelDao.inserts(*datas)
     }
 
     override fun syncExplore() {
