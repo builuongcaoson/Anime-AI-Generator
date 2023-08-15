@@ -72,7 +72,7 @@ class ExploreDialog @Inject constructor() {
             if (isShowing()){
                 Glide
                     .with(activity)
-                    .load(explore.preview)
+                    .load(explore.previews.firstOrNull())
                     .placeholder(R.drawable.place_holder_image)
                     .error(R.drawable.place_holder_image)
                     .transition(DrawableTransitionOptions.withCrossFade())

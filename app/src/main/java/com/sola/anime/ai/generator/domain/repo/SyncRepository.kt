@@ -5,10 +5,11 @@ interface SyncRepository {
     sealed class Progress {
         object Running: Progress()
         object SyncedModelsAndLoRAs: Progress()
+        object SyncedExplores: Progress()
     }
 
     suspend fun syncModelsAndLoRAs(progress: (Progress) -> Unit)
 
-    fun syncExplore()
+    suspend fun syncExplores(progress: (Progress) -> Unit)
 
 }

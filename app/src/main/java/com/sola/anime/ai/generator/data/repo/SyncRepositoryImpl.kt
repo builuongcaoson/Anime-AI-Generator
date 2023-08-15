@@ -10,8 +10,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
@@ -31,7 +33,8 @@ class SyncRepositoryImpl @Inject constructor(
     private val prefs: Preferences,
     private val configApp: ConfigApp,
     private val modelDao: ModelDao,
-    private val loRAGroupDao: LoRAGroupDao
+    private val loRAGroupDao: LoRAGroupDao,
+    private val exploreDao: ExploreDao
 ): SyncRepository {
 
     override suspend fun syncModelsAndLoRAs(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
@@ -53,6 +56,8 @@ class SyncRepositoryImpl @Inject constructor(
         val (snapshotModels, snapshotLoRAs) = awaitAll(deferredModels, deferredLoRAs)
 
         launch(Dispatchers.IO) {
+            Timber.e("Sync Models")
+
             snapshotModels?.let { snapshot ->
                 val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
                 val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
@@ -73,6 +78,8 @@ class SyncRepositoryImpl @Inject constructor(
             }
         }
         launch(Dispatchers.IO) {
+            Timber.e("Sync loRAs")
+
             snapshotLoRAs?.let { snapshot ->
                 val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
                 val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
@@ -119,8 +126,62 @@ class SyncRepositoryImpl @Inject constructor(
         modelDao.inserts(*datas)
     }
 
-    override fun syncExplore() {
+    override suspend fun syncExplores(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
+        progress(SyncRepository.Progress.Running)
 
+        val deferredExplores = async {
+            when {
+                prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> reference.child("v2/explores").get().await()
+                else -> null
+            }
+        }
+
+        val snapshotExplores = deferredExplores.await()
+
+        launch(Dispatchers.IO) {
+            Timber.e("Sync Explores")
+
+            snapshotExplores?.let { snapshot ->
+                val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
+                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+
+                when {
+                    datas.isNotEmpty() -> {
+                        datas.forEach { explore ->
+                            explore.ratio = tryOrNull { explore.previews.firstOrNull()?.split("zzz")?.getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+                        }
+
+                        exploreDao.deleteAll()
+                        exploreDao.inserts(*datas.toTypedArray())
+                    }
+                    else -> syncExploresLocal()
+                }
+
+                Timber.e("Explore data: ${datas.size}")
+
+                prefs.versionExplore.set(configApp.versionExplore)
+            } ?: run {
+                syncExploresLocal()
+            }
+        }
+
+        delay(1000)
+        progress(SyncRepository.Progress.SyncedExplores)
+    }
+
+    private fun syncExploresLocal() {
+        val inputStream = context.assets.open("explore_v2.json")
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
+
+        datas.forEach { explore ->
+            explore.ratio = tryOrNull { explore.previews.firstOrNull()?.split("zzz")?.getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+        }
+
+        Timber.e("Explore data: ${datas.size}")
+
+        exploreDao.deleteAll()
+        exploreDao.inserts(*datas)
     }
 
 }

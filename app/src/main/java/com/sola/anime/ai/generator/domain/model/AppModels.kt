@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class ModelOrLoRA(val display: String, val preview: String, val favouriteCount: Long, val description: String, val isFavourite: Boolean)
+data class ModelOrLoRA(val display: String, val preview: String, val favouriteCount: Long, val description: String, val isFavourite: Boolean, val isModel: Boolean)
 
 data class CategoryBatch(val display: String)
 

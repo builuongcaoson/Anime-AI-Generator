@@ -220,9 +220,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
                 val explore = exploreDao.findById(id)
 
-                advancedSheet.negative = explore?.negative ?: ""
-                advancedSheet.guidance = explore?.guidance ?: 7.5f
-                advancedSheet.step = explore?.steps ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
+//                advancedSheet.negative = explore?.negative ?: ""
+//                advancedSheet.guidance = explore?.guidance ?: 7.5f
+//                advancedSheet.step = explore?.steps ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
 
                 when {
                     prefs.isUpgraded.get() -> {

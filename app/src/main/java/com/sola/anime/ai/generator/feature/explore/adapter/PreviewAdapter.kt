@@ -35,7 +35,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 
         Glide
             .with(context)
-            .load(item.preview)
+            .load(item.previews.firstOrNull())
             .error(R.drawable.place_holder_image)
             .placeholder(R.drawable.place_holder_image)
             .transition(DrawableTransitionOptions.withCrossFade())

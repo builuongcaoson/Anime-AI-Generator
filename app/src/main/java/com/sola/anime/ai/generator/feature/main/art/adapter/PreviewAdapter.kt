@@ -19,7 +19,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewArt2Bi
 
         Glide
             .with(context)
-            .load(item.preview)
+            .load(item.previews.firstOrNull())
             .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
 //            .listener(object: RequestListener<Drawable>{

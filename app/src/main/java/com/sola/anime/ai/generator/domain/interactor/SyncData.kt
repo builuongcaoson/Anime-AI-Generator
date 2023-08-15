@@ -59,34 +59,34 @@ class SyncData @Inject constructor(
     }
 
     private fun syncData() {
-        if (prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty()){
-            Firebase.database.reference.child("v1/explore").get()
-                .addOnSuccessListener { snapshot ->
-                    val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
-                    val explores = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
-
-                    when {
-                        explores.isNotEmpty() -> {
-                            explores.forEach { explore ->
-                                explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-                            }
-
-                            exploreDao.deleteAll()
-                            exploreDao.inserts(*explores.toTypedArray())
-                        }
-                        else -> syncExploresLocal()
-                    }
-
-                    Timber.e("Sync explore: ${explores.size}")
-
-                    prefs.versionExplore.set(configApp.versionExplore)
-                }
-                .addOnFailureListener {
-                    Timber.e("Error explore: ${it.message}")
-
-                    syncExploresLocal()
-                }
-        }
+//        if (prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty()){
+//            Firebase.database.reference.child("v1/explore").get()
+//                .addOnSuccessListener { snapshot ->
+//                    val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
+//                    val explores = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+//
+//                    when {
+//                        explores.isNotEmpty() -> {
+////                            explores.forEach { explore ->
+////                                explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+////                            }
+//
+//                            exploreDao.deleteAll()
+//                            exploreDao.inserts(*explores.toTypedArray())
+//                        }
+//                        else -> syncExploresLocal()
+//                    }
+//
+//                    Timber.e("Sync explore: ${explores.size}")
+//
+//                    prefs.versionExplore.set(configApp.versionExplore)
+//                }
+//                .addOnFailureListener {
+//                    Timber.e("Error explore: ${it.message}")
+//
+//                    syncExploresLocal()
+//                }
+//        }
 
         if (prefs.versionIap.get() < configApp.versionIap || iapDao.getAll().isEmpty()){
             Firebase.database.reference.child("v1/iap").get()
@@ -176,9 +176,9 @@ class SyncData @Inject constructor(
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 
-        data.forEach { explore ->
-            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-        }
+//        data.forEach { explore ->
+//            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+//        }
 
         exploreDao.deleteAll()
         exploreDao.inserts(*data)

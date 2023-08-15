@@ -270,6 +270,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     item.id.contains(Constraint.Iap.SKU_WEEK) -> 200
                     item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 200
                     item.id.contains(Constraint.Iap.SKU_MONTH) -> 500
+                    item.id.contains(Constraint.Iap.SKU_YEAR) -> 1000
                     else -> 0
                 }
 

@@ -15,11 +15,13 @@ class ModelAndLoRAPreviewAdapter @Inject constructor(): LsAdapter<ModelOrLoRA, I
             .with(binding.root)
             .load(item.preview)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.preview_processing_batch)
+            .error(R.drawable.place_holder_image)
             .into(binding.preview)
 
+        binding.description.text = if (item.isModel) "Model" else "LoRA"
+
         binding.display.text = item.display
-        binding.description.text = item.description
+        binding.favouriteCount.text = "${if (item.isFavourite) (item.favouriteCount + 1) else item.favouriteCount} Uses"
     }
 
 }
