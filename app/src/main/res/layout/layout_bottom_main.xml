@@ -181,7 +181,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_3sdp"
@@ -189,10 +189,20 @@
             android:layout_marginEnd="@dimen/_3sdp"
             android:layout_marginBottom="@dimen/_3sdp"
             android:background="@drawable/circle"
-            android:backgroundTint="?colorAccent"
-            android:padding="@dimen/_12sdp"
-            android:src="@drawable/ic_art"
-            android:tint="?android:windowBackground" />
+            android:backgroundTint="?colorAccent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lottie_autoPlay="true"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_minus5sdp"
+                android:scaleY="2"
+                android:scaleX="2"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/art" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

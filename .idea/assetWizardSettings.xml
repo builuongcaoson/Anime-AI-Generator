@@ -329,8 +329,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_mine_bold" />
-                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\mode-landscape.svg" />
+                            <entry key="outputName" value="search" />
+                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\search.svg" />
                           </map>
                         </option>
                       </PersistentState>

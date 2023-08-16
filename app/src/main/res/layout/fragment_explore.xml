@@ -99,7 +99,8 @@
                 app:textFont="semi"
                 android:textColor="?android:textColorPrimary"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_height="wrap_content"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,10 +141,51 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="?android:textColorPrimary"
+                app:cardCornerRadius="@dimen/_15sdp"
+                android:layout_height="@dimen/_45sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:src="@drawable/search"
+                            android:tint="?colorOnPrimary"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="@dimen/_15sdp"/>
+
+                        <com.basic.common.widget.LsTextView
+                            android:textSize="@dimen/_12ssp"
+                            android:textColor="?colorOnPrimary"
+                            android:text="Search model, loRA, explores, ..."
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <com.basic.common.widget.LsTextView
                 android:text="Explores"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/_15ssp"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:textFont="semi"
                 android:textColor="?android:textColorPrimary"
                 android:layout_marginStart="@dimen/_10sdp"

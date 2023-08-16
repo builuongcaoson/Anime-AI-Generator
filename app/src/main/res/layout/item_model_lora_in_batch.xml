@@ -52,7 +52,6 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:ellipsize="end"
-                android:textAllCaps="true"
                 android:singleLine="true"
                 android:textColor="?colorOnPrimary"
                 android:textSize="@dimen/_10ssp"

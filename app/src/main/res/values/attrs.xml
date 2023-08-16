@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="cardBackgroundColor" format="color"/>
+
     <declare-styleable name="Slidr">
         <attr name="slidr_barMax" format="float" />
         <attr name="slidr_barMin" format="float" />

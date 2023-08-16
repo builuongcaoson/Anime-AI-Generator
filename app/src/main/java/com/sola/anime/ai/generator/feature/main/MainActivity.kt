@@ -136,6 +136,11 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             .autoDispose(scope())
             .subscribe { index ->
                 scrollToPage(index)
+
+                when (index) {
+                    0 -> darkStatusBar()
+                    else -> lightStatusBar()
+                }
             }
 
         configApp
