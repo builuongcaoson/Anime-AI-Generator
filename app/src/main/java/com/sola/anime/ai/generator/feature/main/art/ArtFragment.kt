@@ -9,10 +9,10 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
@@ -149,22 +149,20 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     configApp.pairUriPhoto != null -> {
                         val pair = configApp.pairUriPhoto ?: return@subscribe
 
-                        Glide.with(this)
-                            .load(pair.first)
-                            .transition(DrawableTransitionOptions.withCrossFade())
-                            .error(R.drawable.place_holder_image)
-                            .into(binding.previewPhoto)
+                        binding.previewPhoto.load(pair.first) {
+                            crossfade(true)
+                            error(R.drawable.place_holder_image)
+                        }
 
                         configApp.subjectRatioClicks.onNext(pair.second)
                     }
                     configApp.resPhoto != null -> {
                         val res = configApp.resPhoto ?: return@subscribe
 
-                        Glide.with(this)
-                            .load(res)
-                            .transition(DrawableTransitionOptions.withCrossFade())
-                            .error(R.drawable.place_holder_image)
-                            .into(binding.previewPhoto)
+                        binding.previewPhoto.load(res) {
+                            crossfade(true)
+                            error(R.drawable.place_holder_image)
+                        }
 
                         configApp.subjectRatioClicks.onNext(Ratio.Ratio1x1)
                     }

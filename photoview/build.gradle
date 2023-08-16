@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 33
@@ -13,48 +12,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.1.0"
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-
-                group = 'com.github.chrisbanes'
-                artifactId = 'PhotoView'
-                version = '2.3.0'
-
-                // Adds javadocs and sources as separate jars.
-                artifact androidJavadocsJar
-                artifact(sourceJar)
-
-                pom {
-                    name = 'PhotoView'
-                    description = 'A simple ImageView that support zooming, both by Multi-touch gestures and double-tap.'
-                    url = 'https://github.com/Baseflow/PhotoView'
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'chrisbanes'
-                            name = 'Chris Banes'
-                        }
-                    }
-                    scm {
-                        connection = 'scm:git@github.com/chrisbanes/PhotoView.git'
-                        developerConnection = 'scm:git@github.com/chrisbanes/PhotoView.git'
-                        url = 'https://github.com/chrisbanes/PhotoView'
-                    }
-                }
-            }
-        }
-    }
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
 }
 
 task androidJavadocs(type: Javadoc) {

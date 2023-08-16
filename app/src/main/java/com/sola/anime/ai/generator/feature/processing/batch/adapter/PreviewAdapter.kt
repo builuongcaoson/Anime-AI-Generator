@@ -1,10 +1,10 @@
 package com.sola.anime.ai.generator.feature.processing.batch.adapter
 
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
@@ -22,11 +22,6 @@ class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusTextToImage, I
         binding: ItemPreviewBatchProcessingBinding,
         position: Int
     ) {
-//        ConstraintSet().apply {
-//            clone(binding.viewRoot)
-//            setDimensionRatio(binding.viewPreviewRatio.id, "${item.body.width}:${item.body.height}")
-//            applyTo(binding.viewRoot)
-//        }
 
         val status = item.status
 
@@ -45,13 +40,10 @@ class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusTextToImage, I
             is StatusBodyTextToImage.Success -> {
                 binding.viewLoading.isVisible = false
 
-                Glide
-                    .with(binding.root)
-                    .load(status.file)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.place_holder_image)
-                    .into(binding.preview)
+                binding.preview.load(status.file) {
+                    crossfade(true)
+                    error(R.drawable.place_holder_image)
+                }
 
                 binding.viewDownload.clicks { downloadClicks.onNext(item) }
             }

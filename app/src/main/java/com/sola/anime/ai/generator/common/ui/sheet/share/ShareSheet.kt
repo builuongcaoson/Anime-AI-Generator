@@ -4,13 +4,13 @@ import android.graphics.Color
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.extension.clicks
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.extension.setTint
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.blur
@@ -113,23 +113,20 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
         tryOrNull { binding.blurView.blur(binding.viewFrame) }
 
         file?.let {
-            Glide.with(this)
-                .load(file)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.place_holder_image)
-                .into(binding.previewFrame1)
+            binding.previewFrame1.load(file) {
+                crossfade(true)
+                error(R.drawable.place_holder_image)
+            }
 
-            Glide.with(this)
-                .load(file)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.place_holder_image)
-                .into(binding.previewFrame2)
+            binding.previewFrame2.load(file) {
+                crossfade(true)
+                error(R.drawable.place_holder_image)
+            }
 
-            Glide.with(this)
-                .load(file)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.place_holder_image)
-                .into(binding.previewOriginal)
+            binding.previewOriginal.load(file) {
+                crossfade(true)
+                error(R.drawable.place_holder_image)
+            }
         }
     }
 

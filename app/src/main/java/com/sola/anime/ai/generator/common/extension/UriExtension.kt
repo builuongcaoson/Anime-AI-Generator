@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.common.extension
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,14 +9,9 @@ import android.util.Log
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import timber.log.Timber
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

@@ -1,14 +1,9 @@
 package com.sola.anime.ai.generator.feature.processing.art.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtProcessingBinding
 import com.sola.anime.ai.generator.domain.model.config.process.Process
@@ -32,12 +27,9 @@ class PreviewAdapter @Inject constructor(
     ) {
         val item = getItem(position % data.size) ?: return
 
-        Glide
-            .with(context)
-            .load(item.preview)
-            .centerCrop()
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.preview)
+        binding.preview.load(item.preview) {
+            crossfade(true)
+        }
 
         binding.textTitle.text = item.title
         binding.textArtist.text = item.artist

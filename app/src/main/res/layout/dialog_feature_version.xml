@@ -97,6 +97,7 @@
                     app:cardBackgroundColor="?android:attr/windowBackground"
                     app:cardCornerRadius="@dimen/_15sdp"
                     app:cardElevation="0dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/buyNow"
                     app:layout_constraintEnd_toStartOf="@id/buyNow"
                     app:layout_constraintTop_toTopOf="@id/buyNow">

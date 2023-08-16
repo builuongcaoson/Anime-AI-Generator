@@ -2,12 +2,12 @@ package com.sola.anime.ai.generator.feature.main.batch.adapter
 
 import android.view.View
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ItemPreviewCategoryBatchBinding
 import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
 import io.reactivex.subjects.PublishSubject
@@ -36,19 +36,15 @@ class PreviewCategoryAdapter @Inject constructor(
         binding: ItemPreviewCategoryBatchBinding,
         position: Int
     ) {
-        val context = binding.root.context
-
         binding.display.text = item.display
         binding.viewSelected.isVisible = item.display == category?.display
         binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
         binding.viewPremium.isVisible = item.isPremium && !prefs.isUpgraded.get()
 
-        Glide
-            .with(context)
-            .load(item.preview)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.preview)
+        binding.preview.load(item.preview) {
+            crossfade(true)
+        }
 
         binding.viewClicks.clicks(withAnim = false){ clicks.onNext(item) }
     }

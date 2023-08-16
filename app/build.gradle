@@ -17,8 +17,8 @@ android {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
         targetSdk 33
-        versionCode 44
-        versionName "44.0"
+        versionCode 45
+        versionName "45.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -115,11 +115,6 @@ dependencies {
     // Rx-Binding
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding_version"
 
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
-
     // Dagger hilt
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
     kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
@@ -157,7 +152,8 @@ dependencies {
     // Page indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'
 
-//     Safetynet
-//    implementation 'com.google.android.play:integrity:1.2.0'
+    //  Coil
+    implementation("io.coil-kt:coil:2.4.0")
+
 
 }

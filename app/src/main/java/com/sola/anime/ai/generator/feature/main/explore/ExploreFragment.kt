@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.combineWith
+import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -43,9 +44,11 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var exploreDialog: ExploreDialog
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
     private val subjectDataExploreChanges: Subject<List<Explore>> = PublishSubject.create()
+    private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
     override fun onViewCreated() {
         initView()
@@ -85,6 +88,19 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                         binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
                         binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
                     }
+            }
+
+        exploreAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { explore ->
+                activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
+            }
+
+        useExploreClicks
+            .autoDispose(scope())
+            .subscribe { explore ->
+
             }
     }
 

@@ -2,11 +2,11 @@ package com.sola.anime.ai.generator.feature.result.art.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreview2ArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
@@ -24,26 +24,16 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
         binding: ItemPreview2ArtResultBinding,
         position: Int
     ) {
-        val context = binding.root.context
-
         binding.viewUpscale.isVisible = item.upscalePathPreview == null
 
-        tryOrNull {
-            val ratio = "${item.width}:${item.height}"
-            val set = ConstraintSet()
-            set.clone(binding.viewGroup)
-            set.setDimensionRatio(binding.cardPreview.id, ratio)
-            set.applyTo(binding.viewGroup)
-        }
+        val set = ConstraintSet()
+        set.clone(binding.viewGroup)
+        set.setDimensionRatio(binding.cardPreview.id, "${item.width}:${item.height}")
+        set.applyTo(binding.viewGroup)
 
-        tryOrNull {
-            Glide
-                .with(context)
-                .load(item.upscalePathPreview ?: item.pathPreview)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.place_holder_image)
-                .into(binding.preview)
+        binding.preview.load(item.upscalePathPreview ?: item.pathPreview) {
+            crossfade(true)
+            error(R.drawable.place_holder_image)
         }
 
         binding.cardPreview.clicks(withAnim = false){ clicks.onNext(item) }

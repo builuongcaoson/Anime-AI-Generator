@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -322,11 +322,9 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         }
 
         override fun bindItem(item: Int, binding: ItemPreviewCreditBinding, position: Int) {
-            Glide.with(binding.root)
-                .load(item)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.preview)
+            binding.preview.load(item) {
+                crossfade(true)
+            }
         }
 
     }

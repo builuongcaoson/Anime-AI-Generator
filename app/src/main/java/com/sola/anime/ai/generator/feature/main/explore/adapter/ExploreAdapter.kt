@@ -1,30 +1,37 @@
 package com.sola.anime.ai.generator.feature.main.explore.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewExploreBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExploreBinding>(ItemPreviewExploreBinding::inflate) {
 
+    val clicks: Subject<Explore> = PublishSubject.create()
+
     override fun bindItem(item: Explore, binding: ItemPreviewExploreBinding, position: Int) {
         ConstraintSet().apply {
             this.clone(binding.viewGroup)
-            this.setDimensionRatio(binding.viewPreview.id, item.ratio)
+            this.setDimensionRatio(binding.viewClicks.id, item.ratio)
             this.applyTo(binding.viewGroup)
         }
 
-        Glide.with(binding.root)
-            .load(item.previews.firstOrNull())
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.place_holder_image)
-            .into(binding.preview)
+        val preview = item.previews.firstOrNull()
+        binding.preview.load(preview) {
+            crossfade(true)
+            error(R.drawable.place_holder_image)
+        }
 
         binding.prompt.text = item.prompt
+
+        binding.viewClicks.clicks(withAnim = false) { clicks.onNext(item) }
     }
 
 }

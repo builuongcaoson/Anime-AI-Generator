@@ -2,14 +2,13 @@ package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Base64
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -266,10 +265,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initView() {
-        Glide.with(this)
-            .load(R.drawable.ic_launcher)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.image)
+        binding.image.load(R.drawable.ic_launcher) {
+            crossfade(true)
+            error(R.drawable.place_holder_image)
+        }
     }
 
 }

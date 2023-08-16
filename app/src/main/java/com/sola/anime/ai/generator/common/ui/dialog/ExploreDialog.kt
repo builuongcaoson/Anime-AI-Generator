@@ -8,13 +8,10 @@ import android.graphics.drawable.Drawable
 import android.text.method.ScrollingMovementMethod
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
+import coil.load
+import coil.request.ErrorResult
+import coil.request.ImageRequest
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
 import com.sola.anime.ai.generator.databinding.DialogExploreBinding
@@ -43,7 +40,7 @@ class ExploreDialog @Inject constructor() {
             }
         }
 
-        initView(activity, explore)
+        initView(explore)
 
         binding.close.clicks { dismiss() }
         binding.viewCopy.clicks { explore.prompt.copyToClipboard(activity) }
@@ -56,7 +53,7 @@ class ExploreDialog @Inject constructor() {
         dialog.show()
     }
 
-    private fun initView(activity: Activity, explore: Explore) {
+    private fun initView(explore: Explore) {
         val set = ConstraintSet()
         set.clone(binding.viewPreview)
         set.setDimensionRatio(binding.viewRatioPreview.id, explore.ratio)
@@ -67,45 +64,19 @@ class ExploreDialog @Inject constructor() {
             movementMethod = ScrollingMovementMethod()
         }
 
-        binding.preview.animate().alpha(0f).setDuration(100).start()
         binding.viewPreview.post {
             if (isShowing()){
-                Glide
-                    .with(activity)
-                    .load(explore.previews.firstOrNull())
-                    .placeholder(R.drawable.place_holder_image)
-                    .error(R.drawable.place_holder_image)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .listener(object: RequestListener<Drawable>{
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
+                binding.preview.animate().alpha(0f).setDuration(100).setStartDelay(0).start()
+                binding.preview.load(explore.previews.firstOrNull()) {
+                    listener(
+                        onError = { _, _ ->
                             binding.preview.setImageResource(R.drawable.place_holder_image)
-                            binding.preview.animate().alpha(0f).setDuration(100).start()
-                            return false
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            resource?.let {
-                                binding.preview.setImageDrawable(resource)
-                                binding.preview.animate().alpha(1f).setDuration(100).start()
-                            } ?: run {
-                                binding.preview.setImageResource(R.drawable.place_holder_image)
-                                binding.preview.animate().alpha(0f).setDuration(100).start()
-                            }
-                            return false
-                        }
+                            binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
+                    },  onSuccess = { _, result ->
+                            binding.preview.setImageDrawable(result.drawable)
+                            binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
                     })
-                    .into(binding.preview)
+                }
             }
         }
     }

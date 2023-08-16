@@ -1,11 +1,10 @@
 package com.sola.anime.ai.generator.feature.result.art.adapter
 
-import android.view.ViewGroup
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtResultBinding
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
@@ -30,15 +29,10 @@ class PreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPreview
         }
 
     override fun bindItem(item: ChildHistory, binding: ItemPreviewArtResultBinding, position: Int) {
-        val context = binding.root.context
-
-        Glide
-            .with(context)
-            .load(item.upscalePathPreview ?: item.pathPreview)
-            .centerCrop()
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.place_holder_image)
-            .into(binding.preview)
+        binding.preview.load(item.upscalePathPreview ?: item.pathPreview) {
+            crossfade(true)
+            error(R.drawable.place_holder_image)
+        }
 
         binding.viewSelected.isVisible = childHistory == item
         binding.viewGroup.clicks(withAnim = false){ clicks.onNext(item) }

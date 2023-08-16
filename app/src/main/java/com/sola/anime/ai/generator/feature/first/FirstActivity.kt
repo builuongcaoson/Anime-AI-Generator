@@ -8,13 +8,13 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.BuildConfig
@@ -130,11 +130,10 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
             binding.image7 to R.drawable.first_preview_zzz9xxx16zzz_7,
             binding.image8 to R.drawable.first_preview_zzz2xxx3zzz_8
         ).forEach { pair ->
-            Glide.with(this)
-                .load(pair.second)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.place_holder_image)
-                .into(pair.first)
+            pair.first.load(pair.second) {
+                crossfade(true)
+                error(R.drawable.place_holder_image)
+            }
         }
 
         listOf(

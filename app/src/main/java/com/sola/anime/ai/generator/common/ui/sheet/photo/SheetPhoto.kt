@@ -14,11 +14,11 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.startCrop
@@ -260,13 +260,12 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
                             binding.ratio.text = "1:1"
                         }
                         item.photoStorage != null -> {
-                            binding.ratio.text = item.photoStorage.ratio.display
+                            binding.preview.load(item.photoStorage.uriString) {
+                                crossfade(true)
+                                error(R.drawable.place_holder_image)
+                            }
 
-                            Glide.with(binding.root.context)
-                                .load(item.photoStorage.uriString)
-                                .error(R.drawable.place_holder_image)
-                                .transition(DrawableTransitionOptions.withCrossFade())
-                                .into(binding.preview)
+                            binding.ratio.text = item.photoStorage.ratio.display
                         }
                     }
                 }

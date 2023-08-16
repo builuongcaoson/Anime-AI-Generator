@@ -1,16 +1,14 @@
 package com.sola.anime.ai.generator.feature.processing.avatar.adapter
 
 import androidx.core.view.isVisible
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPreviewAvatarProcessingBinding
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
-import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
-import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
@@ -41,13 +39,10 @@ class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusImageToImage, 
             is StatusBodyImageToImage.Success -> {
                 binding.viewLoading.isVisible = false
 
-                Glide
-                    .with(binding.root)
-                    .load(status.file)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.place_holder_image)
-                    .into(binding.preview)
+                binding.preview.load(status.file) {
+                    crossfade(true)
+                    error(R.drawable.place_holder_image)
+                }
 
                 binding.viewDownload.clicks { downloadClicks.onNext(item) }
             }

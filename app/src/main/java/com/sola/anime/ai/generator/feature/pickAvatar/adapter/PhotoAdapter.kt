@@ -1,10 +1,10 @@
 package com.sola.anime.ai.generator.feature.pickAvatar.adapter
 
 import android.net.Uri
+import coil.load
+import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemPhotoInAvatarBinding
 import io.reactivex.subjects.PublishSubject
@@ -37,11 +37,10 @@ class PhotoAdapter @Inject constructor() : LsAdapter<Uri, ItemPhotoInAvatarBindi
         }
 
     override fun bindItem(item: Uri, binding: ItemPhotoInAvatarBinding, position: Int) {
-        Glide.with(binding.root.context)
-            .load(item)
-            .error(R.drawable.place_holder_image)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.preview)
+        binding.preview.load(item) {
+            crossfade(true)
+            error(R.drawable.place_holder_image)
+        }
 
         binding.closePhoto.clicks { subjectDeleteClicks.onNext(item) }
     }
