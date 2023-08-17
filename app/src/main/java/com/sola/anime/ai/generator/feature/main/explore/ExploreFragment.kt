@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.combineWith
+import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
@@ -58,6 +59,16 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initObservable() {
+        modelAndLoRAPreviewAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { modelOrLora ->
+                when {
+                    modelOrLora.model != null -> activity?.startDetailModelOrLoRA(modelId = modelOrLora.model.id)
+                    modelOrLora.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelOrLora.loRAGroupId, loRAId = modelOrLora.loRA.id)
+                }
+            }
+
         subjectDataModelsAndLoRAChanges
             .debounce(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
@@ -118,8 +129,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(viewLifecycleOwner) { pair ->
             Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
-            val modelsItem = pair.first.map { ModelOrLoRA(display = it.display, preview = it.preview, favouriteCount = it.favouriteCount, description = it.description, isFavourite = false, isModel = true) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, preview = loRA.previews.firstOrNull() ?: "", favouriteCount = loRA.favouriteCount, description = "", isFavourite = false, isModel = false) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount) } }
 
             subjectDataModelsAndLoRAChanges.onNext(modelsItem + loRAsItem)
         }

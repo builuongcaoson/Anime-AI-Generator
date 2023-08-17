@@ -5,8 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
+import com.sola.anime.ai.generator.domain.model.config.model.Model
 
-data class ModelOrLoRA(val display: String, val preview: String, val favouriteCount: Long, val description: String, val isFavourite: Boolean, val isModel: Boolean)
+data class ModelOrLoRA(val display: String, val model: Model? = null, val loRA: LoRA? = null, val loRAGroupId: Long = -1, val favouriteCount: Long)
 
 data class CategoryBatch(val display: String)
 

@@ -8,6 +8,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.feature.credit.CreditActivity
 import com.sola.anime.ai.generator.feature.crop.CropActivity
+import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
 import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
@@ -30,6 +31,15 @@ fun Activity.startMain(){
 
 fun Activity.startSetting(){
     val intent = Intent(this, SettingActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1){
+    val intent = Intent(this, DetailModelOrLoRAActivity::class.java)
+    intent.putExtra(DetailModelOrLoRAActivity.MODEL_ID_EXTRA, modelId)
+    intent.putExtra(DetailModelOrLoRAActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
+    intent.putExtra(DetailModelOrLoRAActivity.LORA_ID_EXTRA, loRAId)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
