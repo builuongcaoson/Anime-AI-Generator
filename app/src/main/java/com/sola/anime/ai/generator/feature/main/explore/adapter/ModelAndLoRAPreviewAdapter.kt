@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.main.explore.adapter
 import coil.load
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
+import com.basic.common.extension.getColorCompat
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ItemModelLoraInBatchBinding
@@ -28,6 +29,7 @@ class ModelAndLoRAPreviewAdapter @Inject constructor(
             error(R.drawable.place_holder_image)
         }
 
+        binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.red else com.widget.R.color.tools_theme))
         binding.description.text = if (item.model != null) "Model" else if (item.loRA != null) "LoRA" else ""
         binding.display.text = item.display
         val favouriteCount = when {

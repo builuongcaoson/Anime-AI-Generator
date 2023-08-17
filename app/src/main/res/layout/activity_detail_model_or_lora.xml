@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".feature.detailModelOrLoRA.DetailModelOrLoRAActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -15,17 +14,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintEnd_toEndOf="@id/preview"
+                app:layout_constraintStart_toStartOf="@id/preview"
+                app:layout_constraintTop_toTopOf="@id/preview"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/preview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1:1"
+                android:alpha="0"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="3:4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:alpha="1"
                 tools:src="@tools:sample/avatars" />
 
+            <View
+                android:id="@+id/viewShadow"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0"
+                android:background="@drawable/ab_shadow_bottom_2"
+                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/preview"
+                app:layout_constraintVertical_bias="1"
+                tools:alpha="1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ab_shadow_bottom_white"
+                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintDimensionRatio="5:4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/back"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -37,6 +73,97 @@
                 android:tint="?colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_20ssp"
+                    app:textFont="semi"
+                    tools:text="@tools:sample/full_names" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewTry"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_enhance"
+                                android:tint="?colorOnPrimary" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/description"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="Use the loRA"
+                                android:textColor="?colorOnPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp">
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/favouriteCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_15ssp"
+                        tools:text="1 Uses" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/favourite"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/ic_heart_full"
+                        android:tint="?android:textColorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

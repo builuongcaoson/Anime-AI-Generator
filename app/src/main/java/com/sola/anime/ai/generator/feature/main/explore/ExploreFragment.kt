@@ -53,9 +53,13 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
     override fun onViewCreated() {
         initView()
-        initObservable()
         initData()
         listenerView()
+    }
+
+    override fun onResume() {
+        initObservable()
+        super.onResume()
     }
 
     private fun initObservable() {
