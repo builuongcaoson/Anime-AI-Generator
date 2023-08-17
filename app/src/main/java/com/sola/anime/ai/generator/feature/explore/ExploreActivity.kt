@@ -12,7 +12,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityExploreBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
-import com.sola.anime.ai.generator.feature.explore.adapter.PreviewAdapter
+import com.sola.anime.ai.generator.feature.explore.adapter.ExploreAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ExploreActivity : LsActivity<ActivityExploreBinding>(ActivityExploreBinding::inflate) {
 
-    @Inject lateinit var previewAdapter: PreviewAdapter
+    @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var exploreDialog: ExploreDialog
@@ -54,12 +54,12 @@ class ExploreActivity : LsActivity<ActivityExploreBinding>(ActivityExploreBindin
 
     private fun initData() {
         exploreDao.getAllLive().observe(this){
-            previewAdapter.data = it
+            exploreAdapter.data = it
         }
     }
 
     private fun initObservable() {
-        previewAdapter
+        exploreAdapter
             .clicks
             .autoDispose(scope())
             .subscribe { exploreDialog.show(activity = this, explore = it, useClicks = subjectUseClicks) }
@@ -81,7 +81,7 @@ class ExploreActivity : LsActivity<ActivityExploreBinding>(ActivityExploreBindin
                 
             }
             this.layoutManager = layoutManager
-            this.adapter = previewAdapter
+            this.adapter = exploreAdapter
         }
     }
 

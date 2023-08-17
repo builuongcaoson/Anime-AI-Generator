@@ -23,8 +23,7 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
             this.applyTo(binding.viewGroup)
         }
 
-        val preview = item.previews.firstOrNull()
-        binding.preview.load(preview) {
+        binding.preview.load(item.previews.firstOrNull()) {
             crossfade(true)
             error(R.drawable.place_holder_image)
         }

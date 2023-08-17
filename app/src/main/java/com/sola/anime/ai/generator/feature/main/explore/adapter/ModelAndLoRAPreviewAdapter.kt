@@ -1,7 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.explore.adapter
 
 import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.ItemModelLoraInBatchBinding
