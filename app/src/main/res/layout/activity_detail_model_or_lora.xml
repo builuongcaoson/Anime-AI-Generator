@@ -11,32 +11,44 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewChildNested"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                app:layout_constraintBottom_toBottomOf="@id/preview"
-                app:layout_constraintEnd_toEndOf="@id/preview"
-                app:layout_constraintStart_toStartOf="@id/preview"
-                app:layout_constraintTop_toTopOf="@id/preview"
+                app:layout_constraintBottom_toBottomOf="@id/viewPreview"
+                app:layout_constraintEnd_toEndOf="@id/viewPreview"
+                app:layout_constraintStart_toStartOf="@id/viewPreview"
+                app:layout_constraintTop_toTopOf="@id/viewPreview"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/loading" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/preview"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewPreview"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:alpha="0"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="3:4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:alpha="1"
-                tools:src="@tools:sample/avatars" />
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/preview"
+                    android:layout_width="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    android:alpha="0"
+                    android:scaleType="centerCrop"
+                    tools:alpha="1"
+                    tools:src="@tools:sample/avatars" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/viewShadow"
@@ -44,10 +56,10 @@
                 android:layout_height="0dp"
                 android:alpha="0"
                 android:background="@drawable/ab_shadow_bottom_2"
-                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintBottom_toBottomOf="@id/viewPreview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/preview"
+                app:layout_constraintTop_toTopOf="@id/viewPreview"
                 app:layout_constraintVertical_bias="1"
                 tools:alpha="1" />
 
@@ -55,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/ab_shadow_bottom_white"
-                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintBottom_toBottomOf="@id/viewPreview"
                 app:layout_constraintDimensionRatio="5:4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -120,9 +132,9 @@
                 android:id="@+id/viewDetail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/preview"
+                app:layout_constraintBottom_toBottomOf="@id/viewPreview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -160,7 +172,7 @@
                             android:layout_marginStart="@dimen/_5sdp"
                             android:textColor="?colorOnPrimary"
                             android:textSize="@dimen/_12ssp"
-                            tools:text="LoRA" />
+                            tools:text="Model" />
 
                     </LinearLayout>
 

@@ -1,14 +1,13 @@
 package com.sola.anime.ai.generator.feature.detailModelOrLoRA
 
 import android.os.Bundle
+import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.basic.common.base.LsActivity
-import com.basic.common.extension.clicks
-import com.basic.common.extension.getColorCompat
-import com.basic.common.extension.lightStatusBar
-import com.basic.common.extension.makeToast
-import com.basic.common.extension.transparent
+import com.basic.common.extension.*
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.data.Preferences
@@ -19,7 +18,6 @@ import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAAdapter
-import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAPreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,7 +76,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initObservable() {
         subjectDataExploreOrLoRAChanges
-            .debounce(1, TimeUnit.SECONDS)
+            .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -87,7 +85,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
                 lifecycleScope.launch(Dispatchers.Main) {
                     exploreOrLoRAAdapter.data = dataExploreOrLoRA
-                    delay(1000)
+                    delay(500)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
                     binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
                 }
@@ -116,6 +114,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
             val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return
 
+            ConstraintSet().apply {
+                this.clone(binding.viewPreview)
+                this.setDimensionRatio(binding.preview.id, "3:4")
+                this.applyTo(binding.viewPreview)
+            }
+
             binding.preview.load(loRA.previews.firstOrNull()) {
                 listener(
                     onSuccess = { _, result ->
@@ -128,7 +132,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 error(R.drawable.place_holder_image)
             }
 
+            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
+            }
+
             binding.modelOrLoRA.text = "LoRA"
+            binding.use.text = "Use this LoRA"
             binding.note.text = "Artwork made by this LoRA"
             binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
@@ -141,6 +150,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initModelView() {
         modelDao.findById(modelId)?.let { model ->
+            ConstraintSet().apply {
+                this.clone(binding.viewPreview)
+                this.setDimensionRatio(binding.preview.id, "1:1")
+                this.applyTo(binding.viewPreview)
+            }
+
             binding.preview.load(model.preview) {
                 listener(
                     onSuccess = { _, result ->
@@ -153,7 +168,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 error(R.drawable.place_holder_image)
             }
 
+            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+            }
+
             binding.modelOrLoRA.text = "Model"
+            binding.use.text = "Use this Model"
             binding.note.text = "Artwork made by this Model"
             binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
