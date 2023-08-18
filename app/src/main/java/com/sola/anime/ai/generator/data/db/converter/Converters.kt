@@ -42,4 +42,15 @@ class Converters {
         }
     }
 
+    @TypeConverter
+    fun longsToJson(value: List<Long>) = tryOrNull { Gson().toJson(value) } ?: ""
+
+    @TypeConverter
+    fun jsonToLongs(value: String): List<Long>{
+        return when {
+            value.isEmpty() -> arrayListOf()
+            else -> tryOrNull { Gson().fromJson(value, object : TypeToken<List<Long>>() {}.type) } ?: arrayListOf()
+        }
+    }
+
 }

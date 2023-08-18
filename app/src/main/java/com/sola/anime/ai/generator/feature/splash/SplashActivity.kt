@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
@@ -34,10 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
-
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -61,9 +58,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
         Timber.tag("Main12345").e("Device id: ${getDeviceId()}")
-//        val encrypt = AESEncyption.encrypt("DEZGO-EB7294CF008D43E746840EF0A88000892E435F3E1D3381B555BB9A76E5CE1FBC0F942263") ?: ""
-//        Timber.tag("Main12345").e("Key: $encrypt")
-//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt("EQ0ZHqdX8RfMxK0MzqhP3knekWDlOhpfmoneWFnW81CPM7vfBxsxgOhX5gozRasooSMzd+fcOAcDO/cS+9T4091L4cE8PbbHkaCrDPbPqLw=")}")
 
         initReviewManager()
         initView()
@@ -132,34 +126,35 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     initData()
                 }
                 else -> {
-                    when {
-                        RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity) -> {
-                            makeToast("Your device is on our blocked list!")
-                            finish()
-                        }
-                        else ->  syncRemoteConfig {
-                            when {
-                                configApp.blockDeviceIds.contains(getDeviceId()) -> {
-                                    makeToast("Your device is on our blocked list!")
-                                    finish()
-                                    return@syncRemoteConfig
-                                }
+                    syncRemoteConfig {
+                        when {
+                            configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity)) -> {
+                                makeToast("Your device is on our blocked list!")
+                                finish()
+                                return@syncRemoteConfig
                             }
+                            configApp.blockDeviceIds.contains(getDeviceId()) -> {
+                                makeToast("Your device is on our blocked list!")
+                                finish()
+                                return@syncRemoteConfig
+                            }
+                        }
 
-                            lifecycleScope.launch(Dispatchers.Main) {
+                        lifecycleScope
+                            .launch(Dispatchers.Main) {
                                 when {
                                     !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
                                         syncUserPurchased()
                                         delay(500)
                                     }
                                 }
+
                                 syncData.execute(Unit)
 
                                 when {
                                     !permissionManager.hasPermissionNotification() -> permissionManager.requestPermissionNotification(this@SplashActivity, PERMISSION_NOTIFICATION)
                                     else -> doTask()
                                 }
-                            }
                         }
                     }
                 }
@@ -203,6 +198,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.keyDezgo = tryOrNull { config.getString("key_dezgo").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
                     configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
+                    configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
                     Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
@@ -216,12 +212,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionProcess: ${configApp.versionProcess} --- ${prefs.versionProcess.get()}")
                     Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
                     Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
-                    Timber.e("key_dezgo: ${configApp.keyDezgo}")
-                    Timber.e("key_dezgo decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
-                    Timber.e("key_dezgo premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
+                    Timber.e("Key decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
+                    Timber.e("Key premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
                     configApp.blockDeviceIds.forEach { value ->
                         Timber.e("Block device id: $value")
                     }
+                    Timber.e("blockedRoot: ${configApp.blockedRoot}")
 
                     done()
                 }
@@ -255,11 +251,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }
                         , success = { task() }
-                        , failed = { task() })
+                        , failed = { task() }
+                    )
                 }
-                else -> {
-                    task()
-                }
+                else -> task()
             }
         }
     }

@@ -7,7 +7,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F1_zzz1xxx1zzz.webp?alt=media&token=b34a81df-0c04-405c-8540-1c3275f20034",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F2_zzz1xxx1zzz.webp?alt=media&token=7cd90f81-1036-401a-a789-9a368ebe4e72"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 1,
@@ -18,7 +18,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F2_zzz2xxx3zzz.webp?alt=media&token=c13348c6-11df-401f-81a3-4bd92301f699",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F3_zzz2xxx3zzz.webp?alt=media&token=8851afbb-ecd1-40c1-bae0-3047fee54013"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 2,
@@ -29,7 +29,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F2_zzz2xxx3zzz.webp?alt=media&token=ce0a43fd-7484-47db-b677-c56ad00fab4f",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F3_zzz2xxx3zzz.webp?alt=media&token=5f8e2212-b48d-4dde-921b-4cbc79ce8d03"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 3,
@@ -40,7 +40,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F2_zzz2xxx3zzz.webp?alt=media&token=9281b338-6858-4a94-8cd3-b7781109535d",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F3_zzz2xxx3zzz.webp?alt=media&token=77c49ded-f4a7-45de-aacc-3e15bc8638a9"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 4,
@@ -51,7 +51,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F2_zzz2xxx3zzz.webp?alt=media&token=558c684c-d859-4bf0-8d9e-87011f987dbd",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F3_zzz2xxx3zzz.webp?alt=media&token=8ab81332-0611-41db-8223-ddc8bc333021"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 5,
@@ -62,7 +62,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F2_zzz2xxx3zzz.webp?alt=media&token=b0f0878e-1766-4587-b19d-b7a23c12ce7e",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F3_zzz2xxx3zzz.webp?alt=media&token=2175893d-1949-4acc-bf16-91b890cd1576"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 6,
@@ -71,7 +71,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F0_zzz1xxx1zzz.webp?alt=media&token=5696ccd1-3144-4d8b-8cda-9c4b7ede56ad",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F1_zzz1xxx1zzz.webp?alt=media&token=59d40184-5281-4a3f-9616-2004f5a36d67"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 7,
@@ -82,7 +82,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F2_zzz1xxx1zzz.webp?alt=media&token=f0114291-e312-46e7-94b5-6fe6c69f7acf",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F3_zzz1xxx1zzz.webp?alt=media&token=3f9a726a-985e-4b31-97d0-be3c2f26b71f"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 8,
@@ -92,7 +92,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F1_zzz1xxx1zzz.webp?alt=media&token=1170e346-7661-43b6-936c-b25703b794f5",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F2_zzz1xxx1zzz.webp?alt=media&token=3439ffe8-f630-4b29-b6ba-509576b0164d"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 9,
@@ -103,7 +103,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F2_zzz3xxx4zzz.webp?alt=media&token=ea51064e-5810-48f2-a341-b6e6c1068516",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F3_zzz3xxx4zzz.webp?alt=media&token=82362cb2-3098-4133-80c6-4f41092d3c30"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 10,
@@ -114,7 +114,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F2_zzz3xxx4zzz.webp?alt=media&token=da4de2bc-48be-4a7b-a544-d4758d6e2643",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F3_zzz3xxx4zzz.webp?alt=media&token=10b3a4bf-cfab-4723-bd65-97df4ddd3b2b"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   },
   {
     "id": 11,
@@ -125,6 +125,6 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F2_zzz2xxx3zzz.webp?alt=media&token=d7089745-b080-4b35-a6eb-b1fe54fe2477",
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F3_zzz2xxx3zzz.webp?alt=media&token=988f7e67-fa0b-4d93-8892-c5015d34e14b"
     ],
-    "modelId": 1
+    "modelIds": [0, 1, 2]
   }
 ]

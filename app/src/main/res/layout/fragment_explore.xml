@@ -134,7 +134,7 @@
                     android:alpha="0"
                     android:nestedScrollingEnabled="false"
                     tools:alpha="1"
-                    tools:listitem="@layout/item_model_lora_in_batch"
+                    tools:listitem="@layout/item_model_or_lora_in_batch"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="@dimen/_140sdp"
                     tools:ignore="RtlSymmetry" />

@@ -37,7 +37,8 @@ class ConfigApp @Inject constructor(
     var versionModel = prefs.versionModel.get()
     var keyDezgo = Constraint.Dezgo.KEY
     var keyDezgoPremium = Constraint.Dezgo.KEY_PREMIUM
-    var blockDeviceIds = listOf("30ed96ac2a258658")
+    var blockDeviceIds = listOf("")
+    var blockedRoot = true
 
     var styleChoice: Style? = null
     var modelChoice: Model? = null

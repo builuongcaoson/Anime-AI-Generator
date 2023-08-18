@@ -74,65 +74,110 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/save"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#80000000"
+                android:padding="@dimen/_7sdp"
+                android:src="@drawable/ic_download"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintEnd_toStartOf="@id/dislike"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/dislike"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#80000000"
+                android:padding="@dimen/_7sdp"
+                android:src="@drawable/dislike"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintEnd_toStartOf="@id/report"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/report"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/circle"
+                android:backgroundTint="#80000000"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/report"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <LinearLayout
+                android:id="@+id/viewDetail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_70sdp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/preview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/display"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_20ssp"
-                    app:textFont="semi"
-                    tools:text="@tools:sample/full_names" />
-
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/viewTry"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
+                    android:id="@+id/viewModelOrLoRA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     app:cardBackgroundColor="@color/blue"
                     app:cardCornerRadius="@dimen/_15sdp"
                     app:cardElevation="0dp">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_5sdp">
 
-                        <LinearLayout
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgModelOrLoRA"
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_12sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/star_of_david"
+                            android:tint="?colorOnPrimary" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/modelOrLoRA"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true">
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="@dimen/_12ssp"
+                            tools:text="LoRA" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_enhance"
-                                android:tint="?colorOnPrimary" />
-
-                            <com.basic.common.widget.LsTextView
-                                android:id="@+id/description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:text="Use the loRA"
-                                android:textColor="?colorOnPrimary"
-                                android:textSize="@dimen/_12ssp" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/display"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10ssp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_20ssp"
+                    app:textFont="semi"
+                    tools:text="@tools:sample/full_names" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -156,10 +201,100 @@
                         android:layout_height="@dimen/_15sdp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:src="@drawable/ic_heart_full"
                         android:tint="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent" />
+
+                </RelativeLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewUse"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_enhance"
+                                android:tint="?colorOnPrimary" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/use"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:text="Use the loRA"
+                                android:textColor="?colorOnPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/viewDetail">
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="Artwork made by this LoRA"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12ssp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/loadingExploreOrLoRA"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_100sdp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/loading" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerExploreOrLoRA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="@dimen/_5sdp"
+                        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                        app:spanCount="2"
+                        tools:alpha="1"
+                        tools:listitem="@layout/item_preview_explore" />
 
                 </RelativeLayout>
 

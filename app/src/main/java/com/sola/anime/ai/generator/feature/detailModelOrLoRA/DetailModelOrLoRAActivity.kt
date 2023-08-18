@@ -1,20 +1,36 @@
 package com.sola.anime.ai.generator.feature.detailModelOrLoRA
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.lightStatusBar
+import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
+import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
+import com.sola.anime.ai.generator.domain.model.config.model.Model
+import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAAdapter
+import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAPreviewAdapter
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,6 +45,10 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var exploreOrLoRAAdapter: ExploreOrLoRAAdapter
+    @Inject lateinit var exploreDao: ExploreDao
+
+    private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRA>> = PublishSubject.create()
 
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val loRAGroupId by lazy { intent.getLongExtra(LORA_GROUP_ID_EXTRA, -1) }
@@ -37,7 +57,6 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
-        lightStatusBar()
         setContentView(binding.root)
 
         initView()
@@ -48,6 +67,9 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
+        binding.save.clicks {  }
+        binding.dislike.clicks {  }
+        binding.report.clicks {  }
     }
 
     private fun initData() {
@@ -55,18 +77,39 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     }
 
     private fun initObservable() {
+        subjectDataExploreOrLoRAChanges
+            .debounce(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { dataExploreOrLoRA ->
+                Timber.e("Data size: ${dataExploreOrLoRA.size}")
 
+                lifecycleScope.launch(Dispatchers.Main) {
+                    exploreOrLoRAAdapter.data = dataExploreOrLoRA
+                    delay(1000)
+                    binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
+                    binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
+                }
+            }
     }
 
     private fun initView() {
         when {
             modelId != -1L -> initModelView()
             loRAGroupId != -1L -> initLoRAView()
+            else -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(1000)
+
+                    makeToast("Something wrong, please try again!")
+                    finish()
+                }
+                return
+            }
         }
 
-        Timber.e("Model id: $modelId")
-        Timber.e("LoRA Group id: $loRAGroupId")
-        Timber.e("LoRA id: $loRAId")
+        binding.recyclerExploreOrLoRA.adapter = exploreOrLoRAAdapter
     }
 
     private fun initLoRAView() {
@@ -85,7 +128,11 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 error(R.drawable.place_holder_image)
             }
 
-            binding.viewTry.setCardBackgroundColor(getColorCompat(R.color.red))
+            binding.modelOrLoRA.text = "LoRA"
+            binding.note.text = "Artwork made by this LoRA"
+            binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
+            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
+            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
             binding.display.text = loRA.display
             val favouriteCount = if (prefs.getFavouriteCountLoRAId(loRAId = loRA.id)) loRA.favouriteCount + 1 else loRA.favouriteCount
             binding.favouriteCount.text = "$favouriteCount Uses"
@@ -106,10 +153,22 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 error(R.drawable.place_holder_image)
             }
 
-            binding.viewTry.setCardBackgroundColor(getColorCompat(R.color.blue))
+            binding.modelOrLoRA.text = "Model"
+            binding.note.text = "Artwork made by this Model"
+            binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
+            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
+            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
             binding.display.text = model.display
             val favouriteCount = if (prefs.getFavouriteCountModelId(modelId = model.id)) model.favouriteCount + 1 else model.favouriteCount
             binding.favouriteCount.text = "$favouriteCount Uses"
+
+            initExploreData(model)
+        }
+    }
+
+    private fun initExploreData(model: Model) {
+        exploreDao.getAllLive().observe(this) { explores ->
+            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { ExploreOrLoRA(explore = it) })
         }
     }
 
