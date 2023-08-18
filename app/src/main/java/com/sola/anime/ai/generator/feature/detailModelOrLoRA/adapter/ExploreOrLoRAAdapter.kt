@@ -20,14 +20,9 @@ class ExploreOrLoRAAdapter @Inject constructor(
     val clicks: Subject<ExploreOrLoRA> = PublishSubject.create()
 
     override fun bindItem(item: ExploreOrLoRA, binding: ItemPreviewExploreOrLoraBinding, position: Int) {
-        val ratio = when {
-            item.explore != null -> item.explore.ratio
-            item.loRA != null -> "2:3"
-            else -> "1:1"
-        }
         ConstraintSet().apply {
             this.clone(binding.viewGroup)
-            this.setDimensionRatio(binding.viewClicks.id, ratio)
+            this.setDimensionRatio(binding.viewClicks.id, item.ratio)
             this.applyTo(binding.viewGroup)
         }
 

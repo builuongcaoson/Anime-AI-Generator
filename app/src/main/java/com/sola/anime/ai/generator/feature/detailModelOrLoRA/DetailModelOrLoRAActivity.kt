@@ -16,6 +16,8 @@ import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
+import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
+import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -84,7 +86,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 Timber.e("Data size: ${dataExploreOrLoRA.size}")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    exploreOrLoRAAdapter.data = dataExploreOrLoRA
+                    exploreOrLoRAAdapter.data = dataExploreOrLoRA.shuffled()
                     delay(500)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
                     binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
@@ -145,6 +147,15 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             binding.display.text = loRA.display
             val favouriteCount = if (prefs.getFavouriteCountLoRAId(loRAId = loRA.id)) loRA.favouriteCount + 1 else loRA.favouriteCount
             binding.favouriteCount.text = "$favouriteCount Uses"
+
+            initLoRAData(loRAGroup = loRAGroup, loRA = loRA)
+        }
+    }
+
+    private fun initLoRAData(loRAGroup: LoRAGroup, loRA: LoRA) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(500)
+            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = listOf("1:1", "2:3", "3:4").random()) })
         }
     }
 
@@ -188,7 +199,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initExploreData(model: Model) {
         exploreDao.getAllLive().observe(this) { explores ->
-            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { ExploreOrLoRA(explore = it) })
+            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { explore -> ExploreOrLoRA(explore = explore, ratio = explore.ratio) })
         }
     }
 

@@ -306,7 +306,7 @@
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                         app:spanCount="2"
                         tools:alpha="1"
-                        tools:listitem="@layout/item_preview_explore" />
+                        tools:listitem="@layout/item_preview_explore_or_lora" />
 
                 </RelativeLayout>
 
