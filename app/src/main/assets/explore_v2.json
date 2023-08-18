@@ -126,5 +126,60 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F3_zzz2xxx3zzz.webp?alt=media&token=988f7e67-fa0b-4d93-8892-c5015d34e14b"
     ],
     "modelIds": [0, 1, 2]
+  },
+  {
+    "id": 12,
+    "prompt": "best quality, ultra high res, (photorealistic:1.4), sleeveless white button shirt, black skirt, black choker, cute, (Kpop idol), (aegyo sal:1), (platinum blonde hair:1), ((puffy eyes)), looking at viewer, full body, facing front",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F0_zzz1xxx1zzz.webp?alt=media&token=54215560-49d1-443a-88c7-14c74671e9f4",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F1_zzz1xxx1zzz.webp?alt=media&token=dd3f8a55-2628-49f1-aaf4-181a64ec12f7",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F2_zzz1xxx1zzz.webp?alt=media&token=30c2f441-ab1d-4ee3-82f4-b00eb178aabc",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F3_zzz1xxx1zzz.webp?alt=media&token=814da6fe-6f43-439d-a2c6-db820aaef977"
+    ],
+    "modelIds": [3]
+  },
+  {
+    "id": 13,
+    "prompt": "masterpiece, best quality, ultra-detailed, illustration, portrait",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F0_zzz1xxx1zzz.webp?alt=media&token=e0de523b-9e52-4873-a5e7-e54108f8b363",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F1_zzz1xxx1zzz.webp?alt=media&token=5451d2a4-2d4f-4b46-b201-04331378acad",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F2_zzz1xxx1zzz.webp?alt=media&token=e25b6565-482f-4269-b731-a554040bc272",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F3_zzz1xxx1zzz.webp?alt=media&token=dc38663a-735c-40ea-ab37-8d689ba69867"
+    ],
+    "modelIds": [3]
+  },
+  {
+    "id": 14,
+    "prompt": "masterpiece, best quality, ultra-detailed, illustration, close-up, straight on, face focus, a background composed of flowers, grey hair, blue sky, cloud-sky, girl with beautiful eyes, cold face, black dress, looking at viewer",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F0_zzz1xxx1zzz.webp?alt=media&token=97b9c672-f900-46b6-97cd-4decd81e12bb",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F1_zzz1xxx1zzz.webp?alt=media&token=11713f99-a2b5-4b07-9c8a-a3d89a6f32a0",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F2_zzz1xxx1zzz.webp?alt=media&token=f3fc065a-0742-41a3-bc1b-e4864e44f65d",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F3_zzz1xxx1zzz.webp?alt=media&token=8062eb2e-544e-47ff-9e88-7c5ae35ee01e"
+    ],
+    "modelIds": [3]
+  },
+  {
+    "id": 15,
+    "prompt": "original, extremely delicate and beautiful, ((beautiful detailed eyes)), black hair, flower, school uniform, looking_at_viewer, mole, (solo),(masterpiece:1.4), (best quality:1.4), ((sky)), dappled sunlight, grass",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F0_zzz2xxx3zzz.webp?alt=media&token=037a5b37-71fd-4339-826a-64cb7f703e0f",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F1_zzz2xxx3zzz.webp?alt=media&token=6f9e6185-bb40-4340-be74-dd26569d7e49",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F2_zzz2xxx3zzz.webp?alt=media&token=55417a01-b3ec-4988-aed3-59cf05a3f80f",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F3_zzz2xxx3zzz.webp?alt=media&token=0694c6ad-dafe-4279-a52f-4b300b780024"
+    ],
+    "modelIds": [3]
+  },
+  {
+    "id": 16,
+    "prompt": "masterpiece, best quality, ultra-detailed, illustration, beautiful detailed eyes, looking at viewer, close up, (breast focus), (arms behind back:1.2), black hair, shy, cat ears",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F0_zzz3xxx4zzz.webp?alt=media&token=5f259de9-b9dd-4aa4-833d-e8cecd76dac6",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F1_zzz3xxx4zzz.webp?alt=media&token=f407875d-d8aa-4888-9689-68ba7b083d16",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F2_zzz3xxx4zzz.webp?alt=media&token=5fa983fb-7615-434e-8c8f-9b505da7c677",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F3_zzz3xxx4zzz.webp?alt=media&token=b4bfb20e-ef92-420c-9fe3-be23ee382a39"
+    ],
+    "modelIds": [3]
   }
 ]
