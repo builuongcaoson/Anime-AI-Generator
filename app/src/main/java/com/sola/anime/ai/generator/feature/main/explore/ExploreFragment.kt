@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.explore
 
+import android.os.Build
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
@@ -121,6 +122,13 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun listenerView() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+//                val alphaBottom = 1 - scrollY.toFloat() / 0f
+//
+//                binding.viewShadowBottom.alpha = alphaBottom
+//            }
+//        }
         binding.viewGenerate.clicks {  }
     }
 

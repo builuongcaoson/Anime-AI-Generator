@@ -1,225 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/_50sdp"
         android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:layout_width="0dp"
-            android:id="@+id/viewPager"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <View
-            android:background="@drawable/ab_shadow_bottom_white"
-            android:layout_width="0dp"
-            app:layout_constraintDimensionRatio="3:2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            android:layout_height="0dp"/>
-
-        <com.basic.common.widget.LsTextView
-            android:id="@+id/title"
-            android:textColor="?colorOnPrimary"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:textSize="@dimen/_25ssp"
-            app:textFont="bold"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:shadowRadius="2"
-            android:shadowColor="?android:textColorPrimary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <com.basic.common.widget.LsTextView
-            android:textColor="?colorOnPrimary"
-            android:textSize="@dimen/_13ssp"
-            android:shadowDx="1"
-            android:shadowDy="1"
-            android:layout_marginEnd="@dimen/_50sdp"
-            android:shadowRadius="2"
-            android:layout_marginTop="@dimen/_3sdp"
-            android:shadowColor="?android:textColorPrimary"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            android:text="Anime Character Creator with AI"
-            android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/viewGenerate"
-            android:layout_width="0dp"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/_15sdp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:textColorPrimary"
-            android:layout_height="@dimen/_45sdp">
-
-            <com.basic.common.widget.LsTextView
-                android:gravity="center"
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_12ssp"
-                android:text="Start Generating AI Arts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/viewGenerate">
+            android:paddingBottom="@dimen/_50sdp"
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="0dp"
+                android:id="@+id/viewPager"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <View
+                android:background="@drawable/ab_shadow_bottom_white"
+                android:layout_width="0dp"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/viewPager"
+                android:layout_height="0dp"/>
 
             <com.basic.common.widget.LsTextView
-                android:text="Try amazing Models or LoRAs now"
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="semi"
-                android:textColor="?android:textColorPrimary"
+                android:id="@+id/title"
+                android:textColor="?colorOnPrimary"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:textSize="@dimen/_25ssp"
+                app:textFont="bold"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:shadowColor="?android:textColorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/app_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/loadingModelAndLoRA"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loading" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerModelAndLoRA"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:clipToPadding="false"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_5sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:alpha="0"
-                    android:nestedScrollingEnabled="false"
-                    tools:alpha="1"
-                    tools:listitem="@layout/item_model_or_lora_in_batch"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="@dimen/_140sdp"
-                    tools:ignore="RtlSymmetry" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.basic.common.widget.LsTextView
+                android:textColor="?colorOnPrimary"
+                android:textSize="@dimen/_13ssp"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:layout_marginEnd="@dimen/_50sdp"
+                android:shadowRadius="2"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:shadowColor="?android:textColorPrimary"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                android:text="Anime Character Creator with AI"
+                android:textAllCaps="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+                android:id="@+id/viewGenerate"
+                android:layout_width="0dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="@dimen/_15sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/viewPager"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                app:cardElevation="0dp"
                 app:cardBackgroundColor="?android:textColorPrimary"
-                app:cardCornerRadius="@dimen/_15sdp"
                 android:layout_height="@dimen/_45sdp">
 
-                <RelativeLayout
+                <com.basic.common.widget.LsTextView
+                    android:gravity="center"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="Start Generating AI Arts"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_height="wrap_content">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:src="@drawable/search"
-                            android:tint="?colorOnPrimary"
-                            android:layout_gravity="center_vertical"
-                            android:layout_height="@dimen/_15sdp"/>
-
-                        <com.basic.common.widget.LsTextView
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="?colorOnPrimary"
-                            android:text="Search model, loRA, explores, ..."
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
+                    android:layout_height="match_parent"/>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.basic.common.widget.LsTextView
-                android:text="Explores"
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/_15ssp"
-                android:layout_marginTop="@dimen/_10sdp"
-                app:textFont="semi"
-                android:textColor="?android:textColorPrimary"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/viewGenerate">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/loadingExplore"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_100sdp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loading" />
+                <com.basic.common.widget.LsTextView
+                    android:text="Try amazing Models or LoRAs now"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_12ssp"
+                    app:textFont="semi"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_height="wrap_content"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerExplore"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:padding="@dimen/_5sdp"
-                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                    app:spanCount="2"
-                    tools:listitem="@layout/item_preview_explore" />
+                    android:layout_height="wrap_content">
 
-            </RelativeLayout>
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/loadingModelAndLoRA"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/loading" />
 
-        </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerModelAndLoRA"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:clipToPadding="false"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:alpha="0"
+                        android:nestedScrollingEnabled="false"
+                        tools:alpha="1"
+                        tools:listitem="@layout/item_model_or_lora_in_batch"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_height="@dimen/_140sdp"
+                        tools:ignore="RtlSymmetry" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="?android:textColorPrimary"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:src="@drawable/search"
+                                android:tint="?colorOnPrimary"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="@dimen/_15sdp"/>
+
+                            <com.basic.common.widget.LsTextView
+                                android:textSize="@dimen/_12ssp"
+                                android:textColor="?colorOnPrimary"
+                                android:text="Search model, loRA, explores, ..."
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.basic.common.widget.LsTextView
+                    android:text="Explores"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_15ssp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:textFont="semi"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/loadingExplore"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_100sdp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/loading" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerExplore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:padding="@dimen/_5sdp"
+                        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                        app:spanCount="2"
+                        tools:listitem="@layout/item_preview_explore" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+<!--    <View-->
+<!--        android:id="@+id/viewShadowBottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_120sdp"-->
+<!--        android:background="@drawable/ab_shadow_bottom_white"-->
+<!--        android:elevation="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

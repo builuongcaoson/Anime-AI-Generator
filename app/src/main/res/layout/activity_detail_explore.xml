@@ -186,7 +186,7 @@
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
                     app:cardBackgroundColor="?android:textColorPrimary"
                     app:cardCornerRadius="@dimen/_15sdp"
                     app:cardElevation="0dp">
@@ -236,156 +236,132 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:text="Prompts"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp"
                     app:textFont="semi" />
 
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:ellipsize="end"
-                    android:maxLines="5"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    tools:text="@tools:sample/lorem/random" />
-
-                <RelativeLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardBackgroundColor="?cardBackgroundColor"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/prompt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/_10sdp">
+                        android:padding="@dimen/_10sdp"
+                        android:ellipsize="end"
+                        android:maxLines="5"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        tools:text="@tools:sample/lorem/random" />
 
-                        <com.basic.common.widget.LsTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Discover"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.basic.common.widget.LsTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:text="Artworks"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp"
-                            app:textFont="semi" />
-
-                    </LinearLayout>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/search"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/search"
-                        android:tint="?android:textColorPrimary" />
-
-                </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp">
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp">
+
+                        <RelativeLayout
+                            android:id="@+id/viewRecommendations"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/textRecommendations"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_horizontal"
+                                android:text="Recommendations"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp"
+                                app:textFont="semi" />
+
+                            <View
+                                android:id="@+id/viewDividerRecommendations"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:layout_alignParentBottom="true"
+                                android:background="?android:textColorPrimary" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/viewExploreRelated"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/textExploreRelated"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                app:textFont="regular"
+                                android:text="Explore Related"
+                                android:textColor="?android:textColorSecondary"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <View
+                                android:id="@+id/viewDividerExploreRelated"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:layout_alignParentBottom="true"
+                                android:background="?android:textColorPrimary"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
                     <RelativeLayout
-                        android:id="@+id/viewEditorArtworks"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/textEditor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Recommendations Artworks"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_10ssp"
-                            app:textFont="semi" />
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/loadingExplore"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_100sdp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/loading" />
 
-                        <View
-                            android:id="@+id/viewDividerEditor"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerExplore"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_1sdp"
-                            android:layout_alignParentBottom="true"
-                            android:background="?android:textColorPrimary" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/viewTopArtworks"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/textTopArtworks"
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Explore Related"
-                            android:textColor="?android:textColorSecondary"
-                            android:textSize="@dimen/_10ssp" />
-
-                        <View
-                            android:id="@+id/viewDividerTopArtworks"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_1sdp"
-                            android:layout_alignParentBottom="true"
-                            android:background="?android:textColorPrimary"
-                            android:visibility="gone" />
+                            android:alpha="0"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            android:padding="@dimen/_5sdp"
+                            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                            app:spanCount="2"
+                            tools:alpha="1"
+                            tools:listitem="@layout/item_preview_explore" />
 
                     </RelativeLayout>
 
                 </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/loadingExplore"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/_100sdp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/loading" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerExplore"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:alpha="0"
-                        android:clipToPadding="false"
-                        android:nestedScrollingEnabled="false"
-                        android:padding="@dimen/_5sdp"
-                        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                        app:spanCount="2"
-                        tools:alpha="1"
-                        tools:listitem="@layout/item_preview_explore" />
-
-                </RelativeLayout>
 
             </LinearLayout>
 

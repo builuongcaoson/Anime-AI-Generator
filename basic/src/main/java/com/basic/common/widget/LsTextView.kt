@@ -38,8 +38,15 @@ open class LsTextView @JvmOverloads constructor(
     }
 
     fun setTextFont(textFontAttr: Int) {
-        textViewStyler.fontProvider.get(textFontAttr) { typeFace ->
-            setTypeface(typeFace, typeface?.style ?: Typeface.NORMAL)
+        when (textFontAttr) {
+            TextViewStyler.FONT_REGULAR -> {
+                setTypeface(null, Typeface.NORMAL)
+            }
+            else -> {
+                textViewStyler.fontProvider.get(textFontAttr) { typeFace ->
+                    setTypeface(typeFace, typeface?.style ?: Typeface.NORMAL)
+                }
+            }
         }
     }
 

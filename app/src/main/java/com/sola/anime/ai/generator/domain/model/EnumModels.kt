@@ -29,6 +29,11 @@ enum class NumberOfImages(var display: String, val number: Int){
     NumberOfImages8(display = "8", number = 8)
 }
 
+enum class TabExplore {
+    Recommendations,
+    ExploreRelated
+}
+
 //enum class ImageDimensions(val display: String){
 //    ImageDimensions512x512(display = "512x512"),
 //    ImageDimensions768x768(display = "768x768"),

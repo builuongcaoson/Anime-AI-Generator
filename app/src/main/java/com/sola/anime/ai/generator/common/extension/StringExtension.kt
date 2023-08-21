@@ -8,5 +8,4 @@ import com.basic.common.extension.makeToast
 fun String.copyToClipboard(context: Context) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(null, this))
-    context.makeToast("Text copied")
 }
