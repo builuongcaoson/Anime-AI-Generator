@@ -10,16 +10,13 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
-import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
-import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailExploreBinding
-import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
-import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
-import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
-import com.sola.anime.ai.generator.domain.model.config.model.Model
-import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAAdapter
+import com.sola.anime.ai.generator.domain.model.ExplorePreview
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import com.sola.anime.ai.generator.feature.detailExplore.adapter.ExplorePreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,17 +35,17 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     companion object {
         const val EXPLORE_ID_EXTRA = "EXPLORE_ID_EXTRA"
+        const val PREVIEW_INDEX_EXTRA = "PREVIEW_INDEX_EXTRA"
     }
 
-    @Inject lateinit var modelDao: ModelDao
-    @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var exploreOrLoRAAdapter: ExploreOrLoRAAdapter
+    @Inject lateinit var explorePreviewAdapter: ExplorePreviewAdapter
     @Inject lateinit var exploreDao: ExploreDao
 
-    private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRA>> = PublishSubject.create()
+    private val subjectDataExploreChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
 
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
+    private val previewIndex by lazy { intent.getIntExtra(PREVIEW_INDEX_EXTRA, 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,27 +70,34 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     }
 
     private fun initObservable() {
-        subjectDataExploreOrLoRAChanges
+        subjectDataExploreChanges
             .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
-            .subscribe { dataExploreOrLoRA ->
-                Timber.e("Data size: ${dataExploreOrLoRA.size}")
+            .subscribe { explores ->
+                Timber.e("Data size: ${explores.size}")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    exploreOrLoRAAdapter.data = dataExploreOrLoRA.shuffled()
+                    explorePreviewAdapter.data = explores.shuffled()
                     delay(500)
-                    binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
-                    binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
+                    binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
+                    binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
                 }
+            }
+
+        explorePreviewAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { explorePreview ->
+                startDetailExplore(exploreId = exploreId, previewIndex = explorePreview.previewIndex)
+                finish()
             }
     }
 
     private fun initView() {
         when {
-            modelId != -1L -> initModelView()
-            loRAGroupId != -1L -> initLoRAView()
+            exploreId != -1L -> initExploreView()
             else -> {
                 lifecycleScope.launch(Dispatchers.Main) {
                     delay(1000)
@@ -105,20 +109,18 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             }
         }
 
-        binding.recyclerExploreOrLoRA.adapter = exploreOrLoRAAdapter
+        binding.recyclerExplore.adapter = explorePreviewAdapter
     }
 
-    private fun initLoRAView() {
-        loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
-            val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return
-
+    private fun initExploreView() {
+        exploreDao.findById(exploreId)?.let { explore ->
             ConstraintSet().apply {
                 this.clone(binding.viewPreview)
-                this.setDimensionRatio(binding.preview.id, "3:4")
+                this.setDimensionRatio(binding.preview.id, explore.ratio)
                 this.applyTo(binding.viewPreview)
             }
 
-            binding.preview.load(loRA.previews.firstOrNull()) {
+            binding.preview.load(explore.previews.getOrNull(previewIndex)) {
                 listener(
                     onSuccess = { _, result ->
                         binding.preview.setImageDrawable(result.drawable)
@@ -134,68 +136,18 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
             }
 
-            binding.modelOrLoRA.text = "LoRA"
-            binding.use.text = "Use this LoRA"
-            binding.note.text = "Artwork made by this LoRA"
-            binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
-            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
-            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
-            binding.display.text = loRA.display
-            val favouriteCount = if (prefs.getFavouriteCountLoRAId(loRAId = loRA.id)) loRA.favouriteCount + 1 else loRA.favouriteCount
+            binding.prompt.text = explore.prompt
+            val favouriteCount = if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount
             binding.favouriteCount.text = "$favouriteCount Uses"
 
-            initLoRAData(loRAGroup = loRAGroup, loRA = loRA)
+            initExploreData(explore = explore)
         }
     }
 
-    private fun initLoRAData(loRAGroup: LoRAGroup, loRA: LoRA) {
+    private fun initExploreData(explore: Explore) {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
-            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = listOf("1:1", "2:3", "3:4").random()) })
-        }
-    }
-
-    private fun initModelView() {
-        modelDao.findById(modelId)?.let { model ->
-            ConstraintSet().apply {
-                this.clone(binding.viewPreview)
-                this.setDimensionRatio(binding.preview.id, "1:1")
-                this.applyTo(binding.viewPreview)
-            }
-
-            binding.preview.load(model.preview) {
-                listener(
-                    onSuccess = { _, result ->
-                        binding.preview.setImageDrawable(result.drawable)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
-                        binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                    }
-                )
-                crossfade(true)
-                error(R.drawable.place_holder_image)
-            }
-
-            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
-            }
-
-            binding.modelOrLoRA.text = "Model"
-            binding.use.text = "Use this Model"
-            binding.note.text = "Artwork made by this Model"
-            binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
-            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
-            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
-            binding.display.text = model.display
-            val favouriteCount = if (prefs.getFavouriteCountModelId(modelId = model.id)) model.favouriteCount + 1 else model.favouriteCount
-            binding.favouriteCount.text = "$favouriteCount Uses"
-
-            initExploreData(model)
-        }
-    }
-
-    private fun initExploreData(model: Model) {
-        exploreDao.getAllLive().observe(this) { explores ->
-            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { explore -> ExploreOrLoRA(explore = explore, ratio = explore.ratio) })
+            subjectDataExploreChanges.onNext(explore.previews.filterIndexed { index, _ -> index != previewIndex  }.mapIndexed { index, preview -> ExplorePreview(exploreId = explore.id, previewIndex = index, preview = preview, ratio = explore.ratio) })
         }
     }
 

@@ -25,4 +25,10 @@ class Explore {
     @SerializedName("ratio")
     @Expose
     var ratio: String = "1:1"
+    @SerializedName("favourite_count")
+    @Expose
+    var favouriteCount: Long = 0
+    @SerializedName("is_favourite")
+    @Expose
+    var isFavourite: Boolean = false
 }
