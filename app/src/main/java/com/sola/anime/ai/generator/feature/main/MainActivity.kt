@@ -15,6 +15,7 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureVersionDialog
 import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
 import com.sola.anime.ai.generator.data.Preferences
@@ -78,6 +79,11 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
         initView()
         initObservable()
+        listenerView()
+    }
+
+    private fun listenerView() {
+        binding.viewBottom.viewArt.clicks { startArt() }
     }
 
     private fun syncUserPurchased() {

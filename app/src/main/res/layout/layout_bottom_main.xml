@@ -170,6 +170,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
+        android:id="@+id/viewArt"
         android:layout_width="0dp"
         android:background="@drawable/circle"
         android:backgroundTint="?android:windowBackground"

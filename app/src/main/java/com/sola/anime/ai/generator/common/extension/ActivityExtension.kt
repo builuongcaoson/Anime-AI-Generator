@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.credit.CreditActivity
 import com.sola.anime.ai.generator.feature.crop.CropActivity
 import com.sola.anime.ai.generator.feature.detailExplore.DetailExploreActivity
@@ -76,6 +77,12 @@ fun Activity.startCredit(isKill: Boolean = true){
 fun Activity.startIap(isKill: Boolean = true){
     val intent = Intent(this, IapActivity::class.java)
     intent.putExtra(IapActivity.IS_KILL_EXTRA, isKill)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
+}
+
+fun Activity.startArt(){
+    val intent = Intent(this, ArtActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }

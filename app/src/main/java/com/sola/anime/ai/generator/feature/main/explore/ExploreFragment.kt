@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.combineWith
+import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
@@ -129,7 +130,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 //                binding.viewShadowBottom.alpha = alphaBottom
 //            }
 //        }
-        binding.viewGenerate.clicks {  }
+        binding.viewGenerate.clicks { activity?.startArt() }
     }
 
     private fun initData() {
