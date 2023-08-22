@@ -29,6 +29,11 @@ interface ExploreDao {
     @Query("DELETE FROM Explores")
     fun deleteAll()
 
+    // Update
+
+    @Update
+    fun update(vararg objects: Explore)
+
     // Find
 
     @Query("SELECT * FROM Explores WHERE id =:id LIMIT 1")

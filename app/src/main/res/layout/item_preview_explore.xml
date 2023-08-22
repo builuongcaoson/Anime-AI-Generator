@@ -69,11 +69,12 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/favourite"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:padding="@dimen/_3sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
                 android:src="@drawable/ic_heart_full"
                 android:tint="?colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"

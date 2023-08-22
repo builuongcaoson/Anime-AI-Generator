@@ -72,6 +72,12 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         binding.save.clicks {  }
         binding.dislike.clicks {  }
         binding.report.clicks {  }
+        binding.favourite.clicks {
+            val explore = exploreDao.findById(exploreId) ?: return@clicks
+            explore.isFavourite = !explore.isFavourite
+            binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+            exploreDao.update(explore)
+        }
         binding.viewRecommendations.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.Recommendations) }
         binding.viewExploreRelated.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.ExploreRelated) }
         binding.prompt.longClicks().autoDispose(scope()).subscribe { binding.prompt.text.toString().copyToClipboard(this) }
@@ -194,6 +200,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             binding.prompt.text = explore.prompt
             val favouriteCount = if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount
             binding.favouriteCount.text = "$favouriteCount Uses"
+            binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
 
             initExploreData(explore = explore)
         }

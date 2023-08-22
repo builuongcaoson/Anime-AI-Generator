@@ -54,6 +54,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     private val subjectDataExploreChanges: Subject<List<Explore>> = PublishSubject.create()
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
+    private var markFavourite = false
+
     override fun onViewCreated() {
         initView()
         initData()
@@ -115,6 +117,15 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
+        exploreAdapter
+            .favouriteClicks
+            .autoDispose(scope())
+            .subscribe { explore ->
+                markFavourite = true
+
+                exploreDao.update(explore)
+            }
+
         useExploreClicks
             .autoDispose(scope())
             .subscribe { explore ->
@@ -135,7 +146,10 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
     private fun initData() {
         exploreDao.getAllLive().observe(viewLifecycleOwner) { explores ->
-            subjectDataExploreChanges.onNext(explores)
+            if (!markFavourite){
+                subjectDataExploreChanges.onNext(explores)
+            }
+            markFavourite = false
         }
 
         MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
