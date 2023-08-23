@@ -42,4 +42,7 @@ class LoRA{
     @SerializedName("premium")
     @Expose
     var sha256: String = ""
+    @SerializedName("ratio")
+    @Expose
+    var ratio: String = ""
 }

@@ -12,7 +12,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class ModelAndLoRAPreviewAdapter @Inject constructor(
+class ModelAndLoRAAdapter @Inject constructor(
     private val prefs: Preferences
 ): LsAdapter<ModelOrLoRA, ItemModelOrLoraInBatchBinding>(ItemModelOrLoraInBatchBinding::inflate) {
 

@@ -131,7 +131,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             }
 
         subjectDataExploreChanges
-            .debounce(500, TimeUnit.MILLISECONDS)
+            .debounce(250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -139,8 +139,8 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 Timber.e("Data size: ${explores.size}")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    explorePreviewAdapter.data = explores.shuffled()
-                    delay(500)
+                    explorePreviewAdapter.data = explores
+                    delay(500L)
                     binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
                     binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
                 }
