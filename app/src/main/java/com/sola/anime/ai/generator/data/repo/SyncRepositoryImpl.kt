@@ -86,6 +86,12 @@ class SyncRepositoryImpl @Inject constructor(
 
                 when {
                     datas.isNotEmpty() -> {
+                        datas.forEach { loRAGroup ->
+                            loRAGroup.childs.forEach { loRA ->
+                                loRA.ratio = listOf("1:1", "2:3", "3:4").random()
+                            }
+                        }
+
                         loRAGroupDao.deleteAll()
                         loRAGroupDao.inserts(*datas.shuffled().toTypedArray())
                     }
@@ -100,7 +106,7 @@ class SyncRepositoryImpl @Inject constructor(
             }
         }
 
-        delay(1000)
+        delay(250L)
         progress(SyncRepository.Progress.SyncedModelsAndLoRAs)
     }
 
@@ -115,6 +121,12 @@ class SyncRepositoryImpl @Inject constructor(
             }
         }
         Timber.e("LoRA data: ${datas.size}")
+
+        datas.forEach { loRAGroup ->
+            loRAGroup.childs.forEach { loRA ->
+                loRA.ratio = listOf("1:1", "2:3", "3:4").random()
+            }
+        }
 
         loRAGroupDao.deleteAll()
         loRAGroupDao.inserts(*datas.toList().shuffled().toTypedArray())

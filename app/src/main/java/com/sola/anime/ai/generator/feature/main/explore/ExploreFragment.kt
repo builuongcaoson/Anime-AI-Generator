@@ -1,15 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.explore
 
-import android.os.Build
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
-import com.sola.anime.ai.generator.common.extension.combineWith
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
-import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -20,18 +17,16 @@ import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ExploreAdapter
-import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAPreviewAdapter
+import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.TopPreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -42,17 +37,15 @@ import kotlin.math.exp
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
 
     @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
-    @Inject lateinit var modelAndLoRAPreviewAdapter: ModelAndLoRAPreviewAdapter
+    @Inject lateinit var modelAndLoRAAdapter: ModelAndLoRAAdapter
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var syncRepo: SyncRepository
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
-//    @Inject lateinit var exploreDialog: ExploreDialog
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
     private val subjectDataExploreChanges: Subject<List<Explore>> = PublishSubject.create()
-    private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
     private var markFavourite = false
     private var hadDataModelsAndLoRAs = false
@@ -70,7 +63,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initObservable() {
-        modelAndLoRAPreviewAdapter
+        modelAndLoRAAdapter
             .clicks
             .autoDispose(scope())
             .subscribe { modelOrLora ->
@@ -131,12 +124,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
                 exploreDao.update(explore)
             }
-
-        useExploreClicks
-            .autoDispose(scope())
-            .subscribe { explore ->
-
-            }
     }
 
     private fun listenerView() {
@@ -195,7 +182,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             this.adapter = topPreviewAdapter
             this.isUserInputEnabled = false
         }
-        binding.recyclerModelAndLoRA.adapter = modelAndLoRAPreviewAdapter
+        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
         binding.recyclerExplore.adapter = exploreAdapter
     }
 

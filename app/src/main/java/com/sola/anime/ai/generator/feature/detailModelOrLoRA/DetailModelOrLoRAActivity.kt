@@ -3,11 +3,13 @@ package com.sola.anime.ai.generator.feature.detailModelOrLoRA
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
+import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.data.Preferences
@@ -16,14 +18,17 @@ import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
+import com.sola.anime.ai.generator.domain.model.TabModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAAdapter
+import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ModelAndLoRAAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
@@ -46,9 +51,11 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var exploreOrLoRAAdapter: ExploreOrLoRAAdapter
+    @Inject lateinit var modelAndLoRAAdapter: ModelAndLoRAAdapter
     @Inject lateinit var exploreDao: ExploreDao
 
     private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRA>> = PublishSubject.create()
+    private val subjectTabChanges: Subject<TabModelOrLoRA> = BehaviorSubject.createDefault(TabModelOrLoRA.Artworks)
 
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val loRAGroupId by lazy { intent.getLongExtra(LORA_GROUP_ID_EXTRA, -1) }
@@ -73,10 +80,45 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     }
 
     private fun initData() {
-
+//        exploreDao.getAllLive().observe(this) { explores ->
+//            exploreAdapter.data = explores.filter { explore -> explore.id != exploreId }.shuffled()
+//        }
     }
 
     private fun initObservable() {
+        subjectTabChanges
+            .skip(1)
+            .distinctUntilChanged()
+            .autoDispose(scope())
+            .subscribe { tab ->
+                binding.textArtworksBy.setTextColor(resolveAttrColor(if (tab == TabModelOrLoRA.Artworks) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
+                binding.textOther.setTextColor(resolveAttrColor(if (tab == TabModelOrLoRA.Others) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
+
+                binding.textArtworksBy.setTextFont(if (tab == TabModelOrLoRA.Artworks) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
+                binding.textOther.setTextFont(if (tab == TabModelOrLoRA.Others) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
+
+                binding.viewDividerArtworksBy.isVisible = tab == TabModelOrLoRA.Artworks
+                binding.viewDividerOther.isVisible = tab == TabModelOrLoRA.Others
+
+                binding
+                    .recyclerExploreOrLoRA
+                    .animate()
+                    .alpha(0f)
+                    .setDuration(250)
+                    .withEndAction {
+                        binding.recyclerExploreOrLoRA.adapter = when (tab) {
+                            TabModelOrLoRA.Artworks -> exploreOrLoRAAdapter
+                            else -> exploreOrLoRAAdapter
+                        }
+                        binding.recyclerExploreOrLoRA
+                            .animate()
+                            .alpha(1f)
+                            .setDuration(250)
+                            .start()
+                    }
+                    .start()
+            }
+
         subjectDataExploreOrLoRAChanges
             .debounce(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
@@ -140,7 +182,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
             binding.modelOrLoRA.text = "LoRA"
             binding.use.text = "Use this LoRA"
-            binding.note.text = "Artwork made by this LoRA"
+            binding.textArtworksBy.text = "Artworks by LoRA"
+            binding.textOther.text = "Other LoRAs"
             binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
             binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
@@ -155,7 +198,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     private fun initLoRAData(loRAGroup: LoRAGroup, loRA: LoRA) {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
-            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = listOf("1:1", "2:3", "3:4").random()) })
+            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = loRA.ratio) })
         }
     }
 
@@ -185,7 +228,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
             binding.modelOrLoRA.text = "Model"
             binding.use.text = "Use this Model"
-            binding.note.text = "Artwork made by this Model"
+            binding.textArtworksBy.text = "Artworks by Model"
+            binding.textOther.text = "Other Models"
             binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
             binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))

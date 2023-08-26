@@ -226,7 +226,7 @@
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
                     app:cardBackgroundColor="@color/blue"
                     app:cardCornerRadius="@dimen/_15sdp"
                     app:cardElevation="0dp">
@@ -268,48 +268,107 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rec_corner_top_15dp"
+                android:backgroundTint="?android:windowBackground"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/viewDetail">
 
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/note"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="Artwork made by this LoRA"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    app:textFont="semi" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content">
 
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:id="@+id/loadingExploreOrLoRA"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/_100sdp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/loading" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerExploreOrLoRA"
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:alpha="0"
-                        android:clipToPadding="false"
-                        android:nestedScrollingEnabled="false"
-                        android:padding="@dimen/_5sdp"
-                        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                        app:spanCount="2"
-                        tools:alpha="1"
-                        tools:listitem="@layout/item_preview_explore_or_lora" />
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp">
 
-                </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/viewArtworksBy"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/textArtworksBy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_horizontal"
+                                android:text="Artworks by LoRA"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp"
+                                app:textFont="semi" />
+
+                            <View
+                                android:id="@+id/viewDividerArtworksBy"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:layout_alignParentBottom="true"
+                                android:background="?android:textColorPrimary" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/viewOther"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/textOther"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Other LoRA"
+                                android:textColor="?android:textColorSecondary"
+                                android:textSize="@dimen/_12ssp"
+                                app:textFont="regular" />
+
+                            <View
+                                android:id="@+id/viewDividerOther"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:layout_alignParentBottom="true"
+                                android:background="?android:textColorPrimary"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/loadingExploreOrLoRA"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/_100sdp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/loading" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerExploreOrLoRA"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:alpha="0"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            android:padding="@dimen/_5sdp"
+                            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                            app:spanCount="2"
+                            tools:alpha="1"
+                            tools:listitem="@layout/item_preview_explore_or_lora" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

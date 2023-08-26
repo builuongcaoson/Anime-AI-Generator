@@ -34,6 +34,11 @@ enum class TabExplore {
     ExploreRelated
 }
 
+enum class TabModelOrLoRA {
+    Artworks,
+    Others
+}
+
 //enum class ImageDimensions(val display: String){
 //    ImageDimensions512x512(display = "512x512"),
 //    ImageDimensions768x768(display = "768x768"),
