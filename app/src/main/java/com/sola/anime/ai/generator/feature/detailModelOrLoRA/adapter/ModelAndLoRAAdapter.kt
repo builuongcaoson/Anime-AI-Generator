@@ -1,16 +1,13 @@
 package com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintSet
 import coil.load
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.setTint
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ItemModelOrLoraInDetailBinding
-import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject

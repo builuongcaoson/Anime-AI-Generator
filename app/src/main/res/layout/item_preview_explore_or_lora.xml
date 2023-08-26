@@ -79,45 +79,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/viewDetailLoRA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#80000000"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/display"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    app:textFont="semi"
-                    tools:text="@tools:sample/first_names" />
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/favouriteCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/favourite"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="1K Uses" />
-
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
