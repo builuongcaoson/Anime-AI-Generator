@@ -39,4 +39,7 @@ interface ExploreDao {
     @Query("SELECT * FROM Explores WHERE id =:id LIMIT 1")
     fun findById(id: Long): Explore?
 
+    @Query("SELECT * FROM Explores WHERE id =:id LIMIT 1")
+    fun findByIdLive(id: Long): LiveData<Explore?>
+
 }

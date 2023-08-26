@@ -65,7 +65,7 @@ class SyncRepositoryImpl @Inject constructor(
                 when {
                     datas.isNotEmpty() -> {
                         modelDao.deleteAll()
-                        modelDao.inserts(*datas.toTypedArray())
+                        modelDao.inserts(*datas.shuffled().toTypedArray())
                     }
                     else -> syncModelsLocal()
                 }
@@ -87,7 +87,7 @@ class SyncRepositoryImpl @Inject constructor(
                 when {
                     datas.isNotEmpty() -> {
                         loRAGroupDao.deleteAll()
-                        loRAGroupDao.inserts(*datas.toTypedArray())
+                        loRAGroupDao.inserts(*datas.shuffled().toTypedArray())
                     }
                     else -> syncLoRAsLocal()
                 }
@@ -109,10 +109,15 @@ class SyncRepositoryImpl @Inject constructor(
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<LoRAGroup>::class.java) } ?: arrayOf()
 
+        datas.forEach { loRAGroup ->
+            loRAGroup.childs.forEach { loRA ->
+                loRA.ratio = listOf("1:1", "2:3", "3:2").random()
+            }
+        }
         Timber.e("LoRA data: ${datas.size}")
 
         loRAGroupDao.deleteAll()
-        loRAGroupDao.inserts(*datas)
+        loRAGroupDao.inserts(*datas.toList().shuffled().toTypedArray())
     }
 
     private fun syncModelsLocal() {
@@ -123,7 +128,7 @@ class SyncRepositoryImpl @Inject constructor(
         Timber.e("Model data: ${datas.size}")
 
         modelDao.deleteAll()
-        modelDao.inserts(*datas)
+        modelDao.inserts(*datas.toList().shuffled().toTypedArray())
     }
 
     override suspend fun syncExplores(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
@@ -152,7 +157,7 @@ class SyncRepositoryImpl @Inject constructor(
                         }
 
                         exploreDao.deleteAll()
-                        exploreDao.inserts(*datas.toTypedArray())
+                        exploreDao.inserts(*datas.shuffled().toTypedArray())
                     }
                     else -> syncExploresLocal()
                 }
@@ -181,7 +186,7 @@ class SyncRepositoryImpl @Inject constructor(
         Timber.e("Explore data: ${datas.size}")
 
         exploreDao.deleteAll()
-        exploreDao.inserts(*datas)
+        exploreDao.inserts(*datas.toList().shuffled().toTypedArray())
     }
 
 }

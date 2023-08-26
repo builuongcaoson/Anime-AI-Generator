@@ -39,7 +39,10 @@ class LoRA{
     @SerializedName("favourite_count")
     @Expose
     var favouriteCount: Long = 0
-    @SerializedName("premium")
+    @SerializedName("sha256")
     @Expose
     var sha256: String = ""
+    @SerializedName("ratio")
+    @Expose
+    var ratio: String = "1:1"
 }

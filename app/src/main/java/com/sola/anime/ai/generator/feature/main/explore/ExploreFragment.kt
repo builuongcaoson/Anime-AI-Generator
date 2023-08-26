@@ -55,6 +55,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
     private var markFavourite = false
+    private var hadDataModelsAndLoRAs = false
+    private var hadDataExplores = false
 
     override fun onViewCreated() {
         initView()
@@ -79,7 +81,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             }
 
         subjectDataModelsAndLoRAChanges
-            .debounce(1, TimeUnit.SECONDS)
+            .debounce(if (hadDataModelsAndLoRAs) 0L else 250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -88,25 +90,29 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
                 lifecycleScope
                     .launch(Dispatchers.Main) {
-                        modelAndLoRAPreviewAdapter.data = dataModelOrLoRA.shuffled()
-                        delay(1000)
+                        modelAndLoRAPreviewAdapter.data = dataModelOrLoRA
+                        delay(250L)
                         binding.loadingModelAndLoRA.animate().alpha(0f).setDuration(250).start()
                         binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()
+
+                        hadDataModelsAndLoRAs = true
                     }
             }
 
         subjectDataExploreChanges
-            .debounce(1, TimeUnit.SECONDS)
+            .debounce(if (hadDataExplores) 0L else 250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { explores ->
                 lifecycleScope
                     .launch(Dispatchers.Main) {
-                        exploreAdapter.data = explores.shuffled()
-                        delay(1000)
+                        exploreAdapter.data = explores
+                        delay(250L)
                         binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
                         binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+
+                        hadDataExplores = true
                     }
             }
 
@@ -134,13 +140,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun listenerView() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-//                val alphaBottom = 1 - scrollY.toFloat() / 0f
-//
-//                binding.viewShadowBottom.alpha = alphaBottom
-//            }
-//        }
         binding.viewGenerate.clicks { activity?.startArt() }
     }
 

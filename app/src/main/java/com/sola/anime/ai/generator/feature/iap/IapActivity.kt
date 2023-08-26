@@ -66,7 +66,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private val sku1 by lazy { Constraint.Iap.SKU_LIFE_TIME }
     private val sku2 by lazy { Constraint.Iap.SKU_WEEK }
     private val sku3 by lazy { Constraint.Iap.SKU_YEAR }
-    private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku1) }
+    private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku3) }
     private var products = listOf<StoreProduct>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -376,13 +376,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         )
         binding.imageWeekly.setTint(
             when (sku){
-                sku2 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku2 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )
         binding.textTitle2.setTextColor(
             when (sku){
-                sku2 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku2 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )
@@ -403,13 +403,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         )
         binding.imageYearly.setTint(
             when (sku){
-                sku3 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku3 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )
         binding.textTitle3.setTextColor(
             when (sku){
-                sku3 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku3 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )
@@ -430,13 +430,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         )
         binding.imageLifeTime.setTint(
             when (sku){
-                sku1 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku1 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )
         binding.textTitle1.setTextColor(
             when (sku){
-                sku1 -> resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                sku1 -> resolveAttrColor(R.attr.cardBackgroundColor)
                 else -> resolveAttrColor(android.R.attr.textColorPrimary)
             }
         )

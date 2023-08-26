@@ -50,11 +50,13 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var exploreDao: ExploreDao
 
-    private val subjectDataExploreChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
+    private val subjectDataExplorePreviewChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabExplore> = BehaviorSubject.createDefault(TabExplore.Recommendations)
 
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
     private val previewIndex by lazy { intent.getIntExtra(PREVIEW_INDEX_EXTRA, 0) }
+    private var hadDataExplorePreviews = false
+    private var markFavourite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +87,10 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     private fun initData() {
         exploreDao.getAllLive().observe(this) { explores ->
-            exploreAdapter.data = explores.filter { explore -> explore.id != exploreId }.shuffled()
+            if (!markFavourite){
+                exploreAdapter.data = explores.filter { explore -> explore.id != exploreId }
+            }
+            markFavourite = false
         }
     }
 
@@ -130,8 +135,9 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                     .start()
             }
 
-        subjectDataExploreChanges
-            .debounce(500, TimeUnit.MILLISECONDS)
+        subjectDataExplorePreviewChanges
+            .filter { !hadDataExplorePreviews }
+            .debounce(250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -139,11 +145,22 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 Timber.e("Data size: ${explores.size}")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    explorePreviewAdapter.data = explores.shuffled()
-                    delay(500)
+                    explorePreviewAdapter.data = explores
+                    delay(250L)
                     binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
                     binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+
+                    hadDataExplorePreviews = true
                 }
+            }
+
+        exploreAdapter
+            .favouriteClicks
+            .autoDispose(scope())
+            .subscribe { explore ->
+                markFavourite = true
+
+                exploreDao.update(explore)
             }
 
         explorePreviewAdapter
@@ -172,7 +189,9 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     }
 
     private fun initExploreView() {
-        exploreDao.findById(exploreId)?.let { explore ->
+        exploreDao.findByIdLive(exploreId).observe(this) { explore ->
+            explore ?: return@observe
+
             ConstraintSet().apply {
                 this.clone(binding.viewPreview)
                 this.setDimensionRatio(binding.preview.id, explore.ratio)
@@ -209,7 +228,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     private fun initExploreData(explore: Explore) {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
-            subjectDataExploreChanges.onNext(explore.previews.mapIndexed { index, preview -> ExplorePreview(exploreId = explore.id, previewIndex = index, preview = preview, ratio = explore.ratio) }.filterIndexed { index, _ -> index != previewIndex  })
+            subjectDataExplorePreviewChanges.onNext(explore.previews.mapIndexed { index, preview -> ExplorePreview(exploreId = explore.id, previewIndex = index, preview = preview, ratio = explore.ratio) }.filterIndexed { index, _ -> index != previewIndex  })
         }
     }
 
