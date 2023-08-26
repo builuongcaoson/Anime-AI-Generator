@@ -142,31 +142,35 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                     }
                 }
 
-//                val dezgoBodies = urisCropCenter.flatMapIndexed { index: Int, uri: Uri ->
-//                    val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
-//                    val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
-//                    val strength = tryOrNull { binding.slider.currentValue } ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG
-//
-//                    initDezgoBodyImagesToImages(
-//                        groupId = index.toLong(),
-//                        maxChildId = 3,
-//                        initImage = uri,
-//                        prompt = prompt,
-//                        negativePrompt = negativePrompt,
-//                        guidance = "7.5",
-//                        steps = configApp.stepPremium,
-//                        model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-//                        sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
-//                        upscale = "2",
-//                        styleId = -1,
-//                        ratio = Ratio.Ratio1x1,
-//                        strength = strength.toString(),
-//                        seed = null,
-//                        type = 2
-//                    )
-//                }
-//
-//                configApp.dezgoBodiesImagesToImages = dezgoBodies
+                val dezgoBodies = urisCropCenter.flatMapIndexed { index: Int, uri: Uri ->
+                    val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
+                    val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
+                    val strength = tryOrNull { binding.slider.currentValue } ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG
+
+                    initDezgoBodyImagesToImages(
+                        context = this@PickAvatarActivity,
+                        prefs = prefs,
+                        configApp = configApp,
+                        creditsPerImage = configApp.discountCreditBatch.toFloat() / (urisCropCenter.size * 4).toFloat(),
+                        groupId = index.toLong(),
+                        maxChildId = 3,
+                        initImage = uri,
+                        prompt = prompt,
+                        negative = negativePrompt,
+                        guidance = "7.5",
+                        steps = configApp.stepPremium,
+                        model = configApp.modelBatchChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
+                        upscale = "2",
+                        styleId = -1,
+                        ratio = Ratio.Ratio1x1,
+                        strength = strength.toString(),
+                        seed = null,
+                        type = 2
+                    )
+                }
+
+                configApp.dezgoBodiesImagesToImages = dezgoBodies
 
                 launch(Dispatchers.Main){
                     startAvatarProcessing()

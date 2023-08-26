@@ -56,8 +56,6 @@ class SyncRepositoryImpl @Inject constructor(
         val (snapshotModels, snapshotLoRAs) = awaitAll(deferredModels, deferredLoRAs)
 
         launch(Dispatchers.IO) {
-            Timber.e("Sync Models")
-
             snapshotModels?.let { snapshot ->
                 val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
                 val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
@@ -66,20 +64,18 @@ class SyncRepositoryImpl @Inject constructor(
                     datas.isNotEmpty() -> {
                         modelDao.deleteAll()
                         modelDao.inserts(*datas.shuffled().toTypedArray())
+
+                        prefs.versionModel.set(configApp.versionModel)
                     }
-                    else -> syncModelsLocal()
+                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
                 }
-
-                Timber.e("Model data: ${datas.size}")
-
-                prefs.versionModel.set(configApp.versionModel)
             } ?: run {
-                syncModelsLocal()
+                when {
+                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
+                }
             }
         }
         launch(Dispatchers.IO) {
-            Timber.e("Sync loRAs")
-
             snapshotLoRAs?.let { snapshot ->
                 val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
                 val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
@@ -94,15 +90,15 @@ class SyncRepositoryImpl @Inject constructor(
 
                         loRAGroupDao.deleteAll()
                         loRAGroupDao.inserts(*datas.shuffled().toTypedArray())
+
+                        prefs.versionLoRA.set(configApp.versionLoRA)
                     }
-                    else -> syncLoRAsLocal()
+                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
                 }
-
-                Timber.e("LoRA data: ${datas.size}")
-
-                prefs.versionLoRA.set(configApp.versionLoRA)
             } ?: run {
-                syncLoRAsLocal()
+                when {
+                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
+                }
             }
         }
 
@@ -120,7 +116,6 @@ class SyncRepositoryImpl @Inject constructor(
                 loRA.ratio = listOf("1:1", "2:3", "3:2").random()
             }
         }
-        Timber.e("LoRA data: ${datas.size}")
 
         datas.forEach { loRAGroup ->
             loRAGroup.childs.forEach { loRA ->
@@ -130,6 +125,8 @@ class SyncRepositoryImpl @Inject constructor(
 
         loRAGroupDao.deleteAll()
         loRAGroupDao.inserts(*datas.toList().shuffled().toTypedArray())
+
+        prefs.versionLoRA.set(configApp.versionLoRA)
     }
 
     private fun syncModelsLocal() {
@@ -137,10 +134,10 @@ class SyncRepositoryImpl @Inject constructor(
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
 
-        Timber.e("Model data: ${datas.size}")
-
         modelDao.deleteAll()
         modelDao.inserts(*datas.toList().shuffled().toTypedArray())
+
+        prefs.versionModel.set(configApp.versionModel)
     }
 
     override suspend fun syncExplores(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
@@ -156,8 +153,6 @@ class SyncRepositoryImpl @Inject constructor(
         val snapshotExplores = deferredExplores.await()
 
         launch(Dispatchers.IO) {
-            Timber.e("Sync Explores")
-
             snapshotExplores?.let { snapshot ->
                 val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
                 val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
@@ -170,15 +165,15 @@ class SyncRepositoryImpl @Inject constructor(
 
                         exploreDao.deleteAll()
                         exploreDao.inserts(*datas.shuffled().toTypedArray())
+
+                        prefs.versionExplore.set(configApp.versionExplore)
                     }
-                    else -> syncExploresLocal()
+                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
                 }
-
-                Timber.e("Explore data: ${datas.size}")
-
-                prefs.versionExplore.set(configApp.versionExplore)
             } ?: run {
-                syncExploresLocal()
+                when {
+                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
+                }
             }
         }
 
@@ -195,10 +190,10 @@ class SyncRepositoryImpl @Inject constructor(
             explore.ratio = tryOrNull { explore.previews.firstOrNull()?.split("zzz")?.getOrNull(1)?.replace("xxx",":") } ?: "1:1"
         }
 
-        Timber.e("Explore data: ${datas.size}")
-
         exploreDao.deleteAll()
         exploreDao.inserts(*datas.toList().shuffled().toTypedArray())
+
+        prefs.versionExplore.set(configApp.versionExplore)
     }
 
 }

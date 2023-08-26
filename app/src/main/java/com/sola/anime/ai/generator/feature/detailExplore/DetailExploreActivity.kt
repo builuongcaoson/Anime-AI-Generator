@@ -217,8 +217,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             }
 
             binding.prompt.text = explore.prompt
-            val favouriteCount = if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount
-            binding.favouriteCount.text = "$favouriteCount Uses"
+            binding.favouriteCount.text = "${if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount} Uses"
             binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
 
             initExploreData(explore = explore)

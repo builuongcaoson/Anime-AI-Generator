@@ -5,6 +5,9 @@ import android.content.Context
 import android.net.Uri
 import android.provider.Settings
 import android.text.format.DateUtils
+import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.ConfigApp
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
@@ -13,6 +16,7 @@ import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImag
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import java.security.SecureRandom
 import java.util.*
+import kotlin.math.roundToInt
 
 fun getDeviceModel(): String {
     return android.os.Build.MODEL
@@ -94,10 +98,14 @@ fun BodyImageToImage.toChildHistory(newPrompt: String, photoUriString: String, p
 }
 
 fun initDezgoBodyTextsToImages(
+    context: Context,
+    prefs: Preferences,
+    configApp: ConfigApp,
+    creditsPerImage: Float,
     groupId: Long = 0,
     maxChildId: Int = 0,
     prompt: String,
-    negativePrompt: String,
+    negative: String,
     guidance: String,
     steps: String,
     model: String,
@@ -113,10 +121,14 @@ fun initDezgoBodyTextsToImages(
         DezgoBodyTextToImage(
             id = groupId,
             bodies = initBodyTextsToImages(
+                context = context,
+                prefs = prefs,
+                configApp = configApp,
+                creditsPerImage = creditsPerImage,
                 groupId = groupId,
                 maxChildId = maxChildId,
                 prompt = prompt,
-                negativePrompt = negativePrompt,
+                negative = negative,
                 guidance = guidance,
                 steps = steps,
                 model = model,
@@ -133,10 +145,14 @@ fun initDezgoBodyTextsToImages(
 }
 
 fun initBodyTextsToImages(
+    context: Context,
+    prefs: Preferences,
+    configApp: ConfigApp,
+    creditsPerImage: Float,
     groupId: Long,
     maxChildId: Int,
     prompt: String,
-    negativePrompt: String,
+    negative: String,
     guidance: String,
     steps: String,
     model: String,
@@ -149,6 +165,26 @@ fun initBodyTextsToImages(
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
+        val subNegativeDevice = "${context.getDeviceId()}_${BuildConfig.VERSION_CODE}"
+        val subFeature = when (type) {
+            0 -> "art"
+            1 -> "batch"
+            2 -> "avatar"
+            else -> "..."
+        }
+
+        configApp.creditsRemaining = configApp.creditsRemaining - creditsPerImage
+
+        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
+        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+
+        val negativePrompt = when {
+            subNegative.isEmpty() -> negative
+            negative.endsWith(",") -> "$negative $subNegative"
+            else -> "$negative, $subNegative"
+        }
+
         bodies.add(
             BodyTextToImage(
                 id = id.toLong(),
@@ -173,11 +209,15 @@ fun initBodyTextsToImages(
 }
 
 fun initDezgoBodyImagesToImages(
+    context: Context,
+    prefs: Preferences,
+    configApp: ConfigApp,
+    creditsPerImage: Float,
     groupId: Long = 0,
     maxChildId: Int = 0,
     initImage: Uri,
     prompt: String,
-    negativePrompt: String,
+    negative: String,
     guidance: String,
     steps: String,
     model: String,
@@ -194,11 +234,15 @@ fun initDezgoBodyImagesToImages(
         DezgoBodyImageToImage(
             id = groupId,
             bodies = initBodyImagesToImages(
+                context = context,
+                prefs = prefs,
+                configApp = configApp,
+                creditsPerImage = creditsPerImage,
                 groupId = groupId,
                 maxChildId = maxChildId,
                 initImage = initImage,
                 prompt = prompt,
-                negativePrompt = negativePrompt,
+                negative = negative,
                 guidance = guidance,
                 steps = steps,
                 model = model,
@@ -216,11 +260,15 @@ fun initDezgoBodyImagesToImages(
 }
 
 fun initBodyImagesToImages(
+    context: Context,
+    prefs: Preferences,
+    configApp: ConfigApp,
+    creditsPerImage: Float,
     groupId: Long,
     maxChildId: Int,
     initImage: Uri,
     prompt: String,
-    negativePrompt: String,
+    negative: String,
     guidance: String,
     steps: String,
     model: String,
@@ -234,6 +282,26 @@ fun initBodyImagesToImages(
 ): List<BodyImageToImage>{
     val bodies = arrayListOf<BodyImageToImage>()
     (0..maxChildId).forEach { id ->
+        val subNegativeDevice = "${context.getDeviceId()}_${BuildConfig.VERSION_CODE}"
+        val subFeature = when (type) {
+            0 -> "art"
+            1 -> "batch"
+            2 -> "avatar"
+            else -> "..."
+        }
+
+        configApp.creditsRemaining = configApp.creditsRemaining - creditsPerImage
+
+        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
+        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+
+        val negativePrompt = when {
+            subNegative.isEmpty() -> negative
+            negative.endsWith(",") -> "$negative $subNegative"
+            else -> "$negative, $subNegative"
+        }
+
         bodies.add(
             BodyImageToImage(
                 id = id.toLong(),

@@ -40,7 +40,6 @@ class PreviewCategoryAdapter @Inject constructor(
         binding.viewSelected.isVisible = item.display == category?.display
         binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
         binding.description.text = item.description
-        binding.viewPremium.isVisible = item.isPremium && !prefs.isUpgraded.get()
 
         binding.preview.load(item.preview) {
             crossfade(true)

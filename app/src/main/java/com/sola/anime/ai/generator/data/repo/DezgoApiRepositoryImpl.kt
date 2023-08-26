@@ -57,6 +57,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             }
 
                             val negativePrompt = when {
+                                subNegative.isEmpty() -> body.negativePrompt
                                 body.negativePrompt.endsWith(",") -> body.negativePrompt + " " + subNegative
                                 else -> body.negativePrompt + ", " + subNegative
                             }

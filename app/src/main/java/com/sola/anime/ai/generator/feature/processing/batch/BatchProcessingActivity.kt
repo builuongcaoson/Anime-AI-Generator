@@ -1,7 +1,6 @@
 package com.sola.anime.ai.generator.feature.processing.batch
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
@@ -15,18 +14,12 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
-import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
@@ -40,12 +33,10 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(ActivityBatchProcessingBinding::inflate) {
@@ -121,13 +112,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-//                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-
-                val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-                val subFeature = "batch"
-                val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-                val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-                val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+                val subNegative = ""
 
                 dezgoApiRepo.generateTextsToImages(
                     isPremium = true,
@@ -158,7 +143,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - (configApp.discountCredit.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
+                                prefs.setCredits(prefs.getCredits() - (configApp.discountCreditBatch.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp

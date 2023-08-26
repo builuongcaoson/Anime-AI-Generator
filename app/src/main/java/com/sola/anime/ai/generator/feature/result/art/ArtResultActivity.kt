@@ -158,11 +158,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             when {
                 photoUri != null -> {
                     configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
+                        context = this,
+                        prefs = prefs,
+                        configApp = configApp,
+                        creditsPerImage = 0f,
                         groupId = 0,
                         maxChildId = 0,
                         initImage = photoUri,
                         prompt = history.prompt,
-                        negativePrompt = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        negative = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                         guidance = childHistory.guidance,
                         steps = childHistory.steps,
                         model = childHistory.model,
@@ -178,10 +182,14 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
                 else -> {
                     configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                        context = this,
+                        prefs = prefs,
+                        configApp = configApp,
+                        creditsPerImage = 0f,
                         groupId = 0,
                         maxChildId = 0,
                         prompt = history.prompt,
-                        negativePrompt = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                        negative = childHistory.negativePrompt.takeIf { it.isNotEmpty() } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                         guidance = childHistory.guidance,
                         steps = childHistory.steps,
                         model = childHistory.model,

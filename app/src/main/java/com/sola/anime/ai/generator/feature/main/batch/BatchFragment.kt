@@ -2,7 +2,6 @@ package com.sola.anime.ai.generator.feature.main.batch
 
 import android.graphics.Paint
 import android.os.Build
-import android.util.Log
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
@@ -12,19 +11,10 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.basic.common.extension.isNetworkAvailable
-import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
-import com.sola.anime.ai.generator.common.extension.initDezgoBodyTextsToImages
-import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
-import com.sola.anime.ai.generator.common.extension.startArtProcessing
-import com.sola.anime.ai.generator.common.extension.startBatchProcessing
-import com.sola.anime.ai.generator.common.extension.startCredit
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startModel
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -69,15 +59,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initData() {
-//        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
-//            previewCategoryAdapter.data = ArrayList(models.map {
-//                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.model, description = it.description, isPremium = it.premium)
-//            })
-//            previewCategoryAdapter.data.firstOrNull{ !it.isPremium }.also { previewCategory ->
-//                previewCategoryAdapter.category = previewCategory
-//                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
-//            }
-//        }
+        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+            previewCategoryAdapter.data = ArrayList(models.map {
+                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.modelId, description = it.description)
+            })
+            previewCategoryAdapter.data.firstOrNull()?.also { previewCategory ->
+                previewCategoryAdapter.category = previewCategory
+                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
+            }
+        }
     }
 
     private fun listenerView() {
@@ -99,32 +89,40 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     private fun generateClicks() {
         val task = {
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
+            activity?.let { activity ->
+                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
 
-//            val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
-//                val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
-//                val negativePrompt = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
-//
-//                initDezgoBodyTextsToImages(
-//                    groupId = index.toLong(),
-//                    maxChildId = item.numberOfImages.number - 1,
-//                    prompt = prompt,
-//                    negativePrompt = negativePrompt,
-//                    guidance = item.guidance.toString(),
-//                    steps = item.step.toString(),
-//                    model = configApp.modelBatchChoice?.model ?: Constraint.Dezgo.DEFAULT_MODEL,
-//                    sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
-//                    upscale = "2",
-//                    styleId = -1,
-//                    ratio = item.ratio,
-//                    seed = null,
-//                    type = 1
-//                )
-//            }
+                val numberOfImagesCreate = promptAdapter.data.sumOf { it.numberOfImages.number }
 
-//            configApp.dezgoBodiesTextsToImages = dezgoBodies
+                val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
+                    val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
+                    val negative = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
 
-            activity?.startBatchProcessing()
+                    initDezgoBodyTextsToImages(
+                        context = activity,
+                        prefs = prefs,
+                        configApp = configApp,
+                        creditsPerImage = configApp.discountCreditBatch.toFloat() / numberOfImagesCreate.toFloat(),
+                        groupId = index.toLong(),
+                        maxChildId = item.numberOfImages.number - 1,
+                        prompt = prompt,
+                        negative = negative,
+                        guidance = item.guidance.toString(),
+                        steps = item.step.toString(),
+                        model = configApp.modelBatchChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
+                        upscale = "2",
+                        styleId = -1,
+                        ratio = item.ratio,
+                        seed = null,
+                        type = 1
+                    )
+                }
+
+                configApp.dezgoBodiesTextsToImages = dezgoBodies
+
+                activity.startBatchProcessing()
+            }
         }
 
         activity?.let { activity ->
@@ -132,7 +130,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 !activity.isNetworkAvailable() -> networkDialog.show(activity) {
                     networkDialog.dismiss()
                 }
-                configApp.discountCredit > prefs.getCredits().roundToInt() -> activity.startCredit()
+                configApp.discountCreditBatch > prefs.getCredits().roundToInt() -> activity.startCredit()
                 else -> task()
             }
         }
@@ -174,13 +172,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .clicks
             .autoDispose(scope())
             .subscribe { previewCategory ->
-                when {
-                    previewCategory.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
-                    else -> {
-                        previewCategoryAdapter.category = previewCategory
-                        configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
-                    }
-                }
+                previewCategoryAdapter.category = previewCategory
+                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
             }
 
         promptAdapter
@@ -191,11 +184,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         promptAdapter
             .numberOfImagesChanges
             .autoDispose(scope())
-            .subscribe { pair ->
-//                promptAdapter.data.getOrNull(pair.second)?.numberOfImages = pair.first
-//                promptAdapter.notifyItemChanged(pair.second)
-
-//                activity?.hideKeyboard()
+            .subscribe {
                 updateUiCredit()
             }
 
@@ -225,24 +214,18 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun updateUiCredit(){
-        val numbersOfImages = promptAdapter.data.sumOf { it.numberOfImages.number }
         val creditForNumbersOfImages = promptAdapter.data.sumByDouble { (it.numberOfImages.number * if (it.isFullHd) 15.0 else 10.0) }
-//        val creditForRatio = 0f
-//        val creditFor1Image = 10f
         val discount = 0.02
 
-        Timber.e("DiscountCredits: ${(creditForNumbersOfImages - (creditForNumbersOfImages * discount))}")
+        configApp.discountCreditBatch = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
 
-//        configApp.discountCredit = ((creditNumbers * (creditForRatio + creditFor1Image)) - (creditNumbers * discount)).roundToInt()
-        configApp.discountCredit = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
-//        val totalCredit = ((creditNumbers * (creditForRatio + creditFor1Image))).roundToInt()
         val totalCredit = creditForNumbersOfImages.roundToInt()
 
-        binding.discountCredit.text = configApp.discountCredit.toString()
+        binding.discountCredit.text = configApp.discountCreditBatch.toString()
         binding.totalCredit.apply {
             text = totalCredit.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = configApp.discountCredit != totalCredit
+            isVisible = configApp.discountCreditBatch != totalCredit
         }
         binding.timeGenerate.text = "About ${((promptAdapter.data.sumOf { it.numberOfImages.number } / 10) + 1)} minute"
     }

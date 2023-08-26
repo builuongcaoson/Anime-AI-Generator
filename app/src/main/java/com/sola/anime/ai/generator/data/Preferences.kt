@@ -100,12 +100,4 @@ class Preferences @Inject constructor(
         urisHadFacePrefs.set(Gson().toJson(urisHadFace))
     }
 
-    fun getFavouriteCountModelId(modelId: Long): Boolean {
-        return rxPrefs.getBoolean("favouriteCountModelId_$modelId", false).get()
-    }
-
-    fun getFavouriteCountLoRAId(loRAId: Long): Boolean {
-        return rxPrefs.getBoolean("favouriteCountLoRAId_$loRAId", false).get()
-    }
-
 }

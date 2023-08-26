@@ -86,6 +86,21 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         binding.report.clicks {  }
         binding.viewArtworksBy.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Artworks) }
         binding.viewOther.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Others) }
+        binding.favourite.clicks {
+            when {
+                modelId != -1L -> {
+                    val model = modelDao.findById(modelId) ?: return@clicks
+                    model.isFavourite = !model.isFavourite
+                    modelDao.updates(model)
+                }
+                loRAGroupId != -1L && loRAId != -1L -> {
+                    val loRAGroup = loRAGroupDao.findById(loRAGroupId) ?: return@clicks
+                    val loRA = loRAGroup.childs.find { loRA -> loRA.id == loRAId } ?: return@clicks
+                    loRA.isFavourite = !loRA.isFavourite
+                    loRAGroupDao.update(loRAGroup)
+                }
+            }
+        }
     }
 
     private fun initData() {
@@ -94,8 +109,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(this) { pair ->
             Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) } }
 
             val datas = when {
                 modelId != -1L -> modelsItem.filter { it.model?.id != modelId }
@@ -194,6 +209,21 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     }
                 }
             }
+
+        modelAndLoRAAdapter
+            .favouriteClicks
+            .autoDispose(scope())
+            .subscribe { modelOrLoRA ->
+                when {
+                    modelOrLoRA.model != null -> modelDao.updates(modelOrLoRA.model)
+                    modelOrLoRA.loRA != null && loRAGroupId != -1L -> loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
+                        loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
+                            loRA.isFavourite = !loRA.isFavourite
+                            loRAGroupDao.update(loRAGroup)
+                        }
+                    }
+                }
+            }
     }
 
     private fun initView() {
@@ -215,8 +245,10 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     }
 
     private fun initLoRAView() {
-        loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
-            val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return
+        loRAGroupDao.findByIdLive(loRAGroupId).observe(this) { loRAGroup ->
+            loRAGroup ?: return@observe
+
+            val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return@observe
 
             ConstraintSet().apply {
                 this.clone(binding.viewPreview)
@@ -248,8 +280,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
             binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
             binding.display.text = loRA.display
-            val favouriteCount = if (prefs.getFavouriteCountLoRAId(loRAId = loRA.id)) loRA.favouriteCount + 1 else loRA.favouriteCount
-            binding.favouriteCount.text = "$favouriteCount Uses"
+            binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
+            binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
 
             initLoRAData(loRAGroup = loRAGroup, loRA = loRA)
         }
@@ -257,13 +289,14 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initLoRAData(loRAGroup: LoRAGroup, loRA: LoRA) {
         lifecycleScope.launch(Dispatchers.Main) {
-            delay(500)
             subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = loRA.ratio, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) })
         }
     }
 
     private fun initModelView() {
-        modelDao.findById(modelId)?.let { model ->
+        modelDao.findByIdLive(modelId).observe(this) { model ->
+            model ?: return@observe
+
             ConstraintSet().apply {
                 this.clone(binding.viewPreview)
                 this.setDimensionRatio(binding.preview.id, "1:1")
@@ -294,8 +327,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
             binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
             binding.display.text = model.display
-            val favouriteCount = if (prefs.getFavouriteCountModelId(modelId = model.id)) model.favouriteCount + 1 else model.favouriteCount
-            binding.favouriteCount.text = "$favouriteCount Uses"
+            binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
+            binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
 
             initExploreData(model)
         }

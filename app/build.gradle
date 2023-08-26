@@ -76,6 +76,10 @@ dependencies {
     // Rx
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "com.trello.rxlifecycle2:rxlifecycle:2.2.2"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.2"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android:2.2.2"
+    implementation "com.trello.rxlifecycle2:rxlifecycle-android-lifecycle:2.2.2"
 
     // Lifecycle
     implementation "com.uber.autodispose:autodispose-android-archcomponents:$lifecycle_version"

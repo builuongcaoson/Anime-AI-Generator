@@ -31,4 +31,7 @@ class Model{
     @SerializedName("active")
     @Expose
     var active: String = ""
+    @SerializedName("is_favourite")
+    @Expose
+    var isFavourite: Boolean = false
 }

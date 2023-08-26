@@ -2,7 +2,6 @@ package com.sola.anime.ai.generator.common
 
 import android.content.Context
 import android.net.Uri
-import com.afollestad.materialdialogs.utils.MDUtil.getStringArray
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.data.Preferences
@@ -65,8 +64,10 @@ class ConfigApp @Inject constructor(
         }
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
     var dezgoBodiesImagesToImages: List<DezgoBodyImageToImage> = listOf()
-    var discountCredit: Int = 10 // For tab batch
+    var discountCreditArt: Int = 0 // For tab art
+    var discountCreditBatch: Int = 10 // For tab batch
     var discountCreditAvatar: Int = 0 // For avatar
+    var creditsRemaining = prefs.getCredits()
 
     // RxJava
     var subjectUriPhotoChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)

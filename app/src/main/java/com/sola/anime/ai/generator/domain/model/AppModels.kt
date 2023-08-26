@@ -11,11 +11,11 @@ data class ExplorePreview(val exploreId: Long, val previewIndex: Int, val previe
 
 data class ExploreOrLoRA(val explore: Explore? = null, val loRA: LoRA? = null, val ratio: String, val favouriteCount: Long, var isFavourite: Boolean)
 
-data class ModelOrLoRA(val display: String, val model: Model? = null, val loRA: LoRA? = null, val loRAGroupId: Long = -1, val favouriteCount: Long)
+data class ModelOrLoRA(val display: String, val model: Model? = null, val loRA: LoRA? = null, val loRAGroupId: Long = -1, val favouriteCount: Long, var isFavourite: Boolean)
 
 data class CategoryBatch(val display: String)
 
-data class PreviewCategoryBatch(val preview: String, val display: String, val model: String, val description: String = "", val isPremium: Boolean = false)
+data class PreviewCategoryBatch(val preview: String, val display: String, val model: String, val description: String = "", )
 
 data class PromptBatch(
     var prompt: String = "",

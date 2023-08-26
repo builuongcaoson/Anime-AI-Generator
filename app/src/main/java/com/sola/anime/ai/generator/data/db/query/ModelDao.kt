@@ -25,9 +25,16 @@ interface ModelDao {
     @Query("DELETE FROM Models")
     fun deleteAll()
 
+    // Update
+    @Update
+    fun updates(vararg objects: Model)
+
     // Find
 
     @Query("SELECT * FROM Models WHERE id =:id LIMIT 1")
     fun findById(id: Long): Model?
+
+    @Query("SELECT * FROM Models WHERE id =:id LIMIT 1")
+    fun findByIdLive(id: Long): LiveData<Model?>
 
 }

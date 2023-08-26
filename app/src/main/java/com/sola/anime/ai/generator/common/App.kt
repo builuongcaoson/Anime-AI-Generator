@@ -1,6 +1,10 @@
 package com.sola.anime.ai.generator.common
 
 import android.app.Application
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.installations.FirebaseInstallations
@@ -16,7 +20,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : Application() {
+class App : Application(), ImageLoaderFactory {
 
     companion object {
         lateinit var app: App
@@ -76,6 +80,13 @@ class App : Application() {
                 reviewInfo = task.result
             }
         }
+    }
+
+    override fun newImageLoader(): ImageLoader {
+        return ImageLoader.Builder(this)
+            .memoryCache { MemoryCache.Builder(this).maxSizeBytes(50 * 1024 * 1024).build() }
+            .diskCache { DiskCache.Builder().directory(cacheDir.resolve("image_cache")).maxSizeBytes(100 * 1024 * 1024).build() }
+            .build()
     }
 
 }

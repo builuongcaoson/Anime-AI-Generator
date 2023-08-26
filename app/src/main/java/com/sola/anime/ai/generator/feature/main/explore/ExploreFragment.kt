@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.explore
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
@@ -7,6 +8,7 @@ import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
+import com.sola.anime.ai.generator.common.extension.startSearch
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -19,6 +21,8 @@ import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.TopPreviewAdapter
+import com.trello.rxlifecycle2.LifecycleProvider
+import com.trello.rxlifecycle2.RxLifecycle.bindUntilEvent
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +35,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.exp
+import com.trello.rxlifecycle2.android.FragmentEvent
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 
 @AndroidEntryPoint
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
@@ -53,19 +58,31 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
     override fun onViewCreated() {
         initView()
+        initObservable()
         initData()
         listenerView()
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         modelAndLoRAAdapter
+            .favouriteClicks
+            .bindToLifecycle(binding.root)
+            .subscribe { modelAndLoRA ->
+                when {
+                    modelAndLoRA.model != null -> modelDao.updates(modelAndLoRA.model)
+                    modelAndLoRA.loRA != null && modelAndLoRA.loRAGroupId != -1L -> loRAGroupDao.findById(modelAndLoRA.loRAGroupId)?.let { loRAGroup ->
+                        loRAGroup.childs.find { loRA -> loRA.id == modelAndLoRA.loRA.id }?.let { loRA ->
+                            loRA.isFavourite = !loRA.isFavourite
+                            loRAGroupDao.update(loRAGroup)
+                        }
+                    }
+                }
+            }
+
+        modelAndLoRAAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { modelOrLora ->
                 when {
                     modelOrLora.model != null -> activity?.startDetailModelOrLoRA(modelId = modelOrLora.model.id)
@@ -77,7 +94,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .debounce(if (hadDataModelsAndLoRAs) 0L else 250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { dataModelOrLoRA ->
                 Timber.e("Data model or loRA size: ${dataModelOrLoRA.size}")
 
@@ -96,7 +113,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .debounce(if (hadDataExplores) 0L else 250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { explores ->
                 lifecycleScope
                     .launch(Dispatchers.Main) {
@@ -111,14 +128,14 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
         exploreAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { explore ->
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
         exploreAdapter
             .favouriteClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { explore ->
                 markFavourite = true
 
@@ -128,6 +145,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
     private fun listenerView() {
         binding.viewGenerate.clicks { activity?.startArt() }
+        binding.viewSearch.clicks { activity?.startSearch() }
     }
 
     private fun initData() {
@@ -142,38 +160,16 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             addSource(modelDao.getAllLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(viewLifecycleOwner) { pair ->
-            Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) } }
 
             subjectDataModelsAndLoRAChanges.onNext(modelsItem + loRAsItem)
         }
 
         lifecycleScope
             .launch(Dispatchers.IO) {
-                syncRepo.syncModelsAndLoRAs { progress ->
-                    launch(Dispatchers.Main) {
-                        when (progress) {
-                            is SyncRepository.Progress.Running -> {
-                                binding.loadingModelAndLoRA.animate().alpha(1f).setDuration(250).start()
-                                binding.recyclerModelAndLoRA.animate().alpha(0f).setDuration(250).start()
-                            }
-                            else -> {}
-                        }
-                    }
-                }
-
-                syncRepo.syncExplores { progress ->
-                    launch(Dispatchers.Main) {
-                        when (progress) {
-                            is SyncRepository.Progress.Running -> {
-                                binding.loadingExplore.animate().alpha(1f).setDuration(250).start()
-                                binding.recyclerExplore.animate().alpha(0f).setDuration(250).start()
-                            }
-                            else -> {}
-                        }
-                    }
-                }
+                syncRepo.syncModelsAndLoRAs {}
+                syncRepo.syncExplores {}
             }
     }
 

@@ -35,4 +35,7 @@ interface LoRAGroupDao {
     @Query("SELECT * FROM LoRAGroups WHERE id =:id LIMIT 1")
     fun findById(id: Long): LoRAGroup?
 
+    @Query("SELECT * FROM LoRAGroups WHERE id =:id LIMIT 1")
+    fun findByIdLive(id: Long): LiveData<LoRAGroup?>
+
 }

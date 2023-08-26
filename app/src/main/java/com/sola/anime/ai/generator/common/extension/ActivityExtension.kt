@@ -22,6 +22,7 @@ import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
 import com.sola.anime.ai.generator.feature.processing.avatar.AvatarProcessingActivity
 import com.sola.anime.ai.generator.feature.processing.batch.BatchProcessingActivity
 import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
+import com.sola.anime.ai.generator.feature.search.SearchActivity
 import com.sola.anime.ai.generator.feature.setting.SettingActivity
 import com.sola.anime.ai.generator.feature.style.StyleActivity
 
@@ -33,6 +34,12 @@ fun Activity.startMain(){
 
 fun Activity.startSetting(){
     val intent = Intent(this, SettingActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startSearch(){
+    val intent = Intent(this, SearchActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

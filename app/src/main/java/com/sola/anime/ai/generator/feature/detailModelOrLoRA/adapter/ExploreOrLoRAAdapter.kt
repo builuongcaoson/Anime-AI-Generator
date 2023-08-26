@@ -17,8 +17,7 @@ import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class ExploreOrLoRAAdapter @Inject constructor(
-    private val context: Context,
-    private val prefs: Preferences
+    private val context: Context
 ): LsAdapter<ExploreOrLoRA, ItemPreviewExploreOrLoraBinding>(ItemPreviewExploreOrLoraBinding::inflate) {
 
     val clicks: Subject<ExploreOrLoRA> = PublishSubject.create()
