@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.basic.common.base.LsActivity
@@ -12,12 +13,16 @@ import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.startDetailExplore
+import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRA
+import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
+import com.sola.anime.ai.generator.domain.model.TabExplore
 import com.sola.anime.ai.generator.domain.model.TabModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
@@ -56,10 +61,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRA>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabModelOrLoRA> = BehaviorSubject.createDefault(TabModelOrLoRA.Artworks)
+    private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
 
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val loRAGroupId by lazy { intent.getLongExtra(LORA_GROUP_ID_EXTRA, -1) }
     private val loRAId by lazy { intent.getLongExtra(LORA_ID_EXTRA, -1) }
+    private var hadDataModelsAndLoRAs = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,15 +84,43 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         binding.save.clicks {  }
         binding.dislike.clicks {  }
         binding.report.clicks {  }
+        binding.viewArtworksBy.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Artworks) }
+        binding.viewOther.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Others) }
     }
 
     private fun initData() {
-//        exploreDao.getAllLive().observe(this) { explores ->
-//            exploreAdapter.data = explores.filter { explore -> explore.id != exploreId }.shuffled()
-//        }
+        MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
+            addSource(modelDao.getAllLive()) { value = it to (value?.second ?: listOf()) }
+            addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
+        }.observe(this) { pair ->
+            Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount) } }
+
+            val datas = when {
+                modelId != -1L -> modelsItem.filter { it.model?.id != modelId }
+                loRAId != -1L -> loRAsItem.filter { it.loRA?.id != loRAId }
+                else -> modelsItem.filter { it.model?.id != modelId } + loRAsItem.filter { it.loRA?.id != loRAId }
+            }
+
+            subjectDataModelsAndLoRAChanges.onNext(datas)
+        }
     }
 
     private fun initObservable() {
+        subjectDataModelsAndLoRAChanges
+            .filter { !hadDataModelsAndLoRAs }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { dataModelOrLoRA ->
+                Timber.e("Data model or loRA size: ${dataModelOrLoRA.size}")
+
+                modelAndLoRAAdapter.data = dataModelOrLoRA
+
+                hadDataModelsAndLoRAs = true
+            }
+
         subjectTabChanges
             .skip(1)
             .distinctUntilChanged()
@@ -108,7 +143,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     .withEndAction {
                         binding.recyclerExploreOrLoRA.adapter = when (tab) {
                             TabModelOrLoRA.Artworks -> exploreOrLoRAAdapter
-                            else -> exploreOrLoRAAdapter
+                            else -> modelAndLoRAAdapter
                         }
                         binding.recyclerExploreOrLoRA
                             .animate()
@@ -120,7 +155,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             }
 
         subjectDataExploreOrLoRAChanges
-            .debounce(500, TimeUnit.MILLISECONDS)
+            .debounce(250L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
@@ -128,10 +163,35 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 Timber.e("Data size: ${dataExploreOrLoRA.size}")
 
                 lifecycleScope.launch(Dispatchers.Main) {
-                    exploreOrLoRAAdapter.data = dataExploreOrLoRA.shuffled()
-                    delay(500)
+                    exploreOrLoRAAdapter.data = dataExploreOrLoRA
+                    delay(250L)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
                     binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
+                }
+            }
+
+        exploreOrLoRAAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { exploreOrLoRA ->
+                when {
+                    exploreOrLoRA.explore != null -> startDetailExplore(exploreId = exploreOrLoRA.explore.id)
+                    exploreOrLoRA.loRA != null && loRAGroupId != -1L -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = exploreOrLoRA.loRA.id)
+                }
+            }
+
+        exploreOrLoRAAdapter
+            .favouriteClicks
+            .autoDispose(scope())
+            .subscribe { exploreOrLoRA ->
+                when {
+                    exploreOrLoRA.explore != null -> exploreDao.update(exploreOrLoRA.explore)
+                    exploreOrLoRA.loRA != null && loRAGroupId != -1L -> loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
+                        loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
+                            loRA.isFavourite = !loRA.isFavourite
+                            loRAGroupDao.update(loRAGroup)
+                        }
+                    }
                 }
             }
     }
@@ -198,7 +258,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     private fun initLoRAData(loRAGroup: LoRAGroup, loRA: LoRA) {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
-            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = loRA.ratio) })
+            subjectDataExploreOrLoRAChanges.onNext(loRAGroup.childs.filter { it.id != loRA.id }.map { loRA -> ExploreOrLoRA(loRA = loRA, ratio = loRA.ratio, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) })
         }
     }
 
@@ -243,7 +303,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initExploreData(model: Model) {
         exploreDao.getAllLive().observe(this) { explores ->
-            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { explore -> ExploreOrLoRA(explore = explore, ratio = explore.ratio) })
+            subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { explore -> ExploreOrLoRA(explore = explore, ratio = explore.ratio, favouriteCount = explore.favouriteCount, isFavourite = explore.isFavourite) })
         }
     }
 

@@ -83,7 +83,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
                 lifecycleScope
                     .launch(Dispatchers.Main) {
-                        modelAndLoRAPreviewAdapter.data = dataModelOrLoRA
+                        modelAndLoRAAdapter.data = dataModelOrLoRA
                         delay(250L)
                         binding.loadingModelAndLoRA.animate().alpha(0f).setDuration(250).start()
                         binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()

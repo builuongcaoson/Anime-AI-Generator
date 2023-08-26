@@ -23,7 +23,7 @@ class LoRAGroup{
 
 
 @Keep
-class LoRA{
+class LoRA {
     @SerializedName("id")
     @Expose
     var id: Long = 0
@@ -45,4 +45,7 @@ class LoRA{
     @SerializedName("ratio")
     @Expose
     var ratio: String = "1:1"
+    @SerializedName("is_favourite")
+    @Expose
+    var isFavourite: Boolean = false
 }

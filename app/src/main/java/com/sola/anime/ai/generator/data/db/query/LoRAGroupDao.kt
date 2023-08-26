@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.data.db.query
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import kotlinx.coroutines.flow.Flow
 
@@ -23,6 +24,11 @@ interface LoRAGroupDao {
 
     @Query("DELETE FROM LoRAGroups")
     fun deleteAll()
+
+    // Update
+
+    @Update
+    fun update(vararg objects: LoRAGroup)
 
     // Find
 
