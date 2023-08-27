@@ -148,23 +148,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 binding.viewDividerArtworksBy.isVisible = tab == TabModelOrLoRA.Artworks
                 binding.viewDividerOther.isVisible = tab == TabModelOrLoRA.Others
 
-                binding
-                    .recyclerExploreOrLoRA
-                    .animate()
-                    .alpha(0f)
-                    .setDuration(100)
-                    .withEndAction {
-                        binding.recyclerExploreOrLoRA.adapter = when (tab) {
-                            TabModelOrLoRA.Artworks -> exploreOrLoRAPreviewAdapter
-                            else -> modelAndLoRAAdapter
-                        }
-                        binding.recyclerExploreOrLoRA
-                            .animate()
-                            .alpha(1f)
-                            .setDuration(100)
-                            .start()
-                    }
-                    .start()
+                binding.recyclerExplore.animate().alpha(if (tab == TabModelOrLoRA.Artworks) 1f else 0f).setDuration(250L).start()
+                binding.recyclerModelOrLoRA.animate().alpha(if (tab == TabModelOrLoRA.Others) 1f else 0f).setDuration(250L).start()
             }
 
         subjectDataExploreOrLoRAChanges
@@ -179,7 +164,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     exploreOrLoRAPreviewAdapter.data = dataExploreOrLoRA
                     delay(250L)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
-                    binding.recyclerExploreOrLoRA.animate().alpha(1f).setDuration(250).start()
+                    binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
                 }
             }
 
@@ -232,7 +217,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             }
         }
 
-        binding.recyclerExploreOrLoRA.adapter = exploreOrLoRAPreviewAdapter
+        binding.recyclerExplore.adapter = exploreOrLoRAPreviewAdapter
+        binding.recyclerModelOrLoRA.adapter = modelAndLoRAAdapter
     }
 
     private fun initLoRAView() {

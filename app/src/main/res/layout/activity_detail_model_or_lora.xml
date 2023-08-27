@@ -353,7 +353,20 @@
                             app:lottie_rawRes="@raw/loading" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerExploreOrLoRA"
+                            android:id="@+id/recyclerExplore"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:alpha="0"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            android:padding="@dimen/_5sdp"
+                            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                            app:spanCount="2"
+                            tools:alpha="1"
+                            tools:listitem="@layout/item_preview_explore_or_lora" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerModelOrLoRA"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:alpha="0"
