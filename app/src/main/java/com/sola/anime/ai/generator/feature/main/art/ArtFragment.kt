@@ -9,8 +9,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -148,22 +146,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 when {
                     configApp.pairUriPhoto != null -> {
                         val pair = configApp.pairUriPhoto ?: return@subscribe
-
-                        binding.previewPhoto.load(pair.first) {
-                            crossfade(true)
-                            error(R.drawable.place_holder_image)
-                        }
-
+                        binding.previewPhoto.load(pair.first, errorRes = R.drawable.place_holder_image)
                         configApp.subjectRatioClicks.onNext(pair.second)
                     }
                     configApp.resPhoto != null -> {
                         val res = configApp.resPhoto ?: return@subscribe
-
-                        binding.previewPhoto.load(res) {
-                            crossfade(true)
-                            error(R.drawable.place_holder_image)
-                        }
-
+                        binding.previewPhoto.load(res, errorRes = R.drawable.place_holder_image)
                         configApp.subjectRatioClicks.onNext(Ratio.Ratio1x1)
                     }
                 }

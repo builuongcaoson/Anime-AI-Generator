@@ -1,10 +1,9 @@
 package com.sola.anime.ai.generator.feature.iap.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewIapBinding
 import com.sola.anime.ai.generator.domain.model.config.iap.IAP
 import javax.inject.Inject
@@ -26,10 +25,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding
         set.setDimensionRatio(binding.viewPreview.id, item.ratio)
         set.applyTo(binding.viewGroup)
 
-        binding.preview.load(item.preview) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
+        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
     }
 
     override fun getItemCount(): Int {

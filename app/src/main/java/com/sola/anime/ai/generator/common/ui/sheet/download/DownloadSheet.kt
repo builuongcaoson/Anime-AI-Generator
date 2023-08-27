@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
 import com.basic.common.extension.setTint
@@ -13,6 +11,7 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.blur
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.SheetDownloadBinding
@@ -137,20 +136,9 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
         tryOrNull { binding.blurView.blur(binding.viewFrame) }
 
         file?.let {
-            binding.previewFrame1.load(file) {
-                crossfade(true)
-                error(R.drawable.place_holder_image)
-            }
-
-            binding.previewFrame2.load(file) {
-                crossfade(true)
-                error(R.drawable.place_holder_image)
-            }
-
-            binding.previewOriginal.load(file) {
-                crossfade(true)
-                error(R.drawable.place_holder_image)
-            }
+            binding.previewFrame1.load(file, errorRes = R.drawable.place_holder_image)
+            binding.previewFrame2.load(file, errorRes = R.drawable.place_holder_image)
+            binding.previewOriginal.load(file, errorRes = R.drawable.place_holder_image)
         }
     }
 

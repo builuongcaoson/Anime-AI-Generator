@@ -1,12 +1,12 @@
 package com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter
 
 import android.content.Context
-import coil.load
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.setTint
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemModelOrLoraInDetailBinding
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import io.reactivex.subjects.PublishSubject
@@ -21,22 +21,12 @@ class ModelAndLoRAAdapter @Inject constructor(
     val favouriteClicks: Subject<ModelOrLoRA> = PublishSubject.create()
 
     override fun bindItem(item: ModelOrLoRA, binding: ItemModelOrLoraInDetailBinding, position: Int) {
-//        ConstraintSet().apply {
-//            this.clone(binding.viewGroup)
-//            this.setDimensionRatio(binding.viewClicks.id, item.ratio)
-//            this.applyTo(binding.viewGroup)
-//        }
-
         val preview = when {
             item.model != null -> item.model.preview
             item.loRA != null -> item.loRA.previews.firstOrNull()
             else -> null
         }
-        binding.preview.load(preview) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
-
+        binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
         binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.red else com.widget.R.color.tools_theme))
         binding.description.text = if (item.model != null) "Model" else if (item.loRA != null) "LoRA" else ""
         binding.display.text = item.display

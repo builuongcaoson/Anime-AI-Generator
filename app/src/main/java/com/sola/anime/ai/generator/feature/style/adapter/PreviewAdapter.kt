@@ -1,11 +1,10 @@
 package com.sola.anime.ai.generator.feature.style.adapter
 
 import androidx.core.view.isVisible
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewStyleBinding
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.subjects.PublishSubject
@@ -37,13 +36,9 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBin
         }
 
     override fun bindItem(item: Style, binding: ItemPreviewStyleBinding, position: Int) {
+        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
         binding.display.text = item.display
         binding.viewSelected.isVisible = item.id == style?.id
-
-        binding.preview.load(item.preview) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

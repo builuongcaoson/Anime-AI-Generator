@@ -8,8 +8,6 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.lightStatusBar
@@ -22,10 +20,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
-import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.makeLinks
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityFirstBinding
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
@@ -130,10 +125,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
             binding.image7 to R.drawable.first_preview_zzz9xxx16zzz_7,
             binding.image8 to R.drawable.first_preview_zzz2xxx3zzz_8
         ).forEach { pair ->
-            pair.first.load(pair.second) {
-                crossfade(true)
-                error(R.drawable.place_holder_image)
-            }
+            pair.first.load(pair.second, errorRes = R.drawable.place_holder_image)
         }
 
         listOf(

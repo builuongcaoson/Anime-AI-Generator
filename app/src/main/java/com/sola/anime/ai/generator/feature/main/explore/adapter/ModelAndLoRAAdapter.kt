@@ -1,13 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.explore.adapter
 
 import android.content.Context
-import coil.load
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.setTint
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemModelOrLoraInBatchBinding
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import io.reactivex.subjects.PublishSubject
@@ -27,10 +26,7 @@ class ModelAndLoRAAdapter @Inject constructor(
             item.loRA != null -> item.loRA.previews.firstOrNull()
             else -> null
         }
-        binding.preview.load(preview) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
+        binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
 
         binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.red else com.widget.R.color.tools_theme))
         binding.description.text = if (item.model != null) "Model" else if (item.loRA != null) "LoRA" else ""

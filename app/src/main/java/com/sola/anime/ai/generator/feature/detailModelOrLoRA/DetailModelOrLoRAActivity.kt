@@ -7,12 +7,12 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -247,16 +247,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 this.applyTo(binding.viewPreview)
             }
 
-            binding.preview.load(loRA.previews.firstOrNull()) {
-                listener(
-                    onSuccess = { _, result ->
-                        binding.preview.setImageDrawable(result.drawable)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
-                        binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                    }
-                )
-                crossfade(true)
-                error(R.drawable.place_holder_image)
+            binding.preview.load(loRA.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
+                drawable?.let {
+                    binding.preview.setImageDrawable(drawable)
+                    binding.preview.animate().alpha(1f).setDuration(250).start()
+                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                }
             }
 
             binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -297,16 +293,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 this.applyTo(binding.viewPreview)
             }
 
-            binding.preview.load(model.preview) {
-                listener(
-                    onSuccess = { _, result ->
-                        binding.preview.setImageDrawable(result.drawable)
-                        binding.preview.animate().alpha(1f).setDuration(250).start()
-                        binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                    }
-                )
-                crossfade(true)
-                error(R.drawable.place_holder_image)
+            binding.preview.load(model.preview, errorRes = R.drawable.place_holder_image) { drawable ->
+                drawable?.let {
+                    binding.preview.setImageDrawable(drawable)
+                    binding.preview.animate().alpha(1f).setDuration(250).start()
+                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                }
             }
 
             binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {

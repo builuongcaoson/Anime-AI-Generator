@@ -3,12 +3,12 @@ package com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter
 import android.content.Context
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
-import coil.load
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.setTint
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewExploreOrLoraBinding
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRAPreview
 import io.reactivex.subjects.PublishSubject
@@ -34,10 +34,7 @@ class ExploreOrLoRAPreviewAdapter @Inject constructor(
             item.loRAPreview != null -> item.loRAPreview
             else -> null
         }
-        binding.preview.load(preview) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
+        binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
 
         when {
             item.explore != null -> {

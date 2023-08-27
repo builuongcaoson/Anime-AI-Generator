@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.*
@@ -17,10 +15,7 @@ import com.revenuecat.purchases.models.StoreProduct
 import com.revenuecat.purchases.purchaseWith
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.animateHorizontalShake
-import com.sola.anime.ai.generator.common.extension.backTopToBottom
-import com.sola.anime.ai.generator.common.extension.startIap
-import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCreditBinding
@@ -322,9 +317,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         }
 
         override fun bindItem(item: Int, binding: ItemPreviewCreditBinding, position: Int) {
-            binding.preview.load(item) {
-                crossfade(true)
-            }
+            binding.preview.load(item)
         }
 
     }

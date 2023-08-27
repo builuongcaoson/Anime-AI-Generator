@@ -1,17 +1,13 @@
 package com.sola.anime.ai.generator.feature.processing.art.adapter
 
 import android.content.Context
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
-import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtProcessingBinding
 import com.sola.anime.ai.generator.domain.model.config.process.Process
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(
-    private val context: Context
-) : LsAdapter<Process, ItemPreviewArtProcessingBinding>(ItemPreviewArtProcessingBinding::inflate) {
+class PreviewAdapter @Inject constructor() : LsAdapter<Process, ItemPreviewArtProcessingBinding>(ItemPreviewArtProcessingBinding::inflate) {
 
     var totalCount = 0
 
@@ -27,10 +23,7 @@ class PreviewAdapter @Inject constructor(
     ) {
         val item = getItem(position % data.size) ?: return
 
-        binding.preview.load(item.preview) {
-            crossfade(true)
-        }
-
+        binding.preview.load(item.preview)
         binding.textTitle.text = item.title
         binding.textArtist.text = item.artist
     }

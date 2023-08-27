@@ -1,11 +1,10 @@
 package com.sola.anime.ai.generator.feature.processing.batch.adapter
 
 import androidx.core.view.isVisible
-import coil.load
-import coil.transition.CrossfadeTransition
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
@@ -33,17 +32,12 @@ class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusTextToImage, I
             }
             is StatusBodyTextToImage.Failure -> {
                 binding.viewLoading.isVisible = false
-
                 binding.preview.setImageResource(R.drawable.place_holder_image)
             }
 
             is StatusBodyTextToImage.Success -> {
                 binding.viewLoading.isVisible = false
-
-                binding.preview.load(status.file) {
-                    crossfade(true)
-                    error(R.drawable.place_holder_image)
-                }
+                binding.preview.load(status.file, errorRes = R.drawable.place_holder_image)
 
                 binding.viewDownload.clicks { downloadClicks.onNext(item) }
             }

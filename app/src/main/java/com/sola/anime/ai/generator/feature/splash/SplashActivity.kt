@@ -3,7 +3,6 @@ package com.sola.anime.ai.generator.feature.splash
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
@@ -260,10 +259,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initView() {
-        binding.image.load(R.drawable.ic_launcher) {
-            crossfade(true)
-            error(R.drawable.place_holder_image)
-        }
+        binding.image.load(R.drawable.ic_launcher, errorRes = R.drawable.place_holder_image)
     }
 
 }

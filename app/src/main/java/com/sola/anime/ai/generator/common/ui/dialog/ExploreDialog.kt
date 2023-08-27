@@ -4,16 +4,13 @@ import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.text.method.ScrollingMovementMethod
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintSet
-import coil.load
-import coil.request.ErrorResult
-import coil.request.ImageRequest
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.DialogExploreBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import io.reactivex.subjects.Subject
@@ -67,15 +64,14 @@ class ExploreDialog @Inject constructor() {
         binding.viewPreview.post {
             if (isShowing()){
                 binding.preview.animate().alpha(0f).setDuration(100).setStartDelay(0).start()
-                binding.preview.load(explore.previews.firstOrNull()) {
-                    listener(
-                        onError = { _, _ ->
-                            binding.preview.setImageResource(R.drawable.place_holder_image)
-                            binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
-                    },  onSuccess = { _, result ->
-                            binding.preview.setImageDrawable(result.drawable)
-                            binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
-                    })
+                binding.preview.load(explore.previews.firstOrNull()) { drawable ->
+                    drawable?.let {
+                        binding.preview.setImageDrawable(drawable)
+                        binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
+                    } ?: run {
+                        binding.preview.setImageResource(R.drawable.place_holder_image)
+                        binding.preview.animate().alpha(1f).setDuration(250).setStartDelay(250).start()
+                    }
                 }
             }
         }
