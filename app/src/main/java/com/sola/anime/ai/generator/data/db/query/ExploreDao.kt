@@ -12,8 +12,8 @@ interface ExploreDao {
     @Query("SELECT * FROM Explores")
     fun getAll(): List<Explore>
 
-    @Query("SELECT * FROM Explores")
-    fun getAllLive(): LiveData<List<Explore>>
+    @Query("SELECT * FROM Explores WHERE isDislike = :isDislike")
+    fun getAllLive(isDislike: Boolean = false): LiveData<List<Explore>>
 
     @Query("SELECT * FROM Explores WHERE ratio = :ratio")
     fun getAllRatio2x3Live(ratio: String = "2:3"): LiveData<List<Explore>>

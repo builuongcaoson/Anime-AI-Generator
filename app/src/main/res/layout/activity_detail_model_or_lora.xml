@@ -352,11 +352,32 @@
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/loading" />
 
+                        <LinearLayout
+                            android:id="@+id/viewEmpty"
+                            android:layout_marginTop="@dimen/_100sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+
+                            <com.basic.common.widget.LsTextView
+                                android:gravity="center"
+                                android:lineHeight="@dimen/_20sdp"
+                                android:layout_marginEnd="@dimen/_30sdp"
+                                android:layout_marginStart="@dimen/_30sdp"
+                                android:textSize="@dimen/_12ssp"
+                                android:textColor="?android:textColorPrimary"
+                                android:text="No featured photos yet, try it now to see how amazing the artwork will be."
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerExplore"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:alpha="0"
                             android:clipToPadding="false"
                             android:nestedScrollingEnabled="false"
                             android:padding="@dimen/_5sdp"
@@ -367,9 +388,9 @@
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerModelOrLoRA"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:alpha="0"
                             android:clipToPadding="false"
                             android:nestedScrollingEnabled="false"
                             android:padding="@dimen/_5sdp"
@@ -387,5 +408,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/art_generate_lottie" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

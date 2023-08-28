@@ -83,6 +83,58 @@ class Navigator @Inject constructor(
         startActivityExternal(intent)
     }
 
+    fun showReportModel(modelId: Long) {
+        analyticManager.logEvent(AnalyticManager.TYPE.REPORT_MODEL)
+
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constraint.Info.MAIL_SUPPORT))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "${context.getString(R.string.app_name)} Support")
+        intent.putExtra(
+            Intent.EXTRA_TEXT, StringBuilder("\n\n")
+                .append("\n\n--- Report model ---\n\n")
+                .append("Id: $modelId")
+                .append("Reason: ")
+                .toString()
+        )
+        startActivityExternal(intent)
+    }
+
+    fun showReportLoRA(loRAGroupId: Long, loRAId: Long) {
+        analyticManager.logEvent(AnalyticManager.TYPE.REPORT_LORA)
+
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constraint.Info.MAIL_SUPPORT))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "${context.getString(R.string.app_name)} Support")
+        intent.putExtra(
+            Intent.EXTRA_TEXT, StringBuilder("\n\n")
+                .append("\n\n--- Report lora ---\n\n")
+                .append("Group Id: $loRAGroupId")
+                .append("Id: $loRAId")
+                .append("Reason: ")
+                .toString()
+        )
+        startActivityExternal(intent)
+    }
+
+    fun showReportExplore(exploreId: Long) {
+        analyticManager.logEvent(AnalyticManager.TYPE.REPORT_EXPLORE)
+
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constraint.Info.MAIL_SUPPORT))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "${context.getString(R.string.app_name)} Support")
+        intent.putExtra(
+            Intent.EXTRA_TEXT, StringBuilder("\n\n")
+                .append("\n\n--- Report explore ---\n\n")
+                .append("Id: $exploreId")
+                .append("Reason: ")
+                .toString()
+        )
+        startActivityExternal(intent)
+    }
+
     fun showInvite() {
         analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_INVITE)
 

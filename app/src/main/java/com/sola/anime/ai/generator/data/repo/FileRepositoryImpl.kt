@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -14,11 +15,14 @@ import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.repo.FileRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
+import java.net.URL
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -86,6 +90,33 @@ class FileRepositoryImpl @Inject constructor(
             mediaScanIntent.data = contentUri
             context.sendBroadcast(mediaScanIntent)
         }
+    }
+
+    override suspend fun downloadAndSaveImages(url: String) = withContext(Dispatchers.IO) {
+        val inputStream = URL(url).openStream()
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        val imageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "${System.currentTimeMillis()}.png")
+            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+            put(MediaStore.Images.Media.WIDTH, bitmap.width)
+            put(MediaStore.Images.Media.HEIGHT, bitmap.height)
+        }
+
+        val contentResolver = context.contentResolver
+        val imageUri = contentResolver.insert(imageCollection, contentValues)
+
+        imageUri?.let {
+            val outputStream: OutputStream? = contentResolver.openOutputStream(it)
+            outputStream?.use { stream ->
+                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
+                    return@withContext
+                }
+            }
+        }
+        Unit
     }
 
     private fun copyFile(sourceFile: File, destinationFile: File): File? {

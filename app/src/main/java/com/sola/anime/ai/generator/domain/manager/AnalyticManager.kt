@@ -29,7 +29,10 @@ interface AnalyticManager {
         PURCHASE_SUCCESS,
         PURCHASE_CANCEL,
         PURCHASE_SUCCESS_CREDITS,
-        PURCHASE_CANCEL_CREDITS
+        PURCHASE_CANCEL_CREDITS,
+        REPORT_MODEL,
+        REPORT_LORA,
+        REPORT_EXPLORE
     }
 
     fun logEvent(type: TYPE)

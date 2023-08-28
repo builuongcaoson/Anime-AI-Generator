@@ -9,7 +9,7 @@ import com.sola.anime.ai.generator.domain.model.config.model.Model
 
 data class ExplorePreview(val exploreId: Long, val previewIndex: Int, val preview: String, val ratio: String)
 
-data class ExploreOrLoRAPreview(val explore: Explore? = null, val loRAPreview: String? = null, val ratio: String, val favouriteCount: Long, var isFavourite: Boolean)
+data class ExploreOrLoRAPreview(val explore: Explore? = null, val loRAPreview: String? = null, val loRAPreviewIndex: Int? = null, val ratio: String, val favouriteCount: Long, var isFavourite: Boolean)
 
 data class ModelOrLoRA(val display: String, val model: Model? = null, val loRA: LoRA? = null, val loRAGroupId: Long = -1, val favouriteCount: Long, var isFavourite: Boolean)
 

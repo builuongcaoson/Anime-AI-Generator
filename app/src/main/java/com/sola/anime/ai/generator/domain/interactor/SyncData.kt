@@ -171,18 +171,18 @@ class SyncData @Inject constructor(
 
     }
 
-    private fun syncExploresLocal() {
-        val inputStream = context.assets.open("explore.json")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
-
-//        data.forEach { explore ->
-//            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-//        }
-
-        exploreDao.deleteAll()
-        exploreDao.inserts(*data)
-    }
+//    private fun syncExploresLocal() {
+//        val inputStream = context.assets.open("explore.json")
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val data = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
+//
+////        data.forEach { explore ->
+////            explore.ratio = tryOrNull { explore.preview.split("zzz").getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+////        }
+//
+//        exploreDao.deleteAll()
+//        exploreDao.inserts(*data)
+//    }
 
     private fun syncIapLocal() {
         val inputStream = context.assets.open("iap.json")

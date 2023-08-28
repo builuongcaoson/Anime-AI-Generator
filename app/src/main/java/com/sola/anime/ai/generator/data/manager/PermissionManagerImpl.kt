@@ -40,24 +40,24 @@ class PermissionManagerImpl @Inject constructor(
     }
 
     override fun hasStorage(): Boolean {
-        return hasPermissions(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+        return when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> hasPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            else -> hasPermissions(Manifest.permission.READ_MEDIA_IMAGES)
+        }
     }
 
     override fun requestStorage(activity: Activity, resultCode: Int) {
-        ActivityCompat.requestPermissions(activity, arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ), resultCode)
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), resultCode)
+            else -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), resultCode)
+        }
     }
 
     override fun requestStorage(fragment: Fragment, resultCode: Int) {
-        fragment.requestPermissions(arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ), resultCode)
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU -> fragment.requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), resultCode)
+            else -> fragment.requestPermissions(arrayOf(Manifest.permission.READ_MEDIA_IMAGES), resultCode)
+        }
     }
 
     override fun hasPermissionNotification(): Boolean {

@@ -11,6 +11,7 @@ import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.jakewharton.rxbinding2.view.longClicks
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
 import com.sola.anime.ai.generator.common.extension.load
@@ -42,19 +43,20 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     companion object {
         const val EXPLORE_ID_EXTRA = "EXPLORE_ID_EXTRA"
-        const val PREVIEW_INDEX_EXTRA = "PREVIEW_INDEX_EXTRA"
+        const val EXPLORE_PREVIEW_INDEX_EXTRA = "EXPLORE_PREVIEW_INDEX_EXTRA"
     }
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var explorePreviewAdapter: ExplorePreviewAdapter
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var navigator: Navigator
 
     private val subjectDataExplorePreviewChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabExplore> = BehaviorSubject.createDefault(TabExplore.Recommendations)
 
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
-    private val previewIndex by lazy { intent.getIntExtra(PREVIEW_INDEX_EXTRA, 0) }
+    private val previewIndex by lazy { intent.getIntExtra(EXPLORE_PREVIEW_INDEX_EXTRA, 0) }
     private var hadDataExplorePreviews = false
     private var markFavourite = false
 
@@ -71,9 +73,9 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-        binding.save.clicks {  }
-        binding.dislike.clicks {  }
-        binding.report.clicks {  }
+        binding.save.clicks { saveClicks() }
+        binding.dislike.clicks { dislikeClicks() }
+        binding.report.clicks { reportClicks() }
         binding.favourite.clicks {
             val explore = exploreDao.findById(exploreId) ?: return@clicks
             explore.isFavourite = !explore.isFavourite
@@ -83,6 +85,20 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         binding.viewRecommendations.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.Recommendations) }
         binding.viewExploreRelated.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.ExploreRelated) }
         binding.prompt.longClicks().autoDispose(scope()).subscribe { binding.prompt.text.toString().copyToClipboard(this) }
+    }
+
+    private fun reportClicks() {
+        navigator.showReportExplore(exploreId = exploreId)
+    }
+
+    private fun dislikeClicks() {
+        val explore = exploreDao.findById(exploreId) ?: return
+        explore.isDislike = false
+        exploreDao.update(explore)
+    }
+
+    private fun saveClicks() {
+
     }
 
     private fun initData() {
@@ -192,31 +208,34 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         exploreDao.findByIdLive(exploreId).observe(this) { explore ->
             explore ?: return@observe
 
-            ConstraintSet().apply {
-                this.clone(binding.viewPreview)
-                this.setDimensionRatio(binding.preview.id, explore.ratio)
-                this.applyTo(binding.viewPreview)
-            }
+            when {
+                explore.isDislike -> back()
+                else -> {
+                    ConstraintSet().apply {
+                        this.clone(binding.viewPreview)
+                        this.setDimensionRatio(binding.preview.id, explore.ratio)
+                        this.applyTo(binding.viewPreview)
+                    }
 
-            Timber.e("Preview Index: $previewIndex")
+                    binding.preview.load(explore.previews.getOrNull(previewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
+                        drawable?.let {
+                            binding.preview.setImageDrawable(drawable)
+                            binding.preview.animate().alpha(1f).setDuration(250).start()
+                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                        }
+                    }
 
-            binding.preview.load(explore.previews.getOrNull(previewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
-                drawable?.let {
-                    binding.preview.setImageDrawable(drawable)
-                    binding.preview.animate().alpha(1f).setDuration(250).start()
-                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
+                    }
+
+                    binding.prompt.text = explore.prompt
+                    binding.favouriteCount.text = "${if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount} Uses"
+                    binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+
+                    initExploreData(explore = explore)
                 }
             }
-
-            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
-            }
-
-            binding.prompt.text = explore.prompt
-            binding.favouriteCount.text = "${if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount} Uses"
-            binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-            initExploreData(explore = explore)
         }
     }
 

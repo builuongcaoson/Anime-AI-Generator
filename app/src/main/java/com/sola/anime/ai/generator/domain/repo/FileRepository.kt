@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.domain.repo
 
 import android.graphics.Bitmap
+import android.net.Uri
 import java.io.File
 
 interface FileRepository {
@@ -10,5 +11,7 @@ interface FileRepository {
     suspend fun downloads(vararg files: File)
 
     suspend fun downloads(vararg bitmaps: Bitmap)
+
+    suspend fun downloadAndSaveImages(url: String)
 
 }

@@ -31,4 +31,7 @@ class Explore {
     @SerializedName("is_favourite")
     @Expose
     var isFavourite: Boolean = false
+    @SerializedName("is_dislike")
+    @Expose
+    var isDislike: Boolean = false
 }

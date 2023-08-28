@@ -11,20 +11,24 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
+import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
+import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRAPreview
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.TabModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
+import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ExploreOrLoRAPreviewAdapter
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.adapter.ModelAndLoRAAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -45,9 +49,11 @@ import javax.inject.Inject
 class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(ActivityDetailModelOrLoraBinding::inflate) {
 
     companion object {
+        private const val STORAGE_REQUEST = 1
         const val MODEL_ID_EXTRA = "MODEL_ID_EXTRA"
         const val LORA_GROUP_ID_EXTRA = "LORA_GROUP_ID_EXTRA"
         const val LORA_ID_EXTRA = "LORA_ID_EXTRA"
+        const val LORA_PREVIEW_INDEX_EXTRA = "LORA_PREVIEW_INDEX_EXTRA"
     }
 
     @Inject lateinit var modelDao: ModelDao
@@ -56,6 +62,9 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     @Inject lateinit var exploreOrLoRAPreviewAdapter: ExploreOrLoRAPreviewAdapter
     @Inject lateinit var modelAndLoRAAdapter: ModelAndLoRAAdapter
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var navigator: Navigator
+    @Inject lateinit var permissionManager: PermissionManager
+    @Inject lateinit var fileRepo: FileRepository
 
     private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRAPreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabModelOrLoRA> = BehaviorSubject.createDefault(TabModelOrLoRA.Artworks)
@@ -64,6 +73,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val loRAGroupId by lazy { intent.getLongExtra(LORA_GROUP_ID_EXTRA, -1) }
     private val loRAId by lazy { intent.getLongExtra(LORA_ID_EXTRA, -1) }
+    private val loRAPReviewIndex by lazy { intent.getIntExtra(LORA_PREVIEW_INDEX_EXTRA, 0) }
     private var hadDataModelsAndLoRAs = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,9 +89,9 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-        binding.save.clicks {  }
-        binding.dislike.clicks {  }
-        binding.report.clicks {  }
+        binding.save.clicks { saveClicks() }
+        binding.dislike.clicks { dislikeClicks() }
+        binding.report.clicks { reportClicks() }
         binding.viewArtworksBy.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Artworks) }
         binding.viewOther.clicks(withAnim = false) { subjectTabChanges.onNext(TabModelOrLoRA.Others) }
         binding.favourite.clicks {
@@ -98,6 +108,60 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     loRAGroupDao.update(loRAGroup)
                 }
             }
+        }
+    }
+
+    private fun reportClicks() {
+        when {
+            modelId != -1L -> navigator.showReportModel(modelId = modelId)
+            loRAGroupId != -1L && loRAId != -1L -> navigator.showReportLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId)
+        }
+    }
+
+    private fun dislikeClicks() {
+        when {
+            modelId != -1L -> {
+                val model = modelDao.findById(modelId) ?: return
+                model.isDislike = false
+                modelDao.updates(model)
+            }
+            loRAGroupId != -1L && loRAId != -1L -> {
+                loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
+                    loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
+                        loRA.isDislike = false
+                        loRAGroupDao.update(loRAGroup)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun saveClicks() {
+        when {
+            !permissionManager.hasStorage() -> permissionManager.requestStorage(this, STORAGE_REQUEST)
+            loRAGroupId != -1L && loRAId != -1L -> {
+                loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
+                    loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.previews?.getOrNull(loRAPReviewIndex)?.let { loRAPreview ->
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            binding.viewLoading.isVisible = true
+                            fileRepo.downloadAndSaveImages(loRAPreview)
+                            binding.viewLoading.isVisible = false
+                            makeToast("Download success!")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when {
+            requestCode == STORAGE_REQUEST && permissionManager.hasStorage() -> saveClicks()
         }
     }
 
@@ -148,8 +212,17 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 binding.viewDividerArtworksBy.isVisible = tab == TabModelOrLoRA.Artworks
                 binding.viewDividerOther.isVisible = tab == TabModelOrLoRA.Others
 
-                binding.recyclerExplore.animate().alpha(if (tab == TabModelOrLoRA.Artworks) 1f else 0f).setDuration(250L).start()
-                binding.recyclerModelOrLoRA.animate().alpha(if (tab == TabModelOrLoRA.Others) 1f else 0f).setDuration(250L).start()
+                binding.recyclerExplore.isVisible = tab == TabModelOrLoRA.Artworks
+                binding.recyclerModelOrLoRA.isVisible = tab == TabModelOrLoRA.Others
+
+                val isVisibleViewEmpty = when {
+                    tab == TabModelOrLoRA.Artworks && exploreOrLoRAPreviewAdapter.data.isEmpty() -> true
+                    tab == TabModelOrLoRA.Artworks && exploreOrLoRAPreviewAdapter.data.isNotEmpty() -> false
+                    tab == TabModelOrLoRA.Others && modelAndLoRAAdapter.data.isEmpty() -> true
+                    else -> false
+                }
+
+                binding.viewEmpty.isVisible = isVisibleViewEmpty
             }
 
         subjectDataExploreOrLoRAChanges
@@ -164,7 +237,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     exploreOrLoRAPreviewAdapter.data = dataExploreOrLoRA
                     delay(250L)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
-                    binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+                    binding.viewEmpty.isVisible = dataExploreOrLoRA.isEmpty()
                 }
             }
 
@@ -174,6 +247,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .subscribe { exploreOrLoRAPreview ->
                 when {
                     exploreOrLoRAPreview.explore != null -> startDetailExplore(exploreId = exploreOrLoRAPreview.explore.id)
+                    exploreOrLoRAPreview.loRAPreview != null && exploreOrLoRAPreview.loRAPreviewIndex != null -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId, loRAPReviewIndex = exploreOrLoRAPreview.loRAPreviewIndex)
                 }
             }
 
@@ -217,6 +291,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             }
         }
 
+        binding.save.isVisible = modelId == -1L && loRAGroupId != -1L
+
         binding.recyclerExplore.adapter = exploreOrLoRAPreviewAdapter
         binding.recyclerModelOrLoRA.adapter = modelAndLoRAAdapter
     }
@@ -224,47 +300,51 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     private fun initLoRAView() {
         loRAGroupDao.findByIdLive(loRAGroupId).observe(this) { loRAGroup ->
             loRAGroup ?: return@observe
-
             val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return@observe
 
-            ConstraintSet().apply {
-                this.clone(binding.viewPreview)
-                this.setDimensionRatio(binding.preview.id, "3:4")
-                this.applyTo(binding.viewPreview)
-            }
+            when {
+                loRA.isDislike -> back()
+                else -> {
+                    ConstraintSet().apply {
+                        this.clone(binding.viewPreview)
+                        this.setDimensionRatio(binding.preview.id, "3:4")
+                        this.applyTo(binding.viewPreview)
+                    }
 
-            binding.preview.load(loRA.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
-                drawable?.let {
-                    binding.preview.setImageDrawable(drawable)
-                    binding.preview.animate().alpha(1f).setDuration(250).start()
-                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                    binding.preview.load(loRA.previews.getOrNull(loRAPReviewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
+                        drawable?.let {
+                            binding.preview.setImageDrawable(drawable)
+                            binding.preview.animate().alpha(1f).setDuration(250).start()
+                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                        }
+                    }
+
+                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
+                    }
+
+                    binding.modelOrLoRA.text = "LoRA"
+                    binding.use.text = "Use this LoRA"
+                    binding.textArtworksBy.text = "Artworks by LoRA"
+                    binding.textOther.text = "Other LoRAs"
+                    binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
+                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
+                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
+                    binding.display.text = loRA.display
+                    binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
+                    binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+
+                    initLoRAData(loRA = loRA)
                 }
             }
-
-            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
-            }
-
-            binding.modelOrLoRA.text = "LoRA"
-            binding.use.text = "Use this LoRA"
-            binding.textArtworksBy.text = "Artworks by LoRA"
-            binding.textOther.text = "Other LoRAs"
-            binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
-            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
-            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
-            binding.display.text = loRA.display
-            binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
-            binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-            initLoRAData(loRA = loRA)
         }
     }
 
     private fun initLoRAData(loRA: LoRA) {
         lifecycleScope.launch(Dispatchers.Main) {
-            val loRAPreviews = loRA.previews.map { preview -> ExploreOrLoRAPreview(loRAPreview = preview, ratio = listOf("2:3","3:4").random(), favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) }
+            val loRAPreviews = loRA.previews.mapIndexed { index, preview -> ExploreOrLoRAPreview(loRAPreview = preview, loRAPreviewIndex = index, ratio = listOf("2:3","3:4").random(), favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) }
             subjectDataExploreOrLoRAChanges.onNext(ArrayList(loRAPreviews).apply {
-                tryOrNull { this.removeFirst() }
+                tryOrNull { this.removeAt(loRAPReviewIndex) }
             })
         }
     }
@@ -273,36 +353,41 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         modelDao.findByIdLive(modelId).observe(this) { model ->
             model ?: return@observe
 
-            ConstraintSet().apply {
-                this.clone(binding.viewPreview)
-                this.setDimensionRatio(binding.preview.id, "1:1")
-                this.applyTo(binding.viewPreview)
-            }
+            when {
+                model.isDislike -> back()
+                else -> {
+                    ConstraintSet().apply {
+                        this.clone(binding.viewPreview)
+                        this.setDimensionRatio(binding.preview.id, "1:1")
+                        this.applyTo(binding.viewPreview)
+                    }
 
-            binding.preview.load(model.preview, errorRes = R.drawable.place_holder_image) { drawable ->
-                drawable?.let {
-                    binding.preview.setImageDrawable(drawable)
-                    binding.preview.animate().alpha(1f).setDuration(250).start()
-                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                    binding.preview.load(model.preview, errorRes = R.drawable.place_holder_image) { drawable ->
+                        drawable?.let {
+                            binding.preview.setImageDrawable(drawable)
+                            binding.preview.animate().alpha(1f).setDuration(250).start()
+                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
+                        }
+                    }
+
+                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+                    }
+
+                    binding.modelOrLoRA.text = "Model"
+                    binding.use.text = "Use this Model"
+                    binding.textArtworksBy.text = "Artworks by Model"
+                    binding.textOther.text = "Other Models"
+                    binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
+                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
+                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
+                    binding.display.text = model.display
+                    binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
+                    binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+
+                    initExploreData(model)
                 }
             }
-
-            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
-            }
-
-            binding.modelOrLoRA.text = "Model"
-            binding.use.text = "Use this Model"
-            binding.textArtworksBy.text = "Artworks by Model"
-            binding.textOther.text = "Other Models"
-            binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
-            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
-            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
-            binding.display.text = model.display
-            binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
-            binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-            initExploreData(model)
         }
     }
 

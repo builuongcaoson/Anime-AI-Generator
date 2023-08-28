@@ -44,11 +44,12 @@ fun Activity.startSearch(){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1){
+fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, loRAPReviewIndex: Int = 0){
     val intent = Intent(this, DetailModelOrLoRAActivity::class.java)
     intent.putExtra(DetailModelOrLoRAActivity.MODEL_ID_EXTRA, modelId)
     intent.putExtra(DetailModelOrLoRAActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
     intent.putExtra(DetailModelOrLoRAActivity.LORA_ID_EXTRA, loRAId)
+    intent.putExtra(DetailModelOrLoRAActivity.LORA_PREVIEW_INDEX_EXTRA, loRAPReviewIndex)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
@@ -56,7 +57,7 @@ fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, 
 fun Activity.startDetailExplore(exploreId: Long, previewIndex: Int = 0){
     val intent = Intent(this, DetailExploreActivity::class.java)
     intent.putExtra(DetailExploreActivity.EXPLORE_ID_EXTRA, exploreId)
-    intent.putExtra(DetailExploreActivity.PREVIEW_INDEX_EXTRA, previewIndex)
+    intent.putExtra(DetailExploreActivity.EXPLORE_PREVIEW_INDEX_EXTRA, previewIndex)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
