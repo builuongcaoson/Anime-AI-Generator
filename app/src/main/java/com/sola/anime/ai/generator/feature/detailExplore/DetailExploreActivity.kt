@@ -44,6 +44,7 @@ import javax.inject.Inject
 class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityDetailExploreBinding::inflate) {
 
     companion object {
+        private const val STORAGE_REQUEST = 1
         const val EXPLORE_ID_EXTRA = "EXPLORE_ID_EXTRA"
         const val EXPLORE_PREVIEW_INDEX_EXTRA = "EXPLORE_PREVIEW_INDEX_EXTRA"
     }
@@ -102,13 +103,29 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     }
 
     private fun saveClicks() {
-        val explorePreview = exploreDao.findById(exploreId)?.previews?.getOrNull(previewIndex) ?: return
+        when {
+            !permissionManager.hasStorage() -> permissionManager.requestStorage(this, STORAGE_REQUEST)
+            else -> {
+                val explorePreview = exploreDao.findById(exploreId)?.previews?.getOrNull(previewIndex) ?: return
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            binding.viewLoading.isVisible = true
-            fileRepo.downloadAndSaveImages(explorePreview)
-            binding.viewLoading.isVisible = false
-            makeToast("Download success!")
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.viewLoading.isVisible = true
+                    fileRepo.downloadAndSaveImages(explorePreview)
+                    binding.viewLoading.isVisible = false
+                    makeToast("Download success!")
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when {
+            requestCode == STORAGE_REQUEST && permissionManager.hasStorage() -> saveClicks()
         }
     }
 
