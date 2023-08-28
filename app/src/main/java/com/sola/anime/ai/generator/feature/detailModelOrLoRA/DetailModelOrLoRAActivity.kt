@@ -237,7 +237,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     exploreOrLoRAPreviewAdapter.data = dataExploreOrLoRA
                     delay(250L)
                     binding.loadingExploreOrLoRA.animate().alpha(0f).setDuration(250).start()
-                    binding.viewEmpty.isVisible = dataExploreOrLoRA.isEmpty()
+                    binding.viewEmpty.isVisible = dataExploreOrLoRA.isEmpty() && subjectTabChanges.blockingFirst() == TabModelOrLoRA.Artworks
                 }
             }
 
@@ -272,6 +272,16 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                             loRAGroupDao.update(loRAGroup)
                         }
                     }
+                }
+            }
+
+        modelAndLoRAAdapter
+            .clicks
+            .autoDispose(scope())
+            .subscribe { modelAndLoRA ->
+                when {
+                    modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelId)
+                    modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId)
                 }
             }
     }
