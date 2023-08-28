@@ -122,13 +122,13 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         when {
             modelId != -1L -> {
                 val model = modelDao.findById(modelId) ?: return
-                model.isDislike = false
+                model.isDislike = true
                 modelDao.updates(model)
             }
             loRAGroupId != -1L && loRAId != -1L -> {
                 loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
                     loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
-                        loRA.isDislike = false
+                        loRA.isDislike = true
                         loRAGroupDao.update(loRAGroup)
                     }
                 }

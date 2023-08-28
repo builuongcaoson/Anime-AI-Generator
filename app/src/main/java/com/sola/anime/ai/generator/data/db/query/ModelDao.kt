@@ -14,8 +14,8 @@ interface ModelDao {
     @Query("SELECT * FROM Models")
     fun getAll(): List<Model>
 
-    @Query("SELECT * FROM Models")
-    fun getAllLive(): LiveData<List<Model>>
+    @Query("SELECT * FROM Models WHERE isDislike = :isDislike")
+    fun getAllLive(isDislike: Boolean = false): LiveData<List<Model>>
 
     // Inserts or deletes
 

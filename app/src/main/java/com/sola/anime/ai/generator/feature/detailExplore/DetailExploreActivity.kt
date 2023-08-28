@@ -19,9 +19,11 @@ import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailExploreBinding
+import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.model.ExplorePreview
 import com.sola.anime.ai.generator.domain.model.TabExplore
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.feature.detailExplore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.feature.detailExplore.adapter.ExplorePreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -51,6 +53,8 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var permissionManager: PermissionManager
+    @Inject lateinit var fileRepo: FileRepository
 
     private val subjectDataExplorePreviewChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabExplore> = BehaviorSubject.createDefault(TabExplore.Recommendations)
@@ -93,12 +97,19 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     private fun dislikeClicks() {
         val explore = exploreDao.findById(exploreId) ?: return
-        explore.isDislike = false
+        explore.isDislike = true
         exploreDao.update(explore)
     }
 
     private fun saveClicks() {
+        val explorePreview = exploreDao.findById(exploreId)?.previews?.getOrNull(previewIndex) ?: return
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.viewLoading.isVisible = true
+            fileRepo.downloadAndSaveImages(explorePreview)
+            binding.viewLoading.isVisible = false
+            makeToast("Download success!")
+        }
     }
 
     private fun initData() {
