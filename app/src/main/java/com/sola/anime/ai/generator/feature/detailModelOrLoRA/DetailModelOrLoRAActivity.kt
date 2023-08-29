@@ -266,8 +266,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .subscribe { modelOrLoRA ->
                 when {
                     modelOrLoRA.model != null -> modelDao.updates(modelOrLoRA.model)
-                    modelOrLoRA.loRA != null && loRAGroupId != -1L -> loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
-                        loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
+                    modelOrLoRA.loRA != null && modelOrLoRA.loRAGroupId != -1L -> loRAGroupDao.findById(modelOrLoRA.loRAGroupId)?.let { loRAGroup ->
+                        loRAGroup.childs.find { loRA -> loRA.id == modelOrLoRA.loRA.id }?.let { loRA ->
                             loRA.isFavourite = !loRA.isFavourite
                             loRAGroupDao.update(loRAGroup)
                         }
@@ -280,8 +280,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { modelAndLoRA ->
                 when {
-                    modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelId)
-                    modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId)
+                    modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
+                    modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
                 }
             }
     }
@@ -303,8 +303,14 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
         binding.save.isVisible = modelId == -1L && loRAGroupId != -1L
 
-        binding.recyclerExplore.adapter = exploreOrLoRAPreviewAdapter
-        binding.recyclerModelOrLoRA.adapter = modelAndLoRAAdapter
+        binding.recyclerExplore.apply {
+            this.adapter = exploreOrLoRAPreviewAdapter
+            this.itemAnimator = null
+        }
+        binding.recyclerModelOrLoRA.apply {
+            this.adapter = modelAndLoRAAdapter
+            this.itemAnimator = null
+        }
     }
 
     private fun initLoRAView() {

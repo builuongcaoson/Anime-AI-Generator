@@ -37,6 +37,7 @@ class ModelAndLoRAAdapter @Inject constructor(
             item.model?.isFavourite = !(item.model?.isFavourite ?: false)
             item.loRA?.isFavourite = !(item.loRA?.isFavourite ?: false)
             item.isFavourite = !item.isFavourite
+            binding.favouriteCount.text = "${if (item.isFavourite) (item.favouriteCount + 1) else item.favouriteCount} Uses"
             binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
 
             favouriteClicks.onNext(item)

@@ -9,9 +9,7 @@ import javax.inject.Inject
 class TopPreviewAdapter @Inject constructor(): LsAdapter<Int, ItemTopPreviewInExploreBinding>(ItemTopPreviewInExploreBinding::inflate) {
 
     init {
-        data = listOf(
-            R.drawable.preview_top_batch
-        )
+        data = listOf(R.drawable.preview_top_batch)
     }
 
     override fun bindItem(item: Int, binding: ItemTopPreviewInExploreBinding, position: Int) {

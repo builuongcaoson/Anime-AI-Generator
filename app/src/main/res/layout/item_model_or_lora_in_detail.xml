@@ -83,13 +83,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_heart_full"
                 android:tint="?colorOnPrimary"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:padding="@dimen/_3sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/favourite"
                 android:layout_centerVertical="true"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"/>
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewDescription"

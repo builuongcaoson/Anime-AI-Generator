@@ -20,7 +20,7 @@ fun BlurView.blur(rootView: ViewGroup, ratioBlur: Float = 20f){
 fun ImageView.load(any: Any?, placeholderRes: Int? = null, errorRes: Int? = null, done: (Drawable?) -> Unit = {}){
     val builder = Glide.with(this.context)
         .load(any)
-        .centerCrop()
+        .fitCenter()
         .transition(DrawableTransitionOptions.withCrossFade())
         .listener(object: RequestListener<Drawable>{
             override fun onLoadFailed(

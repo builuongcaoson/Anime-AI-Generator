@@ -35,12 +35,7 @@ class ExploreOrLoRAPreviewAdapter @Inject constructor(
             else -> null
         }
         binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
-
-        when {
-            item.explore != null -> {
-                binding.prompt.text = item.explore.prompt
-            }
-        }
+        binding.prompt.text = item.explore?.prompt
         binding.viewPromptExplore.isVisible = item.explore != null
         binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
         binding.favourite.isVisible = item.explore != null
