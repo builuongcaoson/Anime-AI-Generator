@@ -26,10 +26,12 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
     }
 
     val deleteClicks: Subject<Int> = PublishSubject.create()
+    val modelClicks: Subject<Int> = PublishSubject.create()
+    val styleClicks: Subject<Int> = PublishSubject.create()
     val numberOfImagesChanges: Subject<Pair<NumberOfImages, Int>> = PublishSubject.create()
     val fullHdChanges: Subject<Unit> = PublishSubject.create()
 
-    private val sparseNegatives = SparseBooleanArray()
+//    private val sparseNegatives = SparseBooleanArray()
     private val sparseNumbers = SparseBooleanArray()
     private val sparseDimensions = SparseBooleanArray()
     private val sparseAdvanceds = SparseBooleanArray()
@@ -39,13 +41,15 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
         initView(binding, context, item, position)
 
-        showOrHideNegative(binding, sparseNegatives[position])
+//        showOrHideNegative(binding, sparseNegatives[position])
         showOrHideNumber(binding, sparseNumbers.get(0, true))
         showOrHideDimension(binding, sparseDimensions.get(0, true))
         showOrHideAdvanced(binding, sparseAdvanceds[position])
 
         binding.delete.clicks { deleteClicks.onNext(position) }
-        binding.viewDropNegative.clicks { dropNegativeClicks(binding, position) }
+//        binding.viewDropNegative.clicks { dropNegativeClicks(binding, position) }
+        binding.viewModel.clicks {  }
+        binding.viewStyle.clicks {  }
         binding.viewDropNumbers.clicks { dropNumbersClicks(binding, position) }
         binding.viewDropDimensions.clicks { dropDimensionsClicks(binding, position) }
         binding.viewDropAdvanced.clicks { dropAdvancedClicks(binding, position) }
@@ -152,11 +156,11 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         sparseAdvanceds.put(position, isShow)
     }
 
-    private fun dropNegativeClicks(binding: ItemPromptBatchBinding, position: Int) {
-        val isShow = !sparseNegatives[position]
-        showOrHideNegative(binding, isShow)
-        sparseNegatives.put(position, isShow)
-    }
+//    private fun dropNegativeClicks(binding: ItemPromptBatchBinding, position: Int) {
+//        val isShow = !sparseNegatives[position]
+//        showOrHideNegative(binding, isShow)
+//        sparseNegatives.put(position, isShow)
+//    }
 
     private fun dropNumbersClicks(binding: ItemPromptBatchBinding, position: Int) {
         val isShow = !sparseNumbers.get(position, true)
@@ -170,10 +174,10 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
         sparseDimensions.put(position, isShow)
     }
 
-    private fun showOrHideNegative(binding: ItemPromptBatchBinding, isShow: Boolean){
-        binding.viewNegative.isVisible = isShow
-        binding.viewDropNegative.rotation = if (isShow) 0f else 90f
-    }
+//    private fun showOrHideNegative(binding: ItemPromptBatchBinding, isShow: Boolean){
+//        binding.viewNegative.isVisible = isShow
+//        binding.viewDropNegative.rotation = if (isShow) 0f else 90f
+//    }
 
     private fun showOrHideNumber(binding: ItemPromptBatchBinding, isShow: Boolean){
         binding.recyclerNumberOfImages.isVisible = isShow

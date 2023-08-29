@@ -42,8 +42,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         private const val MAX_PROMPT = 5
     }
 
-    @Inject lateinit var categoryAdapter: CategoryAdapter
-    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
+//    @Inject lateinit var categoryAdapter: CategoryAdapter
+//    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var exploreDao: ExploreDao
@@ -59,15 +59,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initData() {
-        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
-            previewCategoryAdapter.data = ArrayList(models.map {
-                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.modelId, description = it.description)
-            })
-            previewCategoryAdapter.data.firstOrNull()?.also { previewCategory ->
-                previewCategoryAdapter.category = previewCategory
-                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
-            }
-        }
+//        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+//            previewCategoryAdapter.data = ArrayList(models.map {
+//                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.modelId, description = it.description)
+//            })
+//            previewCategoryAdapter.data.firstOrNull()?.also { previewCategory ->
+//                previewCategoryAdapter.category = previewCategory
+//                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
+//            }
+//        }
     }
 
     private fun listenerView() {
@@ -82,7 +82,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         }
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
-        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel(isBatch = true) }
+//        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel(isBatch = true) }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
     }
@@ -153,28 +153,28 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initObservable() {
-        configApp
-            .subjectModelBatchChanges
-            .map { configApp.modelBatchChoice }
-            .autoDispose(scope())
-            .subscribe { model ->
-                previewCategoryAdapter.category = previewCategoryAdapter.data.find { it.display == model?.display }
-            }
+//        configApp
+//            .subjectModelBatchChanges
+//            .map { configApp.modelBatchChoice }
+//            .autoDispose(scope())
+//            .subscribe { model ->
+//                previewCategoryAdapter.category = previewCategoryAdapter.data.find { it.display == model?.display }
+//            }
 
-        categoryAdapter
-            .clicks
-            .autoDispose(scope())
-            .subscribe { categoryBatch ->
-                categoryAdapter.category = categoryBatch
-            }
+//        categoryAdapter
+//            .clicks
+//            .autoDispose(scope())
+//            .subscribe { categoryBatch ->
+//                categoryAdapter.category = categoryBatch
+//            }
 
-        previewCategoryAdapter
-            .clicks
-            .autoDispose(scope())
-            .subscribe { previewCategory ->
-                previewCategoryAdapter.category = previewCategory
-                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
-            }
+//        previewCategoryAdapter
+//            .clicks
+//            .autoDispose(scope())
+//            .subscribe { previewCategory ->
+//                previewCategoryAdapter.category = previewCategory
+//                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
+//            }
 
         promptAdapter
             .fullHdChanges
@@ -199,6 +199,20 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 binding.viewPlusPrompt.isVisible = promptAdapter.data.size in 0 .. MAX_PROMPT
 
                 updateUiCredit()
+            }
+
+        promptAdapter
+            .modelClicks
+            .autoDispose(scope())
+            .subscribe { index ->
+
+            }
+
+        promptAdapter
+            .styleClicks
+            .autoDispose(scope())
+            .subscribe { index ->
+
             }
 
         prefs
@@ -239,15 +253,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 }
             }
 
-            binding.recyclerCategory.apply {
-                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-                this.adapter = categoryAdapter
-            }
+//            binding.recyclerCategory.apply {
+//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+//                this.adapter = categoryAdapter
+//            }
 
-            binding.recyclerPreviewCategory.apply {
-                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-                this.adapter = previewCategoryAdapter
-            }
+//            binding.recyclerPreviewCategory.apply {
+//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
+//                this.adapter = previewCategoryAdapter
+//            }
 
             binding.recyclerPrompt.apply {
                 this.layoutManager = object: LinearLayoutManager(activity, VERTICAL, false){

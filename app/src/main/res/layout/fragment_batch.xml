@@ -91,50 +91,6 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/_75sdp">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_toStartOf="@id/textSeeAll"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_category_batch" />
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/textSeeAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_5sdp"
-                    android:text="See all"
-                    android:textColor="?colorAccent"
-                    android:textSize="@dimen/_13ssp" />
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPreviewCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/_10sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:ignore="RtlSymmetry"
-                tools:listitem="@layout/item_preview_category_batch" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPrompt"
                 android:layout_width="match_parent"

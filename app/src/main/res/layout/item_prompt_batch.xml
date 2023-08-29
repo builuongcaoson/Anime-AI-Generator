@@ -107,14 +107,6 @@
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/viewDropNegative"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
-
             </RelativeLayout>
 
             <LinearLayout
@@ -125,9 +117,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:orientation="vertical">
 
                 <com.basic.common.widget.LsEditText
                     android:id="@+id/negative"
@@ -148,6 +138,221 @@
                     app:textFont="medium" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Models and Styles"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="invisible"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right" />
+
+            </RelativeLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewModel"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    app:cardBackgroundColor="?android:colorBackground"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/viewStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_toStartOf="@id/viewPlusOrNextModel"
+                            android:orientation="vertical">
+
+                            <com.basic.common.widget.LsTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Model"
+                                android:textColor="?android:textColorSecondary"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/displayModel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text="Pick a Model"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/viewPlusOrNextModel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_10sdp">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/viewNoModel"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?android:textColorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_plus"
+                                    android:tint="?colorOnPrimary" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/viewHadModel"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?colorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:tint="?colorOnPrimary"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:colorBackground"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/viewModel"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_toStartOf="@id/viewPlusOrNextStyle"
+                            android:orientation="vertical">
+
+                            <com.basic.common.widget.LsTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Style"
+                                android:textColor="?android:textColorSecondary"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/displayStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text="Pick a Style"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/viewPlusOrNextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/_10sdp">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/viewNoStyle"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?android:textColorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_plus"
+                                    android:tint="?colorOnPrimary" />
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:id="@+id/viewHadStyle"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?colorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:tint="?colorOnPrimary"
+                                    android:visibility="gone" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

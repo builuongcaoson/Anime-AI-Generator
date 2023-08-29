@@ -358,7 +358,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initLoRAData(loRA: LoRA) {
         lifecycleScope.launch(Dispatchers.Main) {
-            val loRAPreviews = loRA.previews.mapIndexed { index, preview -> ExploreOrLoRAPreview(loRAPreview = preview, loRAPreviewIndex = index, ratio = listOf("2:3","3:4").random(), favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) }
+            val loRAPreviews = loRA.previews.mapIndexed { index, preview -> ExploreOrLoRAPreview(loRAPreview = preview, loRAPreviewIndex = index, ratio = "2:3", favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) }
             subjectDataExploreOrLoRAChanges.onNext(ArrayList(loRAPreviews).apply {
                 tryOrNull { this.removeAt(loRAPReviewIndex) }
             })
