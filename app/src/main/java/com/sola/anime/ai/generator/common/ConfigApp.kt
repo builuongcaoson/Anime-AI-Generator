@@ -39,13 +39,6 @@ class ConfigApp @Inject constructor(
     var blockDeviceIds = listOf("")
     var blockedRoot = true
 
-    var styleChoice: Style? = null
-    var modelChoice: Model? = null
-        set(value) {
-            field = value
-            subjectModelChanges.onNext(Unit)
-        }
-
     // Art & Batch
     var resPhoto: Int? = null
         set(value) {
@@ -68,6 +61,5 @@ class ConfigApp @Inject constructor(
     var subjectUriPhotoChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
-    var subjectModelChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
 
 }

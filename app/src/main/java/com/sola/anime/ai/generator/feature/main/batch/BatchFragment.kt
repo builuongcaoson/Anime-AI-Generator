@@ -158,29 +158,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initObservable() {
-//        configApp
-//            .subjectModelBatchChanges
-//            .map { configApp.modelBatchChoice }
-//            .autoDispose(scope())
-//            .subscribe { model ->
-//                previewCategoryAdapter.category = previewCategoryAdapter.data.find { it.display == model?.display }
-//            }
-
-//        categoryAdapter
-//            .clicks
-//            .autoDispose(scope())
-//            .subscribe { categoryBatch ->
-//                categoryAdapter.category = categoryBatch
-//            }
-
-//        previewCategoryAdapter
-//            .clicks
-//            .autoDispose(scope())
-//            .subscribe { previewCategory ->
-//                previewCategoryAdapter.category = previewCategory
-//                configApp.modelBatchChoice = modelDao.getAll().find { it.display == previewCategory.display }
-//            }
-
         promptAdapter
             .fullHdChanges
             .autoDispose(scope())
@@ -210,6 +187,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .modelClicks
             .autoDispose(scope())
             .subscribe { index ->
+                sheetModel.model = promptAdapter.data.getOrNull(index)?.model
                 sheetModel.clicks = { model ->
                     sheetModel.dismiss()
 
@@ -223,6 +201,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .styleClicks
             .autoDispose(scope())
             .subscribe { index ->
+                sheetStyle.style = promptAdapter.data.getOrNull(index)?.style
                 sheetStyle.clicks = { style ->
                     sheetStyle.dismiss()
 

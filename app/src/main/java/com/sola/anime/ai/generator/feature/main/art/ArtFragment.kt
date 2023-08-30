@@ -21,6 +21,7 @@ import com.sola.anime.ai.generator.common.ui.sheet.advanced.SheetAdvanced
 import com.sola.anime.ai.generator.common.ui.sheet.history.SheetHistory
 import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
+import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
@@ -51,7 +52,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) {
 
-    @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var styleDao: StyleDao
@@ -73,6 +73,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetAdvanced by lazy { SheetAdvanced() }
     private val sheetPhoto by lazy { SheetPhoto() }
     private val sheetModel by lazy { SheetModel() }
+    private val sheetStyle by lazy { SheetStyle() }
 
     override fun onViewCreated() {
         initView()
@@ -81,27 +82,24 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllRatio2x3Live().observe(viewLifecycleOwner){ explores ->
-            previewAdapter.data = explores.shuffled()
-
-            explores.size.takeIf { it > 0 }?.let { it / 2 }?.let { centerIndex ->
-                tryOrNull { binding.recyclerPreview.smoothScrollToPosition(centerIndex) }
-            }
+        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
+            previewExploreAdapter.data = explores
         }
 
-        exploreDao.getAllOtherRatio2x3Live().observe(viewLifecycleOwner){ explores ->
-            previewExploreAdapter.data = explores
+        modelDao.getAllLive().observeOnce(viewLifecycleOwner){ models ->
+            val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
+            updateUiModel(model)
+        }
+
+        styleDao.getAllLive().observeOnce(viewLifecycleOwner) { styles ->
+            val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
+            updateUiStyle(style)
         }
     }
 
     override fun onResume() {
         initObservable()
-        initDateResult()
         super.onResume()
-    }
-
-    private fun initDateResult() {
-        updateUiStyle(configApp.styleChoice)
     }
 
     private fun updateUiModel(model: Model?) {
@@ -115,14 +113,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initObservable() {
-        configApp
-            .subjectModelChanges
-            .map { configApp.modelChoice }
-            .autoDispose(scope())
-            .subscribe { model ->
-                updateUiModel(model)
-            }
-
         sheetPhoto
             .clicks
             .autoDispose(scope())
@@ -169,9 +159,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe {
                 subjectFirstView.onNext(false)
 
-                updateUiModel(configApp.modelChoice)
-
-                binding.recyclerPreview.animate().alpha(1f).setDuration(500).start()
                 binding.recyclerViewExplore.animate().alpha(1f).setDuration(500).start()
             }
 
@@ -223,29 +210,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.count.text = "${prompt.length}/1000"
             }
 
-        previewAdapter
-            .clicks
-            .autoDispose(scope())
-            .subscribe { explore ->
-                val index = previewAdapter.data.indexOf(explore).takeIf { it != -1 } ?: return@subscribe
-
-                (binding.recyclerPreview.layoutManager as? CardSliderLayoutManager)?.let { layoutManager ->
-                    if (layoutManager.isSmoothScrolling){
-                        return@subscribe
-                    }
-
-                    val activeCardPosition = layoutManager.activeCardPosition
-                    if (activeCardPosition == RecyclerView.NO_POSITION) {
-                        return@subscribe
-                    }
-
-                    when {
-                        index != activeCardPosition -> tryOrNull { binding.recyclerPreview.smoothScrollToPosition(index) }
-                        else -> activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
-                    }
-                }
-            }
-
         useExploreClicks
             .autoDispose(scope())
             .subscribe {
@@ -294,8 +258,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
-        binding.viewModel.clicks(withAnim = false) { sheetModel.show(this) }
-        binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
+        binding.viewModel.clicks(withAnim = false) { modelClicks() }
+        binding.viewStyle.clicks(withAnim = false) { styleClicks() }
         binding.clear.clicks { binding.editPrompt.setText("") }
         binding.history.clicks { sheetHistory.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
@@ -328,6 +292,26 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetPhoto.show(this)
         }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
+    }
+
+    private fun styleClicks() {
+        sheetStyle.clicks = { style ->
+            sheetStyle.style = style
+            sheetStyle.dismiss()
+
+            updateUiStyle(style)
+        }
+        sheetStyle.show(this)
+    }
+
+    private fun modelClicks() {
+        sheetModel.clicks = { model ->
+            sheetModel.model = model
+            sheetModel.dismiss()
+
+            updateUiModel(model)
+        }
+        sheetModel.show(this)
     }
 
     private fun generateClicks() {
@@ -364,10 +348,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                             guidance = sheetAdvanced.guidance.toString(),
                             steps = sheetAdvanced.step,
-                            model = configApp.modelChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                            model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
                             sampler = "euler_a",
                             upscale = "2",
-                            styleId = configApp.styleChoice?.id ?: -1,
+                            styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,
                             strength = strength.toString(),
                             seed = null,
@@ -386,10 +370,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
                             guidance = sheetAdvanced.guidance.toString(),
                             steps = sheetAdvanced.step,
-                            model = configApp.modelChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                            model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
                             sampler = "euler_a",
                             upscale = "2",
-                            styleId = configApp.styleChoice?.id ?: -1,
+                            styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,
                             seed = null,
                             type = 0
@@ -425,13 +409,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
-            binding.recyclerPreview.apply {
-                this.adapter = previewAdapter
-                this.setHasFixedSize(true)
-
-                CardSnapHelper().attachToRecyclerView(this)
-            }
-
             binding.recyclerViewAspectRatio.apply {
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 this.adapter = aspectRatioAdapter

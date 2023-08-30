@@ -52,8 +52,6 @@
 
         <activity android:name=".feature.setting.SettingActivity" />
 
-        <activity android:name=".feature.style.StyleActivity" />
-
         <activity android:name=".feature.explore.ExploreActivity" />
 
         <activity android:name=".feature.result.art.ArtResultActivity" />
