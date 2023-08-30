@@ -107,7 +107,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewHadModel.isVisible = model != null
 
         binding.displayModel.text = when (model) {
-            null -> "Pick a model"
+            null -> "Pick a Model"
             else -> model.display
         }
     }

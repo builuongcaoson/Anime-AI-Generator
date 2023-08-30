@@ -482,7 +482,7 @@
                                         android:layout_gravity="center_vertical">
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewNoStyle"
+                                            android:id="@+id/viewNoLoRA"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
                                             android:background="@drawable/circle"
@@ -492,7 +492,7 @@
                                             android:tint="?colorOnPrimary" />
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewHadStyle"
+                                            android:id="@+id/viewHadLoRA"
                                             android:layout_width="@dimen/_20sdp"
                                             android:layout_height="@dimen/_20sdp"
                                             android:background="@drawable/circle"
@@ -511,6 +511,118 @@
                         </com.google.android.material.card.MaterialCardView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="LoRAs"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_13ssp"
+                        app:textFont="semi" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewLoRA"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:cardBackgroundColor="?android:colorBackground"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_5sdp">
+
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/cardStyle"
+                                    android:layout_width="@dimen/_35sdp"
+                                    android:layout_height="@dimen/_35sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:visibility="gone"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    app:cardElevation="0dp"
+                                    tools:visibility="visible">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/previewStyle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        tools:src="?colorPrimary" />
+
+                                </com.google.android.material.card.MaterialCardView>
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/displayLoRA"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:text="Pick a LoRA"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_12ssp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_10sdp">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/viewMoreStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:text="View more"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewNoStyle"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?android:textColorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_plus"
+                                        android:tint="?colorOnPrimary" />
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewHadStyle"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?colorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_arrow_right"
+                                        android:tint="?colorOnPrimary"
+                                        android:visibility="gone" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
