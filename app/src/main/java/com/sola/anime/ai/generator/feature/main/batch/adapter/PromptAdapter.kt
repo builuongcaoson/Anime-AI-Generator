@@ -31,7 +31,6 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
     val numberOfImagesChanges: Subject<Pair<NumberOfImages, Int>> = PublishSubject.create()
     val fullHdChanges: Subject<Unit> = PublishSubject.create()
 
-//    private val sparseNegatives = SparseBooleanArray()
     private val sparseNumbers = SparseBooleanArray()
     private val sparseDimensions = SparseBooleanArray()
     private val sparseAdvanceds = SparseBooleanArray()
@@ -41,15 +40,13 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
 
         initView(binding, context, item, position)
 
-//        showOrHideNegative(binding, sparseNegatives[position])
         showOrHideNumber(binding, sparseNumbers.get(0, true))
         showOrHideDimension(binding, sparseDimensions.get(0, true))
         showOrHideAdvanced(binding, sparseAdvanceds[position])
 
         binding.delete.clicks { deleteClicks.onNext(position) }
-//        binding.viewDropNegative.clicks { dropNegativeClicks(binding, position) }
-        binding.viewModel.clicks {  }
-        binding.viewStyle.clicks {  }
+        binding.viewModel.clicks { modelClicks.onNext(position) }
+        binding.viewStyle.clicks { styleClicks.onNext(position) }
         binding.viewDropNumbers.clicks { dropNumbersClicks(binding, position) }
         binding.viewDropDimensions.clicks { dropDimensionsClicks(binding, position) }
         binding.viewDropAdvanced.clicks { dropAdvancedClicks(binding, position) }
@@ -141,6 +138,22 @@ class PromptAdapter @Inject constructor(): LsAdapter<PromptBatch, ItemPromptBatc
             }
             this.itemAnimator = null
             this.adapter = ImageDimensionsAdapter(item)
+        }
+
+        val model = item.model
+        binding.viewNoModel.isVisible = model == null
+        binding.viewHadModel.isVisible = model != null
+        binding.displayModel.text = when (model) {
+            null -> "Pick a Model"
+            else -> model.display
+        }
+
+        val style = item.style
+        binding.viewNoStyle.isVisible = style == null
+        binding.viewHadStyle.isVisible = style != null
+        binding.displayStyle.text = when (style) {
+            null -> "Pick a Style"
+            else -> style.display
         }
 
         binding.delete.isVisible = position != 0

@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.config.model.Model
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 
 data class ExplorePreview(val exploreId: Long, val previewIndex: Int, val preview: String, val ratio: String)
 
@@ -20,6 +21,8 @@ data class PreviewCategoryBatch(val preview: String, val display: String, val mo
 data class PromptBatch(
     var prompt: String = "",
     var negativePrompt: String = "",
+    var model: Model? = null,
+    var style: Style? = null,
     var numberOfImages: NumberOfImages = NumberOfImages.NumberOfImages1,
     var ratio: Ratio = Ratio.Ratio1x1,
     var guidance: Float = 7.5f, // Min 5 Max 10 Step 0.5

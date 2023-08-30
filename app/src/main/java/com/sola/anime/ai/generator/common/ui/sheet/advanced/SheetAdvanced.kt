@@ -20,7 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AdvancedSheet: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::inflate) {
+class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::inflate) {
 
     @Inject lateinit var aspectRatioAdapter: AspectRatioAdapter
     @Inject lateinit var configApp: ConfigApp

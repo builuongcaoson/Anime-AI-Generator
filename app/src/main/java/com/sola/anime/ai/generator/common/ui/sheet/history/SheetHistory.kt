@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistorySheet: LsBottomSheet<SheetHistoryBinding>(SheetHistoryBinding::inflate) {
+class SheetHistory: LsBottomSheet<SheetHistoryBinding>(SheetHistoryBinding::inflate) {
 
     @Inject lateinit var promptAdapter: PromptAdapter
     @Inject lateinit var historyDao: HistoryDao

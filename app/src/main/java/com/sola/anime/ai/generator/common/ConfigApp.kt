@@ -45,11 +45,6 @@ class ConfigApp @Inject constructor(
             field = value
             subjectModelChanges.onNext(Unit)
         }
-    var modelBatchChoice: Model? = null
-        set(value) {
-            field = value
-            subjectModelBatchChanges.onNext(Unit)
-        }
 
     // Art & Batch
     var resPhoto: Int? = null
@@ -74,6 +69,5 @@ class ConfigApp @Inject constructor(
     var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
     var subjectModelChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
-    var subjectModelBatchChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
 
 }

@@ -1,22 +1,20 @@
-package com.sola.anime.ai.generator.feature.model.adapter
+package com.sola.anime.ai.generator.common.ui.sheet.style.adapter
 
-import android.view.View
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.load
-import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.databinding.ItemPreviewModelBinding
-import com.sola.anime.ai.generator.domain.model.config.model.Model
+import com.sola.anime.ai.generator.databinding.ItemPreviewStyleBinding
+import com.sola.anime.ai.generator.domain.model.config.style.Style
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBinding>(ItemPreviewModelBinding::inflate) {
+class StyleAdapter @Inject constructor(): LsAdapter<Style, ItemPreviewStyleBinding>(ItemPreviewStyleBinding::inflate) {
 
-    val clicks: Subject<Model> = PublishSubject.create()
-    var model: Model? = null
+    val clicks: Subject<Style> = PublishSubject.create()
+    var style: Style? = null
         set(value) {
             if (field == value){
                 return
@@ -37,12 +35,10 @@ class PreviewAdapter @Inject constructor(): LsAdapter<Model, ItemPreviewModelBin
             field = value
         }
 
-    override fun bindItem(item: Model, binding: ItemPreviewModelBinding, position: Int) {
+    override fun bindItem(item: Style, binding: ItemPreviewStyleBinding, position: Int) {
         binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item.id == model?.id
-        binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
-        binding.description.text = item.description
+        binding.viewSelected.isVisible = item.id == style?.id
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

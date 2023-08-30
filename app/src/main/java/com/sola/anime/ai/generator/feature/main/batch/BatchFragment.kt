@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
@@ -16,22 +15,21 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
+import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
+import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.PreviewCategoryBatch
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
-import com.sola.anime.ai.generator.feature.main.batch.adapter.CategoryAdapter
-import com.sola.anime.ai.generator.feature.main.batch.adapter.PreviewCategoryAdapter
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -42,8 +40,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         private const val MAX_PROMPT = 5
     }
 
-//    @Inject lateinit var categoryAdapter: CategoryAdapter
-//    @Inject lateinit var previewCategoryAdapter: PreviewCategoryAdapter
     @Inject lateinit var promptAdapter: PromptAdapter
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var exploreDao: ExploreDao
@@ -51,6 +47,10 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var modelDao: ModelDao
+    @Inject lateinit var styleDao: StyleDao
+
+    private val sheetModel by lazy { SheetModel() }
+    private val sheetStyle by lazy { SheetStyle() }
 
     override fun onViewCreated() {
         initView()
@@ -59,15 +59,17 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initData() {
-//        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
-//            previewCategoryAdapter.data = ArrayList(models.map {
-//                PreviewCategoryBatch(preview = it.preview, display = it.display, model = it.modelId, description = it.description)
-//            })
-//            previewCategoryAdapter.data.firstOrNull()?.also { previewCategory ->
-//                previewCategoryAdapter.category = previewCategory
-//                configApp.modelBatchChoice = models.find { it.display == previewCategory?.display }
-//            }
-//        }
+        modelDao.getAllLive().observeOnce(viewLifecycleOwner){ models ->
+            val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
+            promptAdapter.data.getOrNull(0)?.model = model
+            promptAdapter.notifyItemChanged(0)
+        }
+
+        styleDao.getAllLive().observeOnce(viewLifecycleOwner) { styles ->
+            val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
+            promptAdapter.data.getOrNull(0)?.style = style
+            promptAdapter.notifyItemChanged(0)
+        }
     }
 
     private fun listenerView() {
@@ -82,7 +84,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         }
 
         binding.viewPlusPrompt.clicks(withAnim = false) { plusPrompt() }
-//        binding.textSeeAll.clicks(withAnim = true) { activity?.startModel(isBatch = true) }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
     }
@@ -109,10 +110,10 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                         negative = negative,
                         guidance = item.guidance.toString(),
                         steps = item.step.toString(),
-                        model = configApp.modelBatchChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        model = item.model?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
                         sampler = if (item.sampler == Sampler.Random) listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler else item.sampler.sampler,
                         upscale = "2",
-                        styleId = -1,
+                        styleId = item.style?.id ?: -1,
                         ratio = item.ratio,
                         seed = null,
                         type = 1
@@ -138,7 +139,11 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     private fun plusPrompt() {
         promptAdapter.data = ArrayList(promptAdapter.data).apply {
-            add(PromptBatch())
+            add(
+                PromptBatch().apply {
+                    this.model = modelDao.getAll().find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: modelDao.getAll().firstOrNull()
+                }
+            )
         }
         binding.nestedScrollView.post { binding.nestedScrollView.smoothScrollTo(0, binding.nestedScrollView.getChildAt(0).height) }
 
@@ -205,14 +210,26 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .modelClicks
             .autoDispose(scope())
             .subscribe { index ->
+                sheetModel.clicks = { model ->
+                    sheetModel.dismiss()
 
+                    promptAdapter.data.getOrNull(index)?.model = model
+                    promptAdapter.notifyItemChanged(index)
+                }
+                sheetModel.show(this)
             }
 
         promptAdapter
             .styleClicks
             .autoDispose(scope())
             .subscribe { index ->
+                sheetStyle.clicks = { style ->
+                    sheetStyle.dismiss()
 
+                    promptAdapter.data.getOrNull(index)?.style = style
+                    promptAdapter.notifyItemChanged(index)
+                }
+                sheetStyle.show(this)
             }
 
         prefs

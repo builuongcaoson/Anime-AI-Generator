@@ -159,7 +159,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                         negative = negativePrompt,
                         guidance = "7.5",
                         steps = configApp.stepPremium,
-                        model = configApp.modelBatchChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
+                        model = Constraint.Dezgo.DEFAULT_MODEL,
                         sampler = listOf(Sampler.Ddim, Sampler.Dpm, Sampler.Euler, Sampler.EulerA).random().sampler,
                         upscale = "2",
                         styleId = -1,

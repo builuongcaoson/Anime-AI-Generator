@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,31 +8,31 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewPreview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:cardBackgroundColor="?android:windowBackground"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/preview"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/place_holder_image"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
             <View
                 android:id="@+id/viewShadow"
@@ -56,7 +56,6 @@
                 android:ellipsize="marquee"
                 android:gravity="center_horizontal"
                 android:maxLines="2"
-                android:textAllCaps="true"
                 android:textColor="?colorOnPrimary"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,20 +88,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/viewPremium"
-                android:layout_width="@dimen/_17sdp"
-                android:layout_height="@dimen/_17sdp"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:background="@drawable/circle"
-                android:backgroundTint="#BF000000"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_diamond"
-                android:tint="?colorOnPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/viewDescription"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/viewDescription" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewDescription"
                 android:layout_width="wrap_content"
@@ -133,4 +118,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

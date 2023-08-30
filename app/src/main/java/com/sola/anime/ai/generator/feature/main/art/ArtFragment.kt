@@ -3,10 +3,8 @@ package com.sola.anime.ai.generator.feature.main.art
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
@@ -19,8 +17,9 @@ import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.BlockSensitivesDialog
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.ui.sheet.advanced.AdvancedSheet
-import com.sola.anime.ai.generator.common.ui.sheet.history.HistorySheet
+import com.sola.anime.ai.generator.common.ui.sheet.advanced.SheetAdvanced
+import com.sola.anime.ai.generator.common.ui.sheet.history.SheetHistory
+import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
 import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
@@ -70,9 +69,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
-    private val historySheet by lazy { HistorySheet() }
-    private val advancedSheet by lazy { AdvancedSheet() }
+    private val sheetHistory by lazy { SheetHistory() }
+    private val sheetAdvanced by lazy { SheetAdvanced() }
     private val sheetPhoto by lazy { SheetPhoto() }
+    private val sheetModel by lazy { SheetModel() }
 
     override fun onViewCreated() {
         initView()
@@ -92,10 +92,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         exploreDao.getAllOtherRatio2x3Live().observe(viewLifecycleOwner){ explores ->
             previewExploreAdapter.data = explores
         }
-
-//        modelDao.getAllLive().observe(viewLifecycleOwner) { models ->
-//            models.firstOrNull{ !it.premium }.also { configApp.modelChoice = it }
-//        }
     }
 
     override fun onResume() {
@@ -206,10 +202,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
                 val explore = exploreDao.findById(id)
 
-//                advancedSheet.negative = explore?.negative ?: ""
-//                advancedSheet.guidance = explore?.guidance ?: 7.5f
-//                advancedSheet.step = explore?.steps ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
-
                 when {
                     prefs.isUpgraded.get() -> {
                         val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
@@ -302,16 +294,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
-        binding.viewModel.clicks(withAnim = false) { activity?.startModel() }
+        binding.viewModel.clicks(withAnim = false) { sheetModel.show(this) }
         binding.viewStyle.clicks(withAnim = false) { activity?.startStyle() }
         binding.clear.clicks { binding.editPrompt.setText("") }
-        binding.history.clicks {
-            if (historySheet.isAdded){
-                return@clicks
-            }
-
-            historySheet.show(this)
-        }
+        binding.history.clicks { sheetHistory.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -324,12 +310,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             false
         }
         binding.viewAdvancedSetting.clicks(withAnim = false) {
-            if (advancedSheet.isAdded){
-                return@clicks
-            }
-
-            advancedSheet.step = if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
-            advancedSheet.show(this)
+            sheetAdvanced.step = if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
+            sheetAdvanced.show(this)
         }
         binding.viewSeeAllExplore.clicks { activity?.startExplore() }
         binding.closePhoto.clicks {
@@ -379,9 +361,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             maxChildId = 0,
                             initImage = photoUri,
                             prompt = prompt,
-                            negative = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                            guidance = advancedSheet.guidance.toString(),
-                            steps = advancedSheet.step,
+                            negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                            guidance = sheetAdvanced.guidance.toString(),
+                            steps = sheetAdvanced.step,
                             model = configApp.modelChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
                             sampler = "euler_a",
                             upscale = "2",
@@ -401,9 +383,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             groupId = 0,
                             maxChildId = 0,
                             prompt = prompt,
-                            negative = advancedSheet.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
-                            guidance = advancedSheet.guidance.toString(),
-                            steps = advancedSheet.step,
+                            negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                            guidance = sheetAdvanced.guidance.toString(),
+                            steps = sheetAdvanced.step,
                             model = configApp.modelChoice?.modelId ?: Constraint.Dezgo.DEFAULT_MODEL,
                             sampler = "euler_a",
                             upscale = "2",
