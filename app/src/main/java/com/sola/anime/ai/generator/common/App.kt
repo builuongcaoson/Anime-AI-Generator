@@ -28,10 +28,6 @@ class App : Application() {
 
     @Inject lateinit var prefs: Preferences
 
-    // For review
-    val manager by lazy { ReviewManagerFactory.create(this) }
-    var reviewInfo: ReviewInfo? = null
-
     override fun onCreate() {
         super.onCreate()
 
@@ -67,15 +63,6 @@ class App : Application() {
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
         Purchases.sharedInstance.setDisplayName(getDeviceId())
         Purchases.sharedInstance.setEmail(getDeviceModel())
-    }
-
-    fun loadReviewInfo(){
-        val request = manager.requestReviewFlow()
-        request.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                reviewInfo = task.result
-            }
-        }
     }
 
 }

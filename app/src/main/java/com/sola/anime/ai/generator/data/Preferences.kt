@@ -29,9 +29,6 @@ class Preferences @Inject constructor(
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
-    val isSyncUserPurchased = rxPrefs.getBoolean("isSyncUserPurchased_v3", false)
-    val isSyncUserPurchasedFailed = rxPrefs.getBoolean("isSyncUserPurchasedFailed", true)
-    val userPremium = rxPrefs.getString("userPremium", "")
 
     // For App
     val versionExplore = rxPrefs.getLong("versionExplore", 0)
@@ -42,11 +39,11 @@ class Preferences @Inject constructor(
     val versionModel = rxPrefs.getLong("versionModel", 0)
     val isShowedWaringPremiumDialog = rxPrefs.getBoolean("isShowedWaringPremiumDialog", false)
     val isFirstTime = rxPrefs.getBoolean("isFirstTime", true)
-    val isRated = rxPrefs.getBoolean("isRated", false)
-    val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
-    val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
+//    val isRated = rxPrefs.getBoolean("isRated", false)
+//    val isCreateDefaultFolder = rxPrefs.getBoolean("isCreateDefaultFolder", false)
+//    val isSyncedData = rxPrefs.getBoolean("isSyncedData_${Constraint.Info.DATA_VERSION}", false)
     val numberDownloadedOriginal = rxPrefs.getLong("numberDownloadedOriginal", 0)
-    val numberCreatedArtworkInDayFailed = rxPrefs.getLong("numberCreatedArtworkInDayFailed", 1)
+//    val numberCreatedArtworkInDayFailed = rxPrefs.getLong("numberCreatedArtworkInDayFailed", 1)
     val numberCreatedArtwork = rxPrefs.getLong("numberCreatedArtwork", 0)
     val totalNumberCreatedArtwork = rxPrefs.getLong("totalNumberCreatedArtwork", 0)
     val latestTimeCreatedArtwork = rxPrefs.getLong("latestTimeCreatedArt", -1)

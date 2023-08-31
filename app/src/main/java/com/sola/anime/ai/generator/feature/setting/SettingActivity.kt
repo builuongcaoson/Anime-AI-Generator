@@ -135,9 +135,9 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
                                             binding.viewLoading.isVisible = false
                                         }
                                         Constraint.Promo.TRY_USER_PURCHASED -> {
-                                            syncUserPurchased {
-                                                binding.viewLoading.isVisible = false
-                                            }
+//                                            syncUserPurchased {
+//                                                binding.viewLoading.isVisible = false
+//                                            }
                                         }
                                     }
 
@@ -157,40 +157,40 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         }
     }
 
-    private fun syncUserPurchased(done: () -> Unit) {
-        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("##### SETTING #####")
-            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-            Timber.tag("Main12345").e("Is active: $isActive")
-
-            if (isActive){
-                lifecycleScope.launch(Dispatchers.Main) {
-                    serverApiRepo.syncUser { userPremium ->
-                        userPremium?.let {
-                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredPremium.set(-2)
-
-                                done()
-                                return@syncUser
-                            }
-
-                            customerInfo
-                                .latestExpirationDate
-                                ?.takeIf { it.time > System.currentTimeMillis() }
-                                ?.let { expiredDate ->
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
-
-                            done()
-                        }
-                    }
-                }
-            } else done()
-        }
-    }
+//    private fun syncUserPurchased(done: () -> Unit) {
+//        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
+//            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
+//            Timber.tag("Main12345").e("##### SETTING #####")
+//            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
+//            Timber.tag("Main12345").e("Is active: $isActive")
+//
+//            if (isActive){
+//                lifecycleScope.launch(Dispatchers.Main) {
+//                    serverApiRepo.syncUser { userPremium ->
+//                        userPremium?.let {
+//                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
+//                                prefs.isUpgraded.set(true)
+//                                prefs.timeExpiredPremium.set(-2)
+//
+//                                done()
+//                                return@syncUser
+//                            }
+//
+//                            customerInfo
+//                                .latestExpirationDate
+//                                ?.takeIf { it.time > System.currentTimeMillis() }
+//                                ?.let { expiredDate ->
+//                                    prefs.isUpgraded.set(true)
+//                                    prefs.timeExpiredPremium.set(expiredDate.time)
+//                                }
+//
+//                            done()
+//                        }
+//                    }
+//                }
+//            } else done()
+//        }
+//    }
 
     private fun initView() {
         binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {

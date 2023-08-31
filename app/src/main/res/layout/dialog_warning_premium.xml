@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_30sdp"
+        app:cardBackgroundColor="@color/backgroundLight"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp">
 
@@ -40,11 +41,11 @@
             <com.basic.common.widget.LsTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineHeight="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:lineHeight="@dimen/_15sdp"
                 android:text="We will not be responsible for users who intentionally exceed our daily photo creation limit, such as deleting data or uninstalling and reinstalling apps, etc."
                 android:textAlignment="center"
                 android:textColor="?android:textColorSecondary"

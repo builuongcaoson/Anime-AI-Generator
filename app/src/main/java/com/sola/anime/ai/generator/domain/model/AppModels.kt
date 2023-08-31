@@ -14,10 +14,6 @@ data class ExploreOrLoRAPreview(val explore: Explore? = null, val loRAPreview: S
 
 data class ModelOrLoRA(val display: String, val model: Model? = null, val loRA: LoRA? = null, val loRAGroupId: Long = -1, val favouriteCount: Long, var isFavourite: Boolean)
 
-data class CategoryBatch(val display: String)
-
-data class PreviewCategoryBatch(val preview: String, val display: String, val model: String, val description: String = "", )
-
 data class PromptBatch(
     var prompt: String = "",
     var negativePrompt: String = "",

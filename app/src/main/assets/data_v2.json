@@ -1,631 +1,1320 @@
 {
-  "v1": {
-    "explore": [
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F1_zzz1xxx1zzz.webp?alt=media&token=6a797c51-8072-4798-af16-8c2b55bc3a8a",
-        "prompt": "masterpiece, absurdres, best quality, ultra detailed, extremely detailed, intricate details, best aesthetic, solo, dynamic pose, OriginalOutfit, lux, blonde hair, brown eyes, headgear, wavy hair, starry sky, galaxy, falling star, greek temple, marble \\(stone\\), looking away, looking up, fox ears, fox tail",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4), ng_deepnegative_v1_75t",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F2_zzz1xxx2zzz.webp?alt=media&token=84ce1c63-2833-4e08-a829-bf7554532c54",
-        "prompt": "(masterpiece, best quality), beautiful face, detailed nose, full lips, detailed eyes, cat ears, short hair, silver hair, white hair, purple eyes, silky white dress",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F3_zzz2xxx3zzz.webp?alt=media&token=ee79c841-ec01-4c3b-9d58-b6e4c732f8ad",
-        "prompt": "hair ornament, soap bubbles, blue sky, sky close-up, transparency, brown hair, hair hanging over the ears, purple eyes",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4), ng_deepnegative_v1_75t",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F4_zzz2xxx3zzz.webp?alt=media&token=a7c2c326-91eb-42cd-91c5-654f9086d1b2",
-        "prompt": "medium hair, Lustrous wavy hair, black hair, hair covering one eye, grey eyes, (green hoodie), fair skin, glaring at viewer, intense glare, happy lightened face, glowing eyes, eye glint, happy gaze, cute smile, waist to head photograph",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "worst quality, large head, low quality, extra digits, bad eyes, EasyNegativeV2, ng_deepnegative_v1_75t",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F5_zzz2xxx3zzz.webp?alt=media&token=9d8282ef-1b05-4c27-aa2f-dd43b7ea29ab",
-        "prompt": "1girl, solo, long hair, looking at viewer, braid, flower, wings, parted lips, head wings, red hair, pink hair, hair between eyes, upper body, bangs, hair rings, yellow eyes, yellow flower",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "worst quality, large head, low quality, extra digits, bad eyes, EasyNegativeV2, ng_deepnegative_v1_75t, bad anatomy, bad hands, bad drawing, bad face, bad eyes, nsfw, felmael, woman, 1girl, young, loli, shota",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F6_zzz9xxx16zzz.webp?alt=media&token=f6e08f23-7e28-47eb-84dc-43477cfa72e5",
-        "prompt": "1man, male focus, male, casualwear, confused, hands on the pocket, messy hair, black hair, masterpiece, absurdres, solo,",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts,signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F7_zzz1xxx1zzz.webp?alt=media&token=b48be5f2-6ccd-4b7c-b6da-7c4dbff403af",
-        "prompt": "cat ears, short hair, silver hair, white hair, purple eyes, purple shirt, happy, flirty, san francisco city in the background, sunset, peaceful, wind blowing her hair, shooting stars",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "nsfw, (worst quality, low quality:1.3), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), 3D face, nose, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, (tan, muscular, loli, petite, child, infant, toddlers, chibi, sd character:1.1), multiple view, Reference sheet,",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F8_zzz1xxx1zzz.webp?alt=media&token=205784c5-9bb3-45d8-ae21-cfd939e05eb4",
-        "prompt": "(masterpiece), (best quality), (ultra-detailed), (solo), 1girl, (extremely delicate and beautiful fabric), (beautiful detailed sky), beautiful details in the wind, flying splashes, flying petals, wind",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative, not revealing",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F9_zzz2xxx3zzz.webp?alt=media&token=12378da5-f6a4-42f8-a920-a422b7279192",
-        "prompt": "masterpiece, best quality, ultra-detailed, high resolution, extremely detailed cg, anime picture, shiny hair and skin, detailed outfit, stylish pose, sit proudly on the throne, shiny detailed king clothes, detailed otherworldly throne room, discreet clothes",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F10_zzz1xxx1zzz.webp?alt=media&token=38883e9a-c0a1-4d65-97f1-a63f13c9beb6",
-        "prompt": "(masterpiece:1.2, best quality), (real picture, intricate details), raytracing, detailed face, 1boy, short white hair, black robe with green detailing, wizard, holding a wand, magic, silver and green, academy background, dynamic, upper body shot, looking at the viewer",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F11_zzz1xxx1zzz.webp?alt=media&token=ba624fcf-b50d-40b0-8c90-37f622aeeaaf",
-        "prompt": "1girl, water hair, blue, magic, fantasy, best quality, ((beautiful hand)), wear a T-shirt",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4), easynegative,",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F12_zzz3xxx4zzz.webp?alt=media&token=d6775627-534e-4420-9a88-c6fa9185a270",
-        "prompt": "Black hair, oversized sweater, beautiful night, star in the Sky, looking at the viewer, smiling, balcony, leaning on the railing, long skirt, blush, detailed hands, longue hair, one hand in hair, wind in the hair",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F13_zzz9xxx16zzz.webp?alt=media&token=4532ee9e-f09d-40dd-a9bc-1174641a59b0",
-        "prompt": "Masterpiece, Best Quality, Ray Tracing, Sunlight, Cinema, City Ruins, Rain, 1girl, natsuki \\(doki doki literature club\\), crossed arms, pink hair, pout, :t, skirt, solo, ribbon, short hair, two side up, red ribbon, school uniform, hairclip, hair ornament, pleated skirt, blush, long sleeves, blue skirt, looking at viewer, eyebrows visible through hair, shirt, pink eyes, jacket, v-shaped eyebrows, bangs, hair ribbon, grey jacket, white shirt, breasts, neck ribbon, :i, frown, standing, breast hold, collared shirt",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4),",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F14_zzz2xxx3zzz.webp?alt=media&token=e9a57923-e24a-4235-b92b-59e487d48e4b",
-        "prompt": "((20 year old young)),((black hanfu)),red string decoration, ((long black hair)),low ponytail, white hair tie, ((golden eyes)),little sharp eyes,",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(worst quality, low quality, large head, extra digits:1.4), normal quality, bad hands, missing fingers, few fingers, extra fingers",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F15_zzz3xxx2zzz.webp?alt=media&token=43a7ffa3-5bc1-4d65-addc-074d588b3b44",
-        "prompt": "(((Princess))), (absurdres), 1woman, looking at camera, flying, sunlight, blue sky, beautiful detailed blonde long hair, fantasy,",
-        "sampler": "euler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F16_zzz2xxx3zzz.webp?alt=media&token=0d0093b9-a51b-483c-a029-a9ddd353fc1c",
-        "prompt": "masterpiece, 4k quality, sunrays, lake, tree, bright sky, 1girl, solo, silver hair, white kimono, samurai armor, standing, pose",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F17_zzz2xxx3zzz.webp?alt=media&token=6bf9e51f-6f76-4d79-931a-d2433e42b7b7",
-        "prompt": "vibrant colors, girl, masterpiece, sharp focus, best quality, cinematlicilghting, detailed outfit, perfect eyes, dynamic pose, blue hair, closed eyes, long hair, indoors, bedroom, sitting, on chair, headphones, headphones on head, casual clothes, smiling",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F18_zzz3xxx2zzz.webp?alt=media&token=5c0a5f1e-816b-4731-8df5-6e2bee72dd69",
-        "prompt": "girl, animal ears, umbrella, japanese clothes, long hair, solo, kimono, oil-paper umbrella, flower, fox ears, spider lily, brown hair, wide sleeves, holding umbrella, outdoors, breasts, large breasts, red coat, thick eyebrows, purple eyes, coat, holding, sky, red flower, gloves, cloud, brown gloves, cloudy sky, animal ear fluff, standing, fox girl",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F19_zzz2xxx3zzz.webp?alt=media&token=5a3cf9cb-9b56-4f6b-96b5-553df8795ee2",
-        "prompt": "(anime style:1.2), heavy outline, clear outline, woman, young, 20 years old, medium hair, wavy hair, bangs, (side ponytail:1.5), (beautiful dark brown hair:1.5), neat figure, beautiful detailed hair, delicate detailed face beautiful detailed hair, wearing priest, short shorts, lace-up boots, ((masterpiece)), ((best quality)), (ultra-detailed), ((extremely detailed)), beautifully painted, extremely detailed body, best quality, (beautiful), dynamic angle, ((kawaii)), fingernails, earrings, Location is a summer port town, He wears big sunglasses",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F20_zzz2xxx3zzz.webp?alt=media&token=a5dbeeec-a0f7-47b3-b09a-6adc82b05d08",
-        "prompt": "(((masterpiece))), (((best quality))), ((ultra-detailed)), (illustration), (detailed light),((an extremely delicate and beautiful)),(beautiful detailed eyes),,beautiful detail,Siesta,white hair,(good anatomy)",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F21_zzz2xxx3zzz.webp?alt=media&token=c1ba721c-c2ae-4ff2-ae32-7c7ba73ac3ee",
-        "prompt": "(perfect details:1.1), young girl, smile, happy, ((Lavender field)), summer, purple, flower spikes, fragrance, dress, wind, silence, thoughts, walking, footsteps, petals, carpet, peace, bustle, release, heart, caress, smile, deep breath, world, wrapped, slow, refresh, quiet, beauty, inspiration, inner peace, crossing, freedom",
-        "sampler": "ruler_a",
-        "steps": "50"
-      },
-      {
-        "guidance": 7.5,
-        "modelId": -1,
-        "negative": "(character out of frame)1.4, (worst quality)1.2, (low quality)1.6, (normal quality)1.6, lowres, (monochrome)1.1, (grayscale)1.3, acnes, skin blemishes, bad anatomy, DeepNegative,(fat)1.1, bad hands, text, error, missing fingers, extra limbs, missing limbs, extra digits, fewer digits, cropped, jpeg artifacts, signature, watermark, furry, elf ears",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fexplore%2F22_zzz2xxx3zzz.webp?alt=media&token=5a3f05dd-4323-439c-a9e1-996111f8887e",
-        "prompt": "((masterpiece, best_quality)), 1girl, (photorealistic:1.4), solo, white_background, black_hair, long_hair, zettai_ryouiki, skirt, ((full_body))",
-        "sampler": "ruler_a",
-        "steps": "50"
-      }
-    ],
-    "iap": [
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F1_zzz2xxx3zzz.webp?alt=media&token=ab4be69f-20c1-4dc0-a9da-bc6d7a7b88d1"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F2_zzz2xxx3zzz.webp?alt=media&token=1d02a310-c4cd-4d17-81c9-3b1eab5a4447"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F3_zzz1xxx1zzz.webp?alt=media&token=81c86533-1fd9-4d02-a2c9-523b83d63814"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F4_zzz2xxx3zzz.webp?alt=media&token=07850731-5fc4-43c6-b49c-d0894a78d506"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F5_zzz1304xxx864zzz.webp?alt=media&token=5e2593fd-758f-439e-a1c8-bd06d3fe3d95"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F6_zzz1xxx1zzz.webp?alt=media&token=9a540f47-2b77-4c1e-9f90-0db45a17ee49"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F7_zzz1920xxx1800zzz.webp?alt=media&token=d31d817b-bf7a-4b8e-b8a7-28de30f38c36"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F8_zzz3xxx2zzz.webp?alt=media&token=f9181ee3-2b36-4701-9be5-2f973aa234c1"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F9_zzz3xxx2zzz.webp?alt=media&token=49852ef2-e3dd-4c30-b95b-c003a74404d4"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F10_zzz2xxx3zzz.webp?alt=media&token=5d4c76d9-6bd5-4328-aa73-6f7a00f1c818"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F11_zzz2xxx3zzz.webp?alt=media&token=ebea9baa-4064-4951-92bd-2abb47017b25"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F12_zzz2xxx3zzz.webp?alt=media&token=fab49797-757e-42b0-bd1f-4d7423c0ddc0"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F13_zzz2xxx3zzz.webp?alt=media&token=e1b8ef89-f3a4-4ea2-beba-74cd3a56b45b"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F14_zzz1xxx1zzz.webp?alt=media&token=e4f15903-a05b-46a1-b236-b0e0df408783"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F15_zzz2xxx3zzz.webp?alt=media&token=cf48930a-6cd6-42a4-83a7-0c30924d77f6"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F16_zzz2xxx3zzz.webp?alt=media&token=b6ccc119-be20-436c-a2bd-eae71e0de42b"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F17_zzz2xxx3zzz.webp?alt=media&token=9ef18c0f-32ea-4376-907c-1b3f71480d9b"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F18_zzz3xxx2zzz.webp?alt=media&token=32bb9970-9db9-417e-ab9c-a65b5fd7fa70"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F19_zzz3xxx2zzz.webp?alt=media&token=38d899f2-d386-4746-a4f8-1980effe638e"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F20_zzz2xxx3zzz.webp?alt=media&token=e5e3b923-e013-44cb-89ea-2651676190ff"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F21_zzz600xxx1024zzz.webp?alt=media&token=7843e5c1-f09a-4962-81cb-bc6869a614bb"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F22_zzz1280xxx1920zzz.webp?alt=media&token=b6f50e53-2364-4638-82e1-6df8b40160fa"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F23_zzz2xxx3zzz.webp?alt=media&token=70217a3b-5018-4307-babf-8b01ee8a38d4"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F24_zzz1024xxx1536zzz.webp?alt=media&token=9c61d37c-fb4a-42e5-932e-959ac643f2c2"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F25_zzz2xxx3zzz.webp?alt=media&token=112e87a3-919d-437c-9ee5-db45b557a967"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F26_zzz1xxx1zzz.webp?alt=media&token=491642b3-036b-4189-b13a-43cc65ca7c54"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F27_zzz2xxx3zzz.webp?alt=media&token=174c49a1-900d-400b-bd1a-a3a7c76e6b6a"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F28_zzz1xxx1zzz.webp?alt=media&token=dade983c-b44b-4da5-8d68-4a3e686b64cf"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F29_zzz2xxx3zzz.webp?alt=media&token=2aa091a7-72af-4442-bc5a-9d929cc5b7b4"
-      },
-      {
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fiap%2F30_zzz2xxx3zzz.webp?alt=media&token=ef3c8481-a275-4914-8227-ee0e68350e0d"
-      }
-    ],
-    "model": [
-      {
-        "description": "New",
-        "display": "Anime V5",
-        "model": "anything_5_0",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAnime%20V5%2F1.webp?alt=media&token=80c89bbd-7507-468d-b95a-5054e3c66b49"
-      },
-      {
-        "description": "Most used",
-        "display": "Anime V4",
-        "model": "anything_4_0",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAnime%20V4%2F1.webp?alt=media&token=76abca85-e78c-4841-b8a4-1830481718fb"
-      },
-      {
-        "description": "",
-        "display": "Anime V3",
-        "model": "anything_3_0",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAnime%20V3%2F1.webp?alt=media&token=7ebb2096-478f-4879-991e-7ca67417e0cf"
-      },
-      {
-        "description": "",
-        "display": "Pastel Mix",
-        "model": "pastel_mix",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FPastel%20Mix%2F1.webp?alt=media&token=ddf4ce0d-e816-47cb-baf9-d93590a5acbf"
-      },
-      {
-        "description": "",
-        "display": "Abyss Orange Mix V2",
-        "model": "abyss_orange_mix_2",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAbyss%20Orange%20Mix%20V2%2F1.webp?alt=media&token=a7a7fd29-9a72-4951-af03-2c5df8c5a587"
-      },
-      {
-        "description": "",
-        "display": "Blood Orange Mix",
-        "model": "blood_orange_mix",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FBlood%20Orange%20Mix%2F1.webp?alt=media&token=da5671ee-d622-4569-a0a3-d54108f3f062"
-      },
-      {
-        "description": "",
-        "display": "DucHaiten",
-        "model": "duchaiten_anime",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FDucHaiten%2F1.webp?alt=media&token=3d499e55-281e-46cf-a2ad-617d010dcf13"
-      },
-      {
-        "description": "Good",
-        "display": "Something V2",
-        "model": "something_2",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FSomething%20V2%2F1.webp?alt=media&token=130a5494-af4b-4f33-a9f7-026d7a24e320"
-      },
-      {
-        "description": "",
-        "display": "Classic",
-        "model": "dh_classicanime",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FClassic%2F1.webp?alt=media&token=10aaa1ac-aa40-4d3f-824f-ca3ca3fcd56d"
-      },
-      {
-        "description": "",
-        "display": "Eimis Diffusion",
-        "model": "eimis_anime_diffusion_1",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FEimis%20Diffusion%2F1.webp?alt=media&token=b06bb407-91d9-4923-bd44-e927d1961bf5"
-      },
-      {
-        "description": "",
-        "display": "Waifu V4",
-        "model": "waifudiffusion_1_4",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FWaifu%20V4%2F1.webp?alt=media&token=711f6e70-a41f-406e-9f23-2397c1847976"
-      },
-      {
-        "description": "",
-        "display": "Waifu V3",
-        "model": "waifudiffusion_1_3",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FWaifu%20V3%2F1.webp?alt=media&token=0584daeb-c9a6-4562-bd30-eb8e4eff0e1f"
-      },
-      {
-        "description": "Most used",
-        "display": "Absolute Reality",
-        "model": "absolute_reality_1_6",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FAbsolute%20Reality%2F1.webp?alt=media&token=a1e76723-1b5f-4278-bb24-d865df20b555"
-      },
-      {
-        "description": "",
-        "display": "Realistic V5",
-        "model": "dreamshaper_7",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V5%2F1.webp?alt=media&token=cac3fa69-4384-4b1a-a282-d9a3f2e4e3a7"
-      },
-      {
-        "description": "",
-        "display": "Realistic V4",
-        "model": "dreamshaper_6",
-        "premium": false,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V4%2F1.webp?alt=media&token=02bb2703-8495-4f69-b94f-c71ba2ec8294"
-      },
-      {
-        "description": "",
-        "display": "Realistic V3",
-        "model": "absolute_reality_1",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V3%2F1.webp?alt=media&token=1ad5e5ce-1f2d-4b50-a1eb-a545361db7f0"
-      },
-      {
-        "description": "",
-        "display": "Realistic V2",
-        "model": "icbinp",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V2%2F1.webp?alt=media&token=75a1669b-b30b-4fca-8471-e900110a0386"
-      },
-      {
-        "description": "",
-        "display": "Realistic V1",
-        "model": "cyberrealistic_3_1",
-        "premium": true,
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fmodel%2FRealistic%20V1%2F1.webp?alt=media&token=dd4c86e7-22a0-4c5f-89a9-3d2ad8570f01"
-      }
-    ],
-    "process": [
-      {
-        "artist": "by: Alvar",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F1_zzz2xxx3zzz.webp?alt=media&token=3f0dec76-f4bc-4e6e-a3e5-a14a7b3eb0b3",
-        "title": "Student"
-      },
-      {
-        "artist": "by: Amory",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F2_zzz2xxx3zzz.webp?alt=media&token=c977d6b3-0181-49c1-9c45-3f929599395e",
-        "title": "Angel"
-      },
-      {
-        "artist": "by: Cuthbert",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F3_zzz2xxx3zzz.webp?alt=media&token=6820afbb-5a6b-4d3a-843f-b8ba88ce2f0f",
-        "title": "King"
-      },
-      {
-        "artist": "by: Aneurin",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F4_zzz2xxx3zzz.webp?alt=media&token=08030a3d-8774-4229-ab60-c8ac31bc4241",
-        "title": "Fortune Teller"
-      },
-      {
-        "artist": "by: Azaria",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F5_zzz2xxx3zzz.webp?alt=media&token=117fe7d3-ec6c-4791-9748-838901373610",
-        "title": "Beautiful Girl"
-      },
-      {
-        "artist": "by: Adonis",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F6_zzz2xxx3zzz.webp?alt=media&token=4963169c-ef4b-406a-baa4-f542f574ea3d",
-        "title": "Cat Girl"
-      },
-      {
-        "artist": "by: Gideon",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F7_zzz2xxx3zzz.webp?alt=media&token=12e9d935-5aa1-44e7-b1c7-491f10bb6db9",
-        "title": "Noble"
-      },
-      {
-        "artist": "by: Maynard",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F8_zzz2xxx3zzz.webp?alt=media&token=ffa5e7f0-a170-4c3c-9a16-b922148d9513",
-        "title": "Cat Princess"
-      },
-      {
-        "artist": "by: Mortimer",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F9_zzz2xxx3zzz.webp?alt=media&token=905c815a-3818-4e76-826e-eacb1576c548",
-        "title": "Teacher"
-      },
-      {
-        "artist": "by: Dempsey",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fprocess%2F10_zzz2xxx3zzz.webp?alt=media&token=8bda4309-ff6e-4618-b125-9eba32c9d275",
-        "title": "Cute Girl"
-      }
-    ],
-    "style": [
-      {
-        "display": "No Style",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FNo%20Style%2F1.webp?alt=media&token=9bbfeecd-70e3-4461-9e23-2b3df5a08797",
-        "prompts": [
-          "\"\""
-        ]
-      },
-      {
-        "display": "Fire",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FFire%2F1.webp?alt=media&token=1f347d5c-a8ca-4770-9b1c-50ff2f0c5edd",
-        "prompts": [
-          ", fire around",
-          ", fire magic",
-          ", flaming volcano",
-          ", camp-fire"
-        ]
-      },
-      {
-        "display": "Water",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWater%2F1.webp?alt=media&token=5812c6f1-367d-470b-82f6-8cbd8df57ac3",
-        "prompts": [
-          ", water around",
-          ", sea around",
-          ", water park",
-          ", rain",
-          ", wet"
-        ]
-      },
-      {
-        "display": "Wind",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FWind%2F1.webp?alt=media&token=544f05b7-bdb3-4f52-85c5-3c08d477bd5c",
-        "prompts": [
-          ", wind",
-          ", wind around",
-          ", strong winds",
-          ", cloudy wind"
-        ]
-      },
-      {
-        "display": "Ice",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FIce%2F1.webp?alt=media&token=21faab51-110a-4c33-bb4f-f4e05735c45a",
-        "prompts": [
-          ", ice magic"
-        ]
-      },
-      {
-        "display": "Love",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLove%2F1.webp?alt=media&token=d7a7faab-3d26-4fdc-a42c-0e0b4804deef",
-        "prompts": [
-          ", heart shaped gift",
-          ", heart-shaped gift in hand",
-          ", hearts around",
-          ", heart shaped flowers",
-          ", holding a heart shaped lollipop"
-        ]
-      },
-      {
-        "display": "Christmas",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FChristmas%2F1.webp?alt=media&token=89063224-9e53-4daf-97c5-50916671b706",
-        "prompts": [
-          ", christmas",
-          ", christmas tree",
-          ", holding Christmas gifts in hand"
-        ]
-      },
-      {
-        "display": "Plant",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FPlant%2F1.webp?alt=media&token=d77936ce-d862-427f-ae95-5e06ce5585f3",
-        "prompts": [
-          ", in the forest",
-          ", holding colorful bouquet in hand",
-          ", trees on both sides of the road",
-          ", in the flower garden"
-        ]
-      },
-      {
-        "display": "Angel",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FAngel%2F1.webp?alt=media&token=4c401fdb-f249-4249-b295-b3087139c15e",
-        "prompts": [
-          ", angel wings",
-          ", majestic angel",
-          ", black angel wings",
-          ", red angel wings",
-          ", white angel wings",
-          ", yellow angel wings",
-          ", blue angel wings",
-          ", green angel wings"
-        ]
-      },
-      {
-        "display": "Library",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FLibrary%2F1.webp?alt=media&token=01b0b809-8ea6-446a-a5bb-526b79fa117b",
-        "prompts": [
-          ", in the library",
-          ", reading books in the library",
-          ", find books in the library"
-        ]
-      },
-      {
-        "display": "Cool boy",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FCool%20boy%2F1.webp?alt=media&token=51145933-fce6-4a91-8d7f-f1a56f071833",
-        "prompts": [
-          ", sleek black leather jacket",
-          ", stylish aviator sunglasses",
-          ", vintage denim jeans",
-          ", classic fedora hat",
-          ", trendy graphic t-shirt"
-        ]
-      },
-      {
-        "display": "Cool girl",
-        "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v1%2Fstyle%2FCool%20girl%2F1.webp?alt=media&token=ee88ac32-9950-48f4-b0dd-b69ce3afaf5c",
-        "prompts": [
-          ", fitted leather jacket, powerful and edgy",
-          ", cool trucker hat, carefree and adventurous",
-          ", high-waisted biker pants, captivating and daring",
-          ", thick knit sweater, vintage and stylish",
-          ", black trilby hat, sophisticated and charismatic"
-        ]
-      }
-    ]
-  },
   "v2": {
-      "models": {
-
-      },
-      "loRAs": {
-
-      },
-      "explore": {
-
-      }
+      "models": [
+        {
+          "id": 0,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F1.webp?alt=media&token=ad6f3464-dad2-4028-9d8d-836aaac35a6a",
+          "display": "Anime V5",
+          "description": "",
+          "favourite_count": 2095,
+          "modelId": "anything_5_0",
+          "active": ""
+        },
+        {
+          "id": 1,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F2.webp?alt=media&token=fec9b886-8e94-42fb-a1f6-f8c23a10b186",
+          "display": "Anime V4",
+          "description": "Most used",
+          "favourite_count": 5921,
+          "modelId": "anything_4_0",
+          "active": ""
+        },
+        {
+          "id": 2,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F3.webp?alt=media&token=8d84be19-3a56-43c8-9345-3f71a2ef5232",
+          "display": "Anime V3",
+          "description": "",
+          "favourite_count": 1039,
+          "modelId": "anything_3_0",
+          "active": ""
+        },
+        {
+          "id": 3,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F4.webp?alt=media&token=22316ccc-0620-48da-8f73-9e917eccfe5c",
+          "display": "Pastel Mix",
+          "description": "",
+          "favourite_count": 2954,
+          "modelId": "pastel_mix",
+          "active": ""
+        },
+        {
+          "id": 4,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F5.webp?alt=media&token=cb0369d5-e961-45cf-9aac-4070d3e6ced8",
+          "display": "Something V2",
+          "description": "",
+          "favourite_count": 3085,
+          "modelId": "something_2",
+          "active": ""
+        },
+        {
+          "id": 5,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F6.webp?alt=media&token=be7e9a77-37c6-49d8-9b00-39227c9f1e43",
+          "display": "Classic",
+          "description": "",
+          "favourite_count": 593,
+          "modelId": "dh_classicanime",
+          "active": ""
+        },
+        {
+          "id": 6,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F7.webp?alt=media&token=596f2c49-604c-4d60-b2bd-2905a1859ae9",
+          "display" :"Abyss Orange Mix V2",
+          "description": "",
+          "favourite_count": 759,
+          "modelId": "abyss_orange_mix_2",
+          "active": ""
+        },
+        {
+          "id": 7,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F8.webp?alt=media&token=11322a8e-a3e7-482a-9c59-99574495dd43",
+          "display": "Blood Orange Mix",
+          "description": "",
+          "favourite_count": 587,
+          "modelId": "blood_orange_mix",
+          "active": ""
+        },
+        {
+          "id": 8,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F9.webp?alt=media&token=196676e4-e072-4f09-b807-d0c92e367cea",
+          "display": "Ely Orange Mix",
+          "description": "",
+          "favourite_count": 448,
+          "modelId": "ely_orange_mix",
+          "active": ""
+        },
+        {
+          "id": 9,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F10.webp?alt=media&token=4a83203b-5a5e-4f2b-ab36-4c37c4a08224",
+          "display": "DucHaiten V2",
+          "description": "",
+          "favourite_count": 356,
+          "modelId": "duchaiten_anime",
+          "active": ""
+        },
+        {
+          "id": 10,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F11.webp?alt=media&token=6d116bed-8144-4cde-bc85-26e0bc488ba3",
+          "display": "DucHaiten V1",
+          "description": "",
+          "favourite_count": 192,
+          "modelId": "duchaiten_dreamworld",
+          "active": ""
+        },
+        {
+          "id": 11,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F12.webp?alt=media&token=335c72f4-f40a-4317-b8f7-39aaf4944f61",
+          "display": "DucHaiten Dark",
+          "description": "",
+          "favourite_count": 139,
+          "modelId": "duchaiten_darkside",
+          "active": ""
+        },
+        {
+          "id": 12,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F13.webp?alt=media&token=b9b83eff-7831-43a5-8305-218b9eaa08e0",
+          "display": "Eimis Diffusion",
+          "description": "",
+          "favourite_count": 104,
+          "modelId": "eimis_anime_diffusion_1",
+          "active": ""
+        },
+        {
+          "id": 13,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F14.webp?alt=media&token=d84c912d-ef4f-4a79-b36d-df8af0912d88",
+          "display": "Waifu V4",
+          "description": "",
+          "favourite_count": 51,
+          "modelId": "waifudiffusion_1_4",
+          "active": ""
+        },
+        {
+          "id": 14,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F15.webp?alt=media&token=2be4363c-d850-42b4-8bd7-a31ba4d360d2",
+          "display": "Waifu V3",
+          "description": "",
+          "favourite_count": 35,
+          "modelId": "waifudiffusion_1_3",
+          "active": ""
+        },
+        {
+          "id": 15,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F16.webp?alt=media&token=26d3fa58-d28a-4286-b2e0-8bd70e027392",
+          "display": "Future Diffusion",
+          "description": "",
+          "favourite_count": 266,
+          "modelId": "future_diffusion",
+          "active": "future style"
+        },
+        {
+          "id": 16,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F17.webp?alt=media&token=a04e226d-bc46-4d80-8c4b-a80c2373fda6",
+          "display": "HASDX",
+          "description": "",
+          "favourite_count": 745,
+          "modelId": "hasdx",
+          "active": ""
+        },
+        {
+          "id": 17,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F18.webp?alt=media&token=c3364417-2075-4fd0-b264-109b3de2a251",
+          "display": "ICBINP",
+          "description": "",
+          "favourite_count": 890,
+          "modelId": "icbinp",
+          "active": ""
+        },
+        {
+          "id": 18,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F19.webp?alt=media&token=c2a98074-87b0-45de-b2c7-f6d30f053033",
+          "display": "Inkpunk Diffusion",
+          "description": "",
+          "favourite_count": 1507,
+          "modelId": "inkpunk_diffusion",
+          "active": "nvinkpunk"
+        },
+        {
+          "id": 19,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F20.webp?alt=media&token=f182508a-4111-4d2c-aa86-b206d4d882d2",
+          "display": "Nightmare Shaper",
+          "description": "",
+          "favourite_count": 778,
+          "modelId": "nightmareshaper",
+          "active": ""
+        },
+        {
+          "id": 20,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F21.webp?alt=media&token=c8b68920-ac39-4f42-a58a-81585d26f68f",
+          "display": "Openjourney V2",
+          "description": "",
+          "favourite_count": 429,
+          "modelId": "openjourney_2",
+          "active": ""
+        },
+        {
+          "id": 21,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F22.webp?alt=media&token=f3ec0dbc-bd22-4569-bda4-a60ac5715686",
+          "display": "Openjourney",
+          "description": "",
+          "favourite_count": 402,
+          "modelId": "openjourney",
+          "active": "mdjrny-v4 style"
+        },
+        {
+          "id": 22,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F23.webp?alt=media&token=3326d85c-549e-4930-bab0-5a49305250cb",
+          "display": "OpenNiji",
+          "description": "",
+          "favourite_count": 248,
+          "modelId": "openniji",
+          "active": ""
+        },
+        {
+          "id": 23,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F24.webp?alt=media&token=c91f8c71-c853-4c8d-a03d-d8631f5ea2d0",
+          "display": "Realistic Vision V5.1",
+          "description": "",
+          "favourite_count": 1671,
+          "modelId": "realistic_vision_1_3",
+          "active": "RAW photo, *subject*, high detailed skin, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+        },
+        {
+          "id": 24,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F25.webp?alt=media&token=dc9496c3-a023-4cd5-a2d0-a253cc34d5a0",
+          "display": "SteampunkAI",
+          "description": "",
+          "favourite_count": 1291,
+          "modelId": "steampunk_diffusion",
+          "active": "Steampunk-Character"
+        },
+        {
+          "id": 25,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F26.webp?alt=media&token=37414341-c89d-4e2f-bfd2-358514a25fc3",
+          "display": "SynthwavePunk",
+          "description": "",
+          "favourite_count": 710,
+          "modelId": "synthwavepunk_v2",
+          "active": "snthwve style nvinkpunk"
+        },
+        {
+          "id": 26,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F27.webp?alt=media&token=e1822be7-405a-459b-a9b8-62fd9782071f",
+          "display": "Vintedois diffusion-v0-1",
+          "description": "",
+          "favourite_count": 255,
+          "modelId": "vintedois_diffusion_v0_1",
+          "active": "estilovintedois"
+        },
+        {
+          "id": 27,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F28.webp?alt=media&token=c5bfa399-cb8b-4558-bbbd-06c6ae5c3a9d",
+          "display": "Absolute Reality V1.6",
+          "description": "Most used",
+          "favourite_count": 1846,
+          "modelId": "absolute_reality_1_6",
+          "active": ""
+        },
+        {
+          "id": 28,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F29.webp?alt=media&token=05f64558-8972-46f7-b8c1-55ad9293625b",
+          "display": "DreamShaper V7",
+          "description": "",
+          "favourite_count": 1738,
+          "modelId": "dreamshaper_7",
+          "active": ""
+        },
+        {
+          "id": 29,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F30.webp?alt=media&token=28e29662-2a3f-49ce-8f9d-f06b6f9e95e1",
+          "display": "DreamShaper V6",
+          "description": "",
+          "favourite_count": 1241,
+          "modelId": "dreamshaper_6",
+          "active": ""
+        },
+        {
+          "id": 30,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F31.webp?alt=media&token=f9ee1cae-7707-4191-a365-8cfa5dc60ee7",
+          "display": "DreamShaper V5",
+          "description": "",
+          "favourite_count": 1133,
+          "modelId": "dreamshaper_5",
+          "active": ""
+        },
+        {
+          "id": 31,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F32.webp?alt=media&token=8491eb79-cb92-46c0-a2a3-a11c29f42837",
+          "display": "DreamShaper",
+          "description": "",
+          "favourite_count": 616,
+          "modelId": "dreamshaper",
+          "active": ""
+        },
+        {
+          "id": 32,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F33.webp?alt=media&token=0ca23bfa-350c-49b3-8187-56e24c16c206",
+          "display": "Absolute Reality",
+          "description": "",
+          "favourite_count": 971,
+          "modelId": "absolute_reality_1",
+          "active": ""
+        },
+        {
+          "id": 33,
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F34.webp?alt=media&token=dfb2c008-54b9-460c-b26a-b114590ac39c",
+          "display": "Cyber Realistic V3.1",
+          "description": "",
+          "favourite_count": 959,
+          "modelId": "cyberrealistic_3_1",
+          "active": ""
+        }
+      ],
+      "loRAs": [
+        {
+          "id": 0,
+          "display": "Genshin Impact AI Cosplayers",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/84ff6b32-3560-49c3-80fa-07cb6436ea57/width=2048/00006-295215050.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ec3365be-026a-44da-ae24-8200759fa1c5/width=2048/00015-2218331729.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/258c9c6e-bc93-4f8f-913c-5dcc8c91954d/width=2048/00007-1641774909.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e0be8508-15b6-435f-a175-5a9a21253f99/width=2048/00005-2420186999.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/949267ec-10a2-485d-aa9e-064d1b1ae1ef/width=1984/00002-2827584068.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ca46e3c4-1f36-488f-bcae-ebdae0ebb444/width=2048/00016-3437957330.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/49516abf-8b02-4f58-ad1a-8c191eb779e5/width=1984/00003-2827584065.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82cfbac5-5fe8-48b1-aad7-e4ffb5ff1f43/width=1984/00004-2827584064.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4ba728df-1ddf-4f87-ace5-b102ff39bdcb/width=2500/00081-755822547.0.jpeg"
+              ],
+              "display": "Kirara",
+              "trigger_words": [
+                "kirara_genshin, beautiful face, sweet girl,(cowboy shot), hair ornament, cat ears, blonde long hair, green eyes, detached sleeves, kirara's upshirt, stomach cutout, kirara's short skirt, two cat tails, bare legs,(black leg warmers), ((white fur-trimmed cat feet shoe covers)),"
+              ],
+              "favourite_count": 187,
+              "sha256": "4B79F8A4B46DC81A7F65B392E37BDC0865E9D09545E808F72AB8AA453F4500BF"
+            },
+            {
+              "id": 1,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8abea848-fcf0-419f-b454-78a4067ecffc/width=2048/00003-2866580571.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85a824b6-88d5-44b3-b75b-a8e8c4ae48db/width=2048/00001-1817671096.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6140d5b3-d78e-45bf-b3b9-ba96449eb7f6/width=2048/00002-1817671094.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/952b587e-47cd-439f-86ab-e3e3db1a8ea3/width=2000/00007-1763016814.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ec15b253-2ef6-4204-b80f-989b74f75beb/width=2000/00005-1526255337.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3bd242fd-59aa-4057-99e6-70dd5d3155ff/width=2048/00004-1526255337.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/29c19b7c-a3c1-41bd-9485-f455be74c198/width=2000/00006-1763016813.0.jpeg"
+              ],
+              "display": "Jean",
+              "trigger_words": [
+                "jean_genshin, 1girl, beautiful face,(close-up), (cowboy shot), blonde hair, hair bow,bare shoulders, detached sleeves, jean's upshirt, jean's puffy white shorts, belt, thigh strap, sandals,"
+              ],
+              "favourite_count": 107,
+              "sha256": "19E1D1905B81AA9D99713E813981F3498736EE509921274FE980EC37D90109C3"
+            },
+            {
+              "id": 2,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8f27b75b-797c-48c1-8822-a50ca65efa7d/width=2048/00009-3371477862.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/27181a97-b91a-477e-b511-135c087f2a70/width=2000/00003-1389105108.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/39990e16-6814-44cb-9b42-f0565167b98f/width=2000/00000-3136688177.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b5aa063e-6c9f-4623-9832-2d1d9a134941/width=2000/00001-3136688178.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f758b0d6-41f8-4828-8c5d-45dfbf271151/width=2000/00002-3136688176.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/176b1465-decc-447f-b364-d9db597bcaa8/width=2048/00004-832947511.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/311d0532-79dd-42b5-b385-38146c13bfe5/width=2048/00000-3717385748.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/266dbc3e-fb22-4f1d-a163-e034c2c03167/width=2048/00008-3371477864.0.jpeg"
+              ],
+              "display": "Fischl",
+              "trigger_words": [
+                "fischl_genshin, cowboy shot, 1girl, hair over one eye, blonde long hair, tiara,bare shoulders, detached sleeves, fischl's short dress, white thighhighs, black shoes,"
+              ],
+              "favourite_count": 183,
+              "sha256": "822E45699FAB3F6869C0C642D4AAA112C60ADB2AC8C1DECC53142BE204E770B9"
+            },
+            {
+              "id": 3,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/07409cd1-7854-4a85-9047-72b906202206/width=2048/00005-2331817767.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3997fc6f-a9bd-482e-8d30-f05ee9f3bb40/width=2000/00002-3719911604.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3997fc6f-a9bd-482e-8d30-f05ee9f3bb40/width=2000/00002-3719911604.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a883bb55-85c2-4119-83ef-f63a5875d084/width=2000/00001-3719911605.0.jpeg"
+              ],
+              "display": "Lumine",
+              "trigger_words": [
+                "1girl, close-up, cowboy shot, lumine_genshin, blonde hair, hair flower, hair between eyes, hair ornament, bangs, white dress, detached sleeves, bare shoulders, lumine's thigh boots,"
+              ],
+              "favourite_count": 103,
+              "sha256": "75F8C181E312C9CCA80BE25426D49E8BE7B40475D8B44642B6C94A9A9335B50B"
+            },
+            {
+              "id": 4,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/20fb4bd6-b123-4933-a222-87276d27fa7b/width=2000/00005-1404678626.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2ce37b11-3019-42cb-8e2a-f4ce5c39fd63/width=2048/00006-3441147603.0.jpeg"
+              ],
+              "display": "Babara",
+              "trigger_words": [
+                "((1girl)), babara_in_swimsuit, cowboy shot, blonde hair, blue eyes, twintails, sailor hat, sailor collar, babara's swimsuit, detached sleeves, bare legs, thigh strap, babara's strap, babara's sandals,"
+              ],
+              "favourite_count": 102,
+              "sha256": "05601AFA1777823A38F9DCE508A1A6005FE88EBFC2A2CD70E06067A5528E4636"
+            },
+            {
+              "id": 5,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1822f882-95de-4aea-8990-7152a57f442d/width=2048/00029-1557561133.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9da358b0-223e-4864-b188-05ebdb8fbe63/width=2048/00033-4179098509.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cb51efcc-4d59-46b5-8c65-271690a858f2/width=2048/00031-3472523252.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/93e98444-99a0-429d-8a6b-eb8ba1d2cf6a/width=2048/00022-4036921331.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7f5a7935-e76e-47c1-a97b-ee0cce3daa13/width=2048/00032-4179098508.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2777df63-5123-441f-b268-0cf02f0a042c/width=2048/00030-3651181922.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/55cd157d-838b-44cb-8d14-a8a7d610134a/width=2048/00023-4036921332.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/044b8802-d349-40cb-8b67-78ac1ee30ca5/width=2048/00024-2756947400.0.jpeg"
+              ],
+              "display": "Yoimiya",
+              "trigger_words": [],
+              "favourite_count": 164,
+              "sha256": "C09C67D0F2C8B82325C82C0D34977782C9BB105067401092D78F1F1F2EE40812"
+            },
+            {
+              "id": 6,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9af39695-ef95-4404-ac71-9cc8928bae18/width=2048/00012-1013982284.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e76f850c-fedd-4392-a4d0-a90020410333/width=2880/00014-1628020333.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4d7ac6f9-d535-43c8-bdfd-2be8cd9d5cd8/width=2048/00004-2232371805.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0727e906-a424-48ff-9dda-a8e995c044ee/width=2048/00003-3947857910.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/40946e38-997c-47a5-bf5e-8570b77bbb6b/width=2624/00013-919870625.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/612df949-3863-4d0a-a91b-f3ce5f038a65/width=2048/00005-3947857909.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/33393b29-0cbd-4100-80a6-3e4d785d148c/width=2048/00006-4191196872.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0101e1da-6620-4f58-9d39-fdde89c13c9c/width=2048/00002-1757376439.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a83cbe6e-e49e-49cb-ac08-68a5c82d32e3/width=2048/00001-1757376441.0.jpeg"
+              ],
+              "display": "Ganyu",
+              "trigger_words": [],
+              "favourite_count": 101,
+              "sha256": "398BE394E3100BF941102A388B50E0D524B89D1C1F934DC822181005E095CDE8"
+            },
+            {
+              "id": 7,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ff044f23-e11c-4002-976e-0e9efaf941e2/width=2048/00016-2816739847.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/795dfc21-2469-458b-8ce5-1635b2adcab5/width=2048/00001-4289949962.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f91961bb-d70d-4911-806b-5406df9948ba/width=2048/00018-2816739848.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/850273b3-e892-4a5b-911c-08bf30ccc98c/width=2048/00017-1810871526.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d218761c-a0fa-4f8e-aadd-550385558236/width=2048/00015-4289949961.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/dd4ba34a-5dc4-42ee-806f-45645b935fe3/width=2048/00019-1810871527.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0c8d5b3b-1b75-4ce6-8cad-b07b92db25df/width=2048/00000-4289949963.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/be573b30-bc82-4b44-86b7-d87e86f1cd33/width=2048/00013-4240693968.0.jpeg"
+              ],
+              "display": "TheGreaterLordRukkhadeva",
+              "trigger_words": [],
+              "favourite_count": 130,
+              "sha256": "75D3282B28A11C0B58A81896ADCB672F1D4F87D32CE719E9113A6D9F91A11C10"
+            },
+            {
+              "id": 8,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6ec9b3ae-a984-4dd1-a1c3-eea4982835b7/width=2048/00006-1368857948.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9960123b-0a0f-4182-9783-cc642b494557/width=2048/00001-1944441620.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/89bb7323-617c-4561-be52-c74f29af9a0f/width=2048/00002-1944441623.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3d668894-ad76-432b-bd6a-490e40cea052/width=2048/00005-2727065120.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bde992db-8fb9-42b4-b47f-8125b666ee78/width=2048/00003-2583324711.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cc43141f-73ef-4266-961e-5178cdc87b29/width=2048/00004-2583324714.0.jpeg"
+              ],
+              "display": "Sangonomiya Kokomi",
+              "trigger_words": [],
+              "favourite_count": 170,
+              "sha256": "98F8E02021EC0A1F7100D5D30A7E8F55E955052058E7BEBE1A219E743B133935"
+            },
+            {
+              "id": 9,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/767ddfc2-5300-4418-9bd4-e3197e95edf7/width=2048/00001-514324793.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/67666710-0798-4ef1-babc-456707a59775/width=2048/00000-220749900.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1d1da14f-3247-4fb1-8f02-89ebc388ca94/width=2048/00002-514324794.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b9b772d4-dcb8-4d4e-91f7-548adc1e2f2a/width=2048/00003-4186837615.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e5548528-9fc7-4c80-9b00-1028f9b9aa6f/width=2048/00004-4186837616.0.jpeg"
+              ],
+              "display": "Miss Hina",
+              "trigger_words": [],
+              "favourite_count": 137,
+              "sha256": "23D613514F147EC9D54F026E817B5D57A12239AA02B9085D9E79EE25F28C600A"
+            },
+            {
+              "id": 10,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/eba15418-8788-41d2-8113-7fe026dd935b/width=2048/00011-2816776956.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ced13c72-d98f-4d8d-8034-1f9186106b4d/width=2048/00009-4228596826.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/62c107b5-7148-4ab2-89fd-3227db9cceab/width=2048/00014-196541831.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1ddc1ba8-473a-4332-9ddb-849c961fe382/width=2048/00012-2816776960.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b00f7acf-d3ce-46ab-a3bb-9bcef0318244/width=2048/00013-914971937.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/30f2d267-9bef-437e-9486-7da633adfbf3/width=2048/00010-4228596823.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f2e44bb9-4fd9-4a28-b51b-16647580a18d/width=2048/00015-1435153713.0.jpeg"
+              ],
+              "display": "Ning Guang",
+              "trigger_words": [],
+              "favourite_count": 116,
+              "sha256": "547221279EB769A6682E34FCB3ACE028FEFBF0B1F84EDFF6B2DDDF3EF9A073C9"
+            },
+            {
+              "id": 11,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6d064cdf-7518-4635-a106-4bf991f62e65/width=2048/00001-2401858.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0b521b7a-5da0-4e65-89c3-7f65798c9a2f/width=2048/00007-1412629041.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2ffe3c35-3319-4b1e-9e82-c4406528469f/width=2048/00002-2401856.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2b3ccce8-b107-499a-9b23-d9c144d9c1e6/width=2048/00003-2751615714.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ab88ccb3-737c-402f-902d-4aafcc533729/width=2048/00006-1412629040.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/24010e49-e92c-4676-b2f7-d9b875c82419/width=2048/00004-2751615715.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/caf3a280-0727-48cc-86bd-ee4663f9f82f/width=2048/00008-4061691276.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/378ef442-9da1-4ccb-bc16-f5ecb87a515e/width=2048/00009-4061691277.0.jpeg"
+              ],
+              "display": "HuTao",
+              "trigger_words": [],
+              "favourite_count": 151,
+              "sha256": "0FBB8E475668DDF1C22A3D188DD62988008C893C1AA16FABD8ECEAD1D6B4AB62"
+            },
+            {
+              "id": 12,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/90b41040-aa93-4ce7-bf5b-6e4ab5e74e15/width=2048/00004-2738077829.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e1d8259c-2578-42fd-8b29-223d63eda61e/width=2048/00005-2965884907.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d383dbc6-2b5f-4e71-a11f-cdb12a1bd92a/width=2048/00003-2738077827.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/53cce338-b9cc-43c6-8bf0-8736e72a346f/width=2048/00001-3378431638.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4ae71bf0-b436-4de9-aa6c-58b1c379dd14/width=2048/00000-3378431637.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/758aef14-a420-433e-a813-07aeac54a0bf/width=2048/00006-2965884910.0.jpeg"
+              ],
+              "display": "shenhe",
+              "trigger_words": [],
+              "favourite_count": 166,
+              "sha256": "8039D368EE5314BEE600C893B201AA8A2B85607DF573B7A840604F4AE01F6154"
+            },
+            {
+              "id": 13,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/993d00c2-cc01-47cc-a760-afde1a83c087/width=2048/00008-1203084685.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d64a538c-2fd1-4469-93bb-17cc14b106d8/width=2048/00435.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5540715f-658b-411d-9c0b-79932a4f3fd7/width=2048/00434.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/69c08ecd-b04c-4b26-91b2-7230aef05f5b/width=2048/00015-4185971139.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b18ee929-3949-4152-829a-b9e6f9e01e29/width=2000/00013-4236173101.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/56477ea8-9ef1-42ba-8068-588baa893936/width=2048/00017-4185971144.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/49b77e9a-441f-4526-a9d0-734da87b06be/width=2048/00002-2184063156.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d88d78bb-82ed-4501-b77b-b90d20812c16/width=2048/00009-2054303753.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/91114a51-4ad3-4dae-8997-a96bbaf2ed7c/width=2048/00016-4185971142.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bdd61971-2a58-4503-b86c-3b8050b954d2/width=2000/00014-4236173101.jpeg"
+              ],
+              "display": "Raiden Shogun",
+              "trigger_words": [],
+              "favourite_count": 137,
+              "sha256": "7F7EA59FD181A44732E1BAA88958C87740575A945E55B62776FCF90A9D4F3180"
+            },
+            {
+              "id": 14,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/54cbf5c7-9532-4dec-9241-649ad23b23e4/width=2048/00011-3268164740.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/649b5123-df65-43ea-a535-6c76f531f179/width=2048/00019-1134101702.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/fbb0ebba-0a68-4d91-bc46-ea471de72dff/width=2048/00018-966465896.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/18d1ed90-50ac-4d34-bcd6-aae3b608c77d/width=2048/00012-3268164744.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e3ccb2ee-b681-4a3e-bf7a-47517c412d09/width=2048/00010-2587860972.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8d80b1db-ee32-489c-85c1-b318289b8e20/width=2048/00009-1195825741.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ea27b899-3a3e-4c3f-9e45-1f64c122b3ae/width=2048/00005-287318422.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ddb79621-8fbb-4f53-a2b6-5d34852e5030/width=2048/00002-3719938832.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/271df03b-f69e-406f-8794-4b6b342c21eb/width=2000/00006-1490887256.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5005bbc3-abc6-4cf4-84a7-5f51b8c6e0e3/width=2048/00004-82281796.0.jpeg"
+              ],
+              "display": "Yae Miko",
+              "trigger_words": [],
+              "favourite_count": 170,
+              "sha256": "6EFC2A1FF1B43057ECAF0A36E8E3387075A1EAE3E07E17A2A39682D182DE765B"
+            },
+            {
+              "id": 15,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/be64d174-330d-4598-bdbe-25a3f87b90c5/width=2048/00001-425222159.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7ab1cd9c-2da6-4969-a8c3-350da5cfe90c/width=2048/00002-12961013.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/62c20fb8-26ed-423e-a601-2f2d93ebeefd/width=2048/00003-3389123072.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/74bc97a7-b556-461f-91f2-bd91705bd77e/width=2000/00009-1541899383.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a037fa2a-73fc-405b-865b-97f13f78813a/width=2048/00004-3603082672.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/27a25d13-c33c-47b1-b02b-1ad83fc1fe95/width=2048/00005-3603082673.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ccbb5d43-248f-4248-bc0e-640d5f207366/width=2048/00006-2950710448.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bc9cc69c-4655-4ba5-b163-b7069cc30723/width=2000/00007-3782366486.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ed30f8b6-d8a0-4d3a-97f3-a304c7463ec2/width=2496/00010-2065743192.0.jpeg"
+              ],
+              "display": "Keqing",
+              "trigger_words": [],
+              "favourite_count": 117,
+              "sha256": "A58BEAB552253999F5BBA77DA8C71C2F32EB27C0D270E9C3C1929386B74003F7"
+            },
+            {
+              "id": 16,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9dae8e66-b99c-4864-b2e4-34385dc47985/width=2048/00433.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/54c56775-9789-42a3-be64-e4a6a831fb71/width=2048/00017-1865963552.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d795fda8-ec08-4b14-9b42-2bc04f2b9ccf/width=2048/00016-1865963554.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e99b6131-9fc3-44c8-bdef-b9d95cd0eb7f/width=2048/00020-1336921046.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/799f379c-5b2e-4c79-bf6c-3f2e55a87fb1/width=2048/00019-2444930610.0.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bfd38150-baa3-4b6e-9141-9c99fc5549b8/width=1024/00135-3368819150.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/72856847-815f-476e-a00c-70a6f1a97fcd/width=2048/00018-1535236930.0.jpeg"
+              ],
+              "display": "Ayaka KendoUniform",
+              "trigger_words": [
+                "ayaka_KendoUniform, 1 sweet girl, white long hair, ponytail, pink hair ribbon, bangs, white shirt, blue long hakama skirt,"
+              ],
+              "favourite_count": 123,
+              "sha256": "D7736237F7611D56E62589B8AE1856CCBF06892D8EE9C6295E79176A83D74473"
+            },
+            {
+              "id": 17,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/70e8af88-c0d3-4d4d-bbe0-10ad3aea9b51/width=2000/00014-3539010912.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a6c4516b-8c40-429c-ac75-dfb80d8877ee/width=2048/a1.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/58330a3b-6373-47b7-b4ea-e74aa69e8d32/width=2000/00013-1033112284.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1893d84c-70c4-4ff8-9805-74c60f3fc5dc/width=2000/00011-1033112287.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d050806e-7506-4cab-8e5d-d85fc6ed543a/width=2000/00009-802481563.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/dd5cddff-1d27-437a-b334-b5fbd0144ac1/width=2048/a3.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/09588a99-6283-4351-8912-a8f1cb117a2f/width=2048/00005-2719777600.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c8e4aad5-3549-45c8-9ef0-90e45ac05bc1/width=2048/00004-2719777599.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8a7a8779-0293-4fcf-8239-2b6336290eb0/width=2048/a2.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6e3626fb-7db3-47e8-9c87-e17541823b21/width=2048/a4.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6a3519c6-c8b4-4325-a29c-ed585d4e6bd9/width=2048/a5.jpeg"
+              ],
+              "display": "Ayaka",
+              "trigger_words": [
+                "kamisato_ayaka, 1girl, beautiful face, blue hair, blue eyes, braid, hat, blue dress, white pantyhose, brown boots,"
+              ],
+              "favourite_count": 133,
+              "sha256": "E597F70D1CC3ECFD4860F38A7815A686D8F0577DDF478870A8AB2DC56C15807A"
+            },
+            {
+              "id": 18,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3ee24249-5f24-4dc7-8f49-7c817f99811c/width=1840/N2.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3a1088e1-e96b-43d7-9780-6b53c3257665/width=1840/N3.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/013f0dc6-9678-4016-a2ca-d4c822a4107d/width=1840/N1.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8ed8844b-c683-409c-be28-42fa1225edcd/width=1840/N5.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a6ae3f1a-ba39-44ab-99df-4029a3955347/width=2304/N7.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f4876103-4da4-4cab-9ecb-10ea8b50463c/width=1333/N4.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c69dd1a4-23aa-46be-b79f-82c2ba79188d/width=1840/N8.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7505f248-cb6a-4084-86dc-47f9515dfd28/width=2560/n11.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/230976e0-edc2-4dff-991a-ff4dab4bb4b3/width=2560/N10.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b303b962-bd75-4213-93ba-670ae9baf46a/width=1856/N9.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/62148804-5ab2-43b2-99cb-dc78e5708d97/width=1856/N12.jpeg"
+              ],
+              "display": "Nilou",
+              "trigger_words": [],
+              "favourite_count": 161,
+              "sha256": "80418206C4D58D7B2DA293ACC9196953B2C8EBD4B3F4394EA40FA9CFEBB96CF7"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "display": "Mecha",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9829c1d2-6c99-40a6-b882-057209a86bee/width=1024/00104-1775031745.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b0a2b5f6-d969-49ba-b5e5-2e2a422809b7/width=1024/00103-1775031744.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f1ef9bac-fee6-4c9c-be50-27db170f94c2/width=1024/00108-943460106.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5055c759-740f-45e4-9b33-c5c8f9de34be/width=1024/00110-943460108.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82bc4ca0-ca79-4913-ad57-7866e02b996a/width=1024/00102-1775031743.jpeg"
+              ],
+              "display": "AstralMecha",
+              "trigger_words": [],
+              "favourite_count": 85,
+              "sha256": "A10AE741278436F98C17828DFFA71659F647311DCE12EB1D5648DF287BB6DC5F"
+            },
+            {
+              "id": 1,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f21a3bae-c58a-45d5-ac08-a9a3a1b5a0c3/width=1024/00081-3396519814.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bcb9c929-7450-46dd-ae87-304b44f27197/width=1024/00087-3396519820.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/71c5c9cd-a4f4-48c1-ad3b-120c2922e597/width=1024/00074-1633759490.jpeg"
+              ],
+              "display": "LavaMecha",
+              "trigger_words": [],
+              "favourite_count": 47,
+              "sha256": "2809CB6908608439ECF0648768DB8EACA1DCE6269F33E1FAD68D22AF8785C41E"
+            },
+            {
+              "id": 2,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/13887acf-1967-4e90-9302-8d0dea3c3287/width=1024/00174-2367664489.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b6a5bef2-d269-42dd-b00f-a10debd81c5d/width=1024/00148-3540534256.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4ed8d67e-6107-4f4d-8e13-61e9c78d2ff2/width=1024/00168-2367664483.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/477af13b-7f7f-4fa2-8877-c9b719e9cc11/width=1024/00150-3540534258.jpeg"
+              ],
+              "display": "InkMecha",
+              "trigger_words": [],
+              "favourite_count": 54,
+              "sha256": "8CA11AC15B1DDBC1E008C69F417D8BC1E2745DAFB2D954F642B1446CF0CC2868"
+            },
+            {
+              "id": 3,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2b9d3301-a8c4-47ea-bc15-a38093bd7eda/width=1024/00111-196816242.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1c69884f-120b-429c-b657-8b3ade96ec92/width=1024/00104-196816235.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/763d1f89-7362-4d82-a37e-cbf44a767071/width=1024/00103-196816234.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/42024705-9d46-40e2-a467-bb46ef8f731a/width=1024/00117-196816248.jpeg"
+              ],
+              "display": "SharpieMecha",
+              "trigger_words": [],
+              "favourite_count": 113,
+              "sha256": "5DC8810EDF8D0D58B9E9AA99C8B83B22F4676B6112BBAE258ADBA761DA91A397"
+            },
+            {
+              "id": 4,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5f27817c-325b-4d85-869c-b22a1468f56c/width=1024/00170-530851762.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b6337dd9-8bcf-419b-b351-b3030abb1720/width=1024/00178-530851770.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ee463c49-d356-4a38-b62c-26e21d143439/width=1024/00169-530851761.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/751e56c3-05ce-443a-9a89-7d3edfd14af0/width=1024/00163-530851755.jpeg"
+              ],
+              "display": "MinimalVectorMecha",
+              "trigger_words": [],
+              "favourite_count": 7,
+              "sha256": "55ABA0E959CCC224BFC15E1AFE2DAC9C77E295199D34E768B5144C94B12818B6"
+            },
+            {
+              "id": 5,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6f616f2e-de9f-4177-a943-08c9e604c7f2/width=1024/00137-2869921830.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a3ac7a7a-8b91-4705-886f-d24a9bb960bb/width=1024/00124-2869921817.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/694fd4fc-7e60-4693-8204-8a7e55bf73ba/width=1024/00121-2869921814.jpeg"
+              ],
+              "display": "BokehMecha",
+              "trigger_words": [],
+              "favourite_count": 136,
+              "sha256": "6D79D0DD492346360AE0E5B618015A93AFC6F49DDBB7BCD628B4B2FF4902F652"
+            },
+            {
+              "id": 6,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/72d5edc4-f823-40cc-860d-107b51cdeb8a/width=1024/00074-1650235086.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4ce5e9a5-f142-46c1-bcc6-d61c111ad642/width=1024/00078-3846831221.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/befc48e7-6e41-41fc-9c82-41eb8eca9a48/width=1024/00086-662345485.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a22e505a-bed7-4a23-9454-cfb477c68d5f/width=1024/00080-3846831223.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ff27b3f8-2ff6-4d35-8ec2-4984976e26d4/width=1024/00071-1650235083.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0e1e3435-10a2-4262-ac8a-e72f96d79f5a/width=1024/00070-1650235082.jpeg"
+              ],
+              "display": "HologramMecha",
+              "trigger_words": [],
+              "favourite_count": 188,
+              "sha256": "5BD8D6339D4E5E693E6723EC50A703E6BC48F5193A69B736635B7F1134EF4A46"
+            },
+            {
+              "id": 7,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6ee1cf4e-b871-4ec0-8b41-b05a5f11c479/width=1024/00276-1148584079.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/61b07140-9691-4b84-8ee8-99a43dfff69e/width=1024/00262-1148584065.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b66c623d-d9fd-445b-b326-af91c0682036/width=1024/00261-1148584064.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/64ed8997-f77d-462f-b424-3cd28f20e415/width=1024/00271-1148584074.jpeg"
+              ],
+              "display": "GlassSteelMecha",
+              "trigger_words": [],
+              "favourite_count": 197,
+              "sha256": "2A8389F815716CD1DEEB0C8716AE00388E072E1FE31076B8280E0D02A9E378BE"
+            },
+            {
+              "id": 8,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d3e46cd4-a67f-4943-877e-53b6e8bb2899/width=1024/00498-139774170.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d4426715-8ff3-4941-9d02-b78bf19a9c25/width=1024/00493-139774165.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e1c63317-94ae-46cd-8454-497ab6cc1f10/width=1024/00497-139774169.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5d130286-4284-427b-b751-138577aac0d7/width=1024/00483-139774155.jpeg"
+              ],
+              "display": "TalDarimMecha",
+              "trigger_words": [],
+              "favourite_count": 126,
+              "sha256": "722D6D7D6AD627EED8B6F0322BB5F02DBB487F7C74EE756099851D3FEF304A6F"
+            },
+            {
+              "id": 9,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c2f9599a-3dc9-48ee-8223-e8dec6e44871/width=1024/00253-1933482308.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2ff51eae-17a7-4270-8441-4b287a4d8fc0/width=1024/00254-1933482309.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2716c443-97d7-43ff-b850-831a8fc2b6b6/width=1024/00257-1933482312.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/00d255e2-0e56-49c5-8779-6537d1d6a542/width=1024/00244-1933482299.jpeg"
+              ],
+              "display": "EbonyGoldMecha",
+              "trigger_words": [],
+              "favourite_count": 153,
+              "sha256": "E62E48C5178CD0A5402DF1EECC1A62584C117FA400B0E3EAE5F75C557B224855"
+            },
+            {
+              "id": 10,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c9dbd1e8-017e-4f23-95aa-d34694924a7c/width=1024/00305-1590870159.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c84c9c43-f4f3-4389-81af-8727de0d087e/width=1024/00301-1590870155.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/72b2a63c-77a6-46f5-b64c-cf8f76b91152/width=1024/00312-1590870166.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/34bc7ba0-2ebe-4d95-8793-0c502b1fb7ff/width=1024/00313-1590870167.jpeg"
+              ],
+              "display": "KhalaiMecha",
+              "trigger_words": [],
+              "favourite_count": 21,
+              "sha256": "3BE67705C70653A535BFF4E5223A3FFF1111565DFAEE622F028EC6A6A72C96E6"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "display": "Pixel art style",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a7d26d41-83d6-4b3e-9ff2-8de3d26e6fe7/width=512/00481-1462244144.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/92c1d6a9-7fe0-41f7-9587-d82b8d3d03fe/width=512/00494-1672550534.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2bea8986-e9e6-4195-a050-d183fd16ae0c/width=512/00508-2865015185.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c5e539b7-67b2-428c-8fd6-e31e5b1b8e95/width=512/00446-1437590832.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b4250867-416d-4511-bf78-1cd11e41d15e/width=512/00450-112529896.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d5aa752f-9de3-4f46-afb0-83c055321f4c/width=512/00445-1437590831.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9d378868-2359-4bec-a29d-a3eb28ef13aa/width=512/00502-2203995312.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0c3c384c-add7-4a41-9f93-0fff73d1e44d/width=512/00490-2154723177.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9fb4bcb5-5a39-4dca-9bb3-00d9951ebef4/width=512/00463-2785414212.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/901b9624-64a3-4999-a37f-7d3ce1612f36/width=512/00499-2223400025.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/83ec3f2b-0f44-464c-a27c-49b4f431f5bc/width=512/00462-2785414211.jpeg"
+              ],
+              "display": "Pixel V3",
+              "trigger_words": [],
+              "favourite_count": 62,
+              "sha256": "8A2E1EA746EAFF717CD8451D9A28349EE7D1D5594E15D7B91E0ED6F9EF743FD3"
+            },
+            {
+              "id": 1,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a4c42eef-a78e-478d-83bd-f9c4b9904639/width=512/00043-621222772.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2f542a67-4633-41a0-a9a9-5aeb4b344527/width=512/00072-677328878.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cb556c26-0fd5-4bdf-b28a-646010ffa503/width=512/00071-3360422035.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/142f3dcb-9ff6-46c9-af52-bcdd4833b227/width=512/00057-3580680692.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ece0f531-0e45-4bf4-9839-2b9c35fb534e/width=512/00061-3514682080.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0e67911b-2781-46cd-a6f9-fcca02cb9f5f/width=512/00064-2566007022.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5679999a-1232-419a-b399-69f886609400/width=512/00065-2566007023.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef9c29d8-027a-4a5c-9ee3-599e658f4aa1/width=512/00059-3580680694.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c9ced4c4-ebe9-4c3d-8a99-486e5adfa963/width=512/00046-799026041.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/12a46d46-2a31-48d9-9223-cd5fa99916a9/width=512/00042-621222771.jpeg"
+              ],
+              "display": "Pixel V2",
+              "trigger_words": [],
+              "favourite_count": 193,
+              "sha256": "FE63E814FF9028EF86C148BC00BB4F746669191DA56026ACBD64852A911F4482"
+            },
+            {
+              "id": 2,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8c7afcd4-76a6-4662-59a5-7bb26b486800/width=768/01277-revAnimated_v122_2381793975.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5b53e4b8-4bcc-4c74-0ab9-363a2c42c100/width=768/01265-revAnimated_v122_749670.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/abf8b542-ed15-4d75-06d3-0f9dd4e05500/width=768/01273-revAnimated_v122_2170079805%20(1).jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82d84d12-5b01-4d5d-8e23-ac4ef64e8b00/width=768/01305-revAnimated_v122_1612517051%20(1).jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5414d510-0ff0-4878-a9b7-a6a62708f600/width=768/01323-revAnimated_v122_4084631781%20(1).jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/99ce9360-0d83-4303-b780-59e0e58dbb00/width=768/01335-revAnimated_v122_4000686392.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/af1a3962-748d-4fe3-ab4d-f6b0b3953700/width=768/01292-revAnimated_v122_1780981350.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8f6bdd34-6a9a-440a-b5ed-26bd52783600/width=768/01281-revAnimated_v122_1634104058.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/275fe0a2-c4aa-4efc-c811-bff75b1f4e00/width=768/01250-revAnimated_v122_1223923630.jpeg"
+              ],
+              "display": "Pixel V1",
+              "trigger_words": [],
+              "favourite_count": 11,
+              "sha256": "3C182FB45674A38A6F2DAF407632132076F820FE46B08859B3F2AF96B1C24717"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "display": "Linevichit style",
+          "favourite_count": 199,
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a6ee0ab3-1d8c-4657-860f-f27907001783/width=2048/00003-103647217.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f8efab83-c5e9-4006-91fb-bad38733f343/width=2048/00004-2856425874.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3d69d989-43c5-4c4b-b7c8-ea18006ad298/width=1024/00190-2770478334.jpeg"
+              ],
+              "display": "Linevichit V1",
+              "trigger_words": [],
+              "favourite_count": 96,
+              "sha256": "1DD27F546185918163F6114F25CE296E8D34B12BF143756B1B6366AB143145F3"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "display": "Locker room",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f494e0f4-8c6b-4128-9fd6-84b750978f48/width=1024/01729-1813144975.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c6a4eb9a-ce4e-44f1-9a12-f37961889d9c/width=1024/01871-1584335269.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/581b6390-d075-4664-8b4f-cf30e1194607/width=1024/01970-1695031862.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/adde4b5f-6c66-478f-b2bc-e216bb1c8e90/width=1024/01979-3446349493.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d20a8b73-b8eb-4268-83b3-a55ed55c8cd0/width=1024/01980-3446349492.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4cc05dc9-860a-4f03-a006-ffc68fedac2b/width=1024/02027-1771952102.jpeg"
+              ],
+              "display": "Locker room V0.1",
+              "trigger_words": [],
+              "favourite_count": 18,
+              "sha256": "F5CB3AF844CC6B2DBC76B2168738C50BFD5ADF1320F2E1AAB207CEF871C84EEB"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "display": "School gym",
+          "favourite_count": 792,
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/176a8288-ee02-4566-a019-e42e9b17b948/width=1024/01923-659810893.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/548ae61e-1eef-49ed-929b-0817ba159fce/width=1024/00110-2962851703.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/34ba0a6a-f099-44d4-8f81-3c2721ddde8c/width=1024/01983-2464111526.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f30c7eda-cc5d-46e8-83d5-95440d7592a5/width=1024/02583-3041106320.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c7c96784-bcc6-4f6a-aa20-f04197be621a/width=1024/01949-659810900.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/69e21216-d958-418d-bb11-faf802c99f1a/width=1024/02009-2870610032.jpeg"
+              ],
+              "display": "School gym V0.1",
+              "trigger_words": [],
+              "favourite_count": 37,
+              "sha256": "8C749717FEDB7B3D63CFBFB4137B9E312A795699454B652E20F88EC95E9C7B54"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "display": "Cyberhelmet",
+          "childs": [
+            {
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4734cdb5-9a40-407a-0b04-27442307c900/width=1024/17914-1059807032-original,%20masterpiece,%20best%20quality,%20a%20cyborg%20woman%20in%20a%20green%20circle%20light%20up%20cyberhelmet%20with%20orange%20ears,%20wearing%20orange%20jack.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b76e2db1-5247-45c3-3ed8-59a1954a5300/width=1024/17703-380677548-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20woman%20with%20a%20fantastic%20cyberhelmet,%20wearing%20red%20techwear%20jacket,%20on%20the%20street.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0f549f28-e5c2-4bca-ca1f-c07b66445200/width=1024/17634-3672199891-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20close%20up%20of%20a%20futuristic%20looking%20cyborg%20girl%20with%20%20a%20white%20cyberhelmet%20head%20with%20d.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7b2247f6-731b-4711-bf53-a3f6610a7300/width=1024/17653-3672199891-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20cyborg%20in%20a%20cyberhelmet%20head%20with%20a%20green%20circle%20led%20light,%20wearing%20a%20orange%20techw.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a1ecf071-76ce-4761-508b-2d069f9fa900/width=1024/17621-2798755816-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20woman%20with%20a%20fantastic%20cyberhelmet,%20wearing%20a%20orange%20techwear%20jacket,%20cool%20pose,%20l.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d3459c6b-8fb2-44fc-25f5-06b5f3416d00/width=1024/17592-2798755816-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20futuristic%20looking%20cyborg%20girl%20with%20a%20black%20cyberhelmet%20head%20with%20red%20triangle%20led.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/38603f68-b269-4c95-dfd4-109a6424f000/width=1024/17709-1431375879-masterpiece,%20best%20quality,%20a%20close%20up%20of%20a%20futuristic%20looking%20cyborg%20girl%20with%20a%20fantastic%20cyberhelmet%20head%20with%20red%20triangle%20le.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1f5640f1-d3b0-4462-8ed4-973c100f1f00/width=1024/17708-1431375878-masterpiece,%20best%20quality,%20a%20close%20up%20of%20a%20futuristic%20looking%20cyborg%20girl%20with%20a%20fantastic%20cyberhelmet%20head%20with%20red%20triangle%20le.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d888e437-7a48-4733-e0ed-c4ce8a67c600/width=1024/17527-1457378706-masterpiece,%20best%20quality,%20upper%20body,%20a%20close%20up%20of%20a%20fantastic%20looking%20cyborg%20in%20a%20fantastic%20cyberhelmet%20with%20dreadlocks,%20wear.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/495c8542-5a3a-445a-6fac-d2e38b3fa700/width=1024/17661-3672199891-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20woman%20with%20a%20fantastic%20cyberhelmet,%20wearing%20a%20orange%20techwear%20jacket,%20on%20the%20stree.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e447d349-1a4c-4567-4a7a-51f924087f00/width=1024/17640-3672199891-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20cyborg%20woman%20with%20a%20cyberhelmet%20head%20with%20red%20triangle%20led%20lights%20and%20pink%20ears,%20w.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/09d3be28-8991-4eb4-0616-6c78a6ddce00/width=1024/17719-900647687-masterpiece,%20best%20quality,%20a%20close%20up%20of%20a%20futuristic%20looking%20cyborg%20girl%20with%20a%20fantastic%20cyberhelmet%20head%20with%20red%20triangle%20le.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/00407f79-4f8f-49ca-fb8c-d30d84821d00/width=1024/17631-3672199891-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20close%20up%20of%20a%20futuristic%20looking%20cyborg%20girl%20with%20%20a%20white%20cyberhelmet%20head%20with%20d.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9d81cb95-dfa5-4227-b93f-d78199423e00/width=1024/17566-3547588183-(original_%201.2),%20masterpiece,%20best%20quality,%20upper%20body,%20a%20close%20up%20of%20a%20fantastic%20looking%20cyborg%20in%20a%20fantastic%20cyberhelmet%20with.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7b5680b4-c0de-4557-f646-100022b5c300/width=1024/17911-1059807032-(original_%201.2),%20masterpiece,%20best%20quality,%20a%20cyborg%20woman%20in%20a%20green%20circle%20light%20up%20cyberhelmet%20with%20orange%20ears,%20wearing%20oran.jpeg"
+              ],
+              "display": "Cyberhelmet V0.7",
+              "trigger_words": [],
+              "favourite_count": 79,
+              "sha256": "11EB8DDE45EF4353DB56B3A601880D57F4E51EFED9E8B1039E46CEC2F9B0D2E0"
+            },
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8669d0b2-bd1d-4415-08d9-517e9256c400/width=1024/348051.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/44f2fc73-ebc7-4fa7-0cd2-91559f8a5000/width=1024/348050.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/8c806acc-978e-47c9-7dca-9c2fa6d29d00/width=1024/348049.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/10f276e6-6053-4f61-ad08-014bbed4e300/width=1024/348048.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/00f8975c-4a25-4145-54d2-a16b627a9300/width=1024/348047.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/efd32367-1637-411f-db72-15032b7c8a00/width=1024/348046.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b4b0bb3e-db70-4bde-c6eb-2ee1e53bf400/width=1024/348045.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2a46142e-7205-4dee-b701-4ab3d3e40100/width=1024/348044.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/091050ad-614b-419d-ccd9-cbd0f86a1600/width=1024/348043.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5ad663ae-1ce2-406c-ff58-2472c8395500/width=1024/348042.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/40ae5e45-2826-4ffb-da40-3b4ce4924400/width=1024/348041.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4228da34-5e33-4dcf-44ce-b81228238d00/width=1024/348040.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c42f2c13-9c6d-4b64-79f7-1ab09964ac00/width=1024/348039.jpeg"
+              ],
+              "display": "Cyberhelmet V0.2",
+              "trigger_words": [],
+              "favourite_count": 61,
+              "sha256": "2D02DB3D49F690233352275B33240E6095F9A0E6F603EB8DDD4F79A1A1B66DE9"
+            },
+            {
+              "id": 1,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/68156a42-46c3-4d84-733f-787be4056900/width=1024/344783.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7dc34040-1507-491a-6a90-6be381854900/width=1024/344785.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85c7bdef-1922-46ff-6d99-c5bcabef9000/width=1152/344789.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/debd7646-bb1c-49ce-54ba-9d8dba38e200/width=1024/344788.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/976cd21d-8875-40af-9713-227b15ae0e00/width=1024/344777.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f3ea057b-c903-4a01-ed6c-123054dbc300/width=1152/344787.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b50388b2-a54d-4b54-215d-29ddf778b500/width=1152/344786.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3406b5af-16e4-4d7d-0670-61c2616b3e00/width=1152/344782.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4348bd9f-b5b0-4774-7415-bc74e660c200/width=1152/344781.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/da1345ed-a987-4d25-f355-5ab17c242200/width=1152/344780.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b718b2b9-672f-4fe0-fdc4-7dab42692900/width=1152/344779.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9fb92abb-3cc8-4f2d-e9f5-d88cfb8d8900/width=1152/344778.jpeg"
+              ],
+              "display": "Cyberhelmet V0.1",
+              "trigger_words": [],
+              "favourite_count": 16,
+              "sha256": "2EA72D2D94B95E50B265089D84ECD1F53F7CAD94DFEE07F27B7C461F51D9834D"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "display": "Detail Enhancer / Tweaker",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c1697174-7c8d-4bde-b053-7b1ec0692b64/width=1197/xyz_grid-0361-132340235-8k%20portrait%20of%20beautiful%20cyborg%20with%20brown%20hair,%20intricate,%20elegant,%20highly%20detailed,%20majestic,%20digital%20photography,%20art%20by%20artg_.jpeg"
+              ],
+              "display": "Detail Enhancer / Tweaker V1.0",
+              "trigger_words": [],
+              "favourite_count": 95,
+              "sha256": "D9CF2F88DEC53A8DD8C09ABA2B1D67963B265EBDF8255660F5BCD7F1C8EDBA33"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "display": "FireVFX",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/68f89db9-29bc-407b-b469-377260778e00/width=1150/253828.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/96031dd2-c8b2-4c51-7beb-8261ffc2b300/width=1152/253214.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bab3ea70-da89-45bc-04a6-dbdf8c180e00/width=2304/253212.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3e1b5dc1-c62e-4d31-2466-77ed678d3100/width=1152/253213.jpeg"
+              ],
+              "display": "FireVFX V2",
+              "trigger_words": [
+                "Holding fire with her 2 hands",
+                "Fireball being thrown",
+                "Holding fire in one hand",
+                "Fireball with a red glow",
+                "Fireball about to be released",
+                "Surrounded by flames"
+              ],
+              "favourite_count": 9,
+              "sha256": "CF047F8885C47D202F966131FA490D1A8955BBED46658F1E5851996D8A3F88B8"
+            },
+            {
+              "id": 1,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2abecd43-a196-454b-1e5d-2ace2596ef00/width=1024/00331-466098627-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20with%20long,%20flowing%20orange%20hair%20and%20vibrant%20green%20eyes,%20dressed%20in%20a%20dark%20ro.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/fb0b59b7-c331-4a2e-78c9-5a7b34e04d00/width=512/00948-279906027-Masterpiece,%20best%20quality,%201girl,%20her%20naked%20body%20enveloped%20by%20dancing%20flames,%20as%20if%20the%20fire%20itself%20is%20trying%20to%20protect%20her.%20He.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4334ee37-3893-40ca-c428-8ca313ac6c00/width=1024/00332-3407030234-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20holding%20a%20flaming%20sword%20with%20both%20hands,%20her%20eyes%20glowing%20with%20intensity.%20S.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0ebed883-b5b4-4b5c-fbec-175a9d09da00/width=1024/00333-2506935937-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20holding%20a%20flaming%20sword%20with%20both%20hands,%20her%20eyes%20glowing%20with%20intensity.%20S.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/4d494dea-2c10-4cfd-e87a-5dc172e6ee00/width=1024/00337-2033255633-_lora_FireVFX_0.5_%20close%20up,%20protrait%20of%20a%201boy,%20glowing%20yellow%20eyes,%20(fire%20green_1.5),%20wind,%20spark%20fire,.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7337ffd0-a1a8-49c0-9ee5-f01573928100/width=512/00916-2207798966-Masterpiece,%20best%20quality,%201girl,%20with%20shimmering%20iridescent%20hair%20that%20seems%20to%20flicker%20like%20flames.%20Her%20eyes%20are%20a%20bright,%20inte.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/fb5309ae-73ce-48ba-2a80-5c38b261ea00/width=512/00918-1634349797-multicolored%20hair,%20glow%20hair,%20bloom,%20Masterpiece,%20best%20quality,%201girl,%20with%20shimmering%20iridescent%20hair%20that%20seems%20to%20flicker%20lik.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9107a163-ca06-4aad-8edf-4d0d4c35ca00/width=512/00923-2248506731-1man,%20white%20hair,%20a%20fireball%20about%20to%20be%20released,%20magic%20spell,%20circle%20magic,.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2e4391ff-bf0d-4390-52fc-e6d794252300/width=1024/00322-1415348647-_lora_FireVFX_0.5_%20Masterpiece,%20best%20quality,%201girl,%20with%20long%20curly%20orange%20hair,%20wearing%20a%20red%20cloak%20with%20gold%20accents%20and%20a%20ma.jpeg"
+              ],
+              "display": "FireVFX V1",
+              "trigger_words": [
+                "<lora:firevfx:0.5>"
+              ],
+              "favourite_count": 155,
+              "sha256": "8F17FFDFC8A94C8EE0A33A2A3176F7FC6ACE55EB002B828C55FEEF282D29A63F"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "display": "Twitch Emotes",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/82ccacc9-4d38-4625-d11c-0d8521c34900/width=512/241442.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7ced791a-c327-4203-9f57-faf7f39f7b00/width=512/241460.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/44a18e00-1c82-4ab8-62a8-e913a19b0200/width=512/241459.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/130c997a-18bf-4598-865c-0355ef409500/width=512/241458.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c23dde5c-b1ef-490c-5cbc-a500389f0b00/width=512/241457.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef8c0d6a-14dd-4491-6c1a-4197ecad8c00/width=512/241456.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef8c0d6a-14dd-4491-6c1a-4197ecad8c00/width=512/241456.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7c9fe5ce-c02a-4603-370f-7f61f595dc00/width=512/241455.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7c9fe5ce-c02a-4603-370f-7f61f595dc00/width=512/241455.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b8df2fb4-038a-4d08-19e8-94f17522b400/width=512/241453.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/26941b4e-847e-4865-95ab-5ca41843b000/width=512/241452.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/885b7f31-26b7-469b-b6a3-3801621b9d00/width=512/241451.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/885b7f31-26b7-469b-b6a3-3801621b9d00/width=512/241451.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/143eb90c-1f42-48dd-e235-3bde85bbda00/width=512/241449.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ca800bb3-8813-4561-035a-8025c3e5d100/width=512/241448.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/22a02a0e-94ec-4103-1724-bc666f77f400/width=512/241447.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f6eb2623-7c9e-4b5a-34fc-fb85bddad100/width=512/241446.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1328753c-1819-41dd-0ac3-58e6ef98b700/width=512/241445.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e27a4d82-0eb0-425d-a31f-ce9d6d220100/width=512/241444.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/08dcc74f-ad3d-4eac-e526-7a4152d0bc00/width=512/241443.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/94b5d443-faea-46b0-e009-262cb6e85f00/width=512/241462.jpeg"
+              ],
+              "display": "Twitch Emotes V1.3",
+              "trigger_words": [
+                "twitch emoji"
+              ],
+              "favourite_count": 45,
+              "sha256": "6CBD2102908FDC1AE3CAE79C179ACBBDBE9AED06890A1FBB41A8C90949CADAF7"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "display": "Minimalist Anime",
+          "childs": [
+            {
+              "id": 0,
+              "previews": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3dc34bb7-c730-4f14-556d-b9dd36493400/width=768/336272.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cc16fa99-8afb-40ef-2a59-b37d75036600/width=768/336271.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85f78fe2-403a-48ec-068e-c3cae0740000/width=512/336274.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ef69ed48-237e-46c2-a404-89011420f500/width=1152/336273.jpeg"
+              ],
+              "display": "Minimalist Anime V1",
+              "trigger_words": [
+                "<lora:anime_minimalist_v1-000020:0.9>, anime minimalist"
+              ],
+              "favourite_count": 181,
+              "sha256": "F16F6504EF57EAC0D0ABE857D9A4665681E935438FE3315F6045337F4FCEFD71"
+            }
+          ]
+        }
+      ],
+      "explore": [
+        {
+          "id": 0,
+          "prompt": "Excellent, masterpiece, white hair, golden eyes, white clothes, looking up, upper body, hair, fair skin, side braids",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F0_zzz1xxx1zzz.webp?alt=media&token=92f660e0-0013-4227-b524-e19ed9559e56",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F1_zzz1xxx1zzz.webp?alt=media&token=b34a81df-0c04-405c-8540-1c3275f20034",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F2_zzz1xxx1zzz.webp?alt=media&token=7cd90f81-1036-401a-a789-9a368ebe4e72"
+          ],
+          "favourite_count": 120,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 1,
+          "prompt": "Gentle girl, purple eyes, black hair color, floating hair, delicate and flexible eyes, intricate damask hanfu, gorgeous accessories, wearing pearl earrings, FOV, f/1.8, masterpiece, ancient Chinese architecture, blue sky, flower petals flying, front portrait shot, Chang'e, side light, sunlight shining on people, 8K",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F0_zzz2xxx3zzz.webp?alt=media&token=7ca0d892-7501-47d0-88c9-132aca772ecd",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F1_zzz2xxx3zzz.webp?alt=media&token=e0c385a8-f5e3-4fee-a448-327e27de9765",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F2_zzz2xxx3zzz.webp?alt=media&token=c13348c6-11df-401f-81a3-4bd92301f699",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F3_zzz2xxx3zzz.webp?alt=media&token=8851afbb-ecd1-40c1-bae0-3047fee54013"
+          ],
+          "favourite_count": 78,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 2,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), A beautiful middle East girl without covering face, belly dancing girl",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F0_zzz2xxx3zzz.webp?alt=media&token=d17a91f3-e46f-4ca7-a96b-836c86a8422d",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F1_zzz2xxx3zzz.webp?alt=media&token=4165104c-b09f-4489-9556-cfc7a9fa8ab9",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F2_zzz2xxx3zzz.webp?alt=media&token=ce0a43fd-7484-47db-b677-c56ad00fab4f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F3_zzz2xxx3zzz.webp?alt=media&token=5f8e2212-b48d-4dde-921b-4cbc79ce8d03"
+          ],
+          "favourite_count": 82,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 3,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), bbw, sweater, high resolution, outdoor, ((masterpiece)), ((best quality)), (ultra-detailed), ((kawaii)), cute, (lovely), anime style, bed, a cute girl, 1girl, solo, beautiful pink hair, twin tails, beautiful pink eyes, ((beautiful eyes)), light brown-skinned, brown ribon, ashamed, holding cake, ((best quality))",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F0_zzz2xxx3zzz.webp?alt=media&token=2caa77f7-e5d0-4045-945a-3c3dee61c49f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F1_zzz2xxx3zzz.webp?alt=media&token=27799701-fd2f-421f-8368-7f3701459054",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F2_zzz2xxx3zzz.webp?alt=media&token=9281b338-6858-4a94-8cd3-b7781109535d",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F3_zzz2xxx3zzz.webp?alt=media&token=77c49ded-f4a7-45de-aacc-3e15bc8638a9"
+          ],
+          "favourite_count": 155,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 4,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), blonde hair, blue eyes, pale skin, braid hair, blue ribbon, blue open dress, jewel like eyes, upper body, high detailed eyes, inner boob",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F0_zzz2xxx3zzz.webp?alt=media&token=9d0d96c4-9b1e-4458-a2e2-79d1b6b12abc",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F1_zzz2xxx3zzz.webp?alt=media&token=51405c6a-2b7e-4b21-841a-dbf8c097ded6",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F2_zzz2xxx3zzz.webp?alt=media&token=558c684c-d859-4bf0-8d9e-87011f987dbd",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F3_zzz2xxx3zzz.webp?alt=media&token=8ab81332-0611-41db-8223-ddc8bc333021"
+          ],
+          "favourite_count": 64,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 5,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), 1girl, open mouth, solo, jacket, hair between eyes, smile, looking at viewer, chibi, long hair, chibi, bangs, black jacket, blush, brown hair, animal ears, eyebrows visible through hair, sidelocks, brown eyes, upper body, blush stickers, short hair, headgear, scarf, black scarf",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F0_zzz2xxx3zzz.webp?alt=media&token=7a94d31c-2b1f-4090-895d-3abac4d651fa",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F1_zzz2xxx3zzz.webp?alt=media&token=57fa3bcf-4690-4384-a3fa-53984325ba77",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F2_zzz2xxx3zzz.webp?alt=media&token=b0f0878e-1766-4587-b19d-b7a23c12ce7e",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F3_zzz2xxx3zzz.webp?alt=media&token=2175893d-1949-4acc-bf16-91b890cd1576"
+          ],
+          "favourite_count": 56,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 6,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), 18 yours old, male, male feature, adventurer, adventurer-style clothes, adventurer-style trousers, (gloves:1), (emotionless face:1), deep blue eyes, (The eyes are extremely beautiful, and those sea-blue eyes are like a crystal-clear sapphire that a skilled gem cutter spent his whole life grinding and carving one by one with his superb skills",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F0_zzz1xxx1zzz.webp?alt=media&token=5696ccd1-3144-4d8b-8cda-9c4b7ede56ad",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F1_zzz1xxx1zzz.webp?alt=media&token=59d40184-5281-4a3f-9616-2004f5a36d67"
+          ],
+          "favourite_count": 196,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 7,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed) Potrait view. Ed from COWBOY BEBOP. Female. Unruly red hair with goggles pushed up on her forehead. White tee-shirt. IMAGE IS NOT CROPPED. FULL HEAD AND HAIR VISIBLE",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F0_zzz1xxx1zzz.webp?alt=media&token=10668a09-c958-416e-95ae-e856dd9110c5",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F1_zzz1xxx1zzz.webp?alt=media&token=e100defe-9723-4feb-a641-6b31573adaa4",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F2_zzz1xxx1zzz.webp?alt=media&token=f0114291-e312-46e7-94b5-6fe6c69f7acf",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F3_zzz1xxx1zzz.webp?alt=media&token=3f9a726a-985e-4b31-97d0-be3c2f26b71f"
+          ],
+          "favourite_count": 80,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 8,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), masterpiece, ultra realistic, ray tracing, ambient light, Maki Nishikino, stunning beautiful, flawless, spotless, small breast, psychedelic art:1.3, intricate details, upper body, from below:1.2, UHD, best quality, 8k, 16k",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F0_zzz1xxx1zzz.webp?alt=media&token=cb611d59-c847-4b35-a007-69e1c3aaa2a2",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F1_zzz1xxx1zzz.webp?alt=media&token=1170e346-7661-43b6-936c-b25703b794f5",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F2_zzz1xxx1zzz.webp?alt=media&token=3439ffe8-f630-4b29-b6ba-509576b0164d"
+          ],
+          "favourite_count": 63,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 9,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), silhouette of a man with dragon wings, complex and intricate background",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F0_zzz3xxx4zzz.webp?alt=media&token=f00c925a-4642-44e8-9bf6-f78889e6d5a6",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F1_zzz3xxx4zzz.webp?alt=media&token=4a37cecb-c71c-4b7d-8f87-d698176db3fb",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F2_zzz3xxx4zzz.webp?alt=media&token=ea51064e-5810-48f2-a341-b6e6c1068516",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F3_zzz3xxx4zzz.webp?alt=media&token=82362cb2-3098-4133-80c6-4f41092d3c30"
+          ],
+          "favourite_count": 98,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 10,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), (highly detailed face:1) young, male, adventurer, adventurer-style clothes, adventurer-style trousers, (gloves:1), (emotionless face:1.5), deep blue eyes, (The eyes are extremely beautiful, and those sea-blue eyes are like a crystal-clear sapphire that a skilled gem cutter spent his whole life grinding and carving one by one with his superb skills",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F0_zzz3xxx4zzz.webp?alt=media&token=6395ae08-4b9a-4c29-9252-9d66f222e3c3",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F1_zzz3xxx4zzz.webp?alt=media&token=0fa0e8ba-c845-4de2-b615-f81a538b9466",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F2_zzz3xxx4zzz.webp?alt=media&token=da4de2bc-48be-4a7b-a544-d4758d6e2643",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F3_zzz3xxx4zzz.webp?alt=media&token=10b3a4bf-cfab-4723-bd65-97df4ddd3b2b"
+          ],
+          "favourite_count": 130,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 11,
+          "prompt": "(masterpiece), (best quality), (ultra-detailed), girl, summer, beach, sea, happy, beautiful girl, summer, oil painting, style",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F0_zzz2xxx3zzz.webp?alt=media&token=04f555cb-c1b4-4992-a5c5-bdc197bcec5b",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F1_zzz2xxx3zzz.webp?alt=media&token=991f5cf7-efdb-4ffc-a8a8-00c41adc9967",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F2_zzz2xxx3zzz.webp?alt=media&token=d7089745-b080-4b35-a6eb-b1fe54fe2477",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F3_zzz2xxx3zzz.webp?alt=media&token=988f7e67-fa0b-4d93-8892-c5015d34e14b"
+          ],
+          "favourite_count": 179,
+          "modelIds": [0, 1, 2]
+        },
+        {
+          "id": 12,
+          "prompt": "best quality, ultra high res, (photorealistic:1.4), sleeveless white button shirt, black skirt, black choker, cute, (Kpop idol), (aegyo sal:1), (platinum blonde hair:1), ((puffy eyes)), looking at viewer, full body, facing front",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F0_zzz1xxx1zzz.webp?alt=media&token=54215560-49d1-443a-88c7-14c74671e9f4",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F1_zzz1xxx1zzz.webp?alt=media&token=dd3f8a55-2628-49f1-aaf4-181a64ec12f7",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F2_zzz1xxx1zzz.webp?alt=media&token=30c2f441-ab1d-4ee3-82f4-b00eb178aabc",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F3_zzz1xxx1zzz.webp?alt=media&token=814da6fe-6f43-439d-a2c6-db820aaef977"
+          ],
+          "favourite_count": 51,
+          "modelIds": [3]
+        },
+        {
+          "id": 13,
+          "prompt": "masterpiece, best quality, ultra-detailed, illustration, portrait",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F0_zzz1xxx1zzz.webp?alt=media&token=e0de523b-9e52-4873-a5e7-e54108f8b363",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F1_zzz1xxx1zzz.webp?alt=media&token=5451d2a4-2d4f-4b46-b201-04331378acad",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F2_zzz1xxx1zzz.webp?alt=media&token=e25b6565-482f-4269-b731-a554040bc272",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F3_zzz1xxx1zzz.webp?alt=media&token=dc38663a-735c-40ea-ab37-8d689ba69867"
+          ],
+          "favourite_count": 175,
+          "modelIds": [3]
+        },
+        {
+          "id": 14,
+          "prompt": "masterpiece, best quality, ultra-detailed, illustration, close-up, straight on, face focus, a background composed of flowers, grey hair, blue sky, cloud-sky, girl with beautiful eyes, cold face, black dress, looking at viewer",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F0_zzz1xxx1zzz.webp?alt=media&token=97b9c672-f900-46b6-97cd-4decd81e12bb",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F1_zzz1xxx1zzz.webp?alt=media&token=11713f99-a2b5-4b07-9c8a-a3d89a6f32a0",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F2_zzz1xxx1zzz.webp?alt=media&token=f3fc065a-0742-41a3-bc1b-e4864e44f65d",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F3_zzz1xxx1zzz.webp?alt=media&token=8062eb2e-544e-47ff-9e88-7c5ae35ee01e"
+          ],
+          "favourite_count": 157,
+          "modelIds": [3]
+        },
+        {
+          "id": 15,
+          "prompt": "original, extremely delicate and beautiful, ((beautiful detailed eyes)), black hair, flower, school uniform, looking_at_viewer, mole, (solo),(masterpiece:1.4), (best quality:1.4), ((sky)), dappled sunlight, grass",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F0_zzz2xxx3zzz.webp?alt=media&token=037a5b37-71fd-4339-826a-64cb7f703e0f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F1_zzz2xxx3zzz.webp?alt=media&token=6f9e6185-bb40-4340-be74-dd26569d7e49",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F2_zzz2xxx3zzz.webp?alt=media&token=55417a01-b3ec-4988-aed3-59cf05a3f80f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F3_zzz2xxx3zzz.webp?alt=media&token=0694c6ad-dafe-4279-a52f-4b300b780024"
+          ],
+          "favourite_count": 36,
+          "modelIds": [3]
+        },
+        {
+          "id": 16,
+          "prompt": "masterpiece, best quality, ultra-detailed, illustration, beautiful detailed eyes, looking at viewer, close up, (breast focus), (arms behind back:1.2), black hair, shy, cat ears",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F0_zzz3xxx4zzz.webp?alt=media&token=5f259de9-b9dd-4aa4-833d-e8cecd76dac6",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F1_zzz3xxx4zzz.webp?alt=media&token=f407875d-d8aa-4888-9689-68ba7b083d16",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F2_zzz3xxx4zzz.webp?alt=media&token=5fa983fb-7615-434e-8c8f-9b505da7c677",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F3_zzz3xxx4zzz.webp?alt=media&token=b4bfb20e-ef92-420c-9fe3-be23ee382a39"
+          ],
+          "favourite_count": 33,
+          "modelIds": [3]
+        }
+      ]
   }
 }

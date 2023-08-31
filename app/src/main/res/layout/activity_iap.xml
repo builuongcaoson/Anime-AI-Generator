@@ -91,7 +91,6 @@
         android:id="@+id/viewBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -469,7 +468,8 @@
             android:id="@+id/viewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_10sdp">
 
             <com.basic.common.widget.LsTextView
                 android:id="@+id/textDescription"
@@ -493,6 +493,49 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/privacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Privacy Policy"
+                android:textColor="?android:textColorPrimary"
+                android:textColorLink="?android:textColorPrimary"
+                android:textSize="@dimen/_10ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/restore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="@dimen/_5sdp"
+                android:text="Restore"
+                android:textColor="?android:textColorPrimary"
+                android:textColorLink="?android:textColorPrimary"
+                android:textSize="@dimen/_10ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/termsOfUse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Terms of Use"
+                android:textColor="?android:textColorPrimary"
+                android:textColorLink="?android:textColorPrimary"
+                android:textSize="@dimen/_10ssp" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -502,8 +545,7 @@
         android:background="#80000000"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="0dp"

@@ -116,18 +116,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         if (!isGallery){
-//            tryOrNull { lifecycleScope.launch { serverApiRepo.updateCreatedArtworkInDay() } }
-
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_SUCCESS)
-
-            tryOrNull {
-                App.app.reviewInfo?.let { reviewInfo ->
-                    tryOrNull {
-                        val flow = App.app.manager.launchReviewFlow(this, reviewInfo)
-                        flow.addOnCompleteListener { }
-                    }
-                }
-            }
 
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
             prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)

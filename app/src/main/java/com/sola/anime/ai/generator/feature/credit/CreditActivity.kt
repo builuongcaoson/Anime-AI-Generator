@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -21,6 +23,8 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCreditBinding
 import com.sola.anime.ai.generator.databinding.ItemPreviewCreditBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.model.config.userPurchased.ProductPurchased
+import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchased
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +34,8 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -131,8 +137,6 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS_CREDITS)
 
-                binding.viewLoading.isVisible = false
-
                 val creditsReceived = when (item.id) {
                     Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
                     Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
@@ -146,15 +150,88 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 }
 
                 prefs.isShowedWaringPremiumDialog.delete()
-                prefs.isSyncUserPurchased.set(true)
                 prefs.isPurchasedCredit.set(true)
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
+
+                lifecycleScope.launch(Dispatchers.Main) {
+                    Timber.e("Sync user purchased")
+
+                    syncUserPurchasedToFirebase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = -3)
+
+                    binding.viewLoading.isVisible = false
+                }
             },
             onError = { _, _ ->
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
 
                 binding.viewLoading.isVisible = false
             })
+    }
+
+    private suspend fun syncUserPurchasedToFirebase(packagePurchased: String, timePurchased: Long, timeExpired: Long) = withContext(Dispatchers.IO){
+        val reference = Firebase.database.reference.child("usersPurchased").child(getDeviceId())
+        val snapshot = reference.get().await()
+        val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }?.let { userPurchased ->
+            userPurchased.deviceId = getDeviceId()
+            userPurchased.deviceModel = getDeviceModel()
+            userPurchased.credits = prefs.getCredits()
+            userPurchased.numberCreatedArtwork = when {
+                packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
+                packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
+                packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
+                packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
+                packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
+                else -> prefs.numberCreatedArtwork.get()
+            }
+            userPurchased.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
+            userPurchased.productsPurchased.add(
+                ProductPurchased().apply {
+                    this.id = userPurchased.productsPurchased.size.toLong()
+                    this.packagePurchased = packagePurchased
+                    this.timePurchased = timePurchased.getTimeFormatted()
+                    this.timeExpired = when {
+                        packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
+                        packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
+                        packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
+                        packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
+                        packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
+                        else -> "Credits"
+                    }
+                }
+            )
+        } ?: run {
+            UserPurchased().apply {
+                this.deviceId = getDeviceId()
+                this.deviceModel = getDeviceModel()
+                this.credits = prefs.getCredits()
+                this.numberCreatedArtwork = when {
+                    packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
+                    packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
+                    packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
+                    packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
+                    packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
+                    else -> prefs.numberCreatedArtwork.get()
+                }
+                this.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
+                this.productsPurchased.add(
+                    ProductPurchased().apply {
+                        this.id = productsPurchased.size.toLong()
+                        this.packagePurchased = packagePurchased
+                        this.timePurchased = timePurchased.getTimeFormatted()
+                        this.timeExpired = when {
+                            packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
+                            packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
+                            packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
+                            packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
+                            packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
+                            else -> "Credits"
+                        }
+                    }
+                )
+            }
+        }
+
+        reference.setValue(userPurchased).await()
     }
 
     override fun onResume() {

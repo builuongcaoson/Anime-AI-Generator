@@ -12,7 +12,6 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.startArt
@@ -66,12 +65,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         }
 
         when {
-            !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
-                syncUserPurchased()
-            }
-        }
-
-        when {
             configApp.version > BuildConfig.VERSION_CODE && !prefs.isShowFeatureDialog(configApp.version).get() -> {
                 featureVersionDialog.show(this, configApp.version, configApp.feature)
             }
@@ -84,37 +77,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     private fun listenerView() {
         binding.viewBottom.viewArt.clicks { startArt() }
-    }
-
-    private fun syncUserPurchased() {
-        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("##### MAIN #####")
-            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-            Timber.tag("Main12345").e("Is active: $isActive")
-
-            if (isActive){
-                lifecycleScope.launch(Dispatchers.Main) {
-                    serverApiRepo.syncUser { userPremium ->
-                        userPremium?.let {
-                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredPremium.set(-2)
-                                return@syncUser
-                            }
-
-                            customerInfo
-                                .latestExpirationDate
-                                ?.takeIf { it.time > System.currentTimeMillis() }
-                                ?.let { expiredDate ->
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun initObservable() {
@@ -250,24 +212,9 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewClicks = viewTab4, image = imageTab4, display = textTab4, index = 2)
     private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 3)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        when {
-            App.app.reviewInfo != null -> {
-                tryOrNull {
-                    val flow = App.app.manager.launchReviewFlow(this, App.app.reviewInfo!!)
-                    flow.addOnCompleteListener { task2 ->
-                        if (task2.isSuccessful){
-
-                            finish()
-                        } else {
-                            finish()
-                        }
-                    }
-                }
-            }
-            else -> finish()
-        }
+        finish()
     }
 
 }

@@ -39,15 +39,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
-    companion object {
-        private const val PERMISSION_NOTIFICATION = 1
-    }
-
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var syncData: SyncData
-    @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var permissionManager: PermissionManager
 
@@ -58,45 +53,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
         Timber.tag("Main12345").e("Device id: ${getDeviceId()}")
 
-        initReviewManager()
         initView()
         initObservable()
         initData()
-    }
-
-    private fun initReviewManager() {
-        App.app.loadReviewInfo()
-    }
-
-    private fun syncUserPurchased() {
-        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("##### SPLASH #####")
-            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-            Timber.tag("Main12345").e("Is active: $isActive")
-
-            if (isActive){
-                lifecycleScope.launch(Dispatchers.Main) {
-                    serverApiRepo.syncUser { userPremium ->
-                        userPremium?.let {
-                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredPremium.set(-2)
-                                return@syncUser
-                            }
-
-                            customerInfo
-                                .latestExpirationDate
-                                ?.takeIf { it.time > System.currentTimeMillis() }
-                                ?.let { expiredDate ->
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun initData() {
@@ -139,38 +98,25 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                             }
                         }
 
-                        lifecycleScope
-                            .launch(Dispatchers.Main) {
-                                when {
-                                    !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
-                                        syncUserPurchased()
-                                        delay(500)
-                                    }
-                                }
+                        syncData.execute(Unit)
 
-                                syncData.execute(Unit)
-
-                                when {
-                                    !permissionManager.hasPermissionNotification() -> permissionManager.requestPermissionNotification(this@SplashActivity, PERMISSION_NOTIFICATION)
-                                    else -> doTask()
-                                }
-                        }
+                        doTask()
                     }
                 }
             }
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSION_NOTIFICATION -> doTask()
-        }
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        when (requestCode) {
+//            PERMISSION_NOTIFICATION -> doTask()
+//        }
+//    }
 
     private fun syncRemoteConfig(done: () -> Unit) {
         Firebase.remoteConfig.let { config ->
@@ -245,7 +191,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         lifecycleScope.launch(Dispatchers.Main) {
             when {
-                !prefs.isUpgraded.get() && configApp.scriptOpenSplash == 1L -> {
+                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.scriptOpenSplash == 1L -> {
                     binding.textLoadingAd.text = "This action contains ads..."
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }

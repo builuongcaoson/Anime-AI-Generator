@@ -45,47 +45,10 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
         lightStatusBar()
         setContentView(binding.root)
 
-        when {
-            !prefs.isSyncUserPurchased.get() && Purchases.isConfigured -> {
-                syncUserPurchased()
-            }
-        }
-
         initView()
         initObservable()
         initData()
         listenerView()
-    }
-
-    private fun syncUserPurchased() {
-        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-            Timber.tag("Main12345").e("##### FIRST #####")
-            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-            Timber.tag("Main12345").e("Is active: $isActive")
-
-            if (isActive){
-                lifecycleScope.launch(Dispatchers.Main) {
-                    serverApiRepo.syncUser { userPremium ->
-                        userPremium?.let {
-                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-                                prefs.isUpgraded.set(true)
-                                prefs.timeExpiredPremium.set(-2)
-                                return@syncUser
-                            }
-
-                            customerInfo
-                                .latestExpirationDate
-                                ?.takeIf { it.time > System.currentTimeMillis() }
-                                ?.let { expiredDate ->
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredPremium.set(expiredDate.time)
-                                }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun listenerView() {
@@ -95,7 +58,6 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
 
                 prefs.isFirstTime.set(false)
                 when {
-//                    !prefs.isViewTutorial.get() -> startTutorial()
                     !prefs.isUpgraded.get() -> startIap(isKill = false)
                     else -> startMain()
                 }
