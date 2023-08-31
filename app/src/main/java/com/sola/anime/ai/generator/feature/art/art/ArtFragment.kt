@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.art
+package com.sola.anime.ai.generator.feature.art.art
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -6,7 +6,6 @@ import android.view.MotionEvent
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -22,8 +21,6 @@ import com.sola.anime.ai.generator.common.ui.sheet.history.SheetHistory
 import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
-import com.sola.anime.ai.generator.common.widget.cardSlider.CardSliderLayoutManager
-import com.sola.anime.ai.generator.common.widget.cardSlider.CardSnapHelper
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -36,9 +33,8 @@ import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
-import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
-import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewAdapter
-import com.sola.anime.ai.generator.feature.main.art.adapter.PreviewExploreAdapter
+import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
+import com.sola.anime.ai.generator.feature.art.art.adapter.PreviewExploreAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,12 +82,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             previewExploreAdapter.data = explores
         }
 
-        modelDao.getAllLive().observeOnce(viewLifecycleOwner){ models ->
+        modelDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
             val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
             updateUiModel(model)
         }
 
-        styleDao.getAllLive().observeOnce(viewLifecycleOwner) { styles ->
+        styleDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { styles ->
             val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
             updateUiStyle(style)
         }
@@ -225,7 +221,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { isUpgraded ->
-                binding.viewPro.isVisible = !isUpgraded
+//                binding.viewPro.isVisible = !isUpgraded
                 binding.iconWatchAd.isVisible = !isUpgraded
                 binding.textDescription.isVisible = !isUpgraded
             }
@@ -247,16 +243,16 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
-                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
-
-                binding.viewShadow.alpha = alpha
-                binding.viewShadowBottom.alpha = alphaBottom
-            }
-        }
-        binding.viewPro.clicks { activity?.startIap() }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+//                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+//                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
+//
+//                binding.viewShadow.alpha = alpha
+//                binding.viewShadowBottom.alpha = alphaBottom
+//            }
+//        }
+//        binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
         binding.viewModel.clicks(withAnim = false) { modelClicks() }
         binding.viewStyle.clicks(withAnim = false) { styleClicks() }

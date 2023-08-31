@@ -59,13 +59,13 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun initData() {
-        modelDao.getAllLive().observeOnce(viewLifecycleOwner){ models ->
+        modelDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
             val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
             promptAdapter.data.getOrNull(0)?.model = model
             promptAdapter.notifyItemChanged(0)
         }
 
-        styleDao.getAllLive().observeOnce(viewLifecycleOwner) { styles ->
+        styleDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { styles ->
             val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
             promptAdapter.data.getOrNull(0)?.style = style
             promptAdapter.notifyItemChanged(0)

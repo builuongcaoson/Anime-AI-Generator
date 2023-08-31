@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.feature.main.art.adapter
+package com.sola.anime.ai.generator.feature.art.art.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter

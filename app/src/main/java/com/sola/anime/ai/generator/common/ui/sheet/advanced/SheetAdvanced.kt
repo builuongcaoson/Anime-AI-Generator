@@ -12,7 +12,7 @@ import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.SheetAdvancedBinding
-import com.sola.anime.ai.generator.feature.main.art.adapter.AspectRatioAdapter
+import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint

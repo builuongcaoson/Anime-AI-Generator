@@ -11,11 +11,13 @@ fun <T, S> LiveData<T?>.combineWith(other: LiveData<S?>): LiveData<Pair<T?, S?>>
         addSource(other) { value = Pair(this@combineWith.value, it) }
     }
 
-fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-    observe(lifecycleOwner, object : Observer<T> {
-        override fun onChanged(value: T) {
-            observer.onChanged(value)
-            removeObserver(this)
+fun <T> LiveData<List<T>>.observeAndRemoveWhenNotEmpty(lifecycleOwner: LifecycleOwner, observer: Observer<List<T>>) {
+    observe(lifecycleOwner, object : Observer<List<T>> {
+        override fun onChanged(value: List<T>) {
+            if (value.isNotEmpty()){
+                observer.onChanged(value)
+                removeObserver(this)
+            }
         }
     })
 }

@@ -24,4 +24,11 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorTertiary">@color/colorTertiary</item>
     </style>
+
+    <style name="LsTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/_13ssp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
 </resources>
