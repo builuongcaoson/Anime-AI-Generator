@@ -1,8 +1,6 @@
 package com.sola.anime.ai.generator.feature.iap
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,14 +8,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.GenericTypeIndicator
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
@@ -25,12 +18,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
-import com.sola.anime.ai.generator.common.extension.backTopToBottom
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
-import com.sola.anime.ai.generator.common.extension.getTimeFormatted
-import com.sola.anime.ai.generator.common.extension.makeLinks
-import com.sola.anime.ai.generator.common.extension.startMain
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
@@ -38,15 +26,9 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.IAPDao
 import com.sola.anime.ai.generator.databinding.ActivityIapBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
-import com.sola.anime.ai.generator.domain.model.config.userPurchased.ProductPurchased
-import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchased
+import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
-import com.sola.anime.ai.generator.feature.iap.billing.LsBilling
-import com.sola.anime.ai.generator.feature.iap.billing.listener.BillingListener
-import com.sola.anime.ai.generator.feature.iap.billing.model.DataWrappers
-import com.sola.anime.ai.generator.feature.iap.billing.model.Response
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,8 +38,6 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -79,6 +59,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val sku1 by lazy { Constraint.Iap.SKU_LIFE_TIME }
@@ -213,6 +194,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun listenerView() {
+        registerScrollListener()
+
         binding.back.clicks { onBackPressed() }
         binding.viewLifeTime.clicks { subjectSkuChoose.onNext(sku1) }
         binding.viewWeekly.clicks { subjectSkuChoose.onNext(sku2) }
@@ -229,7 +212,56 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         }
         binding.privacy.makeLinks("Privacy Policy" to View.OnClickListener { navigator.showPrivacy() })
         binding.termsOfUse.makeLinks("Terms of Use" to View.OnClickListener { navigator.showTerms() })
-//        binding.restore.makeLinks("Privacy Policy" to View.OnClickListener { syncUserPurchased() })
+        binding.restore.makeLinks("Restore" to View.OnClickListener { restoreClicks() })
+    }
+
+    private fun restoreClicks() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.viewLoading.isVisible = true
+
+            val userPurchased = userPremiumManager.syncUserPurchasedFromDatabase()
+
+            prefs.setUserPurchased(userPurchased)
+
+            when {
+                userPurchased == null -> makeToast("Restore failed")
+                else -> {
+                    makeToast("Restore success!")
+
+                    Timber.e("User purchased: ${Gson().toJson(userPurchased)}")
+
+                    prefs.setCredits(userPurchased.credits)
+                    prefs.numberCreatedArtwork.set(userPurchased.numberCreatedArtwork)
+                    prefs.latestTimeCreatedArtwork.set(userPurchased.latestTimeCreatedArtwork.toDate()?.time ?: -1)
+
+                    when {
+                        userPurchased.productsPurchased.filterNotNull().any { it.packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) } -> {
+                            prefs.isUpgraded.set(true)
+                            prefs.timeExpiredPremium.set(-2L)
+                        }
+                        userPurchased.productsPurchased.filterNotNull().any { it.packagePurchased.contains(Constraint.Iap.SKU_WEEK) || it.packagePurchased.contains(Constraint.Iap.SKU_YEAR) } -> {
+                            val dateExpired = userPurchased.productsPurchased.filterNotNull().maxBy { it.timeExpired.toDate()?.time ?: 0 }.timeExpired.toDate()
+                            when {
+                                dateExpired != null && dateExpired.time - System.currentTimeMillis() >= 0 -> {
+                                    prefs.isUpgraded.set(true)
+                                    prefs.timeExpiredPremium.set(dateExpired.time)
+                                }
+                                else -> {
+                                    prefs.isUpgraded.delete()
+                                    prefs.timeExpiredPremium.delete()
+                                }
+                            }
+                        }
+                        else -> {
+                            prefs.isUpgraded.delete()
+                            prefs.timeExpiredPremium.delete()
+                        }
+                    }
+                }
+            }
+
+            binding.viewLoading.isVisible = false
+        }
     }
 
     private fun purchaseClicks() {
@@ -271,7 +303,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpiredWithPremium
                     item.id.contains(Constraint.Iap.SKU_MONTH) -> timeExpiredWithPremium
                     item.id.contains(Constraint.Iap.SKU_YEAR) -> timeExpiredWithPremium
-                    else -> -3L
+                    else -> -1L
                 }
 
                 val creditsReceived = when {
@@ -292,7 +324,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 lifecycleScope.launch(Dispatchers.Main) {
                     Timber.e("Sync user purchased")
 
-                    syncUserPurchasedToFirebase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = timeExpired)
+                    val userPurchased = userPremiumManager.addOrUpdatePurchasedToDatabase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = timeExpired)
+                    prefs.setUserPurchased(userPurchased)
 
                     binding.viewLoading.isVisible = false
                 }
@@ -304,81 +337,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             })
     }
 
-    private suspend fun syncUserPurchasedToFirebase(packagePurchased: String, timePurchased: Long, timeExpired: Long) = withContext(Dispatchers.IO){
-        val reference = Firebase.database.reference.child("usersPurchased").child(getDeviceId())
-        val snapshot = reference.get().await()
-        val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }?.let { userPurchased ->
-            userPurchased.deviceId = getDeviceId()
-            userPurchased.deviceModel = getDeviceModel()
-            userPurchased.credits = prefs.getCredits()
-            userPurchased.numberCreatedArtwork = when {
-                packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
-                else -> prefs.numberCreatedArtwork.get()
-            }
-            userPurchased.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
-            userPurchased.productsPurchased.add(
-                ProductPurchased().apply {
-                    this.id = userPurchased.productsPurchased.size.toLong()
-                    this.packagePurchased = packagePurchased
-                    this.timePurchased = timePurchased.getTimeFormatted()
-                    this.timeExpired = when {
-                        packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
-                        packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
-                        else -> "Credits"
-                    }
-                }
-            )
-        } ?: run {
-            UserPurchased().apply {
-                this.deviceId = getDeviceId()
-                this.deviceModel = getDeviceModel()
-                this.credits = prefs.getCredits()
-                this.numberCreatedArtwork = when {
-                    packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
-                    else -> prefs.numberCreatedArtwork.get()
-                }
-                this.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
-                this.productsPurchased.add(
-                    ProductPurchased().apply {
-                        this.id = productsPurchased.size.toLong()
-                        this.packagePurchased = packagePurchased
-                        this.timePurchased = timePurchased.getTimeFormatted()
-                        this.timeExpired = when {
-                            packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
-                            packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
-                            else -> "Credits"
-                        }
-                    }
-                )
-            }
-        }
-
-        reference.setValue(userPurchased).await()
-    }
-
-    override fun onResume() {
-        registerScrollListener()
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        unregisterScrollListener()
-        super.onDestroy()
-    }
+//    override fun onResume() {
+//        registerScrollListener()
+//        super.onResume()
+//    }
+//
+//    override fun onDestroy() {
+//        unregisterScrollListener()
+//        super.onDestroy()
+//    }
 
     private fun registerScrollListener(){
         binding.recyclerPreview1.addOnScrollListener(scrollListener)
@@ -386,11 +353,11 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         binding.recyclerPreview3.addOnScrollListener(scrollListener)
     }
 
-    private fun unregisterScrollListener(){
-        binding.recyclerPreview1.removeOnScrollListener(scrollListener)
-        binding.recyclerPreview2.removeOnScrollListener(scrollListener)
-        binding.recyclerPreview3.removeOnScrollListener(scrollListener)
-    }
+//    private fun unregisterScrollListener(){
+//        binding.recyclerPreview1.removeOnScrollListener(scrollListener)
+//        binding.recyclerPreview2.removeOnScrollListener(scrollListener)
+//        binding.recyclerPreview3.removeOnScrollListener(scrollListener)
+//    }
 
     private val scrollListener = object: RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

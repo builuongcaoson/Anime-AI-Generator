@@ -7,8 +7,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -23,8 +21,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityCreditBinding
 import com.sola.anime.ai.generator.databinding.ItemPreviewCreditBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.config.userPurchased.ProductPurchased
-import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchased
+import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,8 +31,6 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -51,6 +46,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var analyticManager: AnalyticManager
+    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
@@ -156,7 +152,8 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 lifecycleScope.launch(Dispatchers.Main) {
                     Timber.e("Sync user purchased")
 
-                    syncUserPurchasedToFirebase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = -3)
+                    val userPurchased = userPremiumManager.addOrUpdatePurchasedToDatabase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = -3)
+                    prefs.setUserPurchased(userPurchased)
 
                     binding.viewLoading.isVisible = false
                 }
@@ -166,72 +163,6 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
                 binding.viewLoading.isVisible = false
             })
-    }
-
-    private suspend fun syncUserPurchasedToFirebase(packagePurchased: String, timePurchased: Long, timeExpired: Long) = withContext(Dispatchers.IO){
-        val reference = Firebase.database.reference.child("usersPurchased").child(getDeviceId())
-        val snapshot = reference.get().await()
-        val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }?.let { userPurchased ->
-            userPurchased.deviceId = getDeviceId()
-            userPurchased.deviceModel = getDeviceModel()
-            userPurchased.credits = prefs.getCredits()
-            userPurchased.numberCreatedArtwork = when {
-                packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
-                packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
-                else -> prefs.numberCreatedArtwork.get()
-            }
-            userPurchased.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
-            userPurchased.productsPurchased.add(
-                ProductPurchased().apply {
-                    this.id = userPurchased.productsPurchased.size.toLong()
-                    this.packagePurchased = packagePurchased
-                    this.timePurchased = timePurchased.getTimeFormatted()
-                    this.timeExpired = when {
-                        packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
-                        packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
-                        packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
-                        else -> "Credits"
-                    }
-                }
-            )
-        } ?: run {
-            UserPurchased().apply {
-                this.deviceId = getDeviceId()
-                this.deviceModel = getDeviceModel()
-                this.credits = prefs.getCredits()
-                this.numberCreatedArtwork = when {
-                    packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> 0
-                    packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
-                    else -> prefs.numberCreatedArtwork.get()
-                }
-                this.lastedTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else "dd MMMM, yyyy - HH:mm"
-                this.productsPurchased.add(
-                    ProductPurchased().apply {
-                        this.id = productsPurchased.size.toLong()
-                        this.packagePurchased = packagePurchased
-                        this.timePurchased = timePurchased.getTimeFormatted()
-                        this.timeExpired = when {
-                            packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> "LifeTime"
-                            packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_MONTH) -> timeExpired.getTimeFormatted()
-                            packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> timeExpired.getTimeFormatted()
-                            else -> "Credits"
-                        }
-                    }
-                )
-            }
-        }
-
-        reference.setValue(userPurchased).await()
     }
 
     override fun onResume() {
@@ -249,9 +180,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
-                binding.viewPremium.apply {
-                    this.animateHorizontalShake(50f, repeatCount = 4, duration = 1000L)
-                }
+                binding.viewPremium.animateHorizontalShake(50f, repeatCount = 4, duration = 1000L)
             }
     }
 
@@ -263,6 +192,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
             .autoDispose(scope())
             .subscribe {
                 when {
+                    binding.viewLoading.isVisible -> {}
                     binding.viewPager.currentItem == previewAdapter.data.lastIndex -> binding.viewPager.currentItem = 0
                     else -> binding.viewPager.currentItem = binding.viewPager.currentItem + 1
                 }

@@ -61,6 +61,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun initData() {
         // Reset credits changes
         prefs.creditsChanges.delete()
+        prefs.userPurchasedChanges.delete()
 
         // Reset number created in days if different days
         when {

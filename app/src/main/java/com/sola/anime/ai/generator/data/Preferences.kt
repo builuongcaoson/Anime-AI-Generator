@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchased
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,6 +30,8 @@ class Preferences @Inject constructor(
     // Config
     val isUpgraded = rxPrefs.getBoolean("isUpgraded", false)
     val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
+    private val userPurchased = rxPrefs.getString("userPurchased_v2", "")
+    val userPurchasedChanges = rxPrefs.getLong("userPurchased_v2_changes", -1)
 
     // For App
     val versionExplore = rxPrefs.getLong("versionExplore", 0)
@@ -57,7 +60,30 @@ class Preferences @Inject constructor(
         return rxPrefs.getBoolean("isShowFeatureDialog_$version", false)
     }
 
-    fun setCredits(newCredits: Float){
+    fun getUserPurchased(): UserPurchased? {
+        val valueUserPurchased = userPurchased.get()
+        return when {
+            valueUserPurchased.isNotEmpty() -> tryOrNull { Gson().fromJson(valueUserPurchased, UserPurchased::class.java) }
+            else -> null
+        }
+    }
+
+    fun setUserPurchased(userPurchased: UserPurchased?) {
+        when (userPurchased) {
+            null -> this.userPurchased.delete()
+            else -> {
+                AESEncyption.encrypt(Gson().toJson(userPurchased).toString())?.let { encryptUserPurchased ->
+                    this.userPurchased.set(encryptUserPurchased)
+                } ?: run {
+                    this.userPurchased.set(Gson().toJson(userPurchased))
+                }
+            }
+        }
+
+        userPurchasedChanges.set(userPurchasedChanges.get() + 1)
+    }
+
+    fun setCredits(newCredits: Float) {
         AESEncyption.encrypt(newCredits.toString())?.let { encryptCredits ->
             credits.set(encryptCredits)
         } ?: run {
@@ -66,7 +92,7 @@ class Preferences @Inject constructor(
         creditsChanges.set(creditsChanges.get() + 1)
     }
 
-    fun getCredits(): Float{
+    fun getCredits(): Float {
         val valueCredits = credits.get()
         return when {
             valueCredits.isNotEmpty() -> {
@@ -79,7 +105,7 @@ class Preferences @Inject constructor(
     fun hadFaceWithUri(uri: Uri): Boolean {
         val urisHadFacePrefs = rxPrefs.getString("urisHadFace", "")
         val urisHadFace = when {
-            urisHadFacePrefs.get().isEmpty() -> arrayListOf<String>()
+            urisHadFacePrefs.get().isEmpty() -> arrayListOf()
             else -> tryOrNull { Gson().fromJson(urisHadFacePrefs.get(), object : TypeToken<List<String>>() {}.type) } ?: arrayListOf<String>()
         }
         return urisHadFace.contains(uri.toString())
@@ -88,7 +114,7 @@ class Preferences @Inject constructor(
     fun saveFaceWithUri(uri: Uri){
         val urisHadFacePrefs = rxPrefs.getString("urisHadFace", "")
         val urisHadFace = when {
-            urisHadFacePrefs.get().isEmpty() -> arrayListOf<String>()
+            urisHadFacePrefs.get().isEmpty() -> arrayListOf()
             else -> tryOrNull { Gson().fromJson(urisHadFacePrefs.get(), object : TypeToken<List<String>>() {}.type) } ?: arrayListOf<String>()
         }
         if (!urisHadFace.contains(uri.toString())){

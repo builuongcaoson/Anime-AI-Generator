@@ -5,10 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
-import com.sola.anime.ai.generator.common.extension.startArt
-import com.sola.anime.ai.generator.common.extension.startDetailExplore
-import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
-import com.sola.anime.ai.generator.common.extension.startSearch
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -41,7 +39,7 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 @AndroidEntryPoint
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
 
-    @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
+//    @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
     @Inject lateinit var modelAndLoRAAdapter: ModelAndLoRAAdapter
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var syncRepo: SyncRepository
@@ -174,10 +172,15 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initView() {
-        binding.viewPager.apply {
-            this.adapter = topPreviewAdapter
-            this.isUserInputEnabled = false
+//        binding.viewPager.apply {
+//            this.adapter = topPreviewAdapter
+//            this.isUserInputEnabled = false
+//        }
+        binding.preview.load(R.drawable.preview_top_batch, errorRes = R.drawable.preview_top_batch) {
+            binding.title.animate().alpha(1f).setDuration(250).start()
+            binding.description.animate().alpha(1f).setDuration(250).start()
         }
+
         binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
         binding.recyclerExplore.adapter = exploreAdapter
     }
