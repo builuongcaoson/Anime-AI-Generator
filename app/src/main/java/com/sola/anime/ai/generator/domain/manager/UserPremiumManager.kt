@@ -6,6 +6,8 @@ interface UserPremiumManager {
 
     suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased?
 
-    suspend fun syncUserPurchasedFromDatabase(): UserPurchased?
+    suspend fun syncUserPurchasedFromDatabase()
+
+    suspend fun createdArtwork()
 
 }

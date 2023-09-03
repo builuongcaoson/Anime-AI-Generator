@@ -219,48 +219,11 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         lifecycleScope.launch(Dispatchers.Main) {
             binding.viewLoading.isVisible = true
 
-            val userPurchased = userPremiumManager.syncUserPurchasedFromDatabase()
-
-            prefs.setUserPurchased(userPurchased)
-
-            when {
-                userPurchased == null -> makeToast("Restore failed")
-                else -> {
-                    makeToast("Restore success!")
-
-                    Timber.e("User purchased: ${Gson().toJson(userPurchased)}")
-
-                    prefs.setCredits(userPurchased.credits)
-                    prefs.numberCreatedArtwork.set(userPurchased.numberCreatedArtwork)
-                    prefs.latestTimeCreatedArtwork.set(userPurchased.latestTimeCreatedArtwork.toDate()?.time ?: -1)
-
-                    when {
-                        userPurchased.productsPurchased.filterNotNull().any { it.packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) } -> {
-                            prefs.isUpgraded.set(true)
-                            prefs.timeExpiredPremium.set(-2L)
-                        }
-                        userPurchased.productsPurchased.filterNotNull().any { it.packagePurchased.contains(Constraint.Iap.SKU_WEEK) || it.packagePurchased.contains(Constraint.Iap.SKU_YEAR) } -> {
-                            val dateExpired = userPurchased.productsPurchased.filterNotNull().maxBy { it.timeExpired.toDate()?.time ?: 0 }.timeExpired.toDate()
-                            when {
-                                dateExpired != null && dateExpired.time - System.currentTimeMillis() >= 0 -> {
-                                    prefs.isUpgraded.set(true)
-                                    prefs.timeExpiredPremium.set(dateExpired.time)
-                                }
-                                else -> {
-                                    prefs.isUpgraded.delete()
-                                    prefs.timeExpiredPremium.delete()
-                                }
-                            }
-                        }
-                        else -> {
-                            prefs.isUpgraded.delete()
-                            prefs.timeExpiredPremium.delete()
-                        }
-                    }
-                }
-            }
+            userPremiumManager.syncUserPurchasedFromDatabase()
 
             binding.viewLoading.isVisible = false
+
+            makeToast("Restore success!")
         }
     }
 

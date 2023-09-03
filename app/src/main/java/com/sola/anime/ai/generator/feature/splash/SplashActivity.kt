@@ -27,6 +27,7 @@ import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
+import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +46,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var syncData: SyncData
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var permissionManager: PermissionManager
+    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +130,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
-                    configApp.scriptOpenSplash = tryOrNull { config.getLong("scriptOpenSplash") } ?: configApp.scriptOpenSplash
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
@@ -146,7 +147,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
-                    Timber.e("scriptOpenSplash: ${configApp.scriptOpenSplash}")
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
                     Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
@@ -192,7 +192,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         lifecycleScope.launch(Dispatchers.Main) {
             when {
-                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.scriptOpenSplash == 1L -> {
+                !prefs.isUpgraded.get() && isNetworkAvailable() -> {
                     binding.textLoadingAd.text = "This action contains ads..."
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }
@@ -200,7 +200,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                         , failed = { task() }
                     )
                 }
-                else -> task()
+                else -> {
+                    userPremiumManager.syncUserPurchasedFromDatabase()
+
+                    task()
+                }
             }
         }
     }
