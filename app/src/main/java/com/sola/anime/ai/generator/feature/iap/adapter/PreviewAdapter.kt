@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.iap.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
 import com.basic.common.base.LsAdapter
+import com.basic.common.base.LsViewHolder
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewIapBinding
@@ -17,8 +18,9 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding
         notifyItemInserted(totalCount - 1)
     }
 
-    override fun bindItem(item: IAP, binding: ItemPreviewIapBinding, position: Int) {
-        val item = getItem(position % data.size) ?: return
+    override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewIapBinding>, position: Int) {
+        val binding = holder.binding
+        val item = getItem(position % data.size)
 
         val set = ConstraintSet()
         set.clone(binding.viewGroup)
@@ -26,6 +28,10 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding
         set.applyTo(binding.viewGroup)
 
         binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
+    }
+
+    override fun bindItem(item: IAP, binding: ItemPreviewIapBinding, position: Int) {
+
     }
 
     override fun getItemCount(): Int {

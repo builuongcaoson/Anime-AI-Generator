@@ -123,6 +123,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 sheetLoRA.clicks = { loRA ->
                     sheetLoRA.loRA = loRA
                     sheetLoRA.dismiss()
+
+                    when {
+                        loRAAdapter.data.size == 1 && loRAIndex == 0 -> {
+                            loRAAdapter.data = listOf(loRA, null)
+                        }
+                        loRAAdapter.data.size == 2 && loRAIndex == 0 -> {
+                            loRAAdapter.data = listOf(loRA, loRAAdapter.data.getOrNull(1))
+                        }
+                        loRAAdapter.data.size == 2 && loRAIndex == 1 -> {
+                            loRAAdapter.data = listOf(loRAAdapter.data.getOrNull(0), loRA)
+                        }
+                    }
                 }
                 sheetLoRA.show(this)
             }

@@ -3,6 +3,8 @@ package com.sola.anime.ai.generator.feature.art.art.adapter
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemLoraInArtBinding
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import io.reactivex.subjects.PublishSubject
@@ -18,9 +20,10 @@ class LoRAAdapter @Inject constructor(): LsAdapter<LoRA?, ItemLoraInArtBinding>(
     val clicks: Subject<Int> = PublishSubject.create()
 
     override fun bindItem(item: LoRA?, binding: ItemLoraInArtBinding, position: Int) {
+        binding.cardLoRA.isVisible = item != null
         binding.viewNoLoRA.isVisible = item == null
         binding.viewHadLoRA.isVisible = item != null
-
+        binding.previewStyle.load(item?.previews?.firstOrNull(), errorRes = R.drawable.place_holder_image)
         binding.displayLoRA.text = when (item) {
             null -> "Pick a LoRA"
             else -> item.display

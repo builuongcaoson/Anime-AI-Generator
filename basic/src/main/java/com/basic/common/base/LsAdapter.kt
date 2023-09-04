@@ -85,7 +85,7 @@ abstract class LsAdapter<T, VB: ViewBinding>(
     }
 
     fun getItem(position: Int): T {
-        return data.getOrNull(position)
+        return data[position]
     }
 
     override fun getItemCount(): Int {
