@@ -18,6 +18,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.SheetAdvanced
 import com.sola.anime.ai.generator.common.ui.sheet.history.SheetHistory
+import com.sola.anime.ai.generator.common.ui.sheet.loRA.SheetLoRA
 import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
@@ -33,11 +34,15 @@ import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
+import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
+import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.PreviewExploreAdapter
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -61,8 +66,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var previewExploreAdapter: PreviewExploreAdapter
     @Inject lateinit var modelDao: ModelDao
+    @Inject lateinit var loRAAdapter: LoRAAdapter
 
-    private val subjectFirstView: Subject<Boolean> = BehaviorSubject.createDefault(true)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
     private val sheetHistory by lazy { SheetHistory() }
@@ -70,9 +75,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetPhoto by lazy { SheetPhoto() }
     private val sheetModel by lazy { SheetModel() }
     private val sheetStyle by lazy { SheetStyle() }
+    private val sheetLoRA by lazy { SheetLoRA() }
 
     override fun onViewCreated() {
         initView()
+        initObservable()
         initData()
         listenerView()
     }
@@ -84,18 +91,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         modelDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
             val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
+            sheetModel.model = model
             updateUiModel(model)
         }
 
         styleDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { styles ->
             val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
+            sheetStyle.style = style
             updateUiStyle(style)
         }
-    }
-
-    override fun onResume() {
-        initObservable()
-        super.onResume()
     }
 
     private fun updateUiModel(model: Model?) {
@@ -108,10 +112,24 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
     }
 
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
+        loRAAdapter
+            .clicks
+            .bindToLifecycle(binding.root)
+            .subscribe { loRAIndex ->
+                sheetLoRA.loRA = loRAAdapter.data.getOrNull(loRAIndex)
+
+                sheetLoRA.clicks = { loRA ->
+                    sheetLoRA.loRA = loRA
+                    sheetLoRA.dismiss()
+                }
+                sheetLoRA.show(this)
+            }
+
         sheetPhoto
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { photo ->
                 when {
                     photo.preview != null -> configApp.resPhoto = photo.preview
@@ -121,7 +139,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         configApp
             .subjectUriPhotoChanges
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 binding.viewPhoto.isVisible = configApp.pairUriPhoto != null || configApp.resPhoto != null
 
@@ -141,26 +159,23 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         previewExploreAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { explore ->
                 activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
             }
 
-        subjectFirstView
-            .filter { it }
-            .debounce(500, TimeUnit.MILLISECONDS)
+        Observable
+            .timer(500L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
-                subjectFirstView.onNext(false)
-
                 binding.recyclerViewExplore.animate().alpha(1f).setDuration(500).start()
             }
 
         aspectRatioAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 when {
                     it == Ratio.Ratio1x1 -> configApp.subjectRatioClicks.onNext(it)
@@ -171,7 +186,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         configApp
             .subjectRatioClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { ratio ->
                 aspectRatioAdapter.ratio = ratio
             }
@@ -179,7 +194,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         configApp
             .subjectExploreClicks
             .filter { it != -1L }
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { id ->
                 configApp.subjectExploreClicks.onNext(-1)
 
@@ -198,7 +213,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding
             .editPrompt
             .textChanges()
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { prompt ->
                 binding.viewClear.isVisible = !prompt.isNullOrEmpty()
                 binding.viewActionPrompt.isVisible = prompt.isNullOrEmpty()
@@ -207,7 +222,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
         useExploreClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 exploreDialog.dismiss()
 
@@ -219,9 +234,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .asObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { isUpgraded ->
-//                binding.viewPro.isVisible = !isUpgraded
                 binding.iconWatchAd.isVisible = !isUpgraded
                 binding.textDescription.isVisible = !isUpgraded
             }
@@ -236,22 +250,26 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.viewHadStyle.isVisible = style != null
 
         binding.displayStyle.text = when (style) {
-            null -> "Pick a style"
+            null -> "Pick a Style"
             else -> style.display
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun listenerView() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-//                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
-//                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
-//
-//                binding.viewShadow.alpha = alpha
-//                binding.viewShadowBottom.alpha = alphaBottom
-//            }
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                val viewShadowHeight = when {
+                    (activity is ArtActivity) -> (activity as? ArtActivity)?.binding?.viewShadow?.height?.toFloat() ?: 0f
+                    else -> 0f
+                }
+                val alpha = scrollY.toFloat() / viewShadowHeight
+                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
+
+                (activity as? ArtActivity)?.binding?.viewShadow?.alpha = alpha
+                binding.viewShadowBottom.alpha = alphaBottom
+            }
+        }
 //        binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
         binding.viewModel.clicks(withAnim = false) { modelClicks() }
@@ -412,6 +430,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             binding.recyclerViewExplore.apply {
                 this.adapter = previewExploreAdapter
+            }
+
+            binding.recyclerLoRA.apply {
+                this.adapter = loRAAdapter
             }
 
             binding.editPrompt.disableEnter()

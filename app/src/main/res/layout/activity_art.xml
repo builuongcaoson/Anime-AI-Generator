@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/viewCredit"
+            app:layout_constraintEnd_toStartOf="@id/viewPro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -38,6 +38,8 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:tabRippleColor="@android:color/transparent"
+                android:clipToPadding="false"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@android:color/transparent"
@@ -51,6 +53,18 @@
 
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/viewPro"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/premium"
+            app:layout_constraintEnd_toStartOf="@id/viewCredit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewCredit"
             android:layout_width="wrap_content"
@@ -59,10 +73,10 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10sdp"
             app:cardBackgroundColor="?colorAccent"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/_25sdp"
+            app:cardElevation="@dimen/_3sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/viewPro"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -72,10 +86,10 @@
                 android:paddingBottom="@dimen/_3sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_17sdp"
-                    android:layout_height="@dimen/_17sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_7sdp"
                     android:src="@drawable/ic_coin" />
 
                 <com.basic.common.widget.LsTextView
@@ -87,36 +101,9 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:text="0"
                     android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_15ssp"
-                    app:textFont="semi" />
+                    android:textSize="@dimen/_15ssp" />
 
             </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/viewPro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:cardCornerRadius="@dimen/_25sdp"
-            app:cardElevation="@dimen/_5sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.basic.common.widget.LsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rec_gradient"
-                android:paddingStart="@dimen/_15sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_15sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="Pro"
-                android:textAllCaps="true"
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_10ssp" />
 
         </com.google.android.material.card.MaterialCardView>
 

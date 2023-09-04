@@ -86,7 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fillViewport="true"
-                        app:lottieRes="@raw/premium_lottie"
+                        app:lottieRes="@raw/premium"
                         app:summary="We have many promotions right now"
                         app:title="Upgrade Premium"
                         app:widget="@layout/preference_next_view" />
