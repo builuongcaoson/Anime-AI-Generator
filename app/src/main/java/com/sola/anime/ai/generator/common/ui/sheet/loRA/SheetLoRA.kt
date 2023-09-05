@@ -3,16 +3,11 @@ package com.sola.anime.ai.generator.common.ui.sheet.loRA
 import android.annotation.SuppressLint
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.ui.sheet.loRA.adapter.LoRAAdapter
-import com.sola.anime.ai.generator.common.ui.sheet.model.adapter.ModelAdapter
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
-import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.SheetModelBinding
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
-import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import com.uber.autodispose.android.lifecycle.scope
-import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

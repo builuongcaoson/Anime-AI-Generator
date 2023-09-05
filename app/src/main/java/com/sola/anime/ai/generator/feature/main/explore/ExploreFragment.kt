@@ -155,7 +155,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
         }
 
         MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
-            addSource(modelDao.getAllLive()) { value = it to (value?.second ?: listOf()) }
+            addSource(modelDao.getAllDislikeLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(viewLifecycleOwner) { pair ->
             val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite) }

@@ -85,8 +85,7 @@
                     android:paddingBottom="@dimen/_10sdp"
                     android:textColor="?android:textColorPrimary"
                     android:textColorHint="?colorPrimary"
-                    android:textSize="@dimen/_11ssp"
-                    app:textFont="medium" />
+                    android:textSize="@dimen/_11ssp" />
 
             </LinearLayout>
 
@@ -134,8 +133,7 @@
                     android:paddingBottom="@dimen/_10sdp"
                     android:textColor="?android:textColorPrimary"
                     android:textColorHint="?colorPrimary"
-                    android:textSize="@dimen/_11ssp"
-                    app:textFont="medium" />
+                    android:textSize="@dimen/_11ssp" />
 
             </LinearLayout>
 

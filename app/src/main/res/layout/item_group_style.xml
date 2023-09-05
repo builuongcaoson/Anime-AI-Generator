@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.basic.common.widget.LsTextView
+        android:id="@+id/display"
+        tools:text="@tools:sample/full_names"
+        android:textSize="@dimen/_12ssp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:textColor="?android:textColorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.basic.common.widget.LsTextView
+            android:id="@+id/viewEmpty"
+            android:textSize="@dimen/_10ssp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:textColor="?android:textColorPrimary"
+            android:text="You don't have any styles for this folder yet."
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/item_style"
+            android:clipToPadding="false"
+            android:padding="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            app:spanCount="3"
+            android:id="@+id/recyclerStyle"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

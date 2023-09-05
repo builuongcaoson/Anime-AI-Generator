@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.batch
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Build
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,12 +56,13 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
     override fun onViewCreated() {
         initView()
+        initObservable()
         initData()
         listenerView()
     }
 
     private fun initData() {
-        modelDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
+        modelDao.getAllDislikeLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
             val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
             promptAdapter.data.getOrNull(0)?.model = model
             promptAdapter.notifyItemChanged(0)
@@ -69,6 +72,18 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
             promptAdapter.data.getOrNull(0)?.style = style
             promptAdapter.notifyItemChanged(0)
+        }
+
+        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+            val pairModelsFavourite = "Favourite" to models.filter { it.isFavourite }
+            val pairModelsOther = "Other" to models.filter { !it.isFavourite && !it.isDislike }
+            val pairModelsDislike = "Dislike" to models.filter { it.isDislike }
+
+            sheetModel.pairs = listOf(pairModelsFavourite, pairModelsOther, pairModelsDislike)
+        }
+
+        styleDao.getAllLive().observe(viewLifecycleOwner) { styles ->
+            sheetStyle.pairs = listOf("" to styles)
         }
     }
 
@@ -153,27 +168,23 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         updateUiCredit()
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         promptAdapter
             .fullHdChanges
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { updateUiCredit() }
 
         promptAdapter
             .numberOfImagesChanges
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 updateUiCredit()
             }
 
         promptAdapter
             .deleteClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { index ->
                 promptAdapter.data = ArrayList(promptAdapter.data).apply {
                     removeAt(index)
@@ -186,7 +197,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         promptAdapter
             .modelClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { index ->
                 sheetModel.model = promptAdapter.data.getOrNull(index)?.model
                 sheetModel.clicks = { model ->
@@ -200,7 +211,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         promptAdapter
             .styleClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { index ->
                 sheetStyle.style = promptAdapter.data.getOrNull(index)?.style
                 sheetStyle.clicks = { style ->
@@ -218,7 +229,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .map { prefs.getCredits() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
             }

@@ -167,7 +167,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
 
     private fun initData() {
         MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
-            addSource(modelDao.getAllLive()) { value = it to (value?.second ?: listOf()) }
+            addSource(modelDao.getAllDislikeLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(this) { pair ->
             Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")

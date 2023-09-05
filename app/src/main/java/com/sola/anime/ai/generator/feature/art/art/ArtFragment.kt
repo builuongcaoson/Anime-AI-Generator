@@ -89,7 +89,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             previewExploreAdapter.data = explores
         }
 
-        modelDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
+        modelDao.getAllDislikeLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
             val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
             sheetModel.model = model
             updateUiModel(model)

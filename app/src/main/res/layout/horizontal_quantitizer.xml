@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:context=".HorizontalQuantitizer">
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/bg_bg"
@@ -39,13 +38,12 @@
         android:id="@+id/decrease_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_minus_small"
+        android:src="@drawable/ic_plus"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/decrease_ib"
-        android:contentDescription="@string/decrease_image_button"
-        android:background="@drawable/minus_icon_bg"
+        android:background="@drawable/circle"
         android:padding="10dp"
         android:layout_marginStart="10dp"/>
 
@@ -54,13 +52,12 @@
         android:id="@+id/increase_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_plus_small"
+        android:src="@drawable/ic_plus"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/quantity_tv"
-        android:contentDescription="@string/increase_image_button"
-        android:background="@drawable/plus_icon_bg"
+        android:background="@drawable/circle"
         android:padding="10dp"
         android:layout_marginEnd="10dp"/>
 
