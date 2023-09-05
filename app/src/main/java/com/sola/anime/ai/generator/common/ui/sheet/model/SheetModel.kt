@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.common.ui.sheet.model
 
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.ui.sheet.model.adapter.ModelAdapter
+import com.sola.anime.ai.generator.common.ui.sheet.model.adapter.ModelOrHeader
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.SheetModelBinding
@@ -42,9 +43,13 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
 
     private fun initData() {
         modelDao.getAllLive().observe(this){ models ->
+            val modelsFavourite = models.filter { it.isFavourite }
+            val modelsOther = models.filter { !it.isFavourite && !it.isDislike }
+            val modelsDislike = models.filter { it.isDislike }
+
             modelAdapter.apply {
                 this.model = this@SheetModel.model
-                this.data = models
+                this.data = ArrayList(modelsFavourite).mapIndexed { index, model ->  }
             }
         }
     }
