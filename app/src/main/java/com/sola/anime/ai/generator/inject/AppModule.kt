@@ -107,9 +107,7 @@ class AppModule {
     fun provideFaceDetector(
         options: FirebaseVisionFaceDetectorOptions = provideFaceDetectorOptions()
     ): FirebaseVisionFaceDetector {
-        return FirebaseVision
-            .getInstance()
-            .getVisionFaceDetector(options)
+        return FirebaseVision.getInstance().getVisionFaceDetector(options)
     }
 
     // Server
