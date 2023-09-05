@@ -21,7 +21,6 @@ class ConfigApp @Inject constructor(
     private val prefs: Preferences
 ) {
 
-    var scriptOpenSplash = 1L // 0: (Not show), 1: (Show)
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
     var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK

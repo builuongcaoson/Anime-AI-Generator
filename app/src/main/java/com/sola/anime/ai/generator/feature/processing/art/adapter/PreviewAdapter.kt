@@ -21,7 +21,7 @@ class PreviewAdapter @Inject constructor() : LsAdapter<Process, ItemPreviewArtPr
         binding: ItemPreviewArtProcessingBinding,
         position: Int
     ) {
-        val item = getItem(position % data.size) ?: return
+        val item = getItem(position % data.size)
 
         binding.preview.load(item.preview)
         binding.textTitle.text = item.title

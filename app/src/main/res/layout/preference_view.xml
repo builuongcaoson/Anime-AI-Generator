@@ -42,7 +42,7 @@
             android:visibility="gone"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/premium_lottie"
+            tools:lottie_rawRes="@raw/premium"
             tools:visibility="visible" />
 
     </RelativeLayout>

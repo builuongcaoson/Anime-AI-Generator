@@ -142,6 +142,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             add(
                 PromptBatch().apply {
                     this.model = modelDao.getAll().find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: modelDao.getAll().firstOrNull()
+                    this.style = styleDao.getAll().find { style -> style.display == "No Style" } ?: styleDao.getAll().firstOrNull()
                 }
             )
         }

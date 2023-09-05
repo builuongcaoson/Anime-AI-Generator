@@ -21,10 +21,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.Database
 import com.sola.anime.ai.generator.data.db.query.*
-import com.sola.anime.ai.generator.data.manager.AdmobManagerImpl
-import com.sola.anime.ai.generator.data.manager.AnalyticManagerImpl
-import com.sola.anime.ai.generator.data.manager.NotificationManagerImpl
-import com.sola.anime.ai.generator.data.manager.PermissionManagerImpl
+import com.sola.anime.ai.generator.data.manager.*
 import com.sola.anime.ai.generator.data.repo.DetectFaceRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.DezgoApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.FileRepositoryImpl
@@ -32,10 +29,7 @@ import com.sola.anime.ai.generator.data.repo.HistoryRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.ServerApiRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.SyncRepositoryImpl
 import com.sola.anime.ai.generator.data.repo.UpscaleApiRepositoryImpl
-import com.sola.anime.ai.generator.domain.manager.AdmobManager
-import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.manager.NotificationManager
-import com.sola.anime.ai.generator.domain.manager.PermissionManager
+import com.sola.anime.ai.generator.domain.manager.*
 import com.sola.anime.ai.generator.domain.repo.DetectFaceRepository
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.FileRepository
@@ -372,6 +366,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAnalyticManagerImpl(manager: AnalyticManagerImpl): AnalyticManager = manager
+
+    @Provides
+    @Singleton
+    fun provideUserPremiumManagerImpl(manager: UserPremiumManagerImpl): UserPremiumManager = manager
 
     @Provides
     @Singleton
