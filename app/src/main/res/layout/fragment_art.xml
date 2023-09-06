@@ -463,6 +463,126 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
+                        android:text="Aspect Ratio"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_13ssp"
+                        app:textFont="semi" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewAspectRatio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:ignore="RtlSymmetry"
+                        tools:listitem="@layout/item_aspect_ratio" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="Batch production"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_13ssp"
+                        app:textFont="semi" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewBatch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:cardBackgroundColor="?cardBackgroundColor"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:cardElevation="0dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <RelativeLayout
+                                android:id="@+id/viewMinus"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?android:textColorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_minus"
+                                    android:tint="?colorOnPrimary" />
+
+                            </RelativeLayout>
+
+<!--                            <com.sola.anime.ai.generator.common.widget.SnappyRecyclerView-->
+<!--                                android:id="@+id/recyclerNumberOfImages"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="0dp"-->
+<!--                                android:layout_marginStart="@dimen/_10sdp"-->
+<!--                                android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                                android:layout_toStartOf="@id/viewPlus"-->
+<!--                                android:layout_toEndOf="@id/viewMinus"-->
+<!--                                app:layout_constraintTop_toTopOf="parent"-->
+<!--                                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                app:layout_constraintEnd_toStartOf="@id/viewPlus"-->
+<!--                                app:layout_constraintStart_toEndOf="@id/viewMinus"-->
+<!--                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                                tools:listitem="@layout/item_number_of_images_in_art" />-->
+
+                            <RelativeLayout
+                                android:id="@+id/viewPlus"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/circle"
+                                    android:backgroundTint="?android:textColorPrimary"
+                                    android:padding="@dimen/_3sdp"
+                                    android:src="@drawable/ic_plus"
+                                    android:tint="?colorOnPrimary" />
+
+                            </RelativeLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.sola.anime.ai.generator.common.widget.SnappyRecyclerView
+                        android:id="@+id/recyclerNumberOfImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_number_of_images_in_art" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:text="LoRAs"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_13ssp"
@@ -560,28 +680,6 @@
                         tools:itemCount="2"
                         tools:listitem="@layout/item_lora_in_art" />
 
-                    <com.basic.common.widget.LsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:text="Aspect Ratio"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewAspectRatio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:ignore="RtlSymmetry"
-                        tools:listitem="@layout/item_aspect_ratio" />
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"

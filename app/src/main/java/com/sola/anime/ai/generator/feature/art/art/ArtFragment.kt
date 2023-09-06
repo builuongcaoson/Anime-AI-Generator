@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.art.art
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
+import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -42,7 +43,7 @@ import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.ExploreAdapter
-import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
+import com.sola.anime.ai.generator.feature.art.art.adapter.NumberOfImagesAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -75,6 +76,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAAdapter: LoRAAdapter
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
+    @Inject lateinit var numberOfImagesAdapter: NumberOfImagesAdapter
 
     private val subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -288,6 +290,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         useExploreClicks
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
+                if (exploreDialog.isShowing()){
+                    exploreDialog.dismiss()
+                }
+
+                binding.nestedScrollView.fullScroll(View.FOCUS_UP)
+
                 updateUiExplore(explore)
             }
 
@@ -311,6 +319,23 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { isUpgraded ->
                 binding.iconWatchAd.isVisible = !isUpgraded
                 binding.textDescription.isVisible = !isUpgraded
+            }
+
+        prefs
+            .numberCreatedArtwork
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle(binding.root)
+            .subscribe { number ->
+                when {
+                    prefs.getCredits() >= 10f -> {
+                        binding.iconWatchAd.isVisible = false
+                        binding.textDescription.isVisible = true
+                        binding.textDescription.text = "Credits: 10"
+                    }
+
+                }
             }
     }
 
@@ -565,6 +590,27 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             binding.recyclerLoRA.apply {
                 this.adapter = loRAAdapter
+            }
+
+            binding.recyclerNumberOfImages.apply {
+                this.adapter = numberOfImagesAdapter.apply {
+                    this.screenWidth = binding.recyclerNumberOfImages.viewWidth
+                }
+                this.itemAnimator = null
+                this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//                this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                        super.onScrollStateChanged(recyclerView, newState)
+//
+//                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                            val centerItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+//
+//                            // Kéo Recycler View về vị trí trung tâm
+//                            val scrollToPosition = centerItemPosition + (numberOfImagesAdapter.data.size / 2)
+//                            recyclerView.smoothScrollToPosition(scrollToPosition)
+//                        }
+//                    }
+//                })
             }
 
             binding.editPrompt.disableEnter()
