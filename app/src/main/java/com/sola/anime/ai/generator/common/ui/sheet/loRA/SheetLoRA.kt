@@ -35,13 +35,13 @@ class SheetLoRA: LsBottomSheet<SheetLoraBinding>(SheetLoraBinding::inflate) {
         set(value) {
             if (isAdded && isVisible){
                 groupLoRAAdapter.apply {
-                    this.loRA = this@SheetLoRA.loRA
+                    this.loRAs = this@SheetLoRA.loRAs
                     this.data = value
                 }
             }
             field = value
         }
-    var loRA: LoRA? = null
+    var loRAs: List<LoRA> = listOf()
     var clicks: (LoRA) -> Unit = {}
     var detailsClicks: (LoRAPreview) -> Unit = {}
 
@@ -93,7 +93,7 @@ class SheetLoRA: LsBottomSheet<SheetLoraBinding>(SheetLoraBinding::inflate) {
                 .withEndAction {
                     binding.recyclerView.apply {
                         this.adapter = groupLoRAAdapter.apply {
-                            this.loRA = this@SheetLoRA.loRA
+                            this.loRAs = this@SheetLoRA.loRAs
                             this.data = pairs
                         }
                         this.itemAnimator = null

@@ -17,23 +17,34 @@ class GroupLoRAAdapter @Inject constructor(): LsAdapter<Pair<String, List<LoRAPr
 
     val clicks: Subject<LoRAPreview> = PublishSubject.create()
     val detailsClicks: Subject<LoRAPreview> = PublishSubject.create()
-    var loRA: LoRA? = null
+    var loRAs: List<LoRA> = listOf()
         set(value) {
             if (field == value){
                 return
             }
 
-            if (value == null){
-                val oldIndex = data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == field } }
+//            if (value == null){
+//                field?.forEach { loRA ->
+//                    val oldIndex = data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == loRA } }
+//
+//                    field = null
+//
+//                    oldIndex.takeIf { it != -1 }?.let { notifyItemChanged(oldIndex) }
+//                }
+//                return
+//            }
 
-                field = null
+            field?.forEach { loRA ->
+                val index = data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == loRA } }
 
-                oldIndex.takeIf { it != -1 }?.let { notifyItemChanged(oldIndex) }
-                return
+                index.takeIf { it != -1 }?.let { notifyItemChanged(index) }
             }
 
-            data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == field } }.takeIf { it != -1 }?.let { notifyItemChanged(it) }
-            data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == field } }.takeIf { it != -1 }?.let { notifyItemChanged(it) }
+            value.forEach { loRA ->
+                val index = data.indexOfFirst { it.second.any { loRAPreview -> loRAPreview.loRA == loRA } }
+
+                index.takeIf { it != -1 }?.let { notifyItemChanged(index) }
+            }
 
             field = value
         }
@@ -49,7 +60,7 @@ class GroupLoRAAdapter @Inject constructor(): LsAdapter<Pair<String, List<LoRAPr
             this.adapter = LoRAAdapter().apply {
                 this.clicks = this@GroupLoRAAdapter.clicks
                 this.detailsClicks = this@GroupLoRAAdapter.detailsClicks
-                this.loRA = this@GroupLoRAAdapter.loRA
+                this.loRAs = this@GroupLoRAAdapter.loRAs
                 this.data = item.second
                 this.emptyView = binding.viewEmpty
             }
@@ -62,23 +73,34 @@ class LoRAAdapter: LsAdapter<LoRAPreview, ItemLoraBinding>(ItemLoraBinding::infl
 
     var clicks: Subject<LoRAPreview> = PublishSubject.create()
     var detailsClicks: Subject<LoRAPreview> = PublishSubject.create()
-    var loRA: LoRA? = null
+    var loRAs: List<LoRA> = listOf()
         set(value) {
             if (field == value){
                 return
             }
 
-            if (value == null){
-                val oldIndex = data.indexOfFirst { it.loRA == field }
+//            if (value == null){
+//                field?.forEach { loRA ->
+//                    val oldIndex = data.indexOfFirst { loRAPreview -> loRAPreview.loRA == loRA }
+//
+//                    field = null
+//
+//                    oldIndex.takeIf { it != -1 }?.let { notifyItemChanged(oldIndex) }
+//                }
+//                return
+//            }
 
-                field = null
+            field.forEach { loRA ->
+                val index = data.indexOfFirst { loRAPreview -> loRAPreview.loRA == loRA }
 
-                notifyItemChanged(oldIndex)
-                return
+                index.takeIf { it != -1 }?.let { notifyItemChanged(index) }
             }
 
-            data.indexOfFirst { it.loRA == field }.takeIf { it != -1 }?.let { notifyItemChanged(it) }
-            data.indexOfFirst { it.loRA == value }.takeIf { it != -1 }?.let { notifyItemChanged(it) }
+            value.forEach { loRA ->
+                val index = data.indexOfFirst { loRAPreview -> loRAPreview.loRA == loRA }
+
+                index.takeIf { it != -1 }?.let { notifyItemChanged(index) }
+            }
 
             field = value
         }
@@ -88,7 +110,7 @@ class LoRAAdapter: LsAdapter<LoRAPreview, ItemLoraBinding>(ItemLoraBinding::infl
             binding.viewShadow.isVisible = drawable != null
         }
         binding.display.text = item.loRA.display
-        binding.viewSelected.isVisible = item.loRA == loRA
+        binding.viewSelected.isVisible = loRAs.contains(item.loRA)
 
         binding.viewPreview.clicks { clicks.onNext(item) }
         binding.viewDetails.clicks { detailsClicks.onNext(item) }

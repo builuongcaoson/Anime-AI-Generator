@@ -468,14 +468,97 @@
                         android:textSize="@dimen/_13ssp"
                         app:textFont="semi" />
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/viewLoRA"
                         android:layout_width="match_parent"
-                        tools:itemCount="2"
-                        android:nestedScrollingEnabled="false"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:cardBackgroundColor="?cardBackgroundColor"
+                        app:cardCornerRadius="@dimen/_10sdp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/_5sdp">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:text="Pick a LoRA"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_12ssp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/_10sdp">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/viewMoreLoRA"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="@dimen/_10sdp"
+                                    android:text="View More"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewNoLoRA"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?android:textColorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_plus"
+                                        android:tint="?colorOnPrimary" />
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:id="@+id/viewHadLoRA"
+                                        android:layout_width="@dimen/_20sdp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:background="@drawable/circle"
+                                        android:backgroundTint="?colorPrimary"
+                                        android:padding="@dimen/_3sdp"
+                                        android:src="@drawable/ic_arrow_right"
+                                        android:tint="?colorOnPrimary"
+                                        android:visibility="gone" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerLoRA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_lora_in_art"
-                        android:layout_height="wrap_content"/>
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_lora_in_art" />
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"

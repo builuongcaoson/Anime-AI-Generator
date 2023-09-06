@@ -1,110 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewLoRA"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
-        app:cardBackgroundColor="?android:colorBackground"
+        app:cardBackgroundColor="?cardBackgroundColor"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="0dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLoRA"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="0dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/previewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/avatars" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_5sdp">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardLoRA"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_gravity="center_vertical"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/_10sdp"
-                    app:cardElevation="0dp"
-                    tools:visibility="visible">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/previewStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        tools:src="@tools:sample/avatars" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/displayLoRA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:text="Pick a LoRA"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_10sdp">
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/viewMoreStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="View More"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_10ssp" />
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/display"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_toStartOf="@id/delete"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        tools:text="@tools:sample/full_names" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/viewNoLoRA"
+                        android:id="@+id/delete"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?android:textColorPrimary"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/rec_corner_10dp"
+                        android:backgroundTint="?android:colorBackground"
                         android:padding="@dimen/_3sdp"
-                        android:src="@drawable/ic_plus"
-                        android:tint="?colorOnPrimary" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/viewHadLoRA"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:background="@drawable/circle"
-                        android:backgroundTint="?colorPrimary"
-                        android:padding="@dimen/_3sdp"
-                        android:src="@drawable/ic_arrow_right"
-                        android:tint="?colorOnPrimary"
-                        android:visibility="gone" />
+                        android:src="@drawable/ic_trash"
+                        android:tint="#cc2a36" />
 
                 </RelativeLayout>
 
+                <com.sola.anime.ai.generator.common.widget.slider.Slidr
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_minus20sdp"
+                    android:layout_marginTop="@dimen/_minus5sdp"
+                    android:layout_marginEnd="@dimen/_minus20sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    app:slidr_backgroundColor="?android:colorBackground"
+                    app:slidr_barMax="1"
+                    app:slidr_barMin="0"
+                    app:slidr_barValue="0.5"
+                    app:slidr_draw_bubble="false"
+                    app:slidr_region_leftColor="?colorAccent"
+                    app:slidr_textBottom_visible="false"
+                    app:slidr_textTop_visible="true" />
+
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

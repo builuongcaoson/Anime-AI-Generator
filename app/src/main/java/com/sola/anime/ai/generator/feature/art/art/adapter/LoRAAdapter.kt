@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.feature.art.art.adapter
 
-import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
@@ -11,25 +10,15 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class LoRAAdapter @Inject constructor(): LsAdapter<LoRA?, ItemLoraInArtBinding>(ItemLoraInArtBinding::inflate) {
+class LoRAAdapter @Inject constructor(): LsAdapter<LoRA, ItemLoraInArtBinding>(ItemLoraInArtBinding::inflate) {
 
-    init {
-        data = listOf(null)
-    }
+    val deleteClicks: Subject<Int> = PublishSubject.create()
 
-    val clicks: Subject<Int> = PublishSubject.create()
+    override fun bindItem(item: LoRA, binding: ItemLoraInArtBinding, position: Int) {
+        binding.previewStyle.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
+        binding.display.text = item.display
 
-    override fun bindItem(item: LoRA?, binding: ItemLoraInArtBinding, position: Int) {
-        binding.cardLoRA.isVisible = item != null
-        binding.viewNoLoRA.isVisible = item == null
-        binding.viewHadLoRA.isVisible = item != null
-        binding.previewStyle.load(item?.previews?.firstOrNull(), errorRes = R.drawable.place_holder_image)
-        binding.displayLoRA.text = when (item) {
-            null -> "Pick a LoRA"
-            else -> item.display
-        }
-
-        binding.viewLoRA.clicks(withAnim = false) { clicks.onNext(position) }
+        binding.delete.clicks(withAnim = false) { deleteClicks.onNext(position) }
     }
 
 }

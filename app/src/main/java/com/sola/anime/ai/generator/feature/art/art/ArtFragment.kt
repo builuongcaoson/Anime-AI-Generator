@@ -144,34 +144,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         loRAAdapter
-            .clicks
+            .deleteClicks
             .bindToLifecycle(binding.root)
             .subscribe { loRAIndex ->
-                sheetLoRA.loRA = loRAAdapter.data.getOrNull(loRAIndex)
-                sheetLoRA.clicks = { loRA ->
-                    sheetLoRA.loRA = loRA
-                    sheetLoRA.dismiss()
 
-                    when {
-                        loRAAdapter.data.size == 1 && loRAIndex == 0 -> {
-                            loRAAdapter.data = listOf(loRA, null)
-                        }
-                        loRAAdapter.data.size == 2 && loRAIndex == 0 -> {
-                            loRAAdapter.data = listOf(loRA, loRAAdapter.data.getOrNull(1))
-                        }
-                        loRAAdapter.data.size == 2 && loRAIndex == 1 -> {
-                            loRAAdapter.data = listOf(loRAAdapter.data.getOrNull(0), loRA)
-                        }
-                    }
-                }
-                sheetLoRA.detailsClicks = { loRAPreview ->
-                    lifecycleScope.launch(Dispatchers.Main) {
-                        sheetLoRA.dismiss()
-                        delay(250L)
-                        activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
-                    }
-                }
-                sheetLoRA.show(this)
             }
 
         sheetPhoto
@@ -317,10 +293,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 binding.viewShadowBottom.alpha = alphaBottom
             }
         }
-//        binding.viewPro.clicks { activity?.startIap() }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
         binding.viewModel.clicks(withAnim = false) { modelClicks() }
         binding.viewStyle.clicks(withAnim = false) { styleClicks() }
+        binding.viewLoRA.clicks(withAnim = false) { loRAClicks() }
         binding.clear.clicks { binding.editPrompt.setText("") }
         binding.history.clicks { sheetHistory.show(this) }
         binding.editPrompt.setOnTouchListener { view, event ->
@@ -353,6 +329,34 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetPhoto.show(this)
         }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
+    }
+
+    private fun loRAClicks() {
+        sheetLoRA.loRAs = loRAAdapter.data
+        sheetLoRA.clicks = { loRA ->
+            sheetLoRA.dismiss()
+
+            val firstLoRA = loRAAdapter.data.getOrNull(0)
+
+            when {
+                loRAAdapter.data.isEmpty() -> loRAAdapter.data = listOf(loRA)
+                loRAAdapter.data.size == 1 && firstLoRA == null -> loRAAdapter.data = listOf(loRA)
+                loRAAdapter.data.size == 1 && firstLoRA != null -> loRAAdapter.data = listOf(firstLoRA, loRA)
+            }
+
+            sheetLoRA.loRAs = loRAAdapter.data
+
+            binding.viewNoLoRA.isVisible = loRAAdapter.data.size != 2
+            binding.viewHadLoRA.isVisible = loRAAdapter.data.size == 2
+        }
+        sheetLoRA.detailsClicks = { loRAPreview ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                sheetLoRA.dismiss()
+                delay(250L)
+                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
+            }
+        }
+        sheetLoRA.show(this)
     }
 
     private fun styleClicks() {
