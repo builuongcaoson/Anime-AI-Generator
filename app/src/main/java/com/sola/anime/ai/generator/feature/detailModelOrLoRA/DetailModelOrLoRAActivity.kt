@@ -344,11 +344,11 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     binding.textArtworksBy.text = "Artworks by LoRA"
                     binding.textOther.text = "Other LoRAs"
                     binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
-                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.red))
-                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.red))
+                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.yellow))
+                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.yellow))
                     binding.display.text = loRA.display
                     binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
-                    binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+                    binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
 
                     initLoRAData(loRA = loRA)
                 }
@@ -399,7 +399,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
                     binding.display.text = model.display
                     binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
-                    binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.red) else resolveAttrColor(android.R.attr.textColorPrimary))
+                    binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
 
                     initExploreData(model)
                 }

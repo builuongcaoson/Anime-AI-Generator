@@ -28,18 +28,18 @@ class ModelAndLoRAAdapter @Inject constructor(
         }
         binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
 
-        binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.red else com.widget.R.color.tools_theme))
+        binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.yellow else com.widget.R.color.tools_theme))
         binding.description.text = if (item.model != null) "Model" else if (item.loRA != null) "LoRA" else ""
         binding.display.text = item.display
         binding.favouriteCount.text = "${if (item.isFavourite) (item.favouriteCount + 1) else item.favouriteCount} Uses"
-        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
 
         binding.favourite.clicks {
             item.model?.isFavourite = !(item.model?.isFavourite ?: false)
             item.loRA?.isFavourite = !(item.loRA?.isFavourite ?: false)
             item.isFavourite = !item.isFavourite
             binding.favouriteCount.text = "${if (item.isFavourite) (item.favouriteCount + 1) else item.favouriteCount} Uses"
-            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
 
             favouriteClicks.onNext(item)
         }

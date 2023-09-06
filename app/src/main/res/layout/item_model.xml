@@ -19,7 +19,7 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        app:cardBackgroundColor="?android:windowBackground"
+        app:cardBackgroundColor="?cardBackgroundColor"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp">
 
@@ -38,32 +38,13 @@
                 android:id="@+id/viewShadow"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:alpha="0"
+                android:visibility="gone"
                 android:background="@drawable/ab_shadow_bottom_2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/display"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:ellipsize="marquee"
-                android:gravity="center_horizontal"
-                android:maxLines="2"
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_10ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:textFont="semi"
-                tools:text="@tools:sample/first_names" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewSelected"
@@ -89,12 +70,31 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/display"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:textColor="?colorOnPrimary"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:textFont="semi"
+                tools:text="@tools:sample/full_names" />
+
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewDescription"
+                android:id="@+id/viewDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
                 app:cardBackgroundColor="?colorAccent"
                 app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="@dimen/_3sdp"
@@ -102,7 +102,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.basic.common.widget.LsTextView
-                    android:id="@+id/description"
+                    android:id="@+id/details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_3sdp"
@@ -110,8 +110,8 @@
                     android:paddingTop="@dimen/_3sdp"
                     android:paddingEnd="@dimen/_7sdp"
                     android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_8ssp"
-                    tools:text="New" />
+                    android:textSize="@dimen/_10ssp"
+                    android:text="Details" />
 
             </com.google.android.material.card.MaterialCardView>
 

@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
@@ -32,6 +33,9 @@ import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -205,6 +209,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
                     promptAdapter.data.getOrNull(index)?.model = model
                     promptAdapter.notifyItemChanged(index)
+                }
+                sheetModel.detailsClicks = { model ->
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        sheetModel.dismiss()
+
+                        delay(250L)
+
+                        activity?.startDetailModelOrLoRA(modelId = model.id)
+                    }
                 }
                 sheetModel.show(this)
             }

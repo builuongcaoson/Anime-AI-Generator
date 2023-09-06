@@ -30,12 +30,12 @@ class ExploreAdapter @Inject constructor(
 
         binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
 
-        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
         binding.prompt.text = item.prompt
 
         binding.favourite.clicks {
             item.isFavourite = !item.isFavourite
-            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
 
             favouriteClicks.onNext(item)
         }

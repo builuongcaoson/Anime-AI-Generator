@@ -39,7 +39,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-        binding.viewPro.clicks { startIap() }
+        binding.viewPro.clicks(withAnim = false) { startIap() }
         binding.viewCredit.clicks { startCredit() }
     }
 

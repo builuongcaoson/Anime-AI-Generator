@@ -80,9 +80,11 @@ class StyleAdapter: LsAdapter<Style, ItemStyleBinding>(ItemStyleBinding::inflate
         }
 
     override fun bindItem(item: Style, binding: ItemStyleBinding, position: Int) {
-        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
+        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image){ drawable ->
+            binding.viewShadow.isVisible = drawable != null
+        }
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item.id == style?.id
+        binding.viewSelected.isVisible = item == style
 
         binding.viewPreview.clicks { clicks.onNext(item) }
     }

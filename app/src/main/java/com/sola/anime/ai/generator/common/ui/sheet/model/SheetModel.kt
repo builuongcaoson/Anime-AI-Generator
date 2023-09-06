@@ -46,11 +46,11 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
         }
     var model: Model? = null
     var clicks: (Model) -> Unit = {}
+    var detailsClicks: (Model) -> Unit = {}
 
     override fun onViewCreated() {
         initView()
         initObservable()
-        initData()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -79,33 +79,31 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
             .clicks
             .bindToLifecycle(binding.root)
             .subscribe { model -> clicks(model) }
-    }
 
-    private fun initData() {
-//        modelDao.getAllLive().observe(this){ models ->
-//            val pairModelsFavourite = "Favourite" to models.filter { it.isFavourite }
-//            val pairModelsOther = "Other" to models.filter { !it.isFavourite && !it.isDislike }
-//            val pairModelsDislike = "Dislike" to models.filter { it.isDislike }
-//
-//            groupModelAdapter.apply {
-//                this.model = this@SheetModel.model
-//                this.data = listOf(pairModelsFavourite, pairModelsOther, pairModelsDislike)
-//            }
-//        }
+        groupModelAdapter
+            .detailsClicks
+            .bindToLifecycle(binding.root)
+            .subscribe { model -> detailsClicks(model) }
     }
 
     private fun initView() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(250L)
-            binding.recyclerView.apply {
-                this.adapter = groupModelAdapter.apply {
-                    this.model = this@SheetModel.model
-                    this.data = pairs
+            binding.viewLoading
+                .animate()
+                .alpha(0f)
+                .setDuration(250L)
+                .withEndAction {
+                    binding.recyclerView.apply {
+                        this.adapter = groupModelAdapter.apply {
+                            this.model = this@SheetModel.model
+                            this.data = pairs
+                        }
+                        this.itemAnimator = null
+                    }
+                    binding.recyclerView.animate().alpha(1f).setDuration(250L).start()
                 }
-                this.itemAnimator = null
-            }
-            delay(250L)
-            binding.recyclerView.animate().alpha(1f).setDuration(250L).start()
+                .start()
         }
     }
 

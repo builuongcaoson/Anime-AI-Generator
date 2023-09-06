@@ -16,6 +16,7 @@ import javax.inject.Inject
 class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model>>, ItemGroupModelBinding>(ItemGroupModelBinding::inflate) {
 
     val clicks: Subject<Model> = PublishSubject.create()
+    val detailsClicks: Subject<Model> = PublishSubject.create()
     var model: Model? = null
         set(value) {
             if (field == value){
@@ -46,6 +47,7 @@ class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model
         binding.recyclerModel.apply {
             this.adapter = ModelAdapter().apply {
                 this.clicks = this@GroupModelAdapter.clicks
+                this.detailsClicks = this@GroupModelAdapter.detailsClicks
                 this.model = this@GroupModelAdapter.model
                 this.data = item.second
                 this.emptyView = binding.viewEmpty
@@ -58,6 +60,7 @@ class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model
 class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate){
 
     var clicks: Subject<Model> = PublishSubject.create()
+    var detailsClicks: Subject<Model> = PublishSubject.create()
     var model: Model? = null
         set(value) {
             if (field == value){
@@ -80,15 +83,14 @@ class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate
         }
 
     override fun bindItem(item: Model, binding: ItemModelBinding, position: Int) {
-        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image) {
-            binding.viewShadow.animate().alpha(1f).setDuration(250L).start()
+        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image) { drawable ->
+            binding.viewShadow.isVisible = drawable != null
         }
         binding.display.text = item.display
-        binding.viewSelected.isVisible = item.id == model?.id
-        binding.viewDescription.visibility = if (item.description.isNotEmpty()) View.VISIBLE else View.INVISIBLE
-        binding.description.text = item.description
+        binding.viewSelected.isVisible = item == model
 
-        binding.viewPreview.clicks { clicks.onNext(item) }
+        binding.viewPreview.clicks(withAnim = false) { clicks.onNext(item) }
+        binding.viewDetails.clicks { detailsClicks.onNext(item) }
     }
 
 }

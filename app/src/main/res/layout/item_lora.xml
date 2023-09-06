@@ -10,18 +10,18 @@
         android:id="@+id/viewPreview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:cardBackgroundColor="?android:windowBackground"
         app:cardCornerRadius="@dimen/_15sdp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/viewGroup"
@@ -30,39 +30,21 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/preview"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
             <View
                 android:id="@+id/viewShadow"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/ab_shadow_bottom_2"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:ellipsize="marquee"
-                android:gravity="center_horizontal"
-                android:maxLines="2"
-                android:textColor="?colorOnPrimary"
-                android:textSize="@dimen/_10ssp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:textFont="semi"
-                tools:text="@tools:sample/first_names" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewSelected"
@@ -87,6 +69,51 @@
                     app:layout_constraintWidth_percent="0.15" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:textColor="?colorOnPrimary"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:textFont="semi"
+                tools:text="@tools:sample/first_names" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                app:cardBackgroundColor="?colorAccent"
+                app:cardCornerRadius="@dimen/_15sdp"
+                app:cardElevation="@dimen/_3sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_10ssp"
+                    android:text="Details" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

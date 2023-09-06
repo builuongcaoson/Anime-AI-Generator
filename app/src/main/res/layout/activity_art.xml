@@ -60,7 +60,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/premium"
+            app:lottie_rawRes="@raw/diamond"
             app:layout_constraintEnd_toStartOf="@id/viewCredit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

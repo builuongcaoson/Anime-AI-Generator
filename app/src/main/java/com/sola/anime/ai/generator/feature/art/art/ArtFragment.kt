@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.MotionEvent
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
@@ -24,11 +25,13 @@ import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
+import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.model.LoRAPreview
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -47,6 +50,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -67,6 +73,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var previewExploreAdapter: PreviewExploreAdapter
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAAdapter: LoRAAdapter
+    @Inject lateinit var loRAGroupDao: LoRAGroupDao
 
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
 
@@ -100,6 +107,28 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetStyle.style = style
             updateUiStyle(style)
         }
+
+        modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
+            val pairModelsFavourite = "Favourite" to models.filter { it.isFavourite }
+            val pairModelsOther = "Other" to models.filter { !it.isFavourite && !it.isDislike }
+            val pairModelsDislike = "Dislike" to models.filter { it.isDislike }
+
+            sheetModel.pairs = listOf(pairModelsFavourite, pairModelsOther, pairModelsDislike)
+        }
+
+        styleDao.getAllLive().observe(viewLifecycleOwner) { styles ->
+            sheetStyle.pairs = listOf("" to styles)
+        }
+
+        loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
+            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id) } }
+
+            val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
+            val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
+            val pairLoRAsDislike = "Dislike" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isDislike }
+
+            sheetLoRA.pairs = listOf(pairLoRAsFavourite, pairLoRAsOther, pairLoRAsDislike)
+        }
     }
 
     private fun updateUiModel(model: Model?) {
@@ -119,7 +148,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .bindToLifecycle(binding.root)
             .subscribe { loRAIndex ->
                 sheetLoRA.loRA = loRAAdapter.data.getOrNull(loRAIndex)
-
                 sheetLoRA.clicks = { loRA ->
                     sheetLoRA.loRA = loRA
                     sheetLoRA.dismiss()
@@ -134,6 +162,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         loRAAdapter.data.size == 2 && loRAIndex == 1 -> {
                             loRAAdapter.data = listOf(loRAAdapter.data.getOrNull(0), loRA)
                         }
+                    }
+                }
+                sheetLoRA.detailsClicks = { loRAPreview ->
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        sheetLoRA.dismiss()
+                        delay(250L)
+                        activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
                     }
                 }
                 sheetLoRA.show(this)
@@ -336,6 +371,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetModel.dismiss()
 
             updateUiModel(model)
+        }
+        sheetModel.detailsClicks = { model ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                sheetModel.dismiss()
+
+                delay(250L)
+
+                activity?.startDetailModelOrLoRA(modelId = model.id)
+            }
         }
         sheetModel.show(this)
     }

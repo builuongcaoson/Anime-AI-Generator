@@ -48,7 +48,6 @@ class SheetStyle: LsBottomSheet<SheetStyleBinding>(SheetStyleBinding::inflate) {
     override fun onViewCreated() {
         initView()
         initObservable()
-        initData()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -79,27 +78,24 @@ class SheetStyle: LsBottomSheet<SheetStyleBinding>(SheetStyleBinding::inflate) {
             .subscribe { style -> clicks(style) }
     }
 
-    private fun initData() {
-//        styleDao.getAllLive().observe(this){ models ->
-//            styleAdapter.apply {
-//                this.style = this@SheetStyle.style
-//                this.data = models
-//            }
-//        }
-    }
-
     private fun initView() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(250L)
-            binding.recyclerView.apply {
-                this.adapter = groupStyleAdapter.apply {
-                    this.style = this@SheetStyle.style
-                    this.data = pairs
+            binding.viewLoading
+                .animate()
+                .alpha(0f)
+                .setDuration(250L)
+                .withEndAction {
+                    binding.recyclerView.apply {
+                        this.adapter = groupStyleAdapter.apply {
+                            this.style = this@SheetStyle.style
+                            this.data = pairs
+                        }
+                        this.itemAnimator = null
+                    }
+                    binding.recyclerView.animate().alpha(1f).setDuration(250L).start()
                 }
-                this.itemAnimator = null
-            }
-            delay(250L)
-            binding.recyclerView.animate().alpha(1f).setDuration(250L).start()
+                .start()
         }
     }
 

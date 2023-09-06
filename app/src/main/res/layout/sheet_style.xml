@@ -15,16 +15,34 @@
         android:background="@drawable/rec_corner_25dp"
         android:backgroundTint="?android:colorBackground" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/_10sdp"
-        android:alpha="0"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:minHeight="@dimen/_400sdp"
         app:layout_constraintTop_toBottomOf="@id/viewTop"
-        tools:listitem="@layout/item_group_style" />
+        tools:layout_height="@dimen/_400sdp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/viewLoading"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/_10sdp"
+            android:alpha="0"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_group_style" />
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -37,13 +37,13 @@ class ExploreOrLoRAPreviewAdapter @Inject constructor(
         binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
         binding.prompt.text = item.explore?.prompt
         binding.viewPromptExplore.isVisible = item.explore != null
-        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+        binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
         binding.favourite.isVisible = item.explore != null
 
         binding.favourite.clicks {
             item.explore?.isFavourite = !(item.explore?.isFavourite ?: false)
             item.isFavourite = !item.isFavourite
-            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.red else R.color.white))
+            binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
 
             favouriteClicks.onNext(item)
         }
