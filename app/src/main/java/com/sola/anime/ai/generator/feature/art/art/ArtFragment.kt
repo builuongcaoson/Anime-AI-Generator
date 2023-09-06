@@ -336,6 +336,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         sheetLoRA.clicks = { loRA ->
             sheetLoRA.dismiss()
 
+            val loRAIndex = loRAAdapter.data.indexOf(loRA)
             val firstLoRA = loRAAdapter.data.getOrNull(0)
 
             when {
