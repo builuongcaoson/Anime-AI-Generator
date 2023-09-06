@@ -22,8 +22,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) {
 
+    companion object {
+        const val EXPLORE_ID_EXTRA = "EXPLORE_ID_EXTRA"
+    }
+
     @Inject lateinit var prefs: Preferences
 
+    private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
     private val artFragment by lazy { ArtFragment() }
 //    private val comingSoonFragment by lazy { ComingSoonFragment() }
 

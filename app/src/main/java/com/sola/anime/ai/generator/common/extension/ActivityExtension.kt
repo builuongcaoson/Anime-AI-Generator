@@ -11,7 +11,6 @@ import com.sola.anime.ai.generator.feature.credit.CreditActivity
 import com.sola.anime.ai.generator.feature.crop.CropActivity
 import com.sola.anime.ai.generator.feature.detailExplore.DetailExploreActivity
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
-import com.sola.anime.ai.generator.feature.explore.ExploreActivity
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
@@ -87,8 +86,9 @@ fun Activity.startIap(isKill: Boolean = true){
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
-fun Activity.startArt(){
+fun Activity.startArt(exploreId: Long? = null){
     val intent = Intent(this, ArtActivity::class.java)
+    intent.putExtra(ArtActivity.EXPLORE_ID_EXTRA, exploreId)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
@@ -130,12 +130,6 @@ fun Activity.startPreview(historyId: Long, childHistoryIndex: Int = -1){
 
 fun Activity.startFirst(){
     val intent = Intent(this, FirstActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
-}
-
-fun Activity.startExplore(){
-    val intent = Intent(this, ExploreActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

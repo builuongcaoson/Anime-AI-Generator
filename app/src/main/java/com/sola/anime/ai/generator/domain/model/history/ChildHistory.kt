@@ -17,7 +17,6 @@ data class ChildHistory(
     val seed: String?
 ){
 
-    var isPremium = false
     var styleId: Long = -1L
     var type: Int = 0 // 0: Artwork, 1: Batch, 2: Avatar
 

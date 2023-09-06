@@ -1,26 +1,22 @@
 package com.sola.anime.ai.generator.feature.main.mine.feature
 
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArtResult
-import com.sola.anime.ai.generator.common.extension.startExplore
-import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.sheet.folder.AddFolderSheet
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentBatchMineBinding
-import com.sola.anime.ai.generator.domain.repo.HistoryRepository
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,7 +27,6 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var folderDao: FolderDao
     @Inject lateinit var prefs: Preferences
-//    @Inject lateinit var historyRepo: HistoryRepository
 
     private val addFolderSheet by lazy { AddFolderSheet() }
 
@@ -42,7 +37,7 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
     }
 
     private fun listenerView() {
-        binding.viewExplore.clicks { activity?.startExplore() }
+        binding.viewTry.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 1 }
     }
 
     override fun onResume() {
@@ -70,9 +65,9 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
 
     private fun initData() {
         historyDao.getAllLive().observe(viewLifecycleOwner){ histories ->
-            val historiesNotHadPremium = histories.filter { history -> history.childs.any { !it.isPremium && it.type == 1 } }
+            val historiesWithType = histories.filter { history -> history.childs.any { it.type == 1 } }
 
-            historyAdapter.data = historiesNotHadPremium
+            historyAdapter.data = historiesWithType
         }
 
         folderDao.getAllLive().observe(viewLifecycleOwner){ folders ->

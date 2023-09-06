@@ -23,7 +23,7 @@ class ExplorePreviewAdapter @Inject constructor(): LsAdapter<ExplorePreview, Ite
             this.applyTo(binding.viewGroup)
         }
 
-        binding.preview.load(item.preview, R.drawable.place_holder_image)
+        binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image)
         binding.favourite.isVisible = false
         binding.blurView.isVisible = false
 

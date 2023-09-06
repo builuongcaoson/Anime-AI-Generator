@@ -13,7 +13,10 @@ interface ExploreDao {
     fun getAll(): List<Explore>
 
     @Query("SELECT * FROM Explores WHERE isDislike = :isDislike")
-    fun getAllLive(isDislike: Boolean = false): LiveData<List<Explore>>
+    fun getAllDislikeLive(isDislike: Boolean = false): LiveData<List<Explore>>
+
+    @Query("SELECT * FROM Explores")
+    fun getAllLive(): LiveData<List<Explore>>
 
     // Inserts or deletes
 

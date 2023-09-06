@@ -6,12 +6,12 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArtResult
-import com.sola.anime.ai.generator.common.extension.startExplore
 import com.sola.anime.ai.generator.common.ui.sheet.folder.AddFolderSheet
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentAvatarMineBinding
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -37,7 +37,7 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
     }
 
     private fun listenerView() {
-        binding.viewExplore.clicks { activity?.startExplore() }
+        binding.viewTry.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 2 }
     }
 
     override fun onResume() {
@@ -65,9 +65,9 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
 
     private fun initData() {
         historyDao.getAllLive().observe(viewLifecycleOwner){ histories ->
-            val historiesNotHadPremium = histories.filter { history -> history.childs.any { !it.isPremium && it.type == 2 } }
+            val historiesWithType = histories.filter { history -> history.childs.any { it.type == 2 } }
 
-            historyAdapter.data = historiesNotHadPremium
+            historyAdapter.data = historiesWithType
         }
 
         folderDao.getAllLive().observe(viewLifecycleOwner){ folders ->

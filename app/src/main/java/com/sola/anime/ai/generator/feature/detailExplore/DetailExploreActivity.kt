@@ -130,7 +130,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     }
 
     private fun initData() {
-        exploreDao.getAllLive().observe(this) { explores ->
+        exploreDao.getAllDislikeLive().observe(this) { explores ->
             if (!markFavourite){
                 exploreAdapter.data = explores.filter { explore -> explore.id != exploreId }
             }

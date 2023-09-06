@@ -111,15 +111,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
                 }
             }
 
-        configApp
-            .subjectExploreClicks
-            .filter { it != -1L }
-            .filter { binding.viewPager.currentItem != 0 }
-            .autoDispose(scope())
-            .subscribe { _ ->
-                subjectTabClicks.onNext(0)
-            }
-
         prefs
             .isPurchasedCredit
             .asObservable()

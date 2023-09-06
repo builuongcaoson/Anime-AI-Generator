@@ -18,11 +18,6 @@ import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAAdapter
-import com.sola.anime.ai.generator.feature.main.explore.adapter.TopPreviewAdapter
-import com.trello.rxlifecycle2.LifecycleProvider
-import com.trello.rxlifecycle2.RxLifecycle.bindUntilEvent
-import com.uber.autodispose.android.lifecycle.scope
-import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
@@ -33,7 +28,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import com.trello.rxlifecycle2.android.FragmentEvent
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 
 @AndroidEntryPoint
@@ -147,7 +141,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initData() {
-        exploreDao.getAllLive().observe(viewLifecycleOwner) { explores ->
+        exploreDao.getAllDislikeLive().observe(viewLifecycleOwner) { explores ->
             if (!markFavourite){
                 subjectDataExploreChanges.onNext(explores)
             }

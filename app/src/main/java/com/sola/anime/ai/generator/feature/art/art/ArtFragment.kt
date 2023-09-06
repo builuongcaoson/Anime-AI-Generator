@@ -18,6 +18,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.BlockSensitivesDialog
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.SheetAdvanced
+import com.sola.anime.ai.generator.common.ui.sheet.explore.SheetExplore
 import com.sola.anime.ai.generator.common.ui.sheet.history.SheetHistory
 import com.sola.anime.ai.generator.common.ui.sheet.loRA.SheetLoRA
 import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
@@ -40,10 +41,8 @@ import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
-import com.sola.anime.ai.generator.feature.art.art.adapter.PreviewExploreAdapter
+import com.sola.anime.ai.generator.feature.art.art.adapter.ExploreAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
-import com.uber.autodispose.android.lifecycle.scope
-import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -70,12 +69,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
-    @Inject lateinit var previewExploreAdapter: PreviewExploreAdapter
+    @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAAdapter: LoRAAdapter
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
 
+    private val subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
+    private val detailExploreClicks: Subject<Explore> = PublishSubject.create()
 
     private val sheetHistory by lazy { SheetHistory() }
     private val sheetAdvanced by lazy { SheetAdvanced() }
@@ -83,6 +84,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetModel by lazy { SheetModel() }
     private val sheetStyle by lazy { SheetStyle() }
     private val sheetLoRA by lazy { SheetLoRA() }
+    private val sheetExplore by lazy { SheetExplore() }
 
     override fun onViewCreated() {
         initView()
@@ -92,8 +94,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllLive().observe(viewLifecycleOwner){ explores ->
-            previewExploreAdapter.data = explores
+        exploreDao.getAllDislikeLive().observe(viewLifecycleOwner){ explores ->
+            exploreAdapter.data = explores
         }
 
         modelDao.getAllDislikeLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
@@ -120,6 +122,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetStyle.pairs = listOf("" to styles)
         }
 
+        exploreDao.getAllLive().observe(viewLifecycleOwner) { explores ->
+            val pairExploresFavourite = "Favourite" to explores.filter { it.isFavourite }
+            val pairExploresOther = "Other" to explores.filter { !it.isFavourite && !it.isDislike }
+            val pairExploresDislike = "Dislike" to explores.filter { it.isDislike }
+
+            sheetExplore.pairs = listOf(pairExploresFavourite, pairExploresOther, pairExploresDislike)
+        }
+
         loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
             val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id) } }
 
@@ -144,10 +154,26 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         loRAAdapter
+            .clicks
+            .bindToLifecycle(binding.root)
+            .subscribe { loRAPreview ->
+                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
+            }
+
+        loRAAdapter
             .deleteClicks
             .bindToLifecycle(binding.root)
             .subscribe { loRAIndex ->
+                tryOrNull {
+                    loRAAdapter.data = ArrayList(loRAAdapter.data).apply {
+                        this.removeAt(loRAIndex)
+                    }
+                }
 
+                sheetLoRA.loRAs = loRAAdapter.data
+
+                binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
+                binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
             }
 
         sheetPhoto
@@ -170,21 +196,21 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     configApp.pairUriPhoto != null -> {
                         val pair = configApp.pairUriPhoto ?: return@subscribe
                         binding.previewPhoto.load(pair.first, errorRes = R.drawable.place_holder_image)
-                        configApp.subjectRatioClicks.onNext(pair.second)
+                        subjectRatioClicks.onNext(pair.second)
                     }
                     configApp.resPhoto != null -> {
                         val res = configApp.resPhoto ?: return@subscribe
                         binding.previewPhoto.load(res, errorRes = R.drawable.place_holder_image)
-                        configApp.subjectRatioClicks.onNext(Ratio.Ratio1x1)
+                        subjectRatioClicks.onNext(Ratio.Ratio1x1)
                     }
                 }
             }
 
-        previewExploreAdapter
+        exploreAdapter
             .clicks
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
-                activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks) }
+                activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks, detailExploreClicks) }
             }
 
         Observable
@@ -199,38 +225,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         aspectRatioAdapter
             .clicks
             .bindToLifecycle(binding.root)
-            .subscribe {
+            .subscribe { ratio ->
                 when {
-                    it == Ratio.Ratio1x1 -> configApp.subjectRatioClicks.onNext(it)
+                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> subjectRatioClicks.onNext(ratio)
                     !prefs.isUpgraded.get() -> activity?.startIap()
-                    else -> configApp.subjectRatioClicks.onNext(it)
+                    else -> subjectRatioClicks.onNext(ratio)
                 }
             }
 
-        configApp
-            .subjectRatioClicks
+        subjectRatioClicks
             .bindToLifecycle(binding.root)
             .subscribe { ratio ->
                 aspectRatioAdapter.ratio = ratio
-            }
-
-        configApp
-            .subjectExploreClicks
-            .filter { it != -1L }
-            .bindToLifecycle(binding.root)
-            .subscribe { id ->
-                configApp.subjectExploreClicks.onNext(-1)
-
-                val explore = exploreDao.findById(id)
-
-                when {
-                    prefs.isUpgraded.get() -> {
-                        val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
-                        configApp.subjectRatioClicks.onNext(findRatio)
-                    }
-                }
-
-                updateUiExplore(explore)
             }
 
         binding
@@ -246,10 +252,26 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         useExploreClicks
             .bindToLifecycle(binding.root)
-            .subscribe {
+            .subscribe { explore ->
+                when {
+                    prefs.isUpgraded.get() -> {
+                        val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
+                        subjectRatioClicks.onNext(findRatio)
+                    }
+                }
+
+                updateUiExplore(explore)
+            }
+
+        detailExploreClicks
+            .bindToLifecycle(binding.root)
+            .subscribe { explore ->
+                if (sheetExplore.isAdded){
+                    sheetExplore.dismiss()
+                }
                 exploreDialog.dismiss()
 
-                configApp.subjectExploreClicks.onNext(it.id)
+                activity?.startDetailExplore(exploreId = explore.id)
             }
 
         prefs
@@ -311,44 +333,57 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             false
         }
         binding.viewAdvancedSetting.clicks(withAnim = false) {
+            sheetAdvanced.ratio = subjectRatioClicks.blockingFirst()
+            sheetAdvanced.ratioClicks = { ratio ->
+                subjectRatioClicks.onNext(ratio)
+            }
+
             sheetAdvanced.step = if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
             sheetAdvanced.show(this)
         }
-        binding.viewSeeAllExplore.clicks { activity?.startExplore() }
+        binding.viewSeeAllExplore.clicks {
+            sheetExplore.clicks = { explore ->
+                activity?.let { activity ->
+                    exploreDialog.show(activity, explore, useExploreClicks, detailExploreClicks)
+                }
+            }
+            sheetExplore.show(this)
+        }
         binding.closePhoto.clicks {
             configApp.resPhoto = null
             configApp.pairUriPhoto = null
 
             tryOrNull { sheetPhoto.photoAdapter.photo = null }
         }
-        binding.photo.clicks {
-            if (sheetPhoto.isAdded){
-                return@clicks
-            }
-
-            sheetPhoto.show(this)
-        }
+        binding.photo.clicks { sheetPhoto.show(this) }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
     }
 
     private fun loRAClicks() {
         sheetLoRA.loRAs = loRAAdapter.data
-        sheetLoRA.clicks = { loRA ->
+        sheetLoRA.clicks = { loRAPReview ->
             sheetLoRA.dismiss()
 
-            val loRAIndex = loRAAdapter.data.indexOf(loRA)
-            val firstLoRA = loRAAdapter.data.getOrNull(0)
+            val loRAPreviewIndex = loRAAdapter.data.indexOf(loRAPReview)
+            val firstLoRAPreview = loRAAdapter.data.getOrNull(0)
 
             when {
-                loRAAdapter.data.isEmpty() -> loRAAdapter.data = listOf(loRA)
-                loRAAdapter.data.size == 1 && firstLoRA == null -> loRAAdapter.data = listOf(loRA)
-                loRAAdapter.data.size == 1 && firstLoRA != null -> loRAAdapter.data = listOf(firstLoRA, loRA)
+                loRAPreviewIndex != -1 -> {
+                    tryOrNull {
+                        loRAAdapter.data = ArrayList(loRAAdapter.data).apply {
+                            removeAt(loRAPreviewIndex)
+                        }
+                    }
+                }
+                loRAAdapter.data.isEmpty() -> loRAAdapter.data = listOf(loRAPReview)
+                loRAAdapter.data.size == 1 && firstLoRAPreview == null -> loRAAdapter.data = listOf(loRAPReview)
+                loRAAdapter.data.size == 1 && firstLoRAPreview != null -> loRAAdapter.data = listOf(firstLoRAPreview, loRAPReview)
             }
 
             sheetLoRA.loRAs = loRAAdapter.data
 
-            binding.viewNoLoRA.isVisible = loRAAdapter.data.size != 2
-            binding.viewHadLoRA.isVisible = loRAAdapter.data.size == 2
+            binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
+            binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
         }
         sheetLoRA.detailsClicks = { loRAPreview ->
             lifecycleScope.launch(Dispatchers.Main) {
@@ -490,7 +525,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             binding.recyclerViewExplore.apply {
-                this.adapter = previewExploreAdapter
+                this.adapter = exploreAdapter
             }
 
             binding.recyclerLoRA.apply {

@@ -1,4 +1,4 @@
-package com.sola.anime.ai.generator.common.ui.sheet.loRA
+package com.sola.anime.ai.generator.common.ui.sheet.explore
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -9,14 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
-import com.sola.anime.ai.generator.common.ui.sheet.loRA.adapter.GroupLoRAAdapter
-import com.sola.anime.ai.generator.common.ui.sheet.loRA.adapter.LoRAAdapter
+import com.sola.anime.ai.generator.common.ui.sheet.explore.adapter.GroupExploreAdapter
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
-import com.sola.anime.ai.generator.databinding.SheetLoraBinding
-import com.sola.anime.ai.generator.domain.model.LoRAPreview
-import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
-import com.sola.anime.ai.generator.domain.model.config.model.Model
+import com.sola.anime.ai.generator.data.db.query.ExploreDao
+import com.sola.anime.ai.generator.databinding.SheetExploreBinding
+import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -25,25 +22,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SheetLoRA: LsBottomSheet<SheetLoraBinding>(SheetLoraBinding::inflate) {
+class SheetExplore: LsBottomSheet<SheetExploreBinding>(SheetExploreBinding::inflate) {
 
-    @Inject lateinit var groupLoRAAdapter: GroupLoRAAdapter
-    @Inject lateinit var loRAGroupDao: LoRAGroupDao
+    @Inject lateinit var groupExploreAdapter: GroupExploreAdapter
+    @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
 
-    var pairs: List<Pair<String, List<LoRAPreview>>> = listOf()
+    var pairs: List<Pair<String, List<Explore>>> = listOf()
         set(value) {
             if (isAdded && isVisible){
-                groupLoRAAdapter.apply {
-                    this.loRAs = this@SheetLoRA.loRAs
+                groupExploreAdapter.apply {
                     this.data = value
                 }
             }
             field = value
         }
-    var loRAs: List<LoRAPreview> = listOf()
-    var clicks: (LoRAPreview) -> Unit = {}
-    var detailsClicks: (LoRAPreview) -> Unit = {}
+    var clicks: (Explore) -> Unit = {}
+    var detailsClicks: (Explore) -> Unit = {}
 
     override fun onViewCreated() {
         initView()
@@ -72,15 +67,15 @@ class SheetLoRA: LsBottomSheet<SheetLoraBinding>(SheetLoraBinding::inflate) {
 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
-        groupLoRAAdapter
+        groupExploreAdapter
             .clicks
             .bindToLifecycle(binding.root)
-            .subscribe { loRAPreview -> clicks(loRAPreview) }
+            .subscribe { model -> clicks(model) }
 
-        groupLoRAAdapter
+        groupExploreAdapter
             .detailsClicks
             .bindToLifecycle(binding.root)
-            .subscribe { loRAPreview -> detailsClicks(loRAPreview) }
+            .subscribe { model -> detailsClicks(model) }
     }
 
     private fun initView() {
@@ -92,8 +87,7 @@ class SheetLoRA: LsBottomSheet<SheetLoraBinding>(SheetLoraBinding::inflate) {
                 .setDuration(250L)
                 .withEndAction {
                     binding.recyclerView.apply {
-                        this.adapter = groupLoRAAdapter.apply {
-                            this.loRAs = this@SheetLoRA.loRAs
+                        this.adapter = groupExploreAdapter.apply {
                             this.data = pairs
                         }
                         this.itemAnimator = null

@@ -408,7 +408,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     }
 
     private fun initExploreData(model: Model) {
-        exploreDao.getAllLive().observe(this) { explores ->
+        exploreDao.getAllDislikeLive().observe(this) { explores ->
             subjectDataExploreOrLoRAChanges.onNext(explores.filter { explore -> explore.modelIds.contains(model.id) }.map { explore -> ExploreOrLoRAPreview(explore = explore, ratio = explore.ratio, favouriteCount = explore.favouriteCount, isFavourite = explore.isFavourite) })
         }
     }

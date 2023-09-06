@@ -12,6 +12,7 @@ import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.SheetAdvancedBinding
+import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -26,6 +27,8 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
 
+    var ratio: Ratio = Ratio.Ratio1x1
+    var ratioClicks: (Ratio) -> Unit = {}
     var negative: String = ""
     var guidance: Float = 7.5f
     var step: String = Preferences.STEP_DEFAULT
@@ -67,10 +70,6 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
         }
         binding.clear.clicks { binding.editNegative.setText("") }
         binding.viewPremiumStep.clicks { activity?.startIap() }
-//        binding.viewPinNegative.clicks {  }
-//        binding.viewPinRatio.clicks {  }
-//        binding.viewPinCFG.clicks {  }
-//        binding.viewPinSeed.clicks {  }
     }
 
     override fun onResume() {
@@ -82,18 +81,12 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
         aspectRatioAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe {
+            .subscribe { ratio ->
                 when {
+                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> ratioClicks(ratio)
                     !prefs.isUpgraded.get() -> activity?.startIap()
-                    else -> configApp.subjectRatioClicks.onNext(it)
+                    else -> ratioClicks(ratio)
                 }
-            }
-
-        configApp
-            .subjectRatioClicks
-            .autoDispose(scope())
-            .subscribe {
-                aspectRatioAdapter.ratio = it
             }
 
         binding
@@ -123,7 +116,9 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
         activity?.let { activity ->
             binding.recyclerViewAspectRatio.apply {
                 this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                this.adapter = aspectRatioAdapter
+                this.adapter = aspectRatioAdapter.apply {
+                    this.ratio = this@SheetAdvanced.ratio
+                }
             }
             binding.editNegative.setText(negative)
             binding.slider.currentValue = guidance

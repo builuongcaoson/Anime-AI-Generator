@@ -81,7 +81,7 @@
                     app:layout_constraintTop_toBottomOf="@id/previewEmpty" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/viewExplore"
+                    android:id="@+id/viewTry"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_20sdp"
@@ -98,7 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Explore"
+                        android:text="Try now"
                         android:textColor="?colorOnPrimary"
                         android:textSize="@dimen/_12ssp" />
 

@@ -21,7 +21,7 @@ class ExploreDialog @Inject constructor() {
     private lateinit var binding: DialogExploreBinding
     private lateinit var dialog: Dialog
 
-    fun show(activity: Activity, explore: Explore, useClicks: Subject<Explore>) {
+    fun show(activity: Activity, explore: Explore, useClicks: Subject<Explore>, detailClicks: Subject<Explore>) {
         if (!::dialog.isInitialized) {
             binding = DialogExploreBinding.inflate(activity.layoutInflater)
             dialog = Dialog(activity)
@@ -42,6 +42,7 @@ class ExploreDialog @Inject constructor() {
         binding.close.clicks { dismiss() }
         binding.viewCopy.clicks { explore.prompt.copyToClipboard(activity) }
         binding.viewUse.clicks { useClicks.onNext(explore) }
+        binding.viewDetails.clicks { detailClicks.onNext(explore) }
 
         if (isShowing()){
             return

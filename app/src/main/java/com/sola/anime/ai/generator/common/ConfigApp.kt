@@ -58,7 +58,5 @@ class ConfigApp @Inject constructor(
 
     // RxJava
     var subjectUriPhotoChanges: Subject<Unit> = BehaviorSubject.createDefault(Unit)
-    var subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
-    var subjectExploreClicks: Subject<Long> = BehaviorSubject.createDefault(-1)
 
 }
