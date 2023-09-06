@@ -4,10 +4,15 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
+import com.afollestad.materialdialogs.utils.MDUtil.updatePadding
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -89,6 +94,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetStyle by lazy { SheetStyle() }
     private val sheetLoRA by lazy { SheetLoRA() }
     private val sheetExplore by lazy { SheetExplore() }
+
+    private val snapHelperNumberOfImages by lazy { LinearSnapHelper() }
 
     var modelId = -1L
     var exploreId = -1L
@@ -417,6 +424,60 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.photo.clicks { sheetPhoto.show(this) }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
+        binding.viewMinus.clicks { minusClicks() }
+        binding.viewPlus.clicks { plusClicks() }
+    }
+
+    private fun plusClicks() {
+        val layoutManager = binding.recyclerNumberOfImages.layoutManager ?: return
+        val view = snapHelperNumberOfImages.findSnapView(layoutManager) ?: return
+        when (val index = binding.recyclerNumberOfImages.getChildAdapterPosition(view)) {
+            in 0 until numberOfImagesAdapter.data.lastIndex -> {
+                Timber.e("Index: $index")
+                val newView = binding.recyclerNumberOfImages.findViewHolderForAdapterPosition(index + 1)?.itemView ?: return
+                binding.recyclerNumberOfImages.post {
+                    val oldDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
+                    val newDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, newView) ?: return@post
+                    if (newDistance[0] != 0 || newDistance[1] != 0) {
+                        animInt(
+                            from = 0,
+                            to = newDistance[0],
+                            duration = 1000,
+                            update = { value ->
+                                binding.recyclerNumberOfImages.scrollBy(value, newDistance[1])
+                            }
+                        )
+//                        binding.recyclerNumberOfImages.scrollBy(newDistance[0], newDistance[1])
+                    }
+                }
+            }
+        }
+    }
+
+    private fun minusClicks() {
+        val layoutManager = binding.recyclerNumberOfImages.layoutManager ?: return
+        val view = snapHelperNumberOfImages.findSnapView(layoutManager) ?: return
+        when (val index = binding.recyclerNumberOfImages.getChildAdapterPosition(view)) {
+            in numberOfImagesAdapter.data.lastIndex downTo 1 -> {
+                Timber.e("Index: $index")
+                val newView = binding.recyclerNumberOfImages.findViewHolderForAdapterPosition(index - 1)?.itemView ?: return
+                binding.recyclerNumberOfImages.post {
+                    val oldDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
+                    val newDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, newView) ?: return@post
+                    if (newDistance[0] != 0 || newDistance[1] != 0) {
+                        animInt(
+                            from = 0,
+                            to = newDistance[0],
+                            duration = 1000,
+                            update = { value ->
+                                binding.recyclerNumberOfImages.scrollBy(value, newDistance[1])
+                            }
+                        )
+//                        binding.recyclerNumberOfImages.scrollBy(newDistance[0], newDistance[1])
+                    }
+                }
+            }
+        }
     }
 
     private fun loRAClicks() {
@@ -593,25 +654,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             binding.recyclerNumberOfImages.apply {
-                this.adapter = numberOfImagesAdapter.apply {
-                    this.screenWidth = binding.recyclerNumberOfImages.viewWidth
-                }
+                this.adapter = numberOfImagesAdapter
                 this.itemAnimator = null
-                this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//                this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                        super.onScrollStateChanged(recyclerView, newState)
-//
-//                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                            val centerItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-//
-//                            // Kéo Recycler View về vị trí trung tâm
-//                            val scrollToPosition = centerItemPosition + (numberOfImagesAdapter.data.size / 2)
-//                            recyclerView.smoothScrollToPosition(scrollToPosition)
-//                        }
-//                    }
-//                })
+                this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+
+                this@ArtFragment.snapHelperNumberOfImages.attachToRecyclerView(this)
+
+                this.post {
+                    this.updatePadding(left = this.width / 2,top = 0, right = this.width / 2, bottom = 0)
+                    this.smoothScrollToPosition(0)
+                }
             }
+
 
             binding.editPrompt.disableEnter()
         }

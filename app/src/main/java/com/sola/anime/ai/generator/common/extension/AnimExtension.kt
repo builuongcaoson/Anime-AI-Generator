@@ -7,7 +7,17 @@ import android.view.animation.Animation
 import android.view.animation.Interpolator
 
 import android.view.animation.TranslateAnimation
+import androidx.core.animation.doOnEnd
 
+fun animInt(from: Int, to: Int, duration: Long, update: (Int) -> Unit, endAction: () -> Unit = {}){
+    val colorAnimation = ValueAnimator.ofInt(from, to)
+    colorAnimation.duration = duration // milliseconds
+    colorAnimation.addUpdateListener {
+        update(it.animatedValue as Int)
+    }
+    colorAnimation.doOnEnd { endAction() }
+    colorAnimation.start()
+}
 
 fun View.animateHorizontalShake(
     offset: Float,

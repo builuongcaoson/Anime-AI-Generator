@@ -527,21 +527,20 @@
 
                             </RelativeLayout>
 
-<!--                            <com.sola.anime.ai.generator.common.widget.SnappyRecyclerView-->
-<!--                                android:id="@+id/recyclerNumberOfImages"-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_height="0dp"-->
-<!--                                android:layout_marginStart="@dimen/_10sdp"-->
-<!--                                android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                                android:layout_toStartOf="@id/viewPlus"-->
-<!--                                android:layout_toEndOf="@id/viewMinus"-->
-<!--                                app:layout_constraintTop_toTopOf="parent"-->
-<!--                                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                                android:orientation="horizontal"-->
-<!--                                app:layout_constraintEnd_toStartOf="@id/viewPlus"-->
-<!--                                app:layout_constraintStart_toEndOf="@id/viewMinus"-->
-<!--                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                                tools:listitem="@layout/item_number_of_images_in_art" />-->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerNumberOfImages"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_toStartOf="@id/viewPlus"
+                                android:clipToPadding="false"
+                                android:layout_toEndOf="@id/viewMinus"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:orientation="horizontal"
+                                app:layout_constraintEnd_toStartOf="@id/viewPlus"
+                                app:layout_constraintStart_toEndOf="@id/viewMinus"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:listitem="@layout/item_number_of_images_in_art" />
 
                             <RelativeLayout
                                 android:id="@+id/viewPlus"
@@ -568,15 +567,16 @@
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <com.sola.anime.ai.generator.common.widget.SnappyRecyclerView
-                        android:id="@+id/recyclerNumberOfImages"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_number_of_images_in_art" />
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/recyclerNumberOfImages"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/_40sdp"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        android:clipToPadding="false"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                        tools:listitem="@layout/item_number_of_images_in_art" />-->
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"

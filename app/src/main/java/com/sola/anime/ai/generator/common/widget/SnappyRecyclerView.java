@@ -33,7 +33,7 @@ public class SnappyRecyclerView extends RecyclerView {
     private void initDefault() {
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(this);
-        addFadeOut();
+//        addFadeOut();
     }
 
     private void addFadeOut() {
