@@ -15,6 +15,7 @@ import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
 import com.sola.anime.ai.generator.common.extension.load
+import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -90,6 +91,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         binding.viewRecommendations.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.Recommendations) }
         binding.viewExploreRelated.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.ExploreRelated) }
         binding.prompt.longClicks().autoDispose(scope()).subscribe { binding.prompt.text.toString().copyToClipboard(this) }
+        binding.viewUse.clicks(withAnim = false) { startArt(exploreId = exploreId) }
     }
 
     private fun reportClicks() {

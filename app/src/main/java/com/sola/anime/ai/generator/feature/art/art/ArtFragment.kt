@@ -42,6 +42,7 @@ import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.ExploreAdapter
+import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -52,6 +53,7 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -86,6 +88,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetLoRA by lazy { SheetLoRA() }
     private val sheetExplore by lazy { SheetExplore() }
 
+    var modelId = -1L
+    var exploreId = -1L
+    var loRAGroupId = -1L
+    var loRAId = -1L
+
     override fun onViewCreated() {
         initView()
         initObservable()
@@ -94,20 +101,18 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun initData() {
-        exploreDao.getAllDislikeLive().observe(viewLifecycleOwner){ explores ->
-            exploreAdapter.data = explores
-        }
+        Timber.e("Model id: $modelId")
+        Timber.e("LoRA Group id: $loRAGroupId")
+        Timber.e("LoRA id: $loRAId")
+        Timber.e("Explore id: $exploreId")
 
         modelDao.getAllDislikeLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner){ models ->
-            val model = models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
+            val model = when {
+                modelId != -1L -> models.find { model -> model.id == modelId } ?: models.firstOrNull()
+                else -> models.find { model -> model.modelId == Constraint.Dezgo.DEFAULT_MODEL } ?: models.firstOrNull()
+            }
             sheetModel.model = model
             updateUiModel(model)
-        }
-
-        styleDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { styles ->
-            val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
-            sheetStyle.style = style
-            updateUiStyle(style)
         }
 
         modelDao.getAllLive().observe(viewLifecycleOwner){ models ->
@@ -118,8 +123,22 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             sheetModel.pairs = listOf(pairModelsFavourite, pairModelsOther, pairModelsDislike)
         }
 
+        styleDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { styles ->
+            val style = styles.find { style -> style.display == "No Style" } ?: styles.firstOrNull()
+            sheetStyle.style = style
+            updateUiStyle(style)
+        }
+
         styleDao.getAllLive().observe(viewLifecycleOwner) { styles ->
             sheetStyle.pairs = listOf("" to styles)
+        }
+
+        exploreDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { explores ->
+            val explore = when {
+                exploreId != -1L -> explores.find { explore -> explore.id == exploreId }
+                else -> null
+            }
+            updateUiExplore(explore)
         }
 
         exploreDao.getAllLive().observe(viewLifecycleOwner) { explores ->
@@ -127,7 +146,23 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             val pairExploresOther = "Other" to explores.filter { !it.isFavourite && !it.isDislike }
             val pairExploresDislike = "Dislike" to explores.filter { it.isDislike }
 
+            exploreAdapter.data = explores.filter { !it.isDislike }
             sheetExplore.pairs = listOf(pairExploresFavourite, pairExploresOther, pairExploresDislike)
+        }
+
+        loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
+            val loRA = when {
+                loRAGroupId != -1L && loRAId != -1L -> loRAGroups.find { loRAGroup -> loRAGroup.id == loRAGroupId }?.childs?.find { loRA -> loRA.id == loRAId }
+                else -> null
+            }
+            loRA?.let {
+                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId))
+
+                sheetLoRA.loRAs = loRAAdapter.data
+
+                binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
+                binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
+            }
         }
 
         loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
@@ -253,13 +288,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         useExploreClicks
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
-                when {
-                    prefs.isUpgraded.get() -> {
-                        val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
-                        subjectRatioClicks.onNext(findRatio)
-                    }
-                }
-
                 updateUiExplore(explore)
             }
 
@@ -287,6 +315,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiExplore(explore: Explore?) {
+        when {
+            prefs.isUpgraded.get() -> {
+                val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
+                subjectRatioClicks.onNext(findRatio)
+            }
+        }
+
         explore?.let { binding.editPrompt.setText(explore.prompt) }
     }
 

@@ -86,8 +86,11 @@ fun Activity.startIap(isKill: Boolean = true){
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
-fun Activity.startArt(exploreId: Long? = null){
+fun Activity.startArt(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, exploreId: Long? = null){
     val intent = Intent(this, ArtActivity::class.java)
+    intent.putExtra(ArtActivity.MODEL_ID_EXTRA, modelId)
+    intent.putExtra(ArtActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
+    intent.putExtra(ArtActivity.LORA_ID_EXTRA, loRAId)
     intent.putExtra(ArtActivity.EXPLORE_ID_EXTRA, exploreId)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }

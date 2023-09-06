@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityArtBinding
 import com.sola.anime.ai.generator.feature.art.art.ArtFragment
 import com.sola.anime.ai.generator.feature.art.comingsoon.ComingSoonFragment
+import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +24,19 @@ import javax.inject.Inject
 class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) {
 
     companion object {
+        const val MODEL_ID_EXTRA = "MODEL_ID_EXTRA"
+        const val LORA_GROUP_ID_EXTRA = "LORA_GROUP_ID_EXTRA"
+        const val LORA_ID_EXTRA = "LORA_ID_EXTRA"
         const val EXPLORE_ID_EXTRA = "EXPLORE_ID_EXTRA"
     }
 
     @Inject lateinit var prefs: Preferences
 
+    private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
+    private val loRAGroupId by lazy { intent.getLongExtra(LORA_GROUP_ID_EXTRA, -1) }
+    private val loRAId by lazy { intent.getLongExtra(LORA_ID_EXTRA, -1) }
+
     private val artFragment by lazy { ArtFragment() }
 //    private val comingSoonFragment by lazy { ComingSoonFragment() }
 
@@ -65,6 +73,11 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
     }
 
     private fun initView() {
+        artFragment.modelId = modelId
+        artFragment.loRAGroupId = loRAGroupId
+        artFragment.loRAId = loRAId
+        artFragment.exploreId = exploreId
+
         binding.viewPager.apply {
             this.adapter = LsPageAdapter(supportFragmentManager).apply {
                 this.addFragment(fragment = artFragment, title = "Generate Image")

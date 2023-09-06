@@ -14,6 +14,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.load
+import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.data.Preferences
@@ -107,6 +108,12 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     loRA.isFavourite = !loRA.isFavourite
                     loRAGroupDao.update(loRAGroup)
                 }
+            }
+        }
+        binding.viewUse.clicks(withAnim = false) {
+            when {
+                modelId != -1L -> startArt(modelId = modelId)
+                loRAGroupId != -1L && loRAId != -1L -> startArt(loRAGroupId = loRAGroupId, loRAId = loRAId)
             }
         }
     }

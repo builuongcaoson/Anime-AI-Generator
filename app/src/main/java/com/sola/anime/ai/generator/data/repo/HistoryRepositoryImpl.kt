@@ -21,11 +21,6 @@ class HistoryRepositoryImpl @Inject constructor(
 ): HistoryRepository {
 
     override fun markHistory(childHistory: ChildHistory): Long? {
-        childHistory.isPremium = when {
-            prefs.isUpgraded.get() -> false
-            else ->  getTotalChildCount() >= 20
-        }
-
         return historyDao.findByPrompt(childHistory.prompt, childHistory.styleId, childHistory.model)?.let {
             it.childs.add(childHistory)
             it.updateAt = System.currentTimeMillis()
