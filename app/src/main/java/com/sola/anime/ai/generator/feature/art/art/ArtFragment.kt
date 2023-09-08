@@ -4,15 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.PagerSnapHelper
-import com.afollestad.materialdialogs.utils.MDUtil.updatePadding
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -48,7 +44,6 @@ import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.ExploreAdapter
-import com.sola.anime.ai.generator.feature.art.art.adapter.NumberOfImagesAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
@@ -81,7 +76,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAAdapter: LoRAAdapter
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
-    @Inject lateinit var numberOfImagesAdapter: NumberOfImagesAdapter
 
     private val subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -376,10 +370,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     else -> 0f
                 }
                 val alpha = scrollY.toFloat() / viewShadowHeight
-                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
+//                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
 
                 (activity as? ArtActivity)?.binding?.viewShadow?.alpha = alpha
-                binding.viewShadowBottom.alpha = alphaBottom
+//                binding.viewShadowBottom.alpha = alphaBottom
             }
         }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
@@ -424,60 +418,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.photo.clicks { sheetPhoto.show(this) }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
-        binding.viewMinus.clicks { minusClicks() }
-        binding.viewPlus.clicks { plusClicks() }
-    }
-
-    private fun plusClicks() {
-        val layoutManager = binding.recyclerNumberOfImages.layoutManager ?: return
-        val view = snapHelperNumberOfImages.findSnapView(layoutManager) ?: return
-        when (val index = binding.recyclerNumberOfImages.getChildAdapterPosition(view)) {
-            in 0 until numberOfImagesAdapter.data.lastIndex -> {
-                Timber.e("Index: $index")
-                val newView = binding.recyclerNumberOfImages.findViewHolderForAdapterPosition(index + 1)?.itemView ?: return
-                binding.recyclerNumberOfImages.post {
-                    val oldDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
-                    val newDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, newView) ?: return@post
-                    if (newDistance[0] != 0 || newDistance[1] != 0) {
-                        animInt(
-                            from = 0,
-                            to = newDistance[0],
-                            duration = 1000,
-                            update = { value ->
-                                binding.recyclerNumberOfImages.scrollBy(value, newDistance[1])
-                            }
-                        )
-//                        binding.recyclerNumberOfImages.scrollBy(newDistance[0], newDistance[1])
-                    }
-                }
-            }
-        }
-    }
-
-    private fun minusClicks() {
-        val layoutManager = binding.recyclerNumberOfImages.layoutManager ?: return
-        val view = snapHelperNumberOfImages.findSnapView(layoutManager) ?: return
-        when (val index = binding.recyclerNumberOfImages.getChildAdapterPosition(view)) {
-            in numberOfImagesAdapter.data.lastIndex downTo 1 -> {
-                Timber.e("Index: $index")
-                val newView = binding.recyclerNumberOfImages.findViewHolderForAdapterPosition(index - 1)?.itemView ?: return
-                binding.recyclerNumberOfImages.post {
-                    val oldDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, view) ?: return@post
-                    val newDistance = snapHelperNumberOfImages.calculateDistanceToFinalSnap(layoutManager, newView) ?: return@post
-                    if (newDistance[0] != 0 || newDistance[1] != 0) {
-                        animInt(
-                            from = 0,
-                            to = newDistance[0],
-                            duration = 1000,
-                            update = { value ->
-                                binding.recyclerNumberOfImages.scrollBy(value, newDistance[1])
-                            }
-                        )
-//                        binding.recyclerNumberOfImages.scrollBy(newDistance[0], newDistance[1])
-                    }
-                }
-            }
-        }
     }
 
     private fun loRAClicks() {
@@ -652,20 +592,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             binding.recyclerLoRA.apply {
                 this.adapter = loRAAdapter
             }
-
-            binding.recyclerNumberOfImages.apply {
-                this.adapter = numberOfImagesAdapter
-                this.itemAnimator = null
-                this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-
-                this@ArtFragment.snapHelperNumberOfImages.attachToRecyclerView(this)
-
-                this.post {
-                    this.updatePadding(left = this.width / 2,top = 0, right = this.width / 2, bottom = 0)
-                    this.smoothScrollToPosition(0)
-                }
-            }
-
 
             binding.editPrompt.disableEnter()
         }
