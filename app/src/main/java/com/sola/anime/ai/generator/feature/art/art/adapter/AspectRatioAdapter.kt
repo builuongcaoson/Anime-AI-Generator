@@ -46,12 +46,12 @@ class AspectRatioAdapter @Inject constructor(): LsAdapter<Ratio, ItemAspectRatio
         when (item) {
             ratio -> {
                 binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorAccent))
-                binding.previewRatio.setCardBackgroundColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
+                binding.previewRatio.strokeColor = context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
                 binding.display.setTextColor(context.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary))
             }
             else -> {
                 binding.viewClicks.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.colorBackground))
-                binding.previewRatio.setCardBackgroundColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
+                binding.previewRatio.strokeColor = context.resolveAttrColor(android.R.attr.textColorPrimary)
                 binding.display.setTextColor(context.resolveAttrColor(android.R.attr.textColorPrimary))
             }
         }

@@ -57,8 +57,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="Negative Prompt"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="medium" />
+                android:textSize="@dimen/_12ssp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/viewPinNegative"
@@ -82,7 +81,8 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
+            android:background="@drawable/rec_corner_15dp_stroke_2dp"
+            android:backgroundTint="?android:textColorTertiary"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +103,7 @@
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     android:textColor="?android:textColorPrimary"
-                    android:textColorHint="?colorPrimary"
+                    android:textColorHint="?android:textColorSecondary"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toTopOf="@id/viewClear"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -166,8 +166,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="Aspect Ratio"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="medium" />
+                android:textSize="@dimen/_12ssp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/viewPinRatio"
@@ -263,7 +262,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="Better Quality"
-                android:textColor="?android:textColorTertiary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="@dimen/_10ssp" />
 
             <com.basic.common.widget.LsTextView
@@ -273,7 +272,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="Match Prompt"
-                android:textColor="?android:textColorTertiary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="@dimen/_10ssp" />
 
         </RelativeLayout>
@@ -283,7 +282,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -362,7 +361,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="Faster processing"
-                android:textColor="?android:textColorTertiary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="@dimen/_10ssp" />
 
             <com.basic.common.widget.LsTextView
@@ -372,7 +371,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:text="Better Quality"
-                android:textColor="?android:textColorTertiary"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="@dimen/_10ssp" />
 
         </RelativeLayout>
@@ -422,7 +421,8 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
+            android:background="@drawable/rec_corner_15dp_stroke_2dp"
+            android:backgroundTint="?android:textColorTertiary"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -444,7 +444,7 @@
                     android:paddingEnd="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     android:textColor="?android:textColorPrimary"
-                    android:textColorHint="?colorPrimary"
+                    android:textColorHint="?android:textColorSecondary"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

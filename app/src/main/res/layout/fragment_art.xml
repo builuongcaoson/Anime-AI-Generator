@@ -19,28 +19,10 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_65sdp">
 
-            <RelativeLayout
-                android:id="@+id/viewTitleExplore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Explore"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_13ssp"
-                    app:textFont="semi" />
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -53,10 +35,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:text="Enter Prompt"
+                        android:text="Input Prompt"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -64,7 +45,8 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
+                        android:background="@drawable/rec_corner_15dp_stroke_2dp"
+                        android:backgroundTint="?android:textColorTertiary"
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +68,7 @@
                                 android:paddingEnd="@dimen/_10sdp"
                                 android:paddingBottom="@dimen/_12sdp"
                                 android:textColor="?android:textColorPrimary"
-                                android:textColorHint="?colorPrimary"
+                                android:textColorHint="?android:textColorSecondary"
                                 android:textSize="@dimen/_12ssp"
                                 app:layout_constraintEnd_toStartOf="@id/viewPhoto"
                                 app:layout_constraintHeight_min="@dimen/_40sdp"
@@ -129,7 +111,7 @@
                                         android:layout_marginTop="@dimen/_5sdp"
                                         android:layout_marginEnd="@dimen/_5sdp"
                                         android:background="@drawable/circle"
-                                        android:backgroundTint="?android:colorBackground"
+                                        android:backgroundTint="?cardBackgroundColor"
                                         android:padding="@dimen/_3sdp"
                                         android:src="@drawable/ic_baseline_close"
                                         android:tint="?android:textColorPrimary"
@@ -144,12 +126,7 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_38sdp"
-                            android:layout_marginStart="@dimen/_1sdp"
-                            android:layout_marginEnd="@dimen/_1sdp"
-                            android:layout_marginBottom="@dimen/_1sdp"
-                            android:background="@drawable/rec_corner_bottom_5dp"
-                            android:backgroundTint="?colorPrimaryVariant">
+                            android:layout_height="@dimen/_40sdp">
 
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/random"
@@ -191,36 +168,63 @@
 
                             </com.google.android.material.card.MaterialCardView>
 
+<!--                            <RelativeLayout-->
+<!--                                android:id="@+id/random"-->
+<!--                                android:layout_centerVertical="true"-->
+<!--                                android:layout_marginStart="@dimen/_5sdp"-->
+<!--                                android:layout_width="@dimen/_30sdp"-->
+<!--                                android:layout_height="@dimen/_30sdp">-->
+
+<!--                                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                                    android:layout_width="@dimen/_25sdp"-->
+<!--                                    android:layout_height="@dimen/_25sdp"-->
+<!--                                    android:padding="@dimen/_5sdp"-->
+<!--                                    android:src="@drawable/ic_bulb"-->
+<!--                                    android:tint="?colorPrimary" />-->
+
+<!--                            </RelativeLayout>-->
+
                             <LinearLayout
                                 android:id="@+id/viewActionPrompt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:layout_marginEnd="@dimen/_10sdp">
+                                android:layout_marginEnd="@dimen/_5sdp">
 
-                                <androidx.appcompat.widget.AppCompatImageView
+                                <RelativeLayout
                                     android:id="@+id/photo"
-                                    android:layout_width="@dimen/_20sdp"
-                                    android:layout_height="@dimen/_20sdp"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginEnd="@dimen/_10sdp"
-                                    android:background="@drawable/circle"
-                                    android:backgroundTint="?colorPrimary"
-                                    android:padding="@dimen/_5sdp"
-                                    android:src="@drawable/ic_picture"
-                                    android:tint="?colorOnPrimary" />
+                                    android:layout_marginEnd="@dimen/_5sdp"
+                                    android:layout_width="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_30sdp">
 
-                                <androidx.appcompat.widget.AppCompatImageView
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="@dimen/_23sdp"
+                                        android:layout_height="@dimen/_23sdp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_centerInParent="true"
+                                        android:padding="@dimen/_5sdp"
+                                        android:src="@drawable/ic_picture"
+                                        android:tint="?colorPrimary" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
                                     android:id="@+id/history"
-                                    android:layout_width="@dimen/_20sdp"
-                                    android:layout_height="@dimen/_20sdp"
                                     android:layout_gravity="center_vertical"
-                                    android:background="@drawable/circle"
-                                    android:backgroundTint="?colorPrimary"
-                                    android:padding="@dimen/_5sdp"
-                                    android:src="@drawable/ic_history"
-                                    android:tint="?colorOnPrimary" />
+                                    android:layout_width="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_30sdp">
+
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="@dimen/_23sdp"
+                                        android:layout_centerInParent="true"
+                                        android:layout_height="@dimen/_23sdp"
+                                        android:padding="@dimen/_5sdp"
+                                        android:src="@drawable/ic_history"
+                                        android:tint="?colorPrimary" />
+
+                                </RelativeLayout>
 
                             </LinearLayout>
 
@@ -265,10 +269,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:text="Models and Styles"
+                        android:text="Model and Style"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -281,7 +284,7 @@
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
-                            app:cardBackgroundColor="?android:colorBackground"
+                            app:cardBackgroundColor="?cardBackgroundColor"
                             app:cardCornerRadius="@dimen/_10sdp"
                             app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -337,25 +340,11 @@
                                         android:layout_gravity="center_vertical">
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewNoModel"
-                                            android:layout_width="@dimen/_20sdp"
-                                            android:layout_height="@dimen/_20sdp"
-                                            android:background="@drawable/circle"
-                                            android:backgroundTint="?android:textColorPrimary"
-                                            android:padding="@dimen/_3sdp"
-                                            android:src="@drawable/ic_plus"
-                                            android:tint="?colorOnPrimary" />
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewHadModel"
-                                            android:layout_width="@dimen/_20sdp"
-                                            android:layout_height="@dimen/_20sdp"
-                                            android:background="@drawable/circle"
-                                            android:backgroundTint="?colorPrimary"
-                                            android:padding="@dimen/_3sdp"
+                                            android:layout_width="@dimen/_15sdp"
+                                            android:layout_height="@dimen/_15sdp"
                                             android:src="@drawable/ic_arrow_right"
-                                            android:tint="?colorOnPrimary"
-                                            android:visibility="gone" />
+                                            android:rotation="90"
+                                            android:tint="?android:textColorPrimary" />
 
                                     </RelativeLayout>
 
@@ -372,7 +361,7 @@
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            app:cardBackgroundColor="?android:colorBackground"
+                            app:cardBackgroundColor="?cardBackgroundColor"
                             app:cardCornerRadius="@dimen/_10sdp"
                             app:cardElevation="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -428,25 +417,11 @@
                                         android:layout_gravity="center_vertical">
 
                                         <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewNoStyle"
-                                            android:layout_width="@dimen/_20sdp"
-                                            android:layout_height="@dimen/_20sdp"
-                                            android:background="@drawable/circle"
-                                            android:backgroundTint="?android:textColorPrimary"
-                                            android:padding="@dimen/_3sdp"
-                                            android:src="@drawable/ic_plus"
-                                            android:tint="?colorOnPrimary" />
-
-                                        <androidx.appcompat.widget.AppCompatImageView
-                                            android:id="@+id/viewHadStyle"
-                                            android:layout_width="@dimen/_20sdp"
-                                            android:layout_height="@dimen/_20sdp"
-                                            android:background="@drawable/circle"
-                                            android:backgroundTint="?colorPrimary"
-                                            android:padding="@dimen/_3sdp"
+                                            android:layout_width="@dimen/_15sdp"
+                                            android:layout_height="@dimen/_15sdp"
                                             android:src="@drawable/ic_arrow_right"
-                                            android:tint="?colorOnPrimary"
-                                            android:visibility="gone" />
+                                            android:rotation="90"
+                                            android:tint="?android:textColorPrimary" />
 
                                     </RelativeLayout>
 
@@ -465,8 +440,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:text="Aspect Ratio"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewAspectRatio"
@@ -488,13 +462,15 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="Batch production"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <com.sola.anime.ai.generator.common.widget.quantitizer.HorizontalQuantitizer
-                        android:id="@+id/quant"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:minValue="0"
+                        app:maxValue="100"
+                        app:step="10"
+                        app:value="1"
                         android:layout_gravity="center_horizontal" />
 
                     <com.basic.common.widget.LsTextView
@@ -502,10 +478,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:text="LoRAs"
+                        android:text="LoRA"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_13ssp" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/viewLoRA"
@@ -562,25 +537,11 @@
                                     android:layout_gravity="center_vertical">
 
                                     <androidx.appcompat.widget.AppCompatImageView
-                                        android:id="@+id/viewNoLoRA"
-                                        android:layout_width="@dimen/_20sdp"
-                                        android:layout_height="@dimen/_20sdp"
-                                        android:background="@drawable/circle"
-                                        android:backgroundTint="?android:textColorPrimary"
-                                        android:padding="@dimen/_3sdp"
-                                        android:src="@drawable/ic_plus"
-                                        android:tint="?colorOnPrimary" />
-
-                                    <androidx.appcompat.widget.AppCompatImageView
-                                        android:id="@+id/viewHadLoRA"
-                                        android:layout_width="@dimen/_20sdp"
-                                        android:layout_height="@dimen/_20sdp"
-                                        android:background="@drawable/circle"
-                                        android:backgroundTint="?colorPrimary"
-                                        android:padding="@dimen/_3sdp"
+                                        android:layout_width="@dimen/_15sdp"
+                                        android:layout_height="@dimen/_15sdp"
+                                        android:rotation="90"
                                         android:src="@drawable/ic_arrow_right"
-                                        android:tint="?colorOnPrimary"
-                                        android:visibility="gone" />
+                                        android:tint="?android:textColorPrimary"/>
 
                                 </RelativeLayout>
 
@@ -606,8 +567,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:text="Advanced Settings"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/viewAdvancedSetting"
@@ -616,7 +576,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        app:cardBackgroundColor="?android:colorBackground"
+                        app:cardBackgroundColor="?cardBackgroundColor"
                         app:cardCornerRadius="@dimen/_10sdp"
                         app:cardElevation="0dp">
 
@@ -641,17 +601,14 @@
                             </LinearLayout>
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="@dimen/_10sdp"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="?android:textColorPrimary"
-                                android:padding="@dimen/_3sdp"
                                 android:rotation="90"
                                 android:src="@drawable/ic_arrow_right"
-                                android:tint="?colorOnPrimary" />
+                                android:tint="?android:textColorPrimary" />
 
                         </RelativeLayout>
 
@@ -665,7 +622,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_7sdp">
+                            android:layout_marginTop="@dimen/_10sdp">
 
                             <com.basic.common.widget.LsTextView
                                 android:layout_width="wrap_content"
@@ -741,7 +698,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        app:cardBackgroundColor="?android:windowBackground"
+        app:cardBackgroundColor="?colorPrimary"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -750,8 +707,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rec_gradient">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/_15sdp"

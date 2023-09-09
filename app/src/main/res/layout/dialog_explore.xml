@@ -128,7 +128,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/rec_corner_10dp_stroke_gradient_2dp_gray"
+                    android:background="@drawable/rec_corner_15dp_stroke_2dp"
                     android:orientation="vertical">
 
                     <com.basic.common.widget.LsTextView

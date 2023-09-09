@@ -267,7 +267,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                app:cardBackgroundColor="?colorAccent"
+                app:cardBackgroundColor="?colorSecondary"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -289,7 +289,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:src="@drawable/ic_circle_check"
-                        android:tint="@color/white"
+                        android:tint="?android:textColorPrimary"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
@@ -303,7 +303,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:text="Lifetime"
-                        android:textColor="?colorOnPrimary"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_13ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -432,7 +432,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             app:cardBackgroundColor="?android:textColorPrimary"
             app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_3sdp">
+            app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -501,38 +501,13 @@
                 android:id="@+id/privacy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:padding="@dimen/_5sdp"
-                android:text="Privacy Policy"
-                android:textColor="?android:textColorPrimary"
-                android:textColorLink="?android:textColorPrimary"
-                android:textSize="@dimen/_10ssp" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/restore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="Restore"
+                android:text="Privacy Policy   &amp;   Terms of Use   &amp;   Restore"
                 android:textColor="?android:textColorPrimary"
                 android:textColorLink="?android:textColorPrimary"
-                android:textSize="@dimen/_10ssp" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/termsOfUse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:padding="@dimen/_5sdp"
-                android:text="Terms of Use"
-                android:textColor="?android:textColorPrimary"
-                android:textColorLink="?android:textColorPrimary"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="@dimen/_8ssp" />
 
         </RelativeLayout>
 

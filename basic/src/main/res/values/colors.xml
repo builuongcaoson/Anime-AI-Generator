@@ -5,9 +5,9 @@
     <color name="backgroundLight">#FFFFFF</color>
     <color name="backgroundDark">#000000</color>
 
-    <color name="colorPrimary">#C69276</color>
-    <color name="colorSecondary">#C69276</color>
-    <color name="colorTertiary">#C69276</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorSecondary">#f2bd53</color>
+    <color name="colorTertiary">#FFD560</color>
 
     <color name="textPrimary">#141A18</color>
     <color name="textSecondary">#686868</color>
@@ -18,6 +18,6 @@
     <color name="textTertiaryDark">#80ffffff</color>
 
     <!-- This colour should only ever be used for attrs with the tools tag -->
-    <color name="tools_theme">#C69276</color>
+    <color name="tools_theme">#000000</color>
 
 </resources>

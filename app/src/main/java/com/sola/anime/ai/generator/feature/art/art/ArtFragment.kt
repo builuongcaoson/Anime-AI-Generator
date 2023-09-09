@@ -162,9 +162,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId))
 
                 sheetLoRA.loRAs = loRAAdapter.data
-
-                binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
-                binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
             }
         }
 
@@ -180,9 +177,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiModel(model: Model?) {
-        binding.viewNoModel.isVisible = model == null
-        binding.viewHadModel.isVisible = model != null
-
         binding.displayModel.text = when (model) {
             null -> "Pick a Model"
             else -> model.display
@@ -209,9 +203,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 }
 
                 sheetLoRA.loRAs = loRAAdapter.data
-
-                binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
-                binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
             }
 
         sheetPhoto
@@ -352,9 +343,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiStyle(style: Style?){
-        binding.viewNoStyle.isVisible = style == null
-        binding.viewHadStyle.isVisible = style != null
-
         binding.displayStyle.text = when (style) {
             null -> "Pick a Style"
             else -> style.display
@@ -442,9 +430,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             sheetLoRA.loRAs = loRAAdapter.data
-
-            binding.viewNoLoRA.isVisible = loRAAdapter.data.isEmpty()
-            binding.viewHadLoRA.isVisible = loRAAdapter.data.isNotEmpty()
         }
         sheetLoRA.detailsClicks = { loRAPreview ->
             lifecycleScope.launch(Dispatchers.Main) {

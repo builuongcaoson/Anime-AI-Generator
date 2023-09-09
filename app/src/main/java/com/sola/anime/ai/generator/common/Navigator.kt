@@ -13,11 +13,12 @@ import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class Navigator @Inject constructor(
     private val context: Context,
     private val analyticManager: AnalyticManager,
-    private val prefs: Preferences
+    private val prefs: Preferences,
 ){
 
     private fun startActivity(intent: Intent) {
@@ -35,21 +36,22 @@ class Navigator @Inject constructor(
 
     fun showPrivacy() {
         try {
-            val intent =
-                Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
+            val intent = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
                     .apply {
                         data = Uri.parse(Constraint.Info.PRIVACY_URL)
                     }
             startActivity(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            context.makeToast("Device not support, please check again!")
+        } catch (_: Exception) {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constraint.Info.PRIVACY_URL))
+                startActivity(intent)
+            } catch (_: Exception){
+                context.makeToast("Device not support, please check again!")
+            }
         }
     }
 
     fun showTerms() {
-        analyticManager.logEvent(AnalyticManager.TYPE.CLICKED_SUPPORT)
-
         try {
             val intent =
                 Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
@@ -58,8 +60,12 @@ class Navigator @Inject constructor(
                     }
             startActivity(intent)
         } catch (e: Exception) {
-            e.printStackTrace()
-            context.makeToast("Device not support, please check again!")
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constraint.Info.TERMS_URL))
+                startActivity(intent)
+            } catch (_: Exception){
+                context.makeToast("Device not support, please check again!")
+            }
         }
     }
 

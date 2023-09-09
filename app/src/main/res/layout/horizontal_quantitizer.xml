@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toStartOf="@id/increase_ib"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:backgroundTint="?colorAccent"
+                android:backgroundTint="?colorSecondary"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_20sdp"
@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/_12ssp"
                 tools:text="@tools:sample/us_phones"
-                android:textColor="?colorOnPrimary"
+                android:textColor="?android:textColorPrimary"
                 app:textFont="semi"/>
 
             <RelativeLayout

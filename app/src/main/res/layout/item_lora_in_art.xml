@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:cardBackgroundColor="?cardBackgroundColor"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp">
 
         <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="0dp">
 
                 <androidx.appcompat.widget.AppCompatImageView

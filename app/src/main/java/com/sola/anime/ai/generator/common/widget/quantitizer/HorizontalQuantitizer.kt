@@ -18,6 +18,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.databinding.HorizontalQuantitizerBinding
 
@@ -35,6 +36,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
     private var _animationDuration = 300L
     private var _minValue:Int = 0
     private var _maxValue:Int = Int.MAX_VALUE
+    private var _step:Int = 1
     private var _animateButtons: Boolean = true
     private var _animationStyle: AnimationStyle = AnimationStyle.SWING
     private var _isReadOnly: Boolean = false
@@ -43,8 +45,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         get() = _minValue
         set(value) {
             if (value >= currentValue) {
-                binding.quantityTv.text =
-                    Editable.Factory.getInstance().newEditable(value.toString())
+                binding.quantityTv.text = Editable.Factory.getInstance().newEditable(value.toString())
                 currentValue = value
                 _minValue = value
             } else {
@@ -57,6 +58,12 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         get() = _maxValue
         set(value) {
             _maxValue = value
+        }
+
+    var step: Int
+        get() = _step
+        set(value) {
+            _step = value
         }
 
     var value: Int
@@ -96,15 +103,15 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         minValue = a.getInteger(R.styleable.Quantitizer_minValue, 0)
         maxValue = a.getInteger(R.styleable.Quantitizer_maxValue, Int.MAX_VALUE)
         value = a.getInteger(R.styleable.Quantitizer_value, 0)
+        step = a.getInteger(R.styleable.Quantitizer_step, _step)
 
         /*decrease*/
-        binding.decreaseIb.setOnClickListener {
+        binding.decreaseIb.clicks(debounce = 300L, withAnim = false) {
             hideKeyboard()
             if (minValue >= currentValue) {
                 //do nothing
             } else {
                 doDec()
-
 
                 //listener
                 listener?.activateOnDecrease(_animationDuration)
@@ -113,7 +120,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         }
 
         /*increase*/
-        binding.increaseIb.setOnClickListener {
+        binding.increaseIb.clicks(debounce = 300L, withAnim = false) {
             hideKeyboard()
             if (maxValue <= currentValue) {
                 //do  nothing
@@ -186,11 +193,13 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
 
         }
 
-     binding.quantityTv.isCursorVisible = false // hide cursor if it's visible
-        val increasedValue: Int = currentValue.inc()
+        binding.quantityTv.isCursorVisible = false // hide cursor if it's visible
+        val increasedValue: Int = when {
+            currentValue == 1 -> 10
+            else -> currentValue + step
+        }
         currentValue = increasedValue
         animateInc()
-
     }
 
     private fun doDec() {
@@ -199,10 +208,12 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         }
 
         binding.quantityTv.isCursorVisible = false  // hide cursor if it's visible
-        val decreasedValue: Int = currentValue.dec()
+        val decreasedValue: Int = when {
+            currentValue - step <= 0 -> 1
+            else -> currentValue - step
+        }
         currentValue = decreasedValue
         animateDec()
-
     }
 
     private fun animateInc() {

@@ -30,7 +30,12 @@ fun View.clicks(debounce: Long = 250, withAnim: Boolean = true, clicks: () -> Un
                 lastClickTime = SystemClock.elapsedRealtime()
             }
     } else {
-        setOnClickListener { clicks() }
+        var lastClickTime: Long = 0
+        setOnClickListener {
+            if (SystemClock.elapsedRealtime() - lastClickTime < debounce) return@setOnClickListener
+            else clicks()
+            lastClickTime = SystemClock.elapsedRealtime()
+        }
     }
 }
 

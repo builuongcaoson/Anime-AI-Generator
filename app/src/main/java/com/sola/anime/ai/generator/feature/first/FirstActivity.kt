@@ -75,7 +75,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
     }
 
     private fun initView() {
-        tryOrNull { binding.textPrivacy.makeLinks("Privacy Policy" to View.OnClickListener { navigator.showPrivacy() }, "Terms of Use" to View.OnClickListener { navigator.showTerms() }) }
+        tryOrNull { binding.textPrivacy.makeLinks(isUnderlineText = true, "Privacy Policy" to View.OnClickListener { navigator.showPrivacy() }, "Terms of Use" to View.OnClickListener { navigator.showTerms() }) }
 
         listOf<Pair<ImageView, Int>>(
             binding.image1 to R.drawable.first_preview_zzz2xxx3zzz_1,

@@ -254,14 +254,13 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:windowBackground"
+            app:cardBackgroundColor="?colorPrimary"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="@dimen/_3sdp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rec_gradient">
+                android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_15sdp"

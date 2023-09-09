@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.credit
 
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -15,6 +16,7 @@ import com.revenuecat.purchases.models.StoreProduct
 import com.revenuecat.purchases.purchaseWith
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
@@ -47,6 +49,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     @Inject lateinit var previewAdapter: PreviewAdapter
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var userPremiumManager: UserPremiumManager
+    @Inject lateinit var navigator: Navigator
 
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
@@ -67,10 +70,10 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
         binding.viewPremium.clicks { startIap() }
-        binding.view4.clicks { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_1000) }
-        binding.view3.clicks { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_3000) }
-        binding.view2.clicks { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_5000) }
-        binding.view1.clicks { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_10000) }
+        binding.view4.clicks(withAnim = false) { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_1000) }
+        binding.view3.clicks(withAnim = false) { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_3000) }
+        binding.view2.clicks(withAnim = false) { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_5000) }
+        binding.view1.clicks(withAnim = false) { subjectSkuChoice.onNext(Constraint.Iap.SKU_CREDIT_10000) }
         binding.viewContinue.clicks(withAnim = false) { purchaseClicks() }
     }
 
@@ -166,7 +169,6 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     }
 
     override fun onResume() {
-        binding.viewPager.registerOnPageChangeCallback(pageChanges)
         initPreviewView()
         initShakingPremiumView()
         super.onResume()
@@ -199,29 +201,29 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
             }
     }
 
-    override fun onPause() {
-        binding.viewPager.unregisterOnPageChangeCallback(pageChanges)
-        super.onPause()
-    }
-
-    private val pageChanges = object: ViewPager2.OnPageChangeCallback() {
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-            binding.pageIndicatorView.setSelected(position)
-        }
-    }
-
     private fun initView() {
+        binding.privacy.makeLinks(
+            isUnderlineText = false,
+            "Privacy Policy" to View.OnClickListener { navigator.showPrivacy() },
+            "Terms of Use" to View.OnClickListener { navigator.showTerms() },
+            "Restore" to View.OnClickListener { restoreClicks() }
+        )
         binding.viewPager.apply {
             this.adapter = previewAdapter
             this.offscreenPageLimit = previewAdapter.data.size
             this.isUserInputEnabled = false
         }
-        binding.pageIndicatorView.apply {
-            this.count = previewAdapter.data.size
+    }
+
+    private fun restoreClicks() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.viewLoading.isVisible = true
+
+            userPremiumManager.syncUserPurchasedFromDatabase()
+
+            binding.viewLoading.isVisible = false
+
+            makeToast("Restore success!")
         }
     }
 
@@ -236,10 +238,15 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         subjectSkuChoice
             .autoDispose(scope())
             .subscribe {
-                binding.view4.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_1000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-                binding.view3.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_3000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-                binding.view2.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_5000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-                binding.view1.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_10000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+//                binding.view4.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_1000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+//                binding.view3.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_3000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+//                binding.view2.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_5000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+//                binding.view1.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_10000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+
+                binding.view4.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_1000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view3.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_3000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view2.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_5000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view1.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_10000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
 
                 when {
                     it == Constraint.Iap.SKU_CREDIT_1000 -> {

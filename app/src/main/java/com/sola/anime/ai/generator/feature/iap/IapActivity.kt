@@ -210,9 +210,14 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 }
             }
         }
-        binding.privacy.makeLinks("Privacy Policy" to View.OnClickListener { navigator.showPrivacy() })
-        binding.termsOfUse.makeLinks("Terms of Use" to View.OnClickListener { navigator.showTerms() })
-        binding.restore.makeLinks("Restore" to View.OnClickListener { restoreClicks() })
+        binding.privacy.makeLinks(
+            isUnderlineText = false,
+            "Privacy Policy" to View.OnClickListener { navigator.showPrivacy() },
+            "Terms of Use" to View.OnClickListener { navigator.showTerms() },
+            "Restore" to View.OnClickListener { restoreClicks() }
+        )
+//        binding.termsOfUse.makeLinks("Terms of Use" to View.OnClickListener { navigator.showTerms() })
+//        binding.restore.makeLinks("Restore" to View.OnClickListener { restoreClicks() })
     }
 
     private fun restoreClicks() {
@@ -376,8 +381,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private fun updateWeeklyUi(sku: String) {
         binding.viewWeekly.setCardBackgroundColor(
             when (sku) {
-                sku2 -> resolveAttrColor(android.R.attr.colorAccent)
-                else -> resolveAttrColor(android.R.attr.colorBackground)
+                sku2 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
+                else -> resolveAttrColor(R.attr.cardBackgroundColor)
             }
         )
         binding.imageWeekly.setImageResource(
@@ -386,15 +391,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-        binding.imageWeekly.selection(sku == sku2)
-        binding.textTitle2.selection(sku == sku2)
+//        binding.imageWeekly.selection(sku == sku2)
+//        binding.textTitle2.selection(sku == sku2)
     }
 
     private fun updateYearlyUi(sku: String) {
         binding.viewYearly.setCardBackgroundColor(
             when (sku) {
-                sku3 -> resolveAttrColor(android.R.attr.colorAccent)
-                else -> resolveAttrColor(android.R.attr.colorBackground)
+                sku3 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
+                else -> resolveAttrColor(R.attr.cardBackgroundColor)
             }
         )
         binding.imageYearly.setImageResource(
@@ -403,15 +408,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-        binding.imageYearly.selection(sku == sku3)
-        binding.textTitle3.selection(sku == sku3)
+//        binding.imageYearly.selection(sku == sku3)
+//        binding.textTitle3.selection(sku == sku3)
     }
 
     private fun updateLifeTimeUi(sku: String) {
         binding.viewLifeTime.setCardBackgroundColor(
             when (sku) {
-                sku1 -> resolveAttrColor(android.R.attr.colorAccent)
-                else -> resolveAttrColor(android.R.attr.colorBackground)
+                sku1 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
+                else -> resolveAttrColor(R.attr.cardBackgroundColor)
             }
         )
         binding.imageLifeTime.setImageResource(
@@ -420,23 +425,23 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-        binding.imageLifeTime.selection(sku == sku1)
-        binding.textTitle1.selection(sku == sku1)
+//        binding.imageLifeTime.selection(sku == sku1)
+//        binding.textTitle1.selection(sku == sku1)
     }
 
-    private fun TextView.selection(selected: Boolean) {
-        setTextColor(when {
-            selected -> resolveAttrColor(R.attr.cardBackgroundColor)
-            else -> resolveAttrColor(android.R.attr.textColorPrimary)
-        })
-    }
-
-    private fun ImageView.selection(selected: Boolean) {
-        setTint(when {
-            selected -> resolveAttrColor(R.attr.cardBackgroundColor)
-            else -> resolveAttrColor(android.R.attr.textColorPrimary)
-        })
-    }
+//    private fun TextView.selection(selected: Boolean) {
+//        setTextColor(when {
+//            selected -> resolveAttrColor(android.R.attr.textColorPrimary)
+//            else -> resolveAttrColor(android.R.attr.textColorPrimary)
+//        })
+//    }
+//
+//    private fun ImageView.selection(selected: Boolean) {
+//        setTint(when {
+//            selected -> resolveAttrColor(android.R.attr.textColorPrimary)
+//            else -> resolveAttrColor(android.R.attr.textColorPrimary)
+//        })
+//    }
 
     private fun initView() {
         binding.recyclerPreview1.apply {

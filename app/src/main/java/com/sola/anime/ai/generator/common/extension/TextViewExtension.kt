@@ -6,14 +6,14 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
 
-fun TextView.makeLinks(vararg links: Pair<String, View.OnClickListener>) {
+fun TextView.makeLinks(isUnderlineText: Boolean, vararg links: Pair<String, View.OnClickListener>) {
     val spannableString = SpannableString(this.text)
     var startIndexOfLink = -1
     for (link in links) {
         val clickableSpan = object : ClickableSpan() {
             override fun updateDrawState(textPaint: TextPaint) {
                 textPaint.color = textPaint.linkColor
-                textPaint.isUnderlineText = true
+                textPaint.isUnderlineText = isUnderlineText
             }
 
             override fun onClick(view: View) {

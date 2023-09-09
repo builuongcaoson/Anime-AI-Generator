@@ -17,7 +17,7 @@
         <item name="colorControlNormal">#D5D5D5</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">#1ADF825F</item>
+        <item name="colorPrimaryVariant">#1A000000</item>
         <item name="colorOnPrimary">@color/textPrimaryDark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondary</item>
