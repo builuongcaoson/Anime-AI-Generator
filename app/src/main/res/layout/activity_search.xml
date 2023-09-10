@@ -7,6 +7,58 @@
     android:fitsSystemWindows="true"
     tools:context=".feature.search.SearchActivity">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/viewSearch"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="?cardBackgroundColor"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_height="@dimen/_40sdp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/search"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:tint="?android:textColorSecondary"
+                android:layout_height="@dimen/_15sdp"/>
+
+            <com.basic.common.widget.LsEditText
+                android:textSize="@dimen/_10ssp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:id="@+id/search"
+                android:textColor="?android:textColorPrimary"
+                android:textColorHint="?android:textColorSecondary"
+                android:paddingStart="@dimen/_40sdp"
+                android:hint="Search model, loRA, explore..."
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearch"
+        android:clipToPadding="false"
+        android:padding="@dimen/_5sdp"
+        tools:listitem="@layout/item_group_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/viewSearch"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
