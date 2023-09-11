@@ -129,13 +129,13 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         when {
             modelId != -1L -> {
                 val model = modelDao.findById(modelId) ?: return
-                model.isDislike = true
+                model.isDislike = !model.isDislike
                 modelDao.updates(model)
             }
             loRAGroupId != -1L && loRAId != -1L -> {
                 loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
                     loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
-                        loRA.isDislike = true
+                        loRA.isDislike = !loRA.isDislike
                         loRAGroupDao.update(loRAGroup)
                     }
                 }
@@ -325,41 +325,37 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             loRAGroup ?: return@observe
             val loRA = loRAGroup.childs.find { it.id == loRAId } ?: return@observe
 
-            when {
-                loRA.isDislike -> back()
-                else -> {
-                    ConstraintSet().apply {
-                        this.clone(binding.viewPreview)
-                        this.setDimensionRatio(binding.preview.id, "3:4")
-                        this.applyTo(binding.viewPreview)
-                    }
+            ConstraintSet().apply {
+                this.clone(binding.viewPreview)
+                this.setDimensionRatio(binding.preview.id, "3:4")
+                this.applyTo(binding.viewPreview)
+            }
 
-                    binding.preview.load(loRA.previews.getOrNull(loRAPReviewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
-                        drawable?.let {
-                            binding.preview.setImageDrawable(drawable)
-                            binding.preview.animate().alpha(1f).setDuration(250).start()
-                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                        }
-                    }
-
-                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
-                    }
-
-                    binding.modelOrLoRA.text = "LoRA"
-                    binding.use.text = "Use this LoRA"
-                    binding.textArtworksBy.text = "Artworks by LoRA"
-                    binding.textOther.text = "Other LoRAs"
-                    binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
-                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.yellow))
-                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.yellow))
-                    binding.display.text = loRA.display
-                    binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
-                    binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-                    initLoRAData(loRA = loRA)
+            binding.preview.load(loRA.previews.getOrNull(loRAPReviewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
+                drawable?.let {
+                    binding.preview.setImageDrawable(drawable)
+                    binding.preview.animate().alpha(1f).setDuration(250).start()
+                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
                 }
             }
+
+            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
+            }
+
+            binding.modelOrLoRA.text = "LoRA"
+            binding.use.text = "Use this LoRA"
+            binding.textArtworksBy.text = "Artworks by LoRA"
+            binding.textOther.text = "Other LoRAs"
+            binding.imgModelOrLoRA.setImageResource(R.drawable.star_of_david)
+            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.yellow))
+            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.yellow))
+            binding.display.text = loRA.display
+            binding.favouriteCount.text = "${if (loRA.isFavourite) loRA.favouriteCount + 1 else loRA.favouriteCount} Uses"
+            binding.favourite.setTint(if (loRA.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
+            binding.dislike.setImageResource(if (loRA.isDislike) R.drawable.dislike_fill else R.drawable.dislike)
+
+            initLoRAData(loRA = loRA)
         }
     }
 
@@ -376,41 +372,37 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         modelDao.findByIdLive(modelId).observe(this) { model ->
             model ?: return@observe
 
-            when {
-                model.isDislike -> back()
-                else -> {
-                    ConstraintSet().apply {
-                        this.clone(binding.viewPreview)
-                        this.setDimensionRatio(binding.preview.id, "1:1")
-                        this.applyTo(binding.viewPreview)
-                    }
+            ConstraintSet().apply {
+                this.clone(binding.viewPreview)
+                this.setDimensionRatio(binding.preview.id, "1:1")
+                this.applyTo(binding.viewPreview)
+            }
 
-                    binding.preview.load(model.preview, errorRes = R.drawable.place_holder_image) { drawable ->
-                        drawable?.let {
-                            binding.preview.setImageDrawable(drawable)
-                            binding.preview.animate().alpha(1f).setDuration(250).start()
-                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                        }
-                    }
-
-                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
-                    }
-
-                    binding.modelOrLoRA.text = "Model"
-                    binding.use.text = "Use this Model"
-                    binding.textArtworksBy.text = "Artworks by Model"
-                    binding.textOther.text = "Other Models"
-                    binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
-                    binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
-                    binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
-                    binding.display.text = model.display
-                    binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
-                    binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-                    initExploreData(model)
+            binding.preview.load(model.preview, errorRes = R.drawable.place_holder_image) { drawable ->
+                drawable?.let {
+                    binding.preview.setImageDrawable(drawable)
+                    binding.preview.animate().alpha(1f).setDuration(250).start()
+                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
                 }
             }
+
+            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
+            }
+
+            binding.modelOrLoRA.text = "Model"
+            binding.use.text = "Use this Model"
+            binding.textArtworksBy.text = "Artworks by Model"
+            binding.textOther.text = "Other Models"
+            binding.imgModelOrLoRA.setImageResource(R.drawable.user_robot)
+            binding.viewModelOrLoRA.setCardBackgroundColor(getColorCompat(R.color.blue))
+            binding.viewUse.setCardBackgroundColor(getColorCompat(R.color.blue))
+            binding.display.text = model.display
+            binding.favouriteCount.text = "${if (model.isFavourite) model.favouriteCount + 1 else model.favouriteCount} Uses"
+            binding.favourite.setTint(if (model.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
+            binding.dislike.setImageResource(if (model.isDislike) R.drawable.dislike_fill else R.drawable.dislike)
+
+            initExploreData(model)
         }
     }
 

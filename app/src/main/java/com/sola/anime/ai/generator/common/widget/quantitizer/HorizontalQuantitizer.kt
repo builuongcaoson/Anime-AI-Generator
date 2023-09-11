@@ -29,7 +29,6 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
     ConstraintLayout(context, attributeSet, defStyle){
 
     private var listener :QuantitizerListener? = null
-    private val translation = "translationX"
     private val binding = HorizontalQuantitizerBinding.inflate(LayoutInflater.from(context), this, true)
     private var currentValue: Int = 0
 
@@ -108,29 +107,31 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         /*decrease*/
         binding.decreaseIb.clicks(debounce = 300L, withAnim = false) {
             hideKeyboard()
-            if (minValue >= currentValue) {
-                //do nothing
-            } else {
-                doDec()
 
-                //listener
-                listener?.activateOnDecrease(_animationDuration)
+            when {
+                minValue >= currentValue -> {}
+                minValue == 0 && currentValue == 1 -> {}
+                else -> {
+                    doDec()
+
+                    //listener
+                    listener?.activateOnDecrease(_animationDuration)
+                }
             }
-
         }
 
         /*increase*/
         binding.increaseIb.clicks(debounce = 300L, withAnim = false) {
             hideKeyboard()
-            if (maxValue <= currentValue) {
-                //do  nothing
-            } else {
-                doInc()
+            when {
+                maxValue <= currentValue -> {}
+                else -> {
+                    doInc()
 
-                //listener
-                listener?.activateOnIncrease(_animationDuration)
+                    //listener
+                    listener?.activateOnIncrease(_animationDuration)
+                }
             }
-
         }
 
         /*make edit text cursor visible when clicked*/

@@ -19,14 +19,14 @@ enum class Ratio(val display: String, val ratio: String, val width: String, val 
 }
 
 enum class NumberOfImages(var display: String, val number: Int){
-    NumberOfImages1(display = "1", number = 1),
-    NumberOfImages2(display = "2", number = 2),
-    NumberOfImages3(display = "3", number = 3),
-    NumberOfImages4(display = "4", number = 4),
-    NumberOfImages5(display = "5", number = 5),
-    NumberOfImages6(display = "6", number = 6),
-    NumberOfImages7(display = "7", number = 7),
-    NumberOfImages8(display = "8", number = 8)
+    NumberOfImages1(display = "10", number = 10),
+    NumberOfImages2(display = "20", number = 20),
+    NumberOfImages3(display = "30", number = 30),
+    NumberOfImages4(display = "40", number = 40),
+    NumberOfImages5(display = "50", number = 50),
+    NumberOfImages6(display = "60", number = 60),
+    NumberOfImages7(display = "70", number = 70),
+    NumberOfImages8(display = "80", number = 80)
 }
 
 enum class TabExplore {

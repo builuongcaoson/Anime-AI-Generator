@@ -177,12 +177,11 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private fun initShakingPremiumView() {
         Observable
             .interval(3, TimeUnit.SECONDS)
-            .filter { !prefs.isUpgraded.get() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe {
-                binding.viewPremium.animateHorizontalShake(50f, repeatCount = 4, duration = 1000L)
+                binding.viewContinue.animateHorizontalShake(50f, repeatCount = 4, duration = 1000L)
             }
     }
 

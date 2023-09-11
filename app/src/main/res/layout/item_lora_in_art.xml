@@ -77,7 +77,7 @@
                         android:backgroundTint="?android:colorBackground"
                         android:padding="@dimen/_3sdp"
                         android:src="@drawable/ic_trash"
-                        android:tint="#cc2a36" />
+                        android:tint="?colorPrimary" />
 
                 </RelativeLayout>
 

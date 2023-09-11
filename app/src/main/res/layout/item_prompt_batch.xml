@@ -67,7 +67,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/rec_corner_15dp_stroke_2dp"
+                android:background="@drawable/rec_corner_10dp_stroke_2dp"
                 android:backgroundTint="?android:textColorTertiary"
                 android:orientation="vertical">
 
@@ -116,7 +116,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/rec_corner_15dp_stroke_2dp"
+                android:background="@drawable/rec_corner_10dp_stroke_2dp"
                 android:backgroundTint="?android:textColorTertiary"
                 android:orientation="vertical">
 

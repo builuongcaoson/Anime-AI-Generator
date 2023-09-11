@@ -100,7 +100,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
 
     private fun dislikeClicks() {
         val explore = exploreDao.findById(exploreId) ?: return
-        explore.isDislike = true
+        explore.isDislike = !explore.isDislike
         exploreDao.update(explore)
     }
 
@@ -238,34 +238,30 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         exploreDao.findByIdLive(exploreId).observe(this) { explore ->
             explore ?: return@observe
 
-            when {
-                explore.isDislike -> back()
-                else -> {
-                    ConstraintSet().apply {
-                        this.clone(binding.viewPreview)
-                        this.setDimensionRatio(binding.preview.id, explore.ratio)
-                        this.applyTo(binding.viewPreview)
-                    }
+            ConstraintSet().apply {
+                this.clone(binding.viewPreview)
+                this.setDimensionRatio(binding.preview.id, explore.ratio)
+                this.applyTo(binding.viewPreview)
+            }
 
-                    binding.preview.load(explore.previews.getOrNull(previewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
-                        drawable?.let {
-                            binding.preview.setImageDrawable(drawable)
-                            binding.preview.animate().alpha(1f).setDuration(250).start()
-                            binding.viewShadow.animate().alpha(1f).setDuration(250).start()
-                        }
-                    }
-
-                    binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
-                    }
-
-                    binding.prompt.text = explore.prompt
-                    binding.favouriteCount.text = "${if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount} Uses"
-                    binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
-
-                    initExploreData(explore = explore)
+            binding.preview.load(explore.previews.getOrNull(previewIndex), errorRes = R.drawable.place_holder_image) { drawable ->
+                drawable?.let {
+                    binding.preview.setImageDrawable(drawable)
+                    binding.preview.animate().alpha(1f).setDuration(250).start()
+                    binding.viewShadow.animate().alpha(1f).setDuration(250).start()
                 }
             }
+
+            binding.viewDetail.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = getDimens(com.intuit.sdp.R.dimen._70sdp).toInt()
+            }
+
+            binding.prompt.text = explore.prompt
+            binding.favouriteCount.text = "${if (explore.isFavourite) explore.favouriteCount + 1 else explore.favouriteCount} Uses"
+            binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
+            binding.dislike.setImageResource(if (explore.isDislike) R.drawable.dislike_fill else R.drawable.dislike)
+
+            initExploreData(explore = explore)
         }
     }
 

@@ -469,7 +469,7 @@
                         android:layout_height="wrap_content"
                         app:minValue="0"
                         app:maxValue="100"
-                        app:step="10"
+                        app:step="5"
                         app:value="1"
                         android:layout_gravity="center_horizontal" />
 
