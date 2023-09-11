@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.art.art
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Build
 import android.view.MotionEvent
 import android.view.View
@@ -26,6 +27,7 @@ import com.sola.anime.ai.generator.common.ui.sheet.loRA.SheetLoRA
 import com.sola.anime.ai.generator.common.ui.sheet.model.SheetModel
 import com.sola.anime.ai.generator.common.ui.sheet.photo.SheetPhoto
 import com.sola.anime.ai.generator.common.ui.sheet.style.SheetStyle
+import com.sola.anime.ai.generator.common.widget.quantitizer.QuantitizerListener
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
@@ -57,6 +59,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) {
@@ -358,10 +361,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     else -> 0f
                 }
                 val alpha = scrollY.toFloat() / viewShadowHeight
-//                val alphaBottom = 1 - scrollY.toFloat() / binding.cardGenerate.height.toFloat()
 
                 (activity as? ArtActivity)?.binding?.viewShadow?.alpha = alpha
-//                binding.viewShadowBottom.alpha = alphaBottom
             }
         }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
@@ -406,6 +407,42 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.photo.clicks { sheetPhoto.show(this) }
         binding.random.clicks { binding.editPrompt.setText(tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()) }
+        binding.quantitizer.setQuantitizerListener(object: QuantitizerListener {
+            override fun onIncrease() {
+
+            }
+
+            override fun onDecrease() {
+
+            }
+
+            override fun onValueChanged(value: Int) {
+                binding.cardGenerate.isVisible = value == 1 && loRAAdapter.data.isEmpty()
+                binding.cardGenerateCredit.isVisible = value != 1 || loRAAdapter.data.isNotEmpty()
+
+                when {
+                    value == 1 && loRAAdapter.data.isEmpty() -> {}
+                    value != 1 || loRAAdapter.data.isNotEmpty() -> updateUiCredit(value)
+                }
+            }
+        })
+    }
+
+    private fun updateUiCredit(numberOfImages: Int) {
+        val creditForNumbersOfImages = numberOfImages * (10 + loRAAdapter.data.size * 5)
+        val discount = 0.02
+
+        configApp.discountCreditBatch = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
+
+        val totalCredit = creditForNumbersOfImages
+
+        binding.discountCredit.text = configApp.discountCreditBatch.toString()
+        binding.totalCredit.apply {
+            text = totalCredit.toString()
+            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            isVisible = configApp.discountCreditBatch != totalCredit
+        }
+        binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
     }
 
     private fun loRAClicks() {
@@ -505,7 +542,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             guidance = sheetAdvanced.guidance.toString(),
                             steps = sheetAdvanced.step,
                             model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
-                            sampler = "euler_a",
+                            sampler = "dpmpp_2m_karras",
                             upscale = "2",
                             styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,
@@ -527,7 +564,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             guidance = sheetAdvanced.guidance.toString(),
                             steps = sheetAdvanced.step,
                             model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
-                            sampler = "euler_a",
+                            sampler = "dpmpp_2m_karras",
                             upscale = "2",
                             styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,

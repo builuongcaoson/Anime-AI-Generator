@@ -105,7 +105,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         step = a.getInteger(R.styleable.Quantitizer_step, _step)
 
         /*decrease*/
-        binding.decreaseIb.clicks(debounce = 300L, withAnim = false) {
+        binding.decreaseIb.clicks(debounce = 500L, withAnim = false) {
             hideKeyboard()
 
             when {
@@ -121,7 +121,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
         }
 
         /*increase*/
-        binding.increaseIb.clicks(debounce = 300L, withAnim = false) {
+        binding.increaseIb.clicks(debounce = 500L, withAnim = false) {
             hideKeyboard()
             when {
                 maxValue <= currentValue -> {}
@@ -141,22 +141,22 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
 //            }
 //        }
 
-//        binding.quantityTv.addTextChangedListener(object: TextWatcher{
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                //TODO("Not yet implemented")
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                currentValue = if (s.toString().isNotEmpty() || s.toString() != "") {
-//                    val value = Integer.parseInt(s.toString())
-//                    listener?.onValueChanged(value)
-//                    value
-//                }else{
-//                    0
-//                }
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
+        binding.quantityTv.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                currentValue = if (s.toString().isNotEmpty() || s.toString() != "") {
+                    val value = Integer.parseInt(s.toString())
+                    listener?.onValueChanged(value)
+                    value
+                }else{
+                    0
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
 //                val value = s.toString().toIntOrNull()
 //                if (s.toString().isEmpty()) {
 //                    //do nothing
@@ -170,9 +170,9 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
 //                    Toast.makeText(context, "Max value is $maxValue", Toast.LENGTH_SHORT).show()
 //
 //                }
-//            }
-//
-//        })
+            }
+
+        })
 
         /*TypedArrays are heavyweight objects that should be recycled immediately
          after all the attributes you need have been extracted.*/
@@ -196,7 +196,7 @@ class HorizontalQuantitizer @JvmOverloads constructor(context: Context,
 
         binding.quantityTv.isCursorVisible = false // hide cursor if it's visible
         val increasedValue: Int = when {
-            currentValue == 1 -> 10
+            currentValue == 1 -> step
             else -> currentValue + step
         }
         currentValue = increasedValue

@@ -465,6 +465,7 @@
                         android:textSize="@dimen/_12ssp" />
 
                     <com.sola.anime.ai.generator.common.widget.quantitizer.HorizontalQuantitizer
+                        android:id="@+id/quantitizer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:minValue="0"
@@ -699,7 +700,7 @@
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -759,6 +760,116 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="Watch an ad"
+                        android:textColor="?colorOnSecondary"
+                        android:textSize="@dimen/_10ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardGenerateCredit"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:visibility="gone"
+        app:cardBackgroundColor="?colorPrimary"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/next"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ic_arrow_right"
+                android:tint="?colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Credits:"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_15ssp" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/discountCredit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="10"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_17ssp"
+                    app:textFont="bold" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/totalCredit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="15"
+                    android:textColor="?colorOnPrimary"
+                    android:textSize="@dimen/_15ssp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/next"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Generate"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="@dimen/_13ssp"
+                        app:textFont="semi" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/timeGenerate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="About 1 minute"
                         android:textColor="?colorOnSecondary"
                         android:textSize="@dimen/_10ssp" />
 
