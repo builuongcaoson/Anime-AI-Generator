@@ -429,7 +429,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiCredit(numberOfImages: Int) {
-        val creditForNumbersOfImages = numberOfImages * (10 + loRAAdapter.data.size * 5)
+        val creditForNumbersOfImages = when {
+            numberOfImages == 1 -> loRAAdapter.data.size * 5
+            else -> numberOfImages * (10 + loRAAdapter.data.size * 5)
+        }
         val discount = 0.02
 
         configApp.discountCreditBatch = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
