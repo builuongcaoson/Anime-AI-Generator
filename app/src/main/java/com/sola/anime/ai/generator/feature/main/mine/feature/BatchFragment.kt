@@ -90,9 +90,9 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
             }
             binding.recyclerHistory.apply {
                 this.layoutManager = object: StaggeredGridLayoutManager(2, VERTICAL){
-                    override fun canScrollVertically(): Boolean {
-                        return false
-                    }
+//                    override fun canScrollVertically(): Boolean {
+//                        return false
+//                    }
                 }
                 this.adapter = historyAdapter.apply {
                     this.emptyView = binding.viewEmpty
