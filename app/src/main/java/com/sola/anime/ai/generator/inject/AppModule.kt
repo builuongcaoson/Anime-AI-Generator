@@ -240,7 +240,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideUpscaleApi(): UpscaleApi {
+    fun provideUpscaleApi(configApp: ConfigApp): UpscaleApi {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
             Timber.d(message)
         }
@@ -257,7 +257,7 @@ class AppModule {
                     .request()
                     .newBuilder()
 
-                requestBuilder.addHeader(Constraint.Upscale.HEADER_RAPID_KEY, Constraint.Upscale.RAPID_KEY)
+                requestBuilder.addHeader(Constraint.Upscale.HEADER_RAPID_KEY, configApp.keyUpscale)
                 requestBuilder.addHeader(Constraint.Upscale.HEADER_RAPID_HOST, Constraint.Upscale.RAPID_HOST)
 
                 chain.proceed(requestBuilder.build())

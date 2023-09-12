@@ -35,9 +35,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:text="Result"
-                app:textFont="semi"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_15ssp" />
+                android:textSize="@dimen/_15ssp"
+                app:textFont="semi" />
 
         </LinearLayout>
 
@@ -186,8 +186,7 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:text="Share"
                         android:textColor="?colorOnPrimary"
-                        android:textSize="@dimen/_12ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                 </LinearLayout>
 
@@ -236,8 +235,7 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:text="Download"
                         android:textColor="?colorOnPrimary"
-                        android:textSize="@dimen/_12ssp"
-                        app:textFont="semi" />
+                        android:textSize="@dimen/_12ssp" />
 
                 </LinearLayout>
 
@@ -277,15 +275,23 @@
                         android:src="@drawable/ic_reload"
                         android:tint="?colorOnPrimary" />
 
-                    <com.basic.common.widget.LsTextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Generate More"
-                        android:textColor="?colorOnPrimary"
-                        android:textSize="@dimen/_12ssp"
-                        app:textFont="semi" />
+                        android:orientation="vertical">
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Generate Again (10 Credits)"
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

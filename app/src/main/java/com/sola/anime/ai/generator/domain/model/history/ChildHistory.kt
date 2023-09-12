@@ -14,7 +14,8 @@ data class ChildHistory(
     val width: String,
     val height: String,
     val strength: String?,
-    val seed: String?
+    val seed: String?,
+    val loRAs: List<LoRAHistory>
 ){
 
     var styleId: Long = -1L

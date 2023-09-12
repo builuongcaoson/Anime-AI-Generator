@@ -58,6 +58,9 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     private val sheetModel by lazy { SheetModel() }
     private val sheetStyle by lazy { SheetStyle() }
 
+    private var creditsAfterDiscount = 98f
+    private var creditsPerImage = creditsAfterDiscount / 10
+
     override fun onViewCreated() {
         initView()
         initObservable()
@@ -112,8 +115,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             activity?.let { activity ->
                 analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
 
-                val numberOfImagesCreate = promptAdapter.data.sumOf { it.numberOfImages.number }
-
                 val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
                     val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
                     val negative = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
@@ -122,7 +123,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                         context = activity,
                         prefs = prefs,
                         configApp = configApp,
-                        creditsPerImage = configApp.discountCreditBatch.toFloat() / numberOfImagesCreate.toFloat(),
+                        creditsPerImage = creditsPerImage,
                         groupId = index.toLong(),
                         maxChildId = item.numberOfImages.number - 1,
                         prompt = prompt,
@@ -140,8 +141,9 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 }
 
                 configApp.dezgoBodiesTextsToImages = dezgoBodies
+                configApp.dezgoBodiesImagesToImages = emptyList()
 
-                activity.startBatchProcessing()
+                activity.startBatchProcessing(creditsPerImage = creditsPerImage)
             }
         }
 
@@ -150,7 +152,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 !activity.isNetworkAvailable() -> networkDialog.show(activity) {
                     networkDialog.dismiss()
                 }
-                configApp.discountCreditBatch > prefs.getCredits().roundToInt() -> activity.startCredit()
+                creditsAfterDiscount > prefs.getCredits().roundToInt() -> activity.startCredit()
                 else -> task()
             }
         }
@@ -249,18 +251,17 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     private fun updateUiCredit(){
-        val creditForNumbersOfImages = promptAdapter.data.sumByDouble { (it.numberOfImages.number * if (it.isFullHd) 15.0 else 10.0) }
-        val discount = 0.02
+        val totalCredits = promptAdapter.data.sumByDouble { (it.numberOfImages.number * if (it.isFullHd) 15.0 else 10.0) }.toFloat()
+        val numberOfImages = promptAdapter.data.sumOf { it.numberOfImages.number }
 
-        configApp.discountCreditBatch = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
+        creditsAfterDiscount = (totalCredits - (totalCredits * configApp.discountCredits))
+        creditsPerImage = creditsAfterDiscount / numberOfImages
 
-        val totalCredit = creditForNumbersOfImages.roundToInt()
-
-        binding.discountCredit.text = configApp.discountCreditBatch.toString()
+        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
         binding.totalCredit.apply {
-            text = totalCredit.toString()
+            text = totalCredits.roundToInt().toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = configApp.discountCreditBatch != totalCredit
+            isVisible = creditsAfterDiscount.roundToInt() != totalCredits.roundToInt()
         }
         binding.timeGenerate.text = "About ${((promptAdapter.data.sumOf { it.numberOfImages.number } / 10) + 1)} minute"
     }
@@ -273,16 +274,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     else -> statusBarHeight
                 }
             }
-
-//            binding.recyclerCategory.apply {
-//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-//                this.adapter = categoryAdapter
-//            }
-
-//            binding.recyclerPreviewCategory.apply {
-//                this.layoutManager = LinearLayoutManager(activity, HORIZONTAL, false)
-//                this.adapter = previewCategoryAdapter
-//            }
 
             binding.recyclerPrompt.apply {
                 this.layoutManager = object: LinearLayoutManager(activity, VERTICAL, false){

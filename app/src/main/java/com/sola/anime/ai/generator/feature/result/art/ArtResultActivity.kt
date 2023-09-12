@@ -93,6 +93,9 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private val downloadSheet by lazy { DownloadSheet() }
     private val shareSheet by lazy { ShareSheet() }
 
+    private var creditsAfterDiscount = 10f
+    private var creditsPerImage = 10f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
@@ -193,7 +196,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-            startArtProcessing()
+            startArtProcessing(creditsPerImage = creditsPerImage)
             finish()
         }
 
@@ -211,7 +214,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     admobManager.loadRewardCreateAgain()
                 }
             )
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> makeToast("You have requested more than ${configApp.maxNumberGeneratePremium} times a day")
             else -> task()
         }
     }
@@ -286,6 +289,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 } ?: run {
                     tryOrNull { binding.viewPager.post { binding.viewPager.setCurrentItem(history.childs.lastIndex, false) } }
                 }
+
+                tryOrNull { updateUiCredits() }
             }
         }
     }
@@ -298,6 +303,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .autoDispose(scope())
             .subscribe {
                 tryOrNull { previewAdapter.childHistory = it }
+
+                tryOrNull { updateUiCredits() }
             }
 
         previewAdapter
@@ -315,10 +322,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe {
-                if (upscaleSheet.isAdded){
-                    return@subscribe
-                }
-
                 upscaleSheet.show(this)
             }
 
@@ -544,6 +547,51 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         binding.textPrompt.movementMethod = ScrollingMovementMethod()
+    }
+
+    private fun updateUiCredits() {
+        childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
+            val description = when {
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 2 -> {
+                    creditsAfterDiscount = 14f
+                    creditsPerImage = 14f
+                    "Generate Again (14 Credits)"
+                }
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 1 -> {
+                    creditsAfterDiscount = 12f
+                    creditsPerImage = 12f
+                    "Generate Again (12 Credits)"
+                }
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+                    creditsAfterDiscount = 10f
+                    creditsPerImage = 10f
+                    "Generate Again (10 Credits)"
+                }
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
+                    creditsAfterDiscount = 0f
+                    creditsPerImage = 0f
+                    "Generate Again (Watch an Ad)"
+                }
+                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 2 -> {
+                    creditsAfterDiscount = 14f
+                    creditsPerImage = 14f
+                    "Generate Again (14 Credits)"
+                }
+                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 1 -> {
+                    creditsAfterDiscount = 12f
+                    creditsPerImage = 12f
+                    "Generate Again (12 Credits)"
+                }
+                else -> {
+                    creditsAfterDiscount = 0f
+                    creditsPerImage = 0f
+                    "Generate Again"
+                }
+            }
+            binding.description.text = description
+        } ?: run {
+            binding.description.text = "Generate Again"
+        }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

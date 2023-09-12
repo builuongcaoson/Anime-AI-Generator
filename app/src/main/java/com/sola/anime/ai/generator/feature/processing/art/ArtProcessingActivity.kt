@@ -60,6 +60,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var prefs: Preferences
 
+    private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
@@ -205,6 +206,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
                                                 when {
                                                     dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
+                                                        prefs.setCredits(prefs.getCredits() - creditsPerImage)
+
                                                         startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
                                                         finish()
                                                     }

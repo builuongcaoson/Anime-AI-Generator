@@ -57,6 +57,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
 
+    private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
     private var isSuccessAll = false
     private val downloadSheet by lazy { DownloadSheet() }
@@ -160,7 +161,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateImagesToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - (configApp.discountCreditAvatar.toFloat() / dezgoStatusImagesToImages.size.toFloat()))
+                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp

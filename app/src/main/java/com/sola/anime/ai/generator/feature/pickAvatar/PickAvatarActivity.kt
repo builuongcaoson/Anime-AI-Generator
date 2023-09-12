@@ -20,7 +20,6 @@ import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityPickAvatarBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.domain.repo.DetectFaceRepository
@@ -33,7 +32,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -72,6 +70,9 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
         }
     }
 
+    private var creditsAfterDiscount = 98f
+    private var creditsPerImage = creditsAfterDiscount / 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
@@ -86,21 +87,19 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
     }
 
     private fun updateUiCredit(){
-        val creditForNumbersOfImages = photoAdapter.data.size * 40.0f
-        val discount = 0.02
+        val totalCredits = photoAdapter.data.size * 40.0f
+        val numberOfImages = photoAdapter.data.size * 4
 
-        Timber.e("DiscountCredits: ${(creditForNumbersOfImages - (creditForNumbersOfImages * discount))}")
+        creditsAfterDiscount = (totalCredits - (totalCredits * configApp.discountCredits))
+        creditsPerImage = totalCredits / numberOfImages
 
-        configApp.discountCreditAvatar = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
-        val totalCredit = creditForNumbersOfImages.roundToInt()
-
-        binding.discountCredit.text = configApp.discountCreditAvatar.toString()
+        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
         binding.totalCredit.apply {
-            text = totalCredit.toString()
+            text = totalCredits.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = configApp.discountCreditAvatar != totalCredit
+            isVisible = creditsAfterDiscount != totalCredits
         }
-        binding.timeGenerate.text = "About ${((photoAdapter.data.size * 4 / 10) + 1)} minute"
+        binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
     }
 
     private fun detectFaceUris(uris: List<Uri>) {
@@ -151,7 +150,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                         context = this@PickAvatarActivity,
                         prefs = prefs,
                         configApp = configApp,
-                        creditsPerImage = configApp.discountCreditBatch.toFloat() / (urisCropCenter.size * 4).toFloat(),
+                        creditsPerImage = creditsPerImage,
                         groupId = index.toLong(),
                         maxChildId = 3,
                         initImage = uri,
@@ -173,7 +172,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                 configApp.dezgoBodiesImagesToImages = dezgoBodies
 
                 launch(Dispatchers.Main){
-                    startAvatarProcessing()
+                    startAvatarProcessing(creditsPerImage = creditsPerImage)
                     finish()
                 }
             }
@@ -184,7 +183,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
             !isNetworkAvailable() -> networkDialog.show(this) {
                 networkDialog.dismiss()
             }
-            configApp.discountCreditAvatar > prefs.getCredits().roundToInt() -> startCredit()
+            creditsAfterDiscount > prefs.getCredits().roundToInt() -> startCredit()
             else -> task()
         }
     }

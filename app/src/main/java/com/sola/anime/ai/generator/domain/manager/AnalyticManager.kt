@@ -3,7 +3,6 @@ package com.sola.anime.ai.generator.domain.manager
 interface AnalyticManager {
 
     enum class TYPE {
-        FIRST_SYNC_PURCHASED,
         CLICKED_INVITE,
         CLICKED_RATING,
         CLICKED_SUPPORT,
@@ -15,8 +14,8 @@ interface AnalyticManager {
         GENERATE_FAILED,
         GENERATE_FAILED_BATCH,
         GENERATE_FAILED_AVATAR,
-        SYNC_USER_PREMIUM_FAILED,
         GENERATE_CLICKED,
+        GENERATE_CREDITS_CLICKED,
         GENERATE_BATCH_CLICKED,
         GENERATE_AVATAR_CLICKED,
         UPSCALE_CLICKED,

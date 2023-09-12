@@ -29,7 +29,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:cardCornerRadius="@dimen/_15sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp">
 
                 <androidx.appcompat.widget.AppCompatImageView

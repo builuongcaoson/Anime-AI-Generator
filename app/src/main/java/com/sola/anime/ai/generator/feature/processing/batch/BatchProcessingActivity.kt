@@ -48,6 +48,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
 
+    private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var isSuccessAll = false
     private val downloadSheet by lazy { DownloadSheet() }
@@ -143,7 +144,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                                 markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             }
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - (configApp.discountCreditBatch.toFloat() / dezgoStatusTextsToImages.size.toFloat()))
+                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
                                 Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
 
                                 configApp

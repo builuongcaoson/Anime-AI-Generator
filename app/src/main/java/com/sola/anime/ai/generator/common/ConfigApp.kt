@@ -35,8 +35,11 @@ class ConfigApp @Inject constructor(
     var versionModel = prefs.versionModel.get()
     var keyDezgo = Constraint.Dezgo.KEY
     var keyDezgoPremium = Constraint.Dezgo.KEY_PREMIUM
+    var keyUpscale = Constraint.Upscale.RAPID_KEY
     var blockDeviceIds = listOf("")
     var blockedRoot = true
+
+    var discountCredits = 0.02f
 
     // Art & Batch
     var resPhoto: Int? = null
@@ -51,9 +54,6 @@ class ConfigApp @Inject constructor(
         }
     var dezgoBodiesTextsToImages: List<DezgoBodyTextToImage> = listOf()
     var dezgoBodiesImagesToImages: List<DezgoBodyImageToImage> = listOf()
-    var discountCreditArt: Int = 0 // For tab art
-    var discountCreditBatch: Int = 10 // For tab batch
-    var discountCreditAvatar: Int = 0 // For avatar
     var creditsRemaining = prefs.getCredits()
 
     // RxJava

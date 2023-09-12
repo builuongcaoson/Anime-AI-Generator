@@ -9,7 +9,6 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -92,12 +91,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val sheetLoRA by lazy { SheetLoRA() }
     private val sheetExplore by lazy { SheetExplore() }
 
-    private val snapHelperNumberOfImages by lazy { LinearSnapHelper() }
-
     var modelId = -1L
     var exploreId = -1L
     var loRAGroupId = -1L
     var loRAId = -1L
+
+    private var creditsAfterDiscount = 10f
+    private var creditsPerImage = 10f
 
     override fun onViewCreated() {
         initView()
@@ -165,6 +165,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId))
 
                 sheetLoRA.loRAs = loRAAdapter.data
+
+                updateUiCredit()
             }
         }
 
@@ -305,33 +307,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
-        prefs
-            .isUpgraded
-            .asObservable()
+        Observable.zip(
+            prefs.isUpgraded.asObservable(),
+            prefs.numberCreatedArtwork.asObservable()
+        ){ _, _ -> }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
-            .subscribe { isUpgraded ->
-                binding.iconWatchAd.isVisible = !isUpgraded
-                binding.textDescription.isVisible = !isUpgraded
-            }
-
-        prefs
-            .numberCreatedArtwork
-            .asObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
-            .subscribe { number ->
-                when {
-                    prefs.getCredits() >= 10f -> {
-                        binding.iconWatchAd.isVisible = false
-                        binding.textDescription.isVisible = true
-                        binding.textDescription.text = "Credits: 10"
-                    }
-
-                }
-            }
+            .subscribe { updateUiCredit() }
     }
 
     private fun updateUiExplore(explore: Explore?) {
@@ -342,7 +325,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
         }
 
-        explore?.let { binding.editPrompt.setText(explore.prompt) }
+        explore?.let {
+            binding.editPrompt.setText(explore.prompt)
+
+            val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.id } }
+            updateUiModel(model)
+        }
     }
 
     private fun updateUiStyle(style: Style?){
@@ -366,6 +354,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
         }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
+        binding.cardGenerateCredit.clicks(withAnim = false) { generateCreditClicks() }
         binding.viewModel.clicks(withAnim = false) { modelClicks() }
         binding.viewStyle.clicks(withAnim = false) { styleClicks() }
         binding.viewLoRA.clicks(withAnim = false) { loRAClicks() }
@@ -417,35 +406,52 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             override fun onValueChanged(value: Int) {
-                binding.cardGenerate.isVisible = value == 1 && loRAAdapter.data.isEmpty()
-                binding.cardGenerateCredit.isVisible = value != 1 || loRAAdapter.data.isNotEmpty()
-
-                when {
-                    value == 1 && loRAAdapter.data.isEmpty() -> {}
-                    value != 1 || loRAAdapter.data.isNotEmpty() -> updateUiCredit(value)
-                }
+                updateUiCredit()
             }
         })
     }
 
-    private fun updateUiCredit(numberOfImages: Int) {
-        val creditForNumbersOfImages = when {
-            numberOfImages == 1 -> loRAAdapter.data.size * 5
-            else -> numberOfImages * (10 + loRAAdapter.data.size * 5)
+    private fun updateUiCredit() {
+        val numberOfImages = binding.quantitizer.value
+
+        val creditsForNumbersOfImages = when (numberOfImages) {
+            1 -> loRAAdapter.data.size * 2
+            else -> numberOfImages * (10 + loRAAdapter.data.size * 2)
         }
-        val discount = 0.02
 
-        configApp.discountCreditBatch = (creditForNumbersOfImages - (creditForNumbersOfImages * discount)).roundToInt()
+        creditsAfterDiscount = (creditsForNumbersOfImages - (creditsForNumbersOfImages * configApp.discountCredits))
+        creditsPerImage = (creditsAfterDiscount / numberOfImages.toFloat())
 
-        val totalCredit = creditForNumbersOfImages
-
-        binding.discountCredit.text = configApp.discountCreditBatch.toString()
+        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
         binding.totalCredit.apply {
-            text = totalCredit.toString()
+            text = creditsForNumbersOfImages.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = configApp.discountCreditBatch != totalCredit
+            isVisible = creditsAfterDiscount.roundToInt() != creditsForNumbersOfImages
         }
         binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
+
+        binding.cardGenerate.isVisible = when {
+            numberOfImages != -1 -> false
+            loRAAdapter.data.isNotEmpty() -> false
+            prefs.isUpgraded.get() -> true
+            else -> false
+        }
+        binding.cardGenerateCredit.isVisible = !binding.cardGenerate.isVisible
+        binding.iconWatchAd.isVisible = when {
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
+            else -> false
+        }
+        binding.textDescription.isVisible = when {
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
+            else -> false
+        }
+        binding.textDescription.text = when {
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "$creditsPerImage Credits"
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> "Watch an Ad"
+            else -> ""
+        }
     }
 
     private fun loRAClicks() {
@@ -470,6 +476,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
             sheetLoRA.loRAs = loRAAdapter.data
+
+            updateUiCredit()
         }
         sheetLoRA.detailsClicks = { loRAPreview ->
             lifecycleScope.launch(Dispatchers.Main) {
@@ -510,8 +518,87 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         sheetModel.show(this)
     }
 
+    private fun generateCreditClicks() {
+        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().randomOrNull()?.prompt } ?: listOf("Girl", "Boy").random()
+
+        analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CREDITS_CLICKED)
+
+        val task = {
+            activity?.let { activity ->
+                val photoType = tryOrNull { sheetPhoto.photoAdapter.photo }
+                val photoUri = when {
+                    photoType != null && photoType is SheetPhoto.PhotoType.Photo && photoType.photoStorage != null -> {
+                        photoType.photoStorage.uriString.toUri()
+                    }
+                    photoType != null && photoType is SheetPhoto.PhotoType.Photo && photoType.preview != null -> {
+                        activity.getDrawableUri(photoType.preview)
+                    }
+                    else -> null
+                }
+                when {
+                    photoUri != null -> {
+                        val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
+
+                        configApp.dezgoBodiesTextsToImages = emptyList()
+                        configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
+                            context = activity,
+                            prefs = prefs,
+                            configApp = configApp,
+                            creditsPerImage = creditsPerImage,
+                            groupId = 0,
+                            maxChildId = binding.quantitizer.value - 1,
+                            initImage = photoUri,
+                            prompt = prompt,
+                            negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                            guidance = sheetAdvanced.guidance.toString(),
+                            steps = sheetAdvanced.step,
+                            model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
+                            sampler = "dpmpp_2m_karras",
+                            upscale = "2",
+                            styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
+                            ratio = aspectRatioAdapter.ratio,
+                            strength = strength.toString(),
+                            seed = null,
+                            type = 0
+                        )
+                    }
+                    else -> {
+                        configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
+                            context = activity,
+                            prefs = prefs,
+                            configApp = configApp,
+                            creditsPerImage = creditsPerImage,
+                            groupId = 0,
+                            maxChildId = binding.quantitizer.value - 1,
+                            prompt = prompt,
+                            negative = sheetAdvanced.negative.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE,
+                            guidance = sheetAdvanced.guidance.toString(),
+                            steps = sheetAdvanced.step,
+                            model = tryOrNull { sheetModel.model?.modelId } ?: Constraint.Dezgo.DEFAULT_MODEL,
+                            sampler = "dpmpp_2m_karras",
+                            upscale = "2",
+                            styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
+                            ratio = aspectRatioAdapter.ratio,
+                            seed = null,
+                            type = 0
+                        )
+                        configApp.dezgoBodiesImagesToImages = emptyList()
+                    }
+                }
+
+                activity.startBatchProcessing(creditsPerImage = creditsPerImage)
+            }
+        }
+
+        when {
+            !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
+            creditsAfterDiscount >= prefs.getCredits() -> activity?.startCredit()
+            else -> task()
+        }
+    }
+
     private fun generateClicks() {
-        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
+        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().randomOrNull()?.prompt } ?: listOf("Girl", "Boy").random()
 
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
@@ -578,7 +665,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startArtProcessing()
+                activity.startArtProcessing(creditsPerImage = creditsPerImage)
             }
         }
 
@@ -598,7 +685,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 )
             }
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> activity?.makeToast("You have requested more than ${Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY} times a day")
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> activity?.makeToast("You have requested more than ${configApp.maxNumberGeneratePremium} times a day")
             else -> task()
         }
     }

@@ -144,6 +144,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
                     configApp.keyDezgo = tryOrNull { config.getString("key_dezgo").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
                     configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
@@ -160,6 +161,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
                     Timber.e("Key decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
                     Timber.e("Key premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
+                    Timber.e("Key upscale: ${configApp.keyUpscale}")
                     configApp.blockDeviceIds.forEach { value ->
                         Timber.e("Block device id: $value")
                     }

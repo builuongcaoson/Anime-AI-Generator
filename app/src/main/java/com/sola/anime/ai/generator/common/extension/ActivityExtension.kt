@@ -96,20 +96,23 @@ fun Activity.startArt(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long =
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
-fun Activity.startArtProcessing(){
+fun Activity.startArtProcessing(creditsPerImage: Float){
     val intent = Intent(this, ArtProcessingActivity::class.java)
+    intent.putExtra("creditsPerImage", creditsPerImage)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startBatchProcessing(){
+fun Activity.startBatchProcessing(creditsPerImage: Float){
     val intent = Intent(this, BatchProcessingActivity::class.java)
+    intent.putExtra("creditsPerImage", creditsPerImage)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startAvatarProcessing(){
+fun Activity.startAvatarProcessing(creditsPerImage: Float){
     val intent = Intent(this, AvatarProcessingActivity::class.java)
+    intent.putExtra("creditsPerImage", creditsPerImage)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
