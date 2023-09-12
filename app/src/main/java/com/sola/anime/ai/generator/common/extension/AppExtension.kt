@@ -9,7 +9,9 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
+import com.sola.anime.ai.generator.domain.model.history.LoRAHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
@@ -48,7 +50,8 @@ fun BodyTextToImage.toChildHistory(pathPreview: String): ChildHistory {
         width = this.width,
         height = this.height,
         strength = null,
-        seed = this.seed
+        seed = this.seed,
+        loRAs = this.loRAs
     ).apply {
         this.styleId = this@toChildHistory.styleId
         this.type = this@toChildHistory.type
@@ -69,7 +72,8 @@ fun BodyImageToImage.toChildHistory(photoUriString: String, pathPreview: String)
         width = this.width,
         height = this.height,
         strength = null,
-        seed = this.seed
+        seed = this.seed,
+        loRAs = this.loRAs
     ).apply {
         this.styleId = this@toChildHistory.styleId
         this.type = this@toChildHistory.type
@@ -90,7 +94,8 @@ fun BodyImageToImage.toChildHistory(newPrompt: String, photoUriString: String, p
         width = this.width,
         height = this.height,
         strength = null,
-        seed = this.seed
+        seed = this.seed,
+        loRAs = this.loRAs
     ).apply {
         this.styleId = this@toChildHistory.styleId
         this.type = this@toChildHistory.type
@@ -114,6 +119,7 @@ fun initDezgoBodyTextsToImages(
     styleId: Long,
     ratio: Ratio,
     seed: Long?,
+    loRAs: List<LoRAHistory>,
     type: Int,
 ): List<DezgoBodyTextToImage>{
     val datas = arrayListOf<DezgoBodyTextToImage>()
@@ -137,6 +143,7 @@ fun initDezgoBodyTextsToImages(
                 styleId = styleId,
                 ratio = ratio,
                 seed = seed,
+                loRAs = loRAs,
                 type = type
             )
         )
@@ -161,6 +168,7 @@ fun initBodyTextsToImages(
     styleId: Long,
     ratio: Ratio,
     seed: Long?,
+    loRAs: List<LoRAHistory>,
     type: Int
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
@@ -198,7 +206,8 @@ fun initBodyTextsToImages(
                 upscale = upscale,
                 width = ratio.width,
                 height = ratio.height,
-                seed = seed?.toString()
+                seed = seed?.toString(),
+                loRAs = loRAs
             ).apply {
                 this.styleId = styleId
                 this.type = type
@@ -227,6 +236,7 @@ fun initDezgoBodyImagesToImages(
     ratio: Ratio,
     strength: String,
     seed: Long?,
+    loRAs: List<LoRAHistory>,
     type: Int,
 ): List<DezgoBodyImageToImage>{
     val datas = arrayListOf<DezgoBodyImageToImage>()
@@ -252,6 +262,7 @@ fun initDezgoBodyImagesToImages(
                 ratio = ratio,
                 strength = strength,
                 seed = seed,
+                loRAs = loRAs,
                 type = type
             )
         )
@@ -278,6 +289,7 @@ fun initBodyImagesToImages(
     ratio: Ratio,
     strength: String,
     seed: Long?,
+    loRAs: List<LoRAHistory>,
     type: Int
 ): List<BodyImageToImage>{
     val bodies = arrayListOf<BodyImageToImage>()
@@ -317,7 +329,8 @@ fun initBodyImagesToImages(
                 width = ratio.width,
                 height = ratio.height,
                 seed = seed?.toString(),
-                strength = strength
+                strength = strength,
+                loRAs = loRAs
             ).apply {
                 this.styleId = styleId
                 this.type = type

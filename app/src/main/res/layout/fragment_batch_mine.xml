@@ -86,9 +86,9 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    app:cardBackgroundColor="?colorPrimary"
+                    app:cardBackgroundColor="?colorSecondary"
                     app:cardCornerRadius="@dimen/_5sdp"
-                    app:cardElevation="@dimen/_3sdp"
+                    app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Try now"
-                        android:textColor="?colorOnPrimary"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.card.MaterialCardView>

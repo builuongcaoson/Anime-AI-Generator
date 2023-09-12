@@ -8,7 +8,6 @@ import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
@@ -18,9 +17,6 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -41,7 +37,6 @@ import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.domain.repo.UpscaleApiRepository
 import com.sola.anime.ai.generator.feature.result.art.adapter.PagePreviewAdapter
 import com.sola.anime.ai.generator.feature.result.art.adapter.PreviewAdapter
-import com.sola.anime.ai.generator.inject.upscale.UpscaleApi
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -135,6 +130,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
         binding.viewPro.clicks { startIap() }
+        binding.viewCredit.clicks { startCredit() }
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
         binding.cardShare.clicks { tryOrNull { shareClicks() } }
         binding.cardDownload.clicks { tryOrNull { downloadClicks() } }
@@ -168,6 +164,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         ratio = Ratio.values().firstOrNull { it.width == childHistory.width && it.height == childHistory.height } ?: Ratio.Ratio1x1,
                         strength = childHistory.strength ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG,
                         seed = null,
+                        loRAs = childHistory.loRAs,
                         type = childHistory.type
                     )
                     configApp.dezgoBodiesTextsToImages = listOf()
@@ -190,6 +187,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         styleId = history.styleId,
                         ratio = Ratio.values().firstOrNull { it.width == childHistory.width && it.height == childHistory.height } ?: Ratio.Ratio1x1,
                         seed = null,
+                        loRAs = childHistory.loRAs,
                         type = childHistory.type
                     )
                     configApp.dezgoBodiesImagesToImages = listOf()
@@ -597,7 +595,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() -> admobManager.showRewardCreateAgain(
+            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showRewardCreateAgain(
                 this,
                 success = {
                     back()

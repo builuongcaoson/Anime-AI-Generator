@@ -41,13 +41,13 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     }
 
     private fun listenerView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
-
-                binding.viewShadow.alpha = alpha
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+//                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
+//
+//                binding.viewShadow.alpha = alpha
+//            }
+//        }
         binding.viewSetting.clicks { activity?.startSetting() }
     }
 

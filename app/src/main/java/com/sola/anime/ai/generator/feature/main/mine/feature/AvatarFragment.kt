@@ -55,10 +55,6 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
             .plusClicks
             .autoDispose(scope())
             .subscribe {
-                if (addFolderSheet.isAdded){
-                    return@subscribe
-                }
-
                 addFolderSheet.show(this)
             }
     }

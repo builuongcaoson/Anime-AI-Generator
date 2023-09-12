@@ -136,6 +136,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                         styleId = item.style?.id ?: -1,
                         ratio = item.ratio,
                         seed = null,
+                        loRAs = listOf(),
                         type = 1
                     )
                 }

@@ -165,6 +165,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                         ratio = Ratio.Ratio1x1,
                         strength = strength.toString(),
                         seed = null,
+                        loRAs = listOf(),
                         type = 2
                     )
                 }

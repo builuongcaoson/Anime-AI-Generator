@@ -142,21 +142,20 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
-//                        val decryptKey = when {
-//                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-//                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-//                        }
+                        val decryptKey = when {
+                            prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
+                            else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+                        }
 
-                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-                        val subFeature = "art"
-                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+//                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
+//                        val subFeature = "art"
+//                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
+//                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+//                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
                         dezgoApiRepo.generateTextsToImages(
-//                            keyApi = decryptKey,
-                            isPremium = prefs.isUpgraded.get(),
-                            subNegative = subNegative,
+                            keyApi = decryptKey,
+                            subNegative = "",
                             datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                             progress = { progress ->
                                 when (progress){
@@ -249,21 +248,20 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     lifecycleScope.launch {
                         val deferredHistoryIds = arrayListOf<Long?>()
 
-//                        val decryptKey = when {
-//                            !prefs.isUpgraded.get() -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-//                            else -> AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-//                        }
+                        val decryptKey = when {
+                            prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
+                            else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+                        }
 
-                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-                        val subFeature = "art"
-                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+//                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
+//                        val subFeature = "art"
+//                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
+//                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+//                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
                         dezgoApiRepo.generateImagesToImages(
-//                            keyApi = decryptKey,
-                            isPremium = prefs.isUpgraded.get(),
-                            subNegative = subNegative,
+                            keyApi = decryptKey,
+                            subNegative = "",
                             datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                             progress = { progress ->
                                 when (progress){

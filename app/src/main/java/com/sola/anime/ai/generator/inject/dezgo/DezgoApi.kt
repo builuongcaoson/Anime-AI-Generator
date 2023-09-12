@@ -23,6 +23,10 @@ interface DezgoApi {
         @Part("model") model: RequestBody,
         @Part("width") width: RequestBody,
         @Part("height") height: RequestBody,
+        @Part("lora1") lora1: RequestBody?,
+        @Part("lora1_strength") lora1Strength: RequestBody?,
+        @Part("lora2") lora2: RequestBody?,
+        @Part("lora2_strength") lora2Strength: RequestBody?,
         @Part("seed") seed: RequestBody?
     ): ResponseBody
 
@@ -38,9 +42,13 @@ interface DezgoApi {
         @Part("sampler") sampler: RequestBody,
         @Part("steps") steps: RequestBody,
         @Part("model") model: RequestBody,
-        @Part("seed") seed: RequestBody?,
         @Part("strength") strength: RequestBody,
-        @Part file: MultipartBody.Part
+        @Part("lora1") lora1: RequestBody?,
+        @Part("lora1_strength") lora1Strength: RequestBody?,
+        @Part("lora2") lora2: RequestBody?,
+        @Part("lora2_strength") lora2Strength: RequestBody?,
+        @Part file: MultipartBody.Part,
+        @Part("seed") seed: RequestBody?
     ): ResponseBody
 
 }

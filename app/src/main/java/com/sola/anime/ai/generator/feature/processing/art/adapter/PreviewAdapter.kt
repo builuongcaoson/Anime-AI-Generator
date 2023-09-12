@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.feature.processing.art.adapter
 
-import android.content.Context
 import com.basic.common.base.LsAdapter
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.databinding.ItemPreviewArtProcessingBinding

@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
@@ -113,11 +114,14 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-                val subNegative = ""
+//                val decryptKey = when {
+//                    prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
+//                    else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+//                }
 
                 dezgoApiRepo.generateTextsToImages(
-                    isPremium = true,
-                    subNegative = subNegative,
+                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+                    subNegative = "subNegative",
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){

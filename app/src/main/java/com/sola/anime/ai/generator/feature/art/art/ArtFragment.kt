@@ -40,6 +40,7 @@ import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
+import com.sola.anime.ai.generator.domain.model.history.LoRAHistory
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
@@ -162,7 +163,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 else -> null
             }
             loRA?.let {
-                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId))
+                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId, strength = 0.7f))
 
                 sheetLoRA.loRAs = loRAAdapter.data
 
@@ -171,7 +172,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
 
         loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
-            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id) } }
+            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id, strength = 0.7f) } }
 
             val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
             val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
@@ -431,10 +432,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
 
         binding.cardGenerate.isVisible = when {
-            numberOfImages != -1 -> false
+            numberOfImages != 1 -> false
             loRAAdapter.data.isNotEmpty() -> false
-            prefs.isUpgraded.get() -> true
-            else -> false
+            else -> true
         }
         binding.cardGenerateCredit.isVisible = !binding.cardGenerate.isVisible
         binding.iconWatchAd.isVisible = when {
@@ -559,6 +559,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             ratio = aspectRatioAdapter.ratio,
                             strength = strength.toString(),
                             seed = null,
+                            loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
                             type = 0
                         )
                     }
@@ -580,6 +581,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,
                             seed = null,
+                            loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
                             type = 0
                         )
                         configApp.dezgoBodiesImagesToImages = emptyList()
@@ -638,6 +640,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             ratio = aspectRatioAdapter.ratio,
                             strength = strength.toString(),
                             seed = null,
+                            loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
                             type = 0
                         )
                     }
@@ -659,6 +662,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             styleId = tryOrNull { sheetStyle.style?.id } ?: -1,
                             ratio = aspectRatioAdapter.ratio,
                             seed = null,
+                            loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
                             type = 0
                         )
                         configApp.dezgoBodiesImagesToImages = emptyList()

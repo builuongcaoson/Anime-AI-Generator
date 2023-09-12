@@ -125,16 +125,15 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
 
 //                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
 
-                val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-                val subFeature = "avatar"
-                val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-                val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-                val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
+//                val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
+//                val subFeature = "avatar"
+//                val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
+//                val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+//                val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
                 dezgoApiRepo.generateImagesToImages(
-//                    keyApi = decryptKey,
-                    isPremium = true,
-                    subNegative = subNegative,
+                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+                    subNegative = "subNegative",
                     datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->
                         when (progress){

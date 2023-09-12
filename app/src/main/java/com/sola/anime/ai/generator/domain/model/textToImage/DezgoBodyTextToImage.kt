@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.domain.model.textToImage
 import android.net.Uri
 import androidx.annotation.Keep
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.sola.anime.ai.generator.domain.model.history.LoRAHistory
 import okhttp3.ResponseBody
 
 data class ResponseTextToImage(
@@ -31,7 +32,8 @@ data class BodyTextToImage(
     val model: String,
     val width: String,
     val height: String,
-    val seed: String?
+    val seed: String?,
+    val loRAs: List<LoRAHistory>
 ) {
     var styleId: Long = -1L
     var type: Int = 0 // 0: Artwork, 1: Batch, 2: Avatar
@@ -52,7 +54,8 @@ data class BodyImageToImage(
     val width: String,
     val height: String,
     val seed: String?,
-    val strength: String
+    val strength: String,
+    val loRAs: List<LoRAHistory>
 ) {
     var styleId: Long = -1L
     var type: Int = 0 // 0: Artwork, 1: Batch, 2: Avatar
