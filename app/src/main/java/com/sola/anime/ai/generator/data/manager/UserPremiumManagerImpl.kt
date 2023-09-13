@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.roundToInt
 
 @Singleton
 class UserPremiumManagerImpl @Inject constructor(
@@ -28,14 +29,14 @@ class UserPremiumManagerImpl @Inject constructor(
     private val prefs: Preferences
 ): UserPremiumManager {
 
-    override suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased? = withContext(Dispatchers.IO){
+    override suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased = withContext(Dispatchers.IO){
         val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) } ?: UserPurchased()
 
         userPurchased.deviceId = context.getDeviceId()
         userPurchased.deviceModel = getDeviceModel()
-        userPurchased.credits = prefs.getCredits()
+        userPurchased.credits = prefs.getCredits().roundToInt()
         userPurchased.numberCreatedArtwork = when {
             packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) -> 0
             packagePurchased.contains(Constraint.Iap.SKU_WEEK) -> 0
@@ -44,7 +45,7 @@ class UserPremiumManagerImpl @Inject constructor(
             packagePurchased.contains(Constraint.Iap.SKU_YEAR) -> 0
             else -> prefs.numberCreatedArtwork.get()
         }
-        userPurchased.latestTimeCreatedArtwork = if (prefs.latestTimeCreatedArtwork.isSet) prefs.latestTimeCreatedArtwork.get().getTimeFormatted() else ""
+        userPurchased.latestTimeCreatedArtwork = prefs.latestTimeCreatedArtwork.get().getTimeFormatted()
         userPurchased.productsPurchased.add(
             ProductPurchased().apply {
                 this.packagePurchased = packagePurchased
@@ -75,7 +76,7 @@ class UserPremiumManagerImpl @Inject constructor(
         userPurchased?.let {
             Timber.e("User purchased: ${Gson().toJson(userPurchased)}")
 
-            prefs.setCredits(userPurchased.credits)
+            prefs.setCredits(userPurchased.credits.toFloat())
             prefs.numberCreatedArtwork.set(userPurchased.numberCreatedArtwork)
             prefs.latestTimeCreatedArtwork.set(userPurchased.latestTimeCreatedArtwork.toDate()?.time ?: -1)
 
@@ -107,7 +108,38 @@ class UserPremiumManagerImpl @Inject constructor(
         Unit
     }
 
-    override suspend fun createdArtwork() {
+    override suspend fun updateCredits(newCredits: Float) = withContext(Dispatchers.IO) {
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val snapshot = reference.get().await()
+        val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
 
+        userPurchased?.let {
+            val hashMap = hashMapOf<String, Any>()
+            hashMap["credits"] = newCredits.roundToInt()
+            hashMap["numberCreatedArtwork"] = prefs.numberCreatedArtwork.get()
+            hashMap["latestTimeCreatedArtwork"] = prefs.latestTimeCreatedArtwork.get().getTimeFormatted()
+
+            reference.updateChildren(hashMap).await()
+        }
+
+        userPurchased != null
     }
+
+    override suspend fun createdArtwork(newCredits: Float) = withContext(Dispatchers.IO) {
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val snapshot = reference.get().await()
+        val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
+
+        userPurchased?.let {
+            val hashMap = hashMapOf<String, Any>()
+            hashMap["credits"] = newCredits.roundToInt()
+            hashMap["numberCreatedArtwork"] = prefs.numberCreatedArtwork.get() + 1
+            hashMap["latestTimeCreatedArtwork"] = System.currentTimeMillis().getTimeFormatted()
+
+            reference.updateChildren(hashMap).await()
+        }
+
+        userPurchased != null
+    }
+
 }

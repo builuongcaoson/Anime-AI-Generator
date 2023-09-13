@@ -9,7 +9,6 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
-import com.sola.anime.ai.generator.domain.model.config.lora.LoRA
 import com.sola.anime.ai.generator.domain.model.history.ChildHistory
 import com.sola.anime.ai.generator.domain.model.history.LoRAHistory
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
@@ -344,7 +343,7 @@ fun Long.isToday(): Boolean {
     return DateUtils.isToday(this)
 }
 
-fun Long.isOlderThanYesterday(): Boolean {
+fun Long.isYesterdayOrThan(): Boolean {
     val currentTime = System.currentTimeMillis()
 
     val calendar = Calendar.getInstance()

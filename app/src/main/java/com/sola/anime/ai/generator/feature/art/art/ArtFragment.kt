@@ -97,7 +97,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     var loRAGroupId = -1L
     var loRAId = -1L
 
-    private var creditsAfterDiscount = 10f
+    private var totalCreditsDeducted = 10f
     private var creditsPerImage = 10f
 
     override fun onViewCreated() {
@@ -415,19 +415,19 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private fun updateUiCredit() {
         val numberOfImages = binding.quantitizer.value
 
-        val creditsForNumbersOfImages = when (numberOfImages) {
-            1 -> loRAAdapter.data.size * 2
+        val creditsForNumbersOfImages = when {
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> 10 + (loRAAdapter.data.size * 2)
             else -> numberOfImages * (10 + loRAAdapter.data.size * 2)
         }
 
-        creditsAfterDiscount = (creditsForNumbersOfImages - (creditsForNumbersOfImages * configApp.discountCredits))
-        creditsPerImage = (creditsAfterDiscount / numberOfImages.toFloat())
+        totalCreditsDeducted = (creditsForNumbersOfImages - (creditsForNumbersOfImages * configApp.discountCredits))
+        creditsPerImage = (totalCreditsDeducted / numberOfImages.toFloat())
 
-        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
+        binding.discountCredit.text = totalCreditsDeducted.roundToInt().toString()
         binding.totalCredit.apply {
             text = creditsForNumbersOfImages.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = creditsAfterDiscount.roundToInt() != creditsForNumbersOfImages
+            isVisible = totalCreditsDeducted.roundToInt() != creditsForNumbersOfImages
         }
         binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
 
@@ -445,11 +445,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding.textDescription.isVisible = when {
             !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
             !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> true
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> false
             else -> false
         }
         binding.textDescription.text = when {
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "$creditsPerImage Credits"
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "${creditsPerImage.roundToInt()} Credits"
             !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> "Watch an Ad"
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> "${creditsPerImage.roundToInt()} Credits"
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> ""
             else -> ""
         }
     }
@@ -594,7 +598,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            creditsAfterDiscount >= prefs.getCredits() -> activity?.startCredit()
+            totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
             else -> task()
         }
     }
@@ -669,7 +673,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startArtProcessing(creditsPerImage = creditsPerImage)
+                activity.startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
             }
         }
 
@@ -689,7 +693,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 )
             }
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> activity?.makeToast("You have requested more than ${configApp.maxNumberGeneratePremium} times a day")
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+                when {
+                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
+                    else -> task()
+                }
+            }
             else -> task()
         }
     }

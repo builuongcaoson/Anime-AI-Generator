@@ -39,6 +39,7 @@ class ExploreDialog @Inject constructor() {
 
         initView(explore)
 
+        binding.root.clicks(withAnim = false) { dismiss() }
         binding.close.clicks { dismiss() }
         binding.viewCopy.clicks { explore.prompt.copyToClipboard(activity) }
         binding.viewUse.clicks { useClicks.onNext(explore) }

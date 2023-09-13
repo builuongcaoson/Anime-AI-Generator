@@ -10,12 +10,9 @@ import com.basic.common.extension.tryOrNull
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.getCustomerInfoWith
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -28,7 +25,6 @@ import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
-import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -54,6 +50,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
         Timber.tag("Main12345").e("Device id: ${getDeviceId()}")
+        Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
+        Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
         initView()
         initObservable()
@@ -67,11 +65,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         // Reset number created in days if different days
         when {
-            prefs.latestTimeCreatedArtwork.isSet && prefs.latestTimeCreatedArtwork.get().isToday() -> {}
-            prefs.latestTimeCreatedArtwork.isSet && prefs.latestTimeCreatedArtwork.get().isOlderThanYesterday() -> {
-                prefs.isUpgraded.delete()
-                prefs.timeExpiredPremium.delete()
-            }
+            prefs.latestTimeCreatedArtwork.get().isToday() -> {}
             else -> {
                 prefs.numberCreatedArtwork.delete()
                 prefs.latestTimeCreatedArtwork.delete()
@@ -132,8 +126,14 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 .addOnSuccessListener {
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
-                    configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
-                    configApp.maxNumberGeneratePremium = tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
+                    configApp.maxNumberGenerateFree = when {
+                        BuildConfig.DEBUG -> 3L
+                        else -> tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
+                    }
+                    configApp.maxNumberGeneratePremium = when {
+                        BuildConfig.DEBUG -> 5L
+                        else -> tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
+                    }
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
                     configApp.version = tryOrNull { config.getLong("version") } ?: configApp.version
                     configApp.versionExplore = tryOrNull { config.getLong("version_explore") } ?: configApp.versionExplore
@@ -162,9 +162,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Key decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
                     Timber.e("Key premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
                     Timber.e("Key upscale: ${configApp.keyUpscale}")
-                    configApp.blockDeviceIds.forEach { value ->
-                        Timber.e("Block device id: $value")
-                    }
+                    Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
 
                     done()

@@ -18,27 +18,27 @@ class UserPurchased {
     var deviceModel: String = ""
     @SerializedName("credits")
     @Expose
-    var credits: Float = 0f
-    @SerializedName("number_created_artwork")
+    var credits: Int = 0
+    @SerializedName("numberCreatedArtwork")
     @Expose
     var numberCreatedArtwork: Long = 0
-    @SerializedName("lasted_time_created_artwork")
+    @SerializedName("latestTimeCreatedArtwork")
     @Expose
     var latestTimeCreatedArtwork: String = ""
-    @SerializedName("products_purchased")
+    @SerializedName("productsPurchased")
     @Expose
     var productsPurchased: ArrayList<ProductPurchased?> = arrayListOf()
 }
 
 @Keep
 class ProductPurchased {
-    @SerializedName("package_purchased")
+    @SerializedName("packagePurchased")
     @Expose
     var packagePurchased: String = ""
-    @SerializedName("time_purchased")
+    @SerializedName("timePurchased")
     @Expose
     var timePurchased: String = ""
-    @SerializedName("time_expired")
+    @SerializedName("timeExpired")
     @Expose
     var timeExpired: String = ""
 }

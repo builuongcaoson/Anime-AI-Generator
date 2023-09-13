@@ -19,6 +19,7 @@ import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) {
@@ -69,6 +70,16 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
+            }
+
+        prefs
+            .creditsChanges
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.credits.text = prefs.getCredits().roundToInt().toString()
             }
     }
 

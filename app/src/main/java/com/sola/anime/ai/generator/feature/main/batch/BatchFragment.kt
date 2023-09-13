@@ -249,6 +249,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
             }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
+            }
     }
 
     private fun updateUiCredit(){
