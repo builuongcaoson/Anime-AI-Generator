@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.art
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
@@ -17,7 +18,11 @@ import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAAc
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -81,23 +86,46 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
             .subscribe {
                 binding.credits.text = prefs.getCredits().roundToInt().toString()
             }
+
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+            }
     }
 
     private fun initView() {
-        artFragment.modelId = modelId
-        artFragment.loRAGroupId = loRAGroupId
-        artFragment.loRAId = loRAId
-        artFragment.exploreId = exploreId
+        lifecycleScope.launch {
+//            delay(250L)
 
-        binding.viewPager.apply {
-            this.adapter = LsPageAdapter(supportFragmentManager).apply {
-                this.addFragment(fragment = artFragment, title = "Generate Image")
+            artFragment.modelId = modelId
+            artFragment.loRAGroupId = loRAGroupId
+            artFragment.loRAId = loRAId
+            artFragment.exploreId = exploreId
+
+            binding.viewPager.apply {
+                this.adapter = LsPageAdapter(supportFragmentManager).apply {
+                    this.addFragment(fragment = artFragment, title = "Generate Image")
 //                this.addFragment(fragment = comingSoonFragment, title = "Coming Soon")
+                }
+                this.offscreenPageLimit = this.adapter?.count ?: 1
             }
-            this.offscreenPageLimit = this.adapter?.count ?: 1
-        }
-        binding.tabLayout.apply {
-            this.setupWithViewPager(binding.viewPager)
+            binding.tabLayout.apply {
+                this.setupWithViewPager(binding.viewPager)
+            }
+
+//            delay(2000L)
+//
+//            binding.waitingInitView
+//                .animate()
+//                .alpha(0f)
+//                .withEndAction { binding.waitingInitView.isVisible = false }
+//                .setDuration(250L)
+//                .start()
         }
     }
 

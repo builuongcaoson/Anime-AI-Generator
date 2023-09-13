@@ -54,6 +54,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResultBinding::inflate) {
@@ -88,7 +89,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private val downloadSheet by lazy { DownloadSheet() }
     private val shareSheet by lazy { ShareSheet() }
 
-    private var creditsAfterDiscount = 10f
+    private var totalCreditsDeducted = 10f
     private var creditsPerImage = 10f
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -194,7 +195,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-//            startArtProcessing(creditsPerImage = creditsPerImage)
+            startArtProcessing(totalCreditsDeducted = creditsPerImage, creditsPerImage = creditsPerImage)
             finish()
         }
 
@@ -294,6 +295,16 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     }
 
     private fun initObservable() {
+        prefs
+            .creditsChanges
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.credits.text = prefs.getCredits().roundToInt().toString()
+            }
+
         subjectPageChanges
             .debounce(100, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
@@ -551,37 +562,37 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             val description = when {
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 2 -> {
-                    creditsAfterDiscount = 14f
+                    totalCreditsDeducted = 14f
                     creditsPerImage = 14f
                     "Generate Again (14 Credits)"
                 }
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 1 -> {
-                    creditsAfterDiscount = 12f
+                    totalCreditsDeducted = 12f
                     creditsPerImage = 12f
                     "Generate Again (12 Credits)"
                 }
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-                    creditsAfterDiscount = 10f
+                    totalCreditsDeducted = 10f
                     creditsPerImage = 10f
                     "Generate Again (10 Credits)"
                 }
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
-                    creditsAfterDiscount = 0f
+                    totalCreditsDeducted = 0f
                     creditsPerImage = 0f
                     "Generate Again (Watch an Ad)"
                 }
                 prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 2 -> {
-                    creditsAfterDiscount = 14f
+                    totalCreditsDeducted = 14f
                     creditsPerImage = 14f
                     "Generate Again (14 Credits)"
                 }
                 prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 1 -> {
-                    creditsAfterDiscount = 12f
+                    totalCreditsDeducted = 12f
                     creditsPerImage = 12f
                     "Generate Again (12 Credits)"
                 }
                 else -> {
-                    creditsAfterDiscount = 0f
+                    totalCreditsDeducted = 0f
                     creditsPerImage = 0f
                     "Generate Again"
                 }

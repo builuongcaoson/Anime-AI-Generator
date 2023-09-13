@@ -27,6 +27,7 @@ import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityAvatarProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateImagesToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
@@ -56,6 +57,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
@@ -109,7 +111,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                 analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_AVATAR)
 
                 makeToast("Server error, please wait for us to fix the error or try again!")
-                finish()
+                back()
                 return
             }
         }
@@ -123,17 +125,9 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-//                val decryptKey = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
-
-//                val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-//                val subFeature = "avatar"
-//                val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-//                val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-//                val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
-
                 dezgoApiRepo.generateImagesToImages(
                     keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-                    subNegative = "subNegative",
+                    subNegative = "",
                     datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->
                         when (progress){
@@ -154,14 +148,12 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
 
                                 previewAdapter.data = dezgoStatusImagesToImages
                             }
-                            is GenerateImagesToImagesProgress.LoadingWithId -> {
-                                Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                                markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            }
+                            is GenerateImagesToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             is GenerateImagesToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
-                                Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
+                                lifecycleScope.launch {
+                                    userPremiumManager.updateCredits(prefs.getCredits() - creditsPerImage)
+                                    prefs.setCredits(prefs.getCredits() - creditsPerImage)
+                                }
 
                                 configApp
                                     .dezgoBodiesImagesToImages
@@ -176,15 +168,9 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
 
                                 markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
                             }
-                            is GenerateImagesToImagesProgress.FailureWithId ->  {
-                                Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                                markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            }
+                            is GenerateImagesToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             is GenerateImagesToImagesProgress.Done ->  {
                                 isSuccessAll = true
-
-                                Timber.e("DONE")
 
                                 launch(Dispatchers.Main) {
                                     previewAdapter.notifyDataSetChanged()
@@ -197,7 +183,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
             }
         } ?: run {
             makeToast("Server error, please wait for us to fix the error or try again!")
-            finish()
+            back()
         }
     }
 

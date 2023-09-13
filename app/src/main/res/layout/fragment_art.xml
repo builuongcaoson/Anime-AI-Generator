@@ -168,21 +168,21 @@
 
                             </com.google.android.material.card.MaterialCardView>
 
-<!--                            <RelativeLayout-->
-<!--                                android:id="@+id/random"-->
-<!--                                android:layout_centerVertical="true"-->
-<!--                                android:layout_marginStart="@dimen/_5sdp"-->
-<!--                                android:layout_width="@dimen/_30sdp"-->
-<!--                                android:layout_height="@dimen/_30sdp">-->
+                            <!--                            <RelativeLayout-->
+                            <!--                                android:id="@+id/random"-->
+                            <!--                                android:layout_centerVertical="true"-->
+                            <!--                                android:layout_marginStart="@dimen/_5sdp"-->
+                            <!--                                android:layout_width="@dimen/_30sdp"-->
+                            <!--                                android:layout_height="@dimen/_30sdp">-->
 
-<!--                                <androidx.appcompat.widget.AppCompatImageView-->
-<!--                                    android:layout_width="@dimen/_25sdp"-->
-<!--                                    android:layout_height="@dimen/_25sdp"-->
-<!--                                    android:padding="@dimen/_5sdp"-->
-<!--                                    android:src="@drawable/ic_bulb"-->
-<!--                                    android:tint="?colorPrimary" />-->
+                            <!--                                <androidx.appcompat.widget.AppCompatImageView-->
+                            <!--                                    android:layout_width="@dimen/_25sdp"-->
+                            <!--                                    android:layout_height="@dimen/_25sdp"-->
+                            <!--                                    android:padding="@dimen/_5sdp"-->
+                            <!--                                    android:src="@drawable/ic_bulb"-->
+                            <!--                                    android:tint="?colorPrimary" />-->
 
-<!--                            </RelativeLayout>-->
+                            <!--                            </RelativeLayout>-->
 
                             <LinearLayout
                                 android:id="@+id/viewActionPrompt"
@@ -194,16 +194,16 @@
 
                                 <RelativeLayout
                                     android:id="@+id/photo"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginEnd="@dimen/_5sdp"
                                     android:layout_width="@dimen/_30sdp"
-                                    android:layout_height="@dimen/_30sdp">
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="@dimen/_5sdp">
 
                                     <androidx.appcompat.widget.AppCompatImageView
                                         android:layout_width="@dimen/_23sdp"
                                         android:layout_height="@dimen/_23sdp"
-                                        android:layout_gravity="center_vertical"
                                         android:layout_centerInParent="true"
+                                        android:layout_gravity="center_vertical"
                                         android:padding="@dimen/_5sdp"
                                         android:src="@drawable/ic_picture"
                                         android:tint="?colorPrimary" />
@@ -212,14 +212,14 @@
 
                                 <RelativeLayout
                                     android:id="@+id/history"
-                                    android:layout_gravity="center_vertical"
                                     android:layout_width="@dimen/_30sdp"
-                                    android:layout_height="@dimen/_30sdp">
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:layout_gravity="center_vertical">
 
                                     <androidx.appcompat.widget.AppCompatImageView
                                         android:layout_width="@dimen/_23sdp"
-                                        android:layout_centerInParent="true"
                                         android:layout_height="@dimen/_23sdp"
+                                        android:layout_centerInParent="true"
                                         android:padding="@dimen/_5sdp"
                                         android:src="@drawable/ic_history"
                                         android:tint="?colorPrimary" />
@@ -318,11 +318,12 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
+                                        android:alpha="0"
                                         android:ellipsize="end"
                                         android:singleLine="true"
-                                        android:text="Pick a Model"
                                         android:textColor="?android:textColorPrimary"
-                                        android:textSize="@dimen/_12ssp" />
+                                        android:textSize="@dimen/_12ssp"
+                                        tools:text="Pick a Model" />
 
                                 </LinearLayout>
 
@@ -342,8 +343,8 @@
                                         <androidx.appcompat.widget.AppCompatImageView
                                             android:layout_width="@dimen/_15sdp"
                                             android:layout_height="@dimen/_15sdp"
-                                            android:src="@drawable/ic_arrow_right"
                                             android:rotation="90"
+                                            android:src="@drawable/ic_arrow_right"
                                             android:tint="?android:textColorPrimary" />
 
                                     </RelativeLayout>
@@ -395,11 +396,12 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
+                                        android:alpha="0"
                                         android:ellipsize="end"
                                         android:singleLine="true"
-                                        android:text="Pick a Style"
                                         android:textColor="?android:textColorPrimary"
-                                        android:textSize="@dimen/_12ssp" />
+                                        android:textSize="@dimen/_12ssp"
+                                        tools:text="Pick a Style" />
 
                                 </LinearLayout>
 
@@ -419,8 +421,8 @@
                                         <androidx.appcompat.widget.AppCompatImageView
                                             android:layout_width="@dimen/_15sdp"
                                             android:layout_height="@dimen/_15sdp"
-                                            android:src="@drawable/ic_arrow_right"
                                             android:rotation="90"
+                                            android:src="@drawable/ic_arrow_right"
                                             android:tint="?android:textColorPrimary" />
 
                                     </RelativeLayout>
@@ -445,13 +447,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewAspectRatio"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_45sdp"
+                        android:alpha="0"
                         android:clipToPadding="false"
                         android:orientation="horizontal"
-                        android:paddingTop="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_10sdp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:alpha="1"
                         tools:ignore="RtlSymmetry"
                         tools:listitem="@layout/item_aspect_ratio" />
 
@@ -468,11 +470,11 @@
                         android:id="@+id/quantitizer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:minValue="0"
+                        android:layout_gravity="center_horizontal"
                         app:maxValue="100"
+                        app:minValue="0"
                         app:step="5"
-                        app:value="1"
-                        android:layout_gravity="center_horizontal" />
+                        app:value="1" />
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
@@ -542,7 +544,7 @@
                                         android:layout_height="@dimen/_15sdp"
                                         android:rotation="90"
                                         android:src="@drawable/ic_arrow_right"
-                                        android:tint="?android:textColorPrimary"/>
+                                        android:tint="?android:textColorPrimary" />
 
                                 </RelativeLayout>
 
@@ -698,6 +700,9 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:visibility="gone"
+        android:alpha="0"
+        tools:alpha="1"
         app:cardBackgroundColor="?colorPrimary"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp"
@@ -776,6 +781,8 @@
         android:layout_height="@dimen/_45sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:alpha="0"
+        tools:alpha="1"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:visibility="gone"

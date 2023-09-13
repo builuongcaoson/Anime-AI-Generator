@@ -24,6 +24,7 @@ import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityBatchProcessingBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
@@ -48,8 +49,9 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var userPremiumManager: UserPremiumManager
 
-    private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
+    private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var isSuccessAll = false
     private val downloadSheet by lazy { DownloadSheet() }
@@ -100,7 +102,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                 analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_BATCH)
 
                 makeToast("Server error, please wait for us to fix the error or try again!")
-                finish()
+                back()
                 return
             }
         }
@@ -114,18 +116,18 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             lifecycleScope.launch {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
-//                val decryptKey = when {
-//                    prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
-//                    else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-//                }
+//                          val decryptKey = when {
+//                              prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
+//                              else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+//                          }
 
                 dezgoApiRepo.generateTextsToImages(
                     keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-                    subNegative = "subNegative",
+                    subNegative = "",
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){
-                            GenerateTextsToImagesProgress.Idle -> Timber.e("IDLE")
+                            GenerateTextsToImagesProgress.Idle -> {}
                             GenerateTextsToImagesProgress.Loading -> {
                                 dezgoStatusTextsToImages = configApp
                                     .dezgoBodiesTextsToImages
@@ -142,14 +144,12 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                                 previewAdapter.data = dezgoStatusTextsToImages
                             }
-                            is GenerateTextsToImagesProgress.LoadingWithId -> {
-                                Timber.e("LOADING WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                                markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            }
+                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
-                                Timber.e("SUCCESS WITH ID: ${progress.groupId} --- ${progress.childId}")
+                                lifecycleScope.launch {
+                                    userPremiumManager.updateCredits(prefs.getCredits() - creditsPerImage)
+                                    prefs.setCredits(prefs.getCredits() - creditsPerImage)
+                                }
 
                                 configApp
                                     .dezgoBodiesTextsToImages
@@ -164,28 +164,21 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                                 markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
                             }
-                            is GenerateTextsToImagesProgress.FailureWithId ->  {
-                                Timber.e("FAILURE WITH ID: ${progress.groupId} --- ${progress.childId}")
-
-                                markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            }
+                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
                             is GenerateTextsToImagesProgress.Done ->  {
                                 isSuccessAll = true
-
-                                Timber.e("DONE")
 
                                 launch(Dispatchers.Main) {
                                     previewAdapter.notifyDataSetChanged()
                                 }
                             }
                         }
-
                     }
                 )
             }
         } ?: run {
             makeToast("Server error, please wait for us to fix the error or try again!")
-            finish()
+            back()
         }
     }
 

@@ -47,6 +47,8 @@ import com.sola.anime.ai.generator.feature.art.art.adapter.AspectRatioAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.feature.art.art.adapter.ExploreAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -83,6 +85,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
     private val detailExploreClicks: Subject<Explore> = PublishSubject.create()
+    private val subjectExploreChanges: Subject<List<Explore>> = PublishSubject.create()
 
     private val sheetHistory by lazy { SheetHistory() }
     private val sheetAdvanced by lazy { SheetAdvanced() }
@@ -101,10 +104,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private var creditsPerImage = 10f
 
     override fun onViewCreated() {
-        initView()
-        initObservable()
-        initData()
-        listenerView()
+        lifecycleScope.launch {
+            delay(250L)
+
+            initView()
+            initObservable()
+            initData()
+            listenerView()
+        }
     }
 
     private fun initData() {
@@ -153,7 +160,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             val pairExploresOther = "Other" to explores.filter { !it.isFavourite && !it.isDislike }
             val pairExploresDislike = "Dislike" to explores.filter { it.isDislike }
 
-            exploreAdapter.data = explores.filter { !it.isDislike }
+            subjectExploreChanges.onNext(explores.filter { !it.isDislike })
             sheetExplore.pairs = listOf(pairExploresFavourite, pairExploresOther, pairExploresDislike)
         }
 
@@ -183,6 +190,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiModel(model: Model?) {
+        binding.displayModel.animate().alpha(1f).setDuration(250L).start()
+
         binding.displayModel.text = when (model) {
             null -> "Pick a Model"
             else -> model.display
@@ -191,6 +200,16 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
+        subjectExploreChanges
+            .autoDispose(scope())
+            .subscribe { explores ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    exploreAdapter.data = explores.filter { !it.isDislike }
+                    delay(250L)
+                    binding.recyclerViewExplore.animate().alpha(1f).setDuration(250L).start()
+                }
+            }
+
         loRAAdapter
             .clicks
             .bindToLifecycle(binding.root)
@@ -249,7 +268,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
         Observable
-            .timer(500L, TimeUnit.MILLISECONDS)
+            .timer(2000L, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
@@ -335,6 +354,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun updateUiStyle(style: Style?){
+        binding.displayStyle.animate().alpha(1f).setDuration(250L).start()
+
         binding.displayStyle.text = when (style) {
             null -> "Pick a Style"
             else -> style.display
@@ -455,6 +476,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> "${creditsPerImage.roundToInt()} Credits"
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> ""
             else -> ""
+        }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(250L)
+
+            binding.cardGenerate.animate().alpha(1f).setDuration(250L).start()
+            binding.cardGenerateCredit.animate().alpha(1f).setDuration(250L).start()
         }
     }
 
@@ -705,9 +733,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun initView() {
         activity?.let { activity ->
-            binding.recyclerViewAspectRatio.apply {
-                this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                this.adapter = aspectRatioAdapter
+            lifecycleScope.launch(Dispatchers.Main) {
+                binding.recyclerViewAspectRatio.apply {
+                    this.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter = aspectRatioAdapter
+                }
+                delay(100L)
+                binding.recyclerViewAspectRatio.animate().alpha(1f).setDuration(250L).start()
             }
 
             binding.recyclerViewExplore.apply {

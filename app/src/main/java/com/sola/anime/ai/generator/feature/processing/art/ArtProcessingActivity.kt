@@ -318,7 +318,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         when {
             prefs.isUpgraded.get() && creditsPerImage != 0f -> {
                 lifecycleScope.launch {
-                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - creditsPerImage)
+                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
 
                     Timber.e("Update credits: $isSuccess")
 
