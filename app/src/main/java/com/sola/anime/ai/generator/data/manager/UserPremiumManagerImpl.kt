@@ -71,6 +71,10 @@ class UserPremiumManagerImpl @Inject constructor(
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
 
+        Timber.e("### Sync premium ###")
+        Timber.e("Device id: ${context.getDeviceId()}")
+        Timber.e("User Purchased: ${Gson().toJson(userPurchased)}")
+
         prefs.setUserPurchased(userPurchased)
 
         userPurchased?.let {
