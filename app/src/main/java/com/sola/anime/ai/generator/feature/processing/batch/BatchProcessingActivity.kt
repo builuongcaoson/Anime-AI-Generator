@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.processing.batch
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,6 +19,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -29,6 +31,7 @@ import com.sola.anime.ai.generator.domain.model.status.DezgoStatusTextToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
+import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.processing.batch.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -50,6 +53,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
+    @Inject lateinit var fileRepo: FileRepository
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
@@ -72,6 +76,53 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     }
 
     private fun initObservable() {
+        downloadSheet
+            .downloadFrameClicks
+            .autoDispose(scope())
+            .subscribe { view ->
+                tryOrNull {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_CLICKED)
+
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val bitmap = tryOrNull { view.drawToBitmap() } ?: return@launch
+                        fileRepo.downloads(bitmap)
+                        launch(Dispatchers.Main) {
+                            tryOrNull { downloadSheet.dismiss() }
+
+                            makeToast("Download successfully!")
+                        }
+                    }
+                }
+            }
+
+        downloadSheet
+            .downloadOriginalClicks
+            .autoDispose(scope())
+            .subscribe { file ->
+
+                val task = {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_ORIGINAL_CLICKED)
+
+                    tryOrNull {
+                        lifecycleScope.launch {
+                            fileRepo.downloads(file)
+                            launch(Dispatchers.Main) {
+                                prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
+
+                                tryOrNull { downloadSheet.dismiss() }
+
+                                makeToast("Download successfully!")
+                            }
+                        }
+                    }
+                }
+
+                when {
+                    !prefs.isUpgraded.get() -> startIap()
+                    else -> task()
+                }
+            }
+
         previewAdapter
             .downloadClicks
             .autoDispose(scope())
@@ -114,9 +165,15 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                 lifecycleScope.launch(Dispatchers.Main) {
                     val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                    when {
-                        isSuccess -> generate()
-                        else -> markFailed()
+                    launch(Dispatchers.Main) {
+                        when {
+                            isSuccess -> {
+                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                                generate()
+                            }
+                            else -> markFailed()
+                        }
                     }
                 }
             }
@@ -125,72 +182,56 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     @SuppressLint("NotifyDataSetChanged")
     private fun generate() {
-//        dezgoStatusTextsToImages = configApp
-//            .dezgoBodiesTextsToImages
-//            .flatMap { dezgo ->
-//                dezgo
-//                    .bodies
-//                    .map { body ->
-//                        DezgoStatusTextToImage(
-//                            body = body,
-//                            status = StatusBodyTextToImage.Loading
-//                        )
-//                    }
-//            }
-//
-//        dezgoStatusTextsToImages.forEachIndexed { index, dezgoStatusTextToImage ->
-//            Timber.e("Index: $index --- ${dezgoStatusTextToImage.body.negativePrompt}")
-//        }
-
         tryOrNull {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.Main) {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
                 dezgoApiRepo.generateTextsToImages(
                     keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-                    subNegative = "",
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){
                             GenerateTextsToImagesProgress.Idle -> {}
                             GenerateTextsToImagesProgress.Loading -> {
-                                dezgoStatusTextsToImages = configApp
-                                    .dezgoBodiesTextsToImages
-                                    .flatMap { dezgo ->
-                                        dezgo
-                                            .bodies
-                                            .map { body ->
-                                                DezgoStatusTextToImage(
-                                                    body = body,
-                                                    status = StatusBodyTextToImage.Loading
-                                                )
-                                            }
-                                    }
-
-                                previewAdapter.data = dezgoStatusTextsToImages
-                            }
-                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
-
-                                configApp
-                                    .dezgoBodiesTextsToImages
-                                    .find { dezgo ->
-                                        dezgo.id == progress.groupId
-                                    }?.bodies
-                                    ?.find { body ->
-                                        body.id == progress.childId && body.groupId == progress.groupId
-                                    }?.toChildHistory(progress.file.path)?.let {
-                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-                                    }
-
-                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-                            }
-                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateTextsToImagesProgress.Done ->  {
-                                isSuccessAll = true
-
                                 launch(Dispatchers.Main) {
+                                    dezgoStatusTextsToImages = configApp
+                                        .dezgoBodiesTextsToImages
+                                        .flatMap { dezgo ->
+                                            dezgo
+                                                .bodies
+                                                .map { body ->
+                                                    DezgoStatusTextToImage(
+                                                        body = body,
+                                                        status = StatusBodyTextToImage.Loading
+                                                    )
+                                                }
+                                        }
+
+                                    previewAdapter.data = dezgoStatusTextsToImages
+                                }
+                            }
+                            is GenerateTextsToImagesProgress.LoadingWithId -> launch(Dispatchers.Main) { markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId) }
+                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                                launch(Dispatchers.Main) {
+                                    configApp
+                                        .dezgoBodiesTextsToImages
+                                        .find { dezgo ->
+                                            dezgo.id == progress.groupId
+                                        }?.bodies
+                                        ?.find { body ->
+                                            body.id == progress.childId && body.groupId == progress.groupId
+                                        }?.toChildHistory(progress.file.path)?.let {
+                                            deferredHistoryIds.add(historyRepo.markHistory(it))
+                                        }
+
+                                    markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+                                }
+                            }
+                            is GenerateTextsToImagesProgress.FailureWithId -> launch(Dispatchers.Main) { markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId) }
+                            is GenerateTextsToImagesProgress.Done ->  {
+                                launch(Dispatchers.Main) {
+                                    isSuccessAll = true
+
                                     previewAdapter.notifyDataSetChanged()
                                 }
                             }

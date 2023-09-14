@@ -36,7 +36,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
     override suspend fun generateTextsToImages(
         keyApi: String,
-        subNegative: String,
         datas: List<DezgoBodyTextToImage>,
         progress: (GenerateTextsToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -54,12 +53,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
-                            }
-
-                            val negativePrompt = when {
-                                subNegative.isEmpty() -> body.negativePrompt
-                                body.negativePrompt.endsWith(",") -> body.negativePrompt + " " + subNegative
-                                else -> body.negativePrompt + ", " + subNegative
                             }
 
                             try {
@@ -101,7 +94,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = dezgoApi.text2image(
                                     headerKey = keyApi,
                                     prompt = prompt.toRequestBody(),
-                                    negativePrompt = negativePrompt.toRequestBody(),
+                                    negativePrompt = body.negativePrompt.toRequestBody(),
                                     guidance = body.guidance.toRequestBody(),
                                     upscale = body.upscale.toRequestBody(),
                                     sampler = body.sampler.toRequestBody(),
@@ -154,7 +147,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
 
     override suspend fun generateImagesToImages(
         keyApi: String,
-        subNegative: String,
         datas: List<DezgoBodyImageToImage>,
         progress: (GenerateImagesToImagesProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -172,11 +164,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
-                            }
-
-                            val negativePrompt = when {
-                                body.negativePrompt.endsWith(",") -> body.negativePrompt + " " + subNegative
-                                else -> body.negativePrompt + ", " + subNegative
                             }
 
                             try {
@@ -221,7 +208,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = dezgoApi.image2image(
                                     headerKey = keyApi,
                                     prompt = prompt.toRequestBody(),
-                                    negativePrompt = negativePrompt.toRequestBody(),
+                                    negativePrompt = body.negativePrompt.toRequestBody(),
                                     guidance = body.guidance.toRequestBody(),
                                     upscale = body.upscale.toRequestBody(),
                                     sampler = body.sampler.toRequestBody(),

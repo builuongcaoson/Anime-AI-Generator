@@ -1,6 +1,5 @@
 package com.sola.anime.ai.generator.feature.setting
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -13,12 +12,12 @@ import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.getCustomerInfoWith
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
@@ -34,7 +33,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,12 +64,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         binding.viewRate.clicks(withAnim = false) { navigator.showRating() }
         binding.viewPrivacy.clicks(withAnim = false) { navigator.showPrivacy() }
         binding.viewTerms.clicks(withAnim = false) { navigator.showTerms() }
-//        binding.viewNsfw.clicks(withAnim = false) {
-//            when {
-//                !prefs.isUpgraded.get() -> startIap()
-//                else -> prefs.isEnableNsfw.set(!prefs.isEnableNsfw.get())
-//            }
-//        }
+        binding.viewNsfw.clicks(withAnim = false) { prefs.isEnableNsfw.set(!prefs.isEnableNsfw.get()) }
         binding.viewPromoCode.clicks(withAnim = false) { promoCodeDialog.show(this) }
     }
 
@@ -90,15 +83,15 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
                 binding.viewGetPremium.isVisible = !isUpgraded
             }
 
-//        prefs
-//            .isEnableNsfw
-//            .asObservable()
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { isEnable ->
-//                binding.viewNsfw.binding.widgetFrame.findViewById<LsSwitchView>(R.id.switchView).setNewChecked(isEnable)
-//            }
+        prefs
+            .isEnableNsfw
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isEnable ->
+                binding.viewNsfw.binding.widgetFrame.findViewById<LsSwitchView>(R.id.switchView).setNewChecked(isEnable)
+            }
 
         promoCodeDialog
             .confirmClicks
@@ -128,16 +121,10 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
                             when {
                                 isActive -> {
                                     when (promo) {
-                                        Constraint.Promo.USER_PURCHASED_LIFE_TIME -> {
-                                            prefs.isUpgraded.set(true)
-                                            prefs.timeExpiredPremium.set(-2)
+                                        Constraint.Promo.REWARD_CREDITS -> {
+                                            prefs.setCredits(prefs.getCredits() + 100f)
 
                                             binding.viewLoading.isVisible = false
-                                        }
-                                        Constraint.Promo.TRY_USER_PURCHASED -> {
-//                                            syncUserPurchased {
-//                                                binding.viewLoading.isVisible = false
-//                                            }
                                         }
                                     }
 
@@ -157,41 +144,6 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         }
     }
 
-//    private fun syncUserPurchased(done: () -> Unit) {
-//        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-//            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-//            Timber.tag("Main12345").e("##### SETTING #####")
-//            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-//            Timber.tag("Main12345").e("Is active: $isActive")
-//
-//            if (isActive){
-//                lifecycleScope.launch(Dispatchers.Main) {
-//                    serverApiRepo.syncUser { userPremium ->
-//                        userPremium?.let {
-//                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-//                                prefs.isUpgraded.set(true)
-//                                prefs.timeExpiredPremium.set(-2)
-//
-//                                done()
-//                                return@syncUser
-//                            }
-//
-//                            customerInfo
-//                                .latestExpirationDate
-//                                ?.takeIf { it.time > System.currentTimeMillis() }
-//                                ?.let { expiredDate ->
-//                                    prefs.isUpgraded.set(true)
-//                                    prefs.timeExpiredPremium.set(expiredDate.time)
-//                                }
-//
-//                            done()
-//                        }
-//                    }
-//                }
-//            } else done()
-//        }
-//    }
-
     private fun initView() {
         binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
             this.topMargin = when(val statusBarHeight = getStatusBarHeight()) {
@@ -199,6 +151,9 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
                 else -> statusBarHeight
             }
         }
+
+        binding.deviceId.text = getDeviceId()
+        binding.version.text = BuildConfig.VERSION_NAME
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

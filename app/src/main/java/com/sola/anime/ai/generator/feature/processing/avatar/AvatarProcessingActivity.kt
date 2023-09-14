@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.processing.avatar
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -21,6 +22,7 @@ import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.util.AESEncyption
@@ -32,6 +34,7 @@ import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
 import com.sola.anime.ai.generator.domain.model.status.GenerateImagesToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
+import com.sola.anime.ai.generator.domain.repo.FileRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.processing.avatar.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
@@ -58,6 +61,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
+    @Inject lateinit var fileRepo: FileRepository
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
@@ -81,6 +85,53 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     }
 
     private fun initObservable() {
+        downloadSheet
+            .downloadFrameClicks
+            .autoDispose(scope())
+            .subscribe { view ->
+                tryOrNull {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_CLICKED)
+
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val bitmap = tryOrNull { view.drawToBitmap() } ?: return@launch
+                        fileRepo.downloads(bitmap)
+                        launch(Dispatchers.Main) {
+                            tryOrNull { downloadSheet.dismiss() }
+
+                            makeToast("Download successfully!")
+                        }
+                    }
+                }
+            }
+
+        downloadSheet
+            .downloadOriginalClicks
+            .autoDispose(scope())
+            .subscribe { file ->
+
+                val task = {
+                    analyticManager.logEvent(AnalyticManager.TYPE.DOWNLOAD_ORIGINAL_CLICKED)
+
+                    tryOrNull {
+                        lifecycleScope.launch {
+                            fileRepo.downloads(file)
+                            launch(Dispatchers.Main) {
+                                prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
+
+                                tryOrNull { downloadSheet.dismiss() }
+
+                                makeToast("Download successfully!")
+                            }
+                        }
+                    }
+                }
+
+                when {
+                    !prefs.isUpgraded.get() -> startIap()
+                    else -> task()
+                }
+            }
+
         previewAdapter
             .downloadClicks
             .autoDispose(scope())
@@ -107,73 +158,89 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     }
 
     private fun initData() {
-        when {
-            configApp.dezgoBodiesImagesToImages.isEmpty() -> {
-                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_AVATAR)
+        val markFailed = {
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_AVATAR)
 
-                makeToast("Server error, please wait for us to fix the error or try again!")
-                back()
-                return
-            }
+            makeToast("Server error, please wait for us to fix the error or try again!")
+            back()
         }
 
-        generate()
+        when {
+            configApp.dezgoBodiesImagesToImages.isEmpty() -> {
+                markFailed()
+                return
+            }
+            else -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                    launch(Dispatchers.Main) {
+                        when {
+                            isSuccess -> {
+                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                                generate()
+                            }
+                            else -> markFailed()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun generate() {
         tryOrNull {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.Main) {
                 val deferredHistoryIds = arrayListOf<Long?>()
 
                 dezgoApiRepo.generateImagesToImages(
                     keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-                    subNegative = "",
                     datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->
                         when (progress){
                             GenerateImagesToImagesProgress.Idle -> Timber.e("IDLE")
                             GenerateImagesToImagesProgress.Loading -> {
-                                dezgoStatusImagesToImages = configApp
-                                    .dezgoBodiesImagesToImages
-                                    .flatMap { dezgo ->
-                                        dezgo
-                                            .bodies
-                                            .map { body ->
-                                                DezgoStatusImageToImage(
-                                                    body = body,
-                                                    status = StatusBodyImageToImage.Loading
-                                                )
-                                            }
-                                    }
-
-                                previewAdapter.data = dezgoStatusImagesToImages
-                            }
-                            is GenerateImagesToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateImagesToImagesProgress.SuccessWithId ->  {
-                                lifecycleScope.launch {
-                                    userPremiumManager.updateCredits(prefs.getCredits() - creditsPerImage)
-                                    prefs.setCredits(prefs.getCredits() - creditsPerImage)
-                                }
-
-                                configApp
-                                    .dezgoBodiesImagesToImages
-                                    .find { dezgo ->
-                                        dezgo.id == progress.groupId
-                                    }?.bodies
-                                    ?.find { body ->
-                                        body.id == progress.childId && body.groupId == progress.groupId
-                                    }?.toChildHistory(newPrompt, progress.photoUri.toString(), progress.file.path)?.let {
-                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-                                    }
-
-                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-                            }
-                            is GenerateImagesToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateImagesToImagesProgress.Done ->  {
-                                isSuccessAll = true
-
                                 launch(Dispatchers.Main) {
+                                    dezgoStatusImagesToImages = configApp
+                                        .dezgoBodiesImagesToImages
+                                        .flatMap { dezgo ->
+                                            dezgo
+                                                .bodies
+                                                .map { body ->
+                                                    DezgoStatusImageToImage(
+                                                        body = body,
+                                                        status = StatusBodyImageToImage.Loading
+                                                    )
+                                                }
+                                        }
+
+                                    previewAdapter.data = dezgoStatusImagesToImages
+                                }
+                            }
+                            is GenerateImagesToImagesProgress.LoadingWithId -> launch(Dispatchers.Main) { markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId) }
+                            is GenerateImagesToImagesProgress.SuccessWithId ->  {
+                                launch(Dispatchers.Main) {
+                                    configApp
+                                        .dezgoBodiesImagesToImages
+                                        .find { dezgo ->
+                                            dezgo.id == progress.groupId
+                                        }?.bodies
+                                        ?.find { body ->
+                                            body.id == progress.childId && body.groupId == progress.groupId
+                                        }?.toChildHistory(newPrompt, progress.photoUri.toString(), progress.file.path)?.let {
+                                            deferredHistoryIds.add(historyRepo.markHistory(it))
+                                        }
+
+                                    markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+                                }
+                            }
+                            is GenerateImagesToImagesProgress.FailureWithId -> launch(Dispatchers.Main) { markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId) }
+                            is GenerateImagesToImagesProgress.Done ->  {
+                                launch(Dispatchers.Main) {
+                                    isSuccessAll = true
+
                                     previewAdapter.notifyDataSetChanged()
                                 }
                             }

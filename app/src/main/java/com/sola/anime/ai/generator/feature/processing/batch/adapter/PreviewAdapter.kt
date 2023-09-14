@@ -21,7 +21,6 @@ class PreviewAdapter @Inject constructor() : LsAdapter<DezgoStatusTextToImage, I
         binding: ItemPreviewBatchProcessingBinding,
         position: Int
     ) {
-
         val status = item.status
 
         binding.viewDownload.isVisible = status is StatusBodyTextToImage.Success

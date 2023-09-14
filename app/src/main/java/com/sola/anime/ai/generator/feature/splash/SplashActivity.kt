@@ -194,7 +194,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     )
                 }
                 else -> {
-                    userPremiumManager.syncUserPurchasedFromDatabase()
+                    prefs.getUserPurchased()?.let {
+                        userPremiumManager.syncUserPurchasedFromDatabase()
+                    }
 
                     task()
                 }

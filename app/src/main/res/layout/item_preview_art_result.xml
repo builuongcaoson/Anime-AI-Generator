@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/_3sdp"
         android:layout_marginEnd="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_3sdp"
-        app:cardBackgroundColor="?android:windowBackground"
+        app:cardBackgroundColor="?cardBackgroundColor"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

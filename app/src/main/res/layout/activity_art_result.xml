@@ -15,13 +15,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp">
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/back"
@@ -47,26 +47,27 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewPro"
             android:layout_width="wrap_content"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="@dimen/_25sdp"
-            app:cardBackgroundColor="?colorSecondary"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0"
+            app:cardBackgroundColor="?colorSecondary"
+            app:cardCornerRadius="@dimen/_25sdp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="@dimen/_25sdp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.basic.common.widget.LsTextView
-                android:gravity="center"
-                android:text="Pro"
-                app:textFont="semi"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="?android:textColorPrimary"
-                android:textAllCaps="true"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:paddingStart="@dimen/_15sdp"
-                android:paddingEnd="@dimen/_15sdp" />
+                android:paddingEnd="@dimen/_15sdp"
+                android:text="Pro"
+                android:textAllCaps="true"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:textFont="semi" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -77,6 +78,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:alpha="0"
             app:cardBackgroundColor="?cardBackgroundColor"
             app:cardCornerRadius="@dimen/_25sdp"
             app:cardElevation="0dp"
@@ -90,9 +92,9 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_7sdp"
                     android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_7sdp"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/coin" />
@@ -101,9 +103,9 @@
                     android:id="@+id/credits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:text="0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp" />
@@ -134,6 +136,7 @@
                 android:id="@+id/viewPager"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:alpha="0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,20 +150,20 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPreviews"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="@android:color/transparent"
+            app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@id/cardShare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="?android:textColorTertiary"
-            app:strokeWidth="2dp">
+            app:layout_constraintWidth_default="wrap">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -181,10 +184,13 @@
                     android:id="@+id/recyclerPreview"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_70sdp"
+                    android:alpha="0"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:padding="@dimen/_7sdp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:alpha="1"
+                    tools:itemCount="2"
                     tools:listitem="@layout/item_preview_art_result" />
 
             </LinearLayout>
@@ -366,8 +372,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:backgroundTint="?android:textColorTertiary"
                 android:background="@drawable/rec_corner_15dp_stroke_2dp"
+                android:backgroundTint="?android:textColorTertiary"
                 android:orientation="vertical">
 
                 <com.basic.common.widget.LsTextView

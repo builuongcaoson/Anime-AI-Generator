@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.style.StyleActivity">
+    tools:context=".feature.setting.SettingActivity">
 
     <RelativeLayout
         android:id="@+id/viewTop"
@@ -95,11 +95,11 @@
                         android:id="@+id/viewNsfw"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:title="NSFW"
+                        android:fillViewport="true"
                         android:visibility="gone"
                         app:icon="@drawable/ic_nsfw"
-                        android:fillViewport="true"
                         app:summary="Show NSFW Content"
+                        app:title="NSFW"
                         app:widget="@layout/switch_preference_view" />
 
                     <com.sola.anime.ai.generator.common.widget.LsPreferenceView
@@ -194,8 +194,7 @@
         android:background="#80000000"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="0dp"
@@ -211,5 +210,40 @@
             app:lottie_rawRes="@raw/art_generate_lottie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.basic.common.widget.LsTextView
+            android:id="@+id/deviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="?android:textColorSecondary"
+            android:textSize="@dimen/_10ssp"
+            tools:text="@tools:sample/full_names" />
+
+        <com.basic.common.widget.LsTextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="?android:textColorSecondary"
+            android:textSize="@dimen/_10ssp"
+            tools:text="Version" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

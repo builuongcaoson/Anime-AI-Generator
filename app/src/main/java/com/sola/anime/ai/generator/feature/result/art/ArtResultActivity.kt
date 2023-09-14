@@ -47,7 +47,6 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -133,9 +132,9 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         binding.viewPro.clicks { startIap() }
         binding.viewCredit.clicks { startCredit() }
         binding.viewPager.registerOnPageChangeCallback(pageChanges)
-        binding.cardShare.clicks { tryOrNull { shareClicks() } }
-        binding.cardDownload.clicks { tryOrNull { downloadClicks() } }
-        binding.cardGenerate.clicks { tryOrNull { generateAgainClicks() } }
+        binding.cardShare.clicks(withAnim = false) { tryOrNull { shareClicks() } }
+        binding.cardDownload.clicks(withAnim = false) { tryOrNull { downloadClicks() } }
+        binding.cardGenerate.clicks(withAnim = false) { tryOrNull { generateAgainClicks() } }
     }
 
     private fun generateAgainClicks() {
@@ -287,8 +286,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
                 childHistoryIndex.takeIf { it != -1 }?.let {
                     tryOrNull { binding.viewPager.post { binding.viewPager.setCurrentItem(childHistoryIndex, false) } }
+                    tryOrNull { binding.recyclerPreview.scrollToPosition(childHistoryIndex) }
                 } ?: run {
                     tryOrNull { binding.viewPager.post { binding.viewPager.setCurrentItem(history.childs.lastIndex, false) } }
+                    tryOrNull { binding.recyclerPreview.scrollToPosition(history.childs.lastIndex) }
+                }
+
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.viewPager.animate().alpha(1f).setDuration(250L).start()
+                    binding.recyclerPreview.animate().alpha(1f).setDuration(250L).start()
                 }
 
                 tryOrNull { updateUiCredits() }
@@ -465,6 +471,16 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 when {
                     else -> task()
                 }
+            }
+
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
             }
     }
 
