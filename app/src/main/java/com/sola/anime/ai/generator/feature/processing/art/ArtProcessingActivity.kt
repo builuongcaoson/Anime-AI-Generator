@@ -62,6 +62,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
 
+    private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
@@ -157,12 +158,6 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                 else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
                             }
 
-//                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-//                        val subFeature = "art"
-//                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-//                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-//                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
-
                             dezgoApiRepo.generateTextsToImages(
                                 keyApi = decryptKey,
                                 subNegative = "",
@@ -197,8 +192,6 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
                                                     when {
                                                         dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
-                                                            prefs.setCredits(prefs.getCredits() - creditsPerImage)
-
                                                             startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false)
                                                             finish()
                                                         }
@@ -244,12 +237,6 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                                 prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
                                 else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
                             }
-
-//                        val subNegativeDevice = "${getDeviceId()}_${BuildConfig.VERSION_CODE}"
-//                        val subFeature = "art"
-//                        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${prefs.getCredits().roundToInt()}"
-//                        val subNumberCreatedAndMax = "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-//                        val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
                             dezgoApiRepo.generateImagesToImages(
                                 keyApi = decryptKey,
@@ -315,26 +302,16 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         artGenerateDialog.show(this@ArtProcessingActivity)
 
         when {
-            prefs.isUpgraded.get() && creditsPerImage != 0f -> {
-                lifecycleScope.launch {
-                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - creditsPerImage)
-
-                    Timber.e("Update credits: $isSuccess")
-
-                    when {
-                        isSuccess -> task()
-                        else -> markFailed()
-                    }
-                }
-            }
-            prefs.isUpgraded.get() && creditsPerImage == 0f -> {
+            prefs.isUpgraded.get() -> {
                 lifecycleScope.launch {
                     val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits())
 
-                    Timber.e("Created Artwork: $isSuccess")
-
                     when {
-                        isSuccess -> task()
+                        isSuccess -> {
+                            prefs.setCredits(prefs.getCredits() - creditsPerImage)
+
+                            task()
+                        }
                         else -> markFailed()
                     }
                 }

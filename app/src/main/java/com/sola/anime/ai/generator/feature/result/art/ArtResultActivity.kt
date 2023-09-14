@@ -195,7 +195,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-            startArtProcessing(creditsPerImage = creditsPerImage)
+            startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
             finish()
         }
 

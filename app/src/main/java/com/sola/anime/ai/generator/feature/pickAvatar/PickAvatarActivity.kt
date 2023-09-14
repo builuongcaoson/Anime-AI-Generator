@@ -28,10 +28,12 @@ import com.sola.anime.ai.generator.feature.pickAvatar.adapter.PhotoAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -70,8 +72,8 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
         }
     }
 
-    private var creditsAfterDiscount = 98f
-    private var creditsPerImage = creditsAfterDiscount / 10
+    private var totalCreditsDeducted = 0f
+    private var creditsPerImage = totalCreditsDeducted / 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,14 +92,14 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
         val totalCredits = photoAdapter.data.size * 40.0f
         val numberOfImages = photoAdapter.data.size * 4
 
-        creditsAfterDiscount = (totalCredits - (totalCredits * configApp.discountCredits))
+        totalCreditsDeducted = (totalCredits - (totalCredits * configApp.discountCredits))
         creditsPerImage = totalCredits / numberOfImages
 
-        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
+        binding.discountCredit.text = totalCreditsDeducted.roundToInt().toString()
         binding.totalCredit.apply {
             text = totalCredits.toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = creditsAfterDiscount != totalCredits
+            isVisible = totalCreditsDeducted != totalCredits
         }
         binding.timeGenerate.text = "About ${((numberOfImages / 10) + 1)} minute"
     }
@@ -173,7 +175,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                 configApp.dezgoBodiesImagesToImages = dezgoBodies
 
                 launch(Dispatchers.Main){
-                    startAvatarProcessing(creditsPerImage = creditsPerImage)
+                    startAvatarProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
                     finish()
                 }
             }
@@ -184,7 +186,7 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
             !isNetworkAvailable() -> networkDialog.show(this) {
                 networkDialog.dismiss()
             }
-            creditsAfterDiscount > prefs.getCredits().roundToInt() -> startCredit()
+            totalCreditsDeducted > prefs.getCredits().roundToInt() -> startCredit()
             else -> task()
         }
     }
@@ -219,6 +221,16 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
             .autoDispose(scope())
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
+            }
+
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
             }
     }
 

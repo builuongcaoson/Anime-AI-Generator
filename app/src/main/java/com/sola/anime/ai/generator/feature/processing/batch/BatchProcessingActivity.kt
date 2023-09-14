@@ -51,6 +51,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
 
+    private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var isSuccessAll = false
@@ -97,89 +98,110 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     }
 
     private fun initData() {
-        when {
-            configApp.dezgoBodiesTextsToImages.isEmpty() -> {
-                analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_BATCH)
+        val markFailed = {
+            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_BATCH)
 
-                makeToast("Server error, please wait for us to fix the error or try again!")
-                back()
-                return
-            }
+            makeToast("Server error, please wait for us to fix the error or try again!")
+            back()
         }
 
-        generate()
+        when {
+            configApp.dezgoBodiesTextsToImages.isEmpty() -> {
+                markFailed()
+                return
+            }
+            else -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                    when {
+                        isSuccess -> generate()
+                        else -> markFailed()
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun generate() {
-        tryOrNull {
-            lifecycleScope.launch {
-                val deferredHistoryIds = arrayListOf<Long?>()
-
-//                          val decryptKey = when {
-//                              prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
-//                              else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
-//                          }
-
-                dezgoApiRepo.generateTextsToImages(
-                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-                    subNegative = "",
-                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
-                    progress = { progress ->
-                        when (progress){
-                            GenerateTextsToImagesProgress.Idle -> {}
-                            GenerateTextsToImagesProgress.Loading -> {
-                                dezgoStatusTextsToImages = configApp
-                                    .dezgoBodiesTextsToImages
-                                    .flatMap { dezgo ->
-                                        dezgo
-                                            .bodies
-                                            .map { body ->
-                                                DezgoStatusTextToImage(
-                                                    body = body,
-                                                    status = StatusBodyTextToImage.Loading
-                                                )
-                                            }
-                                    }
-
-                                previewAdapter.data = dezgoStatusTextsToImages
-                            }
-                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
-                                lifecycleScope.launch {
-                                    userPremiumManager.updateCredits(prefs.getCredits() - creditsPerImage)
-                                    prefs.setCredits(prefs.getCredits() - creditsPerImage)
-                                }
-
-                                configApp
-                                    .dezgoBodiesTextsToImages
-                                    .find { dezgo ->
-                                        dezgo.id == progress.groupId
-                                    }?.bodies
-                                    ?.find { body ->
-                                        body.id == progress.childId && body.groupId == progress.groupId
-                                    }?.toChildHistory(progress.file.path)?.let {
-                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-                                    }
-
-                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-                            }
-                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-                            is GenerateTextsToImagesProgress.Done ->  {
-                                isSuccessAll = true
-
-                                launch(Dispatchers.Main) {
-                                    previewAdapter.notifyDataSetChanged()
-                                }
-                            }
-                        }
+        dezgoStatusTextsToImages = configApp
+            .dezgoBodiesTextsToImages
+            .flatMap { dezgo ->
+                dezgo
+                    .bodies
+                    .map { body ->
+                        DezgoStatusTextToImage(
+                            body = body,
+                            status = StatusBodyTextToImage.Loading
+                        )
                     }
-                )
             }
-        } ?: run {
-            makeToast("Server error, please wait for us to fix the error or try again!")
-            back()
+
+        dezgoStatusTextsToImages.forEachIndexed { index, dezgoStatusTextToImage ->
+            Timber.e("Index: $index --- ${dezgoStatusTextToImage.body.negativePrompt}")
         }
+
+//        tryOrNull {
+//            lifecycleScope.launch {
+//                val deferredHistoryIds = arrayListOf<Long?>()
+//
+//                dezgoApiRepo.generateTextsToImages(
+//                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+//                    subNegative = "",
+//                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+//                    progress = { progress ->
+//                        when (progress){
+//                            GenerateTextsToImagesProgress.Idle -> {}
+//                            GenerateTextsToImagesProgress.Loading -> {
+//                                dezgoStatusTextsToImages = configApp
+//                                    .dezgoBodiesTextsToImages
+//                                    .flatMap { dezgo ->
+//                                        dezgo
+//                                            .bodies
+//                                            .map { body ->
+//                                                DezgoStatusTextToImage(
+//                                                    body = body,
+//                                                    status = StatusBodyTextToImage.Loading
+//                                                )
+//                                            }
+//                                    }
+//
+//                                previewAdapter.data = dezgoStatusTextsToImages
+//                            }
+//                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+//                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
+//                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
+//
+//                                configApp
+//                                    .dezgoBodiesTextsToImages
+//                                    .find { dezgo ->
+//                                        dezgo.id == progress.groupId
+//                                    }?.bodies
+//                                    ?.find { body ->
+//                                        body.id == progress.childId && body.groupId == progress.groupId
+//                                    }?.toChildHistory(progress.file.path)?.let {
+//                                        deferredHistoryIds.add(historyRepo.markHistory(it))
+//                                    }
+//
+//                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+//                            }
+//                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+//                            is GenerateTextsToImagesProgress.Done ->  {
+//                                isSuccessAll = true
+//
+//                                launch(Dispatchers.Main) {
+//                                    previewAdapter.notifyDataSetChanged()
+//                                }
+//                            }
+//                        }
+//                    }
+//                )
+//            }
+//        } ?: run {
+//            makeToast("Server error, please wait for us to fix the error or try again!")
+//            back()
+//        }
     }
 
     private fun markLoadingWithIdAndChildId(groupId: Long, childId: Long) {

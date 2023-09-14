@@ -32,10 +32,12 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -58,8 +60,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     private val sheetModel by lazy { SheetModel() }
     private val sheetStyle by lazy { SheetStyle() }
 
-    private var creditsAfterDiscount = 98f
-    private var creditsPerImage = creditsAfterDiscount / 10
+    private var totalCreditsDeducted = 98f
+    private var creditsPerImage = totalCreditsDeducted / 10
 
     override fun onViewCreated() {
         initView()
@@ -145,7 +147,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 configApp.dezgoBodiesTextsToImages = dezgoBodies
                 configApp.dezgoBodiesImagesToImages = emptyList()
 
-                activity.startBatchProcessing(creditsPerImage = creditsPerImage)
+                activity.startBatchProcessing(totalCreditsDeducted= totalCreditsDeducted, creditsPerImage = creditsPerImage)
             }
         }
 
@@ -154,7 +156,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 !activity.isNetworkAvailable() -> networkDialog.show(activity) {
                     networkDialog.dismiss()
                 }
-                creditsAfterDiscount > prefs.getCredits().roundToInt() -> activity.startCredit()
+                totalCreditsDeducted > prefs.getCredits().roundToInt() -> activity.startCredit()
                 else -> task()
             }
         }
@@ -256,8 +258,19 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .asObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle(binding.root)
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
+            }
+
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle(binding.root)
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
             }
     }
 
@@ -265,14 +278,14 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
         val totalCredits = promptAdapter.data.sumByDouble { (it.numberOfImages.number * if (it.isFullHd) 15.0 else 10.0) }.toFloat()
         val numberOfImages = promptAdapter.data.sumOf { it.numberOfImages.number }
 
-        creditsAfterDiscount = (totalCredits - (totalCredits * configApp.discountCredits))
-        creditsPerImage = creditsAfterDiscount / numberOfImages
+        totalCreditsDeducted = (totalCredits - (totalCredits * configApp.discountCredits))
+        creditsPerImage = totalCreditsDeducted / numberOfImages
 
-        binding.discountCredit.text = creditsAfterDiscount.roundToInt().toString()
+        binding.discountCredit.text = totalCreditsDeducted.roundToInt().toString()
         binding.totalCredit.apply {
             text = totalCredits.roundToInt().toString()
             paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            isVisible = creditsAfterDiscount.roundToInt() != totalCredits.roundToInt()
+            isVisible = totalCreditsDeducted.roundToInt() != totalCredits.roundToInt()
         }
         binding.timeGenerate.text = "About ${((promptAdapter.data.sumOf { it.numberOfImages.number } / 10) + 1)} minute"
     }

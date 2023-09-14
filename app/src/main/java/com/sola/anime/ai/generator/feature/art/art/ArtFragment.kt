@@ -621,7 +621,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startBatchProcessing(creditsPerImage = creditsPerImage)
+                activity.startBatchProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
             }
         }
 
@@ -702,7 +702,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startArtProcessing(creditsPerImage = creditsPerImage)
+                activity.startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
             }
         }
 

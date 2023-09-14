@@ -59,6 +59,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
 
+    private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
     private var isSuccessAll = false

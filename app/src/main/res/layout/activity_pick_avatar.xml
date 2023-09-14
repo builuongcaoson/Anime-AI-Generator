@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".feature.style.StyleActivity">
+    tools:context=".feature.pickAvatar.PickAvatarActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewTop"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
@@ -19,7 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp">
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/back"
@@ -43,46 +46,76 @@
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewPro"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:alpha="0"
+            app:cardBackgroundColor="?colorSecondary"
+            app:cardCornerRadius="@dimen/_25sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:text="Pro"
+                android:textAllCaps="true"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp"
+                app:textFont="semi" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewCredit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_25sdp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:colorBackground"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp">
+            android:alpha="0"
+            app:cardBackgroundColor="?cardBackgroundColor"
+            app:cardCornerRadius="@dimen/_25sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/viewPro"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_3sdp"
-                android:paddingBottom="@dimen/_3sdp">
+                android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_17sdp"
-                    android:layout_height="@dimen/_17sdp"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:src="@drawable/ic_coin" />
+                    android:layout_marginStart="@dimen/_7sdp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/coin" />
 
                 <com.basic.common.widget.LsTextView
                     android:id="@+id/credits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:text="0"
-                    android:textColor="?colorAccent"
-                    android:textSize="@dimen/_15ssp"
-                    app:textFont="semi" />
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_12ssp" />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/viewShadow"
@@ -202,9 +235,9 @@
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/_5sdp"
                 android:paddingTop="@dimen/_5sdp"
-                android:visibility="gone"
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_5sdp"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_photo_in_avatar" />
 
@@ -257,12 +290,12 @@
 
                 <View
                     android:id="@+id/viewSwitchClicks"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/viewSwitch"
-                    app:layout_constraintTop_toTopOf="@id/viewSwitch"
                     app:layout_constraintEnd_toEndOf="@id/viewSwitch"
                     app:layout_constraintStart_toStartOf="@id/viewSwitch"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"/>
+                    app:layout_constraintTop_toTopOf="@id/viewSwitch" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,10 +338,10 @@
                     app:slidr_textTop_visible="true" />
 
                 <RelativeLayout
-                    android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp">
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
 
                     <com.basic.common.widget.LsTextView
                         android:layout_width="wrap_content"
@@ -316,7 +349,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:text="Subtle"
-                        android:textColor="?android:textColorTertiary"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/_10ssp" />
 
                     <com.basic.common.widget.LsTextView
@@ -326,7 +359,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:text="Drastic"
-                        android:textColor="?android:textColorTertiary"
+                        android:textColor="?android:textColorSecondary"
                         android:textSize="@dimen/_10ssp" />
 
                 </RelativeLayout>
@@ -345,17 +378,16 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        app:cardBackgroundColor="?android:windowBackground"
+        app:cardBackgroundColor="?colorPrimary"
         app:cardCornerRadius="@dimen/_10sdp"
-        app:cardElevation="@dimen/_3sdp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rec_gradient">
+            android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/next"
