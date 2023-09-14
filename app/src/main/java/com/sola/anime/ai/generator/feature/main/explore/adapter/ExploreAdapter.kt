@@ -1,8 +1,11 @@
 package com.sola.anime.ai.generator.feature.main.explore.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsAdapter
+import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.setTint
@@ -18,8 +21,40 @@ class ExploreAdapter @Inject constructor(
     private val context: Context
 ): LsAdapter<Explore, ItemPreviewExploreBinding>(ItemPreviewExploreBinding::inflate) {
 
+    companion object {
+        private const val EXPLORE_SIZE = 5
+    }
+
+    private var isLastPage = false
+    var explores = listOf<Explore>()
+        set(value) {
+            val exploresDisplay = when (itemCount) {
+                0 -> value.takeIf { it.size > EXPLORE_SIZE }?.subList(0, EXPLORE_SIZE) ?: listOf()
+                else -> value.takeIf { it.size > itemCount }?.subList(0, itemCount) ?: listOf()
+            }
+            data = exploresDisplay
+
+            field = value
+        }
+    val hashmapDrawable = hashMapOf<Int, Drawable?>()
     val clicks: Subject<Explore> = PublishSubject.create()
     val favouriteClicks: Subject<Explore> = PublishSubject.create()
+
+    fun loadMore(){
+        val startIndex = itemCount
+
+        var endIndex = startIndex + EXPLORE_SIZE - 1
+        if (endIndex >= explores.size) {
+            endIndex = explores.size - 1
+        }
+
+        if (!isLastPage){
+            data = ArrayList(data).apply {
+                this.addAll(explores.subList(startIndex, endIndex))
+            }
+        }
+        isLastPage = endIndex == explores.size - 1
+    }
 
     override fun bindItem(item: Explore, binding: ItemPreviewExploreBinding, position: Int) {
         ConstraintSet().apply {
@@ -28,8 +63,13 @@ class ExploreAdapter @Inject constructor(
             this.applyTo(binding.viewGroup)
         }
 
-        binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
-
+        hashmapDrawable[position]?.let { drawable ->
+            binding.preview.setImageDrawable(drawable)
+        } ?: run {
+            binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
+                hashmapDrawable[position] = drawable
+            }
+        }
         binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
         binding.prompt.text = item.prompt
 

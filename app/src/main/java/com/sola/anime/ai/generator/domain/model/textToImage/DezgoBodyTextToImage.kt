@@ -2,7 +2,6 @@ package com.sola.anime.ai.generator.domain.model.textToImage
 
 import android.net.Uri
 import androidx.annotation.Keep
-import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.history.LoRAHistory
 import okhttp3.ResponseBody
 
@@ -25,6 +24,7 @@ data class BodyTextToImage(
     val groupId: Long,
     val prompt: String,
     val negativePrompt: String,
+    val negativeRequest: String,
     val guidance: String,
     val upscale: String,
     val sampler: String,
@@ -46,6 +46,7 @@ data class BodyImageToImage(
     val initImage: Uri,
     val prompt: String,
     val negativePrompt: String,
+    val negativeRequest: String,
     val guidance: String,
     val upscale: String,
     val sampler: String,

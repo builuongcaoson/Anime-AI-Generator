@@ -85,7 +85,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     private val subjectRatioClicks: Subject<Ratio> = BehaviorSubject.createDefault(Ratio.Ratio1x1)
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
     private val detailExploreClicks: Subject<Explore> = PublishSubject.create()
-    private val subjectExploreChanges: Subject<List<Explore>> = PublishSubject.create()
+    private val subjectExploreChanges: Subject<Unit> = PublishSubject.create()
+    private val subjectScrollAtBottom: Subject<Unit> = PublishSubject.create()
 
     private val sheetHistory by lazy { SheetHistory() }
     private val sheetAdvanced by lazy { SheetAdvanced() }
@@ -156,12 +157,17 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
 
         exploreDao.getAllLive().observe(viewLifecycleOwner) { explores ->
+            if (explores.isEmpty()) return@observe
+
             val pairExploresFavourite = "Favourite" to explores.filter { it.isFavourite }
             val pairExploresOther = "Other" to explores.filter { !it.isFavourite && !it.isDislike }
             val pairExploresDislike = "Dislike" to explores.filter { it.isDislike }
 
-            subjectExploreChanges.onNext(explores.filter { !it.isDislike })
+            exploreAdapter.explores = explores.filter { !it.isDislike }
+
             sheetExplore.pairs = listOf(pairExploresFavourite, pairExploresOther, pairExploresDislike)
+
+            subjectExploreChanges.onNext(Unit)
         }
 
         loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
@@ -200,14 +206,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
+        subjectScrollAtBottom
+            .bindToLifecycle(binding.root)
+            .subscribe { tryOrNull { exploreAdapter.loadMore() } }
+
         subjectExploreChanges
             .autoDispose(scope())
-            .subscribe { explores ->
-                lifecycleScope.launch(Dispatchers.Main) {
-                    exploreAdapter.data = explores.filter { !it.isDislike }
-                    delay(250L)
-                    binding.recyclerViewExplore.animate().alpha(1f).setDuration(250L).start()
-                }
+            .subscribe {
+                binding.recyclerViewExplore.animate().alpha(1f).setDuration(250L).start()
             }
 
         loRAAdapter
@@ -265,15 +271,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
                 activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks, detailExploreClicks) }
-            }
-
-        Observable
-            .timer(2000L, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
-            .subscribe {
-                binding.recyclerViewExplore.animate().alpha(1f).setDuration(500).start()
             }
 
         aspectRatioAdapter
@@ -371,8 +368,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     else -> 0f
                 }
                 val alpha = scrollY.toFloat() / viewShadowHeight
-
                 (activity as? ArtActivity)?.binding?.viewShadow?.alpha = alpha
+
+                if (binding.nestedScrollView.height + scrollY >= binding.nestedScrollView.getChildAt(0).height) {
+                    subjectScrollAtBottom.onNext(Unit)
+                }
             }
         }
         binding.cardGenerate.clicks(withAnim = false) { generateClicks() }
@@ -757,6 +757,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             binding.editPrompt.disableEnter()
         }
+    }
+
+    override fun onDestroyView() {
+        tryOrNull { exploreAdapter.hashmapDrawable.clear() }
+        super.onDestroyView()
     }
 
 }

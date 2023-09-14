@@ -2,12 +2,8 @@ package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
-import com.sola.anime.ai.generator.common.util.AESEncyption
-import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.domain.model.status.GenerateImagesToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
@@ -17,7 +13,6 @@ import com.sola.anime.ai.generator.domain.model.textToImage.ResponseImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.ResponseTextToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.inject.dezgo.DezgoApi
-import com.sola.anime.ai.generator.inject.ls.LsApi
 import kotlinx.coroutines.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -41,7 +36,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         progress(GenerateTextsToImagesProgress.Loading)
         delay(250)
-        val dataChunked = datas.flatMap { it.bodies }.chunked(5)
+        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(5)
         dataChunked
             .flatMapIndexed { index: Int, bodies ->
                 val responses = bodies
@@ -94,7 +89,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = dezgoApi.text2image(
                                     headerKey = keyApi,
                                     prompt = prompt.toRequestBody(),
-                                    negativePrompt = body.negativePrompt.toRequestBody(),
+                                    negativePrompt = body.negativeRequest.toRequestBody(),
                                     guidance = body.guidance.toRequestBody(),
                                     upscale = body.upscale.toRequestBody(),
                                     sampler = body.sampler.toRequestBody(),
@@ -152,7 +147,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         progress(GenerateImagesToImagesProgress.Loading)
         delay(250)
-        val dataChunked = datas.flatMap { it.bodies }.chunked(5)
+        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(5)
         dataChunked
             .flatMapIndexed { index: Int, bodies ->
                 val responses = bodies
@@ -208,7 +203,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 val response = dezgoApi.image2image(
                                     headerKey = keyApi,
                                     prompt = prompt.toRequestBody(),
-                                    negativePrompt = body.negativePrompt.toRequestBody(),
+                                    negativePrompt = body.negativeRequest.toRequestBody(),
                                     guidance = body.guidance.toRequestBody(),
                                     upscale = body.upscale.toRequestBody(),
                                     sampler = body.sampler.toRequestBody(),

@@ -76,6 +76,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     private val loRAId by lazy { intent.getLongExtra(LORA_ID_EXTRA, -1) }
     private val loRAPReviewIndex by lazy { intent.getIntExtra(LORA_PREVIEW_INDEX_EXTRA, 0) }
     private var hadDataModelsAndLoRAs = false
+    private var hadDataExplores = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,8 +199,6 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { dataModelOrLoRA ->
-                Timber.e("Data model or loRA size: ${dataModelOrLoRA.size}")
-
                 modelAndLoRAAdapter.data = dataModelOrLoRA
 
                 hadDataModelsAndLoRAs = true
@@ -238,8 +237,6 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { dataExploreOrLoRA ->
-                Timber.e("Data size: ${dataExploreOrLoRA.size}")
-
                 lifecycleScope.launch(Dispatchers.Main) {
                     exploreOrLoRAPreviewAdapter.data = dataExploreOrLoRA
                     delay(250L)

@@ -6,10 +6,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
 import com.basic.common.extension.clicks
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.databinding.DialogFeatureBinding
 import javax.inject.Inject
 
-class FeatureDialog @Inject constructor() {
+class FeatureDialog @Inject constructor(
+    private val configApp: ConfigApp
+) {
 
     private lateinit var binding: DialogFeatureBinding
     private lateinit var dialog: Dialog
@@ -29,6 +32,8 @@ class FeatureDialog @Inject constructor() {
                 attributes = lp
             }
         }
+
+        binding.numberCreatedArtworkPremium.text = "Create ${configApp.maxNumberGeneratePremium} high-quality artworks every day"
 
         binding.later.clicks { dismiss() }
         binding.buyNow.clicks { buyNow() }

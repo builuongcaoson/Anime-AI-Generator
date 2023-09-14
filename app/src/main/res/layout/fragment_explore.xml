@@ -225,6 +225,8 @@
                         android:padding="@dimen/_5sdp"
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                         app:spanCount="2"
+                        android:alpha="0"
+                        tools:alpha="1"
                         tools:listitem="@layout/item_preview_explore" />
 
                 </RelativeLayout>

@@ -23,14 +23,6 @@ fun getDeviceModel(): String {
     return android.os.Build.MODEL
 }
 
-fun generateRandomNonce(): ByteArray {
-    val secureRandom = SecureRandom()
-    val randomBytes = ByteArray(16)
-    secureRandom.nextBytes(randomBytes)
-
-    return randomBytes
-}
-
 @SuppressLint("HardwareIds")
 fun Context.getDeviceId(): String {
     return Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID) ?: UUID.randomUUID().toString()
@@ -189,7 +181,7 @@ fun initBodyTextsToImages(
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
-        val negativePrompt = when {
+        val newNegative = when {
             subNegative.isEmpty() -> negative
             negative.endsWith(",") -> "$negative $subNegative"
             else -> "$negative, $subNegative"
@@ -200,7 +192,8 @@ fun initBodyTextsToImages(
                 id = id.toLong(),
                 groupId = groupId,
                 prompt = prompt,
-                negativePrompt = negativePrompt,
+                negativePrompt = negative,
+                negativeRequest = newNegative,
                 guidance = guidance,
                 steps = steps,
                 model = model,
@@ -313,7 +306,7 @@ fun initBodyImagesToImages(
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
-        val negativePrompt = when {
+        val newNegative = when {
             subNegative.isEmpty() -> negative
             negative.endsWith(",") -> "$negative $subNegative"
             else -> "$negative, $subNegative"
@@ -325,7 +318,8 @@ fun initBodyImagesToImages(
                 groupId = groupId,
                 initImage = initImage,
                 prompt = prompt,
-                negativePrompt = negativePrompt,
+                negativePrompt = negative,
+                negativeRequest = newNegative,
                 guidance = guidance,
                 steps = steps,
                 model = model,

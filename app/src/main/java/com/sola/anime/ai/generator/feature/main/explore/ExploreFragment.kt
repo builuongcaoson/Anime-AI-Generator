@@ -1,10 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.explore
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -33,7 +35,6 @@ import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 @AndroidEntryPoint
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
 
-//    @Inject lateinit var topPreviewAdapter: TopPreviewAdapter
     @Inject lateinit var modelAndLoRAAdapter: ModelAndLoRAAdapter
     @Inject lateinit var exploreAdapter: ExploreAdapter
     @Inject lateinit var syncRepo: SyncRepository
@@ -42,21 +43,30 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     @Inject lateinit var exploreDao: ExploreDao
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
-    private val subjectDataExploreChanges: Subject<List<Explore>> = PublishSubject.create()
+    private val subjectDataExploreChanges: Subject<Unit> = PublishSubject.create()
+    private val subjectScrollAtBottom: Subject<Unit> = PublishSubject.create()
 
     private var markFavourite = false
     private var hadDataModelsAndLoRAs = false
     private var hadDataExplores = false
 
     override fun onViewCreated() {
-        initView()
-        initObservable()
-        initData()
-        listenerView()
+        lifecycleScope.launch {
+            delay(250L)
+
+            initView()
+            initObservable()
+            initData()
+            listenerView()
+        }
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
+        subjectScrollAtBottom
+            .bindToLifecycle(binding.root)
+            .subscribe { tryOrNull { exploreAdapter.loadMore() } }
+
         modelAndLoRAAdapter
             .favouriteClicks
             .bindToLifecycle(binding.root)
@@ -106,11 +116,9 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
-            .subscribe { explores ->
+            .subscribe {
                 lifecycleScope
                     .launch(Dispatchers.Main) {
-                        exploreAdapter.data = explores
-                        delay(250L)
                         binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
                         binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
 
@@ -136,14 +144,25 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun listenerView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+                if (binding.nestedScrollView.height + scrollY >= binding.nestedScrollView.getChildAt(0).height) {
+                    subjectScrollAtBottom.onNext(Unit)
+                }
+            }
+        }
         binding.viewGenerate.clicks { activity?.startArt() }
         binding.viewSearch.clicks { activity?.startSearch() }
     }
 
     private fun initData() {
         exploreDao.getAllDislikeLive().observe(viewLifecycleOwner) { explores ->
+            if (explores.isEmpty()) return@observe
+
             if (!markFavourite){
-                subjectDataExploreChanges.onNext(explores)
+                exploreAdapter.explores = explores
+
+                subjectDataExploreChanges.onNext(Unit)
             }
             markFavourite = false
         }
@@ -166,10 +185,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initView() {
-//        binding.viewPager.apply {
-//            this.adapter = topPreviewAdapter
-//            this.isUserInputEnabled = false
-//        }
         binding.preview.load(R.drawable.preview_top_batch, errorRes = R.drawable.preview_top_batch) {
             binding.title.animate().alpha(1f).setDuration(250).start()
             binding.description.animate().alpha(1f).setDuration(250).start()
@@ -177,6 +192,11 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
         binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
         binding.recyclerExplore.adapter = exploreAdapter
+    }
+
+    override fun onDestroyView() {
+        tryOrNull { exploreAdapter.hashmapDrawable.clear() }
+        super.onDestroyView()
     }
 
 }

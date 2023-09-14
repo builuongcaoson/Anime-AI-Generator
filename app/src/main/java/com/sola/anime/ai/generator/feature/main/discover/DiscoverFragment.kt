@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main.discover
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import com.basic.common.base.LsFragment
@@ -10,10 +11,13 @@ import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startPickAvatar
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.FragmentDiscoverBinding
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -32,6 +36,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
         super.onResume()
     }
 
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         prefs
             .creditsChanges
@@ -39,9 +44,19 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
             .map { prefs.getCredits() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
+            }
+
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle(binding.root)
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
             }
     }
 
@@ -51,14 +66,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
     }
 
     private fun initView() {
-//        activity?.let { activity ->
-//            binding.viewTop.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-//                this.topMargin = when(val statusBarHeight = activity.getStatusBarHeight()) {
-//                    0 -> activity.getDimens(com.intuit.sdp.R.dimen._30sdp).toInt()
-//                    else -> statusBarHeight
-//                }
-//            }
-//        }
+
     }
 
 }

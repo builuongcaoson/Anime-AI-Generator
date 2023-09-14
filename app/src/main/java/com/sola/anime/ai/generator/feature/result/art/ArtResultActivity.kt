@@ -214,7 +214,12 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     admobManager.loadRewardCreateAgain()
                 }
             )
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> makeToast("You have requested more than ${configApp.maxNumberGeneratePremium} times a day")
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+                when {
+                    totalCreditsDeducted >= prefs.getCredits() -> startCredit()
+                    else -> task()
+                }
+            }
             else -> task()
         }
     }
@@ -608,6 +613,11 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     totalCreditsDeducted = 12f
                     creditsPerImage = 12f
                     "Generate Again (12 Credits)"
+                }
+                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+                    totalCreditsDeducted = 10f
+                    creditsPerImage = 10f
+                    "Generate Again (10 Credits)"
                 }
                 else -> {
                     totalCreditsDeducted = 0f
