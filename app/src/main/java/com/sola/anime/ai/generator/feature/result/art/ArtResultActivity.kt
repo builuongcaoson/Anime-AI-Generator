@@ -146,6 +146,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             val photoUri = tryOrNull { childHistory.photoUriString?.toUri() }
             when {
                 photoUri != null -> {
+                    configApp.creditsRemaining = prefs.getCredits()
+                    configApp.dezgoBodiesTextsToImages = listOf()
                     configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
                         context = this,
                         prefs = prefs,
@@ -168,9 +170,9 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         loRAs = childHistory.loRAs,
                         type = childHistory.type
                     )
-                    configApp.dezgoBodiesTextsToImages = listOf()
                 }
                 else -> {
+                    configApp.creditsRemaining = prefs.getCredits()
                     configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                         context = this,
                         prefs = prefs,

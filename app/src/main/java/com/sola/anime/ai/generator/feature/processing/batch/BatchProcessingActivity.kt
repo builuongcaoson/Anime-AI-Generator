@@ -125,83 +125,83 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     @SuppressLint("NotifyDataSetChanged")
     private fun generate() {
-        dezgoStatusTextsToImages = configApp
-            .dezgoBodiesTextsToImages
-            .flatMap { dezgo ->
-                dezgo
-                    .bodies
-                    .map { body ->
-                        DezgoStatusTextToImage(
-                            body = body,
-                            status = StatusBodyTextToImage.Loading
-                        )
-                    }
-            }
-
-        dezgoStatusTextsToImages.forEachIndexed { index, dezgoStatusTextToImage ->
-            Timber.e("Index: $index --- ${dezgoStatusTextToImage.body.negativePrompt}")
-        }
-
-//        tryOrNull {
-//            lifecycleScope.launch {
-//                val deferredHistoryIds = arrayListOf<Long?>()
-//
-//                dezgoApiRepo.generateTextsToImages(
-//                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-//                    subNegative = "",
-//                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
-//                    progress = { progress ->
-//                        when (progress){
-//                            GenerateTextsToImagesProgress.Idle -> {}
-//                            GenerateTextsToImagesProgress.Loading -> {
-//                                dezgoStatusTextsToImages = configApp
-//                                    .dezgoBodiesTextsToImages
-//                                    .flatMap { dezgo ->
-//                                        dezgo
-//                                            .bodies
-//                                            .map { body ->
-//                                                DezgoStatusTextToImage(
-//                                                    body = body,
-//                                                    status = StatusBodyTextToImage.Loading
-//                                                )
-//                                            }
-//                                    }
-//
-//                                previewAdapter.data = dezgoStatusTextsToImages
-//                            }
-//                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-//                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
-//                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
-//
-//                                configApp
-//                                    .dezgoBodiesTextsToImages
-//                                    .find { dezgo ->
-//                                        dezgo.id == progress.groupId
-//                                    }?.bodies
-//                                    ?.find { body ->
-//                                        body.id == progress.childId && body.groupId == progress.groupId
-//                                    }?.toChildHistory(progress.file.path)?.let {
-//                                        deferredHistoryIds.add(historyRepo.markHistory(it))
-//                                    }
-//
-//                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
-//                            }
-//                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
-//                            is GenerateTextsToImagesProgress.Done ->  {
-//                                isSuccessAll = true
-//
-//                                launch(Dispatchers.Main) {
-//                                    previewAdapter.notifyDataSetChanged()
-//                                }
-//                            }
-//                        }
+//        dezgoStatusTextsToImages = configApp
+//            .dezgoBodiesTextsToImages
+//            .flatMap { dezgo ->
+//                dezgo
+//                    .bodies
+//                    .map { body ->
+//                        DezgoStatusTextToImage(
+//                            body = body,
+//                            status = StatusBodyTextToImage.Loading
+//                        )
 //                    }
-//                )
 //            }
-//        } ?: run {
-//            makeToast("Server error, please wait for us to fix the error or try again!")
-//            back()
+//
+//        dezgoStatusTextsToImages.forEachIndexed { index, dezgoStatusTextToImage ->
+//            Timber.e("Index: $index --- ${dezgoStatusTextToImage.body.negativePrompt}")
 //        }
+
+        tryOrNull {
+            lifecycleScope.launch {
+                val deferredHistoryIds = arrayListOf<Long?>()
+
+                dezgoApiRepo.generateTextsToImages(
+                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+                    subNegative = "",
+                    datas = ArrayList(configApp.dezgoBodiesTextsToImages),
+                    progress = { progress ->
+                        when (progress){
+                            GenerateTextsToImagesProgress.Idle -> {}
+                            GenerateTextsToImagesProgress.Loading -> {
+                                dezgoStatusTextsToImages = configApp
+                                    .dezgoBodiesTextsToImages
+                                    .flatMap { dezgo ->
+                                        dezgo
+                                            .bodies
+                                            .map { body ->
+                                                DezgoStatusTextToImage(
+                                                    body = body,
+                                                    status = StatusBodyTextToImage.Loading
+                                                )
+                                            }
+                                    }
+
+                                previewAdapter.data = dezgoStatusTextsToImages
+                            }
+                            is GenerateTextsToImagesProgress.LoadingWithId -> markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            is GenerateTextsToImagesProgress.SuccessWithId ->  {
+                                prefs.setCredits(prefs.getCredits() - creditsPerImage)
+
+                                configApp
+                                    .dezgoBodiesTextsToImages
+                                    .find { dezgo ->
+                                        dezgo.id == progress.groupId
+                                    }?.bodies
+                                    ?.find { body ->
+                                        body.id == progress.childId && body.groupId == progress.groupId
+                                    }?.toChildHistory(progress.file.path)?.let {
+                                        deferredHistoryIds.add(historyRepo.markHistory(it))
+                                    }
+
+                                markSuccessWithIdAndChildId(groupId = progress.groupId, childId = progress.childId, file = progress.file)
+                            }
+                            is GenerateTextsToImagesProgress.FailureWithId -> markFailureWithIdAndChildId(groupId = progress.groupId, childId = progress.childId)
+                            is GenerateTextsToImagesProgress.Done ->  {
+                                isSuccessAll = true
+
+                                launch(Dispatchers.Main) {
+                                    previewAdapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        } ?: run {
+            makeToast("Server error, please wait for us to fix the error or try again!")
+            back()
+        }
     }
 
     private fun markLoadingWithIdAndChildId(groupId: Long, childId: Long) {

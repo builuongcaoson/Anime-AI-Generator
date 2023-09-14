@@ -572,6 +572,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     photoUri != null -> {
                         val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
 
+                        configApp.creditsRemaining = prefs.getCredits()
                         configApp.dezgoBodiesTextsToImages = emptyList()
                         configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
                             context = activity,
@@ -597,6 +598,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         )
                     }
                     else -> {
+                        configApp.creditsRemaining = prefs.getCredits()
                         configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                             context = activity,
                             prefs = prefs,
@@ -653,12 +655,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     photoUri != null -> {
                         val strength = tryOrNull { sheetPhoto.strength } ?: 0.5f
 
+                        configApp.creditsRemaining = prefs.getCredits()
                         configApp.dezgoBodiesTextsToImages = emptyList()
                         configApp.dezgoBodiesImagesToImages = initDezgoBodyImagesToImages(
                             context = activity,
                             prefs = prefs,
                             configApp = configApp,
-                            creditsPerImage = 0f,
+                            creditsPerImage = creditsPerImage,
                             groupId = 0,
                             maxChildId = 0,
                             initImage = photoUri,
@@ -678,11 +681,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                         )
                     }
                     else -> {
+                        configApp.creditsRemaining = prefs.getCredits()
                         configApp.dezgoBodiesTextsToImages = initDezgoBodyTextsToImages(
                             context = activity,
                             prefs = prefs,
                             configApp = configApp,
-                            creditsPerImage = 0f,
+                            creditsPerImage = creditsPerImage,
                             groupId = 0,
                             maxChildId = 0,
                             prompt = prompt,

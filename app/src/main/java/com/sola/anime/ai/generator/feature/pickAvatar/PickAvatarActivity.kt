@@ -172,6 +172,8 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                     )
                 }
 
+                configApp.creditsRemaining = prefs.getCredits()
+                configApp.dezgoBodiesTextsToImages = emptyList()
                 configApp.dezgoBodiesImagesToImages = dezgoBodies
 
                 launch(Dispatchers.Main){

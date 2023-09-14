@@ -144,6 +144,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                     )
                 }
 
+                configApp.creditsRemaining = prefs.getCredits()
                 configApp.dezgoBodiesTextsToImages = dezgoBodies
                 configApp.dezgoBodiesImagesToImages = emptyList()
 
