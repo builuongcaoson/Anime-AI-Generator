@@ -99,33 +99,20 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
     }
 
     private fun initView() {
-        lifecycleScope.launch {
-//            delay(250L)
+        artFragment.modelId = modelId
+        artFragment.loRAGroupId = loRAGroupId
+        artFragment.loRAId = loRAId
+        artFragment.exploreId = exploreId
 
-            artFragment.modelId = modelId
-            artFragment.loRAGroupId = loRAGroupId
-            artFragment.loRAId = loRAId
-            artFragment.exploreId = exploreId
-
-            binding.viewPager.apply {
-                this.adapter = LsPageAdapter(supportFragmentManager).apply {
-                    this.addFragment(fragment = artFragment, title = "Generate Image")
+        binding.viewPager.apply {
+            this.adapter = LsPageAdapter(supportFragmentManager).apply {
+                this.addFragment(fragment = artFragment, title = "Generate Image")
 //                this.addFragment(fragment = comingSoonFragment, title = "Coming Soon")
-                }
-                this.offscreenPageLimit = this.adapter?.count ?: 1
             }
-            binding.tabLayout.apply {
-                this.setupWithViewPager(binding.viewPager)
-            }
-
-//            delay(2000L)
-//
-//            binding.waitingInitView
-//                .animate()
-//                .alpha(0f)
-//                .withEndAction { binding.waitingInitView.isVisible = false }
-//                .setDuration(250L)
-//                .start()
+            this.offscreenPageLimit = this.adapter?.count ?: 1
+        }
+        binding.tabLayout.apply {
+            this.setupWithViewPager(binding.viewPager)
         }
     }
 

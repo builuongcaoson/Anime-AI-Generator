@@ -63,15 +63,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         prefs.creditsChanges.delete()
         prefs.userPurchasedChanges.delete()
 
-        // Reset number created in days if different days
-        when {
-            prefs.latestTimeCreatedArtwork.get().isToday() -> {}
-            else -> {
-                prefs.numberCreatedArtwork.delete()
-                prefs.latestTimeCreatedArtwork.delete()
-            }
-        }
-
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)
             when {
@@ -194,10 +185,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             when {
                 !prefs.isUpgraded.get() && isNetworkAvailable() -> {
                     binding.textLoadingAd.text = "This action contains ads..."
+
+                    resetNumberCreatedArtworkIfOtherToday()
+
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }
-                        , success = { task() }
-                        , failed = { task() }
+                        , failedOrSuccess = { task() }
                     )
                 }
                 else -> {
@@ -205,6 +198,17 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                     task()
                 }
+            }
+        }
+    }
+
+    private fun resetNumberCreatedArtworkIfOtherToday() {
+        // Reset number created in days if different days
+        when {
+            prefs.latestTimeCreatedArtwork.get().isToday() -> {}
+            else -> {
+                prefs.numberCreatedArtwork.delete()
+                prefs.latestTimeCreatedArtwork.delete()
             }
         }
     }

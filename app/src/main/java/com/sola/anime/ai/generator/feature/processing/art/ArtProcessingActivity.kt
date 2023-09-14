@@ -62,7 +62,6 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var userPremiumManager: UserPremiumManager
 
-    private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
@@ -318,7 +317,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         when {
             prefs.isUpgraded.get() && creditsPerImage != 0f -> {
                 lifecycleScope.launch {
-                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
+                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - creditsPerImage)
 
                     Timber.e("Update credits: $isSuccess")
 

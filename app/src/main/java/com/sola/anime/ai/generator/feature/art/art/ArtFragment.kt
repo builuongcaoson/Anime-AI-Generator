@@ -100,8 +100,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     var loRAGroupId = -1L
     var loRAId = -1L
 
-    private var totalCreditsDeducted = 10f
-    private var creditsPerImage = 10f
+    private var totalCreditsDeducted = 0f
+    private var creditsPerImage = 0f
 
     override fun onViewCreated() {
         lifecycleScope.launch {
@@ -438,6 +438,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         val creditsForNumbersOfImages = when {
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> 10 + (loRAAdapter.data.size * 2)
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.size * 2
             else -> numberOfImages * (10 + loRAAdapter.data.size * 2)
         }
 
@@ -701,7 +702,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
+                activity.startArtProcessing(creditsPerImage = creditsPerImage)
             }
         }
 

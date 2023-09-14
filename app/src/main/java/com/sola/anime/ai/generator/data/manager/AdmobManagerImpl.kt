@@ -205,8 +205,7 @@ class AdmobManagerImpl @Inject constructor(
     override fun loadAndShowOpenSplash(
         activity: Activity,
         loaded: () -> Unit,
-        success: () -> Unit,
-        failed: () -> Unit
+        failedOrSuccess: () -> Unit
     ) {
         when {
             isLoadingOpenSplash || openSplash != null -> return
@@ -218,14 +217,14 @@ class AdmobManagerImpl @Inject constructor(
             isLoadingOpenSplash = false
             openSplash = null
 
-            failed()
+            failedOrSuccess()
         }
 
         val taskSuccess = {
             isLoadingOpenSplash = false
             openSplash = null
 
-            success()
+            failedOrSuccess()
         }
 
         AppOpenAd.load(

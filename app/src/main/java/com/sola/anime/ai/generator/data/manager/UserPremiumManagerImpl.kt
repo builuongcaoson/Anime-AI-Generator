@@ -10,6 +10,7 @@ import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.getTimeFormatted
+import com.sola.anime.ai.generator.common.extension.isToday
 import com.sola.anime.ai.generator.common.extension.toDate
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
@@ -81,8 +82,8 @@ class UserPremiumManagerImpl @Inject constructor(
             Timber.e("User purchased: ${Gson().toJson(userPurchased)}")
 
             prefs.setCredits(userPurchased.credits.toFloat())
-            prefs.numberCreatedArtwork.set(userPurchased.numberCreatedArtwork)
             prefs.latestTimeCreatedArtwork.set(userPurchased.latestTimeCreatedArtwork.toDate()?.time ?: -1)
+            prefs.numberCreatedArtwork.set(if (prefs.latestTimeCreatedArtwork.get().isToday()) userPurchased.numberCreatedArtwork else 0)
 
             when {
                 userPurchased.productsPurchased.filterNotNull().any { it.packagePurchased.contains(Constraint.Iap.SKU_LIFE_TIME) } -> {
