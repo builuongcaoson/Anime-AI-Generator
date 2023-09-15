@@ -116,7 +116,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             activity?.let { activity ->
                 analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_BATCH_CLICKED)
 
-                val dezgoBodies = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
+                configApp.creditsRemaining = prefs.getCredits()
+                configApp.dezgoBodiesTextsToImages = promptAdapter.data.flatMapIndexed { index: Int, item: PromptBatch ->
                     val prompt = tryOrNull { item.prompt.takeIf { it.isNotEmpty() } } ?: tryOrNull { exploreDao.getAll().random().prompt } ?: listOf("Girl", "Boy").random()
                     val negative = tryOrNull { item.negativePrompt.takeIf { it.isNotEmpty() }?.let { Constraint.Dezgo.DEFAULT_NEGATIVE + ", $it" } ?: Constraint.Dezgo.DEFAULT_NEGATIVE } ?: Constraint.Dezgo.DEFAULT_NEGATIVE
 
@@ -141,9 +142,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                         type = 1
                     )
                 }
-
-                configApp.creditsRemaining = prefs.getCredits()
-                configApp.dezgoBodiesTextsToImages = dezgoBodies
                 configApp.dezgoBodiesImagesToImages = emptyList()
 
                 activity.startBatchProcessing(totalCreditsDeducted= totalCreditsDeducted, creditsPerImage = creditsPerImage)
@@ -250,6 +248,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .bindToLifecycle(binding.root)
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
+
+                updateUiCredit()
             }
 
         prefs

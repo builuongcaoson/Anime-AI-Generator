@@ -79,17 +79,6 @@ class LoRAAdapter: LsAdapter<LoRAPreview, ItemLoraBinding>(ItemLoraBinding::infl
                 return
             }
 
-//            if (value == null){
-//                field?.forEach { loRA ->
-//                    val oldIndex = data.indexOfFirst { loRAPreview -> loRAPreview.loRA == loRA }
-//
-//                    field = null
-//
-//                    oldIndex.takeIf { it != -1 }?.let { notifyItemChanged(oldIndex) }
-//                }
-//                return
-//            }
-
             field.forEach { loRA ->
                 val index = data.indexOfFirst { loRAPreview -> loRAPreview.loRA == loRA.loRA }
 
@@ -104,6 +93,7 @@ class LoRAAdapter: LsAdapter<LoRAPreview, ItemLoraBinding>(ItemLoraBinding::infl
 
             field = value
         }
+    var isShowedDetailView = true
 
     override fun bindItem(item: LoRAPreview, binding: ItemLoraBinding, position: Int) {
         binding.preview.load(item.loRA.previews.firstOrNull(), errorRes = R.drawable.place_holder_image){ drawable ->
@@ -111,8 +101,9 @@ class LoRAAdapter: LsAdapter<LoRAPreview, ItemLoraBinding>(ItemLoraBinding::infl
         }
         binding.display.text = item.loRA.display
         binding.viewSelected.isVisible = loRAs.contains(item)
+        binding.viewDetails.isVisible = isShowedDetailView
 
-        binding.viewPreview.clicks { clicks.onNext(item) }
+        binding.viewPreview.clicks(withAnim = false) { clicks.onNext(item) }
         binding.viewDetails.clicks { detailsClicks.onNext(item) }
     }
 

@@ -81,6 +81,7 @@ class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate
 
             field = value
         }
+    var isShowedDetailView = true
 
     override fun bindItem(item: Model, binding: ItemModelBinding, position: Int) {
         binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image) { drawable ->
@@ -88,6 +89,7 @@ class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate
         }
         binding.display.text = item.display
         binding.viewSelected.isVisible = item == model
+        binding.viewDetails.isVisible = isShowedDetailView
 
         binding.viewPreview.clicks(withAnim = false) { clicks.onNext(item) }
         binding.viewDetails.clicks { detailsClicks.onNext(item) }

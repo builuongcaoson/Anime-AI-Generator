@@ -143,7 +143,9 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                     }
                 }
 
-                val dezgoBodies = urisCropCenter.flatMapIndexed { index: Int, uri: Uri ->
+                configApp.creditsRemaining = prefs.getCredits()
+                configApp.dezgoBodiesTextsToImages = emptyList()
+                configApp.dezgoBodiesImagesToImages = urisCropCenter.flatMapIndexed { index: Int, uri: Uri ->
                     val prompt = objectAdapter.item?.prompt?.random() ?: "Beautiful"
                     val negativePrompt = Constraint.Dezgo.DEFAULT_NEGATIVE
                     val strength = tryOrNull { binding.slider.currentValue } ?: Constraint.Dezgo.DEFAULT_STRENGTH_IMG_TO_IMG
@@ -171,10 +173,6 @@ class PickAvatarActivity : LsActivity<ActivityPickAvatarBinding>(ActivityPickAva
                         type = 2
                     )
                 }
-
-                configApp.creditsRemaining = prefs.getCredits()
-                configApp.dezgoBodiesTextsToImages = emptyList()
-                configApp.dezgoBodiesImagesToImages = dezgoBodies
 
                 launch(Dispatchers.Main){
                     startAvatarProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)

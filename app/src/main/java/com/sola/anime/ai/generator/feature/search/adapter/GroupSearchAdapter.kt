@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.search.adapter
 
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.basic.common.base.LsAdapter
 import com.sola.anime.ai.generator.common.ui.sheet.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.common.ui.sheet.loRA.adapter.LoRAAdapter
@@ -21,11 +22,11 @@ sealed class GroupSearch(val display: String) {
 class GroupSearchAdapter @Inject constructor(): LsAdapter<GroupSearch, ItemGroupSearchBinding>(ItemGroupSearchBinding::inflate) {
 
     val modelClicks: Subject<Model> = PublishSubject.create()
-    val detailModelClicks: Subject<Model> = PublishSubject.create()
+//    val detailModelClicks: Subject<Model> = PublishSubject.create()
     val loRAClicks: Subject<LoRAPreview> = PublishSubject.create()
-    val detailLoRAClicks: Subject<LoRAPreview> = PublishSubject.create()
+//    val detailLoRAClicks: Subject<LoRAPreview> = PublishSubject.create()
     val exploreCLicks: Subject<Explore> = PublishSubject.create()
-    val detailExploreClicks: Subject<Explore> = PublishSubject.create()
+//    val detailExploreClicks: Subject<Explore> = PublishSubject.create()
 
     override fun bindItem(item: GroupSearch, binding: ItemGroupSearchBinding, position: Int) {
         binding.display.text = item.display
@@ -33,27 +34,30 @@ class GroupSearchAdapter @Inject constructor(): LsAdapter<GroupSearch, ItemGroup
         when {
             item is GroupSearch.Models -> {
                 binding.recyclerChildSearch.apply {
+                    this.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
                     this.adapter = ModelAdapter().apply {
+                        this.isShowedDetailView = false
                         this.clicks = this@GroupSearchAdapter.modelClicks
-                        this.detailsClicks = this@GroupSearchAdapter.detailModelClicks
                         this.data = item.items
                     }
                 }
             }
             item is GroupSearch.LoRAs -> {
                 binding.recyclerChildSearch.apply {
+                    this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     this.adapter = LoRAAdapter().apply {
+                        this.isShowedDetailView = false
                         this.clicks = this@GroupSearchAdapter.loRAClicks
-                        this.detailsClicks = this@GroupSearchAdapter.detailLoRAClicks
                         this.data = item.items
                     }
                 }
             }
             item is GroupSearch.Explores -> {
                 binding.recyclerChildSearch.apply {
+                    this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                     this.adapter = ExploreAdapter().apply {
+                        this.isShowedDetailView = false
                         this.clicks = this@GroupSearchAdapter.exploreCLicks
-                        this.detailsClicks = this@GroupSearchAdapter.detailExploreClicks
                         this.data = item.items
                     }
                 }

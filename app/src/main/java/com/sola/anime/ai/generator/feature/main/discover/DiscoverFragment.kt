@@ -2,6 +2,7 @@ package com.sola.anime.ai.generator.feature.main.discover
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
@@ -47,6 +48,16 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
             .bindToLifecycle(binding.root)
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
+            }
+
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .bindToLifecycle(binding.root)
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
             }
 
         Observable

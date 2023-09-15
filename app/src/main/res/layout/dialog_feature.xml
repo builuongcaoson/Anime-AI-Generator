@@ -173,7 +173,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp">
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:visibility="gone">
 
                             <View
                                 android:layout_width="@dimen/_6sdp"
@@ -257,7 +258,7 @@
                         android:text="Buy now"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"
-                        app:textFont="semi"/>
+                        app:textFont="semi" />
 
                 </com.google.android.material.card.MaterialCardView>
 

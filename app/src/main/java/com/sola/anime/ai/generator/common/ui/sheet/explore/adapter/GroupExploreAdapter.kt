@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.common.ui.sheet.explore.adapter
 
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
@@ -39,6 +40,7 @@ class ExploreAdapter: LsAdapter<Explore, ItemExploreBinding>(ItemExploreBinding:
 
     var clicks: Subject<Explore> = PublishSubject.create()
     var detailsClicks: Subject<Explore> = PublishSubject.create()
+    var isShowedDetailView = true
 
     override fun bindItem(item: Explore, binding: ItemExploreBinding, position: Int) {
         ConstraintSet().apply {
@@ -49,6 +51,7 @@ class ExploreAdapter: LsAdapter<Explore, ItemExploreBinding>(ItemExploreBinding:
 
         binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
         binding.prompt.text = item.prompt
+        binding.viewDetails.isVisible = isShowedDetailView
 
         binding.viewClicks.clicks(withAnim = false) { clicks.onNext(item) }
         binding.viewDetails.clicks { detailsClicks.onNext(item) }

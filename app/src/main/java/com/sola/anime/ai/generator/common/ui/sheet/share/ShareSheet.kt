@@ -39,7 +39,6 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
         }
     var file: File? = null
     var ratio: String = "1:1"
-    var style: String = "No Style"
 
     override fun onViewCreated() {
         initView()
@@ -92,8 +91,6 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
     }
 
     private fun initView() {
-        binding.style.text = style
-
         ConstraintSet().apply {
             clone(binding.viewRoot)
             setDimensionRatio(binding.previewRatio.id, ratio)

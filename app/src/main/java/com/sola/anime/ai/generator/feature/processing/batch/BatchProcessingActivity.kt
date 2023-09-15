@@ -139,7 +139,6 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
                         downloadSheet.file = file
                         downloadSheet.ratio = "${body.width}:${body.height}"
-                        downloadSheet.style = "No Style"
                         downloadSheet.show(this)
                     }
 
@@ -163,6 +162,9 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
             }
             else -> {
                 lifecycleScope.launch(Dispatchers.Main) {
+                    dezgoStatusTextsToImages = configApp.dezgoBodiesTextsToImages.flatMap { dezgo -> dezgo.bodies.map { body -> DezgoStatusTextToImage(body = body, status = StatusBodyTextToImage.Loading) } }
+                    previewAdapter.data = dezgoStatusTextsToImages
+
                     val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
 
                     launch(Dispatchers.Main) {
@@ -192,24 +194,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                     progress = { progress ->
                         when (progress){
                             GenerateTextsToImagesProgress.Idle -> {}
-                            GenerateTextsToImagesProgress.Loading -> {
-                                launch(Dispatchers.Main) {
-                                    dezgoStatusTextsToImages = configApp
-                                        .dezgoBodiesTextsToImages
-                                        .flatMap { dezgo ->
-                                            dezgo
-                                                .bodies
-                                                .map { body ->
-                                                    DezgoStatusTextToImage(
-                                                        body = body,
-                                                        status = StatusBodyTextToImage.Loading
-                                                    )
-                                                }
-                                        }
-
-                                    previewAdapter.data = dezgoStatusTextsToImages
-                                }
-                            }
+                            GenerateTextsToImagesProgress.Loading -> {}
                             is GenerateTextsToImagesProgress.LoadingWithId -> launch(Dispatchers.Main) { markLoadingWithIdAndChildId(groupId = progress.groupId, childId = progress.childId) }
                             is GenerateTextsToImagesProgress.SuccessWithId ->  {
                                 launch(Dispatchers.Main) {
