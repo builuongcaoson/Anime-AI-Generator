@@ -98,16 +98,29 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
             .subscribe { dataModelOrLoRA ->
-                Timber.e("Data model or loRA size: ${dataModelOrLoRA.size}")
+                hadDataModelsAndLoRAs = true
 
                 lifecycleScope
                     .launch(Dispatchers.Main) {
                         modelAndLoRAAdapter.data = dataModelOrLoRA
-                        delay(250L)
-                        binding.loadingModelAndLoRA.animate().alpha(0f).setDuration(250).start()
-                        binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()
 
-                        hadDataModelsAndLoRAs = true
+                        delay(250L)
+
+                        binding.loadingModelAndLoRA
+                            .animate()
+                            .alpha(0f)
+                            .setDuration(250)
+                            .withEndAction {
+                                binding.recyclerModelAndLoRA
+                                    .animate()
+                                    .alpha(1f)
+                                    .setDuration(250)
+                                    .withEndAction {
+                                        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
+                                    }
+                                    .start()
+                            }
+                            .start()
                     }
             }
 
@@ -117,12 +130,25 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
             .subscribe {
+                hadDataExplores = true
+
                 lifecycleScope
                     .launch(Dispatchers.Main) {
-                        binding.loadingExplore.animate().alpha(0f).setDuration(250).start()
-                        binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
-
-                        hadDataExplores = true
+                        binding.loadingExplore
+                            .animate()
+                            .alpha(0f)
+                            .setDuration(250)
+                            .withEndAction {
+                                binding.recyclerExplore
+                                    .animate()
+                                    .alpha(1f)
+                                    .setDuration(250)
+                                    .withEndAction {
+                                        binding.recyclerExplore.adapter = exploreAdapter
+                                    }
+                                    .start()
+                            }
+                            .start()
                     }
             }
 
@@ -189,9 +215,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             binding.title.animate().alpha(1f).setDuration(250).start()
             binding.description.animate().alpha(1f).setDuration(250).start()
         }
-
-        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
-        binding.recyclerExplore.adapter = exploreAdapter
     }
 
     override fun onDestroyView() {

@@ -34,6 +34,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Date
@@ -45,7 +46,6 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var warningPremiumDialog: WarningPremiumDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var featureVersionDialog: FeatureVersionDialog
@@ -61,18 +61,18 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         setContentView(binding.root)
 
         when {
-            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
-        }
-
-        when {
             configApp.version > BuildConfig.VERSION_CODE && !prefs.isShowFeatureDialog(configApp.version).get() -> {
                 featureVersionDialog.show(this, configApp.version, configApp.feature)
             }
         }
 
-        initView()
-        initObservable()
-        listenerView()
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(250L)
+
+            initView()
+            initObservable()
+            listenerView()
+        }
     }
 
     private fun listenerView() {

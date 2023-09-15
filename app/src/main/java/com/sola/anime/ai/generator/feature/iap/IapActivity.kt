@@ -81,67 +81,42 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun initData() {
-        iapDao.getAllLive().observe(this){ data ->
-            val dataAfterChunked = data.chunked(10)
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(500L)
 
-            previewAdapter1.let { adapter ->
-                adapter.data = dataAfterChunked.getOrNull(0) ?: listOf()
-                adapter.totalCount = adapter.data.size
-                binding.recyclerPreview1.apply {
-                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+            iapDao.getAllLive().observeAndRemoveWhenNotEmpty(this@IapActivity){ data ->
+                val dataAfterChunked = data.chunked(10)
+
+                previewAdapter1.let { adapter ->
+                    adapter.data = dataAfterChunked.getOrNull(0) ?: listOf()
+                    adapter.totalCount = adapter.data.size
+                    binding.recyclerPreview1.apply {
+                        this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                    }
+                }
+                previewAdapter2.let { adapter ->
+                    adapter.data = dataAfterChunked.getOrNull(1) ?: listOf()
+                    adapter.totalCount = adapter.data.size
+                    binding.recyclerPreview2.apply {
+                        this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                    }
+                }
+                previewAdapter3.let { adapter ->
+                    adapter.data = dataAfterChunked.getOrNull(2) ?: listOf()
+                    adapter.totalCount = adapter.data.size
+                    binding.recyclerPreview3.apply {
+                        this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
+                    }
                 }
             }
-            previewAdapter2.let { adapter ->
-                adapter.data = dataAfterChunked.getOrNull(1) ?: listOf()
-                adapter.totalCount = adapter.data.size
-                binding.recyclerPreview2.apply {
-                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
-                }
-            }
-            previewAdapter3.let { adapter ->
-                adapter.data = dataAfterChunked.getOrNull(2) ?: listOf()
-                adapter.totalCount = adapter.data.size
-                binding.recyclerPreview3.apply {
-                    this.post { this.smoothScrollToPosition(adapter.data.size - 1) }
-                }
-            }
+
+            delay(250L)
+
+            binding.viewPreview.animate().alpha(1f).setDuration(250L).start()
         }
 
         syncQueryProduct()
     }
-
-//    private fun syncUserPurchased() {
-//        binding.viewLoading.isVisible = true
-//
-//        Purchases.sharedInstance.getCustomerInfoWith { customerInfo ->
-//            val isActive = customerInfo.entitlements["premium"]?.isActive ?: false
-//            Timber.tag("Main12345").e("##### IAP #####")
-//            Timber.tag("Main12345").e("Is upgraded: ${prefs.isUpgraded.get()}")
-//            Timber.tag("Main12345").e("Is active: $isActive")
-//
-//            if (isActive){
-//                lifecycleScope.launch(Dispatchers.Main) {
-//                    serverApiRepo.syncUser { userPremium ->
-//                        userPremium?.let {
-//                            if (userPremium.timeExpired == Constraint.Iap.SKU_LIFE_TIME){
-//                                prefs.isUpgraded.set(true)
-//                                prefs.timeExpiredPremium.set(-2)
-//                                return@syncUser
-//                            }
-//
-//                            customerInfo
-//                                .latestExpirationDate
-//                                ?.takeIf { it.time > System.currentTimeMillis() }
-//                                ?.let { expiredDate ->
-//                                    prefs.isUpgraded.set(true)
-//                                    prefs.timeExpiredPremium.set(expiredDate.time)
-//                                }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private fun syncQueryProduct() {
         Purchases.sharedInstance.getProducts(listOf(sku1, sku2, sku3), object: GetStoreProductsCallback {
@@ -196,11 +171,11 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private fun listenerView() {
         registerScrollListener()
 
-        binding.back.clicks { onBackPressed() }
-        binding.viewLifeTime.clicks { subjectSkuChoose.onNext(sku1) }
-        binding.viewWeekly.clicks { subjectSkuChoose.onNext(sku2) }
-        binding.viewYearly.clicks { subjectSkuChoose.onNext(sku3) }
-        binding.viewContinue.clicks { purchaseClicks() }
+        binding.back.clicks(withAnim = false) { onBackPressed() }
+        binding.viewLifeTime.clicks(withAnim = false) { subjectSkuChoose.onNext(sku1) }
+        binding.viewWeekly.clicks(withAnim = false) { subjectSkuChoose.onNext(sku2) }
+        binding.viewYearly.clicks(withAnim = false) { subjectSkuChoose.onNext(sku3) }
+        binding.viewContinue.clicks(withAnim = false) { purchaseClicks() }
         binding.viewMoreOffers.clicks {
             featureDialog.show(this){
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -216,8 +191,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             "Terms of Use" to View.OnClickListener { navigator.showTerms() },
             "Restore" to View.OnClickListener { restoreClicks() }
         )
-//        binding.termsOfUse.makeLinks("Terms of Use" to View.OnClickListener { navigator.showTerms() })
-//        binding.restore.makeLinks("Restore" to View.OnClickListener { restoreClicks() })
     }
 
     private fun restoreClicks() {

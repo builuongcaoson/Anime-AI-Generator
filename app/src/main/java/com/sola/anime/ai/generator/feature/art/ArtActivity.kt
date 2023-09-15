@@ -12,6 +12,7 @@ import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityArtBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.feature.art.art.ArtFragment
 import com.sola.anime.ai.generator.feature.art.comingsoon.ComingSoonFragment
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
@@ -37,6 +38,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
     }
 
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
@@ -49,6 +51,10 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        when {
+            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
+        }
 
         initView()
         initObservable()

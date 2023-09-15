@@ -62,10 +62,14 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     private var creditsPerImage = totalCreditsDeducted / 10
 
     override fun onViewCreated() {
-        initView()
-        initObservable()
-        initData()
-        listenerView()
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(500L)
+
+            initView()
+            initObservable()
+            initData()
+            listenerView()
+        }
     }
 
     private fun initData() {

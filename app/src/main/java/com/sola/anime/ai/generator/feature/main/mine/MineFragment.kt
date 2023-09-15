@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
@@ -25,6 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -36,8 +40,12 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     private var tabIndex = 0 // Default tab home
 
     override fun onViewCreated() {
-        initView()
-        listenerView()
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(1000L)
+
+            initView()
+            listenerView()
+        }
     }
 
     private fun listenerView() {

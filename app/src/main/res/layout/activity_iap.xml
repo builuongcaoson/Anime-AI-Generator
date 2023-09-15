@@ -15,6 +15,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/viewPreview"
+            android:alpha="0"
+            tools:alpha="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
