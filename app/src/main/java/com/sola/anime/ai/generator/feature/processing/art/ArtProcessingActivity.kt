@@ -301,18 +301,20 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
         when {
             prefs.isUpgraded.get() -> {
-                lifecycleScope.launch {
-                    val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
+                prefs.getUserPurchased()?.let {
+                    lifecycleScope.launch {
+                        val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
 
-                    when {
-                        isSuccess -> {
-                            prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+                        when {
+                            isSuccess -> {
+                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                            task()
+                                task()
+                            }
+                            else -> markFailed()
                         }
-                        else -> markFailed()
                     }
-                }
+                } ?: task()
             }
             else -> task()
         }

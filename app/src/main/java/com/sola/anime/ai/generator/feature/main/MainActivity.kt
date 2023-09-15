@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -26,6 +27,7 @@ import com.sola.anime.ai.generator.feature.main.mine.MineFragment
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
 import com.sola.anime.ai.generator.feature.main.explore.ExploreFragment
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,12 +81,13 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         binding.viewBottom.viewArt.clicks { startArt() }
     }
 
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         bottomTabs.forEachIndexed { index, tab ->
             tab
                 .viewClicks
                 .clicks()
-                .autoDispose(scope())
+                .bindToLifecycle(binding.root)
                 .subscribe { subjectTabClicks.onNext(index) }
         }
 
@@ -93,7 +96,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             .delay(250, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { index ->
                 scrollToPage(index)
             }
@@ -101,7 +104,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         subjectTabClicks
             .skip(1)
             .distinctUntilChanged()
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { index ->
                 scrollToPage(index)
 
@@ -118,7 +121,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             .delay(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { isPurchasedCredit ->
                 when {
                     isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded.get() -> warningPremiumDialog.show(this)
@@ -132,7 +135,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             .delay(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { isUpgraded ->
                 when {
                     isUpgraded && !prefs.isShowedWaringPremiumDialog.get() -> warningPremiumDialog.show(this)

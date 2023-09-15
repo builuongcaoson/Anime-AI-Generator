@@ -9,7 +9,7 @@ import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.model.config.style.Style
 
 
-data class LoRAPreview(val loRA: LoRA, val loRAGroupId: Long, val strength: Float)
+data class LoRAPreview(val loRA: LoRA, val loRAGroupId: Long, var strength: Float)
 
 data class ExplorePreview(val exploreId: Long, val previewIndex: Int, val preview: String, val ratio: String)
 

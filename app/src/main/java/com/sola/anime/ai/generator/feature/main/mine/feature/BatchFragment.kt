@@ -37,7 +37,7 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
     }
 
     private fun listenerView() {
-        binding.viewTry.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 1 }
+        binding.viewExplore.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 1 }
     }
 
     override fun onResume() {

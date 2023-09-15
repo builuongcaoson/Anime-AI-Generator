@@ -3,6 +3,7 @@ package com.sola.anime.ai.generator.feature.result.art
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
@@ -88,8 +89,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private val downloadSheet by lazy { DownloadSheet() }
     private val shareSheet by lazy { ShareSheet() }
 
-    private var totalCreditsDeducted = 10f
-    private var creditsPerImage = 10f
+    private var totalCreditsDeducted = 0f
+    private var creditsPerImage = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,7 +152,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         context = this,
                         prefs = prefs,
                         configApp = configApp,
-                        creditsPerImage = 0f,
+                        creditsPerImage = creditsPerImage,
                         groupId = 0,
                         maxChildId = 0,
                         initImage = photoUri,
@@ -176,7 +177,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         context = this,
                         prefs = prefs,
                         configApp = configApp,
-                        creditsPerImage = 0f,
+                        creditsPerImage = creditsPerImage,
                         groupId = 0,
                         maxChildId = 0,
                         prompt = history.prompt,
@@ -202,19 +203,32 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> startIap()
-            !prefs.isUpgraded.get() -> admobManager.showRewardCreateAgain(
-                this,
-                success = {
-                    task()
-                    admobManager.loadRewardCreateAgain()
-                },
-                failed = {
-                    makeToast("Please watch all ads to perform the function!")
-                    admobManager.loadRewardCreateAgain()
+            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+                when {
+                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
+                    else -> task()
                 }
-            )
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+            }
+            !prefs.isUpgraded.get() -> {
+                when {
+                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
+                    totalCreditsDeducted != 0f -> task()
+                    else -> {
+                        admobManager.showRewardCreateAgain(
+                            this,
+                            success = {
+                                task()
+                                admobManager.loadRewardCreateAgain()
+                            },
+                            failed = {
+                                makeToast("Please watch all ads to perform the function!")
+                                admobManager.loadRewardCreateAgain()
+                            }
+                        )
+                    }
+                }
+            }
+            prefs.isUpgraded.get() -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> startCredit()
                     else -> task()
@@ -582,44 +596,43 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun updateUiCredits() {
         childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             val description = when {
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 2 -> {
-                    totalCreditsDeducted = 14f
-                    creditsPerImage = 14f
-                    "Generate Again (14 Credits)"
-                }
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree && childHistory.loRAs.size == 1 -> {
-                    totalCreditsDeducted = 12f
-                    creditsPerImage = 12f
-                    "Generate Again (12 Credits)"
-                }
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-                    totalCreditsDeducted = 10f
-                    creditsPerImage = 10f
-                    "Generate Again (10 Credits)"
+                    totalCreditsDeducted = 10f + childHistory.loRAs.size * 5
+                    creditsPerImage = 10f + childHistory.loRAs.size * 5
+
+                    "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                 }
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
-                    totalCreditsDeducted = 0f
-                    creditsPerImage = 0f
-                    "Generate Again (Watch an Ad)"
-                }
-                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 2 -> {
-                    totalCreditsDeducted = 14f
-                    creditsPerImage = 14f
-                    "Generate Again (14 Credits)"
-                }
-                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && childHistory.loRAs.size == 1 -> {
-                    totalCreditsDeducted = 12f
-                    creditsPerImage = 12f
-                    "Generate Again (12 Credits)"
+                    totalCreditsDeducted = when {
+                        prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
+                        else -> 0f + childHistory.loRAs.size * 5
+                    }
+                    creditsPerImage = when {
+                        prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
+                        else -> 0f + childHistory.loRAs.size * 5
+                    }
+
+                    when (creditsPerImage) {
+                        0f -> "Generate Again (Watch an Ad)"
+                        else -> "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
+                    }
                 }
                 prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
-                    totalCreditsDeducted = 10f
-                    creditsPerImage = 10f
-                    "Generate Again (10 Credits)"
+                    totalCreditsDeducted = 10f + childHistory.loRAs.size * 5
+                    creditsPerImage = 10f + childHistory.loRAs.size * 5
+
+                    "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
+                }
+                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> {
+                    totalCreditsDeducted = 0f + childHistory.loRAs.size * 5
+                    creditsPerImage = 0f + childHistory.loRAs.size * 5
+
+                    "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                 }
                 else -> {
                     totalCreditsDeducted = 0f
                     creditsPerImage = 0f
+
                     "Generate Again"
                 }
             }

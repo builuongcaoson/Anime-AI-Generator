@@ -51,11 +51,12 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     private var hadDataExplores = false
 
     override fun onViewCreated() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Main) {
             delay(250L)
 
             initView()
             initObservable()
+            delay(250L)
             initData()
             listenerView()
         }
@@ -103,24 +104,11 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 lifecycleScope
                     .launch(Dispatchers.Main) {
                         modelAndLoRAAdapter.data = dataModelOrLoRA
+                        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
 
                         delay(250L)
 
-                        binding.loadingModelAndLoRA
-                            .animate()
-                            .alpha(0f)
-                            .setDuration(250)
-                            .withEndAction {
-                                binding.recyclerModelAndLoRA
-                                    .animate()
-                                    .alpha(1f)
-                                    .setDuration(250)
-                                    .withEndAction {
-                                        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
-                                    }
-                                    .start()
-                            }
-                            .start()
+                        binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()
                     }
             }
 
@@ -132,24 +120,13 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribe {
                 hadDataExplores = true
 
-                lifecycleScope
-                    .launch(Dispatchers.Main) {
-                        binding.loadingExplore
-                            .animate()
-                            .alpha(0f)
-                            .setDuration(250)
-                            .withEndAction {
-                                binding.recyclerExplore
-                                    .animate()
-                                    .alpha(1f)
-                                    .setDuration(250)
-                                    .withEndAction {
-                                        binding.recyclerExplore.adapter = exploreAdapter
-                                    }
-                                    .start()
-                            }
-                            .start()
-                    }
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.recyclerExplore.adapter = exploreAdapter
+
+                    delay(250L)
+
+                    binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+                }
             }
 
         exploreAdapter

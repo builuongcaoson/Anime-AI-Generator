@@ -37,7 +37,7 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
     }
 
     private fun listenerView() {
-        binding.viewTry.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 2 }
+        binding.viewExplore.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 2 }
     }
 
     override fun onResume() {

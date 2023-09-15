@@ -45,7 +45,6 @@
                 android:id="@+id/viewEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_50sdp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,14 +80,14 @@
                     app:layout_constraintTop_toBottomOf="@id/previewEmpty" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/viewTry"
+                    android:id="@+id/viewExplore"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    app:cardBackgroundColor="?colorSecondary"
+                    app:cardBackgroundColor="?colorPrimary"
                     app:cardCornerRadius="@dimen/_5sdp"
-                    app:cardElevation="0dp"
+                    app:cardElevation="@dimen/_3sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +98,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Try now"
-                        android:textColor="?android:textColorPrimary"
+                        android:textColor="?colorOnPrimary"
                         android:textSize="@dimen/_12ssp" />
 
                 </com.google.android.material.card.MaterialCardView>

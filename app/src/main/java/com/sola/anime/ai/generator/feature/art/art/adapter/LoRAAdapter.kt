@@ -18,7 +18,9 @@ class LoRAAdapter @Inject constructor(): LsAdapter<LoRAPreview, ItemLoraInArtBin
     override fun bindItem(item: LoRAPreview, binding: ItemLoraInArtBinding, position: Int) {
         binding.previewStyle.load(item.loRA.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
         binding.display.text = item.loRA.display
+        binding.slider.currentValue = item.strength
 
+        binding.slider.setListener { _, currentValue -> item.strength = currentValue }
         binding.cardLoRA.clicks(withAnim = false) { clicks.onNext(item) }
         binding.delete.clicks(withAnim = false) { deleteClicks.onNext(position) }
     }

@@ -60,7 +60,7 @@ class Preferences @Inject constructor(
     fun getUserPurchased(): UserPurchased? {
         val valueUserPurchased = userPurchased.get()
         return when {
-            valueUserPurchased.isNotEmpty() -> tryOrNull { Gson().fromJson(valueUserPurchased, UserPurchased::class.java) }
+            valueUserPurchased.isNotEmpty() -> tryOrNull { Gson().fromJson(AESEncyption.decrypt(valueUserPurchased), UserPurchased::class.java) }
             else -> null
         }
     }

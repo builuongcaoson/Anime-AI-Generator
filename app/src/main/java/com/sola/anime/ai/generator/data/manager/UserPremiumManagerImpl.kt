@@ -78,7 +78,7 @@ class UserPremiumManagerImpl @Inject constructor(
 
         prefs.setUserPurchased(userPurchased)
 
-        userPurchased?.let {
+        prefs.getUserPurchased()?.let { userPurchased ->
             Timber.e("User purchased: ${Gson().toJson(userPurchased)}")
 
             prefs.setCredits(userPurchased.credits.toFloat())
