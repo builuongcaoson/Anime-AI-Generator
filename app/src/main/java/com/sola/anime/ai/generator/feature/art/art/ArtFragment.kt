@@ -617,7 +617,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             strength = strength.toString(),
                             seed = null,
                             loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
-                            type = 0
+                            type = 1
                         )
                     }
                     else -> {
@@ -640,7 +640,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             ratio = aspectRatioAdapter.ratio,
                             seed = null,
                             loRAs = loRAAdapter.data.map { LoRAHistory(it.loRA.sha256, it.strength) },
-                            type = 0
+                            type = 1
                         )
                         configApp.dezgoBodiesImagesToImages = emptyList()
                     }
