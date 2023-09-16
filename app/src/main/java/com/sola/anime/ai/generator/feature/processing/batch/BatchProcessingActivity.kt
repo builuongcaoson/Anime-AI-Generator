@@ -165,17 +165,23 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                     dezgoStatusTextsToImages = configApp.dezgoBodiesTextsToImages.flatMap { dezgo -> dezgo.bodies.map { body -> DezgoStatusTextToImage(body = body, status = StatusBodyTextToImage.Loading) } }
                     previewAdapter.data = dezgoStatusTextsToImages
 
-                    val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+                    prefs.getUserPurchased()?.let {
+                        val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                    launch(Dispatchers.Main) {
-                        when {
-                            isSuccess -> {
-                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+                        launch(Dispatchers.Main) {
+                            when {
+                                isSuccess -> {
+                                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                                generate()
+                                    generate()
+                                }
+                                else -> markFailed()
                             }
-                            else -> markFailed()
                         }
+                    } ?: run {
+                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                        generate()
                     }
                 }
             }

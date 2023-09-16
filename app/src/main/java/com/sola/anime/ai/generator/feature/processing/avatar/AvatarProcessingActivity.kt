@@ -174,17 +174,23 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                     dezgoStatusImagesToImages = configApp.dezgoBodiesImagesToImages.flatMap { dezgo -> dezgo.bodies.map { body -> DezgoStatusImageToImage(body = body, status = StatusBodyImageToImage.Loading) } }
                     previewAdapter.data = dezgoStatusImagesToImages
 
-                    val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+                    prefs.getUserPurchased()?.let {
+                        val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                    launch(Dispatchers.Main) {
-                        when {
-                            isSuccess -> {
-                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+                        launch(Dispatchers.Main) {
+                            when {
+                                isSuccess -> {
+                                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                                generate()
+                                    generate()
+                                }
+                                else -> markFailed()
                             }
-                            else -> markFailed()
                         }
+                    } ?: run {
+                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+
+                        generate()
                     }
                 }
             }

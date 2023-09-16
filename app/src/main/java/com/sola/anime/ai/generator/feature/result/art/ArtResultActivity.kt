@@ -211,9 +211,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             }
             !prefs.isUpgraded.get() -> {
                 when {
-                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
-                    totalCreditsDeducted != 0f -> task()
-                    else -> {
+                    totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") -> {
                         admobManager.showRewardCreateAgain(
                             this,
                             success = {
@@ -226,6 +224,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                             }
                         )
                     }
+                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+                    else -> startIap()
                 }
             }
             prefs.isUpgraded.get() -> {
@@ -605,11 +605,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
                     totalCreditsDeducted = when {
                         prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
-                        else -> 0f + childHistory.loRAs.size * 5
+                        childHistory.loRAs.isNotEmpty() -> 10f + childHistory.loRAs.size * 5
+                        else -> 0f
                     }
                     creditsPerImage = when {
                         prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
-                        else -> 0f + childHistory.loRAs.size * 5
+                        childHistory.loRAs.isNotEmpty() -> 10f + childHistory.loRAs.size * 5
+                        else -> 0f
                     }
 
                     when (creditsPerImage) {

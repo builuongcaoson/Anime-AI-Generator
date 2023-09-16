@@ -299,24 +299,23 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
         artGenerateDialog.show(this@ArtProcessingActivity)
 
-        when {
-            prefs.isUpgraded.get() -> {
-                prefs.getUserPurchased()?.let {
-                    lifecycleScope.launch {
-                        val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
+        prefs.getUserPurchased()?.let {
+            lifecycleScope.launch {
+                val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
 
-                        when {
-                            isSuccess -> {
-                                prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+                when {
+                    isSuccess -> {
+                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                                task()
-                            }
-                            else -> markFailed()
-                        }
+                        task()
                     }
-                } ?: task()
+                    else -> markFailed()
+                }
             }
-            else -> task()
+        } ?: run {
+            prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
+
+            task()
         }
 
         artProcessDao.getAllLive().observe(this){ artProcesses ->

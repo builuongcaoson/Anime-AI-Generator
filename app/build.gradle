@@ -17,8 +17,8 @@ android {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
         targetSdk 33
-        versionCode 45
-        versionName "45.0"
+        versionCode 47
+        versionName "47.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
