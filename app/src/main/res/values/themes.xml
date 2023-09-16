@@ -37,6 +37,7 @@
 
     <style name="Theme.Preview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="cardBackgroundColor">#131313</item>
         <item name="colorAccent">@color/tools_theme</item>
         <item name="android:textColorPrimary">@color/textPrimaryDark</item>
         <item name="android:textColorSecondary">@color/textSecondaryDark</item>
@@ -44,13 +45,14 @@
         <item name="android:windowBackground">@color/backgroundDark</item>
         <item name="android:statusBarColor">@color/backgroundDark</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:navigationBarColor">@color/backgroundLight</item>
+        <item name="android:navigationBarColor">@color/backgroundDark</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:colorBackground">#121212</item>
     </style>
 
     <style name="Theme.Crop" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="cardBackgroundColor">@color/white1</item>
         <item name="colorAccent">@color/tools_theme</item>
         <item name="android:textColorPrimary">@color/textPrimaryDark</item>
         <item name="android:textColorSecondary">@color/textSecondaryDark</item>
