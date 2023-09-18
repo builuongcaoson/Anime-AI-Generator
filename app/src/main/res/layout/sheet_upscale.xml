@@ -26,7 +26,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_40sdp"
             app:cardBackgroundColor="?android:windowBackground"
-            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1024:768"

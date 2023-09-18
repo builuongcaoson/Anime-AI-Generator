@@ -6,8 +6,8 @@
     <color name="backgroundDark">#000000</color>
 
     <color name="colorPrimary">#000000</color>
-    <color name="colorSecondary">#f2bd53</color>
-    <color name="colorTertiary">#FFD560</color>
+    <color name="colorSecondary">#ffcd20</color>
+    <color name="colorTertiary">#B58E00</color>
 
     <color name="textPrimary">#141A18</color>
     <color name="textSecondary">#686868</color>

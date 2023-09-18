@@ -56,14 +56,14 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewEmpty"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="?cardBackgroundColor"
             app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="?android:colorBackground"
-            android:layout_height="wrap_content">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,30 +76,30 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10sdp"
-                    app:lottie_autoPlay="true"
                     android:padding="@dimen/_5sdp"
+                    app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/timer_lottie" />
 
                 <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="No history to show yet"
-                    android:textSize="@dimen/_12ssp"
                     android:textColor="?android:textColorPrimary"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="@dimen/_12ssp" />
 
                 <com.basic.common.widget.LsTextView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:text="Type in a prompt to have them appear here!"
-                    android:gravity="center_horizontal"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/_10ssp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:gravity="center_horizontal"
+                    android:text="Type in a prompt to have them appear here!"
                     android:textColor="?android:textColorSecondary"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="@dimen/_10ssp" />
 
             </LinearLayout>
 
