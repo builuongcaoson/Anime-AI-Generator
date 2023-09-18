@@ -5,6 +5,7 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.viewpager2.widget.ViewPager2
+import com.basic.common.extension.tryOrNull
 
 fun ViewPager2.setCurrentItem(
     item: Int,
@@ -16,10 +17,12 @@ fun ViewPager2.setCurrentItem(
     val animator = ValueAnimator.ofInt(0, pxToDrag)
     var previousValue = 0
     animator.addUpdateListener { valueAnimator ->
-        val currentValue = valueAnimator.animatedValue as Int
-        val currentPxToDrag = (currentValue - previousValue).toFloat()
-        fakeDragBy(-currentPxToDrag)
-        previousValue = currentValue
+        tryOrNull {
+            val currentValue = valueAnimator.animatedValue as Int
+            val currentPxToDrag = (currentValue - previousValue).toFloat()
+            fakeDragBy(-currentPxToDrag)
+            previousValue = currentValue
+        }
     }
     animator.addListener(object : Animator.AnimatorListener {
         override fun onAnimationStart(animation: Animator) { beginFakeDrag() }

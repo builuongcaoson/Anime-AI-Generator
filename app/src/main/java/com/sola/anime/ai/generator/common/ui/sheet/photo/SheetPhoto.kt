@@ -26,6 +26,7 @@ import com.sola.anime.ai.generator.databinding.ItemPhotoBinding
 import com.sola.anime.ai.generator.databinding.SheetPhotoBinding
 import com.sola.anime.ai.generator.domain.model.PhotoStorage
 import com.sola.anime.ai.generator.domain.model.Ratio
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +71,7 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
 
     override fun onViewCreated() {
         initView()
+        initObservable()
         initData()
         listenerView()
     }
@@ -149,22 +151,18 @@ class SheetPhoto: LsBottomSheet<SheetPhotoBinding>(SheetPhotoBinding::inflate) {
         }
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         photoAdapter
             .subjectDeleteChanges
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 binding.confirm.isVisible = photoAdapter.itemsChoiceDelete.isNotEmpty()
             }
 
         photoAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { photoType ->
                 when (photoType) {
                     is PhotoType.Photo -> {

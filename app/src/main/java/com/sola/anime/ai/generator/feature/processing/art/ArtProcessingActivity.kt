@@ -8,12 +8,8 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
@@ -31,7 +27,6 @@ import com.sola.anime.ai.generator.domain.model.status.GenerateImagesToImagesPro
 import com.sola.anime.ai.generator.domain.model.status.GenerateTextsToImagesProgress
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.status.StatusBodyTextToImage
-import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
 import com.sola.anime.ai.generator.domain.repo.DezgoApiRepository
 import com.sola.anime.ai.generator.domain.repo.HistoryRepository
 import com.sola.anime.ai.generator.feature.processing.art.adapter.PreviewAdapter
@@ -46,7 +41,6 @@ import timber.log.Timber
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityArtProcessingBinding::inflate) {

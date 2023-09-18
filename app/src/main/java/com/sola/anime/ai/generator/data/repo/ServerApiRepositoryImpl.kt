@@ -1,15 +1,10 @@
 package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
-import androidx.core.text.isDigitsOnly
 import com.basic.common.extension.tryOrNull
 import com.google.gson.Gson
-import com.sola.anime.ai.generator.common.extension.getDeviceId
-import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.server.Message
+import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.domain.model.server.PromoCode
-import com.sola.anime.ai.generator.domain.model.server.UserPremium
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
 import com.sola.anime.ai.generator.inject.server.ServerApi
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +23,7 @@ class ServerApiRepositoryImpl @Inject constructor(
     override suspend fun promoCode(promoCode: String, success: (isActive: Boolean, promo: String) -> Unit, failed: () -> Unit) {
         val json = withContext(Dispatchers.IO) {
             try {
-                serverApi.promoCode(context.getDeviceId().toRequestBody(), promoCode.toRequestBody())
+                serverApi.promoCode(context.deviceId().toRequestBody(), promoCode.toRequestBody())
             } catch (e: Exception){
                 e.printStackTrace()
                 null

@@ -1,6 +1,7 @@
 package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
@@ -49,7 +50,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         setContentView(binding.root)
 
         Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
-        Timber.tag("Main12345").e("Device id: ${getDeviceId()}")
+        Timber.tag("Main12345").e("Device id: ${deviceId()}")
+        if (Build.VERSION.SDK_INT >= 34) {
+            Timber.tag("Main12345").e("Device id 2: $deviceId")
+        }
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
@@ -79,7 +83,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                                 finish()
                                 return@syncRemoteConfig
                             }
-                            configApp.blockDeviceIds.contains(getDeviceId()) -> {
+                            configApp.blockDeviceIds.contains(deviceId()) -> {
                                 makeToast("Your device is on our blocked list!")
                                 finish()
                                 return@syncRemoteConfig
@@ -216,7 +220,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initView() {
-        binding.image.load(R.drawable.ic_launcher, errorRes = R.drawable.place_holder_image)
+        binding.image.load(R.drawable.ic_launcher)
     }
 
 }

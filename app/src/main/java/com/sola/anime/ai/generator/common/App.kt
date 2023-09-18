@@ -1,13 +1,12 @@
 package com.sola.anime.ai.generator.common
 
 import android.app.Application
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.installations.FirebaseInstallations
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
-import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
@@ -59,10 +58,9 @@ class App : Application() {
 
     private fun initRevenuecat(){
         Purchases.logLevel = LogLevel.DEBUG
-        Purchases.debugLogsEnabled = true
+        Purchases.debugLogsEnabled = BuildConfig.DEBUG
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-        Purchases.sharedInstance.setDisplayName(getDeviceId())
-        Purchases.sharedInstance.setEmail(getDeviceModel())
+        Purchases.sharedInstance.setDisplayName("${deviceId()}---${getDeviceModel()}")
     }
 
 }

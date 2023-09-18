@@ -44,6 +44,7 @@ import com.sola.anime.ai.generator.inject.server.ServerApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -60,7 +61,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideContext(): Context = App.app
+    fun provideContext(@ApplicationContext context: Context): Context = context
 
     @Provides
     @Singleton

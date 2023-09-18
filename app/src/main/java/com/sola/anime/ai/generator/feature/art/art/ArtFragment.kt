@@ -16,7 +16,6 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
-import com.sola.anime.ai.generator.common.ui.dialog.BlockSensitivesDialog
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.sheet.advanced.SheetAdvanced
@@ -59,7 +58,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -74,7 +72,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     @Inject lateinit var exploreDialog: ExploreDialog
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
-    @Inject lateinit var blockSensitivesDialog: BlockSensitivesDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var exploreAdapter: ExploreAdapter

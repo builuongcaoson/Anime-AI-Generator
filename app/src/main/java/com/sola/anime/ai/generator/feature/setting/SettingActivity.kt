@@ -17,7 +17,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
-import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
@@ -152,7 +152,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
             }
         }
 
-        binding.deviceId.text = getDeviceId()
+        binding.deviceId.text = deviceId()
         binding.version.text = BuildConfig.VERSION_NAME
     }
 

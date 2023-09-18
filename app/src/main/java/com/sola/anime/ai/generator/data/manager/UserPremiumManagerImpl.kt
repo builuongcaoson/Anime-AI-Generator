@@ -1,13 +1,12 @@
 package com.sola.anime.ai.generator.data.manager
 
 import android.content.Context
-import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.Constraint
-import com.sola.anime.ai.generator.common.extension.getDeviceId
+import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.common.extension.getTimeFormatted
 import com.sola.anime.ai.generator.common.extension.isToday
@@ -31,11 +30,11 @@ class UserPremiumManagerImpl @Inject constructor(
 ): UserPremiumManager {
 
     override suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased = withContext(Dispatchers.IO){
-        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.deviceId())
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) } ?: UserPurchased()
 
-        userPurchased.deviceId = context.getDeviceId()
+        userPurchased.deviceId = context.deviceId()
         userPurchased.deviceModel = getDeviceModel()
         userPurchased.credits = prefs.getCredits().roundToInt()
         userPurchased.numberCreatedArtwork = when {
@@ -68,12 +67,12 @@ class UserPremiumManagerImpl @Inject constructor(
     }
 
     override suspend fun syncUserPurchasedFromDatabase() = withContext(Dispatchers.IO) {
-        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.deviceId())
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
 
         Timber.e("### Sync premium ###")
-        Timber.e("Device id: ${context.getDeviceId()}")
+        Timber.e("Device id: ${context.deviceId()}")
         Timber.e("User Purchased: ${Gson().toJson(userPurchased)}")
 
         prefs.setUserPurchased(userPurchased)
@@ -114,7 +113,7 @@ class UserPremiumManagerImpl @Inject constructor(
     }
 
     override suspend fun updateCredits(newCredits: Float) = withContext(Dispatchers.IO) {
-        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.deviceId())
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
 
@@ -131,7 +130,7 @@ class UserPremiumManagerImpl @Inject constructor(
     }
 
     override suspend fun createdArtwork(newCredits: Float) = withContext(Dispatchers.IO) {
-        val reference = Firebase.database.reference.child("usersPurchased").child(context.getDeviceId())
+        val reference = Firebase.database.reference.child("usersPurchased").child(context.deviceId())
         val snapshot = reference.get().await()
         val userPurchased = tryOrNull { snapshot.getValue(UserPurchased::class.java) }
 

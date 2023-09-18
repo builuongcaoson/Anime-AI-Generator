@@ -5,7 +5,6 @@ import com.basic.common.extension.tryOrNull
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.extension.getDeviceId
 import com.sola.anime.ai.generator.common.extension.getDeviceModel
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import javax.inject.Inject

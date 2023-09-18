@@ -15,7 +15,6 @@ import com.sola.anime.ai.generator.domain.model.textToImage.BodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.BodyTextToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
-import java.security.SecureRandom
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -24,7 +23,7 @@ fun getDeviceModel(): String {
 }
 
 @SuppressLint("HardwareIds")
-fun Context.getDeviceId(): String {
+fun Context.deviceId(): String {
     return Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID) ?: UUID.randomUUID().toString()
 }
 

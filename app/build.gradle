@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace 'com.sola.anime.ai.generator'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 47
         versionName "47.0"
 
@@ -25,7 +25,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
+            storeFile file('/Users/sonbui/StudioProjects/Anime-AI-Generator/app/key.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
