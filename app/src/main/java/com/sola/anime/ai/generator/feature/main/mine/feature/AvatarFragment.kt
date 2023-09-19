@@ -1,9 +1,12 @@
 package com.sola.anime.ai.generator.feature.main.mine.feature
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.ui.sheet.folder.AddFolderSheet
@@ -14,6 +17,7 @@ import com.sola.anime.ai.generator.databinding.FragmentAvatarMineBinding
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
+import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +36,7 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
 
     override fun onViewCreated() {
         initView()
+        initObservable()
         initData()
         listenerView()
     }
@@ -40,22 +45,39 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
         binding.viewExplore.clicks { (activity as? MainActivity)?.binding?.viewPager?.currentItem = 2 }
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
+    @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
         historyAdapter
             .clicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
 
         folderAdapter
             .plusClicks
-            .autoDispose(scope())
+            .bindToLifecycle(binding.root)
             .subscribe {
                 addFolderSheet.show(this)
+            }
+
+        historyAdapter
+            .longClicks
+            .bindToLifecycle(binding.root)
+            .subscribe { history ->
+                activity?.let { activity ->
+                    MaterialDialog(activity)
+                        .show {
+                            title(text = "Delete artworks?")
+                            message(text = "Are you sure you want to delete artworks? You can't undo this action.")
+                            positiveButton(text = "Delete") { dialog ->
+                                dialog.dismiss()
+
+                                tryOrNull { historyDao.delete(history) }
+                            }
+                            negativeButton(text = "Cancel") { dialog ->
+                                dialog.dismiss()
+                            }
+                        }
+                }
             }
     }
 

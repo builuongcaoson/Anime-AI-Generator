@@ -50,7 +50,8 @@
                 android:id="@+id/preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewUpscale"
@@ -93,27 +94,6 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-            <RelativeLayout
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@id/preview"
-                app:layout_constraintTop_toTopOf="@id/preview">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/circle"
-                    android:backgroundTint="?android:windowBackground"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_heart_full"
-                    android:tint="#F45050" />
-
-            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

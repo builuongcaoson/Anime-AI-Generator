@@ -225,14 +225,25 @@
   },
   {
     "id": 19,
-    "prompt": "(((masterpiece, top-quality, top-quality, watercolor painting)))(Curly), Official art, Beautifully Aesthetic:1.2), (4girl:1.5), (Fractal Art:1.3), The upper part of the body, colourful, ((Ultra-detailed retina:1.5)), embarrassed from, (Midriff), ((Super Detail Eyes:1.5)), (rainbow-colored hair, colourful hair, Half blue and half light blue hair:1.5), ((the Extremely Detailed CG Unity 8K Wallpapers, masterpiece, top-quality)), ((ultra-detailer:1.2)), (The best lighting, Best Shadows, extremely delicate and beautiful), (the Extremely Detailed CG Unity 8K Wallpapers, masterpiece, best quality, ultra-detailer), (The best lighting, Best Shadows, extremely delicate and beautiful), (the perfect body:1.5), ((High School Uniforms:1.5)),{{{{Dazzling brilliance}}}}, Rainbow Bridge, (masutepiece:1.2), Best Quality, (Illustration:1.2), (Ultra-detailed), hyper-details, (delicate detailed), (Intricate details), (Cinematic Light, best quality backlight), solo women, Perfect body, (4girl), (Best Illumination, extremely delicate and beautiful), Cinematic Light, 【emblem:Iridescent color 】, 【emblem】, 【emblem】, with white angel wings proportional to the body, ,blue-sky, Sunny day, eye glass",
+    "prompt": "((girl with)) Witch, Petting a black cat, Wearing a mysterious black necklace, At the secret base. Moreover, The witch is surrounded by a magical aura、Her skin shows pale and mysterious tones.",
     "previews": [
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F0_zzz9xxx16zzz.webp?alt=media&token=87eb488c-f652-4c23-b477-b8ba75cc44ac",
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F1_zzz9xxx16zzz.webp?alt=media&token=71b1edce-0741-416a-bb22-45e263620cd9",
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F2_zzz9xxx16zzz.webp?alt=media&token=51214268-0992-4466-b5f6-acf8ded57033",
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F3_zzz9xxx16zzz.webp?alt=media&token=671d77c6-6803-4016-b1f1-c65ad12af31e"
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F0_zzz9xxx16zzz.webp?alt=media&token=a74ec9a6-0c35-4fbf-bc24-6e1e18f7cb37",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F1_zzz9xxx16zzz.webp?alt=media&token=e224f652-c579-4560-a892-cf2edf4cfe75",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F2_zzz9xxx16zzz.webp?alt=media&token=99c58f74-f13d-43b8-aa7f-f8f0089311e1"
     ],
-    "favourite_count": 29,
+    "favourite_count": 45,
+    "modelIds": ["anylora"]
+  },
+  {
+    "id": 20,
+    "prompt": "(((Obra maestra, hatsune miku, vocaloid, Super detailed)))",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F0_zzz2xxx3zzz.webp?alt=media&token=59a7572b-f997-48d0-9aae-0d02056ad661",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F1_zzz2xxx3zzz.webp?alt=media&token=623cbd2a-2e15-48a5-82b3-5682ee76f7cb",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F2_zzz2xxx3zzz.webp?alt=media&token=bd0ddc0f-ec42-4dbb-a62e-6e7d21138902",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F3_zzz2xxx3zzz.webp?alt=media&token=511d3ecc-68b0-4763-ae2e-4c5f70fbfefa"
+    ],
+    "favourite_count": 52,
     "modelIds": ["anylora"]
   }
 ]

@@ -14,6 +14,7 @@ import javax.inject.Inject
 class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBinding>(ItemHistoryMineBinding::inflate) {
 
     val clicks: Subject<History> = PublishSubject.create()
+    val longClicks: Subject<History> = PublishSubject.create()
 
     override fun bindItem(item: History, binding: ItemHistoryMineBinding, position: Int) {
         val ratio = "${item.childs.lastOrNull()?.width ?: "1"}:${item.childs.lastOrNull()?.height ?: "1"}"
@@ -30,6 +31,10 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         binding.prompt.text = item.childs.lastOrNull()?.prompt ?: ""
 
         binding.viewGroup.clicks(withAnim = false) { clicks.onNext(item) }
+        binding.viewGroup.setOnLongClickListener {
+            longClicks.onNext(item)
+            false
+        }
     }
 
 }

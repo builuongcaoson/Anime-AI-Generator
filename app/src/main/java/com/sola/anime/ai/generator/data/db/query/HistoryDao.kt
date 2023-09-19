@@ -32,6 +32,9 @@ interface HistoryDao {
     @Query("DELETE FROM Histories")
     fun deleteAll()
 
+    @Delete
+    fun delete(vararg objects: History)
+
     // Update
 
     @Update

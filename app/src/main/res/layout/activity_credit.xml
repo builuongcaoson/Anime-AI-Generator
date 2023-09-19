@@ -8,13 +8,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/viewBottom"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/viewBottom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/preview_processing_batch"
-        android:layout_height="0dp"/>
+        tools:src="@tools:sample/avatars" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -51,10 +51,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/viewBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,18 +62,18 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.basic.common.widget.LsTextView
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:textSize="@dimen/_17ssp"
-            app:textFont="semi"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:textColor="?android:textColorPrimary"
-            android:text="Credit makes your creativity more efficient!"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="Credit makes your creativity more efficient!"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/_17ssp"
+            app:textFont="semi" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/view4"
@@ -83,9 +83,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="?android:windowBackground"
             app:strokeColor="?android:textColorTertiary"
             app:strokeWidth="2dp">
 
@@ -190,9 +190,9 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="?android:windowBackground"
             app:strokeColor="?android:textColorTertiary"
             app:strokeWidth="2dp">
 
@@ -297,9 +297,9 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="?android:windowBackground"
             app:strokeColor="?android:textColorTertiary"
             app:strokeWidth="2dp">
 
@@ -404,9 +404,9 @@
             android:layout_marginStart="@dimen/_15sdp"
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="?android:windowBackground"
             app:strokeColor="?colorAccent"
             app:strokeWidth="2dp">
 
@@ -489,10 +489,10 @@
 
                     <LinearLayout
                         android:id="@+id/description1"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp">
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:visibility="gone">
 
                         <com.basic.common.widget.LsTextView
                             android:layout_width="wrap_content"
@@ -568,9 +568,9 @@
                     <com.basic.common.widget.LsTextView
                         android:id="@+id/creditsReceived"
                         android:layout_width="wrap_content"
-                        android:layout_marginBottom="@dimen/_3sdp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_3sdp"
                         android:text="Get 1000 Credits"
                         android:textColor="?colorOnPrimary"
                         android:textSize="@dimen/_10ssp" />
@@ -580,12 +580,12 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="@dimen/_15sdp"
                     android:src="@drawable/ic_arrow_right"
                     android:tint="?colorOnPrimary"
-                    android:layout_marginEnd="@dimen/_15sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -595,8 +595,8 @@
             android:id="@+id/viewPremium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_20sdp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_20sdp"
             app:cardBackgroundColor="?colorSecondary"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp">

@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:text="Mine"
+                android:text="Back"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_15ssp"
                 app:textFont="semi" />
@@ -55,7 +55,8 @@
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="1">
 
             <com.basic.common.widget.LsTextView
                 android:layout_width="wrap_content"
@@ -84,7 +85,8 @@
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewPro"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -159,11 +161,12 @@
             app:cardBackgroundColor="?android:windowBackground"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/cardShare"
+            app:layout_constraintBottom_toTopOf="@id/viewBottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_default="wrap">
+            app:layout_constraintWidth_default="wrap"
+            app:layout_constraintWidth_min="@dimen/_70sdp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -176,9 +179,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Anime V5"
                     android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="No styles" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerPreview"
@@ -190,211 +193,227 @@
                     android:padding="@dimen/_7sdp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:alpha="1"
-                    tools:itemCount="2"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_preview_art_result" />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardShare"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:windowBackground"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/cardGenerate"
-            app:layout_constraintEnd_toStartOf="@id/cardDownload"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:src="@drawable/ic_share"
-                        android:tint="?android:textColorPrimary" />
-
-                    <com.basic.common.widget.LsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Share"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_12ssp" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardDownload"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:windowBackground"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/cardGenerate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cardShare">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:src="@drawable/ic_download"
-                        android:tint="?android:textColorPrimary" />
-
-                    <com.basic.common.widget.LsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:text="Download"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_12ssp" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardGenerate"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewBottom"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:windowBackground"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@id/cardPrompt">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewAction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardShare"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:windowBackground"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/cardGenerate"
+                    app:layout_constraintEnd_toStartOf="@id/cardDownload"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:src="@drawable/ic_share"
+                                android:tint="?android:textColorPrimary" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="Share"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardDownload"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:windowBackground"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/cardGenerate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cardShare">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_12sdp"
+                                android:layout_height="@dimen/_12sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:src="@drawable/ic_download"
+                                android:tint="?android:textColorPrimary" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:text="Download"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardGenerate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:windowBackground"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/cardPrompt">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:src="@drawable/ic_reload"
+                                android:tint="?android:textColorPrimary" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:orientation="vertical">
+
+                                <com.basic.common.widget.LsTextView
+                                    android:id="@+id/description"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    tools:text="Generate Again (10 Credits)"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:textSize="@dimen/_12ssp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPrompt"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:windowBackground"
+                    app:cardCornerRadius="@dimen/_15sdp"
+                    app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:src="@drawable/ic_reload"
-                        android:tint="?android:textColorPrimary" />
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:background="@drawable/rec_corner_15dp_stroke_2dp"
+                        android:backgroundTint="?android:textColorTertiary"
                         android:orientation="vertical">
 
                         <com.basic.common.widget.LsTextView
-                            android:id="@+id/description"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/textPrompt"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Generate Again (10 Credits)"
+                            android:background="@null"
+                            android:maxLength="1000"
+                            android:maxLines="3"
+                            android:minHeight="@dimen/_40sdp"
+                            android:minLines="3"
+                            android:paddingStart="@dimen/_10sdp"
+                            android:paddingTop="@dimen/_10sdp"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:paddingBottom="@dimen/_10sdp"
                             android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_12ssp"
+                            tools:text="@tools:sample/lorem/random" />
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardPrompt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:windowBackground"
-            app:cardCornerRadius="@dimen/_15sdp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/rec_corner_15dp_stroke_2dp"
-                android:backgroundTint="?android:textColorTertiary"
-                android:orientation="vertical">
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/textPrompt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:maxLength="1000"
-                    android:maxLines="3"
-                    android:minHeight="@dimen/_40sdp"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_10sdp"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    tools:text="@tools:sample/lorem/random" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

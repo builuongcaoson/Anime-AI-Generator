@@ -10,6 +10,7 @@ import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startCredit
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startPickAvatar
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.FragmentDiscoverBinding
@@ -82,6 +83,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
     private fun listenerView() {
         binding.viewAvatar.clicks(withAnim = false){ activity?.startPickAvatar() }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
+        binding.viewPro.clicks(withAnim = true) { activity?.startIap() }
     }
 
     private fun initView() {

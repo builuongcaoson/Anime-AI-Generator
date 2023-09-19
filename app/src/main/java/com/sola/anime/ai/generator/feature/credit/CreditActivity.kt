@@ -320,13 +320,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     class PreviewAdapter @Inject constructor(): LsAdapter<Int, ItemPreviewCreditBinding>(ItemPreviewCreditBinding::inflate){
 
         init {
-            data = listOf(
-                R.drawable.preview_credit_1,
-                R.drawable.preview_credit_2,
-                R.drawable.preview_credit_3,
-                R.drawable.preview_credit_4,
-                R.drawable.preview_credit_5
-            )
+            data = listOf(R.drawable.preview_credit_0, R.drawable.preview_credit_1, R.drawable.preview_credit_2, R.drawable.preview_credit_3, R.drawable.preview_credit_4).shuffled()
         }
 
         override fun bindItem(item: Int, binding: ItemPreviewCreditBinding, position: Int) {

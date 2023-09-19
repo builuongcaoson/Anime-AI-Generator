@@ -1,5 +1,6 @@
 package com.sola.anime.ai.generator.feature.result.art.adapter
 
+import android.annotation.SuppressLint
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import com.basic.common.base.LsAdapter
@@ -16,6 +17,7 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
 
     val clicks: Subject<ChildHistory> = PublishSubject.create()
     val upscaleClicks: Subject<ChildHistory> = PublishSubject.create()
+    val longClicks: Subject<ChildHistory> = PublishSubject.create()
 
     override fun bindItem(
         item: ChildHistory,
@@ -31,7 +33,12 @@ class PagePreviewAdapter @Inject constructor() : LsAdapter<ChildHistory, ItemPre
         binding.viewUpscale.isVisible = item.upscalePathPreview == null
 
         binding.cardPreview.clicks(withAnim = false){ clicks.onNext(item) }
+        binding.cardPreview.setOnLongClickListener {
+            longClicks.onNext(item)
+            return@setOnLongClickListener false
+        }
         binding.viewUpscale.clicks(withAnim = false){ upscaleClicks.onNext(item) }
+
     }
 
 }

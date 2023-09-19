@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
+import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startArtResult
@@ -89,6 +92,27 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
             .clicks
             .bindToLifecycle(binding.root)
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
+
+        historyAdapter
+            .longClicks
+            .bindToLifecycle(binding.root)
+            .subscribe { history ->
+                activity?.let { activity ->
+                    MaterialDialog(activity)
+                        .show {
+                            title(text = "Delete artworks?")
+                            message(text = "Are you sure you want to delete artworks? You can't undo this action.")
+                            positiveButton(text = "Delete") { dialog ->
+                                dialog.dismiss()
+
+                                tryOrNull { historyDao.delete(history) }
+                            }
+                            negativeButton(text = "Cancel") { dialog ->
+                                dialog.dismiss()
+                            }
+                        }
+                }
+            }
 
         folderAdapter
             .plusClicks

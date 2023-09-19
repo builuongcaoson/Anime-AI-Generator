@@ -39,7 +39,7 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 
         var endIndex = startIndex + EXPLORE_SIZE - 1
         if (endIndex >= explores.size) {
-            endIndex = explores.size - 1
+            endIndex = explores.size
         }
 
         if (!isLastPage){
@@ -47,7 +47,7 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
                 this.addAll(explores.subList(startIndex, endIndex))
             }
         }
-        isLastPage = endIndex == explores.size - 1
+        isLastPage = endIndex == explores.size
     }
 
     override fun bindItem(item: Explore, binding: ItemPreviewExploreBinding, position: Int) {
@@ -63,7 +63,6 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
                 hashmapDrawable[position] = drawable
             }
         }
-        binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
         binding.prompt.text = item.prompt
 
         binding.viewClicks.clicks(withAnim = false) { clicks.onNext(item) }

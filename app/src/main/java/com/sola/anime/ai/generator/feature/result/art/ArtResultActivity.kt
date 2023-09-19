@@ -1,7 +1,9 @@
 package com.sola.anime.ai.generator.feature.result.art
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -10,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
@@ -18,6 +21,8 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -310,6 +315,8 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
 
                 lifecycleScope.launch(Dispatchers.Main) {
+                    delay(250L)
+
                     binding.viewPager.animate().alpha(1f).setDuration(250L).start()
                     binding.recyclerPreview.animate().alpha(1f).setDuration(250L).start()
                 }
@@ -357,6 +364,36 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .autoDispose(scope())
             .subscribe {
                 upscaleSheet.show(this)
+            }
+
+        pagePreviewAdapter
+            .longClicks
+            .autoDispose(scope())
+            .subscribe { childHistory ->
+                MaterialDialog(this)
+                    .show {
+                        title(text = "Delete artwork?")
+                        message(text = "Are you sure you want to delete artwork? You can't undo this action.")
+                        positiveButton(text = "Delete") { dialog ->
+                            dialog.dismiss()
+
+                            val history = historyDao.findById(historyId) ?: return@positiveButton
+                            tryOrNull {
+                                history.childs.remove(childHistory)
+
+                                when {
+                                    history.childs.isNotEmpty() -> historyDao.update(history)
+                                    else -> {
+                                        historyDao.delete(history)
+                                        back()
+                                    }
+                                }
+                            }
+                        }
+                        negativeButton(text = "Cancel") { dialog ->
+                            dialog.dismiss()
+                        }
+                    }
             }
 
         pagePreviewAdapter
