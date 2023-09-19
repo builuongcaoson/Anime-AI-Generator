@@ -21,7 +21,7 @@ class Explore {
     var previews: List<String> = listOf()
     @SerializedName("modelIds")
     @Expose
-    var modelIds: List<Long> = listOf()
+    var modelIds: List<String> = listOf()
     @SerializedName("ratio")
     @Expose
     var ratio: String = "1:1"

@@ -200,6 +200,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 else -> {
                     prefs.getUserPurchased()?.let {
                         userPremiumManager.syncUserPurchasedFromDatabase()
+                    } ?: run {
+                        resetNumberCreatedArtworkIfOtherToday()
                     }
 
                     task()

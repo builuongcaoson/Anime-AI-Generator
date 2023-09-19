@@ -344,7 +344,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         explore?.let {
             binding.editPrompt.setText(explore.prompt)
 
-            val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.id } }
+            val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } }
             updateUiModel(model)
         }
     }

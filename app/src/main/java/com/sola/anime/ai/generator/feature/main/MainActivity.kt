@@ -68,13 +68,9 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             }
         }
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(250L)
-
-            initView()
-            initObservable()
-            listenerView()
-        }
+        initView()
+        initObservable()
+        listenerView()
     }
 
     private fun listenerView() {

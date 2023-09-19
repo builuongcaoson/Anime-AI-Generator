@@ -8,7 +8,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F2_zzz1xxx1zzz.webp?alt=media&token=7cd90f81-1036-401a-a789-9a368ebe4e72"
     ],
     "favourite_count": 120,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 1,
@@ -20,7 +20,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F3_zzz2xxx3zzz.webp?alt=media&token=8851afbb-ecd1-40c1-bae0-3047fee54013"
     ],
     "favourite_count": 78,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 2,
@@ -32,7 +32,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F3_zzz2xxx3zzz.webp?alt=media&token=5f8e2212-b48d-4dde-921b-4cbc79ce8d03"
     ],
     "favourite_count": 82,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 3,
@@ -44,7 +44,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F3_zzz2xxx3zzz.webp?alt=media&token=77c49ded-f4a7-45de-aacc-3e15bc8638a9"
     ],
     "favourite_count": 155,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 4,
@@ -56,7 +56,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F3_zzz2xxx3zzz.webp?alt=media&token=8ab81332-0611-41db-8223-ddc8bc333021"
     ],
     "favourite_count": 64,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 5,
@@ -68,7 +68,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F3_zzz2xxx3zzz.webp?alt=media&token=2175893d-1949-4acc-bf16-91b890cd1576"
     ],
     "favourite_count": 56,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 6,
@@ -78,7 +78,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F1_zzz1xxx1zzz.webp?alt=media&token=59d40184-5281-4a3f-9616-2004f5a36d67"
     ],
     "favourite_count": 196,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 7,
@@ -90,7 +90,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F3_zzz1xxx1zzz.webp?alt=media&token=3f9a726a-985e-4b31-97d0-be3c2f26b71f"
     ],
     "favourite_count": 80,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 8,
@@ -101,7 +101,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F2_zzz1xxx1zzz.webp?alt=media&token=3439ffe8-f630-4b29-b6ba-509576b0164d"
     ],
     "favourite_count": 63,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 9,
@@ -113,7 +113,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F3_zzz3xxx4zzz.webp?alt=media&token=82362cb2-3098-4133-80c6-4f41092d3c30"
     ],
     "favourite_count": 98,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 10,
@@ -125,7 +125,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F3_zzz3xxx4zzz.webp?alt=media&token=10b3a4bf-cfab-4723-bd65-97df4ddd3b2b"
     ],
     "favourite_count": 130,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 11,
@@ -137,7 +137,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F3_zzz2xxx3zzz.webp?alt=media&token=988f7e67-fa0b-4d93-8892-c5015d34e14b"
     ],
     "favourite_count": 179,
-    "modelIds": [0, 1, 2]
+    "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
   },
   {
     "id": 12,
@@ -149,7 +149,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F3_zzz1xxx1zzz.webp?alt=media&token=814da6fe-6f43-439d-a2c6-db820aaef977"
     ],
     "favourite_count": 51,
-    "modelIds": [3]
+    "modelIds": ["pastel_mix"]
   },
   {
     "id": 13,
@@ -161,7 +161,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F3_zzz1xxx1zzz.webp?alt=media&token=dc38663a-735c-40ea-ab37-8d689ba69867"
     ],
     "favourite_count": 175,
-    "modelIds": [3]
+    "modelIds": ["pastel_mix"]
   },
   {
     "id": 14,
@@ -173,7 +173,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F3_zzz1xxx1zzz.webp?alt=media&token=8062eb2e-544e-47ff-9e88-7c5ae35ee01e"
     ],
     "favourite_count": 157,
-    "modelIds": [3]
+    "modelIds": ["pastel_mix"]
   },
   {
     "id": 15,
@@ -185,7 +185,7 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F3_zzz2xxx3zzz.webp?alt=media&token=0694c6ad-dafe-4279-a52f-4b300b780024"
     ],
     "favourite_count": 36,
-    "modelIds": [3]
+    "modelIds": ["pastel_mix"]
   },
   {
     "id": 16,
@@ -197,6 +197,42 @@
       "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F3_zzz3xxx4zzz.webp?alt=media&token=b4bfb20e-ef92-420c-9fe3-be23ee382a39"
     ],
     "favourite_count": 33,
-    "modelIds": [3]
+    "modelIds": ["pastel_mix"]
+  },
+  {
+    "id": 17,
+    "prompt": "(masterpiece), (extremely intricate), photorealistic photo of a handsome male wizard, short beard, white wizard shirt with golden trim, white robe moving in the wind, long white hair, fully clothed, perfect face, handsome, (perfect composition:1.4), deviantart hd, artstation hd, concept art, detailed face and body, award-winning photography, margins, detailed face, professional oil painting by Ed Blinkey, Atey Ghailan, Jeremy Mann, Greg Manchess, Alex Gray, trending on ArtStation, trending on CGSociety, intricate, high detail, sharp focus, dramatic, award winning matte drawing cinematic lighting octane render unreal engine volumetric dtx",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F3_zzz1xxx1zzz.webp?alt=media&token=d11943c9-2372-4023-9565-1bcb5d7926d8",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F0_zzz1xxx1zzz.webp?alt=media&token=575af815-7809-4e4d-aab1-28e90d9d70a9",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F1_zzz1xxx1zzz.webp?alt=media&token=f32d1661-91c5-47d5-9da4-accfbeb745e4",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F4_zzz1xxx1zzz.webp?alt=media&token=c13b28f2-5d10-4a9d-9598-9efe3e6a4d6d"
+    ],
+    "favourite_count": 47,
+    "modelIds": ["dreamshaper_8"]
+  },
+  {
+    "id": 18,
+    "prompt": "A kitten with a tiny tail, a small nose, small ears, blue eyes, pink background, flowers, vases, dreams, open mouth, smile, Caroline Chariot-Dayez pastels, tumblr, furry art, elokitty, Disney's Bambi cat, Disney's stylized furry, ears floating, fluffy tail, fluffy '', fluffy !!!, high resolution, furry art!!! The moon, small in size",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F0_zzz1xxx1zzz.webp?alt=media&token=837c1d34-fd1d-46e6-aaea-fc1c6233510f",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F1_zzz1xxx1zzz.webp?alt=media&token=c60ef2d8-5050-47f3-a84b-ebf528050e72",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F2_zzz1xxx1zzz.webp?alt=media&token=be41c1bf-7d5b-480d-9f21-b168b6f2a81e",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F3_zzz1xxx1zzz.webp?alt=media&token=a855b0ee-0318-47fc-aad8-4d24aa492b0d"
+    ],
+    "favourite_count": 29,
+    "modelIds": ["dreamshaper_8"]
+  },
+  {
+    "id": 19,
+    "prompt": "(((masterpiece, top-quality, top-quality, watercolor painting)))(Curly), Official art, Beautifully Aesthetic:1.2), (4girl:1.5), (Fractal Art:1.3), The upper part of the body, colourful, ((Ultra-detailed retina:1.5)), embarrassed from, (Midriff), ((Super Detail Eyes:1.5)), (rainbow-colored hair, colourful hair, Half blue and half light blue hair:1.5), ((the Extremely Detailed CG Unity 8K Wallpapers, masterpiece, top-quality)), ((ultra-detailer:1.2)), (The best lighting, Best Shadows, extremely delicate and beautiful), (the Extremely Detailed CG Unity 8K Wallpapers, masterpiece, best quality, ultra-detailer), (The best lighting, Best Shadows, extremely delicate and beautiful), (the perfect body:1.5), ((High School Uniforms:1.5)),{{{{Dazzling brilliance}}}}, Rainbow Bridge, (masutepiece:1.2), Best Quality, (Illustration:1.2), (Ultra-detailed), hyper-details, (delicate detailed), (Intricate details), (Cinematic Light, best quality backlight), solo women, Perfect body, (4girl), (Best Illumination, extremely delicate and beautiful), Cinematic Light, 【emblem:Iridescent color 】, 【emblem】, 【emblem】, with white angel wings proportional to the body, ,blue-sky, Sunny day, eye glass",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F0_zzz9xxx16zzz.webp?alt=media&token=87eb488c-f652-4c23-b477-b8ba75cc44ac",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F1_zzz9xxx16zzz.webp?alt=media&token=71b1edce-0741-416a-bb22-45e263620cd9",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F2_zzz9xxx16zzz.webp?alt=media&token=51214268-0992-4466-b5f6-acf8ded57033",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F3_zzz9xxx16zzz.webp?alt=media&token=671d77c6-6803-4016-b1f1-c65ad12af31e"
+    ],
+    "favourite_count": 29,
+    "modelIds": ["anylora"]
   }
 ]

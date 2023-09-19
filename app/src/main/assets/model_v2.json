@@ -82,6 +82,15 @@
   },
   {
     "id": 9,
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnyLoRA.webp?alt=media&token=f4c319d3-cf6a-48ab-8b92-d565862de33b",
+    "display": "AnyLoRA",
+    "description": "",
+    "favourite_count": 584,
+    "modelId": "anylora",
+    "active": ""
+  },
+  {
+    "id": 10,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F10.webp?alt=media&token=4a83203b-5a5e-4f2b-ab36-4c37c4a08224",
     "display": "DucHaiten V2",
     "description": "",
@@ -90,7 +99,7 @@
     "active": ""
   },
   {
-    "id": 10,
+    "id": 11,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F11.webp?alt=media&token=6d116bed-8144-4cde-bc85-26e0bc488ba3",
     "display": "DucHaiten V1",
     "description": "",
@@ -99,7 +108,7 @@
     "active": ""
   },
   {
-    "id": 11,
+    "id": 12,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F12.webp?alt=media&token=335c72f4-f40a-4317-b8f7-39aaf4944f61",
     "display": "DucHaiten Dark",
     "description": "",
@@ -108,7 +117,7 @@
     "active": ""
   },
   {
-    "id": 12,
+    "id": 13,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F13.webp?alt=media&token=b9b83eff-7831-43a5-8305-218b9eaa08e0",
     "display": "Eimis Diffusion",
     "description": "",
@@ -117,7 +126,7 @@
     "active": ""
   },
   {
-    "id": 16,
+    "id": 14,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F17.webp?alt=media&token=a04e226d-bc46-4d80-8c4b-a80c2373fda6",
     "display": "HASDX",
     "description": "",
@@ -126,7 +135,7 @@
     "active": ""
   },
   {
-    "id": 17,
+    "id": 15,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F18.webp?alt=media&token=c3364417-2075-4fd0-b264-109b3de2a251",
     "display": "ICBINP",
     "description": "",
@@ -135,7 +144,7 @@
     "active": ""
   },
   {
-    "id": 19,
+    "id": 16,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F20.webp?alt=media&token=f182508a-4111-4d2c-aa86-b206d4d882d2",
     "display": "Nightmare Shaper",
     "description": "",
@@ -144,7 +153,7 @@
     "active": ""
   },
   {
-    "id": 21,
+    "id": 17,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F22.webp?alt=media&token=f3ec0dbc-bd22-4569-bda4-a60ac5715686",
     "display": "Openjourney",
     "description": "",
@@ -153,7 +162,7 @@
     "active": "mdjrny-v4 style"
   },
   {
-    "id": 22,
+    "id": 18,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F23.webp?alt=media&token=3326d85c-549e-4930-bab0-5a49305250cb",
     "display": "OpenNiji",
     "description": "",
@@ -162,7 +171,7 @@
     "active": ""
   },
   {
-    "id": 23,
+    "id": 19,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F24.webp?alt=media&token=c91f8c71-c853-4c8d-a03d-d8631f5ea2d0",
     "display": "Realistic Vision V5.1",
     "description": "",
@@ -171,7 +180,7 @@
     "active": "RAW photo, *subject*, high detailed skin, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
   },
   {
-    "id": 24,
+    "id": 20,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F25.webp?alt=media&token=dc9496c3-a023-4cd5-a2d0-a253cc34d5a0",
     "display": "SteampunkAI",
     "description": "",
@@ -180,7 +189,7 @@
     "active": "Steampunk-Character"
   },
   {
-    "id": 26,
+    "id": 21,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F27.webp?alt=media&token=e1822be7-405a-459b-a9b8-62fd9782071f",
     "display": "Vintedois diffusion-v0-1",
     "description": "",
@@ -189,7 +198,7 @@
     "active": "estilovintedois"
   },
   {
-    "id": 27,
+    "id": 22,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F28.webp?alt=media&token=c5bfa399-cb8b-4558-bbbd-06c6ae5c3a9d",
     "display": "Absolute Reality V1.6",
     "description": "Most used",
@@ -198,7 +207,16 @@
     "active": ""
   },
   {
-    "id": 28,
+    "id": 23,
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2Fdream_shaper_v8.webp?alt=media&token=29c43a2f-892c-4753-a29e-9e30d0417830",
+    "display": "DreamShaper V8",
+    "description": "",
+    "favourite_count": 2019,
+    "modelId": "dreamshaper_8",
+    "active": ""
+  },
+  {
+    "id": 24,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F29.webp?alt=media&token=05f64558-8972-46f7-b8c1-55ad9293625b",
     "display": "DreamShaper V7",
     "description": "",
@@ -207,7 +225,7 @@
     "active": ""
   },
   {
-    "id": 29,
+    "id": 25,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F30.webp?alt=media&token=28e29662-2a3f-49ce-8f9d-f06b6f9e95e1",
     "display": "DreamShaper V6",
     "description": "",
@@ -216,7 +234,7 @@
     "active": ""
   },
   {
-    "id": 30,
+    "id": 26,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F31.webp?alt=media&token=f9ee1cae-7707-4191-a365-8cfa5dc60ee7",
     "display": "DreamShaper V5",
     "description": "",
@@ -225,7 +243,7 @@
     "active": ""
   },
   {
-    "id": 31,
+    "id": 27,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F32.webp?alt=media&token=8491eb79-cb92-46c0-a2a3-a11c29f42837",
     "display": "DreamShaper",
     "description": "",
@@ -234,7 +252,7 @@
     "active": ""
   },
   {
-    "id": 32,
+    "id": 28,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F33.webp?alt=media&token=0ca23bfa-350c-49b3-8187-56e24c16c206",
     "display": "Absolute Reality",
     "description": "",
@@ -243,7 +261,7 @@
     "active": ""
   },
   {
-    "id": 33,
+    "id": 29,
     "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F34.webp?alt=media&token=dfb2c008-54b9-460c-b26a-b114590ac39c",
     "display": "Cyber Realistic V3.1",
     "description": "",

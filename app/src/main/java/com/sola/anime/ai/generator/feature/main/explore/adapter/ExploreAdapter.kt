@@ -45,7 +45,7 @@ class ExploreAdapter @Inject constructor(
 
         var endIndex = startIndex + EXPLORE_SIZE - 1
         if (endIndex >= explores.size) {
-            endIndex = explores.size - 1
+            endIndex = explores.size
         }
 
         if (!isLastPage){
@@ -53,7 +53,7 @@ class ExploreAdapter @Inject constructor(
                 this.addAll(explores.subList(startIndex, endIndex))
             }
         }
-        isLastPage = endIndex == explores.size - 1
+        isLastPage = endIndex == explores.size
     }
 
     override fun bindItem(item: Explore, binding: ItemPreviewExploreBinding, position: Int) {
