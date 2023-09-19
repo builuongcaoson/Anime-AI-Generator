@@ -17,15 +17,15 @@ android {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
         targetSdk 34
-        versionCode 48
-        versionName "48.0"
+        versionCode 50
+        versionName "50.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         release {
-            storeFile file('/Users/sonbui/StudioProjects/Anime-AI-Generator/app/key.jks')
+            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
@@ -142,7 +142,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
 
     // Revenuecat
-    implementation 'com.revenuecat.purchases:purchases:6.1.1'
+    implementation 'com.revenuecat.purchases:purchases:6.9.4'
 
     // InAppReview
     implementation 'com.google.android.play:review-ktx:2.0.1'

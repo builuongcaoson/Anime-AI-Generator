@@ -64,7 +64,6 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         binding.viewRate.clicks(withAnim = false) { navigator.showRating() }
         binding.viewPrivacy.clicks(withAnim = false) { navigator.showPrivacy() }
         binding.viewTerms.clicks(withAnim = false) { navigator.showTerms() }
-        binding.viewNsfw.clicks(withAnim = false) { prefs.isEnableNsfw.set(!prefs.isEnableNsfw.get()) }
         binding.viewPromoCode.clicks(withAnim = false) { promoCodeDialog.show(this) }
     }
 
@@ -81,16 +80,6 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
             .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.viewGetPremium.isVisible = !isUpgraded
-            }
-
-        prefs
-            .isEnableNsfw
-            .asObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe { isEnable ->
-                binding.viewNsfw.binding.widgetFrame.findViewById<LsSwitchView>(R.id.switchView).setNewChecked(isEnable)
             }
 
         promoCodeDialog

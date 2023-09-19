@@ -92,17 +92,6 @@
                         app:widget="@layout/preference_next_view" />
 
                     <com.sola.anime.ai.generator.common.widget.LsPreferenceView
-                        android:id="@+id/viewNsfw"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fillViewport="true"
-                        android:visibility="gone"
-                        app:icon="@drawable/ic_nsfw"
-                        app:summary="Show NSFW Content"
-                        app:title="NSFW"
-                        app:widget="@layout/switch_preference_view" />
-
-                    <com.sola.anime.ai.generator.common.widget.LsPreferenceView
                         android:id="@+id/viewPromoCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
