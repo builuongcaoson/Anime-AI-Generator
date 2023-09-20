@@ -1,272 +1,186 @@
 [
   {
     "id": 0,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F1.webp?alt=media&token=ad6f3464-dad2-4028-9d8d-836aaac35a6a",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V5.webp?alt=media&token=803f8dd7-ebff-48ab-b24b-c99502bac1d7",
     "display": "Anime V5",
     "description": "",
     "favourite_count": 2095,
-    "modelId": "anything_5_0",
-    "active": ""
+    "modelId": "anything_5_0"
   },
   {
     "id": 1,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F2.webp?alt=media&token=fec9b886-8e94-42fb-a1f6-f8c23a10b186",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V4.webp?alt=media&token=0b5238c2-7f64-487a-b796-7655f0665444",
     "display": "Anime V4",
     "description": "Most used",
     "favourite_count": 5921,
-    "modelId": "anything_4_0",
-    "active": ""
+    "modelId": "anything_4_0"
   },
   {
     "id": 2,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F3.webp?alt=media&token=8d84be19-3a56-43c8-9345-3f71a2ef5232",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V3.webp?alt=media&token=4bdf25e9-5ba7-49c4-9890-569fd8d18a2c",
     "display": "Anime V3",
     "description": "",
     "favourite_count": 1039,
-    "modelId": "anything_3_0",
-    "active": ""
+    "modelId": "anything_3_0"
   },
   {
     "id": 3,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F4.webp?alt=media&token=22316ccc-0620-48da-8f73-9e917eccfe5c",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FPastel%20Mix.webp?alt=media&token=13da4db0-8e00-4afe-8bcb-c3470ed0986c",
     "display": "Pastel Mix",
     "description": "",
     "favourite_count": 2954,
-    "modelId": "pastel_mix",
-    "active": ""
+    "modelId": "pastel_mix"
   },
   {
     "id": 4,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F5.webp?alt=media&token=cb0369d5-e961-45cf-9aac-4070d3e6ced8",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FSomething%20V2.webp?alt=media&token=b1f075df-23b9-45da-8a24-9790eb5717ae",
     "display": "Something V2",
     "description": "",
     "favourite_count": 3085,
-    "modelId": "something_2",
-    "active": ""
+    "modelId": "something_2"
   },
   {
     "id": 5,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F6.webp?alt=media&token=be7e9a77-37c6-49d8-9b00-39227c9f1e43",
-    "display": "Classic",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnyLoRA.webp?alt=media&token=13e7e953-2b14-408a-b63f-0a46c3093de8",
+    "display": "AnyLoRA",
     "description": "",
-    "favourite_count": 593,
-    "modelId": "dh_classicanime",
-    "active": ""
+    "favourite_count": 1964,
+    "modelId": "anylora"
   },
   {
     "id": 6,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F7.webp?alt=media&token=596f2c49-604c-4d60-b2bd-2905a1859ae9",
-    "display" :"Abyss Orange Mix V2",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FKidsmix.webp?alt=media&token=28fafa0d-ccb8-4a55-9203-bdba2524bf4e",
+    "display": "KidsMix",
     "description": "",
-    "favourite_count": 759,
-    "modelId": "abyss_orange_mix_2",
-    "active": ""
+    "favourite_count": 749,
+    "modelId": "kidsmix"
   },
   {
     "id": 7,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F8.webp?alt=media&token=11322a8e-a3e7-482a-9c59-99574495dd43",
-    "display": "Blood Orange Mix",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FInkpunk%20Diffusion.webp?alt=media&token=3d206eb2-72c2-4645-9b66-eec50c81320b",
+    "display": "Inkpunk Diffusion",
     "description": "",
-    "favourite_count": 587,
-    "modelId": "blood_orange_mix",
-    "active": ""
+    "favourite_count": 294,
+    "modelId": "inkpunk_diffusion"
   },
   {
     "id": 8,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F9.webp?alt=media&token=196676e4-e072-4f09-b807-d0c92e367cea",
-    "display": "Ely Orange Mix",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDeliberate%20V2.webp?alt=media&token=18777c20-5b51-4a9a-a373-bf4590ac3ace",
+    "display": "Deliberate V2",
     "description": "",
     "favourite_count": 448,
-    "modelId": "ely_orange_mix",
-    "active": ""
+    "modelId": "deliberate_2"
   },
   {
     "id": 9,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnyLoRA.webp?alt=media&token=f4c319d3-cf6a-48ab-8b92-d565862de33b",
-    "display": "AnyLoRA",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FICBINP.webp?alt=media&token=27c82bb1-4dcd-44ec-aaf1-6029e4f2969a",
+    "display": "ICBINP",
     "description": "",
     "favourite_count": 584,
-    "modelId": "anylora",
-    "active": ""
+    "modelId": "icbinp"
   },
   {
     "id": 10,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F10.webp?alt=media&token=4a83203b-5a5e-4f2b-ab36-4c37c4a08224",
-    "display": "DucHaiten V2",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FNightmareShaper.webp?alt=media&token=17527b6e-35be-4423-9201-4571154cb4f6",
+    "display": "Nightmare Shaper",
     "description": "",
     "favourite_count": 356,
-    "modelId": "duchaiten_anime",
-    "active": ""
+    "modelId": "nightmareshaper"
   },
   {
     "id": 11,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F11.webp?alt=media&token=6d116bed-8144-4cde-bc85-26e0bc488ba3",
-    "display": "DucHaiten V1",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V8.webp?alt=media&token=9fce045e-2818-4e96-a219-261f4d104aca",
+    "display": "DreamShaper V8",
     "description": "",
-    "favourite_count": 192,
-    "modelId": "duchaiten_dreamworld",
-    "active": ""
+    "favourite_count": 719,
+    "modelId": "dreamshaper_8"
   },
   {
     "id": 12,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F12.webp?alt=media&token=335c72f4-f40a-4317-b8f7-39aaf4944f61",
-    "display": "DucHaiten Dark",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V7.webp?alt=media&token=bc1b9a55-b19d-4883-a6db-78f87da63b9b",
+    "display": "DreamShaper V7",
     "description": "",
-    "favourite_count": 139,
-    "modelId": "duchaiten_darkside",
-    "active": ""
+    "favourite_count": 502,
+    "modelId": "dreamshaper_7"
   },
   {
     "id": 13,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F13.webp?alt=media&token=b9b83eff-7831-43a5-8305-218b9eaa08e0",
-    "display": "Eimis Diffusion",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V6.webp?alt=media&token=94f389bd-04a5-4c36-802c-a15918859990",
+    "display": "DreamShaper V6",
     "description": "",
-    "favourite_count": 104,
-    "modelId": "eimis_anime_diffusion_1",
-    "active": ""
+    "favourite_count": 395,
+    "modelId": "dreamshaper_6"
   },
   {
     "id": 14,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F17.webp?alt=media&token=a04e226d-bc46-4d80-8c4b-a80c2373fda6",
-    "display": "HASDX",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V5.webp?alt=media&token=11f5e727-7089-402e-98cc-698c315890ff",
+    "display": "DreamShaper V5",
     "description": "",
-    "favourite_count": 745,
-    "modelId": "hasdx",
-    "active": ""
+    "favourite_count": 322,
+    "modelId": "dreamshaper_5"
   },
   {
     "id": 15,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F18.webp?alt=media&token=c3364417-2075-4fd0-b264-109b3de2a251",
-    "display": "ICBINP",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper.webp?alt=media&token=57915a96-101f-40db-abd2-9d3c0ad1fb39",
+    "display": "DreamShaper",
     "description": "",
-    "favourite_count": 890,
-    "modelId": "icbinp",
-    "active": ""
+    "favourite_count": 150,
+    "modelId": "dreamshaper"
   },
   {
     "id": 16,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F20.webp?alt=media&token=f182508a-4111-4d2c-aa86-b206d4d882d2",
-    "display": "Nightmare Shaper",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.8.1.webp?alt=media&token=b2df282b-272e-4170-a0a2-4b1919869e91",
+    "display": "Absolute Reality V1.8.1",
     "description": "",
     "favourite_count": 778,
-    "modelId": "nightmareshaper",
-    "active": ""
+    "modelId": "absolute_reality_1_8_1"
   },
   {
     "id": 17,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F22.webp?alt=media&token=f3ec0dbc-bd22-4569-bda4-a60ac5715686",
-    "display": "Openjourney",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.6.webp?alt=media&token=419d3ac1-6f19-4e00-a589-6b28a426bebb",
+    "display": "Absolute Reality V1.6",
     "description": "",
     "favourite_count": 402,
-    "modelId": "openjourney",
-    "active": "mdjrny-v4 style"
+    "modelId": "absolute_reality_1_6"
   },
   {
     "id": 18,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F23.webp?alt=media&token=3326d85c-549e-4930-bab0-5a49305250cb",
-    "display": "OpenNiji",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.0.webp?alt=media&token=ad90a875-8e78-41a3-983a-1147b1920e17",
+    "display": "Absolute Reality V1",
     "description": "",
     "favourite_count": 248,
-    "modelId": "openniji",
-    "active": ""
+    "modelId": "absolute_reality_1"
   },
   {
     "id": 19,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F24.webp?alt=media&token=c91f8c71-c853-4c8d-a03d-d8631f5ea2d0",
-    "display": "Realistic Vision V5.1",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FHASDX.webp?alt=media&token=7ac5260e-103f-4209-a465-329f76f1754a",
+    "display": "HASDX",
     "description": "",
-    "favourite_count": 1671,
-    "modelId": "realistic_vision_1_3",
-    "active": "RAW photo, *subject*, high detailed skin, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+    "favourite_count": 474,
+    "modelId": "hasdx"
   },
   {
     "id": 20,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F25.webp?alt=media&token=dc9496c3-a023-4cd5-a2d0-a253cc34d5a0",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FSteampunkAI.webp?alt=media&token=a5e36fb8-1a56-4616-a22a-f381376fd85d",
     "display": "SteampunkAI",
     "description": "",
-    "favourite_count": 1291,
-    "modelId": "steampunk_diffusion",
-    "active": "Steampunk-Character"
+    "favourite_count": 120,
+    "modelId": "steampunk_diffusion"
   },
   {
     "id": 21,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F27.webp?alt=media&token=e1822be7-405a-459b-a9b8-62fd9782071f",
-    "display": "Vintedois diffusion-v0-1",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealistic%20Vision%20V5.1.webp?alt=media&token=0af87c28-4de3-4235-a35b-2edad382c6c7",
+    "display": "Realistic Vision V5.1",
     "description": "",
-    "favourite_count": 255,
-    "modelId": "vintedois_diffusion_v0_1",
-    "active": "estilovintedois"
+    "favourite_count": 382,
+    "modelId": "realistic_vision_1_3"
   },
   {
     "id": 22,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F28.webp?alt=media&token=c5bfa399-cb8b-4558-bbbd-06c6ae5c3a9d",
-    "display": "Absolute Reality V1.6",
-    "description": "Most used",
-    "favourite_count": 1846,
-    "modelId": "absolute_reality_1_6",
-    "active": ""
-  },
-  {
-    "id": 23,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2Fdream_shaper_v8.webp?alt=media&token=29c43a2f-892c-4753-a29e-9e30d0417830",
-    "display": "DreamShaper V8",
+    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FVintedois%20diffusion-v0-1.webp?alt=media&token=7d498c62-7352-4a1b-8fcd-960ee08fae92",
+    "display": "Vintedois Diffusion",
     "description": "",
-    "favourite_count": 2019,
-    "modelId": "dreamshaper_8",
-    "active": ""
-  },
-  {
-    "id": 24,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F29.webp?alt=media&token=05f64558-8972-46f7-b8c1-55ad9293625b",
-    "display": "DreamShaper V7",
-    "description": "",
-    "favourite_count": 1738,
-    "modelId": "dreamshaper_7",
-    "active": ""
-  },
-  {
-    "id": 25,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F30.webp?alt=media&token=28e29662-2a3f-49ce-8f9d-f06b6f9e95e1",
-    "display": "DreamShaper V6",
-    "description": "",
-    "favourite_count": 1241,
-    "modelId": "dreamshaper_6",
-    "active": ""
-  },
-  {
-    "id": 26,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F31.webp?alt=media&token=f9ee1cae-7707-4191-a365-8cfa5dc60ee7",
-    "display": "DreamShaper V5",
-    "description": "",
-    "favourite_count": 1133,
-    "modelId": "dreamshaper_5",
-    "active": ""
-  },
-  {
-    "id": 27,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F32.webp?alt=media&token=8491eb79-cb92-46c0-a2a3-a11c29f42837",
-    "display": "DreamShaper",
-    "description": "",
-    "favourite_count": 616,
-    "modelId": "dreamshaper",
-    "active": ""
-  },
-  {
-    "id": 28,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F33.webp?alt=media&token=0ca23bfa-350c-49b3-8187-56e24c16c206",
-    "display": "Absolute Reality",
-    "description": "",
-    "favourite_count": 971,
-    "modelId": "absolute_reality_1",
-    "active": ""
-  },
-  {
-    "id": 29,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F34.webp?alt=media&token=dfb2c008-54b9-460c-b26a-b114590ac39c",
-    "display": "Cyber Realistic V3.1",
-    "description": "",
-    "favourite_count": 959,
-    "modelId": "cyberrealistic_3_1",
-    "active": ""
+    "favourite_count": 193,
+    "modelId": "vintedois_diffusion_v0_1"
   }
 ]

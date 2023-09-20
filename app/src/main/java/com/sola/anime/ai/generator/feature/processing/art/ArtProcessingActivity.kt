@@ -109,6 +109,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                     }
                     else -> {
                         tryOrNull { binding.viewPager.post { tryOrNull { previewAdapter.insert() } } }
+                        tryOrNull { binding.viewPager.post { tryOrNull { previewAdapter.insert() } } }
                         tryOrNull { binding.viewPager.post { animator = tryOrNull { binding.viewPager.setCurrentItem(item = binding.viewPager.currentItem + 1) } } }
                     }
                 }

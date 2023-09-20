@@ -12,7 +12,7 @@ interface ExploreDao {
     @Query("SELECT * FROM Explores")
     fun getAll(): List<Explore>
 
-    @Query("SELECT * FROM Explores WHERE isDislike = :isDislike")
+    @Query("SELECT * FROM Explores WHERE isDislike = :isDislike ORDER BY sortOrder DESC")
     fun getAllDislikeLive(isDislike: Boolean = false): LiveData<List<Explore>>
 
     @Query("SELECT * FROM Explores")
@@ -29,7 +29,7 @@ interface ExploreDao {
     // Update
 
     @Update
-    fun update(vararg objects: Explore)
+    fun updates(vararg objects: Explore)
 
     // Find
 

@@ -28,13 +28,13 @@ class Model{
     @SerializedName("modelId")
     @Expose
     var modelId: String = ""
-    @SerializedName("active")
-    @Expose
-    var active: String = ""
     @SerializedName("is_favourite")
     @Expose
     var isFavourite: Boolean = false
     @SerializedName("is_dislike")
     @Expose
     var isDislike: Boolean = false
+    @SerializedName("sortOrder")
+    @Expose
+    var sortOrder: Int = 0
 }

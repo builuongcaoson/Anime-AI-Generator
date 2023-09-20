@@ -102,8 +102,37 @@ class SyncRepositoryImpl @Inject constructor(
             }
         }
 
+        randomSortOrderModels()
+        randomSortOrderLoRAs()
+
         delay(250L)
         progress(SyncRepository.Progress.SyncedModelsAndLoRAs)
+    }
+
+    private fun randomSortOrderModels(){
+        val models = modelDao.getAll()
+        models.forEach { model ->
+            model.sortOrder = (-1000..1000).random()
+        }
+        modelDao.updates(*models.toTypedArray())
+    }
+
+    private fun randomSortOrderLoRAs(){
+        val loRAGroups = loRAGroupDao.getAll()
+        loRAGroups.forEach { loRAGroup ->
+            loRAGroup.childs.forEach { loRA ->
+                loRA.sortOrder = (-1000..1000).random()
+            }
+        }
+        loRAGroupDao.updates(*loRAGroups.toTypedArray())
+    }
+
+    private fun randomSortOrderExplores(){
+        val explores = exploreDao.getAll()
+        explores.forEach { explore ->
+            explore.sortOrder = (-1000..1000).random()
+        }
+        exploreDao.updates(*explores.toTypedArray())
     }
 
     private fun syncLoRAsLocal() {
@@ -177,7 +206,9 @@ class SyncRepositoryImpl @Inject constructor(
             }
         }
 
-        delay(1000)
+        randomSortOrderExplores()
+
+        delay(250L)
         progress(SyncRepository.Progress.SyncedExplores)
     }
 

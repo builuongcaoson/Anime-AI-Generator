@@ -8,7 +8,8 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,11 +21,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/preview_top_batch"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/preview_top_batch" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="0dp"
@@ -123,6 +124,7 @@
                         android:clipToPadding="false"
                         android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
+                        android:overScrollMode="never"
                         android:paddingTop="@dimen/_5sdp"
                         android:paddingEnd="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_5sdp"
@@ -199,6 +201,7 @@
                         android:alpha="0"
                         android:clipToPadding="false"
                         android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
                         android:padding="@dimen/_5sdp"
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                         app:spanCount="2"

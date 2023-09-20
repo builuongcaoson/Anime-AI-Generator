@@ -107,7 +107,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     val loRAGroup = loRAGroupDao.findById(loRAGroupId) ?: return@clicks
                     val loRA = loRAGroup.childs.find { loRA -> loRA.id == loRAId } ?: return@clicks
                     loRA.isFavourite = !loRA.isFavourite
-                    loRAGroupDao.update(loRAGroup)
+                    loRAGroupDao.updates(loRAGroup)
                 }
             }
         }
@@ -137,7 +137,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 loRAGroupDao.findById(loRAGroupId)?.let { loRAGroup ->
                     loRAGroup.childs.find { loRA -> loRA.id == loRAId }?.let { loRA ->
                         loRA.isDislike = !loRA.isDislike
-                        loRAGroupDao.update(loRAGroup)
+                        loRAGroupDao.updates(loRAGroup)
                     }
                 }
             }
@@ -260,7 +260,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { exploreOrLoRAPreview ->
                 when {
-                    exploreOrLoRAPreview.explore != null -> exploreDao.update(exploreOrLoRAPreview.explore)
+                    exploreOrLoRAPreview.explore != null -> exploreDao.updates(exploreOrLoRAPreview.explore)
                 }
             }
 
@@ -273,7 +273,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                     modelOrLoRA.loRA != null && modelOrLoRA.loRAGroupId != -1L -> loRAGroupDao.findById(modelOrLoRA.loRAGroupId)?.let { loRAGroup ->
                         loRAGroup.childs.find { loRA -> loRA.id == modelOrLoRA.loRA.id }?.let { loRA ->
                             loRA.isFavourite = !loRA.isFavourite
-                            loRAGroupDao.update(loRAGroup)
+                            loRAGroupDao.updates(loRAGroup)
                         }
                     }
                 }

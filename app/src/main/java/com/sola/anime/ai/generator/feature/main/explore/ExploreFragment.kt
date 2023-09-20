@@ -7,14 +7,12 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
-import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.FragmentExploreBinding
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
-import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
@@ -27,7 +25,6 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -77,7 +74,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                     modelAndLoRA.loRA != null && modelAndLoRA.loRAGroupId != -1L -> loRAGroupDao.findById(modelAndLoRA.loRAGroupId)?.let { loRAGroup ->
                         loRAGroup.childs.find { loRA -> loRA.id == modelAndLoRA.loRA.id }?.let { loRA ->
                             loRA.isFavourite = !loRA.isFavourite
-                            loRAGroupDao.update(loRAGroup)
+                            loRAGroupDao.updates(loRAGroup)
                         }
                     }
                 }
@@ -104,11 +101,12 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 lifecycleScope
                     .launch(Dispatchers.Main) {
                         modelAndLoRAAdapter.data = dataModelOrLoRA
-                        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
 
-                        delay(250L)
+                        if (binding.recyclerModelAndLoRA.alpha != 1f){
+                            delay(250L)
 
-                        binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()
+                            binding.recyclerModelAndLoRA.animate().alpha(1f).setDuration(250).start()
+                        }
                     }
             }
 
@@ -123,9 +121,11 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 lifecycleScope.launch(Dispatchers.Main) {
                     binding.recyclerExplore.adapter = exploreAdapter
 
-                    delay(250L)
+                    if (binding.recyclerExplore.alpha != 1f){
+                        delay(250L)
 
-                    binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+                        binding.recyclerExplore.animate().alpha(1f).setDuration(250).start()
+                    }
                 }
             }
 
@@ -142,7 +142,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribe { explore ->
                 markFavourite = true
 
-                exploreDao.update(explore)
+                exploreDao.updates(explore)
             }
     }
 
@@ -159,6 +159,28 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     private fun initData() {
+        lifecycleScope
+            .launch(Dispatchers.IO) {
+                syncRepo.syncModelsAndLoRAs { progress ->
+                    when (progress) {
+                        is SyncRepository.Progress.SyncedModelsAndLoRAs -> {
+                            launch(Dispatchers.Main) { initObserveModelsAndLoRAsDatas() }
+                        }
+                        else -> {}
+                    }
+                }
+                syncRepo.syncExplores { progress ->
+                    when (progress) {
+                        is SyncRepository.Progress.SyncedExplores -> {
+                            launch(Dispatchers.Main) { initObserveExploresDatas() }
+                        }
+                        else -> {}
+                    }
+                }
+            }
+    }
+
+    private fun initObserveExploresDatas() {
         exploreDao.getAllDislikeLive().observe(viewLifecycleOwner) { explores ->
             if (explores.isEmpty()) return@observe
 
@@ -167,9 +189,12 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
                 subjectDataExploreChanges.onNext(Unit)
             }
+
             markFavourite = false
         }
+    }
 
+    private fun initObserveModelsAndLoRAsDatas() {
         MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
             addSource(modelDao.getAllDislikeLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
@@ -179,24 +204,10 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
             subjectDataModelsAndLoRAChanges.onNext(modelsItem + loRAsItem)
         }
-
-        lifecycleScope
-            .launch(Dispatchers.IO) {
-                syncRepo.syncModelsAndLoRAs {}
-                syncRepo.syncExplores {}
-            }
     }
 
     private fun initView() {
-//        binding.preview.load(R.drawable.preview_top_batch, errorRes = R.drawable.preview_top_batch) {
-//            binding.title.animate().alpha(1f).setDuration(250).start()
-//            binding.description.animate().alpha(1f).setDuration(250).start()
-//        }
-    }
-
-    override fun onDestroyView() {
-        tryOrNull { exploreAdapter.hashmapDrawable.clear() }
-        super.onDestroyView()
+        binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
     }
 
 }

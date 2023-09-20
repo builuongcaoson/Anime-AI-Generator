@@ -86,7 +86,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             val explore = exploreDao.findById(exploreId) ?: return@clicks
             explore.isFavourite = !explore.isFavourite
             binding.favourite.setTint(if (explore.isFavourite) getColorCompat(R.color.yellow) else resolveAttrColor(android.R.attr.textColorPrimary))
-            exploreDao.update(explore)
+            exploreDao.updates(explore)
         }
         binding.viewRecommendations.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.Recommendations) }
         binding.viewExploreRelated.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.ExploreRelated) }
@@ -101,7 +101,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     private fun dislikeClicks() {
         val explore = exploreDao.findById(exploreId) ?: return
         explore.isDislike = !explore.isDislike
-        exploreDao.update(explore)
+        exploreDao.updates(explore)
     }
 
     private fun saveClicks() {
@@ -206,7 +206,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             .subscribe { explore ->
                 markFavourite = true
 
-                exploreDao.update(explore)
+                exploreDao.updates(explore)
             }
 
         explorePreviewAdapter

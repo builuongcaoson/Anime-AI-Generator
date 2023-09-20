@@ -36,7 +36,6 @@ class ExploreAdapter @Inject constructor(
 
             field = value
         }
-    val hashmapDrawable = hashMapOf<Int, Drawable?>()
     val clicks: Subject<Explore> = PublishSubject.create()
     val favouriteClicks: Subject<Explore> = PublishSubject.create()
 
@@ -63,13 +62,7 @@ class ExploreAdapter @Inject constructor(
             this.applyTo(binding.viewGroup)
         }
 
-        hashmapDrawable[position]?.let { drawable ->
-            binding.preview.setImageDrawable(drawable)
-        } ?: run {
-            binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
-                hashmapDrawable[position] = drawable
-            }
-        }
+        binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
         binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
         binding.prompt.text = item.prompt
 

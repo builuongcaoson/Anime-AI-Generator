@@ -14,7 +14,10 @@ interface ModelDao {
     @Query("SELECT * FROM Models")
     fun getAll(): List<Model>
 
-    @Query("SELECT * FROM Models WHERE isDislike = :isDislike")
+    @Query("SELECT * FROM Models WHERE isDislike = :isDislike ORDER BY sortOrder DESC")
+    fun getAllDislike(isDislike: Boolean = false): List<Model>
+
+    @Query("SELECT * FROM Models WHERE isDislike = :isDislike ORDER BY sortOrder DESC")
     fun getAllDislikeLive(isDislike: Boolean = false): LiveData<List<Model>>
 
     @Query("SELECT * FROM Models")
@@ -29,6 +32,7 @@ interface ModelDao {
     fun deleteAll()
 
     // Update
+
     @Update
     fun updates(vararg objects: Model)
 

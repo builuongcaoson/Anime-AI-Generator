@@ -34,4 +34,7 @@ class Explore {
     @SerializedName("is_dislike")
     @Expose
     var isDislike: Boolean = false
+    @SerializedName("sortOrder")
+    @Expose
+    var sortOrder: Int = 0
 }
