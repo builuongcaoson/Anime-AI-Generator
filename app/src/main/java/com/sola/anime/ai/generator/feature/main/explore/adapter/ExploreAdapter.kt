@@ -30,7 +30,7 @@ class ExploreAdapter @Inject constructor(
         set(value) {
             val exploresDisplay = when (itemCount) {
                 0 -> value.takeIf { it.size > EXPLORE_SIZE }?.subList(0, EXPLORE_SIZE) ?: listOf()
-                else -> value.takeIf { it.size > itemCount }?.subList(0, itemCount) ?: listOf()
+                else -> value
             }
             data = exploresDisplay
 
