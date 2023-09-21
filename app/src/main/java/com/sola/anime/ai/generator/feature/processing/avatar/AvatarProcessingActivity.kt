@@ -56,7 +56,6 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var userPremiumManager: UserPremiumManager
     @Inject lateinit var fileRepo: FileRepository
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
@@ -170,24 +169,9 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                     dezgoStatusImagesToImages = configApp.dezgoBodiesImagesToImages.flatMap { dezgo -> dezgo.bodies.map { body -> DezgoStatusImageToImage(body = body, status = StatusBodyImageToImage.Loading) } }
                     previewAdapter.data = dezgoStatusImagesToImages
 
-                    prefs.getUserPurchased()?.let {
-                        val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                        launch(Dispatchers.Main) {
-                            when {
-                                isSuccess -> {
-                                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-                                    generate()
-                                }
-                                else -> markFailed()
-                            }
-                        }
-                    } ?: run {
-                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-                        generate()
-                    }
+                    generate()
                 }
             }
         }

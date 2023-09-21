@@ -4,12 +4,12 @@ import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchas
 
 interface UserPremiumManager {
 
-    suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased
+//    suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased
 
     suspend fun syncUserPurchasedFromDatabase()
 
-    suspend fun updateCredits(newCredits: Float): Boolean
+//    suspend fun updateCredits(newCredits: Float): Boolean
 
-    suspend fun createdArtwork(newCredits: Float): Boolean
+//    suspend fun createdArtwork(newCredits: Float): Boolean
 
 }

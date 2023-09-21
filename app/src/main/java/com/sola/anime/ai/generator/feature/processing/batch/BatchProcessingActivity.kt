@@ -52,7 +52,6 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
     @Inject lateinit var dezgoApiRepo: DezgoApiRepository
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var userPremiumManager: UserPremiumManager
     @Inject lateinit var fileRepo: FileRepository
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
@@ -165,24 +164,9 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                     dezgoStatusTextsToImages = configApp.dezgoBodiesTextsToImages.flatMap { dezgo -> dezgo.bodies.map { body -> DezgoStatusTextToImage(body = body, status = StatusBodyTextToImage.Loading) } }
                     previewAdapter.data = dezgoStatusTextsToImages
 
-                    prefs.getUserPurchased()?.let {
-                        val isSuccess = userPremiumManager.updateCredits(prefs.getCredits() - totalCreditsDeducted)
+                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                        launch(Dispatchers.Main) {
-                            when {
-                                isSuccess -> {
-                                    prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-                                    generate()
-                                }
-                                else -> markFailed()
-                            }
-                        }
-                    } ?: run {
-                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-                        generate()
-                    }
+                    generate()
                 }
             }
         }
@@ -304,13 +288,6 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
 
     private fun listenerView() {
         binding.back.clicks { onBackPressed() }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//            binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-//                val alpha = scrollY.toFloat() / binding.viewShadow.height.toFloat()
-//
-//                binding.viewShadow.alpha = alpha
-//            }
-//        }
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

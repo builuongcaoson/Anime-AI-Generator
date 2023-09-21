@@ -44,8 +44,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     private val subjectScrollAtBottom: Subject<Unit> = PublishSubject.create()
 
     private var markFavourite = false
-    private var hadDataModelsAndLoRAs = false
-    private var hadDataExplores = false
 
     override fun onViewCreated() {
         lifecycleScope.launch(Dispatchers.Main) {
@@ -91,15 +89,15 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             }
 
         subjectDataModelsAndLoRAChanges
-            .debounce(if (hadDataModelsAndLoRAs) 0L else 250L, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .filter { it.isNotEmpty() }
             .bindToLifecycle(binding.root)
             .subscribe { dataModelOrLoRA ->
-                hadDataModelsAndLoRAs = true
-
                 lifecycleScope
                     .launch(Dispatchers.Main) {
+                        if (binding.recyclerModelAndLoRA.alpha != 1f){
+                            delay(250L)
+                        }
+
                         modelAndLoRAAdapter.data = dataModelOrLoRA
 
                         if (binding.recyclerModelAndLoRA.alpha != 1f){
@@ -111,14 +109,13 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             }
 
         subjectDataExploreChanges
-            .debounce(if (hadDataExplores) 0L else 250L, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
             .subscribe {
-                hadDataExplores = true
-
                 lifecycleScope.launch(Dispatchers.Main) {
+                    if (binding.recyclerExplore.alpha != 1f){
+                        delay(250L)
+                    }
+
                     binding.recyclerExplore.adapter = exploreAdapter
 
                     if (binding.recyclerExplore.alpha != 1f){

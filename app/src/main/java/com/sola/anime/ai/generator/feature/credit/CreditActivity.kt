@@ -152,14 +152,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 prefs.isPurchasedCredit.set(true)
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
 
-                lifecycleScope.launch(Dispatchers.Main) {
-                    Timber.e("Sync user purchased")
-
-                    val userPurchased = userPremiumManager.addOrUpdatePurchasedToDatabase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = -3)
-                    prefs.setUserPurchased(userPurchased)
-
-                    binding.viewLoading.isVisible = false
-                }
+                binding.viewLoading.isVisible = false
             },
             onError = { _, _ ->
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)

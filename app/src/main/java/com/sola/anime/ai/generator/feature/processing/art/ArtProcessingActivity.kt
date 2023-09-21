@@ -54,7 +54,6 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
@@ -126,6 +125,13 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
             makeToast("Server error, please wait for us to fix the error or try again!")
             back()
+        }
+
+        artProcessDao.getAllLive().observe(this){ artProcesses ->
+            previewAdapter.apply {
+                this.data = artProcesses.shuffled()
+                this.totalCount = artProcesses.size
+            }
         }
 
         val task = {
@@ -294,31 +300,9 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
         artGenerateDialog.show(this@ArtProcessingActivity)
 
-        prefs.getUserPurchased()?.let {
-            lifecycleScope.launch {
-                val isSuccess = userPremiumManager.createdArtwork(prefs.getCredits() - totalCreditsDeducted)
+        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
 
-                when {
-                    isSuccess -> {
-                        prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-                        task()
-                    }
-                    else -> markFailed()
-                }
-            }
-        } ?: run {
-            prefs.setCredits(prefs.getCredits() - totalCreditsDeducted)
-
-            task()
-        }
-
-        artProcessDao.getAllLive().observe(this){ artProcesses ->
-            previewAdapter.apply {
-                this.data = artProcesses.shuffled()
-                this.totalCount = artProcesses.size
-            }
-        }
+        task()
     }
 
     private fun markLoadingWithIdAndChildId(groupId: Long, childId: Long) {

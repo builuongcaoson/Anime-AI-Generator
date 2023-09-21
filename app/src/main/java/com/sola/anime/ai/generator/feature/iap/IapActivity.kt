@@ -262,14 +262,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 prefs.numberCreatedArtwork.delete()
                 prefs.isUpgraded.set(true)
 
-                lifecycleScope.launch(Dispatchers.Main) {
-                    Timber.e("Sync user purchased")
-
-                    val userPurchased = userPremiumManager.addOrUpdatePurchasedToDatabase(packagePurchased = item.id, timePurchased = purchase.purchaseTime, timeExpired = timeExpired)
-                    prefs.setUserPurchased(userPurchased)
-
-                    binding.viewLoading.isVisible = false
-                }
+                binding.viewLoading.isVisible = false
             },
             onError = { _, _ ->
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)

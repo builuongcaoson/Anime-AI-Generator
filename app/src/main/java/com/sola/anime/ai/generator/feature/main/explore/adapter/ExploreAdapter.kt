@@ -25,6 +25,7 @@ class ExploreAdapter @Inject constructor(
         private const val EXPLORE_SIZE = 5
     }
 
+    private val hashmapDrawables = hashMapOf<String?, Drawable?>()
     private var isLastPage = false
     var explores = listOf<Explore>()
         set(value) {
@@ -62,7 +63,13 @@ class ExploreAdapter @Inject constructor(
             this.applyTo(binding.viewGroup)
         }
 
-        binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image)
+        hashmapDrawables[item.previews.firstOrNull()]?.let { drawable ->
+            binding.preview.setImageDrawable(drawable)
+        } ?: run {
+            binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
+                hashmapDrawables[item.previews.firstOrNull()] = drawable
+            }
+        }
         binding.favourite.setTint(context.getColorCompat(if (item.isFavourite) R.color.yellow else R.color.white))
         binding.prompt.text = item.prompt
 

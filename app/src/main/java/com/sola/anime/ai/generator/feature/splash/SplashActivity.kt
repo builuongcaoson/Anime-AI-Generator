@@ -43,7 +43,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var syncData: SyncData
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var permissionManager: PermissionManager
-    @Inject lateinit var userPremiumManager: UserPremiumManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,28 +74,28 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                     initData()
                 }
-                else -> {
-                    syncRemoteConfig {
-                        when {
-                            configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity)) -> {
-                                makeToast("Your device is on our blocked list!")
-                                finish()
-                                return@syncRemoteConfig
-                            }
-                            configApp.blockDeviceIds.contains(deviceId()) -> {
-                                makeToast("Your device is on our blocked list!")
-                                finish()
-                                return@syncRemoteConfig
-                            }
-                        }
-
-                        syncData.execute(Unit)
-
-                        doTask()
-                    }
-                }
+                else -> syncRemoteConfig()
             }
         }
+    }
+
+    private fun doTaskAfterSyncFirebaseRemoteConfig(){
+        when {
+            configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity)) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceIds.contains(deviceId()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+        }
+
+        syncData.execute(Unit)
+
+        doTask()
     }
 
 //    override fun onRequestPermissionsResult(
@@ -110,7 +109,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 //        }
 //    }
 
-    private fun syncRemoteConfig(done: () -> Unit) {
+    private fun syncRemoteConfig() {
         Firebase.remoteConfig.let { config ->
             val configSettings = remoteConfigSettings {
                 minimumFetchIntervalInSeconds = 0
@@ -160,10 +159,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
 
-                    done()
+                    doTaskAfterSyncFirebaseRemoteConfig()
                 }
                 .addOnFailureListener {
-                    done()
+                    doTaskAfterSyncFirebaseRemoteConfig()
                 }
         }
     }
@@ -186,26 +185,18 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
+            resetNumberCreatedArtworkIfOtherToday()
+
             when {
                 !prefs.isUpgraded.get() && isNetworkAvailable() -> {
                     binding.textLoadingAd.text = "This action contains ads..."
-
-                    resetNumberCreatedArtworkIfOtherToday()
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }
                         , failedOrSuccess = { task() }
                     )
                 }
-                else -> {
-                    prefs.getUserPurchased()?.let {
-                        userPremiumManager.syncUserPurchasedFromDatabase()
-                    } ?: run {
-                        resetNumberCreatedArtworkIfOtherToday()
-                    }
-
-                    task()
-                }
+                else -> task()
             }
         }
     }
