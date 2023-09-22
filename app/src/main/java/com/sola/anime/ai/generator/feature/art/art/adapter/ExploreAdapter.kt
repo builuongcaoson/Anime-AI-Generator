@@ -32,7 +32,7 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
 
             field = value
         }
-    val hashmapDrawable = hashMapOf<Int, Drawable?>()
+    val hashmapDrawable = hashMapOf<String?, Drawable?>()
 
     fun loadMore(){
         val startIndex = itemCount
@@ -56,11 +56,11 @@ class ExploreAdapter @Inject constructor(): LsAdapter<Explore, ItemPreviewExplor
         set.setDimensionRatio(binding.viewClicks.id, item.ratio)
         set.applyTo(binding.viewGroup)
 
-        hashmapDrawable[position]?.let { drawable ->
+        hashmapDrawable[item.previews.firstOrNull()]?.let { drawable ->
             binding.preview.setImageDrawable(drawable)
         } ?: run {
             binding.preview.load(item.previews.firstOrNull(), errorRes = R.drawable.place_holder_image) { drawable ->
-                hashmapDrawable[position] = drawable
+                hashmapDrawable[item.previews.firstOrNull()] = drawable
             }
         }
         binding.prompt.text = item.prompt

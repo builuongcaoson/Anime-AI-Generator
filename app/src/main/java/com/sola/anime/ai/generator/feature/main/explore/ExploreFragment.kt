@@ -207,4 +207,9 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
         binding.recyclerModelAndLoRA.adapter = modelAndLoRAAdapter
     }
 
+    override fun onDestroy() {
+        exploreAdapter.hashmapDrawables.clear()
+        super.onDestroy()
+    }
+
 }

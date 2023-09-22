@@ -15,7 +15,7 @@ interface ExploreDao {
     @Query("SELECT * FROM Explores WHERE isDislike = :isDislike ORDER BY sortOrder DESC")
     fun getAllDislikeLive(isDislike: Boolean = false): LiveData<List<Explore>>
 
-    @Query("SELECT * FROM Explores")
+    @Query("SELECT * FROM Explores ORDER BY sortOrder DESC")
     fun getAllLive(): LiveData<List<Explore>>
 
     // Inserts or deletes

@@ -25,7 +25,6 @@ class ExploreAdapter @Inject constructor(
         private const val EXPLORE_SIZE = 5
     }
 
-    private val hashmapDrawables = hashMapOf<String?, Drawable?>()
     private var isLastPage = false
     var explores = listOf<Explore>()
         set(value) {
@@ -39,6 +38,7 @@ class ExploreAdapter @Inject constructor(
         }
     val clicks: Subject<Explore> = PublishSubject.create()
     val favouriteClicks: Subject<Explore> = PublishSubject.create()
+    val hashmapDrawables = hashMapOf<String?, Drawable?>()
 
     fun loadMore(){
         val startIndex = itemCount
