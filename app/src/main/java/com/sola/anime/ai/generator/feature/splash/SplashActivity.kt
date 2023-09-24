@@ -13,6 +13,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
@@ -25,7 +26,6 @@ import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
-import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -48,7 +48,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        Timber.tag("Main12345").e("Device model: ${getDeviceModel()}")
+        Timber.tag("Main12345").e("Device model: ${deviceModel()}")
         Timber.tag("Main12345").e("Device id: ${deviceId()}")
         if (Build.VERSION.SDK_INT >= 34) {
             Timber.tag("Main12345").e("Device id 2: $deviceId")
@@ -62,6 +62,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initData() {
+        App.app.loadReviewInfo()
+        
         // Reset credits changes
         prefs.creditsChanges.delete()
         prefs.userPurchasedChanges.delete()
@@ -87,6 +89,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 return
             }
             configApp.blockDeviceIds.contains(deviceId()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceModels.contains(deviceModel()) -> {
                 makeToast("Your device is on our blocked list!")
                 finish()
                 return
@@ -140,6 +147,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
+                    configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
@@ -157,6 +165,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Key premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
                     Timber.e("Key upscale: ${configApp.keyUpscale}")
                     Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
+                    Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
 
                     doTaskAfterSyncFirebaseRemoteConfig()
@@ -204,7 +213,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun resetNumberCreatedArtworkIfOtherToday() {
         // Reset number created in days if different days
         when {
-            prefs.latestTimeCreatedArtwork.get().isToday() -> {}
+            !prefs.isUpgraded.get() || prefs.latestTimeCreatedArtwork.get().isToday() -> {}
             else -> {
                 prefs.numberCreatedArtwork.delete()
                 prefs.latestTimeCreatedArtwork.delete()

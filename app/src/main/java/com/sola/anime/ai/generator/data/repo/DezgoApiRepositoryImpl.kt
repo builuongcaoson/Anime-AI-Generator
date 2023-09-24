@@ -48,7 +48,9 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
-                            }
+                            }.removeSuffix("\"\"")
+
+                            Timber.tag("MainXXX").e("Prompt: $prompt")
 
                             try {
 //                                val response = when {
@@ -159,7 +161,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             val prompt = when {
                                 style != null -> body.prompt + style.prompts.random()
                                 else -> body.prompt
-                            }
+                            }.removeSuffix("\"\"")
 
                             try {
                                 val photoRequestBody = body.initImage.toRequestBody(context)

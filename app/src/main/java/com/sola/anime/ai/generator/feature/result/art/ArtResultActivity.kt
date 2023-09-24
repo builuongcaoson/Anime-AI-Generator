@@ -23,6 +23,7 @@ import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -53,6 +54,7 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -125,6 +127,14 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             prefs.numberCreatedArtwork.set(prefs.numberCreatedArtwork.get() + 1)
             prefs.totalNumberCreatedArtwork.set(prefs.totalNumberCreatedArtwork.get() + 1)
             prefs.latestTimeCreatedArtwork.set(System.currentTimeMillis())
+        }
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(1000L)
+
+            App.app.reviewInfo?.let { reviewInfo ->
+                App.app.manager.launchReviewFlow(this@ArtResultActivity, reviewInfo).await()
+            }
         }
 
         initView()

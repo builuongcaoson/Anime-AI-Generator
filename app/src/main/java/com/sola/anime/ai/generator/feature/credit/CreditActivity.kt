@@ -208,6 +208,8 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     }
 
     private fun restoreClicks() {
+        analyticManager.logEvent(AnalyticManager.TYPE.RESTORE_CLICKED)
+
         lifecycleScope.launch(Dispatchers.Main) {
             binding.viewLoading.isVisible = true
 

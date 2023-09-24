@@ -37,6 +37,7 @@ class ConfigApp @Inject constructor(
     var keyDezgoPremium = Constraint.Dezgo.KEY_PREMIUM
     var keyUpscale = Constraint.Upscale.RAPID_KEY
     var blockDeviceIds = listOf("")
+    var blockDeviceModels = listOf("")
     var blockedRoot = true
 
     var discountCredits = 0.02f

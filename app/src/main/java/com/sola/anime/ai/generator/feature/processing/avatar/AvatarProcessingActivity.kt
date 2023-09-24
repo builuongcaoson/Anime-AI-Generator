@@ -17,14 +17,19 @@ import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.deviceId
+import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.common.util.CommonUtil
+import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityAvatarProcessingBinding
+import com.sola.anime.ai.generator.domain.interactor.SyncRemoteConfig
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
@@ -57,6 +62,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     @Inject lateinit var historyRepo: HistoryRepository
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var fileRepo: FileRepository
+    @Inject lateinit var syncRemoteConfig: SyncRemoteConfig
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 10f) }
@@ -74,8 +80,25 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_AVATAR)
 
         initView()
-        initData()
         initObservable()
+        when {
+            configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this)) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceIds.contains(deviceId()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceModels.contains(deviceModel()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            else -> initData()
+        }
         listenerView()
     }
 
@@ -152,6 +175,8 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
     }
 
     private fun initData() {
+        syncRemoteConfig.execute(Unit)
+
         val markFailed = {
             analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED_AVATAR)
 

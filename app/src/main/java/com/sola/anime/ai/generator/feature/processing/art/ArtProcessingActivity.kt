@@ -10,15 +10,20 @@ import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.deviceId
+import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.common.extension.setCurrentItem
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.toChildHistory
 import com.sola.anime.ai.generator.common.ui.dialog.ArtGenerateDialog
 import com.sola.anime.ai.generator.common.util.AESEncyption
+import com.sola.anime.ai.generator.common.util.CommonUtil
+import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ProcessDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.ActivityArtProcessingBinding
+import com.sola.anime.ai.generator.domain.interactor.SyncRemoteConfig
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
 import com.sola.anime.ai.generator.domain.model.status.DezgoStatusImageToImage
@@ -54,6 +59,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     @Inject lateinit var historyDao: HistoryDao
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var syncRemoteConfig: SyncRemoteConfig
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
@@ -72,7 +78,24 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
         initView()
         initObservable()
-        initData()
+        when {
+            configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this)) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceIds.contains(deviceId()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            configApp.blockDeviceModels.contains(deviceModel()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
+            else -> initData()
+        }
     }
 
     override fun onResume() {
@@ -120,9 +143,9 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
     }
 
     private fun initData() {
-        val markFailed = {
-            analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
+        syncRemoteConfig.execute(Unit)
 
+        val markFailed = {
             makeToast("Server error, please wait for us to fix the error or try again!")
             back()
         }

@@ -18,7 +18,7 @@ import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import java.util.*
 import kotlin.math.roundToInt
 
-fun getDeviceModel(): String {
+fun deviceModel(): String {
     return android.os.Build.MODEL
 }
 
@@ -163,7 +163,7 @@ fun initBodyTextsToImages(
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
-        val subNegativeDevice = "${context.deviceId()}_${BuildConfig.VERSION_CODE}"
+        val subNegativeDevice = "${context.deviceId()}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
         val subFeature = when (type) {
             0 -> "art"
             1 -> "batch"
@@ -288,7 +288,7 @@ fun initBodyImagesToImages(
 ): List<BodyImageToImage>{
     val bodies = arrayListOf<BodyImageToImage>()
     (0..maxChildId).forEach { id ->
-        val subNegativeDevice = "${context.deviceId()}_${BuildConfig.VERSION_CODE}"
+        val subNegativeDevice = "${context.deviceId()}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
         val subFeature = when (type) {
             0 -> "art"
             1 -> "batch"

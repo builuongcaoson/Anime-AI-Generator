@@ -31,7 +31,9 @@ interface AnalyticManager {
         PURCHASE_CANCEL_CREDITS,
         REPORT_MODEL,
         REPORT_LORA,
-        REPORT_EXPLORE
+        REPORT_EXPLORE,
+        RESTORE_CLICKED,
+        RESTORE_SUCCESS
     }
 
     fun logEvent(type: TYPE)

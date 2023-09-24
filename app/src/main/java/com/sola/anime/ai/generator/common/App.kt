@@ -1,13 +1,16 @@
 package com.sola.anime.ai.generator.common
 
 import android.app.Application
+import android.util.Log
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.installations.FirebaseInstallations
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.extension.deviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
+import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
@@ -26,6 +29,9 @@ class App : Application() {
     }
 
     @Inject lateinit var prefs: Preferences
+
+    val manager by lazy { ReviewManagerFactory.create(this) }
+    var reviewInfo: ReviewInfo? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -56,11 +62,21 @@ class App : Application() {
             }
     }
 
+    fun loadReviewInfo(){
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                reviewInfo = task.result
+                Timber.tag("Main12345").e("Loaded Review infor")
+            }
+        }
+    }
+
     private fun initRevenuecat(){
         Purchases.logLevel = LogLevel.DEBUG
         Purchases.debugLogsEnabled = BuildConfig.DEBUG
         Purchases.configure(PurchasesConfiguration.Builder(this, Constraint.Info.REVENUECAT_KEY).build())
-        Purchases.sharedInstance.setDisplayName("${deviceId()}---${getDeviceModel()}")
+        Purchases.sharedInstance.setDisplayName("${deviceId()}---${deviceModel()}")
     }
 
 }

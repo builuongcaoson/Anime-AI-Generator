@@ -7,13 +7,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.deviceId
-import com.sola.anime.ai.generator.common.extension.getDeviceModel
-import com.sola.anime.ai.generator.common.extension.getTimeFormatted
 import com.sola.anime.ai.generator.common.extension.isToday
 import com.sola.anime.ai.generator.common.extension.toDate
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.manager.UserPremiumManager
-import com.sola.anime.ai.generator.domain.model.config.userPurchased.ProductPurchased
 import com.sola.anime.ai.generator.domain.model.config.userPurchased.UserPurchased
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -21,12 +19,12 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.roundToInt
 
 @Singleton
 class UserPremiumManagerImpl @Inject constructor(
     private val context: Context,
-    private val prefs: Preferences
+    private val prefs: Preferences,
+    private val analyticManager: AnalyticManager
 ): UserPremiumManager {
 
 //    override suspend fun addOrUpdatePurchasedToDatabase(packagePurchased: String, timePurchased: Long, timeExpired: Long): UserPurchased = withContext(Dispatchers.IO){
@@ -107,6 +105,8 @@ class UserPremiumManagerImpl @Inject constructor(
                     prefs.timeExpiredPremium.delete()
                 }
             }
+
+            analyticManager.logEvent(AnalyticManager.TYPE.RESTORE_SUCCESS)
         }
 
         Unit

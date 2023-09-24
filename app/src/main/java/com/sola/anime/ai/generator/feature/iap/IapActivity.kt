@@ -194,6 +194,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun restoreClicks() {
+        analyticManager.logEvent(AnalyticManager.TYPE.RESTORE_CLICKED)
+
         lifecycleScope.launch(Dispatchers.Main) {
             binding.viewLoading.isVisible = true
 
