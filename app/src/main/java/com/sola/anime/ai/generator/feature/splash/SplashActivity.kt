@@ -56,6 +56,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
+//        val key = AESEncyption.encrypt("DEZGO-E99F8056003B8BE83E94792A9AD0D3E6DCB7F20E3ACB607F50CAF1553B8D6486AA87CA83")
+//        Timber.tag("Main12345").e("Key: $key")
+//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt("sfmOxyanfG1ttgHFIVEG8+XC3/R7ecHrpFuFMpyGyOTsJpUnZfLtTd8Rcm9/i/qvbQbXlDwFWnzpSuuRQbep4m4LD/4SCDDQaAuA3F0WLJw=")}")
+
         initView()
         initObservable()
         initData()

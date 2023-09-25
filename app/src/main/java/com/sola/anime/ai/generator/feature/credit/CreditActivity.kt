@@ -144,16 +144,18 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, _ ->
-                if (purchase?.orderId == null) {
+                val orderId = purchase?.orderId ?: "null"
+
+                if (orderId.isEmpty() || !orderId.contains("GPA.") || orderId.length < 24) {
                     analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
 
                     binding.viewLoading.isVisible = false
                     return@purchaseWith
                 }
 
-                prefs.purchasedOrderLastedId.set(purchase.orderId ?: "null")
+                Timber.e("Order id: ${purchase?.orderId}")
 
-                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS_CREDITS)
+                prefs.purchasedOrderLastedId.set(purchase?.orderId ?: "null")
 
                 val creditsReceived = when (item.id) {
                     Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
@@ -172,6 +174,8 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 prefs.setCredits(prefs.getCredits() + creditsReceived)
 
                 binding.viewLoading.isVisible = false
+
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS_CREDITS)
             },
             onError = { _, _ ->
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)

@@ -232,16 +232,18 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, customerInfo ->
-                if (purchase?.orderId == null) {
+                val orderId = purchase?.orderId ?: "null"
+
+                if (orderId.isEmpty() || !orderId.contains("GPA.") || orderId.length < 24) {
                     analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
 
                     binding.viewLoading.isVisible = false
                     return@purchaseWith
                 }
 
-                prefs.purchasedOrderLastedId.set(purchase.orderId ?: "null")
+                Timber.e("Order id: ${purchase?.orderId}")
 
-                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
+                prefs.purchasedOrderLastedId.set(purchase?.orderId ?: "null")
 
                 val timeExpiredWithPremium = customerInfo
                     .latestExpirationDate
@@ -268,6 +270,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 prefs.isUpgraded.set(true)
 
                 binding.viewLoading.isVisible = false
+
+                analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
             },
             onError = { _, _ ->
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
@@ -354,8 +358,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-//        binding.imageWeekly.selection(sku == sku2)
-//        binding.textTitle2.selection(sku == sku2)
     }
 
     private fun updateYearlyUi(sku: String) {
@@ -371,8 +373,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-//        binding.imageYearly.selection(sku == sku3)
-//        binding.textTitle3.selection(sku == sku3)
     }
 
     private fun updateLifeTimeUi(sku: String) {
