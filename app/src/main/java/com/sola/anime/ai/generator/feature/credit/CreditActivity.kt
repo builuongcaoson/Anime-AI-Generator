@@ -15,6 +15,7 @@ import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.revenuecat.purchases.purchaseWith
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
@@ -32,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -54,6 +56,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
     private var products = listOf<StoreProduct>()
+    private val skus by lazy { listOf(Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,31 +81,42 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     }
 
     private fun syncQueryProduct() {
-        Purchases.sharedInstance.getProducts(listOf(Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000), object:
-            GetStoreProductsCallback {
-            override fun onError(error: PurchasesError) {
+        networkDialog.dismiss()
 
+        when {
+            isNetworkAvailable() -> {
+                Purchases.sharedInstance.getProducts(skus, object:
+                    GetStoreProductsCallback {
+                    override fun onError(error: PurchasesError) {
+
+                    }
+
+                    override fun onReceived(storeProducts: List<StoreProduct>) {
+                        products = storeProducts
+
+                        updateUIPrice()
+                    }
+                })
             }
+            else -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(500L)
 
-            override fun onReceived(storeProducts: List<StoreProduct>) {
-                products = storeProducts
-
-                for (i in storeProducts){
-                    Timber.e("Title: ${i.title} --- ${i.id} --- ${i.price.formatted} --- ${i.id.contains(Constraint.Iap.SKU_MONTH)}")
+                    networkDialog.show(this@CreditActivity){
+                        syncQueryProduct()
+                    }
                 }
-
-                updateUIPrice()
             }
-        })
+        }
     }
 
     private fun updateUIPrice() {
         products.forEach {
-            when {
-                it.id == Constraint.Iap.SKU_CREDIT_1000 -> binding.price4.text = it.price.formatted
-                it.id == Constraint.Iap.SKU_CREDIT_3000 -> binding.price3.text = it.price.formatted
-                it.id == Constraint.Iap.SKU_CREDIT_5000 -> binding.price2.text = it.price.formatted
-                it.id == Constraint.Iap.SKU_CREDIT_10000 -> binding.price1.text = it.price.formatted
+            when (it.id) {
+                Constraint.Iap.SKU_CREDIT_1000 -> binding.price4.text = it.price.formatted
+                Constraint.Iap.SKU_CREDIT_3000 -> binding.price3.text = it.price.formatted
+                Constraint.Iap.SKU_CREDIT_5000 -> binding.price2.text = it.price.formatted
+                Constraint.Iap.SKU_CREDIT_10000 -> binding.price1.text = it.price.formatted
             }
         }
     }
@@ -130,9 +144,14 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, _ ->
-                if (purchase == null) {
+                if (purchase?.orderId == null) {
+                    analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
+
+                    binding.viewLoading.isVisible = false
                     return@purchaseWith
                 }
+
+                prefs.purchasedOrderLastedId.set(purchase.orderId ?: "null")
 
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS_CREDITS)
 
@@ -222,46 +241,38 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     }
 
     private fun initData() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            // Query products
-            syncQueryProduct()
-        }
+
     }
 
     private fun initObservable() {
         subjectSkuChoice
             .autoDispose(scope())
-            .subscribe {
-//                binding.view4.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_1000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-//                binding.view3.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_3000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-//                binding.view2.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_5000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
-//                binding.view1.strokeWidth = if (it == Constraint.Iap.SKU_CREDIT_10000) getDimens(com.intuit.sdp.R.dimen._2sdp).toInt() else 0
+            .subscribe { sku ->
+                binding.view4.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_1000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view3.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_3000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view2.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_5000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
+                binding.view1.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_10000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
 
-                binding.view4.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_1000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
-                binding.view3.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_3000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
-                binding.view2.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_5000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
-                binding.view1.strokeColor = resolveAttrColor(if (it == Constraint.Iap.SKU_CREDIT_10000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
-
-                when {
-                    it == Constraint.Iap.SKU_CREDIT_1000 -> {
+                when (sku) {
+                    Constraint.Iap.SKU_CREDIT_1000 -> {
                         binding.checkbox4.setImageResource(R.drawable.circle)
                         binding.checkbox3.setImageDrawable(null)
                         binding.checkbox2.setImageDrawable(null)
                         binding.checkbox1.setImageDrawable(null)
                     }
-                    it == Constraint.Iap.SKU_CREDIT_3000 -> {
+                    Constraint.Iap.SKU_CREDIT_3000 -> {
                         binding.checkbox4.setImageDrawable(null)
                         binding.checkbox3.setImageResource(R.drawable.circle)
                         binding.checkbox2.setImageDrawable(null)
                         binding.checkbox1.setImageDrawable(null)
                     }
-                    it == Constraint.Iap.SKU_CREDIT_5000 -> {
+                    Constraint.Iap.SKU_CREDIT_5000 -> {
                         binding.checkbox4.setImageDrawable(null)
                         binding.checkbox3.setImageDrawable(null)
                         binding.checkbox2.setImageResource(R.drawable.circle)
                         binding.checkbox1.setImageDrawable(null)
                     }
-                    it == Constraint.Iap.SKU_CREDIT_10000 -> {
+                    Constraint.Iap.SKU_CREDIT_10000 -> {
                         binding.checkbox4.setImageDrawable(null)
                         binding.checkbox3.setImageDrawable(null)
                         binding.checkbox2.setImageDrawable(null)
@@ -269,7 +280,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                     }
                 }
 
-                val creditsReceived = when (it) {
+                val creditsReceived = when (sku) {
                     Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
                     Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
                     Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
@@ -300,6 +311,14 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
             .subscribe { isUpgraded ->
                 binding.viewPremium.isVisible = !isUpgraded
             }
+
+        App
+            .app
+            .subjectNetworkChanges
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { syncQueryProduct() }
     }
 
     @Deprecated("Deprecated in Java")

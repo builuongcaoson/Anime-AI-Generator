@@ -15,6 +15,7 @@ import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
@@ -67,6 +68,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private val sku3 by lazy { Constraint.Iap.SKU_YEAR }
     private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku3) }
     private var products = listOf<StoreProduct>()
+    private val skus by lazy { listOf(sku1, sku2, sku3) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,57 +116,55 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
             binding.viewPreview.animate().alpha(1f).setDuration(250L).start()
         }
-
-        syncQueryProduct()
     }
 
     private fun syncQueryProduct() {
-        Purchases.sharedInstance.getProducts(listOf(sku1, sku2, sku3), object: GetStoreProductsCallback {
-            override fun onError(error: PurchasesError) {
+        networkDialog.dismiss()
 
+        when {
+            isNetworkAvailable() -> {
+                Purchases.sharedInstance.getProducts(skus, object: GetStoreProductsCallback {
+                    override fun onError(error: PurchasesError) {
+
+                    }
+
+                    override fun onReceived(storeProducts: List<StoreProduct>) {
+                        products = storeProducts
+
+                        updateUIPrice(subjectSkuChoose.blockingFirst())
+                    }
+                })
             }
+            else -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(500L)
 
-            override fun onReceived(storeProducts: List<StoreProduct>) {
-                products = storeProducts
-
-                for (i in storeProducts){
-                    Timber.e("Title: ${i.title} --- ${i.id} --- ${i.price.formatted} --- ${i.id.contains(Constraint.Iap.SKU_MONTH)}")
+                    networkDialog.show(this@IapActivity){
+                        syncQueryProduct()
+                    }
                 }
-
-                updateUIPrice(subjectSkuChoose.blockingFirst())
             }
-        })
+        }
     }
 
     private fun updateUIPrice(sku: String) {
-        val namePackage = when (sku) {
-            Constraint.Iap.SKU_LIFE_TIME -> ""
-            Constraint.Iap.SKU_WEEK -> ""
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "/Week"
-            Constraint.Iap.SKU_MONTH -> ""
-            else -> ""
-        }
         val description = when (sku) {
             Constraint.Iap.SKU_LIFE_TIME -> getString(R.string.description_price_lifetime)
             Constraint.Iap.SKU_WEEK -> getString(R.string.description_price_week)
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> getString(R.string.description_price_week_3d_trial)
-            Constraint.Iap.SKU_MONTH -> getString(R.string.description_price_month)
             else -> getString(R.string.description_price_year)
         }
         val description3 = when (sku) {
             Constraint.Iap.SKU_LIFE_TIME -> "Gift 2000 credits"
             Constraint.Iap.SKU_WEEK -> "Gift 200 credits"
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "Gift 200 credits"
-            Constraint.Iap.SKU_MONTH -> "Gift 500 credits"
             else -> "Gift 1000 credits"
         }
         binding.textDescription.text = description
         binding.description3.text = description3
 
         products.find { it.id.contains(sku) }?.let { product ->
-            binding.textPrice.text = "${product.price.formatted}$namePackage"
+            binding.textPrice.text = "${product.price.formatted}"
         } ?: run {
-            binding.textPrice.text = "0 $$namePackage"
+            binding.textPrice.text = "0 $"
         }
     }
 
@@ -180,7 +180,9 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             featureDialog.show(this){
                 lifecycleScope.launch(Dispatchers.Main) {
                     featureDialog.dismiss()
+
                     delay(250)
+
                     purchaseClicks()
                 }
             }
@@ -230,9 +232,14 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, customerInfo ->
-                if (purchase == null) {
+                if (purchase?.orderId == null) {
+                    analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
+
+                    binding.viewLoading.isVisible = false
                     return@purchaseWith
                 }
+
+                prefs.purchasedOrderLastedId.set(purchase.orderId ?: "null")
 
                 analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_SUCCESS)
 
@@ -243,8 +250,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 val timeExpired = when {
                     item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> -2L
                     item.id.contains(Constraint.Iap.SKU_WEEK) -> timeExpiredWithPremium
-                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> timeExpiredWithPremium
-                    item.id.contains(Constraint.Iap.SKU_MONTH) -> timeExpiredWithPremium
                     item.id.contains(Constraint.Iap.SKU_YEAR) -> timeExpiredWithPremium
                     else -> -1L
                 }
@@ -252,8 +257,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 val creditsReceived = when {
                     item.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> 2000
                     item.id.contains(Constraint.Iap.SKU_WEEK) -> 200
-                    item.id.contains(Constraint.Iap.SKU_WEEK_3D_TRIAl) -> 200
-                    item.id.contains(Constraint.Iap.SKU_MONTH) -> 500
                     item.id.contains(Constraint.Iap.SKU_YEAR) -> 1000
                     else -> 0
                 }
@@ -273,27 +276,11 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             })
     }
 
-//    override fun onResume() {
-//        registerScrollListener()
-//        super.onResume()
-//    }
-//
-//    override fun onDestroy() {
-//        unregisterScrollListener()
-//        super.onDestroy()
-//    }
-
     private fun registerScrollListener(){
         binding.recyclerPreview1.addOnScrollListener(scrollListener)
         binding.recyclerPreview2.addOnScrollListener(scrollListener)
         binding.recyclerPreview3.addOnScrollListener(scrollListener)
     }
-
-//    private fun unregisterScrollListener(){
-//        binding.recyclerPreview1.removeOnScrollListener(scrollListener)
-//        binding.recyclerPreview2.removeOnScrollListener(scrollListener)
-//        binding.recyclerPreview3.removeOnScrollListener(scrollListener)
-//    }
 
     private val scrollListener = object: RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -344,6 +331,14 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { onBackPressed() }
+
+        App
+            .app
+            .subjectNetworkChanges
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { syncQueryProduct() }
     }
 
     private fun updateWeeklyUi(sku: String) {
@@ -393,23 +388,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                 else -> R.drawable.circle_stroke_1dp
             }
         )
-//        binding.imageLifeTime.selection(sku == sku1)
-//        binding.textTitle1.selection(sku == sku1)
     }
-
-//    private fun TextView.selection(selected: Boolean) {
-//        setTextColor(when {
-//            selected -> resolveAttrColor(android.R.attr.textColorPrimary)
-//            else -> resolveAttrColor(android.R.attr.textColorPrimary)
-//        })
-//    }
-//
-//    private fun ImageView.selection(selected: Boolean) {
-//        setTint(when {
-//            selected -> resolveAttrColor(android.R.attr.textColorPrimary)
-//            else -> resolveAttrColor(android.R.attr.textColorPrimary)
-//        })
-//    }
 
     private fun initView() {
         binding.recyclerPreview1.apply {
@@ -430,22 +409,16 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         binding.textTitle1.text = when (sku1){
             Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
             Constraint.Iap.SKU_WEEK -> "Weekly"
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "Weekly"
-            Constraint.Iap.SKU_MONTH -> "Monthly"
             else -> "Yearly"
         }
         binding.textTitle2.text = when (sku2){
             Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
             Constraint.Iap.SKU_WEEK -> "Weekly"
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "Weekly"
-            Constraint.Iap.SKU_MONTH -> "Monthly"
             else -> "Yearly"
         }
         binding.textTitle3.text = when (sku3){
             Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
             Constraint.Iap.SKU_WEEK -> "Weekly"
-            Constraint.Iap.SKU_WEEK_3D_TRIAl -> "Weekly"
-            Constraint.Iap.SKU_MONTH -> "Monthly"
             else -> "Yearly"
         }
     }

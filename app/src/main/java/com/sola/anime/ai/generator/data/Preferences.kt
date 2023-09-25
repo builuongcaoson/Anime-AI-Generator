@@ -51,6 +51,7 @@ class Preferences @Inject constructor(
     private val credits2 = rxPrefs.getFloat("credits2", 0f)
     val creditsChanges = rxPrefs.getLong("creditsChanges", -1)
     val isFirstPurchaseCredits10000 = rxPrefs.getBoolean("isFirstPurchaseCredits10000", true)
+    val purchasedOrderLastedId = rxPrefs.getString("purchasedOrderLastedId", "null")
 
     fun isShowFeatureDialog(version: Long): Preference<Boolean> {
         return rxPrefs.getBoolean("isShowFeatureDialog_$version", false)

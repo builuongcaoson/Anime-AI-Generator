@@ -52,8 +52,6 @@ class Constraint {
         companion object  {
             const val SKU_LIFE_TIME = "buy_lifetime"
             const val SKU_WEEK = "buy_week"
-            const val SKU_WEEK_3D_TRIAl = "buy_week_3d_trial"
-            const val SKU_MONTH = "buy_month"
             const val SKU_YEAR = "buy_year"
 
             const val SKU_CREDIT_1000 = "buy_credit_1000"
