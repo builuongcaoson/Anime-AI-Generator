@@ -120,22 +120,6 @@
 
 <!--        Firebase Cloud Messaging-->
 
-<!--        Admob-->
-
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
-            android:value="true"/>
-
-        <meta-data
-            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
-            android:value="true"/>
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/key_application_id" />
-
-<!--        Admob-->
-
     </application>
 
 </manifest>

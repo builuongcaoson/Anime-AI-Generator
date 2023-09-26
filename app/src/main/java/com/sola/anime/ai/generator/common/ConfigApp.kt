@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -33,8 +34,8 @@ class ConfigApp @Inject constructor(
     var versionProcess = prefs.versionProcess.get()
     var versionStyle = prefs.versionStyle.get()
     var versionModel = prefs.versionModel.get()
-    var keyDezgo = Constraint.Dezgo.KEY
-    var keyDezgoPremium = Constraint.Dezgo.KEY_PREMIUM
+    var keyDezgo = AESEncyption.decrypt(Constraint.Dezgo.KEY) ?: ""
+    var keyDezgoPremium = AESEncyption.decrypt(Constraint.Dezgo.KEY_PREMIUM) ?: ""
     var keyUpscale = Constraint.Upscale.RAPID_KEY
     var blockDeviceIds = listOf("")
     var blockDeviceModels = listOf("")

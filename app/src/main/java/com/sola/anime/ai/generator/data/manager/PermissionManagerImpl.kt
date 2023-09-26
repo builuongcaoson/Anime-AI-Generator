@@ -60,14 +60,14 @@ class PermissionManagerImpl @Inject constructor(
         }
     }
 
-    override fun hasPermissionNotification(): Boolean {
+    override fun hasNotification(): Boolean {
         return when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
             else -> true
         }
     }
 
-    override fun requestPermissionNotification(activity: Activity, requestCode: Int) {
+    override fun requestNotification(activity: Activity, requestCode: Int) {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.POST_NOTIFICATIONS), requestCode)
         }

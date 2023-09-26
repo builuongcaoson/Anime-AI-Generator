@@ -209,7 +209,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                 val deferredHistoryIds = arrayListOf<Long?>()
 
                 dezgoApiRepo.generateImagesToImages(
-                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+                    keyApi = configApp.keyDezgoPremium,
                     datas = ArrayList(configApp.dezgoBodiesImagesToImages),
                     progress = { progress ->
                         when (progress){

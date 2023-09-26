@@ -25,7 +25,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\ADMIN\\AndroidStudioProjects\\AnimeAiGenerator\\app\\key.jks')
+            storeFile file('/Users/sonbui/StudioProjects/Anime-AI-Generator/app/key.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'key0'
@@ -149,9 +149,6 @@ dependencies {
 
     // Lottie
     implementation 'com.airbnb.android:lottie:6.1.0'
-
-    // Admob
-    implementation 'com.google.android.gms:play-services-ads:22.4.0'
 
     // Page indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'

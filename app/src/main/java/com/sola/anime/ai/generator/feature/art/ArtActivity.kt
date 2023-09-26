@@ -6,21 +6,20 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
-import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
+import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.feature.art.art.ArtFragment
-import com.sola.anime.ai.generator.feature.art.comingsoon.ComingSoonFragment
-import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -39,6 +38,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var permissionManager: PermissionManager
 
     private val modelId by lazy { intent.getLongExtra(MODEL_ID_EXTRA, -1) }
     private val exploreId by lazy { intent.getLongExtra(EXPLORE_ID_EXTRA, -1) }
@@ -54,6 +54,16 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
 
         when {
             !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
+        }
+
+        when {
+            !permissionManager.hasNotification() -> {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    delay(1000L)
+
+                    permissionManager.requestNotification(this@ArtActivity, 1001)
+                }
+            }
         }
 
         initView()

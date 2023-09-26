@@ -13,9 +13,9 @@ interface PermissionManager {
 
     fun requestStorage(fragment: Fragment, resultCode: Int)
 
-    fun hasPermissionNotification(): Boolean
+    fun hasNotification(): Boolean
 
-    fun requestPermissionNotification(activity: Activity, requestCode: Int)
+    fun requestNotification(activity: Activity, requestCode: Int)
 
 
 }

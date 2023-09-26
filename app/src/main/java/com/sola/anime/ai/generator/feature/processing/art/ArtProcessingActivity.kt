@@ -178,8 +178,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             val deferredHistoryIds = arrayListOf<Long?>()
 
                             val decryptKey = when {
-                                prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
-                                else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+                                prefs.isUpgraded.get() || creditsPerImage != 0f -> configApp.keyDezgoPremium
+                                else -> configApp.keyDezgo
                             }
 
                             dezgoApiRepo.generateTextsToImages(
@@ -257,8 +257,8 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             val deferredHistoryIds = arrayListOf<Long?>()
 
                             val decryptKey = when {
-                                prefs.isUpgraded.get() || creditsPerImage != 0f -> AESEncyption.decrypt(configApp.keyDezgoPremium) ?: ""
-                                else -> AESEncyption.decrypt(configApp.keyDezgo) ?: ""
+                                prefs.isUpgraded.get() || creditsPerImage != 0f -> configApp.keyDezgoPremium
+                                else -> configApp.keyDezgo
                             }
 
                             dezgoApiRepo.generateImagesToImages(

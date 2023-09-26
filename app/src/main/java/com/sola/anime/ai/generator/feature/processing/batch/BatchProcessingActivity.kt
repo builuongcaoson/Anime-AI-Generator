@@ -205,7 +205,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                 val deferredHistoryIds = arrayListOf<Long?>()
 
                 dezgoApiRepo.generateTextsToImages(
-                    keyApi = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
+                    keyApi = configApp.keyDezgoPremium,
                     datas = ArrayList(configApp.dezgoBodiesTextsToImages),
                     progress = { progress ->
                         when (progress){

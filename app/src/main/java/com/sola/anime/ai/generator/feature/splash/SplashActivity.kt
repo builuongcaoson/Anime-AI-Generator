@@ -56,10 +56,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
-//        val key = AESEncyption.encrypt("DEZGO-E99F8056003B8BE83E94792A9AD0D3E6DCB7F20E3ACB607F50CAF1553B8D6486AA87CA83")
-//        Timber.tag("Main12345").e("Key: $key")
-//        Timber.tag("Main12345").e("Key 2: ${AESEncyption.decrypt("sfmOxyanfG1ttgHFIVEG8+XC3/R7ecHrpFuFMpyGyOTsJpUnZfLtTd8Rcm9/i/qvbQbXlDwFWnzpSuuRQbep4m4LD/4SCDDQaAuA3F0WLJw=")}")
-
         initView()
         initObservable()
         initData()
@@ -109,17 +105,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         doTask()
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//            PERMISSION_NOTIFICATION -> doTask()
-//        }
-//    }
-
     private fun syncRemoteConfig() {
         Firebase.remoteConfig.let { config ->
             val configSettings = remoteConfigSettings {
@@ -147,8 +132,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
-                    configApp.keyDezgo = tryOrNull { config.getString("key_dezgo").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
-                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.keyDezgo = tryOrNull { config.getString("key_dezgo_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
+                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
@@ -165,8 +150,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("versionProcess: ${configApp.versionProcess} --- ${prefs.versionProcess.get()}")
                     Timber.e("versionStyle: ${configApp.versionStyle} --- ${prefs.versionStyle.get()}")
                     Timber.e("versionModel: ${configApp.versionModel} --- ${prefs.versionModel.get()}")
-                    Timber.e("Key decrypt: ${AESEncyption.decrypt(configApp.keyDezgo)}")
-                    Timber.e("Key premium decrypt: ${AESEncyption.decrypt(configApp.keyDezgoPremium)}")
+                    Timber.e("Key dezgo: ${configApp.keyDezgo}")
+                    Timber.e("Key dezgo premium: ${configApp.keyDezgoPremium}")
                     Timber.e("Key upscale: ${configApp.keyUpscale}")
                     Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
                     Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
