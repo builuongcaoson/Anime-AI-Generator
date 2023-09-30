@@ -117,11 +117,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = when {
-                        BuildConfig.DEBUG -> 3L
+//                        BuildConfig.DEBUG -> 3L
                         else -> tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
                     }
                     configApp.maxNumberGeneratePremium = when {
-                        BuildConfig.DEBUG -> 5L
+//                        BuildConfig.DEBUG -> 5L
                         else -> tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
                     }
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
