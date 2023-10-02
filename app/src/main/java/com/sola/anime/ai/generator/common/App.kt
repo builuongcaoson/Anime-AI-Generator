@@ -79,9 +79,11 @@ class App : Application() {
         }
 
         // Init admob
-        val testDeviceIds = listOf("2919AB1DDAF7ECFC2ECF83A842FA2EA6")
-        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-        MobileAds.setRequestConfiguration(configuration)
+        if (BuildConfig.DEBUG){
+            val testDeviceIds = listOf("2919AB1DDAF7ECFC2ECF83A842FA2EA6")
+            val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+            MobileAds.setRequestConfiguration(configuration)
+        }
         MobileAds.initialize(this) {}
 
         // Register firebase token
