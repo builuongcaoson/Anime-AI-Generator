@@ -323,10 +323,10 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
-        Observable.zip(
+        Observable.merge(
             prefs.isUpgraded.asObservable(),
             prefs.numberCreatedArtwork.asObservable()
-        ){ _, _ -> }
+        )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
@@ -345,6 +345,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             binding.editPrompt.setText(explore.prompt)
 
             val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } }
+            sheetModel.model = model
             updateUiModel(model)
         }
     }
@@ -480,8 +481,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> true
             !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
             !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
-            numberOfImages == 1 -> loRAAdapter.data.isNotEmpty()
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> true
+            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.isEmpty()
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> false
             else -> false
         }

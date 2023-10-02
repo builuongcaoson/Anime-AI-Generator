@@ -79,7 +79,7 @@ class App : Application() {
         }
 
         // Init admob
-        val testDeviceIds = listOf("29D59506E999419336DCBF6CE24F8F1F")
+        val testDeviceIds = listOf("2919AB1DDAF7ECFC2ECF83A842FA2EA6")
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
         MobileAds.setRequestConfiguration(configuration)
         MobileAds.initialize(this) {}
