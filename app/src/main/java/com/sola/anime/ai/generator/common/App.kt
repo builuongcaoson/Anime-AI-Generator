@@ -6,6 +6,8 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
 import android.util.Log
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.installations.FirebaseInstallations
@@ -24,6 +26,7 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import timber.log.Timber
+import java.util.Arrays
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -74,6 +77,12 @@ class App : Application() {
                 }
             })
         }
+
+        // Init admob
+        val testDeviceIds = listOf("29D59506E999419336DCBF6CE24F8F1F")
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        MobileAds.setRequestConfiguration(configuration)
+        MobileAds.initialize(this) {}
 
         // Register firebase token
         initFirebaseCloudMessaging()

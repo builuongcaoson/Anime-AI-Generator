@@ -18,4 +18,9 @@ interface AdmobManager {
 
     fun loadAndShowOpenSplash(activity: Activity, loaded: () -> Unit, failedOrSuccess: () -> Unit)
 
+    fun loadFullItem()
+
+    fun showFullItem(activity: Activity, done: () -> Unit)
+
+
 }

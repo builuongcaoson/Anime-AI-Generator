@@ -158,4 +158,8 @@ dependencies {
 
     // Easing
     implementation 'com.github.MasayukiSuda:EasingInterpolator:1.3.0'
+
+    // Admob
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
+
 }
