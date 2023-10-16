@@ -2,11 +2,8 @@ package com.sola.anime.ai.generator.data.repo
 
 import android.content.Context
 import com.basic.common.extension.tryOrNull
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.data.Preferences
@@ -17,10 +14,8 @@ import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -159,7 +154,7 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncModelsLocal() {
-        val inputStream = context.assets.open("model_v2.json")
+        val inputStream = context.assets.open("model_v3.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
 

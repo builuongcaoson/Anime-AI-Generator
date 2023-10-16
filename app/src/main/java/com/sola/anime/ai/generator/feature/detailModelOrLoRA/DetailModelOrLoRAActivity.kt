@@ -179,14 +179,14 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(this) { pair ->
             Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, sortOrder = model.sortOrder) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, sortOrder = loRA.sortOrder) } }
 
             val datas = when {
                 modelId != -1L -> modelsItem.filter { it.model?.id != modelId }
                 loRAId != -1L -> loRAsItem.filter { it.loRA?.id != loRAId }
                 else -> modelsItem.filter { it.model?.id != modelId } + loRAsItem.filter { it.loRA?.id != loRAId }
-            }
+            }.sortedBy { it.sortOrder }
 
             subjectDataModelsAndLoRAChanges.onNext(datas)
         }

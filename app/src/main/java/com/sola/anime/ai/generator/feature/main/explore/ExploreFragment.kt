@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.map
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
@@ -195,11 +196,13 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
         MediatorLiveData<Pair<List<Model>, List<LoRAGroup>>>().apply {
             addSource(modelDao.getAllDislikeLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
-        }.observe(viewLifecycleOwner) { pair ->
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite) } }
+        }.map { pair ->
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, sortOrder = model.sortOrder) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, sortOrder = loRA.sortOrder) } }
 
-            subjectDataModelsAndLoRAChanges.onNext(modelsItem + loRAsItem)
+            ArrayList(modelsItem + loRAsItem).sortedBy { it.sortOrder }
+        }.observe(viewLifecycleOwner) { modelsAndLoRAsItem ->
+            subjectDataModelsAndLoRAChanges.onNext(modelsAndLoRAsItem)
         }
     }
 

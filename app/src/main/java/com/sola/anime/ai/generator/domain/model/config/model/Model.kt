@@ -28,6 +28,9 @@ class Model{
     @SerializedName("modelId")
     @Expose
     var modelId: String = ""
+    @SerializedName("is_premium")
+    @Expose
+    var isPremium: Boolean = true
     @SerializedName("is_favourite")
     @Expose
     var isFavourite: Boolean = false
