@@ -5,6 +5,7 @@ import com.basic.common.base.LsAdapter
 import com.sola.anime.ai.generator.common.ui.sheet.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.common.ui.sheet.loRA.adapter.LoRAAdapter
 import com.sola.anime.ai.generator.common.ui.sheet.model.adapter.ModelAdapter
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ItemGroupSearchBinding
 import com.sola.anime.ai.generator.domain.model.LoRAPreview
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
@@ -19,7 +20,9 @@ sealed class GroupSearch(val display: String) {
     data class Explores(val items: List<Explore>): GroupSearch(display = "Explores")
 }
 
-class GroupSearchAdapter @Inject constructor(): LsAdapter<GroupSearch, ItemGroupSearchBinding>(ItemGroupSearchBinding::inflate) {
+class GroupSearchAdapter @Inject constructor(
+    private val prefs: Preferences
+): LsAdapter<GroupSearch, ItemGroupSearchBinding>(ItemGroupSearchBinding::inflate) {
 
     val modelClicks: Subject<Model> = PublishSubject.create()
 //    val detailModelClicks: Subject<Model> = PublishSubject.create()
@@ -35,7 +38,7 @@ class GroupSearchAdapter @Inject constructor(): LsAdapter<GroupSearch, ItemGroup
             item is GroupSearch.Models -> {
                 binding.recyclerChildSearch.apply {
                     this.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-                    this.adapter = ModelAdapter().apply {
+                    this.adapter = ModelAdapter(prefs).apply {
                         this.isShowedDetailView = false
                         this.clicks = this@GroupSearchAdapter.modelClicks
                         this.data = item.items

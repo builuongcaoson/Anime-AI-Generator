@@ -183,7 +183,7 @@ class CropActivity : LsActivity<ActivityCropBinding>(ActivityCropBinding::inflat
             .autoDispose(scope())
             .subscribe { ratio ->
                 when {
-                    prefs.isUpgraded.get() || ratio == Ratio.Ratio1x1 -> {
+                    prefs.isUpgraded.get() || ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio16x9 || ratio == Ratio.Ratio9x16 -> {
                         aspectRatioAdapter.ratio = ratio
 
                         cropImageView.targetAspectRatio = ratio.aspectRatio

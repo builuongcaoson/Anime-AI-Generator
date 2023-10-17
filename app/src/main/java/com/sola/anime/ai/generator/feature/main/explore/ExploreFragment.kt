@@ -9,6 +9,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.extension.*
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -39,6 +40,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var prefs: Preferences
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
     private val subjectDataExploreChanges: Subject<Unit> = PublishSubject.create()
@@ -82,10 +84,11 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
         modelAndLoRAAdapter
             .clicks
             .bindToLifecycle(binding.root)
-            .subscribe { modelOrLora ->
+            .subscribe { modelAndLoRA ->
                 when {
-                    modelOrLora.model != null -> activity?.startDetailModelOrLoRA(modelId = modelOrLora.model.id)
-                    modelOrLora.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelOrLora.loRAGroupId, loRAId = modelOrLora.loRA.id)
+                    modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
+                    modelAndLoRA.model != null -> activity?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
+                    modelAndLoRA.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
                 }
             }
 
@@ -197,8 +200,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             addSource(modelDao.getAllDislikeLive()) { value = it to (value?.second ?: listOf()) }
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.map { pair ->
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, sortOrder = model.sortOrder) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, sortOrder = loRA.sortOrder) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, isPremium = model.isPremium, sortOrder = model.sortOrder) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, isPremium = false, sortOrder = loRA.sortOrder) } }
 
             ArrayList(modelsItem + loRAsItem).sortedBy { it.sortOrder }
         }.observe(viewLifecycleOwner) { modelsAndLoRAsItem ->

@@ -6,6 +6,8 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
+import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -28,6 +30,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
     @Inject lateinit var modelDao: ModelDao
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var prefs: Preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +96,10 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
             .modelClicks
             .autoDispose(scope())
             .subscribe { model ->
-                startDetailModelOrLoRA(modelId = model.id)
+                when {
+                    !prefs.isUpgraded.get() && model.isPremium -> startIap()
+                    else -> startDetailModelOrLoRA(modelId = model.id)
+                }
             }
 
         groupSearchAdapter

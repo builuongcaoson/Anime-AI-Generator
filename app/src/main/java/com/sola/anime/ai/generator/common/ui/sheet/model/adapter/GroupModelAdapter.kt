@@ -6,6 +6,7 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.extension.clicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.load
+import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ItemGroupModelBinding
 import com.sola.anime.ai.generator.databinding.ItemModelBinding
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -13,7 +14,9 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
-class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model>>, ItemGroupModelBinding>(ItemGroupModelBinding::inflate) {
+class GroupModelAdapter @Inject constructor(
+    private val prefs: Preferences
+): LsAdapter<Pair<String, List<Model>>, ItemGroupModelBinding>(ItemGroupModelBinding::inflate) {
 
     val clicks: Subject<Model> = PublishSubject.create()
     val detailsClicks: Subject<Model> = PublishSubject.create()
@@ -45,7 +48,7 @@ class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model
     ) {
         binding.display.text = item.first
         binding.recyclerModel.apply {
-            this.adapter = ModelAdapter().apply {
+            this.adapter = ModelAdapter(prefs).apply {
                 this.clicks = this@GroupModelAdapter.clicks
                 this.detailsClicks = this@GroupModelAdapter.detailsClicks
                 this.model = this@GroupModelAdapter.model
@@ -57,7 +60,7 @@ class GroupModelAdapter @Inject constructor(): LsAdapter<Pair<String, List<Model
 
 }
 
-class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate){
+class ModelAdapter(private val prefs: Preferences): LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate){
 
     var clicks: Subject<Model> = PublishSubject.create()
     var detailsClicks: Subject<Model> = PublishSubject.create()
@@ -87,6 +90,7 @@ class ModelAdapter: LsAdapter<Model, ItemModelBinding>(ItemModelBinding::inflate
         binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image) { drawable ->
             binding.viewShadow.isVisible = drawable != null
         }
+        binding.premium.isVisible = !prefs.isUpgraded.get() && item.isPremium
         binding.display.text = item.display
         binding.viewSelected.isVisible = item == model
         binding.viewDetails.isVisible = isShowedDetailView

@@ -5,11 +5,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
-import android.util.Log
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.installations.FirebaseInstallations
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
@@ -26,7 +23,6 @@ import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import timber.log.Timber
-import java.util.Arrays
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -43,12 +39,9 @@ class App : Application() {
     @Inject lateinit var prefs: Preferences
 
     private val skus by lazy { listOf(Constraint.Iap.SKU_LIFE_TIME, Constraint.Iap.SKU_WEEK, Constraint.Iap.SKU_YEAR, Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
-    val manager by lazy { ReviewManagerFactory.create(this) }
-    var reviewInfo: ReviewInfo? = null
 
     // For network
     val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
-
 
     override fun onCreate() {
         super.onCreate()
@@ -99,16 +92,6 @@ class App : Application() {
                 }
                 Timber.d("Token FCM: " + task.result)
             }
-    }
-
-    fun loadReviewInfo(){
-        val request = manager.requestReviewFlow()
-        request.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                reviewInfo = task.result
-                Timber.tag("Main12345").e("Loaded Review infor")
-            }
-        }
     }
 
     private fun initRevenuecat(){

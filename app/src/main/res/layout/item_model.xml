@@ -46,6 +46,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/premium"
+                android:layout_width="@dimen/_20sdp"
+                android:background="@drawable/circle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:backgroundTint="?colorOnPrimary"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:src="@drawable/ic_diamond"
+                android:padding="@dimen/_5sdp"
+                android:tint="?android:textColorPrimary"
+                android:layout_height="@dimen/_20sdp"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewSelected"
                 android:layout_width="0dp"

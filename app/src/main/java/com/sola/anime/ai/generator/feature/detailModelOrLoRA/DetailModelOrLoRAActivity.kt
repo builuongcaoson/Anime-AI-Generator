@@ -17,6 +17,7 @@ import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
@@ -179,8 +180,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             addSource(loRAGroupDao.getAllLive()) { value = (value?.first ?: listOf()) to it }
         }.observe(this) { pair ->
             Timber.e("Data model or loRA size: ${pair.first.size} --- ${pair.second.size}")
-            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, sortOrder = model.sortOrder) }
-            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, sortOrder = loRA.sortOrder) } }
+            val modelsItem = pair.first.map { model -> ModelOrLoRA(display = model.display, model = model, favouriteCount = model.favouriteCount, isFavourite = model.isFavourite, isPremium = model.isPremium, sortOrder = model.sortOrder) }
+            val loRAsItem = pair.second.flatMap { it.childs.map { loRA -> ModelOrLoRA(display = loRA.display, loRA = loRA, loRAGroupId = it.id, favouriteCount = loRA.favouriteCount, isFavourite = loRA.isFavourite, isPremium = false, sortOrder = loRA.sortOrder) } }
 
             val datas = when {
                 modelId != -1L -> modelsItem.filter { it.model?.id != modelId }
@@ -284,6 +285,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { modelAndLoRA ->
                 when {
+                    modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> startIap()
                     modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
                     modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
                 }

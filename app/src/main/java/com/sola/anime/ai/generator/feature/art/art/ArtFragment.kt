@@ -344,9 +344,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         explore?.let {
             binding.editPrompt.setText(explore.prompt)
 
-            val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } }
-            sheetModel.model = model
-            updateUiModel(model)
+            val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } } ?: return
+            when {
+                !prefs.isUpgraded.get() && model.isPremium -> {}
+                else -> {
+                    sheetModel.model = model
+                    updateUiModel(model)
+                }
+            }
         }
     }
 

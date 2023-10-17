@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
+import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.ui.sheet.model.adapter.GroupModelAdapter
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ModelDao
@@ -78,12 +79,22 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
         groupModelAdapter
             .clicks
             .bindToLifecycle(binding.root)
-            .subscribe { model -> clicks(model) }
+            .subscribe { model ->
+                when {
+                    !prefs.isUpgraded.get() && model.isPremium -> activity?.startIap()
+                    else -> clicks(model)
+                }
+            }
 
         groupModelAdapter
             .detailsClicks
             .bindToLifecycle(binding.root)
-            .subscribe { model -> detailsClicks(model) }
+            .subscribe { model ->
+                when {
+                    !prefs.isUpgraded.get() && model.isPremium -> activity?.startIap()
+                    else -> detailsClicks(model)
+                }
+            }
     }
 
     private fun initView() {

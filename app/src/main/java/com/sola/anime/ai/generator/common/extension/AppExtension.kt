@@ -163,7 +163,21 @@ fun initBodyTextsToImages(
 ): List<BodyTextToImage>{
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
-        val subNegativeDevice = "${context.deviceId()}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+        val deviceId = context.deviceId()
+        val newDeviceId = when {
+            deviceId.length >= 5 -> deviceId.substring(deviceId.length - 5)
+            else -> deviceId
+        }
+        val purchasedId = prefs.purchasedOrderLastedId.get()
+        val purchasedIdIfHad = when {
+            purchasedId == "null" -> ""
+            purchasedId.length >= 5 -> purchasedId.substring(deviceId.length - 5)
+            else -> purchasedId
+        }
+        val subNegativeDevice = when {
+            purchasedIdIfHad.isNotEmpty() -> "${newDeviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            else -> "${newDeviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+        }
         val subFeature = when (type) {
             0 -> "art"
             1 -> "batch"
@@ -288,7 +302,21 @@ fun initBodyImagesToImages(
 ): List<BodyImageToImage>{
     val bodies = arrayListOf<BodyImageToImage>()
     (0..maxChildId).forEach { id ->
-        val subNegativeDevice = "${context.deviceId()}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+        val deviceId = context.deviceId()
+        val newDeviceId = when {
+            deviceId.length >= 5 -> deviceId.substring(deviceId.length - 5)
+            else -> deviceId
+        }
+        val purchasedId = prefs.purchasedOrderLastedId.get()
+        val purchasedIdIfHad = when {
+            purchasedId == "null" -> ""
+            purchasedId.length >= 5 -> purchasedId.substring(deviceId.length - 5)
+            else -> purchasedId
+        }
+        val subNegativeDevice = when {
+            purchasedIdIfHad.isNotEmpty() -> "${newDeviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            else -> "${newDeviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+        }
         val subFeature = when (type) {
             0 -> "art"
             1 -> "batch"

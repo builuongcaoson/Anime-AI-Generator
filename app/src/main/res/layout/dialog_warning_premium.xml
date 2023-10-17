@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintWidth_percent="0.8"
         app:cardElevation="0dp">
 
         <LinearLayout
@@ -52,20 +52,55 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:lineHeight="@dimen/_15sdp"
                 android:text="We will not be responsible for users who intentionally exceed our daily photo creation limit, such as deleting data or uninstalling and reinstalling apps, etc."
-                android:textAlignment="center"
-                android:textColor="?android:textColorSecondary"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_12ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="For premium users:"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_12ssp" />
+
+            <LinearLayout
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <View
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_width="@dimen/_6sdp"
+                    android:layout_height="@dimen/_6sdp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/numberArtworks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Create artworks 20 times for free / per day"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_10ssp" />
+
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewGotIt"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 app:cardBackgroundColor="?colorAccent"
-                app:cardCornerRadius="@dimen/_15ssp"
+                app:cardCornerRadius="@dimen/_15sdp"
                 app:cardElevation="0dp">
 
                 <com.basic.common.widget.LsTextView
