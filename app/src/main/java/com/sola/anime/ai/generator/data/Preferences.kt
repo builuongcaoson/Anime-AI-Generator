@@ -32,6 +32,7 @@ class Preferences @Inject constructor(
     val timeExpiredPremium = rxPrefs.getLong("timeExpiredPremium", -1) // Milliseconds
     private val userPurchased = rxPrefs.getString("userPurchased_v2", "")
     val userPurchasedChanges = rxPrefs.getLong("userPurchased_v2_changes", -1)
+    val isRatedApp = rxPrefs.getBoolean("isRatedApp", false)
 
     // For App
     val versionExplore = rxPrefs.getLong("versionExplore", 0)

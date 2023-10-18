@@ -62,8 +62,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun initData() {
-        App.app.loadReviewInfo()
-        
         // Reset credits changes
         prefs.creditsChanges.delete()
         prefs.userPurchasedChanges.delete()

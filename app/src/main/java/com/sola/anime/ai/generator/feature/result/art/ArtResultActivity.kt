@@ -28,6 +28,7 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
+import com.sola.anime.ai.generator.common.ui.dialog.RatingDialog
 import com.sola.anime.ai.generator.common.ui.sheet.download.DownloadSheet
 import com.sola.anime.ai.generator.common.ui.sheet.share.ShareSheet
 import com.sola.anime.ai.generator.common.ui.sheet.upscale.UpscaleSheet
@@ -84,6 +85,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var upscaleApiRepo: UpscaleApiRepository
+    @Inject lateinit var ratingDialog: RatingDialog
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -132,8 +134,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1000L)
 
-            App.app.reviewInfo?.let { reviewInfo ->
-                App.app.manager.launchReviewFlow(this@ArtResultActivity, reviewInfo).await()
+            when {
+                !prefs.isUpgraded.get() && !prefs.isRatedApp.get() -> {
+                    ratingDialog.show(this@ArtResultActivity)
+                }
             }
         }
 
