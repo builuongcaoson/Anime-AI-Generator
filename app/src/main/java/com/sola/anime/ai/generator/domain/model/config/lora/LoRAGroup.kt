@@ -53,5 +53,5 @@ class LoRA {
     var isDislike: Boolean = false
     @SerializedName("sortOrder")
     @Expose
-    var sortOrder: Int = 0
+    var sortOrder: Int = (-1000..1000).random()
 }

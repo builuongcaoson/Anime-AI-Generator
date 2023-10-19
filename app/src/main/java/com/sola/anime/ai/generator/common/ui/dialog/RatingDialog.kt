@@ -22,7 +22,7 @@ class RatingDialog @Inject constructor(
     private var dialog: Dialog? = null
 
     @SuppressLint("ClickableViewAccessibility")
-    fun show(activity: Activity){
+    fun show(activity: Activity, submitClicks: (Float) -> Unit){
         if (dialog == null){
             binding = DialogRatingBinding.inflate(activity.layoutInflater)
             dialog = Dialog(activity)
@@ -57,13 +57,7 @@ class RatingDialog @Inject constructor(
             dismiss()
         }
         binding.submit.setOnClickListener {
-            when {
-                binding.ratingBar.rating < 4 -> navigator.showSupport()
-                else -> navigator.showRating()
-            }
-
-            prefs.isRatedApp.set(true)
-            dismiss()
+            submitClicks(binding.ratingBar.rating)
         }
 
         dialog?.show()

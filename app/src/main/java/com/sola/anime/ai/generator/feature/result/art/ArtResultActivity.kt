@@ -26,6 +26,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.ui.dialog.RatingDialog
@@ -86,6 +87,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var upscaleApiRepo: UpscaleApiRepository
     @Inject lateinit var ratingDialog: RatingDialog
+    @Inject lateinit var navigator: Navigator
 
     private val subjectPageChanges: Subject<ChildHistory> = PublishSubject.create()
 
@@ -132,11 +134,19 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         }
 
         lifecycleScope.launch(Dispatchers.Main) {
-            delay(1000L)
+            delay(2000L)
 
             when {
-                !prefs.isUpgraded.get() && !prefs.isRatedApp.get() -> {
-                    ratingDialog.show(this@ArtResultActivity)
+                !isGallery && !prefs.isUpgraded.get() && !prefs.isRatedApp.get() && ((prefs.totalNumberCreatedArtwork.get() - 1L) % 3L) == 0L -> {
+                    ratingDialog.show(this@ArtResultActivity) { rating ->
+                        when {
+                            rating < 4 -> navigator.showSupport()
+                            else -> navigator.showRating()
+                        }
+
+                        prefs.isRatedApp.set(true)
+                        ratingDialog.dismiss()
+                    }
                 }
             }
         }

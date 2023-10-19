@@ -208,7 +208,7 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncExploresLocal() {
-        val inputStream = context.assets.open("explore_v2.json")
+        val inputStream = context.assets.open("explore_v3.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Explore>::class.java) } ?: arrayOf()
 

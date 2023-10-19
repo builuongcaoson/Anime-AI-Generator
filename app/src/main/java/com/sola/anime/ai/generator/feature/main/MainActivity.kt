@@ -16,8 +16,10 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
+import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureVersionDialog
+import com.sola.anime.ai.generator.common.ui.dialog.RatingDialog
 import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
@@ -53,6 +55,8 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var warningPremiumDialog: WarningPremiumDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var featureVersionDialog: FeatureVersionDialog
+    @Inject lateinit var ratingDialog: RatingDialog
+    @Inject lateinit var navigator: Navigator
 
     private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
@@ -206,7 +210,20 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
-        finish()
+        when {
+            !prefs.isUpgraded.get() && !prefs.isRatedApp.get() -> {
+                ratingDialog.show(this) { rating ->
+                    when {
+                        rating < 4 -> navigator.showSupport()
+                        else -> navigator.showRating()
+                    }
+
+                    prefs.isRatedApp.set(true)
+                    finish()
+                }
+            }
+            else -> finish()
+        }
     }
 
 }
