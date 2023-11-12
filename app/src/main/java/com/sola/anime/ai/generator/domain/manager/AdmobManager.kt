@@ -4,6 +4,10 @@ import android.app.Activity
 
 interface AdmobManager {
 
+    fun loadAndShowOpenAd(activity: Activity)
+
+    fun isShowingOpenAd(): Boolean
+
     fun loadRewardCreate()
 
     fun showRewardCreate(activity: Activity, success: () -> Unit, failed: () -> Unit = {})

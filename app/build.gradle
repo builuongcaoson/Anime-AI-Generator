@@ -86,6 +86,8 @@ dependencies {
     implementation "com.uber.autodispose:autodispose:$lifecycle_version"
     implementation "com.uber.autodispose:autodispose-lifecycle:$lifecycle_version"
 
+    implementation "androidx.lifecycle:lifecycle-process:2.6.2"
+
     // Kotlin coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"

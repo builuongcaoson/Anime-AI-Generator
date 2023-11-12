@@ -13,6 +13,8 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.feature.splash.SplashActivity
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,10 +31,17 @@ class AdmobManagerImpl @Inject constructor(
         private var openSplash: AppOpenAd? = null
     }
 
+    private val openAdManager by lazy { OpenAdManager() }
     private var isLoadingRewardCreate = false
     private var isLoadingRewardCreateAgain = false
     private var isLoadingRewardUpscale = false
     private var isLoadingOpenSplash = false
+
+    override fun loadAndShowOpenAd(activity: Activity) {
+        openAdManager.loadAndShowOpenAd(activity)
+    }
+
+    override fun isShowingOpenAd() = openAdManager.isShowingAd
 
     override fun loadRewardCreate() {
         when {
@@ -271,4 +280,92 @@ class AdmobManagerImpl @Inject constructor(
 
     }
 
+}
+
+private class OpenAdManager {
+
+    private var appOpenAd: AppOpenAd? = null
+    private var isLoadingAd = false
+    private var loadTime: Long = 0
+    var isShowingAd = false
+
+    private fun loadAd(context: Context, loadedCompleted: (Boolean) -> Unit = {}) {
+        if (isLoadingAd || isAdAvailable()) {
+            loadedCompleted(true)
+            return
+        }
+
+        isLoadingAd = true
+
+        val request = AdRequest.Builder().build()
+        AppOpenAd.load(
+            context,
+            context.getString(R.string.key_open_splash),
+            request,
+            object : AppOpenAdLoadCallback() {
+                override fun onAdLoaded(ad: AppOpenAd) {
+                    appOpenAd = ad
+                    isLoadingAd = false
+                    loadTime = Date().time
+                    loadedCompleted(true)
+                }
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    isLoadingAd = false
+                    loadedCompleted(false)
+                }
+            }
+        )
+    }
+
+    private fun wasLoadTimeLessThanNSecondsAgo(second: Long): Boolean {
+        val dateDifference: Long = Date().time - loadTime
+        val numMilliSecondsPerSecond: Long = 1000
+        return dateDifference < numMilliSecondsPerSecond * second
+    }
+
+    private fun isAdAvailable(): Boolean {
+        return wasLoadTimeLessThanNSecondsAgo(15)
+    }
+
+    fun loadAndShowOpenAd(activity: Activity){
+        if (activity is SplashActivity){
+            return
+        }
+
+        loadAd(activity) { loadedCompleted ->
+            if (loadedCompleted){
+                showAdIfAvailable(activity) {}
+            }
+        }
+    }
+
+    private fun showAdIfAvailable(activity: Activity, task: () -> Unit) {
+        if (isShowingAd) {
+            return
+        }
+
+        if (!isAdAvailable()) {
+            loadAd(activity)
+            return
+        }
+
+        appOpenAd?.fullScreenContentCallback =
+            object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    appOpenAd = null
+                    isShowingAd = false
+                    task()
+                }
+
+                /** Called when fullscreen content failed to show. */
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    appOpenAd = null
+                    isShowingAd = false
+                    task()
+                }
+            }
+
+        isShowingAd = true
+        appOpenAd?.show(activity)
+    }
 }

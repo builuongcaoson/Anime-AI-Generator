@@ -164,19 +164,15 @@ fun initBodyTextsToImages(
     val bodies = arrayListOf<BodyTextToImage>()
     (0..maxChildId).forEach { id ->
         val deviceId = context.deviceId()
-        val newDeviceId = when {
-            deviceId.length >= 5 -> deviceId.substring(deviceId.length - 5)
-            else -> deviceId
-        }
         val purchasedId = prefs.purchasedOrderLastedId.get()
         val purchasedIdIfHad = when {
             purchasedId == "null" -> ""
-            purchasedId.length >= 5 -> purchasedId.substring(deviceId.length - 5)
+            purchasedId.length >= 5 -> purchasedId.substring(purchasedId.length - 5)
             else -> purchasedId
         }
         val subNegativeDevice = when {
-            purchasedIdIfHad.isNotEmpty() -> "${newDeviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
-            else -> "${newDeviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            purchasedIdIfHad.isNotEmpty() -> "${deviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            else -> "${deviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
         }
         val subFeature = when (type) {
             0 -> "art"
@@ -303,19 +299,15 @@ fun initBodyImagesToImages(
     val bodies = arrayListOf<BodyImageToImage>()
     (0..maxChildId).forEach { id ->
         val deviceId = context.deviceId()
-        val newDeviceId = when {
-            deviceId.length >= 5 -> deviceId.substring(deviceId.length - 5)
-            else -> deviceId
-        }
         val purchasedId = prefs.purchasedOrderLastedId.get()
         val purchasedIdIfHad = when {
             purchasedId == "null" -> ""
-            purchasedId.length >= 5 -> purchasedId.substring(deviceId.length - 5)
+            purchasedId.length >= 5 -> purchasedId.substring(purchasedId.length - 5)
             else -> purchasedId
         }
         val subNegativeDevice = when {
-            purchasedIdIfHad.isNotEmpty() -> "${newDeviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
-            else -> "${newDeviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            purchasedIdIfHad.isNotEmpty() -> "${deviceId}_${purchasedIdIfHad}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
+            else -> "${deviceId}_${deviceModel()}_${BuildConfig.VERSION_CODE}"
         }
         val subFeature = when (type) {
             0 -> "art"
@@ -368,19 +360,6 @@ fun initBodyImagesToImages(
 
 fun Long.isToday(): Boolean {
     return DateUtils.isToday(this)
-}
-
-fun Long.isYesterdayOrThan(): Boolean {
-    val currentTime = System.currentTimeMillis()
-
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = currentTime
-    val todayDate = calendar.get(Calendar.DAY_OF_YEAR)
-
-    calendar.timeInMillis = this
-    val inputDate = calendar.get(Calendar.DAY_OF_YEAR)
-
-    return inputDate <= todayDate - 1
 }
 
 fun Context.getDrawableUri(drawableResId: Int): Uri {

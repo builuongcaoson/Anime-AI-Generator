@@ -1,10 +1,16 @@
 package com.sola.anime.ai.generator.common
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
+import android.os.Bundle
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.installations.FirebaseInstallations
@@ -18,6 +24,7 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.data.Preferences
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
@@ -26,7 +33,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class App : Application() {
+class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObserver {
 
     companion object {
         lateinit var app: App
@@ -37,8 +44,10 @@ class App : Application() {
     }
 
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val skus by lazy { listOf(Constraint.Iap.SKU_LIFE_TIME, Constraint.Iap.SKU_WEEK, Constraint.Iap.SKU_YEAR, Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
+    private var currentActivity: Activity? = null
 
     // For network
     val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
@@ -81,6 +90,10 @@ class App : Application() {
 
         // Register firebase token
         initFirebaseCloudMessaging()
+
+        // For open ads
+        registerActivityLifecycleCallbacks(this)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     private fun initFirebaseCloudMessaging() {
@@ -109,5 +122,28 @@ class App : Application() {
             }
         })
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onMoveToForeground() {
+        currentActivity?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
+    }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+
+    override fun onActivityStarted(activity: Activity) {
+        if (!admobManager.isShowingOpenAd()) {
+            currentActivity = activity
+        }
+    }
+
+    override fun onActivityResumed(activity: Activity) {}
+
+    override fun onActivityPaused(activity: Activity) {}
+
+    override fun onActivityStopped(activity: Activity) {}
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+
+    override fun onActivityDestroyed(activity: Activity) {}
 
 }
