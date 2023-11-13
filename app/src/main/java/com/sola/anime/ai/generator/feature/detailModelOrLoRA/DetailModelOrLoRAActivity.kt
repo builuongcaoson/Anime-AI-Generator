@@ -11,18 +11,22 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startLoading
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailModelOrLoraBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.model.ExploreOrLoRAPreview
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
@@ -67,6 +71,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var fileRepo: FileRepository
+    @Inject lateinit var admobManager: AdmobManager
 
     private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRAPreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabModelOrLoRA> = BehaviorSubject.createDefault(TabModelOrLoRA.Artworks)
@@ -251,7 +256,18 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { exploreOrLoRAPreview ->
                 when {
-                    exploreOrLoRAPreview.explore != null -> startDetailExplore(exploreId = exploreOrLoRAPreview.explore.id)
+                    exploreOrLoRAPreview.explore != null -> {
+                        val task = {
+                            startDetailExplore(exploreId = exploreOrLoRAPreview.explore.id)
+                        }
+
+                        App.app.actionAfterFullItem = task
+
+                        when {
+                            !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                            else -> task()
+                        }
+                    }
                     exploreOrLoRAPreview.loRAPreview != null && exploreOrLoRAPreview.loRAPreviewIndex != null -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId, loRAPReviewIndex = exploreOrLoRAPreview.loRAPreviewIndex)
                 }
             }

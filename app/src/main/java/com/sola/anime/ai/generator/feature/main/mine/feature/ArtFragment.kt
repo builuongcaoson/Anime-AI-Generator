@@ -8,12 +8,15 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.show
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startArtResult
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startLoading
 import com.sola.anime.ai.generator.common.ui.dialog.ExploreDialog
 import com.sola.anime.ai.generator.common.ui.sheet.explore.SheetExplore
 import com.sola.anime.ai.generator.common.ui.sheet.folder.AddFolderSheet
@@ -22,6 +25,7 @@ import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentArtMineBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
@@ -44,6 +48,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var exploreDialog: ExploreDialog
     @Inject lateinit var exploreDao: ExploreDao
+    @Inject lateinit var admobManager: AdmobManager
 
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
     private val detailExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -66,7 +71,16 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                 }
             }
             sheetExplore.detailsClicks = { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                val task = {
+                    activity?.startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    else -> task()
+                }
             }
             sheetExplore.show(this)
         }
@@ -85,7 +99,16 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
         detailExploreClicks
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                val task = {
+                    activity?.startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    else -> task()
+                }
             }
 
         historyAdapter

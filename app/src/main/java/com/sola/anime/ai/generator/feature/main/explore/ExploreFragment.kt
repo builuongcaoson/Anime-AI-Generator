@@ -8,12 +8,14 @@ import androidx.lifecycle.map
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.FragmentExploreBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -21,13 +23,11 @@ import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 
@@ -41,6 +41,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
     private val subjectDataExploreChanges: Subject<Unit> = PublishSubject.create()
@@ -134,7 +135,16 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .clicks
             .bindToLifecycle(binding.root)
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                val task = {
+                    activity?.startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    else -> task()
+                }
             }
 
         exploreAdapter

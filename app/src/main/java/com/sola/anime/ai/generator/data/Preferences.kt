@@ -121,4 +121,11 @@ class Preferences @Inject constructor(
         urisHadFacePrefs.set(Gson().toJson(urisHadFace))
     }
 
+    fun isUpgraded(): Boolean{
+        return when {
+            isUpgraded.get() && purchasedOrderLastedId.get() != "null" && purchasedOrderLastedId.get().contains("GPA.") && purchasedOrderLastedId.get().length >= 24 -> true
+            else -> false
+        }
+    }
+
 }

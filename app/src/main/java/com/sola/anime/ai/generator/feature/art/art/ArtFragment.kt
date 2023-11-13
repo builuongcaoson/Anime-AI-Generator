@@ -13,6 +13,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.extension.*
@@ -320,7 +321,16 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 }
                 exploreDialog.dismiss()
 
-                activity?.startDetailExplore(exploreId = explore.id)
+                val task = {
+                    activity?.startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    else -> task()
+                }
             }
 
         Observable.merge(

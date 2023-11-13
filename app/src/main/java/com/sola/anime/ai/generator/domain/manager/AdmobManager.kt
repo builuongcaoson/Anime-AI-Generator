@@ -8,6 +8,10 @@ interface AdmobManager {
 
     fun isShowingOpenAd(): Boolean
 
+    fun loadAndShowFullItem(activity: Activity, task: () -> Unit)
+
+    fun isFullItemAvailable(): Boolean
+
     fun loadRewardCreate()
 
     fun showRewardCreate(activity: Activity, success: () -> Unit, failed: () -> Unit = {})
@@ -21,10 +25,6 @@ interface AdmobManager {
     fun showRewardUpscale(activity: Activity, success: () -> Unit, failed: () -> Unit = {})
 
     fun loadAndShowOpenSplash(activity: Activity, loaded: () -> Unit, failedOrSuccess: () -> Unit)
-
-    fun loadFullItem()
-
-    fun showFullItem(activity: Activity, done: () -> Unit)
 
 
 }

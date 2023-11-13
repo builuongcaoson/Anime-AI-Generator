@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.basic.common.extension.isNetworkAvailable
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.installations.FirebaseInstallations
@@ -51,6 +52,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
 
     // For network
     val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
+    // For full item
+    var actionAfterFullItem: () -> Unit? = {}
 
     override fun onCreate() {
         super.onCreate()
@@ -125,7 +128,9 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
-        currentActivity?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
+        when {
+            !prefs.isUpgraded() && isNetworkAvailable() -> currentActivity?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
+        }
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}

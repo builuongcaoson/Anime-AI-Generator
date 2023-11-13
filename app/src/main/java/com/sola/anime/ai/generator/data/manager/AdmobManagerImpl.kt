@@ -8,12 +8,16 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.feature.splash.SplashActivity
+import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,6 +36,7 @@ class AdmobManagerImpl @Inject constructor(
     }
 
     private val openAdManager by lazy { OpenAdManager() }
+    private val interstitialManager by lazy { InterstitialManager() }
     private var isLoadingRewardCreate = false
     private var isLoadingRewardCreateAgain = false
     private var isLoadingRewardUpscale = false
@@ -42,6 +47,12 @@ class AdmobManagerImpl @Inject constructor(
     }
 
     override fun isShowingOpenAd() = openAdManager.isShowingAd
+
+    override fun loadAndShowFullItem(activity: Activity, task: () -> Unit) {
+        interstitialManager.loadAndShowAd(activity, task = task)
+    }
+
+    override fun isFullItemAvailable() = interstitialManager.isAdAvailable()
 
     override fun loadRewardCreate() {
         when {
@@ -272,26 +283,93 @@ class AdmobManagerImpl @Inject constructor(
             })
     }
 
-    override fun loadFullItem() {
+}
 
+class InterstitialManager {
+
+    private var fullItem: InterstitialAd? = null
+    private var isLoadingAd = false
+    private var adLastShownTime: Long = 0
+    private val adDisplayInterval = if (BuildConfig.DEBUG) 0 else 15000 // 0 seconds for debug - 15 seconds for release
+    private var isShowingAd = false
+
+    private fun loadAd(activity: Activity, loadedCompleted: (Boolean) -> Unit = {}) {
+        if (isLoadingAd) {
+            return
+        }
+
+        isLoadingAd = true
+
+        InterstitialAd.load(activity, activity.getString(R.string.key_full_item), AdRequest.Builder().build(), object: InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                fullItem = null
+                isLoadingAd = false
+                loadedCompleted(false)
+            }
+            override fun onAdLoaded(p0: InterstitialAd) {
+                fullItem = p0
+                isLoadingAd = false
+                loadedCompleted(true)
+            }
+        })
     }
 
-    override fun showFullItem(activity: Activity, done: () -> Unit) {
+    fun loadAndShowAd(activity: Activity, task: () -> Unit){
+        when {
+            isAdAvailable() -> loadAd(activity) { loadedCompleted ->
+                isShowingAd = false
 
+                when {
+                    loadedCompleted -> showAdIfAvailable(activity) { task() }
+                    else -> task()
+                }
+            }
+            else -> task()
+        }
     }
 
+    fun isAdAvailable(): Boolean {
+        return System.currentTimeMillis() - adLastShownTime >= adDisplayInterval
+    }
+
+    private fun showAdIfAvailable(activity: Activity, task: () -> Unit) {
+        if (isShowingAd) {
+            return
+        }
+
+        fullItem?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                fullItem = null
+                isShowingAd = false
+                adLastShownTime = System.currentTimeMillis()
+
+                task()
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                fullItem = null
+                isShowingAd = false
+                adLastShownTime = System.currentTimeMillis()
+
+                task()
+            }
+        }
+
+        isShowingAd = true
+        fullItem?.show(activity)
+    }
 }
 
 private class OpenAdManager {
 
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd = false
-    private var loadTime: Long = 0
+    private var adLastShownTime: Long = 0
+    private val adDisplayInterval = if (BuildConfig.DEBUG) 0 else 15 // 0 seconds for debug - 15 seconds for release
     var isShowingAd = false
 
     private fun loadAd(context: Context, loadedCompleted: (Boolean) -> Unit = {}) {
-        if (isLoadingAd || isAdAvailable()) {
-            loadedCompleted(true)
+        if (isLoadingAd) {
             return
         }
 
@@ -306,7 +384,6 @@ private class OpenAdManager {
                 override fun onAdLoaded(ad: AppOpenAd) {
                     appOpenAd = ad
                     isLoadingAd = false
-                    loadTime = Date().time
                     loadedCompleted(true)
                 }
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
@@ -317,14 +394,8 @@ private class OpenAdManager {
         )
     }
 
-    private fun wasLoadTimeLessThanNSecondsAgo(second: Long): Boolean {
-        val dateDifference: Long = Date().time - loadTime
-        val numMilliSecondsPerSecond: Long = 1000
-        return dateDifference < numMilliSecondsPerSecond * second
-    }
-
     private fun isAdAvailable(): Boolean {
-        return wasLoadTimeLessThanNSecondsAgo(15)
+        return System.currentTimeMillis() - adLastShownTime >= adDisplayInterval
     }
 
     fun loadAndShowOpenAd(activity: Activity){
@@ -332,9 +403,17 @@ private class OpenAdManager {
             return
         }
 
-        loadAd(activity) { loadedCompleted ->
-            if (loadedCompleted){
-                showAdIfAvailable(activity) {}
+        Timber.e("loadAndShowOpenAd")
+
+        when {
+            isAdAvailable() -> loadAd(activity) { loadedCompleted ->
+                isShowingAd = false
+
+                if (loadedCompleted){
+                    showAdIfAvailable(activity) {}
+                }
+
+                Timber.e("loadAndShowOpenAd: $loadedCompleted")
             }
         }
     }
@@ -344,16 +423,13 @@ private class OpenAdManager {
             return
         }
 
-        if (!isAdAvailable()) {
-            loadAd(activity)
-            return
-        }
-
         appOpenAd?.fullScreenContentCallback =
             object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     appOpenAd = null
                     isShowingAd = false
+                    adLastShownTime = System.currentTimeMillis()
+
                     task()
                 }
 
@@ -361,6 +437,8 @@ private class OpenAdManager {
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     appOpenAd = null
                     isShowingAd = false
+                    adLastShownTime = System.currentTimeMillis()
+
                     task()
                 }
             }

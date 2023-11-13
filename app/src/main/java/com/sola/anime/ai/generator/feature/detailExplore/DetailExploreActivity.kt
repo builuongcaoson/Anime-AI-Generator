@@ -11,15 +11,19 @@ import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.jakewharton.rxbinding2.view.longClicks
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
+import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
+import com.sola.anime.ai.generator.common.extension.startLoading
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.databinding.ActivityDetailExploreBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
 import com.sola.anime.ai.generator.domain.model.ExplorePreview
 import com.sola.anime.ai.generator.domain.model.TabExplore
@@ -57,6 +61,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var fileRepo: FileRepository
+    @Inject lateinit var admobManager: AdmobManager
 
     private val subjectDataExplorePreviewChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabExplore> = BehaviorSubject.createDefault(TabExplore.Recommendations)
@@ -145,7 +150,16 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             .clicks
             .autoDispose(scope())
             .subscribe { explore ->
-                startDetailExplore(exploreId = explore.id)
+                val task = {
+                    startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    else -> task()
+                }
             }
 
         subjectTabChanges
@@ -213,7 +227,16 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             .clicks
             .autoDispose(scope())
             .subscribe { explorePreview ->
-                startDetailExplore(exploreId = exploreId, previewIndex = explorePreview.previewIndex)
+                val task = {
+                    startDetailExplore(exploreId = exploreId, previewIndex = explorePreview.previewIndex)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    else -> task()
+                }
             }
     }
 

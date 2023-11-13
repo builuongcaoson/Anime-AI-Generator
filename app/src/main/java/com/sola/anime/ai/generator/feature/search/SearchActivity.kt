@@ -2,16 +2,21 @@ package com.sola.anime.ai.generator.feature.search
 
 import android.os.Bundle
 import com.basic.common.base.LsActivity
+import com.basic.common.extension.isNetworkAvailable
 import com.jakewharton.rxbinding2.widget.textChanges
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.extension.back
+import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
 import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.common.extension.startIap
+import com.sola.anime.ai.generator.common.extension.startLoading
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
 import com.sola.anime.ai.generator.data.db.query.LoRAGroupDao
 import com.sola.anime.ai.generator.data.db.query.ModelDao
 import com.sola.anime.ai.generator.databinding.ActivitySearchBinding
+import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.model.LoRAPreview
 import com.sola.anime.ai.generator.feature.search.adapter.GroupSearch
 import com.sola.anime.ai.generator.feature.search.adapter.GroupSearchAdapter
@@ -31,6 +36,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
     @Inject lateinit var loRAGroupDao: LoRAGroupDao
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
+    @Inject lateinit var admobManager: AdmobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +119,16 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
             .exploreCLicks
             .autoDispose(scope())
             .subscribe { explore ->
-                startDetailExplore(exploreId = explore.id)
+                val task = {
+                    startDetailExplore(exploreId = explore.id)
+                }
+
+                App.app.actionAfterFullItem = task
+
+                when {
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    else -> task()
+                }
             }
     }
 

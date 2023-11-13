@@ -13,6 +13,7 @@ import com.sola.anime.ai.generator.feature.detailExplore.DetailExploreActivity
 import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAActivity
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
+import com.sola.anime.ai.generator.feature.loading.LoadingActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.pickAvatar.PickAvatarActivity
 import com.sola.anime.ai.generator.feature.preview.PreviewActivity
@@ -61,6 +62,12 @@ fun Activity.startDetailExplore(exploreId: Long, previewIndex: Int = 0){
 
 fun Activity.startPickAvatar(){
     val intent = Intent(this, PickAvatarActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+}
+
+fun Activity.startLoading(){
+    val intent = Intent(this, LoadingActivity::class.java)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
