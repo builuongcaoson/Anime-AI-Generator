@@ -313,5 +313,15 @@
     ],
     "favourite_count": 75,
     "modelIds": ["anything_5_0"]
+  },
+  {
+    "id": 26,
+    "prompt": "1girl, official, unity8k wallpaper, ultra detailed, beautifulandaesthetic, masterpiece, best quality, (entangle, mandala, tangle, entangle), dynamical, cowboy shot, the most beautiful form of chaos, elegant, brutal list designed, vivid colours",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F0_zzz2xxx3zzz.webp?alt=media&token=47701163-6d0a-4ece-a902-4efe0b67ad60",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F1_zzz2xxx3zzz.webp?alt=media&token=d7dcd867-0566-4443-9e84-972a9fab473b"
+    ],
+    "favourite_count": 75,
+    "modelIds": ["anything_5_0"]
   }
 ]
