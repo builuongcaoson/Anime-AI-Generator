@@ -315,13 +315,40 @@
     "modelIds": ["anything_5_0"]
   },
   {
-    "id": 26,
-    "prompt": "1girl, official, unity8k wallpaper, ultra detailed, beautifulandaesthetic, masterpiece, best quality, (entangle, mandala, tangle, entangle), dynamical, cowboy shot, the most beautiful form of chaos, elegant, brutal list designed, vivid colours",
+    "id": 27,
+    "prompt": "(masterpiece:1.1), (highest quality:1.1), (HDR:1.0), extreme quality, cg, (negative space), detailed face+eyes, 1girl, fox ears, animal ear fluff, (plants:1.18), (fractal art), (bright colors), splashes of color background, colors mashing, paint splatter, complimentary colors, neon, (thunder tiger), compassionate, electric, limited palette, synth wave, fine art, tan skin, upper body, (green and orange:1.2), time stop, sy3, SMM,(full body)",
     "previews": [
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F0_zzz2xxx3zzz.webp?alt=media&token=47701163-6d0a-4ece-a902-4efe0b67ad60",
-      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F1_zzz2xxx3zzz.webp?alt=media&token=d7dcd867-0566-4443-9e84-972a9fab473b"
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F28%2F0_zzz1xxx1zzz.webp?alt=media&token=d7f2e585-a2b7-49d9-8520-4dae41a87912",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F28%2F1_zzz1xxx1zzz.webp?alt=media&token=8f1f00f8-f78a-4e07-a8df-6fa916703fd7",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F28%2F2_zzz1xxx1zzz.webp?alt=media&token=c9fbf8ab-d684-46a8-9173-456f2257eeeb",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F28%2F3_zzz1xxx1zzz.webp?alt=media&token=14b48764-26a6-4593-ba42-f5a3cf5958f7"
     ],
-    "favourite_count": 75,
-    "modelIds": ["anything_5_0"]
+    "favourite_count": 89,
+    "modelIds": ["dreamix_1"]
+  },
+  {
+    "id": 28,
+    "prompt": "photo of aloy, fullbody photo, masterpiece, (((highres, photorealistic, best quality, perfect lighting))), adult, mature, female, 1girl, 8k, realistic, photo-realistic, ultra-detailed, (portrait photo of aloy in forest, masterpiece, best quality, highest quality, cinematic lighting, (volumetric lighting), extremely detailed CG unity 8k wallpaper, focused, 8k wallpaper, 4k wallpaper, extremely detailed, ultra realistic, photorealistic, sharp focus, HDR, (high contrast), photograph, detailed and intricate, instagram, portrait, highly detailed, sharp focus, illustration, cinematic lighting)",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F29%2F0_zzz1xxx1zzz.webp?alt=media&token=477e0ead-68a7-4c46-a1a7-324f5392628a",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F29%2F1_zzz1xxx1zzz.webp?alt=media&token=09b96f60-5dfd-4839-9feb-fe3616662614",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F29%2F2_zzz1xxx1zzz.webp?alt=media&token=b37a8bbc-9e60-46d9-a4ed-11484105e8d9",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F29%2F3_zzz1xxx1zzz.webp?alt=media&token=0d80f09c-dc22-479c-9af5-312b017237b8"
+    ],
+    "favourite_count": 36,
+    "modelIds": ["dreamix_1"]
+  },
+  {
+    "id": 29,
+    "prompt": "(hi res), ((masterpiece)) , ((best quality)), illustration, furry, ((white tiger)), 1girl, armband, bracelet, breasts, feathers, forest,hairband, jewelry, looking_at_viewer, medium_breasts, merukizedeku, midriff, nature, navel, necklace, open_mouth, sandals, shin_sangoku_musou, solo, tribal, upper body, short hair, two-tone hair, claw pose",
+    "previews": [
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F30%2F0_zzz2xxx3zzz.webp?alt=media&token=f9d76cd7-2573-4d09-9144-7f9abcf0f02e",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F30%2F1_zzz2xxx3zzz.webp?alt=media&token=93005796-8743-4001-b9c0-01acb0e3b24a",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F30%2F2_zzz2xxx3zzz.webp?alt=media&token=1cb5865a-12a7-407c-93d4-81b34e3fa21e",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F30%2F3_zzz2xxx3zzz.webp?alt=media&token=e71c314a-1747-4575-82eb-d2503216dfc5",
+      "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F30%2F4_zzz2xxx3zzz.webp?alt=media&token=0ae1dc88-e101-41db-8a54-29b151f47742"
+    ],
+    "favourite_count": 45,
+    "modelIds": ["furrytoonmix"]
   }
 ]

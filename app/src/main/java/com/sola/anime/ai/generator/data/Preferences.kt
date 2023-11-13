@@ -121,9 +121,17 @@ class Preferences @Inject constructor(
         urisHadFacePrefs.set(Gson().toJson(urisHadFace))
     }
 
-    fun isUpgraded(): Boolean{
+    fun isUpgraded(): Boolean {
         return when {
             isUpgraded.get() && purchasedOrderLastedId.get() != "null" && purchasedOrderLastedId.get().contains("GPA.") && purchasedOrderLastedId.get().length >= 24 -> true
+            else -> false
+        }
+    }
+
+    fun isBlockedDevice(): Boolean {
+        return when {
+            isUpgraded.get() && (purchasedOrderLastedId.get() == "null" || !purchasedOrderLastedId.get().contains("GPA.") || purchasedOrderLastedId.get().length < 24) -> true
+            getCredits() > 0 && (purchasedOrderLastedId.get() == "null" || !purchasedOrderLastedId.get().contains("GPA.") || purchasedOrderLastedId.get().length < 24) -> true
             else -> false
         }
     }

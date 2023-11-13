@@ -50,10 +50,16 @@ class SyncRemoteConfig @Inject constructor(
             config
                 .fetchAndActivate()
                 .addOnSuccessListener {
+                    configApp.keyDezgo = tryOrNull { config.getString("key_dezgo_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
+                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
+                    Timber.e("Key dezgo: ${configApp.keyDezgo}")
+                    Timber.e("Key dezgo premium: ${configApp.keyDezgoPremium}")
+                    Timber.e("Key upscale: ${configApp.keyUpscale}")
                     Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
                     Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")

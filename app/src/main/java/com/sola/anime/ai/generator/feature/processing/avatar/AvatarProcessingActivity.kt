@@ -97,6 +97,11 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                 finish()
                 return
             }
+            prefs.isBlockedDevice() -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
             else -> initData()
         }
         listenerView()

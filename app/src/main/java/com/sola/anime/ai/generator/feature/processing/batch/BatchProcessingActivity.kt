@@ -92,6 +92,11 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                 finish()
                 return
             }
+            prefs.isBlockedDevice() -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
             else -> initData()
         }
         listenerView()

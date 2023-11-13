@@ -94,6 +94,11 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                 finish()
                 return
             }
+            prefs.isBlockedDevice() -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
             else -> initData()
         }
     }
