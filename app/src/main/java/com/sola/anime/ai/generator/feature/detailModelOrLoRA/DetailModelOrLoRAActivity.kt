@@ -301,7 +301,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { modelAndLoRA ->
                 when {
-                    modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> startIap()
+                    modelAndLoRA.isPremium && !prefs.isUpgraded() -> startIap()
                     modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
                     modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
                 }

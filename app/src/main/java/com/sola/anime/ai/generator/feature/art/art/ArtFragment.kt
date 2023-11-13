@@ -279,7 +279,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .subscribe { ratio ->
                 when {
                     ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> subjectRatioClicks.onNext(ratio)
-                    !prefs.isUpgraded.get() -> activity?.startIap()
+                    !prefs.isUpgraded() -> activity?.startIap()
                     else -> subjectRatioClicks.onNext(ratio)
                 }
             }
@@ -345,7 +345,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     private fun updateUiExplore(explore: Explore?) {
         when {
-            prefs.isUpgraded.get() -> {
+            prefs.isUpgraded() -> {
                 val findRatio = Ratio.values().find { it.ratio == explore?.ratio } ?: Ratio.Ratio1x1
                 subjectRatioClicks.onNext(findRatio)
             }
@@ -356,7 +356,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } } ?: return
             when {
-                !prefs.isUpgraded.get() && model.isPremium -> {}
+                !prefs.isUpgraded() && model.isPremium -> {}
                 else -> {
                     sheetModel.model = model
                     updateUiModel(model)
@@ -414,7 +414,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 subjectRatioClicks.onNext(ratio)
             }
 
-            sheetAdvanced.step = if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
+            sheetAdvanced.step = if (prefs.isUpgraded()) configApp.stepPremium else configApp.stepDefault
             sheetAdvanced.show(this)
         }
         binding.viewSeeAllExplore.clicks {
@@ -462,11 +462,11 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         val numberOfImages = binding.quantitizer.value
 
         val creditsForNumbersOfImages = when {
-            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.getCredits() >= 10 + loRAAdapter.data.size * 5 -> 10 + (loRAAdapter.data.size * 5)
-            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && loRAAdapter.data.isNotEmpty() -> 10 + (loRAAdapter.data.size * 5)
-            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> 0
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> 10 + (loRAAdapter.data.size * 5)
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.size * 5
+            !prefs.isUpgraded() && numberOfImages == 1 && prefs.getCredits() >= 10 + loRAAdapter.data.size * 5 -> 10 + (loRAAdapter.data.size * 5)
+            !prefs.isUpgraded() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && loRAAdapter.data.isNotEmpty() -> 10 + (loRAAdapter.data.size * 5)
+            !prefs.isUpgraded() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> 0
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> 10 + (loRAAdapter.data.size * 5)
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.size * 5
             else -> numberOfImages * (10 + loRAAdapter.data.size * 5)
         }
 
@@ -487,30 +487,30 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.cardGenerateCredit.isVisible = !binding.cardGenerate.isVisible
         binding.iconWatchAd.isVisible = when {
-            !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> loRAAdapter.data.isEmpty()
+            !prefs.isUpgraded() && totalCreditsDeducted < prefs.getCredits() -> false
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> loRAAdapter.data.isEmpty()
             else -> false
         }
         binding.textDescription.isVisible = when {
-            !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> true
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.isEmpty()
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> false
+            !prefs.isUpgraded() && totalCreditsDeducted < prefs.getCredits() -> true
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.isEmpty()
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> false
             else -> false
         }
         binding.textDescription.text = when {
-            !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> "${totalCreditsDeducted.roundToInt()} Credits"
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "${totalCreditsDeducted.roundToInt()} Credits"
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
+            !prefs.isUpgraded() && totalCreditsDeducted < prefs.getCredits() -> "${totalCreditsDeducted.roundToInt()} Credits"
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "${totalCreditsDeducted.roundToInt()} Credits"
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
                 when {
                     loRAAdapter.data.isNotEmpty() -> "${totalCreditsDeducted.roundToInt()} Credits"
                     else -> "Watch an Ad"
                 }
             }
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> "${totalCreditsDeducted.roundToInt()} Credits"
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> ""
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> "${totalCreditsDeducted.roundToInt()} Credits"
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> ""
             else -> ""
         }
 
@@ -747,13 +747,13 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+            !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> activity?.startIap()
                     else -> task()
                 }
             }
-            !prefs.isUpgraded.get() -> activity?.let { activity ->
+            !prefs.isUpgraded() -> activity?.let { activity ->
                 when {
                     totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" -> {
                         admobManager.showRewardCreate(
@@ -772,7 +772,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     else -> activity.startIap()
                 }
             }
-            prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+            prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
                     else -> task()

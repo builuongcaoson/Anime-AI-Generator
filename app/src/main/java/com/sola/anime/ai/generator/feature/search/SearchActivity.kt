@@ -103,7 +103,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
             .autoDispose(scope())
             .subscribe { model ->
                 when {
-                    !prefs.isUpgraded.get() && model.isPremium -> startIap()
+                    !prefs.isUpgraded() && model.isPremium -> startIap()
                     else -> startDetailModelOrLoRA(modelId = model.id)
                 }
             }

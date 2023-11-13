@@ -96,7 +96,7 @@ class Preferences @Inject constructor(
             valueCredits.isNotEmpty() -> {
                 tryOrNull { AESEncyption.decrypt(valueCredits)?.toFloat() } ?: credits2.get()
             }
-            else -> 0f
+            else -> credits2.get()
         }
     }
 

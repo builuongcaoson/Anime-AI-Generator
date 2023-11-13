@@ -145,7 +145,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                 }
 
                 when {
-                    !prefs.isUpgraded.get() -> startIap()
+                    !prefs.isUpgraded() -> startIap()
                     else -> task()
                 }
             }

@@ -87,7 +87,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .bindToLifecycle(binding.root)
             .subscribe { modelAndLoRA ->
                 when {
-                    modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
+                    modelAndLoRA.isPremium && !prefs.isUpgraded() -> activity?.startIap()
                     modelAndLoRA.model != null -> activity?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
                     modelAndLoRA.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
                 }

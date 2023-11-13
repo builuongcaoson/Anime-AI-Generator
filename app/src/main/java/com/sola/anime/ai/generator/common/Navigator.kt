@@ -83,7 +83,7 @@ class Navigator @Inject constructor(
                 .append("Version: ${BuildConfig.VERSION_NAME}\n")
                 .append("Device: ${Build.BRAND} ${Build.MODEL}\n")
                 .append("SDK: ${Build.VERSION.SDK_INT}\n")
-                .append("Upgraded: ${prefs.isUpgraded.get()}")
+                .append("Upgraded: ${prefs.isUpgraded()}")
                 .toString()
         )
         startActivityExternal(intent)

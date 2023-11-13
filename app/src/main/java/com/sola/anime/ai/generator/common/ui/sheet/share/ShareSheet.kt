@@ -30,7 +30,7 @@ class ShareSheet: LsBottomSheet<SheetShareBinding>(SheetShareBinding::inflate) {
     val shareOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
     private var isFrame: Boolean = true
         set(value) {
-            if (!value && !prefs.isUpgraded.get()){
+            if (!value && !prefs.isUpgraded()){
                 activity?.startIap()
                 return
             }

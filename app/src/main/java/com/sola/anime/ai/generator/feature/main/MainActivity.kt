@@ -119,14 +119,14 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         prefs
             .isPurchasedCredit
             .asObservable()
-            .filter { isPurchasedCredit -> isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded.get() }
+            .filter { isPurchasedCredit -> isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded() }
             .delay(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
             .bindToLifecycle(binding.root)
             .subscribe { isPurchasedCredit ->
                 when {
-                    isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded.get() -> warningPremiumDialog.show(this)
+                    isPurchasedCredit && !prefs.isShowedWaringPremiumDialog.get() && !prefs.isUpgraded() -> warningPremiumDialog.show(this)
                 }
             }
 
@@ -153,7 +153,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     private fun initPremiumObservable() {
         Observable
             .interval(1, TimeUnit.SECONDS)
-            .filter { prefs.isUpgraded.get() }
+            .filter { prefs.isUpgraded() }
             .map { prefs.timeExpiredPremium.get() }
             .filter { timeExpired -> timeExpired != -1L && timeExpired != -2L }
             .map { timeExpired -> timeExpired - Date().time }
@@ -211,7 +211,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && !prefs.isRatedApp.get() -> {
+            !prefs.isUpgraded() && !prefs.isRatedApp.get() -> {
                 ratingDialog.show(this) { rating ->
                     when {
                         rating < 4 -> navigator.showSupport()

@@ -172,7 +172,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             lifecycleScope.launch(Dispatchers.Main) {
                 when {
                     prefs.isFirstTime.get() -> startFirst()
-                    !prefs.isUpgraded.get() -> startIap(isKill = false)
+                    !prefs.isUpgraded() -> startIap(isKill = false)
                     else -> startMain()
                 }
 
@@ -184,7 +184,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             resetNumberCreatedArtworkIfOtherToday()
 
             when {
-                !prefs.isUpgraded.get() && isNetworkAvailable() -> {
+                !prefs.isUpgraded() && isNetworkAvailable() -> {
                     binding.textLoadingAd.text = "This action contains ads..."
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
@@ -200,7 +200,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun resetNumberCreatedArtworkIfOtherToday() {
         // Reset number created in days if different days
         when {
-            !prefs.isUpgraded.get() || prefs.latestTimeCreatedArtwork.get().isToday() -> {}
+            !prefs.isUpgraded() || prefs.latestTimeCreatedArtwork.get().isToday() -> {}
             else -> {
                 prefs.numberCreatedArtwork.delete()
                 prefs.latestTimeCreatedArtwork.delete()

@@ -30,7 +30,7 @@ class ModelAndLoRAAdapter @Inject constructor(
             else -> null
         }
         binding.preview.load(preview, errorRes = R.drawable.place_holder_image)
-        binding.premium.isVisible = !prefs.isUpgraded.get() && item.isPremium
+        binding.premium.isVisible = !prefs.isUpgraded() && item.isPremium
         binding.viewDescription.setCardBackgroundColor(binding.root.context.getColorCompat(if (item.model != null) R.color.blue else if (item.loRA != null) R.color.yellow else com.widget.R.color.tools_theme))
         binding.description.text = if (item.model != null) "Model" else if (item.loRA != null) "LoRA" else ""
         binding.display.text = item.display

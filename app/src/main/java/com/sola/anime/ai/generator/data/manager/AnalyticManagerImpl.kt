@@ -23,7 +23,7 @@ class AnalyticManagerImpl @Inject constructor(
         tryOrNull {
             firebaseAnalytics.logEvent("version_${BuildConfig.VERSION_CODE}"){
                 when {
-                    prefs.isUpgraded.get() || prefs.getCredits() > 0f -> param(type.name, "${deviceModel()} - ${context.deviceId()} - ${prefs.purchasedOrderLastedId.get()}")
+                    prefs.isUpgraded() || prefs.getCredits() > 0f -> param(type.name, "${deviceModel()} - ${context.deviceId()} - ${prefs.purchasedOrderLastedId.get()}")
                     else -> param(type.name, "${deviceModel()} - ${context.deviceId()}")
                 }
             }

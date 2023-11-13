@@ -111,7 +111,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         tryOrNull {
             when {
-                !prefs.isUpgraded.get() -> {
+                !prefs.isUpgraded() -> {
                     admobManager.loadRewardUpscale()
                     admobManager.loadRewardCreateAgain()
                 }
@@ -137,7 +137,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             delay(2000L)
 
             when {
-                !isGallery && !prefs.isUpgraded.get() && !prefs.isRatedApp.get() && ((prefs.totalNumberCreatedArtwork.get() - 1L) % 3L) == 0L -> {
+                !isGallery && !prefs.isUpgraded() && !prefs.isRatedApp.get() && ((prefs.totalNumberCreatedArtwork.get() - 1L) % 3L) == 0L -> {
                     ratingDialog.show(this@ArtResultActivity) { rating ->
                         when {
                             rating < 4 -> navigator.showSupport()
@@ -232,13 +232,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+            !prefs.isUpgraded() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> startIap()
                     else -> task()
                 }
             }
-            !prefs.isUpgraded.get() -> {
+            !prefs.isUpgraded() -> {
                 when {
                     totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") -> {
                         admobManager.showRewardCreateAgain(
@@ -257,7 +257,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     else -> startIap()
                 }
             }
-            prefs.isUpgraded.get() -> {
+            prefs.isUpgraded() -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> startCredit()
                     else -> task()
@@ -455,7 +455,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
 
                 when {
-                    !prefs.isUpgraded.get() -> {
+                    !prefs.isUpgraded() -> {
                         lifecycleScope.launch(Dispatchers.Main) {
                             delay(250)
                             admobManager.showRewardUpscale(
@@ -517,7 +517,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
 
                 when {
-                    !prefs.isUpgraded.get() -> startIap()
+                    !prefs.isUpgraded() -> startIap()
                     else -> task()
                 }
             }
@@ -612,7 +612,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun initPremiumObservable() {
         Observable
             .interval(1, TimeUnit.SECONDS)
-            .filter { prefs.isUpgraded.get() }
+            .filter { prefs.isUpgraded() }
             .map { prefs.timeExpiredPremium.get() }
             .filter { timeExpired -> timeExpired != -1L && timeExpired != -2L }
             .map { timeExpired -> timeExpired - Date().time }
@@ -657,13 +657,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun updateUiCredits() {
         childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             val description = when {
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+                !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
                     totalCreditsDeducted = 10f + childHistory.loRAs.size * 5
                     creditsPerImage = 10f + childHistory.loRAs.size * 5
 
                     "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                 }
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
+                !prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
                     totalCreditsDeducted = when {
                         prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
                         childHistory.loRAs.isNotEmpty() -> 10f + childHistory.loRAs.size * 5
@@ -680,13 +680,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         else -> "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                     }
                 }
-                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
+                prefs.isUpgraded() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
                     totalCreditsDeducted = 10f + childHistory.loRAs.size * 5
                     creditsPerImage = 10f + childHistory.loRAs.size * 5
 
                     "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                 }
-                prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> {
+                prefs.isUpgraded() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> {
                     totalCreditsDeducted = 0f + childHistory.loRAs.size * 5
                     creditsPerImage = 0f + childHistory.loRAs.size * 5
 
@@ -708,7 +708,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showRewardCreateAgain(
+            !prefs.isUpgraded() && isNetworkAvailable() && !isGallery -> admobManager.showRewardCreateAgain(
                 this,
                 success = {
                     back()

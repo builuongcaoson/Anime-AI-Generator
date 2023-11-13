@@ -183,10 +183,10 @@ fun initBodyTextsToImages(
 
         configApp.creditsRemaining = configApp.creditsRemaining - creditsPerImage
 
-        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
+        val subPremiumAndCredits = "${prefs.isUpgraded()}_${configApp.creditsRemaining.roundToInt()}"
         val subNumberCreatedAndMax = when {
-            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
@@ -318,10 +318,10 @@ fun initBodyImagesToImages(
 
         configApp.creditsRemaining = configApp.creditsRemaining - creditsPerImage
 
-        val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
+        val subPremiumAndCredits = "${prefs.isUpgraded()}_${configApp.creditsRemaining.roundToInt()}"
         val subNumberCreatedAndMax = when {
-            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 

@@ -90,7 +90,7 @@ class ModelAdapter(private val prefs: Preferences): LsAdapter<Model, ItemModelBi
         binding.preview.load(item.preview, errorRes = R.drawable.place_holder_image) { drawable ->
             binding.viewShadow.isVisible = drawable != null
         }
-        binding.premium.isVisible = !prefs.isUpgraded.get() && item.isPremium
+        binding.premium.isVisible = !prefs.isUpgraded() && item.isPremium
         binding.display.text = item.display
         binding.viewSelected.isVisible = item == model
         binding.viewDetails.isVisible = isShowedDetailView

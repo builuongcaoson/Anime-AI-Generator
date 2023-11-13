@@ -39,7 +39,7 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
     private var isFrame: Boolean = true
         set(value) {
-            if (!value && !prefs.isUpgraded.get()){
+            if (!value && !prefs.isUpgraded()){
                 activity?.startIap()
                 return
             }
@@ -66,8 +66,8 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
             binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
             binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
 
-            binding.iconWatchAd.isVisible = !prefs.isUpgraded.get() && !isFrame
-            binding.textDescription.isVisible = !prefs.isUpgraded.get() && !isFrame
+            binding.iconWatchAd.isVisible = !prefs.isUpgraded() && !isFrame
+            binding.textDescription.isVisible = !prefs.isUpgraded() && !isFrame
         }
     }
 

@@ -183,7 +183,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             val deferredHistoryIds = arrayListOf<Long?>()
 
                             val decryptKey = when {
-                                prefs.isUpgraded.get() || creditsPerImage != 0f -> configApp.keyDezgoPremium
+                                prefs.isUpgraded() || creditsPerImage != 0f -> configApp.keyDezgoPremium
                                 else -> configApp.keyDezgo
                             }
 
@@ -262,7 +262,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
                             val deferredHistoryIds = arrayListOf<Long?>()
 
                             val decryptKey = when {
-                                prefs.isUpgraded.get() || creditsPerImage != 0f -> configApp.keyDezgoPremium
+                                prefs.isUpgraded() || creditsPerImage != 0f -> configApp.keyDezgoPremium
                                 else -> configApp.keyDezgo
                             }
 

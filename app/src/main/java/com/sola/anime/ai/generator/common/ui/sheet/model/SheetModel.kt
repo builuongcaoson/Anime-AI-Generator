@@ -81,7 +81,7 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
             .bindToLifecycle(binding.root)
             .subscribe { model ->
                 when {
-                    !prefs.isUpgraded.get() && model.isPremium -> activity?.startIap()
+                    !prefs.isUpgraded() && model.isPremium -> activity?.startIap()
                     else -> clicks(model)
                 }
             }
@@ -91,7 +91,7 @@ class SheetModel: LsBottomSheet<SheetModelBinding>(SheetModelBinding::inflate) {
             .bindToLifecycle(binding.root)
             .subscribe { model ->
                 when {
-                    !prefs.isUpgraded.get() && model.isPremium -> activity?.startIap()
+                    !prefs.isUpgraded() && model.isPremium -> activity?.startIap()
                     else -> detailsClicks(model)
                 }
             }

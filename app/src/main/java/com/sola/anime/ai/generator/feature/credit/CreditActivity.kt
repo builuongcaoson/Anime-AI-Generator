@@ -158,10 +158,10 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 prefs.purchasedOrderLastedId.set(purchase?.orderId ?: "null")
 
                 val creditsReceived = when (item.id) {
-                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
-                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
-                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
-                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded.get()) 12000 else 11000
+                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded()) 1100 else 1000
+                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded()) 3550 else 3250
+                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded()) 6000 else 5500
+                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded()) 12000 else 11000
                     else -> 0
                 }
 
@@ -285,10 +285,10 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                 }
 
                 val creditsReceived = when (sku) {
-                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
-                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded.get()) 3550 else 3250
-                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded.get()) 6000 else 5500
-                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded.get()) 12000 else 11000
+                    Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded()) 1100 else 1000
+                    Constraint.Iap.SKU_CREDIT_3000 -> if (prefs.isUpgraded()) 3550 else 3250
+                    Constraint.Iap.SKU_CREDIT_5000 -> if (prefs.isUpgraded()) 6000 else 5500
+                    Constraint.Iap.SKU_CREDIT_10000 -> if (prefs.isFirstPurchaseCredits10000.get()) 15000 else if (prefs.isUpgraded()) 12000 else 11000
                     else -> 0
                 }
 

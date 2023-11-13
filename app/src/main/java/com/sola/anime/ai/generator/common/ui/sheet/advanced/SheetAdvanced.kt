@@ -55,7 +55,7 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             false
         }
         binding.sliderStep.setListener { _, currentValue ->
-            step = tryOrNull { currentValue.toString() } ?: if (prefs.isUpgraded.get()) configApp.stepPremium else configApp.stepDefault
+            step = tryOrNull { currentValue.toString() } ?: if (prefs.isUpgraded()) configApp.stepPremium else configApp.stepDefault
         }
         binding.sliderStep.setOnTouchListener { view, event ->
             when (event.actionMasked) {
@@ -84,7 +84,7 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             .subscribe { ratio ->
                 when {
                     ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> ratioClicks(ratio)
-                    !prefs.isUpgraded.get() -> activity?.startIap()
+                    !prefs.isUpgraded() -> activity?.startIap()
                     else -> ratioClicks(ratio)
                 }
             }
