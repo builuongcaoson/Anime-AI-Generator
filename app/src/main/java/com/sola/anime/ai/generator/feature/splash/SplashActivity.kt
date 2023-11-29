@@ -96,6 +96,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 finish()
                 return
             }
+            configApp.blockVersions.contains(BuildConfig.VERSION_CODE.toString()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
         }
 
         syncData.execute(Unit)
@@ -131,10 +136,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
                     configApp.keyDezgo = tryOrNull { config.getString("key_dezgo_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
-                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_dezgo_premium_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
+                    configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
@@ -153,6 +159,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Key upscale: ${configApp.keyUpscale}")
                     Timber.e("Block device ids: ${configApp.blockDeviceIds.joinToString { it }}")
                     Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
+                    Timber.e("Block versions: ${configApp.blockVersions.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
 
                     doTaskAfterSyncFirebaseRemoteConfig()

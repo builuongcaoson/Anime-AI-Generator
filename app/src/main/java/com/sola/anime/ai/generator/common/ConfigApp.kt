@@ -39,6 +39,7 @@ class ConfigApp @Inject constructor(
     var keyUpscale = Constraint.Upscale.RAPID_KEY
     var blockDeviceIds = listOf("")
     var blockDeviceModels = listOf("")
+    var blockVersions = listOf("")
     var blockedRoot = true
 
     var discountCredits = 0.02f
