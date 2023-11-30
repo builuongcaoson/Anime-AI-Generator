@@ -1,8 +1,9 @@
 package com.sola.anime.ai.generator.feature.splash
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
@@ -13,11 +14,9 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.common.util.CommonUtil
 import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
@@ -53,23 +52,47 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
+        lifecycleScope.launch {
+            binding.image.cancelIntroAnim()
+            delay(1000L)
+            binding.image.introAnimate()
+        }
+
         initView()
         initObservable()
         initData()
     }
 
     private fun initData() {
-        // Reset credits changes
-        prefs.creditsChanges.delete()
-        prefs.userPurchasedChanges.delete()
-
         lifecycleScope.launch(Dispatchers.Main) {
-            delay(500)
+            // Reset credits changes
+            prefs.creditsChanges.delete()
+            prefs.userPurchasedChanges.delete()
+            delay(500L)
+            animFloat(
+                from = 0.5f,
+                to = 0.3f,
+                duration = 250L,
+                update = { value ->
+                    binding.preview.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        this.verticalBias = value
+                        this.matchConstraintPercentWidth = value
+                    }
+                },
+                endAction = { syncRemoteConfigIfHadNetwork() }
+            )
+            binding.progress.animate().alpha(1f).setDuration(250L).start()
+        }
+    }
+
+    private fun syncRemoteConfigIfHadNetwork(){
+        lifecycleScope.launch(Dispatchers.Main) {
+            delay(500L)
             when {
                 !isNetworkAvailable() -> networkDialog.show(this@SplashActivity){
                     networkDialog.dismiss()
 
-                    initData()
+                    syncRemoteConfigIfHadNetwork()
                 }
                 else -> syncRemoteConfig()
             }
@@ -77,25 +100,25 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     }
 
     private fun doTaskAfterSyncFirebaseRemoteConfig(){
+        val doBlock = {
+            makeToast(getString(R.string.your_device_is_on_our_blocked_list))
+            finish()
+        }
         when {
             configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this@SplashActivity)) -> {
-                makeToast("Your device is on our blocked list!")
-                finish()
+                doBlock()
                 return
             }
             configApp.blockDeviceIds.contains(deviceId()) -> {
-                makeToast("Your device is on our blocked list!")
-                finish()
+                doBlock()
                 return
             }
             configApp.blockDeviceModels.contains(deviceModel()) -> {
-                makeToast("Your device is on our blocked list!")
-                finish()
+                doBlock()
                 return
             }
             configApp.blockVersions.contains(BuildConfig.VERSION_CODE.toString()) -> {
-                makeToast("Your device is on our blocked list!")
-                finish()
+                doBlock()
                 return
             }
         }
@@ -184,7 +207,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
             when {
                 !prefs.isUpgraded.get() && isNetworkAvailable() -> {
-                    binding.textStatus.text = "This action contains ads..."
+                    binding.textStatus.text = getString(R.string.this_action_contains_ads)
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }

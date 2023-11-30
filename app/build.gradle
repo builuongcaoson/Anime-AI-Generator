@@ -65,6 +65,7 @@ dependencies {
     implementation project(':photoView')
     implementation project(':blurview')
     implementation project(':ucrop')
+    implementation project(':blur')
 
     // Material
     implementation "androidx.core:core-ktx:$kotlin_core_version"

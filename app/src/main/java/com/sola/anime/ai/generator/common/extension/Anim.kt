@@ -3,11 +3,20 @@ package com.sola.anime.ai.generator.common.extension
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation
 import android.view.animation.Interpolator
 
-import android.view.animation.TranslateAnimation
 import androidx.core.animation.doOnEnd
+
+fun animFloat(from: Float, to: Float, duration: Long, update: (Float) -> Unit, endAction: () -> Unit = {}): ValueAnimator {
+    val animation = ValueAnimator.ofFloat(from, to)
+    animation.duration = duration // milliseconds
+    animation.addUpdateListener {
+        update(it.animatedValue as Float)
+    }
+    animation.doOnEnd { endAction() }
+    animation.start()
+    return animation
+}
 
 fun animInt(from: Int, to: Int, duration: Long, update: (Int) -> Unit, endAction: () -> Unit = {}){
     val colorAnimation = ValueAnimator.ofInt(from, to)

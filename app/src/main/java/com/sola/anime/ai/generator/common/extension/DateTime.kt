@@ -3,8 +3,6 @@ package com.sola.anime.ai.generator.common.extension
 import android.annotation.SuppressLint
 import com.basic.common.extension.tryOrNull
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")

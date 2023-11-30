@@ -5,5 +5,7 @@
     <color name="white1">#F4F4F4</color>
     <color name="blue">#1C2341</color>
     <color name="yellow">#C69276</color>
-
+    <color name="progressColor1">#fec31e</color>
+    <color name="progressColor2">#ee7966</color>
+    <color name="progressColor3">#8dd3ce</color>
 </resources>

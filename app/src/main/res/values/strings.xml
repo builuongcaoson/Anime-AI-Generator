@@ -1,12 +1,22 @@
 <resources>
-    <string name="app_name">Anime Ai Art</string>
+    <string name="app_name" translatable="false">Anime Ai Art</string>
+    <string name="default_notification_channel_id" translatable="false">Default Notification Channel Id</string>
+
+    <!--App-->
+    <string name="default_feature">New UI</string>
+
+    <!--IAP-->
     <string name="description_price_week">Weekly payment of</string>
     <string name="description_price_week_3d_trial">3 days trial then</string>
     <string name="description_price_month">Monthly payment of</string>
     <string name="description_price_year">Yearly payment of</string>
     <string name="description_price_lifetime">One time payment of</string>
+
+    <!--Splash-->
     <string name="syncing_data_please_wait">Syncing data, please wait a moment…</string>
     <string name="syncing_data_complete">Data sync complete!</string>
-    <string name="default_feature">New UI</string>
-    <string name="default_notification_channel_id">Default Notification Channel Id</string>
+    <string name="this_action_contains_ads">This action contains ads…</string>
+    <string name="your_device_is_on_our_blocked_list">Your device is on our blocked list!</string>
+
+
 </resources>
