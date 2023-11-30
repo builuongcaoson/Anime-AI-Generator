@@ -50,9 +50,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
         Timber.tag("Main12345").e("Device model: ${deviceModel()}")
         Timber.tag("Main12345").e("Device id: ${deviceId()}")
-        if (Build.VERSION.SDK_INT >= 34) {
-            Timber.tag("Main12345").e("Device id 2: $deviceId")
-        }
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
@@ -116,17 +113,15 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             config.setConfigSettingsAsync(configSettings)
             config
                 .fetchAndActivate()
-                .addOnSuccessListener {
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful){
+                        doTaskAfterSyncFirebaseRemoteConfig()
+                        return@addOnCompleteListener
+                    }
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
-                    configApp.maxNumberGenerateFree = when {
-//                        BuildConfig.DEBUG -> 3L
-                        else -> tryOrNull { config.getLong("max_number_generate_free_2") } ?: configApp.maxNumberGenerateFree
-                    }
-                    configApp.maxNumberGeneratePremium = when {
-                        BuildConfig.DEBUG -> 5L
-                        else -> tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
-                    }
+                    configApp.maxNumberGenerateFree = tryOrNull { config.getLong("max_number_generate_free_2") } ?: configApp.maxNumberGenerateFree
+                    configApp.maxNumberGeneratePremium = tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
                     configApp.version = tryOrNull { config.getLong("version") } ?: configApp.version
                     configApp.versionExplore = tryOrNull { config.getLong("version_explore") } ?: configApp.versionExplore
@@ -164,9 +159,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                     doTaskAfterSyncFirebaseRemoteConfig()
                 }
-                .addOnFailureListener {
-                    doTaskAfterSyncFirebaseRemoteConfig()
-                }
         }
     }
 
@@ -192,7 +184,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
             when {
                 !prefs.isUpgraded.get() && isNetworkAvailable() -> {
-                    binding.textLoadingAd.text = "This action contains ads..."
+                    binding.textStatus.text = "This action contains ads..."
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }

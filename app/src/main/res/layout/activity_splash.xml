@@ -17,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
         app:layout_constraintWidth_percent="0.45">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -36,13 +35,15 @@
         android:layout_marginStart="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_30sdp"
         android:layout_marginBottom="@dimen/_20sdp"
+        android:alpha="0"
+        tools:alpha="1"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.basic.common.widget.LsTextView
-            android:id="@+id/textLoadingAd"
+            android:id="@+id/textStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
