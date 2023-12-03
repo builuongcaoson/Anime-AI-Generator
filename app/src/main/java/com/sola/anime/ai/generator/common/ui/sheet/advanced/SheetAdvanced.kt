@@ -69,7 +69,7 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             false
         }
         binding.clear.clicks { binding.editNegative.setText("") }
-        binding.viewPremiumStep.clicks { activity?.startIap() }
+//        binding.viewPremiumStep.clicks { activity?.startIap() }
     }
 
     override fun onResume() {
@@ -83,8 +83,8 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             .autoDispose(scope())
             .subscribe { ratio ->
                 when {
-                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> ratioClicks(ratio)
-                    !prefs.isUpgraded.get() -> activity?.startIap()
+//                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> ratioClicks(ratio)
+//                    !prefs.isUpgraded.get() -> activity?.startIap()
                     else -> ratioClicks(ratio)
                 }
             }
@@ -95,21 +95,19 @@ class SheetAdvanced: LsBottomSheet<SheetAdvancedBinding>(SheetAdvancedBinding::i
             .autoDispose(scope())
             .subscribe { negative ->
                 this.negative = negative.toString()
-
                 binding.viewClear.isVisible = !negative.isNullOrEmpty()
-
                 binding.count.text = "${negative.length}/1000"
             }
 
-        prefs
-            .isUpgraded
-            .asObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe { isUpgraded ->
-                binding.viewPremiumStep.isVisible = !isUpgraded
-            }
+//        prefs
+//            .isUpgraded
+//            .asObservable()
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .autoDispose(scope())
+//            .subscribe { isUpgraded ->
+//                binding.viewPremiumStep.isVisible = !isUpgraded
+//            }
     }
 
     private fun initView() {

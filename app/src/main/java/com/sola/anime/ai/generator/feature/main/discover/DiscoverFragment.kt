@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.getDimens
+import com.basic.common.extension.makeToast
 import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
@@ -69,19 +70,19 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
                 binding.viewPro.isVisible = !isUpgraded
             }
 
-        Observable
-            .timer(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
-            .subscribe {
-                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
-                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
-            }
+//        Observable
+//            .timer(1, TimeUnit.SECONDS)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .bindToLifecycle(binding.root)
+//            .subscribe {
+//                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+//                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+//            }
     }
 
     private fun listenerView() {
-        binding.viewAvatar.clicks(withAnim = false){ activity?.startPickAvatar() }
+        binding.viewAvatar.clicks(withAnim = false){ activity?.makeToast("It is coming soon, thank you and hope you like it.") }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.viewPro.clicks(withAnim = true) { activity?.startIap() }
     }

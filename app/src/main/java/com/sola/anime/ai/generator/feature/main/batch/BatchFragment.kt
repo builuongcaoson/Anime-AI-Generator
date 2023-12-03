@@ -266,15 +266,15 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 binding.viewPro.isVisible = !isUpgraded
             }
 
-        Observable
-            .timer(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
-            .subscribe {
-                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
-                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
-            }
+//        Observable
+//            .timer(1, TimeUnit.SECONDS)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .bindToLifecycle(binding.root)
+//            .subscribe {
+//                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+//                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+//            }
     }
 
     private fun updateUiCredit(){

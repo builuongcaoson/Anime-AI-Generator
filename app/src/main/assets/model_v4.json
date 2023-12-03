@@ -6,7 +6,7 @@
     "description": "",
     "favourite_count": 2095,
     "modelId": "anything_5_0",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 1,
@@ -24,7 +24,7 @@
     "description": "",
     "favourite_count": 1039,
     "modelId": "anything_3_0",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 3,
@@ -60,7 +60,7 @@
     "description": "",
     "favourite_count": 749,
     "modelId": "kidsmix",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 7,
@@ -69,7 +69,7 @@
     "description": "",
     "favourite_count": 294,
     "modelId": "inkpunk_diffusion",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 8,
@@ -78,7 +78,7 @@
     "description": "",
     "favourite_count": 448,
     "modelId": "deliberate_2",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 9,
@@ -87,7 +87,7 @@
     "description": "",
     "favourite_count": 584,
     "modelId": "icbinp",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 10,
@@ -96,7 +96,7 @@
     "description": "",
     "favourite_count": 356,
     "modelId": "nightmareshaper",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 11,
@@ -105,7 +105,7 @@
     "description": "",
     "favourite_count": 719,
     "modelId": "dreamshaper_8",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 12,
@@ -114,7 +114,7 @@
     "description": "",
     "favourite_count": 502,
     "modelId": "dreamshaper_7",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 13,
@@ -123,7 +123,7 @@
     "description": "",
     "favourite_count": 395,
     "modelId": "dreamshaper_6",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 14,
@@ -132,7 +132,7 @@
     "description": "",
     "favourite_count": 322,
     "modelId": "dreamshaper_5",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 15,
@@ -141,7 +141,7 @@
     "description": "",
     "favourite_count": 150,
     "modelId": "dreamshaper",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 16,
@@ -150,7 +150,7 @@
     "description": "",
     "favourite_count": 778,
     "modelId": "absolute_reality_1_8_1",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 17,
@@ -168,7 +168,7 @@
     "description": "",
     "favourite_count": 248,
     "modelId": "absolute_reality_1",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 19,
@@ -177,7 +177,7 @@
     "description": "",
     "favourite_count": 474,
     "modelId": "hasdx",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 20,
@@ -186,7 +186,7 @@
     "description": "",
     "favourite_count": 120,
     "modelId": "steampunk_diffusion",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 21,
@@ -195,7 +195,7 @@
     "description": "",
     "favourite_count": 382,
     "modelId": "realistic_vision_1_3",
-    "is_premium": true
+    "is_premium": false
   },
   {
     "id": 22,
@@ -204,6 +204,6 @@
     "description": "",
     "favourite_count": 193,
     "modelId": "vintedois_diffusion_v0_1",
-    "is_premium": true
+    "is_premium": false
   }
 ]

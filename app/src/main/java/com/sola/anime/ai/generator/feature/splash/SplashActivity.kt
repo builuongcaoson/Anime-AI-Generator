@@ -121,7 +121,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = when {
 //                        BuildConfig.DEBUG -> 3L
-                        else -> tryOrNull { config.getLong("max_number_generate_free_2") } ?: configApp.maxNumberGenerateFree
+                        else -> tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
                     }
                     configApp.maxNumberGeneratePremium = when {
                         BuildConfig.DEBUG -> 5L
@@ -135,13 +135,14 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
-                    configApp.keyDezgo = tryOrNull { config.getString("key_dezgo_2").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
+                    configApp.keyDezgo = tryOrNull { config.getString("key").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
                     configApp.keyDezgoPremium = tryOrNull { config.getString("key_premium").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
+                    configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd") } ?: configApp.isShowOpenAd
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
@@ -161,6 +162,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
                     Timber.e("Block versions: ${configApp.blockVersions.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
+                    Timber.e("isShowOpenAd: ${configApp.isShowOpenAd}")
 
                     doTaskAfterSyncFirebaseRemoteConfig()
                 }
@@ -179,7 +181,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             lifecycleScope.launch(Dispatchers.Main) {
                 when {
                     prefs.isFirstTime.get() -> startFirst()
-                    !prefs.isUpgraded.get() -> startIap(isKill = false)
+//                    !prefs.isUpgraded.get() -> startIap(isKill = false)
                     else -> startMain()
                 }
 
@@ -191,7 +193,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             resetNumberCreatedArtworkIfOtherToday()
 
             when {
-                !prefs.isUpgraded.get() && isNetworkAvailable() -> {
+                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> {
                     binding.textLoadingAd.text = "This action contains ads..."
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity

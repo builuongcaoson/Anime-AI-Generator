@@ -232,34 +232,46 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-                when {
-                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
-                    else -> task()
-                }
-            }
+//            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+//                when {
+//                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
+//                    else -> task()
+//                }
+//            }
             !prefs.isUpgraded.get() -> {
-                when {
-                    totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") -> {
-                        admobManager.showRewardCreateAgain(
-                            this,
-                            success = {
-                                task()
-                                admobManager.loadRewardCreateAgain()
-                            },
-                            failed = {
-                                makeToast("Please watch all ads to perform the function!")
-                                admobManager.loadRewardCreateAgain()
-                            }
-                        )
+//                when {
+//                    totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") -> {
+//                        admobManager.showRewardCreateAgain(
+//                            this,
+//                            success = {
+//                                task()
+//                                admobManager.loadRewardCreateAgain()
+//                            },
+//                            failed = {
+//                                makeToast("Please watch all ads to perform the function!")
+//                                admobManager.loadRewardCreateAgain()
+//                            }
+//                        )
+//                    }
+//                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+//                    else -> startIap()
+//                }
+                admobManager.showRewardCreateAgain(
+                    this,
+                    success = {
+                        task()
+                        admobManager.loadRewardCreateAgain()
+                    },
+                    failed = {
+                        makeToast("Please watch all ads to perform the function!")
+                        admobManager.loadRewardCreateAgain()
                     }
-                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
-                    else -> startIap()
-                }
+                )
             }
             prefs.isUpgraded.get() -> {
                 when {
-                    totalCreditsDeducted >= prefs.getCredits() -> startCredit()
+//                    totalCreditsDeducted >= prefs.getCredits() -> startCredit()
+                    totalCreditsDeducted >= prefs.getCredits() -> makeToast("You have reached the limit of ${configApp.maxNumberGeneratePremium} image creations per day.")
                     else -> task()
                 }
             }
@@ -551,15 +563,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-        Observable
-            .timer(1, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe {
-                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
-                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
-            }
+//        Observable
+//            .timer(1, TimeUnit.SECONDS)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .autoDispose(scope())
+//            .subscribe {
+//                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+//                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+//            }
     }
 
     private fun upscaleClicks(index: Int){

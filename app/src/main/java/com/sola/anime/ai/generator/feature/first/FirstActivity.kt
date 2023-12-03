@@ -58,7 +58,7 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
 
                 prefs.isFirstTime.set(false)
                 when {
-                    !prefs.isUpgraded.get() -> startIap(isKill = false)
+//                    !prefs.isUpgraded.get() -> startIap(isKill = false)
                     else -> startMain()
                 }
                 finish()

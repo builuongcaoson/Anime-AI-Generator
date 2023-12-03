@@ -167,29 +167,29 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             subjectExploreChanges.onNext(Unit)
         }
 
-        loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
-            val loRA = when {
-                loRAGroupId != -1L && loRAId != -1L -> loRAGroups.find { loRAGroup -> loRAGroup.id == loRAGroupId }?.childs?.find { loRA -> loRA.id == loRAId }
-                else -> null
-            }
-            loRA?.let {
-                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId, strength = 0.7f))
+//        loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
+//            val loRA = when {
+//                loRAGroupId != -1L && loRAId != -1L -> loRAGroups.find { loRAGroup -> loRAGroup.id == loRAGroupId }?.childs?.find { loRA -> loRA.id == loRAId }
+//                else -> null
+//            }
+//            loRA?.let {
+//                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId, strength = 0.7f))
+//
+//                sheetLoRA.loRAs = loRAAdapter.data
+//
+//                updateUiCredit()
+//            }
+//        }
 
-                sheetLoRA.loRAs = loRAAdapter.data
-
-                updateUiCredit()
-            }
-        }
-
-        loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
-            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id, strength = 0.7f) } }
-
-            val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
-            val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
-            val pairLoRAsDislike = "Dislike" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isDislike }
-
-            sheetLoRA.pairs = listOf(pairLoRAsFavourite, pairLoRAsOther, pairLoRAsDislike)
-        }
+//        loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
+//            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id, strength = 0.7f) } }
+//
+//            val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
+//            val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
+//            val pairLoRAsDislike = "Dislike" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isDislike }
+//
+//            sheetLoRA.pairs = listOf(pairLoRAsFavourite, pairLoRAsOther, pairLoRAsDislike)
+//        }
     }
 
     private fun updateUiModel(model: Model?) {
@@ -277,8 +277,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .bindToLifecycle(binding.root)
             .subscribe { ratio ->
                 when {
-                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> subjectRatioClicks.onNext(ratio)
-                    !prefs.isUpgraded.get() -> activity?.startIap()
+//                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> subjectRatioClicks.onNext(ratio)
+//                    !prefs.isUpgraded.get() -> activity?.startIap()
                     else -> subjectRatioClicks.onNext(ratio)
                 }
             }
@@ -346,7 +346,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
             val model = modelDao.getAll().find { model -> explore.modelIds.any { id -> id == model.modelId } } ?: return
             when {
-                !prefs.isUpgraded.get() && model.isPremium -> {}
+//                !prefs.isUpgraded.get() && model.isPremium -> {}
                 else -> {
                     sheetModel.model = model
                     updateUiModel(model)
@@ -737,34 +737,47 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-                when {
-                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startIap()
-                    else -> task()
-                }
-            }
+//            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+//                when {
+//                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startIap()
+//                    else -> task()
+//                }
+//            }
             !prefs.isUpgraded.get() -> activity?.let { activity ->
-                when {
-                    totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" -> {
-                        admobManager.showRewardCreate(
-                            activity,
-                            success = {
-                                task()
-                                admobManager.loadRewardCreate()
-                            },
-                            failed = {
-                                activity.makeToast("Please watch all ads to perform the function!")
-                                admobManager.loadRewardCreate()
-                            }
-                        )
+//                when {
+//                    totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" -> {
+//                        admobManager.showRewardCreate(
+//                            activity,
+//                            success = {
+//                                task()
+//                                admobManager.loadRewardCreate()
+//                            },
+//                            failed = {
+//                                activity.makeToast("Please watch all ads to perform the function!")
+//                                admobManager.loadRewardCreate()
+//                            }
+//                        )
+//                    }
+//                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+//                    else -> activity.startIap()
+//                }
+
+                admobManager.showRewardCreate(
+                    activity,
+                    success = {
+                        task()
+                        admobManager.loadRewardCreate()
+                              },
+                    failed = {
+                        activity.makeToast("Please watch all ads to perform the function!")
+                        admobManager.loadRewardCreate()
                     }
-                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
-                    else -> activity.startIap()
-                }
+                )
             }
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
                 when {
-                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
+//                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
+                    totalCreditsDeducted >= prefs.getCredits() -> activity?.makeToast("You have reached the limit of ${configApp.maxNumberGeneratePremium} image creations per day.")
                     else -> task()
                 }
             }

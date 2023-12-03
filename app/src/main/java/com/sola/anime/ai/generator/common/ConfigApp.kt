@@ -22,6 +22,9 @@ class ConfigApp @Inject constructor(
     private val prefs: Preferences
 ) {
 
+    // For ads
+    var isShowOpenAd = true
+
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
     var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK

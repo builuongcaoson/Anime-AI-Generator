@@ -72,15 +72,15 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
     }
 
     private fun initObservable() {
-        prefs
-            .isUpgraded
-            .asObservable()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .autoDispose(scope())
-            .subscribe { isUpgraded ->
-                binding.viewGetPremium.isVisible = !isUpgraded
-            }
+//        prefs
+//            .isUpgraded
+//            .asObservable()
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(AndroidSchedulers.mainThread())
+//            .autoDispose(scope())
+//            .subscribe { isUpgraded ->
+//                binding.viewGetPremium.isVisible = !isUpgraded
+//            }
 
         promoCodeDialog
             .confirmClicks

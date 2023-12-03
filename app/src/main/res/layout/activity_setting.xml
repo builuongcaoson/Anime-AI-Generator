@@ -85,6 +85,7 @@
                         android:id="@+id/viewGetPremium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:fillViewport="true"
                         app:lottieRes="@raw/premium"
                         app:summary="We have many promotions right now"
