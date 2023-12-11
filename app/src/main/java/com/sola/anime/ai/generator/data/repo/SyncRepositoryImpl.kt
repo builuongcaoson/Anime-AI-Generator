@@ -131,7 +131,7 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncLoRAsLocal() {
-        val inputStream = context.assets.open("loRA_v3.json")
+        val inputStream = context.assets.open("loRA_v4.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<LoRAGroup>::class.java) } ?: arrayOf()
 
@@ -154,7 +154,7 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncModelsLocal() {
-        val inputStream = context.assets.open("model_v4.json")
+        val inputStream = context.assets.open("model_v5.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
 
