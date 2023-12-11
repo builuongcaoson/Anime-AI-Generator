@@ -12,6 +12,7 @@ import com.basic.common.extension.*
 import com.basic.common.util.theme.TextViewStyler
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
@@ -72,6 +73,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var fileRepo: FileRepository
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     private val subjectDataExploreOrLoRAChanges: Subject<List<ExploreOrLoRAPreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabModelOrLoRA> = BehaviorSubject.createDefault(TabModelOrLoRA.Artworks)
@@ -264,7 +266,7 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                         App.app.actionAfterFullItem = task
 
                         when {
-                            !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                            !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> startLoading()
                             else -> task()
                         }
                     }

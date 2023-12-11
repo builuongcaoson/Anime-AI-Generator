@@ -211,7 +211,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_1sdp"
                     android:src="@drawable/ic_badge_tick"
                     android:tint="?android:textColorPrimary" />
 
@@ -426,6 +426,43 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/viewPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/textDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="One time payment of"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_15ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:id="@+id/textPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:text="0đ"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_15ssp"
+                app:textFont="semi" />
+
+        </LinearLayout>
+
+        <com.basic.common.widget.LsTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:text="Cancel anytime for any reason"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="@dimen/_10ssp" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewContinue"
             android:layout_width="match_parent"
@@ -466,35 +503,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
-            android:id="@+id/viewPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/_20sdp">
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="One time payment of"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text="0đ"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_12ssp"
-                app:textFont="bold" />
-
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

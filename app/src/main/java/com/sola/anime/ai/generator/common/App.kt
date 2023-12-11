@@ -46,6 +46,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     private val skus by lazy { listOf(Constraint.Iap.SKU_LIFE_TIME, Constraint.Iap.SKU_WEEK, Constraint.Iap.SKU_YEAR, Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
     private var currentActivity: Activity? = null
@@ -129,7 +130,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
         when {
-            !prefs.isUpgraded() && isNetworkAvailable() -> currentActivity?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
+            !prefs.isUpgraded() && isNetworkAvailable() -> currentActivity?.takeIf { configApp.isShowOpenAd }?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
         }
     }
 

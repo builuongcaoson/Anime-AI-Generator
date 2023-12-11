@@ -12,6 +12,7 @@ import com.basic.common.util.theme.TextViewStyler
 import com.jakewharton.rxbinding2.view.longClicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.copyToClipboard
@@ -62,6 +63,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var fileRepo: FileRepository
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     private val subjectDataExplorePreviewChanges: Subject<List<ExplorePreview>> = PublishSubject.create()
     private val subjectTabChanges: Subject<TabExplore> = BehaviorSubject.createDefault(TabExplore.Recommendations)
@@ -157,7 +159,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> startLoading()
                     else -> task()
                 }
             }
@@ -234,7 +236,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> startLoading()
                     else -> task()
                 }
             }

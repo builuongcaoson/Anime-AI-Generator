@@ -9,6 +9,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.data.db.query.ExploreDao
@@ -42,6 +43,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     private val subjectDataModelsAndLoRAChanges: Subject<List<ModelOrLoRA>> = PublishSubject.create()
     private val subjectDataExploreChanges: Subject<Unit> = PublishSubject.create()
@@ -142,7 +144,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> activity?.startLoading()
                     else -> task()
                 }
             }

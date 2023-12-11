@@ -365,7 +365,7 @@ private class OpenAdManager {
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd = false
     private var adLastShownTime: Long = 0
-    private val adDisplayInterval = if (BuildConfig.DEBUG) 0 else 15 // 0 seconds for debug - 15 seconds for release
+    private val adDisplayInterval = if (BuildConfig.DEBUG) 0 else 0 // 0 seconds for debug - 15 seconds for release
     var isShowingAd = false
 
     private fun loadAd(context: Context, loadedCompleted: (Boolean) -> Unit = {}) {

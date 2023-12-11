@@ -5,6 +5,7 @@ import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.startDetailExplore
@@ -37,6 +38,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,7 +128,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> startLoading()
                     else -> task()
                 }
             }

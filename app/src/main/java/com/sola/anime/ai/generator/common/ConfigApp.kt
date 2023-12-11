@@ -21,6 +21,9 @@ class ConfigApp @Inject constructor(
     private val context: Context,
     private val prefs: Preferences
 ) {
+    // For ads
+    var isShowOpenAd = true
+    var isShowFullItem = true
 
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
@@ -39,6 +42,7 @@ class ConfigApp @Inject constructor(
     var keyUpscale = Constraint.Upscale.RAPID_KEY
     var blockDeviceIds = listOf("")
     var blockDeviceModels = listOf("")
+    var blockVersions = listOf("")
     var blockedRoot = true
 
     var discountCredits = 0.02f

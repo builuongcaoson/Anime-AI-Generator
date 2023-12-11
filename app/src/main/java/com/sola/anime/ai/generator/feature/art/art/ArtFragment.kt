@@ -328,7 +328,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> activity?.startLoading()
                     else -> task()
                 }
             }

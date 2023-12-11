@@ -96,6 +96,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 finish()
                 return
             }
+            configApp.blockVersions.contains(BuildConfig.VERSION_CODE.toString()) -> {
+                makeToast("Your device is on our blocked list!")
+                finish()
+                return
+            }
         }
 
         syncData.execute(Unit)
@@ -135,7 +140,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
+                    configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
+                    configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd_2") } ?: configApp.isShowOpenAd
+                    configApp.isShowFullItem = tryOrNull { config.getBoolean("isShowFullItem") } ?: configApp.isShowFullItem
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
@@ -172,7 +180,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             lifecycleScope.launch(Dispatchers.Main) {
                 when {
                     prefs.isFirstTime.get() -> startFirst()
-                    !prefs.isUpgraded() -> startIap(isKill = false)
                     else -> startMain()
                 }
 
@@ -184,7 +191,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             resetNumberCreatedArtworkIfOtherToday()
 
             when {
-                !prefs.isUpgraded() && isNetworkAvailable() -> {
+                !prefs.isUpgraded() && isNetworkAvailable() && configApp.isShowOpenAd -> {
                     binding.textLoadingAd.text = "This action contains ads..."
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity

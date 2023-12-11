@@ -9,6 +9,7 @@ import com.basic.common.base.LsFragment
 import com.basic.common.extension.clicks
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.back
 import com.sola.anime.ai.generator.common.extension.isNetworkAvailable
 import com.sola.anime.ai.generator.common.extension.show
@@ -49,6 +50,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     @Inject lateinit var exploreDialog: ExploreDialog
     @Inject lateinit var exploreDao: ExploreDao
     @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var configApp: ConfigApp
 
     private val useExploreClicks: Subject<Explore> = PublishSubject.create()
     private val detailExploreClicks: Subject<Explore> = PublishSubject.create()
@@ -78,7 +80,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> activity?.startLoading()
                     else -> task()
                 }
             }
@@ -106,7 +108,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                 App.app.actionAfterFullItem = task
 
                 when {
-                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() -> activity?.startLoading()
+                    !prefs.isUpgraded() && isNetworkAvailable() && admobManager.isFullItemAvailable() && configApp.isShowFullItem -> activity?.startLoading()
                     else -> task()
                 }
             }
