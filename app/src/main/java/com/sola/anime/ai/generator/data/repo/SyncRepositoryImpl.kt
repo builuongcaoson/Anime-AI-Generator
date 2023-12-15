@@ -16,6 +16,7 @@ import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -35,67 +36,75 @@ class SyncRepositoryImpl @Inject constructor(
     override suspend fun syncModelsAndLoRAs(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
         progress(SyncRepository.Progress.Running)
 
-        val deferredModels = async {
-            when {
-                prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> reference.child("v2/models").get().await()
-                else -> null
-            }
+//        val deferredModels = async {
+//            when {
+//                prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> reference.child("v2/models").get().await()
+//                else -> null
+//            }
+//        }
+//        val deferredLoRAs = async {
+//            when {
+//                prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> reference.child("v2/loRAs").get().await()
+//                else -> null
+//            }
+//        }
+//
+//        val (snapshotModels, snapshotLoRAs) = awaitAll(deferredModels, deferredLoRAs)
+//
+//        launch(Dispatchers.IO) {
+//            snapshotModels?.let { snapshot ->
+//                val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
+//                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+//
+//                when {
+//                    datas.isNotEmpty() -> {
+//                        modelDao.deleteAll()
+//                        modelDao.inserts(*datas.shuffled().toTypedArray())
+//
+//                        prefs.versionModel.set(configApp.versionModel)
+//                    }
+//                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
+//                }
+//            } ?: run {
+//                when {
+//                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
+//                }
+//            }
+//        }
+//        launch(Dispatchers.IO) {
+//            snapshotLoRAs?.let { snapshot ->
+//                val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
+//                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+//
+//                when {
+//                    datas.isNotEmpty() -> {
+//                        datas.forEach { loRAGroup ->
+//                            loRAGroup.childs.forEach { loRA ->
+//                                loRA.ratio = listOf("1:1", "2:3", "3:4").random()
+//                            }
+//                        }
+//
+//                        loRAGroupDao.deleteAll()
+//                        loRAGroupDao.inserts(*datas.shuffled().toTypedArray())
+//
+//                        prefs.versionLoRA.set(configApp.versionLoRA)
+//                    }
+//                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
+//                }
+//            } ?: run {
+//                when {
+//                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
+//                }
+//            }
+//        }
+
+        when {
+            prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
         }
-        val deferredLoRAs = async {
-            when {
-                prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> reference.child("v2/loRAs").get().await()
-                else -> null
-            }
-        }
 
-        val (snapshotModels, snapshotLoRAs) = awaitAll(deferredModels, deferredLoRAs)
-
-        launch(Dispatchers.IO) {
-            snapshotModels?.let { snapshot ->
-                val genericTypeIndicator = object : GenericTypeIndicator<List<Model>>() {}
-                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
-
-                when {
-                    datas.isNotEmpty() -> {
-                        modelDao.deleteAll()
-                        modelDao.inserts(*datas.shuffled().toTypedArray())
-
-                        prefs.versionModel.set(configApp.versionModel)
-                    }
-                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
-                }
-            } ?: run {
-                when {
-                    prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
-                }
-            }
-        }
-        launch(Dispatchers.IO) {
-            snapshotLoRAs?.let { snapshot ->
-                val genericTypeIndicator = object : GenericTypeIndicator<List<LoRAGroup>>() {}
-                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
-
-                when {
-                    datas.isNotEmpty() -> {
-                        datas.forEach { loRAGroup ->
-                            loRAGroup.childs.forEach { loRA ->
-                                loRA.ratio = listOf("1:1", "2:3", "3:4").random()
-                            }
-                        }
-
-                        loRAGroupDao.deleteAll()
-                        loRAGroupDao.inserts(*datas.shuffled().toTypedArray())
-
-                        prefs.versionLoRA.set(configApp.versionLoRA)
-                    }
-                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
-                }
-            } ?: run {
-                when {
-                    prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
-                }
-            }
-        }
+//        when {
+//            prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
+//        }
 
         randomSortOrderModels()
         randomSortOrderLoRAs()
@@ -131,7 +140,7 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncLoRAsLocal() {
-        val inputStream = context.assets.open("loRA_v4.json")
+        val inputStream = context.assets.open("loRA_v6.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<LoRAGroup>::class.java) } ?: arrayOf()
 
@@ -154,12 +163,14 @@ class SyncRepositoryImpl @Inject constructor(
     }
 
     private fun syncModelsLocal() {
-        val inputStream = context.assets.open("model_v5.json")
+        val inputStream = context.assets.open("model_v6.json")
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val datas = tryOrNull { Gson().fromJson(bufferedReader, Array<Model>::class.java) } ?: arrayOf()
 
         modelDao.deleteAll()
         modelDao.inserts(*datas.toList().shuffled().toTypedArray())
+
+        Timber.e("Models size: ${datas.size}")
 
         prefs.versionModel.set(configApp.versionModel)
     }
@@ -167,38 +178,42 @@ class SyncRepositoryImpl @Inject constructor(
     override suspend fun syncExplores(progress: (SyncRepository.Progress) -> Unit) = withContext(Dispatchers.IO) {
         progress(SyncRepository.Progress.Running)
 
-        val deferredExplores = async {
-            when {
-                prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> reference.child("v2/explores").get().await()
-                else -> null
-            }
-        }
+//        val deferredExplores = async {
+//            when {
+//                prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> reference.child("v2/explores").get().await()
+//                else -> null
+//            }
+//        }
 
-        val snapshotExplores = deferredExplores.await()
+//        val snapshotExplores = deferredExplores.await()
 
-        launch(Dispatchers.IO) {
-            snapshotExplores?.let { snapshot ->
-                val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
-                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+//        launch(Dispatchers.IO) {
+//            snapshotExplores?.let { snapshot ->
+//                val genericTypeIndicator = object : GenericTypeIndicator<List<Explore>>() {}
+//                val datas = tryOrNull { snapshot.getValue(genericTypeIndicator) } ?: emptyList()
+//
+//                when {
+//                    datas.isNotEmpty() -> {
+//                        datas.forEach { explore ->
+//                            explore.ratio = tryOrNull { explore.previews.firstOrNull()?.split("zzz")?.getOrNull(1)?.replace("xxx",":") } ?: "1:1"
+//                        }
+//
+//                        exploreDao.deleteAll()
+//                        exploreDao.inserts(*datas.shuffled().toTypedArray())
+//
+//                        prefs.versionExplore.set(configApp.versionExplore)
+//                    }
+//                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
+//                }
+//            } ?: run {
+//                when {
+//                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
+//                }
+//            }
+//        }
 
-                when {
-                    datas.isNotEmpty() -> {
-                        datas.forEach { explore ->
-                            explore.ratio = tryOrNull { explore.previews.firstOrNull()?.split("zzz")?.getOrNull(1)?.replace("xxx",":") } ?: "1:1"
-                        }
-
-                        exploreDao.deleteAll()
-                        exploreDao.inserts(*datas.shuffled().toTypedArray())
-
-                        prefs.versionExplore.set(configApp.versionExplore)
-                    }
-                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
-                }
-            } ?: run {
-                when {
-                    prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
-                }
-            }
+        when {
+            prefs.versionExplore.get() < configApp.versionExplore || exploreDao.getAll().isEmpty() -> syncExploresLocal()
         }
 
         randomSortOrderExplores()

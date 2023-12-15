@@ -203,6 +203,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
     @SuppressLint("AutoDispose", "CheckResult")
     private fun initObservable() {
+
+
         subjectScrollAtBottom
             .bindToLifecycle(binding.root)
             .subscribe { tryOrNull { exploreAdapter.loadMore() } }
@@ -325,7 +327,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         Observable.merge(
             prefs.isUpgraded.asObservable(),
-            prefs.numberCreatedArtwork.asObservable()
+            prefs.numberCreatedArtwork.asObservable(),
+            prefs.creditsChanges.asObservable()
         )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())

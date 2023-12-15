@@ -324,7 +324,7 @@ private class OpenAdManager {
     }
 
     private fun isAdAvailable(): Boolean {
-        return wasLoadTimeLessThanNSecondsAgo(15)
+        return wasLoadTimeLessThanNSecondsAgo(0)
     }
 
     fun loadAndShowOpenAd(activity: Activity){

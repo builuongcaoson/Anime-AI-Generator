@@ -71,6 +71,7 @@
             android:layout_height="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:alpha="0"
+            android:visibility="gone"
             app:cardBackgroundColor="?colorSecondary"
             app:cardCornerRadius="@dimen/_25sdp"
             app:cardElevation="0dp"

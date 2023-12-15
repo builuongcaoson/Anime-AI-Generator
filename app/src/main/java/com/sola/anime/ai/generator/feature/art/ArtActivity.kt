@@ -103,15 +103,15 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
                 binding.credits.text = prefs.getCredits().roundToInt().toString()
             }
 
-//        Observable
-//            .timer(1, TimeUnit.SECONDS)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe {
-//                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
 //                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
-//            }
+            }
     }
 
     private fun initView() {

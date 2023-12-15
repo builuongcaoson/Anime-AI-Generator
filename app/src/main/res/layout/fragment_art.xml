@@ -465,6 +465,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="Batch production"
                         android:textColor="?android:textColorPrimary"
+                        android:visibility="gone"
                         android:textSize="@dimen/_12ssp" />
 
                     <com.sola.anime.ai.generator.common.widget.quantitizer.HorizontalQuantitizer
