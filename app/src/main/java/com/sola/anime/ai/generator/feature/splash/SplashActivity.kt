@@ -142,7 +142,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
-                    configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd") } ?: configApp.isShowOpenAd
+                    configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd_3") } ?: configApp.isShowOpenAd
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
