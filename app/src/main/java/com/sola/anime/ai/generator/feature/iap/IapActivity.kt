@@ -1,16 +1,15 @@
 package com.sola.anime.ai.generator.feature.iap
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
-import com.google.gson.Gson
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
@@ -20,7 +19,6 @@ import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.*
-import com.sola.anime.ai.generator.common.ui.dialog.FeatureDialog
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.AutoScrollLayoutManager
 import com.sola.anime.ai.generator.data.Preferences
@@ -40,6 +38,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,7 +56,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
-    @Inject lateinit var featureDialog: FeatureDialog
+//    @Inject lateinit var featureDialog: FeatureDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var analyticManager: AnalyticManager
@@ -131,7 +132,21 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                     override fun onReceived(storeProducts: List<StoreProduct>) {
                         products = storeProducts
 
-                        updateUIPrice(subjectSkuChoose.blockingFirst())
+                        storeProducts.forEach { product ->
+                            when {
+                                product.id.contains(Constraint.Iap.SKU_YEAR) -> {
+                                    binding.priceYear.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
+                                    binding.priceWeekOfYear.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f / 52f)
+                                }
+                                product.id.contains(Constraint.Iap.SKU_WEEK) -> {
+                                    binding.priceWeek.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
+                                }
+                                product.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> {
+                                    binding.priceLifeTime.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
+                                }
+                            }
+                        }
+                        updateDescriptionCredits(subjectSkuChoose.blockingFirst())
                     }
                 })
             }
@@ -147,46 +162,46 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         }
     }
 
-    private fun updateUIPrice(sku: String) {
-        val description = when (sku) {
-            Constraint.Iap.SKU_LIFE_TIME -> getString(R.string.description_price_lifetime)
-            Constraint.Iap.SKU_WEEK -> getString(R.string.description_price_week)
-            else -> getString(R.string.description_price_year)
+    private fun formatPrice(priceCurrencyCode: String, priceValue: Float): String {
+        val locale = Locale.getDefault()
+        val currency = Currency.getInstance(priceCurrencyCode)
+        val numberFormat = NumberFormat.getCurrencyInstance(locale).apply {
+            this.currency = currency
         }
+        val formattedPrice = numberFormat.format(priceValue)
+        return if (!formattedPrice.contains(",")) {
+            formattedPrice.replace('\u00A0', ' ')
+        } else {
+            formattedPrice.replace('\u00A0', ' ').replace("\\..*".toRegex(), "")
+        }
+    }
+
+    private fun updateDescriptionCredits(sku: String) {
         val description3 = when (sku) {
             Constraint.Iap.SKU_LIFE_TIME -> "Gift 2000 credits"
             Constraint.Iap.SKU_WEEK -> "Gift 200 credits"
             else -> "Gift 1000 credits"
         }
-        binding.textDescription.text = description
         binding.description3.text = description3
-
-        products.find { it.id.contains(sku) }?.let { product ->
-            binding.textPrice.text = "${product.price.formatted}"
-        } ?: run {
-            binding.textPrice.text = "0 $"
-        }
     }
 
     private fun listenerView() {
-        registerScrollListener()
+//        registerScrollListener()
 
         binding.back.clicks(withAnim = false) { onBackPressed() }
-        binding.viewLifeTime.clicks(withAnim = false) { subjectSkuChoose.onNext(sku1) }
-        binding.viewWeekly.clicks(withAnim = false) { subjectSkuChoose.onNext(sku2) }
-        binding.viewYearly.clicks(withAnim = false) { subjectSkuChoose.onNext(sku3) }
-        binding.viewContinue.clicks(withAnim = false) { purchaseClicks() }
-        binding.viewMoreOffers.clicks {
-            featureDialog.show(this){
-                lifecycleScope.launch(Dispatchers.Main) {
-                    featureDialog.dismiss()
-
-                    delay(250)
-
-                    purchaseClicks()
-                }
-            }
+        binding.viewYear.clicks(withAnim = false) {
+            subjectSkuChoose.onNext(sku3)
+            purchaseClicks()
         }
+        binding.viewWeek.clicks(withAnim = false) {
+            subjectSkuChoose.onNext(sku2)
+            purchaseClicks()
+        }
+        binding.viewLifetime.clicks(withAnim = false) {
+            subjectSkuChoose.onNext(sku1)
+            purchaseClicks()
+        }
+        binding.viewContinue.clicks(withAnim = false) { purchaseClicks() }
         binding.privacy.makeLinks(
             isUnderlineText = false,
             "Privacy Policy" to View.OnClickListener { navigator.showPrivacy() },
@@ -200,11 +215,8 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
         lifecycleScope.launch(Dispatchers.Main) {
             binding.viewLoading.isVisible = true
-
             userPremiumManager.syncUserPurchasedFromDatabase()
-
             binding.viewLoading.isVisible = false
-
             makeToast("Restore success!")
         }
     }
@@ -280,39 +292,39 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             })
     }
 
-    private fun registerScrollListener(){
-        binding.recyclerPreview1.addOnScrollListener(scrollListener)
-        binding.recyclerPreview2.addOnScrollListener(scrollListener)
-        binding.recyclerPreview3.addOnScrollListener(scrollListener)
-    }
+//    private fun registerScrollListener(){
+//        binding.recyclerPreview1.addOnScrollListener(scrollListener)
+//        binding.recyclerPreview2.addOnScrollListener(scrollListener)
+//        binding.recyclerPreview3.addOnScrollListener(scrollListener)
+//    }
 
-    private val scrollListener = object: RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            tryOrNull {
-                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@tryOrNull
-
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-
-                tryOrNull {
-                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                        when (recyclerView) {
-                            binding.recyclerPreview1 -> {
-                                tryOrNull { recyclerView.post { previewAdapter1.insert() } }
-                            }
-                            binding.recyclerPreview2 -> {
-                                tryOrNull { recyclerView.post { previewAdapter2.insert() } }
-                            }
-                            binding.recyclerPreview3 -> {
-                                tryOrNull { recyclerView.post { previewAdapter3.insert() } }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    private val scrollListener = object: RecyclerView.OnScrollListener() {
+//        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//            tryOrNull {
+//                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@tryOrNull
+//
+//                val visibleItemCount = layoutManager.childCount
+//                val totalItemCount = layoutManager.itemCount
+//                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+//
+//                tryOrNull {
+//                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+//                        when (recyclerView) {
+//                            binding.recyclerPreview1 -> {
+//                                tryOrNull { recyclerView.post { previewAdapter1.insert() } }
+//                            }
+//                            binding.recyclerPreview2 -> {
+//                                tryOrNull { recyclerView.post { previewAdapter2.insert() } }
+//                            }
+//                            binding.recyclerPreview3 -> {
+//                                tryOrNull { recyclerView.post { previewAdapter3.insert() } }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private fun initObservable() {
         subjectSkuChoose
@@ -320,11 +332,34 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { sku ->
-                updateLifeTimeUi(sku)
-                updateWeeklyUi(sku)
-                updateYearlyUi(sku)
+                val colorSelected = resolveAttrColor(android.R.attr.textColorPrimary)
+                val colorUnselected = Color.TRANSPARENT
+                val textColorSelected = resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
+                val textColorUnselected = resolveAttrColor(android.R.attr.textColorPrimary)
 
-                updateUIPrice(sku)
+                binding.viewYear.setCardBackgroundColor(if (sku == Constraint.Iap.SKU_YEAR) colorSelected else colorUnselected)
+                binding.viewWeek.setCardBackgroundColor(if (sku == Constraint.Iap.SKU_WEEK) colorSelected else colorUnselected)
+                binding.viewLifetime.setCardBackgroundColor(if (sku == Constraint.Iap.SKU_LIFE_TIME) colorSelected else colorUnselected)
+                binding.checkboxYear.setTint(if (sku == Constraint.Iap.SKU_YEAR) textColorSelected else textColorUnselected)
+                binding.checkboxWeek.setTint(if (sku == Constraint.Iap.SKU_WEEK) textColorSelected else textColorUnselected)
+                binding.checkboxLifetime.setTint(if (sku == Constraint.Iap.SKU_LIFE_TIME) textColorSelected else textColorUnselected)
+                binding.checkboxYear.setBackgroundTint(if (sku == Constraint.Iap.SKU_YEAR) textColorSelected else textColorUnselected)
+                binding.checkboxWeek.setBackgroundTint(if (sku == Constraint.Iap.SKU_WEEK) textColorSelected else textColorUnselected)
+                binding.checkboxLifetime.setBackgroundTint(if (sku == Constraint.Iap.SKU_LIFE_TIME) textColorSelected else textColorUnselected)
+                binding.checkboxYear.setImageDrawable(if (sku == Constraint.Iap.SKU_YEAR) ContextCompat.getDrawable(this, R.drawable.circle) else null)
+                binding.checkboxWeek.setImageDrawable(if (sku == Constraint.Iap.SKU_WEEK) ContextCompat.getDrawable(this, R.drawable.circle) else null)
+                binding.checkboxLifetime.setImageDrawable(if (sku == Constraint.Iap.SKU_LIFE_TIME) ContextCompat.getDrawable(this, R.drawable.circle) else null)
+                binding.yearly.setTextColor(if (sku == Constraint.Iap.SKU_YEAR) textColorSelected else textColorUnselected)
+                binding.priceYear.setTextColor(if (sku == Constraint.Iap.SKU_YEAR) textColorSelected else textColorUnselected)
+                binding.priceWeekOfYear.setTextColor(if (sku == Constraint.Iap.SKU_YEAR) textColorSelected else textColorUnselected)
+                binding.weekly.setTextColor(if (sku == Constraint.Iap.SKU_WEEK) textColorSelected else textColorUnselected)
+                binding.priceWeek.setTextColor(if (sku == Constraint.Iap.SKU_WEEK) textColorSelected else textColorUnselected)
+                binding.bestSeller.setTextColor(if (sku == Constraint.Iap.SKU_WEEK) textColorSelected else textColorUnselected)
+                binding.lifetime.setTextColor(if (sku == Constraint.Iap.SKU_LIFE_TIME) textColorSelected else textColorUnselected)
+                binding.priceLifeTime.setTextColor(if (sku == Constraint.Iap.SKU_LIFE_TIME) textColorSelected else textColorUnselected)
+                binding.textLifeTime.setTextColor(if (sku == Constraint.Iap.SKU_LIFE_TIME) textColorSelected else textColorUnselected)
+
+                updateDescriptionCredits(sku)
             }
 
         prefs
@@ -345,82 +380,37 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             .subscribe { syncQueryProduct() }
     }
 
-    private fun updateWeeklyUi(sku: String) {
-        binding.viewWeekly.setCardBackgroundColor(
-            when (sku) {
-                sku2 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
-                else -> resolveAttrColor(R.attr.cardBackgroundColor)
-            }
-        )
-        binding.imageWeekly.setImageResource(
-            when (sku) {
-                sku2 -> R.drawable.ic_circle_check
-                else -> R.drawable.circle_stroke_1dp
-            }
-        )
-    }
-
-    private fun updateYearlyUi(sku: String) {
-        binding.viewYearly.setCardBackgroundColor(
-            when (sku) {
-                sku3 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
-                else -> resolveAttrColor(R.attr.cardBackgroundColor)
-            }
-        )
-        binding.imageYearly.setImageResource(
-            when (sku) {
-                sku3 -> R.drawable.ic_circle_check
-                else -> R.drawable.circle_stroke_1dp
-            }
-        )
-    }
-
-    private fun updateLifeTimeUi(sku: String) {
-        binding.viewLifeTime.setCardBackgroundColor(
-            when (sku) {
-                sku1 -> resolveAttrColor(com.google.android.material.R.attr.colorSecondary)
-                else -> resolveAttrColor(R.attr.cardBackgroundColor)
-            }
-        )
-        binding.imageLifeTime.setImageResource(
-            when (sku) {
-                sku1 -> R.drawable.ic_circle_check
-                else -> R.drawable.circle_stroke_1dp
-            }
-        )
-    }
-
     private fun initView() {
         binding.recyclerPreview1.apply {
-            this.layoutManager = AutoScrollLayoutManager(this@IapActivity)
+            this.layoutManager = LinearLayoutManager(this@IapActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter1
         }
         binding.recyclerPreview2.apply {
-            this.layoutManager =  AutoScrollLayoutManager(this@IapActivity).apply {
+            this.layoutManager =  LinearLayoutManager(this@IapActivity, LinearLayoutManager.HORIZONTAL, false).apply {
                 this.reverseLayout = true
             }
             this.adapter = previewAdapter2
         }
         binding.recyclerPreview3.apply {
-            this.layoutManager =  AutoScrollLayoutManager(this@IapActivity)
+            this.layoutManager =  LinearLayoutManager(this@IapActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter3
         }
 
-        binding.textTitle1.text = when (sku1){
-            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-            Constraint.Iap.SKU_WEEK -> "Weekly"
-            else -> "Yearly"
-        }
-        binding.textTitle2.text = when (sku2){
-            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-            Constraint.Iap.SKU_WEEK -> "Weekly"
-            else -> "Yearly"
-        }
-        binding.textTitle3.text = when (sku3){
-            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-            Constraint.Iap.SKU_WEEK -> "Weekly"
-            else -> "Yearly"
-        }
+//        binding.textTitle1.text = when (sku1){
+//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
+//            Constraint.Iap.SKU_WEEK -> "Weekly"
+//            else -> "Yearly"
+//        }
+//        binding.textTitle2.text = when (sku2){
+//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
+//            Constraint.Iap.SKU_WEEK -> "Weekly"
+//            else -> "Yearly"
+//        }
+//        binding.textTitle3.text = when (sku3){
+//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
+//            Constraint.Iap.SKU_WEEK -> "Weekly"
+//            else -> "Yearly"
+//        }
     }
 
     @Deprecated("Deprecated in Java")

@@ -9,8 +9,10 @@ import com.basic.common.extension.resolveAttrColor
 import com.basic.common.extension.setTint
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.base.LsBottomSheet
 import com.sola.anime.ai.generator.common.extension.blur
+import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.load
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
@@ -34,17 +36,20 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var permissionManager: PermissionManager
+    @Inject lateinit var configApp: ConfigApp
 
     val downloadFrameClicks: Subject<View> by lazy { PublishSubject.create() }
     val downloadOriginalClicks: Subject<File> by lazy { PublishSubject.create() }
     private var isFrame: Boolean = true
         set(value) {
-            if (!value && !prefs.isUpgraded.get()){
-                activity?.startIap()
-                return
+            activity?.let { activity ->
+                if (!value && !prefs.isUpgraded.get() && !configApp.usersCanDownloadFree.contains(activity.deviceId())){
+                    activity.startIap()
+                    return
+                }
+                field = value
+                updateUiFrame()
             }
-            field = value
-            updateUiFrame()
         }
     var file: File? = null
     var ratio: String = "1:1"
@@ -65,9 +70,6 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
             binding.textFrame.setTextColor(if (isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
             binding.imagePremiumOriginal.setTint(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
             binding.textPremiumOriginal.setTextColor(if (!isFrame) activity.resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary) else activity.resolveAttrColor(android.R.attr.colorAccent))
-
-            binding.iconWatchAd.isVisible = !prefs.isUpgraded.get() && !isFrame
-            binding.textDescription.isVisible = !prefs.isUpgraded.get() && !isFrame
         }
     }
 
@@ -113,9 +115,9 @@ class DownloadSheet: LsBottomSheet<SheetDownloadBinding>(SheetDownloadBinding::i
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { isUpgraded ->
-                binding.imagePremiumOriginal.isVisible = !isUpgraded
-                binding.iconWatchAd.isVisible = !isUpgraded && !isFrame
-                binding.textDescription.isVisible = !isUpgraded && !isFrame
+                activity?.let { activity ->
+                    binding.imagePremiumOriginal.isVisible = !isUpgraded && !configApp.usersCanDownloadFree.contains(activity.deviceId())
+                }
             }
     }
 

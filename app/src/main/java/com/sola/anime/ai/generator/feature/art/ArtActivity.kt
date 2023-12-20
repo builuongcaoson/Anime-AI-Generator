@@ -83,15 +83,15 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
     }
 
     private fun initObservable() {
-//        prefs
-//            .isUpgraded
-//            .asObservable()
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { isUpgraded ->
-//                binding.viewPro.isVisible = !isUpgraded
-//            }
+        prefs
+            .isUpgraded
+            .asObservable()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { isUpgraded ->
+                binding.viewPro.isVisible = !isUpgraded
+            }
 
         prefs
             .creditsChanges
@@ -110,7 +110,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
             .autoDispose(scope())
             .subscribe {
                 binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
-//                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
             }
     }
 

@@ -144,10 +144,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
                     }
                 }
 
-                when {
-                    !prefs.isUpgraded.get() -> startIap()
-                    else -> task()
-                }
+                task()
             }
 
         previewAdapter

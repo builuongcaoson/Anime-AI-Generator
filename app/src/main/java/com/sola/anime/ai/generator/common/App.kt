@@ -7,10 +7,14 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.basic.common.extension.isNetworkAvailable
+import com.basic.common.extension.tryOrNull
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.installations.FirebaseInstallations
@@ -21,6 +25,8 @@ import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.data.Preferences
@@ -44,7 +50,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     }
 
     @Inject lateinit var prefs: Preferences
-    @Inject lateinit var admobManager: AdmobManager
+    @Inject lateinit var singletonOpenManager: SingletonOpenManager
     @Inject lateinit var configApp: ConfigApp
 
     private val skus by lazy { listOf(Constraint.Iap.SKU_LIFE_TIME, Constraint.Iap.SKU_WEEK, Constraint.Iap.SKU_YEAR, Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
@@ -126,15 +132,17 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
-        currentActivity?.takeIf { configApp.isShowOpenAd }?.let { activity -> admobManager.loadAndShowOpenAd(activity) }
+        when {
+            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> currentActivity?.takeIf { singletonOpenManager.isAdAvailable() }?.let { activity ->
+                tryOrNull { Handler(Looper.getMainLooper()).postDelayed({ singletonOpenManager.showAdIfAvailable(activity, getString(R.string.key_open_splash)) }, 250L) }
+            }
+        }
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     override fun onActivityStarted(activity: Activity) {
-        if (!admobManager.isShowingOpenAd()) {
-            currentActivity = activity
-        }
+        currentActivity = activity
     }
 
     override fun onActivityResumed(activity: Activity) {}

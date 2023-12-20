@@ -21,6 +21,8 @@ class ConfigApp @Inject constructor(
     private val context: Context,
     private val prefs: Preferences
 ) {
+    // For user
+    val usersCanDownloadFree by lazy { listOf("41f2b370af117bf0") }
 
     // For ads
     var isShowOpenAd = true

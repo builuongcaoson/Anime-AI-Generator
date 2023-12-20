@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/viewBottom"
         app:layout_constraintTop_toTopOf="parent">
@@ -119,7 +119,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp">
+            android:layout_marginTop="@dimen/_10sdp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -154,7 +154,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_1sdp"
                     android:src="@drawable/ic_badge_tick"
                     android:tint="?android:textColorPrimary" />
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="More clarity, better quality"
+                    android:text="More clarity, better quality, fast processing"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -175,7 +175,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_20sdp">
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_badge_tick"
+                    android:tint="?android:textColorPrimary" />
+
+                <com.basic.common.widget.LsTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Unlock aspect ratios"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_11ssp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:src="@drawable/ic_badge_tick"
+                    android:tint="?android:textColorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Remove watermark"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -226,32 +289,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="There are many more"
+                        android:text="Unlock all models"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_11ssp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <com.basic.common.widget.LsTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="features"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_11ssp" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/viewMoreOffers"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:padding="@dimen/_3sdp"
-                            android:src="@drawable/ic_help" />
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -259,219 +299,261 @@
 
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewLifeTime"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:cardBackgroundColor="?cardBackgroundColor"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toStartOf="@id/viewWeekly"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imageLifeTime"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/ic_circle_check"
-                        android:tint="?android:textColorPrimary"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.2" />
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/textTitle1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="Lifetime"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:textFont="bold" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewWeekly"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:cardBackgroundColor="?cardBackgroundColor"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toStartOf="@id/viewYearly"
-                app:layout_constraintStart_toEndOf="@id/viewLifeTime"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imageWeekly"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/circle_stroke_1dp"
-                        android:tint="?android:textColorPrimary"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.2" />
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/textTitle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="Weekly"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:textFont="bold" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewYearly"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:cardBackgroundColor="?colorSecondary"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/viewWeekly"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="#DCDCDC"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/imageYearly"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/ic_circle_check"
-                        android:tint="?android:textColorPrimary"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_percent="0.2" />
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/textTitle3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="Yearly"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_13ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:textFont="bold" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <LinearLayout
             android:id="@+id/viewPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewYear"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardBackgroundColor="?android:textColorPrimary"
+                app:strokeColor="?android:textColorPrimary"
+                app:strokeWidth="@dimen/_1sdp"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/checkboxYear"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/circle_stroke_1dp"
+                        android:backgroundTint="?colorOnPrimary"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/circle"
+                        android:tint="?colorOnPrimary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/checkboxYear"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/yearly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subscribe Yearly"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColor="?colorOnPrimary"/>
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/priceYear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="0$"
+                            android:textSize="@dimen/_11ssp"
+                            android:textColor="?colorOnPrimary"/>
+
+                    </LinearLayout>
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/priceWeekOfYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:text="0$"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="@dimen/_11ssp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewWeek"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:strokeColor="?android:textColorPrimary"
+                app:strokeWidth="@dimen/_1sdp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/checkboxWeek"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/circle_stroke_1dp"
+                        android:backgroundTint="?android:textColorPrimary"
+                        android:padding="@dimen/_3sdp"
+                        android:tint="?android:textColorPrimary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/bestSeller"
+                        app:layout_constraintStart_toEndOf="@id/checkboxWeek"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/weekly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subscribe Weekly"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColor="?android:textColorPrimary"/>
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/priceWeek"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="0$"
+                            android:textSize="@dimen/_11ssp"
+                            android:textColor="?android:textColorPrimary"/>
+
+                    </LinearLayout>
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/bestSeller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:gravity="end"
+                        android:text="Best seller"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="@dimen/_11ssp"
+                        android:textColor="?android:textColorPrimary"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewLifetime"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:strokeColor="?android:textColorPrimary"
+                app:strokeWidth="@dimen/_1sdp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/checkboxLifetime"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/circle_stroke_1dp"
+                        android:backgroundTint="?android:textColorPrimary"
+                        android:padding="@dimen/_3sdp"
+                        android:tint="?android:textColorPrimary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_7sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/checkboxLifetime"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/lifetime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lifetime"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/priceLifeTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textSize="@dimen/_11ssp"
+                            android:text="0$"
+                            android:textColor="?android:textColorPrimary"/>
+
+                    </LinearLayout>
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/textLifeTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:gravity="end"
+                        android:text="One-time Payment\nAll features - Forever"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textSize="@dimen/_11ssp"
+                        android:textColor="?android:textColorPrimary"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <com.basic.common.widget.LsTextView
-                android:id="@+id/textDescription"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="One time payment of"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_15ssp" />
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/textPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text="0đ"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_15ssp"
-                app:textFont="semi" />
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="@string/desc_iap"
+                android:textSize="@dimen/_8ssp"
+                android:textColor="?android:textColorPrimary"/>
 
         </LinearLayout>
-
-        <com.basic.common.widget.LsTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:text="Cancel anytime for any reason"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="@dimen/_10ssp" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewContinue"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             app:cardBackgroundColor="?android:textColorPrimary"
-            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
             app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

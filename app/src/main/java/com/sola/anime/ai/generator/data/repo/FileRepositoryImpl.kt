@@ -77,7 +77,6 @@ class FileRepositoryImpl @Inject constructor(
     override suspend fun downloads(vararg files: File) {
         val dir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), context.getString(R.string.app_name))
         dir.mkdirs()
-
         val destinationFiles = files.filter { file -> file.exists() }.mapNotNull { file ->
             tryOrNull {
                 val fileCopy = getFileCopy(dir, file.name)
@@ -95,19 +94,15 @@ class FileRepositoryImpl @Inject constructor(
     override suspend fun downloadAndSaveImages(url: String) = withContext(Dispatchers.IO) {
         val inputStream = URL(url).openStream()
         val bitmap = BitmapFactory.decodeStream(inputStream)
-
         val imageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-
         val contentValues = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "${System.currentTimeMillis()}.png")
             put(MediaStore.Images.Media.MIME_TYPE, "image/png")
             put(MediaStore.Images.Media.WIDTH, bitmap.width)
             put(MediaStore.Images.Media.HEIGHT, bitmap.height)
         }
-
         val contentResolver = context.contentResolver
         val imageUri = contentResolver.insert(imageCollection, contentValues)
-
         imageUri?.let {
             val outputStream: OutputStream? = contentResolver.openOutputStream(it)
             outputStream?.use { stream ->
@@ -123,18 +118,14 @@ class FileRepositoryImpl @Inject constructor(
         var inputStream: FileInputStream? = null
         var outputStream: FileOutputStream? = null
         var file: File? = null
-
         try {
             inputStream = FileInputStream(sourceFile)
             outputStream = FileOutputStream(destinationFile)
-
             val buffer = ByteArray(1024)
             var length: Int
-
             while (inputStream.read(buffer).also { length = it } > 0) {
                 outputStream.write(buffer, 0, length)
             }
-
             file = destinationFile
         } catch (e: Exception) {
             e.printStackTrace()

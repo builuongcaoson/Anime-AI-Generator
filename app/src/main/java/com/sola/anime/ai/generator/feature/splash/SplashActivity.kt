@@ -13,6 +13,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
@@ -43,6 +44,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var syncData: SyncData
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var permissionManager: PermissionManager
+    @Inject lateinit var singletonOpenManager: SingletonOpenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +103,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 finish()
                 return
             }
+        }
+
+        when {
+            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> singletonOpenManager.loadAd(this, getString(R.string.key_open_splash))
         }
 
         syncData.execute(Unit)

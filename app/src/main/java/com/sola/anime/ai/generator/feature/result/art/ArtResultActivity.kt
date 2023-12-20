@@ -519,19 +519,14 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                             fileRepo.downloads(file)
                             launch(Dispatchers.Main) {
                                 prefs.numberDownloadedOriginal.set(prefs.numberDownloadedOriginal.get() + 1)
-
                                 tryOrNull { downloadSheet.dismiss() }
-
                                 makeToast("Download successfully!")
                             }
                         }
                     }
                 }
 
-                when {
-                    !prefs.isUpgraded.get() -> startIap()
-                    else -> task()
-                }
+                task()
             }
 
         shareSheet

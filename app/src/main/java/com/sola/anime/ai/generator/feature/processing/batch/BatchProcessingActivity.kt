@@ -139,10 +139,7 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
                     }
                 }
 
-                when {
-                    !prefs.isUpgraded.get() -> startIap()
-                    else -> task()
-                }
+                task()
             }
 
         previewAdapter

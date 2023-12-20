@@ -13,6 +13,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.splash.SplashActivity
 import java.util.Date
 import javax.inject.Inject
@@ -328,7 +329,7 @@ private class OpenAdManager {
     }
 
     fun loadAndShowOpenAd(activity: Activity){
-        if (activity is SplashActivity){
+        if (activity is SplashActivity || activity is IapActivity){
             return
         }
 
