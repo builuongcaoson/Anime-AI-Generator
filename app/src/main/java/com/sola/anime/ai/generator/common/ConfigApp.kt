@@ -22,7 +22,7 @@ class ConfigApp @Inject constructor(
     private val prefs: Preferences
 ) {
     // For user
-    val usersCanDownloadFree by lazy { listOf("41f2b370af117bf0") }
+    val usersCanDownloadFree by lazy { listOf("41f2b370af117bf0", "e241952c61b93774") }
 
     // For ads
     var isShowOpenAd = true
