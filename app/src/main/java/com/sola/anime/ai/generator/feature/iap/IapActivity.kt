@@ -135,11 +135,11 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
                         storeProducts.forEach { product ->
                             when {
                                 product.id.contains(Constraint.Iap.SKU_YEAR) -> {
-                                    binding.priceYear.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
-                                    binding.priceWeekOfYear.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f / 52f)
+                                    binding.priceYear.text = "${formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)} per year"
+                                    binding.priceWeekOfYear.text = "${formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f / 52f)}/week"
                                 }
                                 product.id.contains(Constraint.Iap.SKU_WEEK) -> {
-                                    binding.priceWeek.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
+                                    binding.priceWeek.text = "${formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)} per week"
                                 }
                                 product.id.contains(Constraint.Iap.SKU_LIFE_TIME) -> {
                                     binding.priceLifeTime.text = formatPrice(product.price.currencyCode, product.price.amountMicros / 1000000f)
