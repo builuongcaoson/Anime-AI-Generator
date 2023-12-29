@@ -10,9 +10,9 @@
 
     <!--    Real-->
     <string name="key_application_id">ca-app-pub-4806822247309871~7024391899</string>
-    <string name="key_reward_create">ca-app-pub-4806822247309871/8889025953</string>
-    <string name="key_reward_create_again">ca-app-pub-4806822247309871/8724524365</string>
-    <string name="key_reward_upscale">ca-app-pub-4806822247309871/8430734068</string>
-    <string name="key_open_splash">ca-app-pub-4806822247309871/4171331951</string>
+    <string name="key_reward_create">ca-app-pub-4806822247309871/4799697232</string>
+    <string name="key_reward_create_again">ca-app-pub-4806822247309871/7446003881</string>
+    <string name="key_reward_upscale">ca-app-pub-4806822247309871/3486615563</string>
+    <string name="key_open_splash">ca-app-pub-4806822247309871/6891470112</string>
 
 </resources>
