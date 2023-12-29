@@ -15,6 +15,7 @@ import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.splash.SplashActivity
+import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -59,6 +60,7 @@ class AdmobManagerImpl @Inject constructor(
                     rewardCreate = null
 
                     isLoadingRewardCreate = false
+                    Timber.tag("Admob").e("Error: $adError")
                 }
 
                 override fun onAdLoaded(ad: RewardedAd) {
@@ -86,6 +88,7 @@ class AdmobManagerImpl @Inject constructor(
                     rewardCreate = null
 
                     failed()
+                    Timber.tag("Admob").e("Error: $p0")
                 }
 
                 override fun onAdClicked() {
@@ -115,6 +118,7 @@ class AdmobManagerImpl @Inject constructor(
                     rewardCreateAgain = null
 
                     isLoadingRewardCreateAgain = false
+                    Timber.tag("Admob").e("Error: $adError")
                 }
 
                 override fun onAdLoaded(ad: RewardedAd) {
@@ -142,6 +146,7 @@ class AdmobManagerImpl @Inject constructor(
                     rewardCreateAgain = null
 
                     failed()
+                    Timber.tag("Admob").e("Error: $p0")
                 }
 
                 override fun onAdClicked() {
@@ -171,6 +176,7 @@ class AdmobManagerImpl @Inject constructor(
                     rewardUpscale = null
 
                     isLoadingRewardUpscale = false
+                    Timber.tag("Admob").e("Error: $adError")
                 }
 
                 override fun onAdLoaded(ad: RewardedAd) {
@@ -245,6 +251,7 @@ class AdmobManagerImpl @Inject constructor(
             object: AppOpenAdLoadCallback() {
                 override fun onAdFailedToLoad(p0: LoadAdError) {
                     taskFailed()
+                    Timber.tag("Admob").e("Error: $p0")
                 }
 
                 override fun onAdLoaded(p0: AppOpenAd) {

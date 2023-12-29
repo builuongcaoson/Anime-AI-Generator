@@ -34,7 +34,6 @@ import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
-import com.sola.anime.ai.generator.domain.model.LoRAPreview
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -456,8 +455,8 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         val creditsForNumbersOfImages = when {
             !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.getCredits() >= 10 + loRAAdapter.data.size * 5 -> 10 + (loRAAdapter.data.size * 5)
-            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && loRAAdapter.data.isNotEmpty() -> 10 + (loRAAdapter.data.size * 5)
-            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> 0
+            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && loRAAdapter.data.isNotEmpty() -> 10 + (loRAAdapter.data.size * 5)
+            !prefs.isUpgraded.get() && numberOfImages == 1 && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward -> 0
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> 10 + (loRAAdapter.data.size * 5)
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.size * 5
             else -> numberOfImages * (10 + loRAAdapter.data.size * 5)
@@ -480,26 +479,31 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         }
         binding.cardGenerateCredit.isVisible = !binding.cardGenerate.isVisible
         binding.iconWatchAd.isVisible = when {
+            prefs.isUpgraded.get() -> false
             !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> loRAAdapter.data.isEmpty()
+            !prefs.isUpgraded.get() && configApp.scriptIap == "2" || configApp.scriptIap == "0" -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateReward -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward -> loRAAdapter.data.isEmpty()
             else -> false
         }
         binding.textDescription.isVisible = when {
             !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> true
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> false
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> true
+            !prefs.isUpgraded.get() && configApp.scriptIap == "2" -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateReward -> false
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward -> true
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium && numberOfImages == 1 -> loRAAdapter.data.isEmpty()
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGeneratePremium -> false
             else -> false
         }
         binding.textDescription.text = when {
             !prefs.isUpgraded.get() && totalCreditsDeducted < prefs.getCredits() -> "${totalCreditsDeducted.roundToInt()} Credits"
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> "${totalCreditsDeducted.roundToInt()} Credits"
-            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateReward -> "${totalCreditsDeducted.roundToInt()} Credits"
+            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward -> {
                 when {
                     loRAAdapter.data.isNotEmpty() -> "${totalCreditsDeducted.roundToInt()} Credits"
-                    else -> "Watch an Ad"
+                    configApp.scriptIap == "1" -> "Watch an Ad"
+                    else -> "10 Credits"
                 }
             }
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> "${totalCreditsDeducted.roundToInt()} Credits"
@@ -740,47 +744,29 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         when {
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
-//            !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-//                when {
-//                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startIap()
-//                    else -> task()
-//                }
-//            }
             !prefs.isUpgraded.get() -> activity?.let { activity ->
-//                when {
-//                    totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" -> {
-//                        admobManager.showRewardCreate(
-//                            activity,
-//                            success = {
-//                                task()
-//                                admobManager.loadRewardCreate()
-//                            },
-//                            failed = {
-//                                activity.makeToast("Please watch all ads to perform the function!")
-//                                admobManager.loadRewardCreate()
-//                            }
-//                        )
-//                    }
-//                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
-//                    else -> activity.startIap()
-//                }
-
-                admobManager.showRewardCreate(
-                    activity,
-                    success = {
-                        task()
-                        admobManager.loadRewardCreate()
-                              },
-                    failed = {
-                        activity.makeToast("Please watch all ads to perform the function!")
-                        admobManager.loadRewardCreate()
+                when {
+                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
+                    totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
+                        admobManager.showRewardCreate(
+                            activity,
+                            success = {
+                                task()
+                                admobManager.loadRewardCreate()
+                            },
+                            failed = {
+                                activity.makeToast("Please watch all ads to perform the function!")
+                                admobManager.loadRewardCreate()
+                            }
+                        )
                     }
-                )
+                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+                    else -> activity.startIap()
+                }
             }
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
                 when {
-//                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
-                    totalCreditsDeducted >= prefs.getCredits() -> activity?.makeToast("You have reached the limit of ${configApp.maxNumberGeneratePremium} image creations per day.")
+                    totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
                     else -> task()
                 }
             }

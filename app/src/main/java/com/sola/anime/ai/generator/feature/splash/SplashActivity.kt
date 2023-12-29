@@ -14,11 +14,9 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.SingletonOpenManager
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
-import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.common.util.CommonUtil
 import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
@@ -127,7 +125,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = when {
 //                        BuildConfig.DEBUG -> 3L
-                        else -> tryOrNull { config.getLong("max_number_generate_free") } ?: configApp.maxNumberGenerateFree
+                        else -> tryOrNull { config.getLong("max_number_generate_free_3") } ?: configApp.maxNumberGenerateFree
+                    }
+                    configApp.maxNumberGenerateReward = when {
+                        BuildConfig.DEBUG -> 3L
+                        else -> tryOrNull { config.getLong("max_number_generate_reward") } ?: configApp.maxNumberGenerateReward
                     }
                     configApp.maxNumberGeneratePremium = when {
                         BuildConfig.DEBUG -> 5L
@@ -149,10 +151,11 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
                     configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd_3") } ?: configApp.isShowOpenAd
+                    configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
-                    Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
+                    Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateReward}")
                     Timber.e("maxNumberGeneratePremium: ${configApp.maxNumberGeneratePremium}")
                     Timber.e("feature: ${configApp.feature}")
                     Timber.e("version: ${configApp.version}")
@@ -169,6 +172,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Block versions: ${configApp.blockVersions.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
                     Timber.e("isShowOpenAd: ${configApp.isShowOpenAd}")
+                    Timber.e("scriptIap: ${configApp.scriptIap}")
 
                     doTaskAfterSyncFirebaseRemoteConfig()
                 }

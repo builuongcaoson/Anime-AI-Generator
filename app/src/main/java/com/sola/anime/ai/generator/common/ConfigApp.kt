@@ -7,8 +7,6 @@ import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.common.util.AESEncyption
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.domain.model.Ratio
-import com.sola.anime.ai.generator.domain.model.config.model.Model
-import com.sola.anime.ai.generator.domain.model.config.style.Style
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyImageToImage
 import com.sola.anime.ai.generator.domain.model.textToImage.DezgoBodyTextToImage
 import io.reactivex.subjects.BehaviorSubject
@@ -26,10 +24,11 @@ class ConfigApp @Inject constructor(
 
     // For ads
     var isShowOpenAd = true
-
+    var scriptIap = "0" // 0: Free - 1: Ads - 2: Iap
     var stepDefault = Preferences.STEP_DEFAULT
     var stepPremium = Preferences.STEP_PREMIUM
     var maxNumberGenerateFree = Preferences.MAX_NUMBER_CREATE_ARTWORK
+    var maxNumberGenerateReward = Preferences.MAX_NUMBER_CREATE_ARTWORK
     var maxNumberGeneratePremium = Preferences.MAX_NUMBER_CREATE_ARTWORK_IN_A_DAY
     var feature = context.getString(R.string.default_feature)
     var version = BuildConfig.VERSION_CODE.toLong()

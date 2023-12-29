@@ -1,11 +1,8 @@
 package com.sola.anime.ai.generator.feature.result.art
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.view.drawToBitmap
 import androidx.core.view.isVisible
@@ -21,9 +18,6 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.basic.common.extension.tryOrNull
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.sola.anime.ai.generator.R
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
@@ -56,7 +50,6 @@ import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -232,46 +225,29 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
 
         when {
             !isNetworkAvailable() -> networkDialog.show(this)
-//            !prefs.isUpgraded.get() &&  prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
-//                when {
-//                    totalCreditsDeducted >= prefs.getCredits() -> startIap()
-//                    else -> task()
-//                }
-//            }
             !prefs.isUpgraded.get() -> {
-//                when {
-//                    totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") -> {
-//                        admobManager.showRewardCreateAgain(
-//                            this,
-//                            success = {
-//                                task()
-//                                admobManager.loadRewardCreateAgain()
-//                            },
-//                            failed = {
-//                                makeToast("Please watch all ads to perform the function!")
-//                                admobManager.loadRewardCreateAgain()
-//                            }
-//                        )
-//                    }
-//                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
-//                    else -> startIap()
-//                }
-                admobManager.showRewardCreateAgain(
-                    this,
-                    success = {
-                        task()
-                        admobManager.loadRewardCreateAgain()
-                    },
-                    failed = {
-                        makeToast("Please watch all ads to perform the function!")
-                        admobManager.loadRewardCreateAgain()
+                when {
+                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
+                    totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
+                        admobManager.showRewardCreateAgain(
+                            this,
+                            success = {
+                                task()
+                                admobManager.loadRewardCreateAgain()
+                            },
+                            failed = {
+                                makeToast("Please watch all ads to perform the function!")
+                                admobManager.loadRewardCreateAgain()
+                            }
+                        )
                     }
-                )
+                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+                    else -> startIap()
+                }
             }
             prefs.isUpgraded.get() -> {
                 when {
-//                    totalCreditsDeducted >= prefs.getCredits() -> startCredit()
-                    totalCreditsDeducted >= prefs.getCredits() -> makeToast("You have reached the limit of ${configApp.maxNumberGeneratePremium} image creations per day.")
+                    totalCreditsDeducted >= prefs.getCredits() -> startCredit()
                     else -> task()
                 }
             }
@@ -558,15 +534,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-//        Observable
-//            .timer(1, TimeUnit.SECONDS)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe {
-//                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
-//                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
-//            }
+        Observable
+            .timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
+                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
+            }
     }
 
     private fun upscaleClicks(index: Int){
@@ -664,13 +640,13 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     private fun updateUiCredits() {
         childHistories.getOrNull(binding.viewPager.currentItem)?.let { childHistory ->
             val description = when {
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateFree -> {
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGenerateReward -> {
                     totalCreditsDeducted = 10f + childHistory.loRAs.size * 5
                     creditsPerImage = 10f + childHistory.loRAs.size * 5
 
                     "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
                 }
-                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree -> {
+                !prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward -> {
                     totalCreditsDeducted = when {
                         prefs.getCredits() >= 10f + childHistory.loRAs.size * 5 -> 10f + childHistory.loRAs.size * 5
                         childHistory.loRAs.isNotEmpty() -> 10f + childHistory.loRAs.size * 5
@@ -682,9 +658,10 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                         else -> 0f
                     }
 
-                    when (creditsPerImage) {
-                        0f -> "Generate Again (Watch an Ad)"
-                        else -> "Generate Again (${totalCreditsDeducted.roundToInt()} Credits)"
+                    when {
+                        creditsPerImage == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> "Generate Again"
+                        creditsPerImage == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1"-> "Generate Again (Watch an Ad)"
+                        else -> "Generate Again (${(if (totalCreditsDeducted >= 10f) totalCreditsDeducted else 10f).roundToInt()} Credits)"
                     }
                 }
                 prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {

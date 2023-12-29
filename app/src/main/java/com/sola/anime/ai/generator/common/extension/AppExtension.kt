@@ -185,8 +185,8 @@ fun initBodyTextsToImages(
 
         val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
         val subNumberCreatedAndMax = when {
-            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateReward}"
+            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateReward}"
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
@@ -320,8 +320,8 @@ fun initBodyImagesToImages(
 
         val subPremiumAndCredits = "${prefs.isUpgraded.get()}_${configApp.creditsRemaining.roundToInt()}"
         val subNumberCreatedAndMax = when {
-            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
-            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateFree}"
+            type == 0 && groupId == 0L && maxChildId == 0 -> "${prefs.numberCreatedArtwork.get() + 1}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateReward}"
+            else -> "${prefs.numberCreatedArtwork.get()}_${if (prefs.isUpgraded.get()) configApp.maxNumberGeneratePremium else configApp.maxNumberGenerateReward}"
         }
         val subNegative = "($subNegativeDevice)_${subFeature}_($subPremiumAndCredits)_($subNumberCreatedAndMax)"
 
