@@ -53,7 +53,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
         setContentView(binding.root)
 
         when {
-            !prefs.isUpgraded.get() -> admobManager.loadRewardCreate()
+            !prefs.isUpgraded.get() -> admobManager.loadReward()
         }
 
         when {

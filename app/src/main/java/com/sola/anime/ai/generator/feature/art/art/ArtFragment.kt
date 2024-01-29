@@ -748,15 +748,15 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 when {
                     totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
                     totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
-                        admobManager.showRewardCreate(
+                        admobManager.showReward(
                             activity,
                             success = {
                                 task()
-                                admobManager.loadRewardCreate()
+                                admobManager.loadReward()
                             },
                             failed = {
                                 activity.makeToast("Please watch all ads to perform the function!")
-                                admobManager.loadRewardCreate()
+                                admobManager.loadReward()
                             }
                         )
                     }

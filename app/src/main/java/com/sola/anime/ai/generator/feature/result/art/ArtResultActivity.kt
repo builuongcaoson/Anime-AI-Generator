@@ -102,15 +102,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         lightStatusBar()
         setContentView(binding.root)
 
-        tryOrNull {
-            when {
-                !prefs.isUpgraded.get() -> {
-                    admobManager.loadRewardUpscale()
-                    admobManager.loadRewardCreateAgain()
-                }
-            }
-        }
-
         when (historyId) {
             -1L -> {
                 finish()
@@ -229,15 +220,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 when {
                     totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
                     totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
-                        admobManager.showRewardCreateAgain(
+                        admobManager.showReward(
                             this,
                             success = {
                                 task()
-                                admobManager.loadRewardCreateAgain()
+                                admobManager.loadReward()
                             },
                             failed = {
                                 makeToast("Please watch all ads to perform the function!")
-                                admobManager.loadRewardCreateAgain()
+                                admobManager.loadReward()
                             }
                         )
                     }
@@ -446,15 +437,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                     !prefs.isUpgraded.get() -> {
                         lifecycleScope.launch(Dispatchers.Main) {
                             delay(250)
-                            admobManager.showRewardUpscale(
+                            admobManager.showReward(
                                 this@ArtResultActivity,
                                 success = {
                                     task()
-                                    admobManager.loadRewardUpscale()
+                                    admobManager.loadReward()
                                 },
                                 failed = {
                                     makeToast("Please watch all ads to perform the function!")
-                                    admobManager.loadRewardUpscale()
+                                    admobManager.loadReward()
                                 }
                             )
                         }
@@ -692,15 +683,15 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showRewardCreateAgain(
+            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showReward(
                 this,
                 success = {
                     back()
-                    admobManager.loadRewardCreateAgain()
+                    admobManager.loadReward()
                 },
                 failed = {
                     back()
-                    admobManager.loadRewardCreateAgain()
+                    admobManager.loadReward()
                 }
             )
             else -> back()

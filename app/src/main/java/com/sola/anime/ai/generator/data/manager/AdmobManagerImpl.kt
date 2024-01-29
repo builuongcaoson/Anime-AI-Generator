@@ -35,8 +35,6 @@ class AdmobManagerImpl @Inject constructor(
 
     private val openAdManager by lazy { OpenAdManager() }
     private var isLoadingRewardCreate = false
-    private var isLoadingRewardCreateAgain = false
-    private var isLoadingRewardUpscale = false
     private var isLoadingOpenSplash = false
 
     override fun loadAndShowOpenAd(activity: Activity) {
@@ -45,7 +43,7 @@ class AdmobManagerImpl @Inject constructor(
 
     override fun isShowingOpenAd() = openAdManager.isShowingAd
 
-    override fun loadRewardCreate() {
+    override fun loadReward() {
         when {
             isLoadingRewardCreate || rewardCreate != null -> return
         }
@@ -71,7 +69,7 @@ class AdmobManagerImpl @Inject constructor(
             })
     }
 
-    override fun showRewardCreate(activity: Activity, success: () -> Unit, failed: () -> Unit) {
+    override fun showReward(activity: Activity, success: () -> Unit, failed: () -> Unit) {
         var isRewarded = false
 
         rewardCreate?.let {
@@ -89,121 +87,6 @@ class AdmobManagerImpl @Inject constructor(
 
                     failed()
                     Timber.tag("Admob").e("Error: $p0")
-                }
-
-                override fun onAdClicked() {
-                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
-                }
-            }
-            it.show(activity){
-                isRewarded = true
-            }
-        } ?: run {
-            failed()
-        }
-    }
-
-    override fun loadRewardCreateAgain() {
-        when {
-            isLoadingRewardCreateAgain || rewardCreateAgain != null -> return
-        }
-
-        isLoadingRewardCreateAgain = true
-
-        RewardedAd.load(context,
-            context.getString(R.string.key_reward_create_again),
-            AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    rewardCreateAgain = null
-
-                    isLoadingRewardCreateAgain = false
-                    Timber.tag("Admob").e("Error: $adError")
-                }
-
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardCreateAgain = ad
-
-                    isLoadingRewardCreateAgain = false
-                }
-            })
-    }
-
-    override fun showRewardCreateAgain(activity: Activity, success: () -> Unit, failed: () -> Unit) {
-        var isRewarded = false
-
-        rewardCreateAgain?.let {
-            it.fullScreenContentCallback = object: FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() {
-                    rewardCreateAgain = null
-
-                    when {
-                        isRewarded -> success()
-                        else -> failed()
-                    }
-                }
-                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                    rewardCreateAgain = null
-
-                    failed()
-                    Timber.tag("Admob").e("Error: $p0")
-                }
-
-                override fun onAdClicked() {
-                    analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
-                }
-            }
-            it.show(activity){
-                isRewarded = true
-            }
-        } ?: run {
-            failed()
-        }
-    }
-
-    override fun loadRewardUpscale() {
-        when {
-            isLoadingRewardUpscale || rewardUpscale != null -> return
-        }
-
-        isLoadingRewardUpscale = true
-
-        RewardedAd.load(context,
-            context.getString(R.string.key_reward_upscale),
-            AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    rewardUpscale = null
-
-                    isLoadingRewardUpscale = false
-                    Timber.tag("Admob").e("Error: $adError")
-                }
-
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardUpscale = ad
-
-                    isLoadingRewardUpscale = false
-                }
-            })
-    }
-
-    override fun showRewardUpscale(activity: Activity, success: () -> Unit, failed: () -> Unit) {
-        var isRewarded = false
-
-        rewardUpscale?.let {
-            it.fullScreenContentCallback = object: FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() {
-                    rewardUpscale = null
-
-                    when {
-                        isRewarded -> success()
-                        else -> failed()
-                    }
-                }
-                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                    rewardUpscale = null
-
-                    failed()
                 }
 
                 override fun onAdClicked() {

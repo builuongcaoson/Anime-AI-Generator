@@ -9,6 +9,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.splash.SplashActivity
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,6 +43,8 @@ class SingletonOpenManager @Inject constructor(
                     loadedCompleted(true)
                 }
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    Timber.e("Failed: $loadAdError")
+
                     isLoadingAd = false
                     loadedCompleted(false)
                 }
