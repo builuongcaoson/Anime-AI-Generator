@@ -124,15 +124,15 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.stepDefault = tryOrNull { config.getString("step_default").takeIf { it.isNotEmpty() } } ?: configApp.stepDefault
                     configApp.stepPremium = tryOrNull { config.getString("step_premium").takeIf { it.isNotEmpty() } } ?: configApp.stepPremium
                     configApp.maxNumberGenerateFree = when {
-//                        BuildConfig.DEBUG -> 3L
-                        else -> tryOrNull { config.getLong("max_number_generate_free_3") } ?: configApp.maxNumberGenerateFree
+//                        BuildConfig.DEBUG -> 0L
+                        else -> tryOrNull { config.getLong("max_number_generate_free_4") } ?: configApp.maxNumberGenerateFree
                     }
                     configApp.maxNumberGenerateReward = when {
-                        BuildConfig.DEBUG -> 3L
+//                        BuildConfig.DEBUG -> 3L
                         else -> tryOrNull { config.getLong("max_number_generate_reward") } ?: configApp.maxNumberGenerateReward
                     }
                     configApp.maxNumberGeneratePremium = when {
-                        BuildConfig.DEBUG -> 5L
+//                        BuildConfig.DEBUG -> 5L
                         else -> tryOrNull { config.getLong("max_number_generate_premium") } ?: configApp.maxNumberGeneratePremium
                     }
                     configApp.feature = tryOrNull { config.getString("feature").takeIf { it.isNotEmpty() } } ?: configApp.feature
@@ -155,7 +155,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
                     Timber.e("stepPremium: ${configApp.stepPremium}")
-                    Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateReward}")
+                    Timber.e("maxNumberGenerateFree: ${configApp.maxNumberGenerateFree}")
+                    Timber.e("maxNumberGenerateReward: ${configApp.maxNumberGenerateReward}")
                     Timber.e("maxNumberGeneratePremium: ${configApp.maxNumberGeneratePremium}")
                     Timber.e("feature: ${configApp.feature}")
                     Timber.e("version: ${configApp.version}")
