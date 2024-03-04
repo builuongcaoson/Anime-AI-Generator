@@ -47,7 +47,7 @@ import javax.inject.Inject
 class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) {
 
     companion object {
-        const val IS_KILL_EXTRA = "IS_KILL_EXTRA"
+        const val IS_KILL_EXTRA = "IS_KILL_EfXTRA"
     }
 
     @Inject lateinit var previewAdapter1: PreviewAdapter

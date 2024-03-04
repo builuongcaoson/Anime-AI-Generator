@@ -100,9 +100,9 @@ class SyncRepositoryImpl @Inject constructor(
             prefs.versionModel.get() < configApp.versionModel || modelDao.getAll().isEmpty() -> syncModelsLocal()
         }
 
-//        when {
-//            prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
-//        }
+        when {
+            prefs.versionLoRA.get() < configApp.versionLoRA || loRAGroupDao.getAll().isEmpty() -> syncLoRAsLocal()
+        }
 
         randomSortOrderModels()
         randomSortOrderLoRAs()

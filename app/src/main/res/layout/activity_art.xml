@@ -40,6 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_minus5sdp"
                 android:background="@android:color/transparent"
                 android:clipToPadding="false"
                 app:tabBackground="@android:color/transparent"

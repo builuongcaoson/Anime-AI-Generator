@@ -34,6 +34,7 @@ import com.sola.anime.ai.generator.data.db.query.StyleDao
 import com.sola.anime.ai.generator.databinding.FragmentArtBinding
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
+import com.sola.anime.ai.generator.domain.model.LoRAPreview
 import com.sola.anime.ai.generator.domain.model.Ratio
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
 import com.sola.anime.ai.generator.domain.model.config.model.Model
@@ -166,29 +167,29 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             subjectExploreChanges.onNext(Unit)
         }
 
-//        loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
-//            val loRA = when {
-//                loRAGroupId != -1L && loRAId != -1L -> loRAGroups.find { loRAGroup -> loRAGroup.id == loRAGroupId }?.childs?.find { loRA -> loRA.id == loRAId }
-//                else -> null
-//            }
-//            loRA?.let {
-//                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId, strength = 0.7f))
-//
-//                sheetLoRA.loRAs = loRAAdapter.data
-//
-//                updateUiCredit()
-//            }
-//        }
+        loRAGroupDao.getAllLive().observeAndRemoveWhenNotEmpty(viewLifecycleOwner) { loRAGroups ->
+            val loRA = when {
+                loRAGroupId != -1L && loRAId != -1L -> loRAGroups.find { loRAGroup -> loRAGroup.id == loRAGroupId }?.childs?.find { loRA -> loRA.id == loRAId }
+                else -> null
+            }
+            loRA?.let {
+                loRAAdapter.data = listOf(LoRAPreview(loRA = loRA, loRAGroupId = loRAGroupId, strength = 0.7f))
 
-//        loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
-//            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id, strength = 0.7f) } }
-//
-//            val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
-//            val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
-//            val pairLoRAsDislike = "Dislike" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isDislike }
-//
-//            sheetLoRA.pairs = listOf(pairLoRAsFavourite, pairLoRAsOther, pairLoRAsDislike)
-//        }
+                sheetLoRA.loRAs = loRAAdapter.data
+
+                updateUiCredit()
+            }
+        }
+
+        loRAGroupDao.getAllLive().observe(viewLifecycleOwner){ loRAGroups ->
+            val loRAs = loRAGroups.flatMap { loRAGroup -> loRAGroup.childs.map { loRAPreview -> LoRAPreview(loRA = loRAPreview, loRAGroupId = loRAGroup.id, strength = 0.7f) } }
+
+            val pairLoRAsFavourite = "Favourite" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isFavourite }
+            val pairLoRAsOther = "Other" to loRAs.filter { loRAPreview -> !loRAPreview.loRA.isFavourite && !loRAPreview.loRA.isDislike }
+            val pairLoRAsDislike = "Dislike" to loRAs.filter { loRAPreview -> loRAPreview.loRA.isDislike }
+
+            sheetLoRA.pairs = listOf(pairLoRAsFavourite, pairLoRAsOther, pairLoRAsDislike)
+        }
     }
 
     private fun updateUiModel(model: Model?) {

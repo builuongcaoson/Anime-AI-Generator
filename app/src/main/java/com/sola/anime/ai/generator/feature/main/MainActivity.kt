@@ -207,7 +207,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     private fun LayoutBottomMainBinding.initTabExplore() = Tab(viewClicks = viewTab1, image = imageTab1, display = textTab1, index = 0)
 //    private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewClicks = viewTab2, image = imageTab2, display = textTab2, index = 1)
 //    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewClicks = viewTab4, image = imageTab4, display = textTab4, index = 2)
-    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 3)
+    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 1)
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {

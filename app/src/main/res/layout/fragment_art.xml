@@ -485,13 +485,11 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:text="LoRA"
-                        android:visibility="gone"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_13ssp" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/viewLoRA"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
