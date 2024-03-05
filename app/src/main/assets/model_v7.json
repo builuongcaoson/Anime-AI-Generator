@@ -64,11 +64,38 @@
   },
   {
     "id": 7,
-    "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FToonify.webp?alt=media&token=af3c1f92-b06f-4648-9eb3-d669184c1571",
+    "preview": "",
     "display": "Toonify",
     "description": "",
     "favourite_count": 458,
     "modelId": "toonify_2",
+    "is_premium": true
+  },
+  {
+    "id": 8,
+    "preview": "",
+    "display": "RealCartoonAnime V11",
+    "description": "",
+    "favourite_count": 506,
+    "modelId": "realcartoonanime_10",
+    "is_premium": true
+  },
+  {
+    "id": 9,
+    "preview": "",
+    "display": "RealCartoonAnime V10",
+    "description": "",
+    "favourite_count": 402,
+    "modelId": "realcartoonanime_10",
+    "is_premium": true
+  },
+  {
+    "id": 10,
+    "preview": "",
+    "display": "RealCartoonAnime V10",
+    "description": "",
+    "favourite_count": 469,
+    "modelId": "realcartoon3d_13",
     "is_premium": true
   },
   {
