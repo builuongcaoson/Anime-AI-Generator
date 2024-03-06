@@ -14,7 +14,10 @@ abstract class LsFragment<VB : ViewBinding>(
 ) : Fragment() {
 
     lateinit var binding: VB
+
     abstract fun onViewCreated()
+
+    abstract fun initObservable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +30,11 @@ abstract class LsFragment<VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         onViewCreated()
+    }
+
+    override fun onResume() {
+        initObservable()
+        super.onResume()
     }
 
 }

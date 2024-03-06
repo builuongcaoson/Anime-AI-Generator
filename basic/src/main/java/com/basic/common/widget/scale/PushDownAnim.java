@@ -29,7 +29,7 @@ public class PushDownAnim implements PushDown {
     @IntDef({MODE_SCALE, MODE_STATIC_DP})
     public @interface Mode { }
 
-    public static final float DEFAULT_PUSH_SCALE = 0.75f;
+    public static final float DEFAULT_PUSH_SCALE = 0.85f;
     public static final float DEFAULT_PUSH_STATIC = 2;
     public static final long DEFAULT_PUSH_DURATION = 50;
     public static final long DEFAULT_RELEASE_DURATION = 125;

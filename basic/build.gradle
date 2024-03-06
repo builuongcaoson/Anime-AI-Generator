@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.widget'
+    namespace 'com.basic'
     compileSdk 33
 
     defaultConfig {

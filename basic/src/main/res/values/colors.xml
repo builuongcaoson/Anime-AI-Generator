@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
+    <color name="cardBackground">#F2F2F2</color>
+    <color name="backgroundDark">#131313</color>
+    <color name="cardBackgroundDark">#1F2229</color>
 
-    <color name="backgroundLight">#FFFFFF</color>
-    <color name="backgroundDark">#000000</color>
+    <color name="textPrimary">#0B0B0B</color>
+    <color name="textSecondary">#767676</color>
+    <color name="textTertiary">#B0B0B0</color>
 
-    <color name="colorPrimary">#000000</color>
-    <color name="colorSecondary">#ffcd20</color>
-    <color name="colorTertiary">#B58E00</color>
-
-    <color name="textPrimary">#141A18</color>
-    <color name="textSecondary">#686868</color>
-    <color name="textTertiary">#B7B9C0</color>
-
-    <color name="textPrimaryDark">#FDFFFF</color>
-    <color name="textSecondaryDark">#ccffffff</color>
+    <color name="textPrimaryDark">#FFFFFF</color>
+    <color name="textSecondaryDark">#798499</color>
     <color name="textTertiaryDark">#80ffffff</color>
 
+    <color name="primary">#A153BE</color>
+    <color name="secondary">#8D4AA6</color>
+    <color name="tertiary">#C67BE2</color>
+
+    <color name="primaryDark">#A153BE</color>
+    <color name="secondaryDark">#8D4AA6</color>
+    <color name="tertiaryDark">#C67BE2</color>
+
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSecondary">#FFFFFF</color>
+    <color name="onTertiary">#FFFFFF</color>
+
+    <color name="onPrimaryDark">#0B0B0B</color>
+    <color name="onSecondaryDark">#0B0B0B</color>
+    <color name="onTertiaryDark">#0B0B0B</color>
+
+    <color name="indicator">#E8E8E8</color>
+    <color name="indicatorDark">#802E2E2E</color>
     <!-- This colour should only ever be used for attrs with the tools tag -->
-    <color name="tools_theme">#000000</color>
+    <color name="tools_theme">#38C88B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#d62027</color>
+    <color name="yellow">#e4f757</color>
+    <color name="pink">#ffbbf4</color>
+    <color name="green">#ace8ec</color>
+    <color name="blue">#3868C6</color>
 
 </resources>

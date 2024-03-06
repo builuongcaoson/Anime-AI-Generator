@@ -1,26 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="title" format="string" />
-    <attr name="summary" format="string" />
-    <attr name="widget" format="reference" />
-    <attr name="icon" format="reference" />
-    <attr name="lottieRes" format="reference" />
-
     <attr name="textColor" format="enum">
-        <enum name="theme" value="0" />
-        <enum name="primaryOnTheme" value="1" />
-        <enum name="secondaryOnTheme" value="2" />
-        <enum name="tertiaryOnTheme" value="3" />
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="textHintColor" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="textLinkColor" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="colorTint" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="bgColorTint" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="bgTint" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="bgColor" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
+    </attr>
+
+    <attr name="strColor" format="enum">
+        <enum name="none" value="-1" />
+        <enum name="toolsTheme" value="0" />
+        <enum name="background" value="1" />
+        <enum name="cardBackground" value="2" />
+        <enum name="primary" value="3" />
+        <enum name="secondary" value="4" />
+        <enum name="tertiary" value="5" />
+        <enum name="onPrimary" value="6" />
+        <enum name="onSecondary" value="7" />
+        <enum name="onTertiary" value="8" />
+        <enum name="textPrimary" value="9" />
+        <enum name="textSecondary" value="10" />
+        <enum name="textTertiary" value="11" />
+        <enum name="indicator" value="12" />
     </attr>
 
     <attr name="textSize" format="enum">
-        <enum name="primary" value="0" />
-        <enum name="secondary" value="1" />
-        <enum name="tertiary" value="2" />
-        <enum name="toolbar" value="3" />
-        <enum name="dialog" value="4" />
-        <enum name="emoji" value="5" />
+        <enum name="toolbar" value="0" />
+        <enum name="title" value="1" />
+        <enum name="primary" value="2" />
+        <enum name="secondary" value="3" />
+        <enum name="tertiary" value="4" />
     </attr>
 
     <attr name="textFont" format="enum">
@@ -32,62 +154,78 @@
 
     <declare-styleable name="LsTextView">
         <attr name="textColor" />
+        <attr name="textLinkColor" />
+        <attr name="textSize" />
+        <attr name="textFont" />
+    </declare-styleable>
+
+    <declare-styleable name="DynamicTextView">
+        <attr name="textColor" />
         <attr name="textSize" />
         <attr name="textFont" />
     </declare-styleable>
 
     <declare-styleable name="LsEditText">
         <attr name="textColor" />
+        <attr name="textHintColor" />
+        <attr name="textLinkColor" />
         <attr name="textSize" />
         <attr name="textFont" />
     </declare-styleable>
 
-    <declare-styleable name="BouncyRecyclerView">
-        <attr name="recyclerview_overscroll_animation_size" format="float" />
-        <attr name="recyclerview_fling_animation_size" format="float" />
-        <attr name="allow_drag_reorder" format="boolean" />
-        <attr name="allow_item_swipe" format="boolean" />
-
-        <attr name="recyclerview_damping_ratio" format="integer">
-            <enum name="DAMPING_RATIO_NO_BOUNCY" value="0" />
-            <enum name="DAMPING_RATIO_LOW_BOUNCY" value="1" />
-            <enum name="DAMPING_RATIO_MEDIUM_BOUNCY" value="2" />
-            <enum name="DAMPING_RATIO_HIGH_BOUNCY" value="3" />
-        </attr>
-        <attr name="recyclerview_stiffness" format="integer">
-            <enum name="STIFFNESS_VERY_LOW" value="0" />
-            <enum name="STIFFNESS_LOW" value="1" />
-            <enum name="STIFFNESS_MEDIUM" value="2" />
-            <enum name="STIFFNESS_HIGH" value="3" />
-        </attr>
+    <declare-styleable name="LsImageView">
+        <attr name="colorTint" />
+        <attr name="bgColorTint" />
     </declare-styleable>
 
-    <declare-styleable name="BouncyNestedScrollView">
-        <attr name="overscroll_animation_size" format="float"/>
-        <attr name="fling_animation_size" format="float"/>
-
-        <attr name="bouncy_scrollview_damping_ratio" format="integer">
-            <enum name="DAMPING_RATIO_NO_BOUNCY" value="0" />
-            <enum name="DAMPING_RATIO_LOW_BOUNCY" value="1" />
-            <enum name="DAMPING_RATIO_MEDIUM_BOUNCY" value="2" />
-            <enum name="DAMPING_RATIO_HIGH_BOUNCY" value="3" />
-        </attr>
-        <attr name="bouncy_scrollview_stiffness" format="integer">
-            <enum name="STIFFNESS_VERY_LOW" value="0" />
-            <enum name="STIFFNESS_LOW" value="1" />
-            <enum name="STIFFNESS_MEDIUM" value="2" />
-            <enum name="STIFFNESS_HIGH" value="3" />
-        </attr>
+    <declare-styleable name="LsConstraintView">
+        <attr name="bgColorTint" />
     </declare-styleable>
 
-    <declare-styleable name="LsRippleView">
-        <attr name="rippleColor" format="color" />
-        <attr name="rippleRadius" format="float" />
-        <attr name="rippleShadow" format="boolean" />
+    <declare-styleable name="LsCardView">
+        <attr name="bgColor" />
+        <attr name="strColor" />
     </declare-styleable>
 
-    <declare-styleable name="PorterImageView">
-        <attr name="frameSrc" format="color" />
+    <declare-styleable name="LsLinearView">
+        <attr name="bgColorTint" />
+    </declare-styleable>
+
+    <declare-styleable name="LsRelativeView">
+        <attr name="bgColorTint" />
+    </declare-styleable>
+
+    <declare-styleable name="LsView">
+        <attr name="bgColorTint" />
+    </declare-styleable>
+
+    <declare-styleable name="LsFrameView">
+        <attr name="bgColorTint" />
+    </declare-styleable>
+
+    <declare-styleable name="LsRecyclerView">
+        <attr name="fastScrollThumbColor" format="reference|color" />
+        <attr name="fastScrollThumbInactiveColor" format="reference|color" />
+        <attr name="fastScrollTrackColor" format="reference|color" />
+        <attr name="fastScrollPopupBgColor" format="reference|color" />
+        <attr name="fastScrollPopupTextColor" format="reference|color" />
+        <attr name="fastScrollPopupTextSize" format="reference|dimension" />
+        <attr name="fastScrollPopupTextVerticalAlignmentMode" format="enum">
+            <enum name="text_bounds" value="0"/>
+            <enum name="font_metrics" value="1"/>
+        </attr>
+        <attr name="fastScrollPopupBackgroundSize" format="reference|dimension" />
+        <attr name="fastScrollPopupPosition" format="enum">
+            <enum name="adjacent" value="0"/>
+            <enum name="center" value="1"/>
+        </attr>
+        <attr name="fastScrollAutoHide" format="reference|boolean" />
+        <attr name="fastScrollAutoHideDelay" format="reference|integer" />
+        <attr name="fastScrollEnableThumbInactiveColor" format="reference|boolean" />
+        <attr name="fastScrollThumbEnabled" format="reference|boolean" />
+        <attr name="fastScrollBouncyRotateEnabled" format="boolean" />
+        <attr name="fastScrollBouncyVerticalEnabled" format="boolean" />
+        <attr name="fastScrollBouncyHorizontalEnabled" format="boolean" />
     </declare-styleable>
 
 </resources>
