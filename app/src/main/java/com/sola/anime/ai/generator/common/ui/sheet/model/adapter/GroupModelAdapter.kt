@@ -94,6 +94,8 @@ class ModelAdapter(private val prefs: Preferences): LsAdapter<Model, ItemModelBi
         binding.display.text = item.display
         binding.viewSelected.isVisible = item == model
         binding.viewDetails.isVisible = isShowedDetailView
+        binding.viewDescription.isVisible = item.description.isNotEmpty()
+        binding.description.text = item.description
 
         binding.viewPreview.clicks(withAnim = false) { clicks.onNext(item) }
         binding.viewDetails.clicks { detailsClicks.onNext(item) }
