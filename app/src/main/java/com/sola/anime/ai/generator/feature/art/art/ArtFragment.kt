@@ -202,11 +202,9 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
-
-
+    override fun initObservable() {
         subjectScrollAtBottom
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { tryOrNull { exploreAdapter.loadMore() } }
 
         subjectExploreChanges
@@ -217,14 +215,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         loRAAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { loRAPreview ->
                 activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
             }
 
         loRAAdapter
             .deleteClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { loRAIndex ->
                 tryOrNull {
                     loRAAdapter.data = ArrayList(loRAAdapter.data).apply {
@@ -239,7 +237,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         sheetPhoto
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { photo ->
                 when {
                     photo.preview != null -> configApp.resPhoto = photo.preview
@@ -249,7 +247,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         configApp
             .subjectUriPhotoChanges
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 binding.viewPhoto.isVisible = configApp.pairUriPhoto != null || configApp.resPhoto != null
 
@@ -269,14 +267,14 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         exploreAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 activity?.let { activity -> exploreDialog.show(activity, explore, useExploreClicks, detailExploreClicks) }
             }
 
         aspectRatioAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+                        .autoDispose(scope())
             .subscribe { ratio ->
                 when {
 //                    ratio == Ratio.Ratio1x1 || ratio == Ratio.Ratio9x16 || ratio == Ratio.Ratio16x9 -> subjectRatioClicks.onNext(ratio)
@@ -286,7 +284,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
         subjectRatioClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { ratio ->
                 aspectRatioAdapter.ratio = ratio
             }
@@ -294,7 +292,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         binding
             .editPrompt
             .textChanges()
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { prompt ->
                 binding.viewClear.isVisible = !prompt.isNullOrEmpty()
                 binding.viewActionPrompt.isVisible = prompt.isNullOrEmpty()
@@ -303,7 +301,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
         useExploreClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 if (exploreDialog.isShowing()){
                     exploreDialog.dismiss()
@@ -315,7 +313,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             }
 
         detailExploreClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 if (sheetExplore.isAdded){
                     sheetExplore.dismiss()
@@ -332,7 +330,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
         )
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { updateUiCredit() }
     }
 

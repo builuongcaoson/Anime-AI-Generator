@@ -51,4 +51,13 @@ interface DezgoApi {
         @Part("seed") seed: RequestBody?
     ): ResponseBody
 
+    @Multipart
+    @POST("remove-background")
+    @Streaming
+    suspend fun removeBackground(
+        @Header(Constraint.Dezgo.HEADER_KEY) headerKey: String,
+        @Part("image") image: RequestBody,
+        @Part("mode") mode: RequestBody
+    ): ResponseBody
+
 }

@@ -23,10 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class DezgoApiRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val configApp: ConfigApp,
     private val dezgoApi: DezgoApi,
     private val styleDao: StyleDao,
-//    private val lsApi: LsApi
 ): DezgoApiRepository {
 
     override suspend fun generateTextsToImages(
@@ -36,7 +34,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         progress(GenerateTextsToImagesProgress.Loading)
         delay(250)
-        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(5)
+        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(1)
         dataChunked
             .flatMapIndexed { index: Int, bodies ->
                 val responses = bodies
@@ -53,41 +51,6 @@ class DezgoApiRepositoryImpl @Inject constructor(
                             Timber.tag("MainXXX").e("Prompt: $prompt")
 
                             try {
-//                                val response = when {
-//                                    isPremium -> {
-//                                        dezgoApi.text2image(
-//                                            headerKey = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-//                                            prompt = prompt.toRequestBody(),
-//                                            negativePrompt = negativePrompt.toRequestBody(),
-//                                            guidance = body.guidance.toRequestBody(),
-//                                            upscale = body.upscale.toRequestBody(),
-//                                            sampler = body.sampler.toRequestBody(),
-//                                            steps = body.steps.toRequestBody(),
-//                                            model = body.model.toRequestBody(),
-//                                            width = body.width.toRequestBody(),
-//                                            height = body.height.toRequestBody(),
-//                                            lora1 = body.loRAs.getOrNull(0)?.sha256?.toRequestBody(),
-//                                            lora1Strength = body.loRAs.getOrNull(0)?.strength?.toString()?.toRequestBody(),
-//                                            lora2 = body.loRAs.getOrNull(1)?.sha256?.toRequestBody(),
-//                                            lora2Strength = body.loRAs.getOrNull(1)?.strength?.toString()?.toRequestBody(),
-//                                            seed = body.seed?.toRequestBody()
-//                                        )
-//                                    }
-//                                    else -> {
-//                                        lsApi.text2image(
-//                                            prompt = prompt.toRequestBody(),
-//                                            negativePrompt = negativePrompt.toRequestBody(),
-//                                            guidance = body.guidance.toRequestBody(),
-//                                            upscale = body.upscale.toRequestBody(),
-//                                            sampler = body.sampler.toRequestBody(),
-//                                            steps = body.steps.toRequestBody(),
-//                                            model = body.model.toRequestBody(),
-//                                            width = body.width.toRequestBody(),
-//                                            height = body.height.toRequestBody()
-//                                        )
-//                                    }
-//                                }
-
                                 val response = dezgoApi.text2image(
                                     headerKey = keyApi,
                                     prompt = prompt.toRequestBody(),
@@ -149,7 +112,7 @@ class DezgoApiRepositoryImpl @Inject constructor(
     ) = withContext(Dispatchers.IO) {
         progress(GenerateImagesToImagesProgress.Loading)
         delay(250)
-        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(5)
+        val dataChunked = datas.reversed().flatMap { it.bodies }.chunked(1)
         dataChunked
             .flatMapIndexed { index: Int, bodies ->
                 val responses = bodies
@@ -163,44 +126,11 @@ class DezgoApiRepositoryImpl @Inject constructor(
                                 else -> body.prompt
                             }.removeSuffix("\"\"")
 
+                            Timber.tag("MainXXX").e("Prompt: $prompt")
+
                             try {
                                 val photoRequestBody = body.initImage.toRequestBody(context)
                                 val photoPart = MultipartBody.Part.createFormData("init_image", "${System.currentTimeMillis()}.png", photoRequestBody!!)
-
-//                                val response = when {
-//                                    isPremium -> {
-//                                        dezgoApi.image2image(
-//                                            headerKey = AESEncyption.decrypt(configApp.keyDezgoPremium) ?: "",
-//                                            prompt = prompt.toRequestBody(),
-//                                            negativePrompt = negativePrompt.toRequestBody(),
-//                                            guidance = body.guidance.toRequestBody(),
-//                                            upscale = body.upscale.toRequestBody(),
-//                                            sampler = body.sampler.toRequestBody(),
-//                                            steps = body.steps.toRequestBody(),
-//                                            model = body.model.toRequestBody(),
-//                                            seed = body.seed?.toRequestBody(),
-//                                            strength = body.strength.toRequestBody(),
-//                                            lora1 = body.loRAs.getOrNull(0)?.sha256?.toRequestBody(),
-//                                            lora1Strength = body.loRAs.getOrNull(0)?.strength?.toString()?.toRequestBody(),
-//                                            lora2 = body.loRAs.getOrNull(1)?.sha256?.toRequestBody(),
-//                                            lora2Strength = body.loRAs.getOrNull(1)?.strength?.toString()?.toRequestBody(),
-//                                            file = photoPart
-//                                        )
-//                                    }
-//                                    else -> {
-//                                        lsApi.img2img(
-//                                            prompt = prompt.toRequestBody(),
-//                                            negativePrompt = negativePrompt.toRequestBody(),
-//                                            guidance = body.guidance.toRequestBody(),
-//                                            upscale = body.upscale.toRequestBody(),
-//                                            sampler = body.sampler.toRequestBody(),
-//                                            steps = body.steps.toRequestBody(),
-//                                            model = body.model.toRequestBody(),
-//                                            strength = body.strength.toRequestBody(),
-//                                            file = photoPart
-//                                        )
-//                                    }
-//                                }
 
                                 val response = dezgoApi.image2image(
                                     headerKey = keyApi,
