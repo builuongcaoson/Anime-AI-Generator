@@ -6,7 +6,6 @@ import com.basic.R
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.isDayOrNight
 import com.basic.data.LsPrefs
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -85,21 +84,21 @@ class ColorManager @Inject constructor(
     }
 
     private fun primary(theme: Int) = when (theme) {
-        LsPrefs.LIGHT_MODE -> color(R.color.primary)
+        LsPrefs.LIGHT_MODE -> color(R.color.primaryLight)
         LsPrefs.NIGHT_MODE -> color(R.color.primaryDark)
-        else -> color(if (isDayOrNight()) R.color.primary else R.color.primaryDark)
+        else -> color(if (isDayOrNight()) R.color.primaryLight else R.color.primaryDark)
     }
 
     private fun secondary(theme: Int) = when (theme) {
-        LsPrefs.LIGHT_MODE -> color(R.color.secondary)
+        LsPrefs.LIGHT_MODE -> color(R.color.secondaryLight)
         LsPrefs.NIGHT_MODE -> color(R.color.secondaryDark)
-        else -> color(if (isDayOrNight()) R.color.secondary else R.color.secondaryDark)
+        else -> color(if (isDayOrNight()) R.color.secondaryLight else R.color.secondaryDark)
     }
 
     private fun tertiary(theme: Int) = when (theme) {
-        LsPrefs.LIGHT_MODE -> color(R.color.tertiary)
+        LsPrefs.LIGHT_MODE -> color(R.color.tertiaryLight)
         LsPrefs.NIGHT_MODE -> color(R.color.tertiaryDark)
-        else -> color(if (isDayOrNight()) R.color.tertiary else R.color.tertiaryDark)
+        else -> color(if (isDayOrNight()) R.color.tertiaryLight else R.color.tertiaryDark)
     }
 
     private fun onPrimary(theme: Int) = when (theme) {
@@ -121,15 +120,15 @@ class ColorManager @Inject constructor(
     }
 
     private fun background(theme: Int) = when (theme) {
-        LsPrefs.LIGHT_MODE -> color(R.color.background)
+        LsPrefs.LIGHT_MODE -> color(R.color.backgroundLight)
         LsPrefs.NIGHT_MODE -> color(R.color.backgroundDark)
-        else -> color(if (isDayOrNight()) R.color.background else R.color.backgroundDark)
+        else -> color(if (isDayOrNight()) R.color.backgroundLight else R.color.backgroundDark)
     }
 
     private fun cardBackground(theme: Int) = when (theme) {
-        LsPrefs.LIGHT_MODE -> color(R.color.cardBackground)
+        LsPrefs.LIGHT_MODE -> color(R.color.cardBackgroundLight)
         LsPrefs.NIGHT_MODE -> color(R.color.cardBackgroundDark)
-        else -> color(if (isDayOrNight()) R.color.cardBackground else R.color.cardBackgroundDark)
+        else -> color(if (isDayOrNight()) R.color.cardBackgroundLight else R.color.cardBackgroundDark)
     }
 
     private fun textPrimary(theme: Int) = when (theme) {

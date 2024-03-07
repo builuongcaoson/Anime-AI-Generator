@@ -29,6 +29,8 @@ import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -180,22 +182,22 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         promptAdapter
             .fullHdChanges
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { updateUiCredit() }
 
         promptAdapter
             .numberOfImagesChanges
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 updateUiCredit()
             }
 
         promptAdapter
             .deleteClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { index ->
                 promptAdapter.data = ArrayList(promptAdapter.data).apply {
                     removeAt(index)
@@ -208,7 +210,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         promptAdapter
             .modelClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { index ->
                 sheetModel.model = promptAdapter.data.getOrNull(index)?.model
                 sheetModel.clicks = { model ->
@@ -231,7 +233,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
         promptAdapter
             .styleClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { index ->
                 sheetStyle.style = promptAdapter.data.getOrNull(index)?.style
                 sheetStyle.clicks = { style ->
@@ -249,7 +251,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .map { prefs.getCredits() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
 
@@ -261,7 +263,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             .asObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
             }
@@ -270,7 +272,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 //            .timer(1, TimeUnit.SECONDS)
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribeOn(AndroidSchedulers.mainThread())
-//            .bindToLifecycle(binding.root)
+//            .autoDispose(scope())
 //            .subscribe {
 //                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
 //                binding.viewPro.animate().alpha(1f).setDuration(250L).start()

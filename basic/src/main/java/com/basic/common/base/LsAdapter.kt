@@ -24,7 +24,13 @@ abstract class LsAdapter<T, VB: ViewBinding>(
         set(value) {
             if (field === value) return
             field = value
+            emptyView?.isVisible = data.isEmpty()
             if (isNotifyDataChanged) notifyDataSetChanged()
+        }
+    var emptyView: View? = null
+        set(value) {
+            field = value
+            value?.isVisible = data.isEmpty()
         }
 
     abstract fun bindItem(item: T, binding: VB, position: Int)

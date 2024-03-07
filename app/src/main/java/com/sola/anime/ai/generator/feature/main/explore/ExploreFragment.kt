@@ -30,6 +30,8 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 
 @AndroidEntryPoint
 class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
@@ -61,14 +63,14 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         subjectScrollAtBottom
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { tryOrNull { exploreAdapter.loadMore() } }
 
         modelAndLoRAAdapter
             .favouriteClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { modelAndLoRA ->
                 when {
                     modelAndLoRA.model != null -> modelDao.updates(modelAndLoRA.model)
@@ -83,7 +85,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
         modelAndLoRAAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { modelAndLoRA ->
                 when {
                     modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
@@ -94,7 +96,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
         subjectDataModelsAndLoRAChanges
             .filter { it.isNotEmpty() }
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { dataModelOrLoRA ->
                 lifecycleScope
                     .launch(Dispatchers.Main) {
@@ -113,7 +115,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             }
 
         subjectDataExploreChanges
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 lifecycleScope.launch(Dispatchers.Main) {
                     if (binding.recyclerExplore.alpha != 1f){
@@ -132,14 +134,14 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
 
         exploreAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
         exploreAdapter
             .favouriteClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 markFavourite = true
 

@@ -94,11 +94,10 @@
             android:id="@+id/viewTabTop"
             layout="@layout/layout_top_mine" />
 
-        <com.sola.anime.ai.generator.common.widget.NonSwipeViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:nestedScrollingEnabled="true" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

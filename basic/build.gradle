@@ -36,6 +36,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "androidx.recyclerview:recyclerview:$recycler_version"
     implementation "jp.wasabeef:recyclerview-animators:$anim_recycler_version"
 
     // Dagger hilt

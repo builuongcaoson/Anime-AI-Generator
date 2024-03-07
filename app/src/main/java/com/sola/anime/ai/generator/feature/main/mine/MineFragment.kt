@@ -70,10 +70,11 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
         }
 
         binding.viewPager.apply {
-            this.adapter = LsPageAdapter(childFragmentManager).apply {
+            this.isUserInputEnabled = false
+            this.adapter = LsPageAdapter(childFragmentManager, lifecycle).apply {
                 this.addFragment(fragments = fragments.toTypedArray())
             }
-            this.offscreenPageLimit = this.adapter?.count ?: 0
+            this.offscreenPageLimit = this.adapter?.itemCount ?: 0
         }
     }
 
@@ -82,7 +83,7 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
         super.onResume()
     }
 
-    private fun initObservable() {
+    override fun initObservable() {
 //        topTabs.forEachIndexed { index, tab ->
 //            tab
 //                .viewClicks

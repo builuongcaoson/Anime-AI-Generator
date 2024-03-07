@@ -48,14 +48,14 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         prefs
             .creditsChanges
             .asObservable()
             .map { prefs.getCredits() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { credits ->
                 binding.credits.text = credits.roundToInt().toString()
             }
@@ -65,7 +65,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
             .asObservable()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { isUpgraded ->
                 binding.viewPro.isVisible = !isUpgraded
             }
@@ -74,7 +74,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
 //            .timer(1, TimeUnit.SECONDS)
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribeOn(AndroidSchedulers.mainThread())
-//            .bindToLifecycle(binding.root)
+//            .autoDispose(scope())
 //            .subscribe {
 //                binding.viewCredit.animate().alpha(1f).setDuration(250L).start()
 //                binding.viewPro.animate().alpha(1f).setDuration(250L).start()
