@@ -20,7 +20,7 @@ class PreviewAdapter @Inject constructor(): LsAdapter<IAP, ItemPreviewIapBinding
 
     override fun onBindViewHolder(holder: LsViewHolder<ItemPreviewIapBinding>, position: Int) {
         val binding = holder.binding
-        val item = getItem(position % data.size)
+        val item = getItem(position % data.size) ?: return
 
         val set = ConstraintSet()
         set.clone(binding.viewGroup)

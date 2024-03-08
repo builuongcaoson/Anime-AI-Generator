@@ -14,8 +14,8 @@ import android.widget.ImageView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import com.basic.common.extension.getColorCompat
 import com.basic.common.extension.resolveAttrColor
-import com.basic.common.util.ColorUtils.animateColorChange
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.util.ColorUtils.animateColorChange
 import com.sola.anime.ai.generator.common.widget.switchview.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")

@@ -46,15 +46,15 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         historyAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
 
         folderAdapter
             .plusClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 if (addFolderSheet.isAdded){
                     return@subscribe
@@ -65,7 +65,7 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
 
         historyAdapter
             .longClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { history ->
                 activity?.let { activity ->
                     MaterialDialog(activity)

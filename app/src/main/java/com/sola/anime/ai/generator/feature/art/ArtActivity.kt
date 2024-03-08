@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
@@ -121,15 +122,14 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
         artFragment.exploreId = exploreId
 
         binding.viewPager.apply {
-            this.adapter = LsPageAdapter(supportFragmentManager).apply {
-                this.addFragment(fragment = artFragment, title = "Generate Image")
-//                this.addFragment(fragment = comingSoonFragment, title = "Coming Soon")
+            this.adapter = LsPageAdapter(supportFragmentManager, lifecycle).apply {
+                this.addFragment(artFragment)
             }
-            this.offscreenPageLimit = this.adapter?.count ?: 1
+            this.offscreenPageLimit = this.adapter?.itemCount ?: 1
         }
-        binding.tabLayout.apply {
-            this.setupWithViewPager(binding.viewPager)
-        }
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = "Generate Art"
+        }.attach()
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

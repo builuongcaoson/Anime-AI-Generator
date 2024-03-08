@@ -11,6 +11,8 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import com.basic.common.extension.*
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.extension.addShadow
+import com.sola.anime.ai.generator.common.extension.animateBackground
 
 @SuppressLint("ClickableViewAccessibility")
 class LsSwitchView @JvmOverloads constructor(

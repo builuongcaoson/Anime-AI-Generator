@@ -8,7 +8,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
-import com.basic.common.util.theme.TextViewStyler
+import com.basic.common.util.theme.FontManager
 import com.jakewharton.rxbinding2.view.longClicks
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
@@ -156,8 +156,8 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
                 binding.textRecommendations.setTextColor(resolveAttrColor(if (tab == TabExplore.Recommendations) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
                 binding.textExploreRelated.setTextColor(resolveAttrColor(if (tab == TabExplore.ExploreRelated) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
 
-                binding.textRecommendations.setTextFont(if (tab == TabExplore.Recommendations) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
-                binding.textExploreRelated.setTextFont(if (tab == TabExplore.ExploreRelated) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
+                binding.textRecommendations.setTextFont(if (tab == TabExplore.Recommendations) FontManager.FONT_SEMI else FontManager.FONT_REGULAR)
+                binding.textExploreRelated.setTextFont(if (tab == TabExplore.ExploreRelated) FontManager.FONT_SEMI else FontManager.FONT_REGULAR)
 
                 binding.viewDividerRecommendations.isVisible = tab == TabExplore.Recommendations
                 binding.viewDividerExploreRelated.isVisible = tab == TabExplore.ExploreRelated

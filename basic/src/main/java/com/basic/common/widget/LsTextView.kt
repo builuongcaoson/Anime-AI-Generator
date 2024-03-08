@@ -81,6 +81,19 @@ class LsTextView @JvmOverloads constructor(
         }
     }
 
+    fun setTextFont(textFontAttr: Int) {
+        when (textFontAttr) {
+            FontManager.FONT_REGULAR -> {
+                setTypeface(null, Typeface.NORMAL)
+            }
+            else -> {
+                fontManager.get(textFontAttr) { typeFace ->
+                    setTypeface(typeFace, typeface?.style ?: Typeface.NORMAL)
+                }
+            }
+        }
+    }
+
     fun updateUi(animate: Boolean) {
         colorManager.theme().colorById(textColorAttr)?.let { color ->
             if (animate) {

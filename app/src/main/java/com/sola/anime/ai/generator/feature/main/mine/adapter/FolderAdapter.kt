@@ -6,8 +6,8 @@ import com.basic.common.base.LsAdapter
 import com.basic.common.base.LsViewHolder
 import com.basic.common.extension.clicks
 import com.basic.common.extension.resolveAttrColor
-import com.basic.common.util.theme.TextViewStyler.Companion.FONT_REGULAR
-import com.basic.common.util.theme.TextViewStyler.Companion.FONT_SEMI
+import com.basic.common.util.theme.FontManager.Companion.FONT_REGULAR
+import com.basic.common.util.theme.FontManager.Companion.FONT_SEMI
 import com.sola.anime.ai.generator.databinding.ItemFolderMineBinding
 import com.sola.anime.ai.generator.domain.model.Folder
 import io.reactivex.subjects.PublishSubject

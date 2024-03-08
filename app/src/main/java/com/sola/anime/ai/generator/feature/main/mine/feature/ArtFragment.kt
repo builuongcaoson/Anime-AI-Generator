@@ -73,9 +73,9 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         useExploreClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 exploreDialog.dismiss()
 
@@ -83,19 +83,19 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
             }
 
         detailExploreClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { explore ->
                 activity?.startDetailExplore(exploreId = explore.id)
             }
 
         historyAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
 
         historyAdapter
             .longClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { history ->
                 activity?.let { activity ->
                     MaterialDialog(activity)
@@ -116,7 +116,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
 
         folderAdapter
             .plusClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 if (addFolderSheet.isAdded){
                     return@subscribe

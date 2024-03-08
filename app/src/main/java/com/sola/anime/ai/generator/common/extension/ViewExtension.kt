@@ -1,15 +1,40 @@
 package com.sola.anime.ai.generator.common.extension
 
+import android.animation.ValueAnimator
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import com.basic.common.extension.getColorCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.animation.ArgbEvaluatorCompat
 import eightbitlab.com.blurview.BlurView
+
+fun View.animateBackground(endColor: Int) {
+    clearAnimation()
+    val valueAnimator = ValueAnimator.ofObject(ArgbEvaluatorCompat(), backgroundTintList?.defaultColor, endColor)
+    valueAnimator.duration = 300L
+    valueAnimator.interpolator = DecelerateInterpolator(1.5f)
+    valueAnimator.addUpdateListener { animation: ValueAnimator ->
+        backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int)
+    }
+    valueAnimator.start()
+}
+
+fun View.addShadow(colorRes: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        outlineAmbientShadowColor = context.getColorCompat(colorRes)
+        outlineSpotShadowColor = context.getColorCompat(colorRes)
+    }
+}
 
 fun BlurView.blur(rootView: ViewGroup, ratioBlur: Float = 20f){
     this.setupWith(rootView, context.getBlurAlgorithm())

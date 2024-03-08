@@ -46,22 +46,22 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
     }
 
     @SuppressLint("AutoDispose", "CheckResult")
-    private fun initObservable() {
+    override fun initObservable() {
         historyAdapter
             .clicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
 
         folderAdapter
             .plusClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe {
                 addFolderSheet.show(this)
             }
 
         historyAdapter
             .longClicks
-            .bindToLifecycle(binding.root)
+            .autoDispose(scope())
             .subscribe { history ->
                 activity?.let { activity ->
                     MaterialDialog(activity)

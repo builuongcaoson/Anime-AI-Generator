@@ -195,10 +195,10 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
 
     private fun initView() {
         binding.viewPager.apply {
-            this.adapter = LsPageAdapter(supportFragmentManager).apply {
+            this.adapter = LsPageAdapter(supportFragmentManager, lifecycle).apply {
                 this.addFragment(fragments = fragments.toTypedArray())
             }
-            this.offscreenPageLimit = this.adapter?.count ?: 0
+            this.offscreenPageLimit = this.adapter?.itemCount ?: 0
         }
     }
 

@@ -23,7 +23,7 @@ class ComingSoonFragment : LsFragment<FragmentComingSoonBinding>(FragmentComingS
 
     }
 
-    private fun initObservable() {
+    override fun initObservable() {
 
     }
 

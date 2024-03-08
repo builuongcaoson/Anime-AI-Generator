@@ -9,7 +9,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.*
-import com.basic.common.util.theme.TextViewStyler
+import com.basic.common.util.theme.FontManager
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.back
@@ -213,8 +213,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
                 binding.textArtworksBy.setTextColor(resolveAttrColor(if (tab == TabModelOrLoRA.Artworks) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
                 binding.textOther.setTextColor(resolveAttrColor(if (tab == TabModelOrLoRA.Others) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary))
 
-                binding.textArtworksBy.setTextFont(if (tab == TabModelOrLoRA.Artworks) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
-                binding.textOther.setTextFont(if (tab == TabModelOrLoRA.Others) TextViewStyler.FONT_SEMI else TextViewStyler.FONT_REGULAR)
+                binding.textArtworksBy.setTextFont(if (tab == TabModelOrLoRA.Artworks) FontManager.FONT_SEMI else FontManager.FONT_REGULAR)
+                binding.textOther.setTextFont(if (tab == TabModelOrLoRA.Others) FontManager.FONT_SEMI else FontManager.FONT_REGULAR)
 
                 binding.viewDividerArtworksBy.isVisible = tab == TabModelOrLoRA.Artworks
                 binding.viewDividerOther.isVisible = tab == TabModelOrLoRA.Others

@@ -2,7 +2,7 @@ package com.sola.anime.ai.generator.inject
 
 import android.content.Context
 import androidx.room.Room
-import com.basic.data.PreferencesConfig
+import com.basic.data.LsPrefs
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -14,8 +14,6 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import com.google.gson.GsonBuilder
-import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.data.Preferences
@@ -81,10 +79,10 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providePreferencesConfig(context: Context): PreferencesConfig {
-        val sharedPreferences = context.getSharedPreferences("PreferencesConfig", Context.MODE_PRIVATE)
+    fun providePreferencesConfig(context: Context): LsPrefs {
+        val sharedPreferences = context.getSharedPreferences("LsPrefs", Context.MODE_PRIVATE)
         val rxSharedPreferences = RxSharedPreferences.create(sharedPreferences)
-        return PreferencesConfig(context, rxSharedPreferences)
+        return LsPrefs(context, rxSharedPreferences)
     }
 
     @Provides
