@@ -14,6 +14,7 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         app:layout_constraintDimensionRatio="512:768"
+        app:strokeWidth="0dp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

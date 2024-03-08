@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.explore.ExploreActivity">
+    tools:context=".feature.crop.CropActivity">
 
     <RelativeLayout
         android:id="@+id/viewTop"
@@ -161,6 +161,7 @@
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:visibility="gone"
+        app:strokeWidth="0dp"
         app:cardBackgroundColor="?android:colorBackground"
         app:cardCornerRadius="@dimen/_15sdp"
         app:cardElevation="0dp"

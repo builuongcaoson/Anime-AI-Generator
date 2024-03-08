@@ -540,6 +540,7 @@
             android:layout_marginEnd="@dimen/_15sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             app:cardBackgroundColor="?colorPrimary"
+            app:strokeWidth="0dp"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp">
 
@@ -598,6 +599,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/_20sdp"
             app:cardBackgroundColor="?colorSecondary"
+            app:strokeWidth="0dp"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="0dp">
 

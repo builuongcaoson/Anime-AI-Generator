@@ -81,6 +81,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/preview"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:strokeWidth="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.6">
@@ -116,7 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <com.basic.common.widget.scroll.LsRecyclerView
+                        app:fastScrollBouncyHorizontalEnabled="true"
                         android:id="@+id/recyclerModelAndLoRA"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_140sdp"
@@ -147,6 +149,7 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     app:cardBackgroundColor="?android:textColorPrimary"
                     app:cardCornerRadius="@dimen/_15sdp"
+                    app:strokeWidth="0dp"
                     app:cardElevation="0dp">
 
                     <RelativeLayout

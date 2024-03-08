@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
+        app:strokeWidth="0dp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:cardBackgroundColor="?cardBackgroundColor"
         app:cardCornerRadius="@dimen/_15sdp"

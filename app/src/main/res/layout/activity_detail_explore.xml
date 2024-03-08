@@ -189,6 +189,7 @@
                     android:layout_marginBottom="@dimen/_15sdp"
                     app:cardBackgroundColor="?android:textColorPrimary"
                     app:cardCornerRadius="@dimen/_15sdp"
+                    app:strokeWidth="0dp"
                     app:cardElevation="0dp">
 
                     <RelativeLayout
@@ -251,6 +252,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
+                    app:strokeWidth="0dp"
                     android:layout_height="wrap_content">
 
                     <com.basic.common.widget.LsTextView

@@ -24,7 +24,6 @@ abstract class LsActivity<VB : ViewBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        transparent()
         if (lsPrefs.themeId.get() == LsPrefs.LIGHT_MODE){
             lightStatusBar()
             lightNavigationBar()

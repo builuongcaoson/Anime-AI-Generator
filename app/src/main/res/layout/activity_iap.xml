@@ -554,6 +554,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             app:cardBackgroundColor="?android:textColorPrimary"
             app:cardCornerRadius="@dimen/_5sdp"
+            app:strokeWidth="0dp"
             app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

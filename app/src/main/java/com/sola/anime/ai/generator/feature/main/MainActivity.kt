@@ -198,6 +198,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             this.adapter = LsPageAdapter(supportFragmentManager, lifecycle).apply {
                 this.addFragment(fragments = fragments.toTypedArray())
             }
+            this.isUserInputEnabled = false
             this.offscreenPageLimit = this.adapter?.itemCount ?: 0
         }
     }
