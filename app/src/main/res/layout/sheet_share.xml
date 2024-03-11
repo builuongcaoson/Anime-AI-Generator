@@ -23,6 +23,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/previewRatio"
             android:layout_width="0dp"
+            app:strokeWidth="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -130,6 +131,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewAction"
             android:layout_width="match_parent"
+            app:strokeWidth="0dp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/_50sdp"
@@ -145,6 +147,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/viewTabFrame"
+                    app:strokeWidth="0dp"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="@dimen/_2sdp"
@@ -170,6 +173,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/viewTabOriginal"
                     android:layout_width="@dimen/_80sdp"
+                    app:strokeWidth="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/_2sdp"
                     app:cardBackgroundColor="@android:color/transparent"
@@ -221,6 +225,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/viewShare"
             android:layout_width="match_parent"
+            app:strokeWidth="0dp"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_15sdp"

@@ -113,6 +113,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 app:cardBackgroundColor="?colorAccent"
                 app:cardCornerRadius="@dimen/_15sdp"
+                app:strokeWidth="0dp"
                 app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

@@ -82,6 +82,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/viewExplore"
+                    app:strokeWidth="0dp"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_20sdp"

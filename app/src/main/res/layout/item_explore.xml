@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_5sdp"
+        app:strokeWidth="0dp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
@@ -70,6 +71,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewDetails"
                 android:layout_width="wrap_content"
+                app:strokeWidth="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_7sdp"
                 android:layout_marginEnd="@dimen/_7sdp"

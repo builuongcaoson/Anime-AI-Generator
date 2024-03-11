@@ -23,6 +23,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/previewRatio"
             android:layout_width="0dp"
+            app:strokeWidth="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_20sdp"

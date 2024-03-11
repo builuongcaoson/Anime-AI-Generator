@@ -9,6 +9,7 @@
         android:id="@+id/viewClicks"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_30sdp"
+        app:strokeWidth="0dp"
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_5sdp"

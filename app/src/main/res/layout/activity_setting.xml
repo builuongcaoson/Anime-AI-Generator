@@ -72,6 +72,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="?android:windowBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="0dp">
@@ -114,6 +115,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:cardBackgroundColor="?android:windowBackground"
                 app:cardCornerRadius="@dimen/_10sdp"
+                app:strokeWidth="0dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout

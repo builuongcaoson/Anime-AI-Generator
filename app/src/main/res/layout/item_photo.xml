@@ -12,6 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/viewClicks"
         android:layout_width="0dp"
+        app:strokeWidth="0dp"
         android:layout_height="0dp"
         app:cardBackgroundColor="?android:colorBackground"
         app:cardCornerRadius="@dimen/_15sdp"
@@ -94,6 +95,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/viewRatio"
                 android:layout_width="wrap_content"
+                app:strokeWidth="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"

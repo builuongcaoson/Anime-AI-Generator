@@ -180,6 +180,7 @@
                     app:cardBackgroundColor="?android:colorBackground"
                     app:cardCornerRadius="@dimen/_10sdp"
                     app:cardElevation="0dp"
+                    app:strokeWidth="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/viewStyle"
                     app:layout_constraintStart_toStartOf="parent"
@@ -264,6 +265,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/viewStyle"
                     android:layout_width="0dp"
+                    app:strokeWidth="0dp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_10sdp"

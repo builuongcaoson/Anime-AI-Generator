@@ -12,6 +12,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/_3sdp"
         android:layout_marginTop="@dimen/_3sdp"
+        app:strokeWidth="0dp"
         android:layout_marginEnd="@dimen/_3sdp"
         android:layout_marginBottom="@dimen/_3sdp"
         app:cardBackgroundColor="?cardBackgroundColor"

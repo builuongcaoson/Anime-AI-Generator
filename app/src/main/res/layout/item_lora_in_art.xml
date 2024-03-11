@@ -24,6 +24,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardLoRA"
+                app:strokeWidth="0dp"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center_vertical"
