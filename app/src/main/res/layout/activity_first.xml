@@ -238,7 +238,7 @@
         android:layout_marginTop="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_50sdp"
         android:elevation="@dimen/_3sdp"
-        android:text="Creating Images from Text"
+        android:text="@string/creating_images_from_text"
         android:textColor="?android:textColorPrimary"
         android:textSize="@dimen/_30ssp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -298,7 +298,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Start creating"
+                            android:text="@string/start_creating"
                             android:textColor="?colorOnPrimary"
                             android:textSize="@dimen/_15ssp"
                             app:textFont="semi" />
@@ -320,7 +320,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center_horizontal"
-            android:text="By continuing, you agree to our Privacy Policy and Terms of Use"
+            android:text="@string/by_continuing_you_agree_to_our_privacy_policy_and_terms_of_use"
             android:textColor="?android:textColorSecondary"
             android:textColorLink="?android:textColorPrimary"
             android:textSize="@dimen/_10ssp" />

@@ -213,7 +213,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:text="Try this prompt"
+                                android:text="@string/try_this_prompt"
                                 android:textColor="?colorOnPrimary"
                                 android:textSize="@dimen/_12ssp" />
 
@@ -239,7 +239,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="Prompts"
+                    android:text="@string/prompts"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp"
                     app:textFont="semi" />
@@ -292,7 +292,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:gravity="center_horizontal"
-                                android:text="Recommendations"
+                                android:text="@string/recommendations"
                                 android:textColor="?android:textColorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 app:textFont="semi" />
@@ -318,7 +318,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 app:textFont="regular"
-                                android:text="Explore Related"
+                                android:text="@string/explore_related"
                                 android:textColor="?android:textColorSecondary"
                                 android:textSize="@dimen/_12ssp" />
 

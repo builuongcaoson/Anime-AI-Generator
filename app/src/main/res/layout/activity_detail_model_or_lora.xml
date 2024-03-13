@@ -254,7 +254,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:text="Use the loRA"
+                                android:text="@string/use_the_lora"
                                 android:textColor="?colorOnPrimary"
                                 android:textSize="@dimen/_12ssp" />
 
@@ -298,7 +298,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:gravity="center_horizontal"
-                                android:text="Artworks by LoRA"
+                                android:text="@string/artworks_by_lora"
                                 android:textColor="?android:textColorPrimary"
                                 android:textSize="@dimen/_12ssp"
                                 app:textFont="semi" />
@@ -323,7 +323,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:text="Other LoRA"
+                                android:text="@string/other_lora"
                                 android:textColor="?android:textColorSecondary"
                                 android:textSize="@dimen/_12ssp"
                                 app:textFont="regular" />
@@ -370,7 +370,7 @@
                                 android:layout_marginStart="@dimen/_30sdp"
                                 android:textSize="@dimen/_12ssp"
                                 android:textColor="?android:textColorPrimary"
-                                android:text="No featured photos yet, try it now to see how amazing the artwork will be."
+                                android:text="@string/no_featured_photos_yet_try_it_now_to_see_how_amazing_the_artwork_will_be"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
 

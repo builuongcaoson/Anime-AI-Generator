@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:text="Explore"
+                android:text="@string/explore"
                 app:textFont="semi"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_15ssp" />
@@ -60,7 +60,7 @@
                 android:paddingTop="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_15sdp"
                 android:paddingBottom="@dimen/_5sdp"
-                android:text="Pro"
+                android:text="@string/pro"
                 android:textAllCaps="true"
                 android:textColor="?colorOnPrimary"
                 android:textSize="@dimen/_10ssp" />

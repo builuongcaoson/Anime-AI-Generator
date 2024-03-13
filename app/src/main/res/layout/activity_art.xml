@@ -87,7 +87,7 @@
                 android:gravity="center"
                 android:paddingStart="@dimen/_15sdp"
                 android:paddingEnd="@dimen/_15sdp"
-                android:text="Pro"
+                android:text="@string/pro"
                 android:textAllCaps="true"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="@dimen/_12ssp"

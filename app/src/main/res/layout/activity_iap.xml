@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="Unleash your"
+            android:text="@string/unleash_your"
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/_25ssp" />
 
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="Creativity"
+            android:text="@string/creativity"
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/_25ssp"
             app:textFont="bold" />
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Remove ads"
+                    android:text="@string/remove_ads"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="More clarity, better quality, fast processing"
+                    android:text="@string/more_clarity_better_quality_fast_processing"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Unlock aspect ratios"
+                    android:text="@string/unlock_aspect_ratios"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -225,7 +225,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Remove watermark"
+                        android:text="@string/remove_watermark"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_11ssp" />
 
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="Gift 1000 credits"
+                    android:text="@string/gift_1000_credits"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -289,7 +289,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Unlock all models"
+                        android:text="@string/unlock_all_models"
                         android:textColor="?android:textColorPrimary"
                         android:textSize="@dimen/_11ssp" />
 
@@ -350,7 +350,7 @@
                             android:id="@+id/yearly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Subscribe Yearly"
+                            android:text="@string/subscribe_yearly"
                             android:textSize="@dimen/_12ssp"
                             android:textColor="?colorOnPrimary"/>
 
@@ -426,7 +426,7 @@
                             android:id="@+id/weekly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Subscribe Weekly"
+                            android:text="@string/subscribe_weekly"
                             android:textSize="@dimen/_12ssp"
                             android:textColor="?android:textColorPrimary"/>
 
@@ -447,7 +447,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:gravity="end"
-                        android:text="Best seller"
+                        android:text="@string/best_seller"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -502,7 +502,7 @@
                             android:id="@+id/lifetime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lifetime"
+                            android:text="@string/lifetime"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_12ssp" />
 
@@ -523,7 +523,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:gravity="end"
-                        android:text="One-time Payment\nAll features - Forever"
+                        android:text="@string/one_time_payment_nall_features_forever"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -564,7 +564,7 @@
                 <com.basic.common.widget.LsTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Continue"
+                    android:text="@string/text_continue"
                     android:textColor="?colorOnPrimary"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -598,7 +598,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:padding="@dimen/_5sdp"
-                android:text="Privacy Policy   &amp;   Terms of Use   &amp;   Restore"
+                android:text="@string/privacy_policy_amp_terms_of_use_amp_restore"
                 android:textColor="?android:textColorPrimary"
                 android:textColorLink="?android:textColorPrimary"
                 android:textSize="@dimen/_8ssp" />

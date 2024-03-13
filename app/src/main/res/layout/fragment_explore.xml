@@ -63,7 +63,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="2"
-                android:text="Anime Character Creator with AI"
+                android:text="@string/anime_character_creator_with_ai"
                 android:textAllCaps="true"
                 android:textColor="?colorOnPrimary"
                 android:textSize="@dimen/_13ssp"
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Start Generating AI Arts"
+                    android:text="@string/start_generating_ai_arts"
                     android:textColor="?colorOnPrimary"
                     android:textSize="@dimen/_12ssp" />
 
@@ -108,7 +108,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:text="Try amazing Models or LoRAs now"
+                    android:text="@string/try_amazing_models_or_loras_now"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_12ssp"
                     app:textFont="semi" />
@@ -173,7 +173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="@dimen/_10sdp"
-                                android:text="Search model, loRA, explores, ..."
+                                android:text="@string/search_model_lora_explores"
                                 android:textColor="?colorOnPrimary"
                                 android:textSize="@dimen/_12ssp" />
 
@@ -188,7 +188,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Explores"
+                    android:text="@string/explores"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_15ssp"
                     app:textFont="semi" />

@@ -70,7 +70,7 @@
             android:layout_marginEnd="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="center"
-            android:text="Credit makes your creativity more efficient!"
+            android:text="@string/credit_makes_your_creativity_more_efficient"
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/_17ssp"
             app:textFont="semi" />
@@ -134,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="Credits"
+                            android:text="@string/credits"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
@@ -148,7 +148,7 @@
                         <com.basic.common.widget.LsTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pro +100"
+                            android:text="@string/pro_100"
                             android:textColor="?colorAccent"
                             android:textSize="@dimen/_10ssp"
                             app:textFont="semi" />
@@ -158,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="Credits"
+                            android:text="@string/credits"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_10ssp"
                             android:visibility="gone" />
@@ -241,7 +241,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:text="Credits"
+                            android:text="@string/credits"
                             android:textColor="?android:textColorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
