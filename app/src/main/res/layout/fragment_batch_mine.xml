@@ -89,6 +89,7 @@
                     app:cardBackgroundColor="?colorPrimary"
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardElevation="0dp"
+                    app:strokeWidth="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

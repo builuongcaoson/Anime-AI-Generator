@@ -59,10 +59,11 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var ratingDialog: RatingDialog
     @Inject lateinit var navigator: Navigator
 
-    private val fragments by lazy { listOf(ExploreFragment(), MineFragment()) }
+    private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
+    private var ratingDialogShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -204,22 +205,22 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     }
 
     private data class Tab(val viewClicks: View, val image: ImageView, val display: TextView, val index: Int)
-    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabExplore(), viewBottom.initTabMine())
+    private fun ActivityMainBinding.initTabBottom() = listOf(viewBottom.initTabExplore(), viewBottom.initTabBatch(), viewBottom.initTabDiscover(), viewBottom.initTabMine())
     private fun LayoutBottomMainBinding.initTabExplore() = Tab(viewClicks = viewTab1, image = imageTab1, display = textTab1, index = 0)
-//    private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewClicks = viewTab2, image = imageTab2, display = textTab2, index = 1)
-//    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewClicks = viewTab4, image = imageTab4, display = textTab4, index = 2)
-    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 1)
+    private fun LayoutBottomMainBinding.initTabBatch() = Tab(viewClicks = viewTab2, image = imageTab2, display = textTab2, index = 1)
+    private fun LayoutBottomMainBinding.initTabDiscover() = Tab(viewClicks = viewTab4, image = imageTab4, display = textTab4, index = 2)
+    private fun LayoutBottomMainBinding.initTabMine() = Tab(viewClicks = viewTab5, image = imageTab5, display = textTab5, index = 3)
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && !prefs.isRatedApp.get() -> {
+            !prefs.isUpgraded.get() && !prefs.isRatedApp.get() && !ratingDialogShowing -> {
+                ratingDialogShowing = true
                 ratingDialog.show(this) { rating ->
                     when {
                         rating < 4 -> navigator.showSupport()
                         else -> navigator.showRating()
                     }
-
                     prefs.isRatedApp.set(true)
                     finish()
                 }

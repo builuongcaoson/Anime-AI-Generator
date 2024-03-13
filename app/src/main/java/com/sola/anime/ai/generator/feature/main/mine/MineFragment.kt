@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflate) {
 
-    private val fragments by lazy { listOf(ArtFragment()) }
+    private val fragments by lazy { listOf(ArtFragment(), BatchFragment(), AvatarFragment()) }
     private val topTabs by lazy { binding.initTabTop() }
     private val subjectTabClicks: Subject<Int> = BehaviorSubject.createDefault(0) // Default tab home
     private var tabIndex = 0 // Default tab home
@@ -84,31 +84,31 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
     }
 
     override fun initObservable() {
-//        topTabs.forEachIndexed { index, tab ->
-//            tab
-//                .viewClicks
-//                .clicks()
-//                .autoDispose(scope())
-//                .subscribe { subjectTabClicks.onNext(index) }
-//        }
+        topTabs.forEachIndexed { index, tab ->
+            tab
+                .viewClicks
+                .clicks()
+                .autoDispose(scope())
+                .subscribe { subjectTabClicks.onNext(index) }
+        }
 
-//        subjectTabClicks
-//            .take(1)
-//            .delay(250, TimeUnit.MILLISECONDS)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeOn(AndroidSchedulers.mainThread())
-//            .autoDispose(scope())
-//            .subscribe { index ->
-//                scrollToPage(index)
-//            }
-//
-//        subjectTabClicks
-//            .skip(1)
-//            .distinctUntilChanged()
-//            .autoDispose(scope())
-//            .subscribe { index ->
-//                scrollToPage(index)
-//            }
+        subjectTabClicks
+            .take(1)
+            .delay(250, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { index ->
+                scrollToPage(index)
+            }
+
+        subjectTabClicks
+            .skip(1)
+            .distinctUntilChanged()
+            .autoDispose(scope())
+            .subscribe { index ->
+                scrollToPage(index)
+            }
     }
 
     private fun scrollToPage(index: Int) {

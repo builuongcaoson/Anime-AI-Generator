@@ -37,4 +37,8 @@ class HistoryAdapter @Inject constructor(): LsAdapter<History, ItemHistoryMineBi
         }
     }
 
+    override fun getItemCount(): Int {
+        return 20
+    }
+
 }

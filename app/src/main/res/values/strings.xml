@@ -10,4 +10,6 @@
     <string name="default_feature">New UI</string>
     <string name="default_notification_channel_id">Default Notification Channel Id</string>
     <string name="desc_iap">Payment will be charged to your Google Play account at the end of your trial confirmation of purchase if you are not starting a trial. Subscription automatically renews unless it is canceled at least 24 hours before the end of your trial or current period. Your account will be charged.</string>
+    <string name="generate_image">Generate Image</string>
+    <string name="it_is_coming_soon_thank_you_and_hope_you_like_it">It is coming soon, thank you and hope you like it.</string>
 </resources>

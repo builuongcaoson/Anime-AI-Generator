@@ -7,6 +7,7 @@ import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.clicks
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startCredit
 import com.sola.anime.ai.generator.common.extension.startIap
@@ -128,7 +129,7 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
             this.offscreenPageLimit = this.adapter?.itemCount ?: 1
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = "Generate Art"
+            tab.text = getString(R.string.generate_image)
         }.attach()
     }
 
