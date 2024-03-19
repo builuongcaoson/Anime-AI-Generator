@@ -74,10 +74,18 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         lightStatusBar()
         setContentView(binding.root)
 
+        if (creditsPerImage != 0f && (prefs.purchasedOrderLastedId.get().isEmpty() || !prefs.purchasedOrderLastedId.get().contains("GPA."))) {
+            prefs.isUpgraded.set(false)
+            prefs.setCredits(0f)
+            finish()
+            return
+        }
+
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING)
 
         initView()
         initObservable()
+
         when {
             configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this)) -> {
                 makeToast("Your device is on our blocked list!")

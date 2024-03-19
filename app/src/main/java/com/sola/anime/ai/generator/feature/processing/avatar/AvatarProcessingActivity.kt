@@ -77,10 +77,18 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
         lightStatusBar()
         setContentView(binding.root)
 
+        if (prefs.purchasedOrderLastedId.get().isEmpty() || !prefs.purchasedOrderLastedId.get().contains("GPA.")) {
+            prefs.isUpgraded.set(false)
+            prefs.setCredits(0f)
+            finish()
+            return
+        }
+
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_AVATAR)
 
         initView()
         initObservable()
+
         when {
             configApp.blockedRoot && (RootUtil.isDeviceRooted() || CommonUtil.isRooted(this)) -> {
                 makeToast("Your device is on our blocked list!")
@@ -99,6 +107,7 @@ class AvatarProcessingActivity : LsActivity<ActivityAvatarProcessingBinding>(Act
             }
             else -> initData()
         }
+
         listenerView()
     }
 

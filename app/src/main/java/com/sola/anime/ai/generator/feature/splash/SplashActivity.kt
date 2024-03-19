@@ -143,8 +143,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.versionProcess = tryOrNull { config.getLong("version_process") } ?: configApp.versionProcess
                     configApp.versionStyle = tryOrNull { config.getLong("version_style") } ?: configApp.versionStyle
                     configApp.versionModel = tryOrNull { config.getLong("version_model") } ?: configApp.versionModel
-                    configApp.keyDezgo = tryOrNull { config.getString("key_3").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
-                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_premium_3").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
+                    configApp.keyDezgo = tryOrNull { config.getString("key_4").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgo
+                    configApp.keyDezgoPremium = tryOrNull { config.getString("key_premium_4").takeIf { it.isNotEmpty() } } ?: configApp.keyDezgoPremium
                     configApp.keyUpscale = tryOrNull { config.getString("key_upscale").takeIf { it.isNotEmpty() } } ?: configApp.keyUpscale
                     configApp.blockDeviceIds = tryOrNull { config.getString("blockDeviceIds").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceIds
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels

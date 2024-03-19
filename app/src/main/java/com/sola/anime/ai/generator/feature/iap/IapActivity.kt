@@ -13,6 +13,7 @@ import com.basic.common.extension.*
 import com.revenuecat.purchases.*
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
@@ -244,7 +245,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, customerInfo ->
-                val orderId = purchase?.orderId ?: "null"
+                val orderId = when {
+//                    BuildConfig.DEBUG -> "ABC"
+                    else -> purchase?.orderId ?: run {
+                        analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
+
+                        binding.viewLoading.isVisible = false
+                        return@purchaseWith
+                    }
+                }
 
                 if (orderId.isEmpty() || !orderId.contains("GPA.") || orderId.length < 24) {
                     analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL)
@@ -255,7 +264,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                 Timber.e("Order id: $orderId")
 
-                prefs.purchasedOrderLastedId.set(orderId)
+//                prefs.purchasedOrderLastedId.set(orderId)
 
                 val timeExpiredWithPremium = customerInfo
                     .latestExpirationDate

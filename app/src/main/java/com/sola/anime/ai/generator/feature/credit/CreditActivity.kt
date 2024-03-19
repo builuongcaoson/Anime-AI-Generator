@@ -14,6 +14,7 @@ import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.revenuecat.purchases.purchaseWith
+import com.sola.anime.ai.generator.BuildConfig
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.Constraint
@@ -144,7 +145,15 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         Purchases.sharedInstance.purchaseWith(
             PurchaseParams.Builder(this, item).build(),
             onSuccess = { purchase, _ ->
-                val orderId = purchase?.orderId ?: "null"
+                val orderId = when {
+//                    BuildConfig.DEBUG -> "ABC"
+                    else -> purchase?.orderId ?: run {
+                        analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
+
+                        binding.viewLoading.isVisible = false
+                        return@purchaseWith
+                    }
+                }
 
                 if (orderId.isEmpty() || !orderId.contains("GPA.") || orderId.length < 24) {
                     analyticManager.logEvent(AnalyticManager.TYPE.PURCHASE_CANCEL_CREDITS)
@@ -153,9 +162,9 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
                     return@purchaseWith
                 }
 
-                Timber.e("Order id: ${purchase?.orderId}")
+                Timber.e("Order id: $orderId")
 
-                prefs.purchasedOrderLastedId.set(purchase?.orderId ?: "null")
+                prefs.purchasedOrderLastedId.set(orderId)
 
                 val creditsReceived = when (item.id) {
                     Constraint.Iap.SKU_CREDIT_1000 -> if (prefs.isUpgraded.get()) 1100 else 1000
