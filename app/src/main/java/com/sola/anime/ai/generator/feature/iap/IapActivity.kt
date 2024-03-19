@@ -263,7 +263,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
                 Timber.e("Order id: $orderId")
 
-//                prefs.purchasedOrderLastedId.set(orderId)
+                prefs.purchasedOrderLastedId.set(orderId)
 
                 val timeExpiredWithPremium = customerInfo
                     .latestExpirationDate
