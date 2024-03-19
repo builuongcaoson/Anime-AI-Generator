@@ -217,7 +217,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             .clicks
             .autoDispose(scope())
             .subscribe { loRAPreview ->
-                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
+                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id, isFull = true)
             }
 
         loRAAdapter
@@ -320,7 +320,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                 }
                 exploreDialog.dismiss()
 
-                activity?.startDetailExplore(exploreId = explore.id)
+                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         Observable.merge(
@@ -547,7 +547,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             lifecycleScope.launch(Dispatchers.Main) {
                 sheetLoRA.dismiss()
                 delay(250L)
-                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id)
+                activity?.startDetailModelOrLoRA(loRAGroupId = loRAPreview.loRAGroupId, loRAId = loRAPreview.loRA.id, isFull = true)
             }
         }
         sheetLoRA.show(this)
@@ -576,7 +576,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
                 delay(250L)
 
-                activity?.startDetailModelOrLoRA(modelId = model.id)
+                activity?.startDetailModelOrLoRA(modelId = model.id, isFull = true)
             }
         }
         sheetModel.show(this)

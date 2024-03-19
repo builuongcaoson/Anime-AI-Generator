@@ -16,7 +16,6 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.tryOrNull
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.installations.FirebaseInstallations
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.Purchases
@@ -25,12 +24,12 @@ import com.revenuecat.purchases.PurchasesError
 import com.revenuecat.purchases.interfaces.GetStoreProductsCallback
 import com.revenuecat.purchases.models.StoreProduct
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.FullManager
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.deviceModel
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
@@ -59,6 +58,10 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     // For network
     val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
+    // For admob
+    val fullScreenChanges by lazy { FullManager() }
+    var isStartedSplash = false
+
     override fun onCreate() {
         super.onCreate()
 
@@ -86,14 +89,6 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
                 }
             })
         }
-
-        // Init admob
-//        if (BuildConfig.DEBUG){
-//            val testDeviceIds = listOf("2919AB1DDAF7ECFC2ECF83A842FA2EA6")
-//            val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-//            MobileAds.setRequestConfiguration(configuration)
-//        }
-        MobileAds.initialize(this) {}
 
         // Register firebase token
         initFirebaseCloudMessaging()
@@ -133,7 +128,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> currentActivity?.takeIf { singletonOpenManager.isAdAvailable() }?.let { activity ->
+            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground && !isStartedSplash -> currentActivity?.takeIf { singletonOpenManager.isAdAvailable() }?.let { activity ->
                 tryOrNull { Handler(Looper.getMainLooper()).postDelayed({ singletonOpenManager.showAdIfAvailable(activity, getString(R.string.key_open_splash)) }, 250L) }
             }
         }

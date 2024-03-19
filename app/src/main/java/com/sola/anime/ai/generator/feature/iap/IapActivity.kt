@@ -57,7 +57,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var iapDao: IAPDao
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
-//    @Inject lateinit var featureDialog: FeatureDialog
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var analyticManager: AnalyticManager
@@ -425,7 +424,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!isKill){
-            startMain()
+            startMain(isFull = false)
             finish()
         } else {
             backTopToBottom()

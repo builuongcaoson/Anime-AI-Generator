@@ -43,10 +43,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::inflate) {
 
-    companion object {
-        const val IS_KILL_EXTRA = "IS_KILL_EXTRA"
-    }
-
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var networkDialog: NetworkDialog
     @Inject lateinit var previewAdapter: PreviewAdapter
@@ -54,7 +50,6 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     @Inject lateinit var userPremiumManager: UserPremiumManager
     @Inject lateinit var navigator: Navigator
 
-    private val isKill by lazy { intent.getBooleanExtra(IS_KILL_EXTRA, true) }
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
     private var products = listOf<StoreProduct>()
     private val skus by lazy { listOf(Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
@@ -336,12 +331,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (!isKill){
-            startMain()
-            finish()
-        } else {
-            backTopToBottom()
-        }
+        backTopToBottom()
     }
 
     class PreviewAdapter @Inject constructor(): LsAdapter<Int, ItemPreviewCreditBinding>(ItemPreviewCreditBinding::inflate){

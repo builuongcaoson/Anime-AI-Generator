@@ -66,7 +66,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                 }
             }
             sheetExplore.detailsClicks = { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
             sheetExplore.show(this)
         }
@@ -79,19 +79,19 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
             .subscribe { explore ->
                 exploreDialog.dismiss()
 
-                activity?.startArt(exploreId = explore.id)
+                activity?.startArt(exploreId = explore.id, isFull = true)
             }
 
         detailExploreClicks
             .autoDispose(scope())
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         historyAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true) }
+            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
 
         historyAdapter
             .longClicks

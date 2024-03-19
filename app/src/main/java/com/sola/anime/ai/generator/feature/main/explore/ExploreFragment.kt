@@ -89,8 +89,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribe { modelAndLoRA ->
                 when {
                     modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
-                    modelAndLoRA.model != null -> activity?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id)
-                    modelAndLoRA.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id)
+                    modelAndLoRA.model != null -> activity?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id, isFull = true)
+                    modelAndLoRA.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id, isFull = true)
                 }
             }
 
@@ -136,7 +136,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .clicks
             .autoDispose(scope())
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id)
+                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         exploreAdapter
@@ -157,8 +157,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 }
             }
         }
-        binding.viewGenerate.clicks { activity?.startArt() }
-        binding.viewSearch.clicks { activity?.startSearch() }
+        binding.viewGenerate.clicks { activity?.startArt(isFull = true) }
+        binding.viewSearch.clicks { activity?.startSearch(isFull = true) }
     }
 
     private fun initData() {

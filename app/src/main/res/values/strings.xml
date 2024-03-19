@@ -36,7 +36,7 @@
     <string name="unleash_your">Unleash your</string>
     <string name="creativity">Creativity</string>
     <string name="remove_ads">Remove ads</string>
-    <string name="more_clarity_better_quality_fast_processing">More clarity, better quality, fast processing</string>
+    <string name="more_clarity_better_quality">More clarity, better quality</string>
     <string name="unlock_aspect_ratios">Unlock aspect ratios</string>
     <string name="remove_watermark">Remove watermark</string>
     <string name="gift_1000_credits">Gift 1000 credits</string>
@@ -71,4 +71,6 @@
     <string name="try_amazing_models_or_loras_now">Try amazing Models or LoRAs now</string>
     <string name="search_model_lora_explores">Search model, loRA, explores, …</string>
     <string name="explores">Explores</string>
+    <string name="fast_processing">Fast processing</string>
+    <string name="this_action_contains_ads">This action contains ads...</string>
 </resources>

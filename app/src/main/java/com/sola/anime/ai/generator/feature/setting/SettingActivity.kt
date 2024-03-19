@@ -13,6 +13,7 @@ import com.basic.common.extension.lightStatusBar
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.transparent
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.GoogleMobileAdsConsentManager
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
@@ -43,6 +44,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
     @Inject lateinit var promoCodeDialog: PromoCodeDialog
     @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var networkDialog: NetworkDialog
+    @Inject lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
         binding.viewPrivacy.clicks(withAnim = false) { navigator.showPrivacy() }
         binding.viewTerms.clicks(withAnim = false) { navigator.showTerms() }
         binding.viewPromoCode.clicks(withAnim = false) { promoCodeDialog.show(this) }
+        binding.viewPrivacySettings.clicks(withAnim = false) { googleMobileAdsConsentManager.showPrivacyOptionsForm(this@SettingActivity) {} }
     }
 
     private fun initData() {
@@ -143,6 +146,7 @@ class SettingActivity : LsActivity<ActivitySettingBinding>(ActivitySettingBindin
 
         binding.deviceId.text = deviceId()
         binding.version.text = BuildConfig.VERSION_NAME
+        binding.viewPrivacySettings.isVisible = googleMobileAdsConsentManager.isPrivacyOptionsRequired
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))

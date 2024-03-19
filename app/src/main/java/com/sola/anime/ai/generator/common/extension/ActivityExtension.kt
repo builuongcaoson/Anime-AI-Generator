@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
+import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.tryOrNull
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.feature.art.ArtActivity
 import com.sola.anime.ai.generator.feature.credit.CreditActivity
 import com.sola.anime.ai.generator.feature.crop.CropActivity
@@ -23,46 +25,94 @@ import com.sola.anime.ai.generator.feature.result.art.ArtResultActivity
 import com.sola.anime.ai.generator.feature.search.SearchActivity
 import com.sola.anime.ai.generator.feature.setting.SettingActivity
 
-fun Activity.startMain(){
-    val intent = Intent(this, MainActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startMain(isFull: Boolean){
+    val task = {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startSetting(){
-    val intent = Intent(this, SettingActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startSetting(isFull: Boolean){
+    val task = {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startSearch(){
-    val intent = Intent(this, SearchActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startSearch(isFull: Boolean){
+    val task = {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, loRAPReviewIndex: Int = 0){
-    val intent = Intent(this, DetailModelOrLoRAActivity::class.java)
-    intent.putExtra(DetailModelOrLoRAActivity.MODEL_ID_EXTRA, modelId)
-    intent.putExtra(DetailModelOrLoRAActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
-    intent.putExtra(DetailModelOrLoRAActivity.LORA_ID_EXTRA, loRAId)
-    intent.putExtra(DetailModelOrLoRAActivity.LORA_PREVIEW_INDEX_EXTRA, loRAPReviewIndex)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startDetailModelOrLoRA(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, loRAPReviewIndex: Int = 0, isFull: Boolean){
+    val task = {
+        val intent = Intent(this, DetailModelOrLoRAActivity::class.java)
+        intent.putExtra(DetailModelOrLoRAActivity.MODEL_ID_EXTRA, modelId)
+        intent.putExtra(DetailModelOrLoRAActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
+        intent.putExtra(DetailModelOrLoRAActivity.LORA_ID_EXTRA, loRAId)
+        intent.putExtra(DetailModelOrLoRAActivity.LORA_PREVIEW_INDEX_EXTRA, loRAPReviewIndex)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startDetailExplore(exploreId: Long, previewIndex: Int = 0){
-    val intent = Intent(this, DetailExploreActivity::class.java)
-    intent.putExtra(DetailExploreActivity.EXPLORE_ID_EXTRA, exploreId)
-    intent.putExtra(DetailExploreActivity.EXPLORE_PREVIEW_INDEX_EXTRA, previewIndex)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startDetailExplore(exploreId: Long, previewIndex: Int = 0, isFull: Boolean){
+    val task = {
+        val intent = Intent(this, DetailExploreActivity::class.java)
+        intent.putExtra(DetailExploreActivity.EXPLORE_ID_EXTRA, exploreId)
+        intent.putExtra(DetailExploreActivity.EXPLORE_PREVIEW_INDEX_EXTRA, previewIndex)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startPickAvatar(){
-    val intent = Intent(this, PickAvatarActivity::class.java)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startPickAvatar(isFull: Boolean){
+    val task = {
+        val intent = Intent(this, PickAvatarActivity::class.java)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
 fun Activity.startCrop(fragment: Fragment, uri: Uri, requestCode: Int){
@@ -72,9 +122,8 @@ fun Activity.startCrop(fragment: Fragment, uri: Uri, requestCode: Int){
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startCredit(isKill: Boolean = true){
+fun Activity.startCredit(){
     val intent = Intent(this, CreditActivity::class.java)
-    intent.putExtra(CreditActivity.IS_KILL_EXTRA, isKill)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
@@ -86,14 +135,22 @@ fun Activity.startIap(isKill: Boolean = true){
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
-fun Activity.startArt(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, exploreId: Long? = null){
-    val intent = Intent(this, ArtActivity::class.java)
-    intent.putExtra(ArtActivity.MODEL_ID_EXTRA, modelId)
-    intent.putExtra(ArtActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
-    intent.putExtra(ArtActivity.LORA_ID_EXTRA, loRAId)
-    intent.putExtra(ArtActivity.EXPLORE_ID_EXTRA, exploreId)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
+fun Activity.startArt(modelId: Long = -1, loRAGroupId: Long = -1, loRAId: Long = -1, exploreId: Long? = null, isFull: Boolean){
+    val task = {
+        val intent = Intent(this, ArtActivity::class.java)
+        intent.putExtra(ArtActivity.MODEL_ID_EXTRA, modelId)
+        intent.putExtra(ArtActivity.LORA_GROUP_ID_EXTRA, loRAGroupId)
+        intent.putExtra(ArtActivity.LORA_ID_EXTRA, loRAId)
+        intent.putExtra(ArtActivity.EXPLORE_ID_EXTRA, exploreId)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
 fun Activity.startArtProcessing(totalCreditsDeducted: Float, creditsPerImage: Float){
@@ -120,21 +177,37 @@ fun Activity.startAvatarProcessing(totalCreditsDeducted: Float, creditsPerImage:
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }
 
-fun Activity.startArtResult(historyId: Long, childHistoryIndex: Int = -1, isGallery: Boolean){
-    val intent = Intent(this, ArtResultActivity::class.java)
-    intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
-    intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
-    intent.putExtra(ArtResultActivity.IS_GALLERY_EXTRA, isGallery)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startArtResult(historyId: Long, childHistoryIndex: Int = -1, isGallery: Boolean, isFull: Boolean){
+    val task = {
+        val intent = Intent(this, ArtResultActivity::class.java)
+        intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
+        intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
+        intent.putExtra(ArtResultActivity.IS_GALLERY_EXTRA, isGallery)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
-fun Activity.startPreview(historyId: Long, childHistoryIndex: Int = -1){
-    val intent = Intent(this, PreviewActivity::class.java)
-    intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
-    intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
-    startActivity(intent)
-    tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+fun Activity.startPreview(historyId: Long, childHistoryIndex: Int = -1, isFull: Boolean){
+    val task = {
+        val intent = Intent(this, PreviewActivity::class.java)
+        intent.putExtra(ArtResultActivity.HISTORY_ID_EXTRA, historyId)
+        intent.putExtra(ArtResultActivity.CHILD_HISTORY_INDEX_EXTRA, childHistoryIndex)
+        startActivity(intent)
+        tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
+    }
+    when {
+        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+            App.app.fullScreenChanges.showAdIfAvailable(this, getString(R.string.key_full_screen_changes)) { task() }
+        }
+        else -> task()
+    }
 }
 
 fun Activity.startFirst(){

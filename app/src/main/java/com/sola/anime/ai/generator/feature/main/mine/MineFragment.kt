@@ -56,7 +56,7 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
 //                binding.viewShadow.alpha = alpha
 //            }
 //        }
-        binding.viewSetting.clicks { activity?.startSetting() }
+        binding.viewSetting.clicks { activity?.startSetting(isFull = true) }
     }
 
     private fun initView() {

@@ -84,7 +84,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
 
     private fun listenerView() {
 //        binding.viewAvatar.clicks(withAnim = false){ activity?.makeToast("It is coming soon, thank you and hope you like it.") }
-        binding.viewAvatar.clicks(withAnim = false){ activity?.startPickAvatar() }
+        binding.viewAvatar.clicks(withAnim = false){ activity?.startPickAvatar(isFull = true) }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.viewPro.clicks(withAnim = true) { activity?.startIap() }
     }

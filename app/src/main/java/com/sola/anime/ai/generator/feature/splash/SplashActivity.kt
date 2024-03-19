@@ -3,33 +3,45 @@ package com.sola.anime.ai.generator.feature.splash
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.extension.isNetworkAvailable
 import com.basic.common.extension.makeToast
 import com.basic.common.extension.tryOrNull
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.sola.anime.ai.generator.BuildConfig
+import com.sola.anime.ai.generator.GoogleMobileAdsConsentManager
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.SingletonOpenManager
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.extension.*
 import com.sola.anime.ai.generator.common.ui.dialog.NetworkDialog
 import com.sola.anime.ai.generator.common.util.CommonUtil
 import com.sola.anime.ai.generator.common.util.RootUtil
 import com.sola.anime.ai.generator.data.Preferences
-import com.sola.anime.ai.generator.data.db.query.*
 import com.sola.anime.ai.generator.databinding.ActivitySplashBinding
 import com.sola.anime.ai.generator.domain.interactor.SyncData
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.PermissionManager
+import com.uber.autodispose.android.lifecycle.scope
+import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -43,6 +55,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     @Inject lateinit var admobManager: AdmobManager
     @Inject lateinit var permissionManager: PermissionManager
     @Inject lateinit var singletonOpenManager: SingletonOpenManager
+    @Inject lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+    private val subjectCreatedSplash: Subject<Unit> = PublishSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +72,62 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         Timber.tag("Main12345").e("Lasted time formatted created artwork: ${prefs.latestTimeCreatedArtwork.get().getTimeFormatted()}")
         Timber.tag("Main12345").e("Lasted time is Today: ${prefs.latestTimeCreatedArtwork.get().isToday()}")
 
+        App.app.isStartedSplash = true
+
+        subjectCreatedSplash
+            .debounce(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe {
+                Observable
+                    .timer(5, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .autoDispose(scope())
+                    .subscribe {
+                        if (googleMobileAdsConsentManager.isShowConsentForm) return@subscribe
+                        initData()
+                    }
+
+                googleMobileAdsConsentManager.gatherConsent(this) { consentError ->
+                    if (consentError != null) {
+                        Timber.w(String.format("%s: %s", consentError.errorCode, consentError.message))
+                    }
+
+                    if (googleMobileAdsConsentManager.canRequestAds) {
+                        initializeMobileAdsSdk()
+                    }
+
+                    initData()
+                }
+
+                if (googleMobileAdsConsentManager.canRequestAds) {
+                    initializeMobileAdsSdk()
+                }
+            }
+
+        subjectCreatedSplash.onNext(Unit)
+
         initView()
         initObservable()
-        initData()
+    }
+
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        if (BuildConfig.DEBUG){
+            val configuration = RequestConfiguration.Builder().setTestDeviceIds(arrayListOf("2919AB1DDAF7ECFC2ECF83A842FA2EA6")).build()
+            MobileAds.setRequestConfiguration(configuration)
+        }
+
+        MobileAds.initialize(this) { initializationStatus ->
+            val statusMap = initializationStatus.adapterStatusMap
+            for (adapterClass in statusMap.keys) {
+                val status = statusMap[adapterClass]
+                Timber.d(String.format("Adapter name: %s, Description: %s, Latency: %d", adapterClass, status?.description, status?.latency))
+            }
+        }
     }
 
     private fun initData() {
@@ -67,6 +136,7 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
         prefs.userPurchasedChanges.delete()
 
         lifecycleScope.launch(Dispatchers.Main) {
+            binding.viewLoadingAd.animate().alpha(1f).setDuration(250L).start()
             delay(500)
             when {
                 !isNetworkAvailable() -> networkDialog.show(this@SplashActivity){
@@ -101,10 +171,6 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 finish()
                 return
             }
-        }
-
-        when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> singletonOpenManager.loadAd(this, getString(R.string.key_open_splash))
         }
 
         syncData.execute(Unit)
@@ -150,7 +216,9 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
-                    configApp.isShowOpenAd = tryOrNull { config.getBoolean("isShowOpenAd_3") } ?: configApp.isShowOpenAd
+                    configApp.fullScreenChangesDisplayInterval = tryOrNull { config.getLong("fullScreenChangesDisplayInterval") } ?: configApp.fullScreenChangesDisplayInterval
+                    configApp.isFullScreenChanges = tryOrNull { config.getBoolean("isShowFullScreenChanges") } ?: configApp.isFullScreenChanges
+                    configApp.isOpenSplashOrBackground = tryOrNull { config.getBoolean("isShowOpenAd_3") } ?: configApp.isOpenSplashOrBackground
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap
 
                     Timber.e("stepDefault: ${configApp.stepDefault}")
@@ -172,7 +240,8 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     Timber.e("Block device models: ${configApp.blockDeviceModels.joinToString { it }}")
                     Timber.e("Block versions: ${configApp.blockVersions.joinToString { it }}")
                     Timber.e("blockedRoot: ${configApp.blockedRoot}")
-                    Timber.e("isShowOpenAd: ${configApp.isShowOpenAd}")
+                    Timber.e("isShowFullScreenChanges: ${configApp.isFullScreenChanges}")
+                    Timber.e("isShowOpenAd: ${configApp.isOpenSplashOrBackground}")
                     Timber.e("scriptIap: ${configApp.scriptIap}")
 
                     doTaskAfterSyncFirebaseRemoteConfig()
@@ -190,10 +259,12 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
     private fun doTask(){
         val task = {
             lifecycleScope.launch(Dispatchers.Main) {
+                App.app.isStartedSplash = false
+
                 when {
                     prefs.isFirstTime.get() -> startFirst()
-//                    !prefs.isUpgraded.get() -> startIap(isKill = false)
-                    else -> startMain()
+                    !prefs.isUpgraded.get() -> startIap(isKill = false)
+                    else -> startMain(isFull = false)
                 }
 
                 finish()
@@ -204,8 +275,26 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             resetNumberCreatedArtworkIfOtherToday()
 
             when {
-                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isShowOpenAd -> {
-                    binding.textLoadingAd.text = "This action contains ads..."
+                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isFullScreenChanges -> {
+                    binding.textLoadingAd.text = getString(R.string.this_action_contains_ads)
+
+                    App.app.fullScreenChanges.loadAd(this@SplashActivity, getString(R.string.key_full_screen_changes), configApp.fullScreenChangesDisplayInterval * 1000L) { isSuccess ->
+                        when {
+                            isSuccess -> {
+                                lifecycleScope.launch(Dispatchers.Main) {
+                                    binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
+                                    delay(250L)
+                                    App.app.fullScreenChanges.showAdIfAvailable(this@SplashActivity, getString(R.string.key_full_screen_changes)) {
+                                        task()
+                                    }
+                                }
+                            }
+                            else -> task()
+                        }
+                    }
+                }
+                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground -> {
+                    binding.textLoadingAd.text = getString(R.string.this_action_contains_ads)
 
                     admobManager.loadAndShowOpenSplash(this@SplashActivity
                         , loaded = { binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start() }

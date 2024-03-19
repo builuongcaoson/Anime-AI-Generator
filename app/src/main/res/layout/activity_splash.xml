@@ -35,6 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_30sdp"
+        android:alpha="0"
+        tools:alpha="1"
         android:layout_marginEnd="@dimen/_30sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:orientation="vertical"

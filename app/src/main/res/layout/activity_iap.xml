@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/more_clarity_better_quality_fast_processing"
+                    android:text="@string/more_clarity_better_quality"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/unlock_aspect_ratios"
+                    android:text="@string/fast_processing"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 

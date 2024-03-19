@@ -5,17 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import com.basic.common.base.LsActivity
 import com.basic.common.base.LsPageAdapter
 import com.basic.common.extension.*
 import com.jakewharton.rxbinding2.view.clicks
-import com.revenuecat.purchases.Purchases
-import com.revenuecat.purchases.getCustomerInfoWith
 import com.sola.anime.ai.generator.BuildConfig
-import com.sola.anime.ai.generator.common.App
+import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.ConfigApp
-import com.sola.anime.ai.generator.common.Constraint
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startArt
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureVersionDialog
@@ -24,9 +21,7 @@ import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityMainBinding
 import com.sola.anime.ai.generator.databinding.LayoutBottomMainBinding
-import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.repo.ServerApiRepository
-import com.sola.anime.ai.generator.feature.art.art.ArtFragment
 import com.sola.anime.ai.generator.feature.main.mine.MineFragment
 import com.sola.anime.ai.generator.feature.main.batch.BatchFragment
 import com.sola.anime.ai.generator.feature.main.discover.DiscoverFragment
@@ -39,10 +34,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -58,6 +49,7 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
     @Inject lateinit var featureVersionDialog: FeatureVersionDialog
     @Inject lateinit var ratingDialog: RatingDialog
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var singletonOpenManager: SingletonOpenManager
 
     private val fragments by lazy { listOf(ExploreFragment(), BatchFragment(), DiscoverFragment(), MineFragment()) }
     private val bottomTabs by lazy { binding.initTabBottom() }
@@ -76,13 +68,19 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
             }
         }
 
+        when {
+            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground -> {
+                singletonOpenManager.loadAd(this, getString(R.string.key_open_splash))
+            }
+        }
+
         initView()
         initObservable()
         listenerView()
     }
 
     private fun listenerView() {
-        binding.viewBottom.viewArt.clicks { startArt() }
+        binding.viewBottom.viewArt.clicks { startArt(isFull = true) }
     }
 
     @SuppressLint("AutoDispose", "CheckResult")

@@ -91,7 +91,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
         binding.viewRecommendations.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.Recommendations) }
         binding.viewExploreRelated.clicks(withAnim = false) { subjectTabChanges.onNext(TabExplore.ExploreRelated) }
         binding.prompt.longClicks().autoDispose(scope()).subscribe { binding.prompt.text.toString().copyToClipboard(this) }
-        binding.viewUse.clicks(withAnim = false) { startArt(exploreId = exploreId) }
+        binding.viewUse.clicks(withAnim = false) { startArt(exploreId = exploreId, isFull = true) }
     }
 
     private fun reportClicks() {
@@ -145,7 +145,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             .clicks
             .autoDispose(scope())
             .subscribe { explore ->
-                startDetailExplore(exploreId = explore.id)
+                startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         subjectTabChanges
@@ -213,7 +213,7 @@ class DetailExploreActivity : LsActivity<ActivityDetailExploreBinding>(ActivityD
             .clicks
             .autoDispose(scope())
             .subscribe { explorePreview ->
-                startDetailExplore(exploreId = exploreId, previewIndex = explorePreview.previewIndex)
+                startDetailExplore(exploreId = exploreId, previewIndex = explorePreview.previewIndex, isFull = true)
             }
     }
 

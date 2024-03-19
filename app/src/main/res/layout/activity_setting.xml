@@ -171,6 +171,15 @@
                         app:title="Terms of use"
                         app:widget="@layout/preference_next_view" />
 
+                    <com.sola.anime.ai.generator.common.widget.LsPreferenceView
+                        android:id="@+id/viewPrivacySettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fillViewport="true"
+                        app:icon="@drawable/shield"
+                        app:title="Privacy Settings"
+                        app:widget="@layout/preference_next_view" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>

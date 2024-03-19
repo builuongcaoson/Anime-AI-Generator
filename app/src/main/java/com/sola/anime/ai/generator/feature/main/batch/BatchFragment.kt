@@ -225,7 +225,7 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
 
                         delay(250L)
 
-                        activity?.startDetailModelOrLoRA(modelId = model.id)
+                        activity?.startDetailModelOrLoRA(modelId = model.id, isFull = true)
                     }
                 }
                 sheetModel.show(this)
