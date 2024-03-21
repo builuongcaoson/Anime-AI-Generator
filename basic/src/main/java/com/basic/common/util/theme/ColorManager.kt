@@ -33,18 +33,18 @@ class ColorManager @Inject constructor(
 
         fun colorById(context: Context, id: Int) = when (id) {
             COLOR_THEME -> context.getColorCompat(R.color.tools_theme)
-            COLOR_BACKGROUND -> context.getColorCompat(R.color.backgroundDark)
-            COLOR_CARD_BACKGROUND -> context.getColorCompat(R.color.cardBackgroundDark)
-            COLOR_PRIMARY -> context.getColorCompat(R.color.primaryDark)
-            COLOR_SECONDARY -> context.getColorCompat(R.color.secondaryDark)
-            COLOR_TERTIARY -> context.getColorCompat(R.color.tertiaryDark)
-            COLOR_ON_PRIMARY -> context.getColorCompat(R.color.onPrimaryDark)
-            COLOR_ON_SECONDARY -> context.getColorCompat(R.color.onSecondaryDark)
-            COLOR_ON_TERTIARY -> context.getColorCompat(R.color.onTertiaryDark)
-            COLOR_TEXT_PRIMARY -> context.getColorCompat(R.color.textPrimaryDark)
-            COLOR_TEXT_SECONDARY -> context.getColorCompat(R.color.textSecondaryDark)
-            COLOR_TEXT_TERTIARY -> context.getColorCompat(R.color.textTertiaryDark)
-            COLOR_INDICATOR -> context.getColorCompat(R.color.indicatorDark)
+            COLOR_BACKGROUND -> context.getColorCompat(R.color.backgroundLight)
+            COLOR_CARD_BACKGROUND -> context.getColorCompat(R.color.cardBackgroundLight)
+            COLOR_PRIMARY -> context.getColorCompat(R.color.primaryLight)
+            COLOR_SECONDARY -> context.getColorCompat(R.color.secondaryLight)
+            COLOR_TERTIARY -> context.getColorCompat(R.color.tertiaryLight)
+            COLOR_ON_PRIMARY -> context.getColorCompat(R.color.onPrimary)
+            COLOR_ON_SECONDARY -> context.getColorCompat(R.color.onSecondary)
+            COLOR_ON_TERTIARY -> context.getColorCompat(R.color.onTertiary)
+            COLOR_TEXT_PRIMARY -> context.getColorCompat(R.color.textPrimary)
+            COLOR_TEXT_SECONDARY -> context.getColorCompat(R.color.textSecondary)
+            COLOR_TEXT_TERTIARY -> context.getColorCompat(R.color.textTertiary)
+            COLOR_INDICATOR -> context.getColorCompat(R.color.indicator)
             else -> null
         }
     }

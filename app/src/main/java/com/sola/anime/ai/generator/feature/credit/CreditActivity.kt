@@ -53,6 +53,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
     private var products = listOf<StoreProduct>()
     private val skus by lazy { listOf(Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
+    private var skuChoice = Constraint.Iap.SKU_CREDIT_10000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -256,6 +257,13 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
         subjectSkuChoice
             .autoDispose(scope())
             .subscribe { sku ->
+                if (skuChoice == sku){
+                    purchaseClicks()
+                    return@subscribe
+                }
+
+                skuChoice = sku
+
                 binding.view4.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_1000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
                 binding.view3.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_3000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)
                 binding.view2.strokeColor = resolveAttrColor(if (sku == Constraint.Iap.SKU_CREDIT_5000) android.R.attr.textColorPrimary else android.R.attr.textColorTertiary)

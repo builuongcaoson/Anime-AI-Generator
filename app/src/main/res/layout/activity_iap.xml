@@ -6,631 +6,674 @@
     android:layout_height="match_parent"
     tools:context=".feature.iap.IapActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/viewBottom"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/viewPreview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            android:orientation="vertical"
-            tools:alpha="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPreview1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/_7sdp"
-                android:paddingEnd="@dimen/_7sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_preview_iap" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPreview2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/_7sdp"
-                android:paddingEnd="@dimen/_7sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:stackFromEnd="true"
-                tools:listitem="@layout/item_preview_iap" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPreview3"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/_7sdp"
-                android:paddingEnd="@dimen/_7sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_preview_iap" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/back"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_40sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/circle"
-            android:backgroundTint="?android:windowBackground"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/ic_baseline_close"
-            android:tint="?android:textColorPrimary" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/viewBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.basic.common.widget.LsTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:text="@string/unleash_your"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/_25ssp" />
-
-        <com.basic.common.widget.LsTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:text="@string/creativity"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/_25ssp"
-            app:textFont="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/remove_all_ads"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_11ssp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/fast_processing"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_11ssp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/purchase_discount"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_11ssp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <com.basic.common.widget.LsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/remove_watermark"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_11ssp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_15sdp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <com.basic.common.widget.LsTextView
-                    android:id="@+id/description3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/get_1000_credits"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="@dimen/_11ssp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_weight="1">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:src="@drawable/ic_badge_tick"
-                    android:tint="?android:textColorPrimary" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <com.basic.common.widget.LsTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/unlock_all_models"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_11ssp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/viewPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewYear"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardBackgroundColor="?android:textColorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:cardElevation="0dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/checkboxYear"
-                        android:layout_width="@dimen/_13sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/circle_stroke_1dp"
-                        android:backgroundTint="?colorOnPrimary"
-                        android:padding="@dimen/_3sdp"
-                        android:src="@drawable/circle"
-                        android:tint="?colorOnPrimary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/checkboxYear"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/yearly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/subscribe_yearly"
-                            android:textColor="?colorOnPrimary"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/priceYear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:text="0$"
-                            android:textColor="?colorOnPrimary"
-                            android:textSize="@dimen/_11ssp" />
-
-                    </LinearLayout>
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/priceWeekOfYear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:text="0$"
-                        android:textColor="?colorOnPrimary"
-                        android:textSize="@dimen/_11ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewWeek"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:cardElevation="0dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/checkboxWeek"
-                        android:layout_width="@dimen/_13sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/circle_stroke_1dp"
-                        android:backgroundTint="?android:textColorPrimary"
-                        android:padding="@dimen/_3sdp"
-                        android:tint="?android:textColorPrimary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/bestSeller"
-                        app:layout_constraintStart_toEndOf="@id/checkboxWeek"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/weekly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/subscribe_weekly"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/priceWeek"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:text="0$"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_11ssp" />
-
-                    </LinearLayout>
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/bestSeller"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:gravity="end"
-                        android:text="@string/best_seller"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_11ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/viewLifetime"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:cardElevation="0dp"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/checkboxLifetime"
-                        android:layout_width="@dimen/_13sdp"
-                        android:layout_height="@dimen/_13sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/circle_stroke_1dp"
-                        android:backgroundTint="?android:textColorPrimary"
-                        android:padding="@dimen/_3sdp"
-                        android:tint="?android:textColorPrimary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_7sdp"
-                        android:layout_marginEnd="@dimen/_7sdp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/checkboxLifetime"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/lifetime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/lifetime"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_12ssp" />
-
-                        <com.basic.common.widget.LsTextView
-                            android:id="@+id/priceLifeTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:text="0$"
-                            android:textColor="?android:textColorPrimary"
-                            android:textSize="@dimen/_11ssp" />
-
-                    </LinearLayout>
-
-                    <com.basic.common.widget.LsTextView
-                        android:id="@+id/textLifeTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_15sdp"
-                        android:gravity="end"
-                        android:text="@string/one_time_payment_nall_features_forever"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="@dimen/_11ssp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:gravity="center_horizontal"
-                android:text="@string/billed_yearly_auto_renewable_cancel_anytime"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/_10ssp" />
-
-        </LinearLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/viewContinue"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:cardBackgroundColor="?android:textColorPrimary"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.basic.common.widget.LsTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_continue"
-                    android:textColor="?colorOnPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:textFont="semi" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:tint="?colorOnPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/viewBottom"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.basic.common.widget.LsTextView
-                android:id="@+id/privacy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:padding="@dimen/_5sdp"
-                android:text="@string/privacy_policy_amp_terms_of_use_amp_restore"
-                android:textColor="?android:textColorPrimary"
-                android:textColorLink="?android:textColorPrimary"
-                android:textSize="@dimen/_8ssp" />
+            <LinearLayout
+                android:id="@+id/viewPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:orientation="vertical"
+                tools:alpha="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPreview1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_preview_iap" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPreview2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:stackFromEnd="true"
+                    tools:listitem="@layout/item_preview_iap" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerPreview3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_preview_iap" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true" />
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circle"
+                android:backgroundTint="?android:windowBackground"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_baseline_close"
+                android:tint="?android:textColorPrimary" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/viewBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="@string/unleash_your"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_25ssp" />
+
+            <com.basic.common.widget.LsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="@string/creativity"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_25ssp"
+                app:textFont="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="@string/remove_all_ads"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="@string/fast_processing"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="@string/purchase_discount"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/remove_watermark"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <com.basic.common.widget.LsTextView
+                        android:id="@+id/description3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:text="@string/get_1000_credits"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_weight="1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:src="@drawable/ic_badge_tick"
+                        android:tint="?android:textColorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <com.basic.common.widget.LsTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/unlock_all_models"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/viewPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="?android:textColorPrimary"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?android:textColorPrimary"
+                    app:strokeWidth="@dimen/_1sdp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/checkboxYear"
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/circle_stroke_1dp"
+                            android:backgroundTint="?colorOnPrimary"
+                            android:padding="@dimen/_3sdp"
+                            android:src="@drawable/circle"
+                            android:tint="?colorOnPrimary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/checkboxYear"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/yearly"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/subscribe_yearly"
+                                android:textColor="?colorOnPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/priceYear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="0$"
+                                android:textColor="?colorOnPrimary"
+                                android:textSize="@dimen/_11ssp" />
+
+                        </LinearLayout>
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/priceWeekOfYear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:text="0$"
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewWeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?android:textColorPrimary"
+                    app:strokeWidth="@dimen/_1sdp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/checkboxWeek"
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/circle_stroke_1dp"
+                            android:backgroundTint="?android:textColorPrimary"
+                            android:padding="@dimen/_3sdp"
+                            android:tint="?android:textColorPrimary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/bestSeller"
+                            app:layout_constraintStart_toEndOf="@id/checkboxWeek"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/weekly"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/subscribe_weekly"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/priceWeek"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="0$"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_11ssp" />
+
+                        </LinearLayout>
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/bestSeller"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:gravity="end"
+                            android:text="@string/best_seller"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/viewLifetime"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?android:textColorPrimary"
+                    app:strokeWidth="@dimen/_1sdp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/checkboxLifetime"
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:background="@drawable/circle_stroke_1dp"
+                            android:backgroundTint="?android:textColorPrimary"
+                            android:padding="@dimen/_3sdp"
+                            android:tint="?android:textColorPrimary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/checkboxLifetime"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/lifetime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/lifetime"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <com.basic.common.widget.LsTextView
+                                android:id="@+id/priceLifeTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:text="0$"
+                                android:textColor="?android:textColorPrimary"
+                                android:textSize="@dimen/_11ssp" />
+
+                        </LinearLayout>
+
+                        <com.basic.common.widget.LsTextView
+                            android:id="@+id/textLifeTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:gravity="end"
+                            android:text="@string/one_time_payment_nall_features_forever"
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/billed_yearly_auto_renewable_cancel_anytime"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/_10ssp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewContinue"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:cardBackgroundColor="?android:textColorPrimary"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.basic.common.widget.LsTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_continue"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textFont="semi" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:tint="?colorOnPrimary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.basic.common.widget.LsTextView
+                    android:id="@+id/privacy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/privacy_policy_amp_terms_of_use_amp_restore"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorLink="?android:textColorPrimary"
+                    android:textSize="@dimen/_8ssp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewLoading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/art_generate_lottie" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/viewLoading"
+        android:id="@+id/viewLoadingAds"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone">
+        android:background="?android:windowBackground"
+        android:layout_height="match_parent">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <LinearLayout
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/art_generate_lottie" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/_30sdp"
+                app:lottie_autoPlay="true"
+                android:layout_gravity="center_horizontal"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading"
+                android:layout_height="@dimen/_30sdp"/>
+
+            <com.basic.common.widget.LsTextView
+                app:textSize="primary"
+                app:textColor="textPrimary"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/loading_ads"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

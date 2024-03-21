@@ -69,6 +69,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku3) }
     private var products = listOf<StoreProduct>()
     private val skus by lazy { listOf(sku1, sku2, sku3) }
+    private var skuChoose = sku3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -311,6 +312,13 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { sku ->
+                if (skuChoose == sku){
+                    purchaseClicks()
+                    return@subscribe
+                }
+
+                skuChoose = sku
+
                 val colorSelected = resolveAttrColor(android.R.attr.textColorPrimary)
                 val colorUnselected = Color.TRANSPARENT
                 val textColorSelected = resolveAttrColor(com.google.android.material.R.attr.colorOnPrimary)
@@ -379,8 +387,7 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!isKill){
-            startMain(isFull = false)
-            finish()
+            startMain(viewLoadingAds = binding.viewLoadingAds, isFull = false) { finish() }
         } else {
             backTopToBottom()
         }

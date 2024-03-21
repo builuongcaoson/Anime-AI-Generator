@@ -7,60 +7,103 @@
     android:fitsSystemWindows="true"
     tools:context=".feature.search.SearchActivity">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/viewSearch"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        app:cardBackgroundColor="?cardBackgroundColor"
-        app:cardCornerRadius="@dimen/_15sdp"
-        app:cardElevation="0dp"
-        app:strokeWidth="0dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/viewSearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:cardBackgroundColor="?cardBackgroundColor"
+            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:src="@drawable/search"
-                android:tint="?android:textColorSecondary" />
-
-            <com.basic.common.widget.LsEditText
-                android:id="@+id/search"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:ellipsize="end"
-                android:hint="Search model, loRA, explore..."
-                android:paddingStart="@dimen/_40sdp"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_15sdp"
-                android:paddingBottom="@dimen/_10sdp"
-                android:singleLine="true"
-                android:textColor="?android:textColorPrimary"
-                android:textColorHint="?android:textColorSecondary"
-                android:textSize="@dimen/_12ssp" />
+                android:layout_height="match_parent">
 
-        </RelativeLayout>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:src="@drawable/search"
+                    android:tint="?android:textColorSecondary" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <com.basic.common.widget.LsEditText
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="Search model, loRA, explore..."
+                    android:paddingStart="@dimen/_40sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:textColor="?android:textColorPrimary"
+                    android:textColorHint="?android:textColorSecondary"
+                    android:textSize="@dimen/_12ssp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSearch"
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerSearch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="@dimen/_5sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSearch"
+            tools:listitem="@layout/item_group_search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewLoadingAds"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:padding="@dimen/_5sdp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewSearch"
-        tools:listitem="@layout/item_group_search" />
+        android:background="?android:windowBackground"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/_30sdp"
+                app:lottie_autoPlay="true"
+                android:layout_gravity="center_horizontal"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading"
+                android:layout_height="@dimen/_30sdp"/>
+
+            <com.basic.common.widget.LsTextView
+                app:textSize="primary"
+                app:textColor="textPrimary"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/loading_ads"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

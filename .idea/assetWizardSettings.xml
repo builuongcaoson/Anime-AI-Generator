@@ -329,8 +329,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_diamond" />
-                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\diamond.svg" />
+                            <entry key="outputName" value="shield" />
+                            <entry key="sourceFile" value="C:\Users\ADMIN\Downloads\shield.svg" />
                           </map>
                         </option>
                       </PersistentState>

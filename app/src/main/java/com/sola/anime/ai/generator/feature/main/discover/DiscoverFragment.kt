@@ -16,6 +16,7 @@ import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.common.extension.startPickAvatar
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.FragmentDiscoverBinding
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
@@ -84,7 +85,7 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
 
     private fun listenerView() {
 //        binding.viewAvatar.clicks(withAnim = false){ activity?.makeToast("It is coming soon, thank you and hope you like it.") }
-        binding.viewAvatar.clicks(withAnim = false){ activity?.startPickAvatar(isFull = true) }
+        binding.viewAvatar.clicks(withAnim = false){ (activity as? MainActivity)?.startPickAvatar(isFull = true) }
         binding.viewCredit.clicks(withAnim = true) { activity?.startCredit() }
         binding.viewPro.clicks(withAnim = true) { activity?.startIap() }
     }

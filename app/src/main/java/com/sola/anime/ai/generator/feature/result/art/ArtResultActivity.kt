@@ -405,7 +405,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             .filter { it != -1 }
             .autoDispose(scope())
             .subscribe { index ->
-                tryOrNull { startPreview(historyId = historyId, childHistoryIndex = index, isFull = true) }
+                tryOrNull { startPreview(viewLoadingAds = binding.viewLoadingAds, historyId = historyId, childHistoryIndex = index, isFull = true) { } }
             }
 
         prefs

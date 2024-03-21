@@ -17,6 +17,7 @@ import com.sola.anime.ai.generator.common.extension.getStatusBarHeight
 import com.sola.anime.ai.generator.common.extension.startSetting
 import com.sola.anime.ai.generator.databinding.FragmentMineBinding
 import com.sola.anime.ai.generator.databinding.LayoutTopMineBinding
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.mine.feature.ArtFragment
 import com.sola.anime.ai.generator.feature.main.mine.feature.AvatarFragment
 import com.sola.anime.ai.generator.feature.main.mine.feature.BatchFragment
@@ -56,7 +57,7 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
 //                binding.viewShadow.alpha = alpha
 //            }
 //        }
-        binding.viewSetting.clicks { activity?.startSetting(isFull = true) }
+        binding.viewSetting.clicks { (activity as? MainActivity)?.startSetting(isFull = true) }
     }
 
     private fun initView() {

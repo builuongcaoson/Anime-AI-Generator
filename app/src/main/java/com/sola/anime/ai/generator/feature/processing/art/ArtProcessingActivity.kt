@@ -224,8 +224,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
                                                 when {
                                                     dezgoStatusTextsToImages.none { it.status !is StatusBodyTextToImage.Success } && historyIds.isNotEmpty() -> {
-                                                        startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false, isFull = false)
-                                                        finish()
+                                                        startArtResult(viewLoadingAds = binding.viewLoadingAds, historyId = historyIds.firstOrNull() ?: -1L, isGallery = false, isFull = false) { finish() }
                                                     }
                                                     else -> {
                                                         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)
@@ -303,8 +302,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
                                                 when {
                                                     dezgoStatusImagesToImages.none { it.status !is StatusBodyImageToImage.Success } && historyIds.isNotEmpty() -> {
-                                                        startArtResult(historyId = historyIds.firstOrNull() ?: -1L, isGallery = false, isFull = false)
-                                                        finish()
+                                                        startArtResult(viewLoadingAds = binding.viewLoadingAds, historyId = historyIds.firstOrNull() ?: -1L, isGallery = false, isFull = false) { finish() }
                                                     }
                                                     else -> {
                                                         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_FAILED)

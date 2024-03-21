@@ -98,7 +98,7 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
             .subscribe { model ->
                 when {
                     !prefs.isUpgraded.get() && model.isPremium -> startIap()
-                    else -> startDetailModelOrLoRA(modelId = model.id, isFull = true)
+                    else -> startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, modelId = model.id, isFull = true) { }
                 }
             }
 
@@ -106,14 +106,14 @@ class SearchActivity : LsActivity<ActivitySearchBinding>(ActivitySearchBinding::
             .loRAClicks
             .autoDispose(scope())
             .subscribe { loRAPreview ->
-                startDetailModelOrLoRA(loRAId = loRAPreview.loRA.id, loRAGroupId = loRAPreview.loRAGroupId, isFull = true)
+                startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, loRAId = loRAPreview.loRA.id, loRAGroupId = loRAPreview.loRAGroupId, isFull = true) { }
             }
 
         groupSearchAdapter
             .exploreCLicks
             .autoDispose(scope())
             .subscribe { explore ->
-                startDetailExplore(exploreId = explore.id, isFull = true)
+                startDetailExplore(viewLoadingAds = binding.viewLoadingAds, exploreId = explore.id, isFull = true) { }
             }
     }
 

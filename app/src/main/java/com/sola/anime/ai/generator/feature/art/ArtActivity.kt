@@ -10,6 +10,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.common.extension.backTopToBottom
 import com.sola.anime.ai.generator.common.extension.startCredit
+import com.sola.anime.ai.generator.common.extension.startDetailExplore
+import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
 import com.sola.anime.ai.generator.common.extension.startIap
 import com.sola.anime.ai.generator.data.Preferences
 import com.sola.anime.ai.generator.databinding.ActivityArtBinding
@@ -72,6 +74,18 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
         initObservable()
         initData()
         listenerView()
+    }
+
+    fun startDetailModelOrLoRA(loRAGroupId: Long, loRAId: Long, isFull: Boolean) {
+        startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, loRAGroupId = loRAGroupId, loRAId = loRAId, isFull = isFull) { }
+    }
+
+    fun startDetailModelOrLoRA(modelId: Long, isFull: Boolean) {
+        startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, modelId = modelId, isFull = true) { }
+    }
+
+    fun startDetailExplore(exploreId: Long, isFull: Boolean) {
+        startDetailExplore(viewLoadingAds = binding.viewLoadingAds, exploreId = exploreId, isFull = isFull) { }
     }
 
     private fun listenerView() {

@@ -114,8 +114,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
         }
         binding.viewUse.clicks(withAnim = false) {
             when {
-                modelId != -1L -> startArt(modelId = modelId, isFull = true)
-                loRAGroupId != -1L && loRAId != -1L -> startArt(loRAGroupId = loRAGroupId, loRAId = loRAId, isFull = true)
+                modelId != -1L -> startArt(viewLoadingAds = binding.viewLoadingAds, modelId = modelId, isFull = true) { }
+                loRAGroupId != -1L && loRAId != -1L -> startArt(viewLoadingAds = binding.viewLoadingAds, loRAGroupId = loRAGroupId, loRAId = loRAId, isFull = true) { }
             }
         }
     }
@@ -251,8 +251,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .autoDispose(scope())
             .subscribe { exploreOrLoRAPreview ->
                 when {
-                    exploreOrLoRAPreview.explore != null -> startDetailExplore(exploreId = exploreOrLoRAPreview.explore.id, isFull = true)
-                    exploreOrLoRAPreview.loRAPreview != null && exploreOrLoRAPreview.loRAPreviewIndex != null -> startDetailModelOrLoRA(loRAGroupId = loRAGroupId, loRAId = loRAId, loRAPReviewIndex = exploreOrLoRAPreview.loRAPreviewIndex, isFull = true)
+                    exploreOrLoRAPreview.explore != null -> startDetailExplore(viewLoadingAds = binding.viewLoadingAds, exploreId = exploreOrLoRAPreview.explore.id, isFull = true) { }
+                    exploreOrLoRAPreview.loRAPreview != null && exploreOrLoRAPreview.loRAPreviewIndex != null -> startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, loRAGroupId = loRAGroupId, loRAId = loRAId, loRAPReviewIndex = exploreOrLoRAPreview.loRAPreviewIndex, isFull = true) { }
                 }
             }
 
@@ -286,8 +286,8 @@ class DetailModelOrLoRAActivity : LsActivity<ActivityDetailModelOrLoraBinding>(A
             .subscribe { modelAndLoRA ->
                 when {
                     modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> startIap()
-                    modelAndLoRA.model != null -> startDetailModelOrLoRA(modelId = modelAndLoRA.model.id, isFull = true)
-                    modelAndLoRA.loRA != null -> startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id, isFull = true)
+                    modelAndLoRA.model != null -> startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, modelId = modelAndLoRA.model.id, isFull = true) { }
+                    modelAndLoRA.loRA != null -> startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id, isFull = true) { }
                 }
             }
     }

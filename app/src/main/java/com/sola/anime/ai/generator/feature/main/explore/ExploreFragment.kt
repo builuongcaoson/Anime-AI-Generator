@@ -18,6 +18,7 @@ import com.sola.anime.ai.generator.domain.model.ModelOrLoRA
 import com.sola.anime.ai.generator.domain.model.config.lora.LoRAGroup
 import com.sola.anime.ai.generator.domain.model.config.model.Model
 import com.sola.anime.ai.generator.domain.repo.SyncRepository
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ExploreAdapter
 import com.sola.anime.ai.generator.feature.main.explore.adapter.ModelAndLoRAAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,8 +90,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .subscribe { modelAndLoRA ->
                 when {
                     modelAndLoRA.isPremium && !prefs.isUpgraded.get() -> activity?.startIap()
-                    modelAndLoRA.model != null -> activity?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id, isFull = true)
-                    modelAndLoRA.loRA != null -> activity?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id, isFull = true)
+                    modelAndLoRA.model != null -> (activity as? MainActivity)?.startDetailModelOrLoRA(modelId = modelAndLoRA.model.id, isFull = true)
+                    modelAndLoRA.loRA != null -> (activity as? MainActivity)?.startDetailModelOrLoRA(loRAGroupId = modelAndLoRA.loRAGroupId, loRAId = modelAndLoRA.loRA.id, isFull = true)
                 }
             }
 
@@ -136,7 +137,7 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             .clicks
             .autoDispose(scope())
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
+                (activity as? MainActivity)?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         exploreAdapter
@@ -157,8 +158,8 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
                 }
             }
         }
-        binding.viewGenerate.clicks { activity?.startArt(isFull = true) }
-        binding.viewSearch.clicks { activity?.startSearch(isFull = true) }
+        binding.viewGenerate.clicks { (activity as? MainActivity)?.startArt(isFull = true) }
+        binding.viewSearch.clicks { (activity as? MainActivity)?.startSearch(isFull = true) }
     }
 
     private fun initData() {

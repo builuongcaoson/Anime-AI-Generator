@@ -262,12 +262,16 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                 App.app.isStartedSplash = false
 
                 when {
-                    prefs.isFirstTime.get() -> startFirst()
-                    !prefs.isUpgraded.get() -> startIap(isKill = false)
-                    else -> startMain(isFull = false)
+                    prefs.isFirstTime.get() -> {
+                        startFirst()
+                        finish()
+                    }
+                    !prefs.isUpgraded.get() -> {
+                        startIap(isKill = false)
+                        finish()
+                    }
+                    else -> startMain(viewLoadingAds = binding.viewLoadingAds, isFull = false) { finish() }
                 }
-
-                finish()
             }
         }
 

@@ -12,4 +12,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewLoadingAds"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:background="?android:windowBackground"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/_30sdp"
+                app:lottie_autoPlay="true"
+                android:layout_gravity="center_horizontal"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading"
+                android:layout_height="@dimen/_30sdp"/>
+
+            <com.basic.common.widget.LsTextView
+                app:textSize="primary"
+                app:textColor="textPrimary"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/loading_ads"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

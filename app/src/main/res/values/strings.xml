@@ -74,4 +74,5 @@
     <string name="billed_yearly_auto_renewable_cancel_anytime">Billed yearly, Auto-renewable, Cancel anytime</string>
     <string name="billed_weekly_auto_renewable_cancel_anytime">Billed weekly, Auto-renewable, Cancel anytime</string>
     <string name="fast_processing">Fast processing</string>
+    <string name="loading_ads">Loading ads...</string>
 </resources>

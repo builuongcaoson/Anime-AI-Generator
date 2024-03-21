@@ -50,7 +50,7 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
         historyAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
+            .subscribe { (activity as? MainActivity)?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
 
         folderAdapter
             .plusClicks

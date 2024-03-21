@@ -23,6 +23,7 @@ import com.sola.anime.ai.generator.data.db.query.FolderDao
 import com.sola.anime.ai.generator.data.db.query.HistoryDao
 import com.sola.anime.ai.generator.databinding.FragmentArtMineBinding
 import com.sola.anime.ai.generator.domain.model.config.explore.Explore
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.mine.adapter.FolderAdapter
 import com.sola.anime.ai.generator.feature.main.mine.adapter.HistoryAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
@@ -66,7 +67,7 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
                 }
             }
             sheetExplore.detailsClicks = { explore ->
-                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
+                (activity as? MainActivity)?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
             sheetExplore.show(this)
         }
@@ -79,19 +80,19 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
             .subscribe { explore ->
                 exploreDialog.dismiss()
 
-                activity?.startArt(exploreId = explore.id, isFull = true)
+                (activity as? MainActivity)?.startArt(exploreId = explore.id, isFull = true)
             }
 
         detailExploreClicks
             .autoDispose(scope())
             .subscribe { explore ->
-                activity?.startDetailExplore(exploreId = explore.id, isFull = true)
+                (activity as? MainActivity)?.startDetailExplore(exploreId = explore.id, isFull = true)
             }
 
         historyAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
+            .subscribe { (activity as? MainActivity)?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
 
         historyAdapter
             .longClicks

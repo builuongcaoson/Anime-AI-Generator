@@ -15,6 +15,12 @@ import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.ConfigApp
 import com.sola.anime.ai.generator.common.Navigator
 import com.sola.anime.ai.generator.common.extension.startArt
+import com.sola.anime.ai.generator.common.extension.startArtResult
+import com.sola.anime.ai.generator.common.extension.startDetailExplore
+import com.sola.anime.ai.generator.common.extension.startDetailModelOrLoRA
+import com.sola.anime.ai.generator.common.extension.startPickAvatar
+import com.sola.anime.ai.generator.common.extension.startSearch
+import com.sola.anime.ai.generator.common.extension.startSetting
 import com.sola.anime.ai.generator.common.ui.dialog.FeatureVersionDialog
 import com.sola.anime.ai.generator.common.ui.dialog.RatingDialog
 import com.sola.anime.ai.generator.common.ui.dialog.WarningPremiumDialog
@@ -79,8 +85,44 @@ class MainActivity : LsActivity<ActivityMainBinding>(ActivityMainBinding::inflat
         listenerView()
     }
 
+    fun startDetailModelOrLoRA(modelId: Long, isFull: Boolean) {
+        startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, modelId = modelId, isFull = isFull) { }
+    }
+
+    fun startDetailModelOrLoRA(loRAGroupId: Long, loRAId: Long, isFull: Boolean) {
+        startDetailModelOrLoRA(viewLoadingAds = binding.viewLoadingAds, loRAGroupId = loRAGroupId, loRAId = loRAId, isFull = isFull) { }
+    }
+
+    fun startDetailExplore(exploreId: Long, isFull: Boolean) {
+        startDetailExplore(viewLoadingAds = binding.viewLoadingAds, exploreId = exploreId, isFull = isFull) { }
+    }
+
+    fun startPickAvatar(isFull: Boolean) {
+        startPickAvatar(viewLoadingAds = binding.viewLoadingAds, isFull = isFull) { }
+    }
+
+    fun startArt(isFull: Boolean) {
+        startArt(viewLoadingAds = binding.viewLoadingAds, isFull = isFull) { }
+    }
+
+    fun startSearch(isFull: Boolean) {
+        startSearch(viewLoadingAds = binding.viewLoadingAds, isFull = isFull) { }
+    }
+
+    fun startSetting(isFull: Boolean) {
+        startSetting(viewLoadingAds = binding.viewLoadingAds, isFull = isFull) { }
+    }
+
+    fun startArt(exploreId: Long, isFull: Boolean) {
+        startArt(viewLoadingAds = binding.viewLoadingAds, exploreId = exploreId, isFull = isFull) { }
+    }
+
+    fun startArtResult(historyId: Long, childHistoryIndex: Int, isGallery: Boolean, isFull: Boolean) {
+        startArtResult(viewLoadingAds = binding.viewLoadingAds, historyId = historyId, childHistoryIndex = childHistoryIndex, isGallery = isGallery, isFull = isFull) { }
+    }
+
     private fun listenerView() {
-        binding.viewBottom.viewArt.clicks { startArt(isFull = true) }
+        binding.viewBottom.viewArt.clicks { startArt(viewLoadingAds = binding.viewLoadingAds, isFull = true) { } }
     }
 
     @SuppressLint("AutoDispose", "CheckResult")

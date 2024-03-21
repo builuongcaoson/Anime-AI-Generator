@@ -50,7 +50,7 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
         historyAdapter
             .clicks
             .autoDispose(scope())
-            .subscribe { activity?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
+            .subscribe { (activity as? MainActivity)?.startArtResult(historyId = it.id, childHistoryIndex = it.childs.lastIndex, isGallery = true, isFull = true) }
 
         folderAdapter
             .plusClicks

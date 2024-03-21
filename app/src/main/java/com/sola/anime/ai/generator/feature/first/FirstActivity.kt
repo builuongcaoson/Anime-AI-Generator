@@ -59,9 +59,8 @@ class FirstActivity : LsActivity<ActivityFirstBinding>(ActivityFirstBinding::inf
                 prefs.isFirstTime.set(false)
                 when {
 //                    !prefs.isUpgraded.get() -> startIap(isKill = false)
-                    else -> startMain(isFull = true)
+                    else -> startMain(viewLoadingAds = binding.viewLoadingAds, isFull = true) { finish() }
                 }
-                finish()
             }
         }
     }

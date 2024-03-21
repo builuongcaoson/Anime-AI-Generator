@@ -27,6 +27,7 @@ import com.sola.anime.ai.generator.databinding.FragmentBatchBinding
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.domain.model.PromptBatch
 import com.sola.anime.ai.generator.domain.model.Sampler
+import com.sola.anime.ai.generator.feature.main.MainActivity
 import com.sola.anime.ai.generator.feature.main.batch.adapter.PromptAdapter
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
 import com.uber.autodispose.android.lifecycle.scope
@@ -222,10 +223,8 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
                 sheetModel.detailsClicks = { model ->
                     lifecycleScope.launch(Dispatchers.Main) {
                         sheetModel.dismiss()
-
                         delay(250L)
-
-                        activity?.startDetailModelOrLoRA(modelId = model.id, isFull = true)
+                        (activity as? MainActivity)?.startDetailModelOrLoRA(modelId = model.id, isFull = true)
                     }
                 }
                 sheetModel.show(this)
