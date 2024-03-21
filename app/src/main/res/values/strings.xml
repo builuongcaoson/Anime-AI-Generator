@@ -9,7 +9,6 @@
     <string name="syncing_data_complete">Data sync complete!</string>
     <string name="default_feature">New UI</string>
     <string name="default_notification_channel_id">Default Notification Channel Id</string>
-    <string name="desc_iap">Payment will be charged to your Google Play account at the end of your trial confirmation of purchase if you are not starting a trial. Subscription automatically renews unless it is canceled at least 24 hours before the end of your trial or current period. Your account will be charged.</string>
     <string name="generate_image">Generate Image</string>
     <string name="it_is_coming_soon_thank_you_and_hope_you_like_it">It is coming soon, thank you and hope you like it.</string>
     <string name="avatar_processing">Avatar processing</string>
@@ -35,11 +34,10 @@
     <string name="by_continuing_you_agree_to_our_privacy_policy_and_terms_of_use">By continuing, you agree to our Privacy Policy and Terms of Use</string>
     <string name="unleash_your">Unleash your</string>
     <string name="creativity">Creativity</string>
-    <string name="remove_ads">Remove ads</string>
-    <string name="more_clarity_better_quality">More clarity, better quality</string>
+    <string name="remove_all_ads">Remove all ads</string>
     <string name="unlock_aspect_ratios">Unlock aspect ratios</string>
     <string name="remove_watermark">Remove watermark</string>
-    <string name="gift_1000_credits">Gift 1000 credits</string>
+    <string name="get_1000_credits">Get 1000 credits</string>
     <string name="unlock_all_models">Unlock all models</string>
     <string name="subscribe_yearly">Subscribe Yearly</string>
     <string name="subscribe_weekly">Subscribe Weekly</string>
@@ -71,6 +69,9 @@
     <string name="try_amazing_models_or_loras_now">Try amazing Models or LoRAs now</string>
     <string name="search_model_lora_explores">Search model, loRA, explores, …</string>
     <string name="explores">Explores</string>
+    <string name="this_action_contains_ads">This action contains ads…</string>
+    <string name="purchase_discount">Purchase discount</string>
+    <string name="billed_yearly_auto_renewable_cancel_anytime">Billed yearly, Auto-renewable, Cancel anytime</string>
+    <string name="billed_weekly_auto_renewable_cancel_anytime">Billed weekly, Auto-renewable, Cancel anytime</string>
     <string name="fast_processing">Fast processing</string>
-    <string name="this_action_contains_ads">This action contains ads...</string>
 </resources>

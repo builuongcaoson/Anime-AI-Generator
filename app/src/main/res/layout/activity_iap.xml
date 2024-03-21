@@ -16,11 +16,11 @@
 
         <LinearLayout
             android:id="@+id/viewPreview"
-            android:alpha="0"
-            tools:alpha="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:alpha="0"
+            android:orientation="vertical"
+            tools:alpha="1">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerPreview1"
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/remove_ads"
+                    android:text="@string/remove_all_ads"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/more_clarity_better_quality"
+                    android:text="@string/fast_processing"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/fast_processing"
+                    android:text="@string/purchase_discount"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -259,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:text="@string/gift_1000_credits"
+                    android:text="@string/get_1000_credits"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/_11ssp" />
 
@@ -313,10 +313,10 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardBackgroundColor="?android:textColorPrimary"
-                app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp"
                 app:cardCornerRadius="@dimen/_5sdp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="?android:textColorPrimary"
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -351,8 +351,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/subscribe_yearly"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="?colorOnPrimary"/>
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="@dimen/_12ssp" />
 
                         <com.basic.common.widget.LsTextView
                             android:id="@+id/priceYear"
@@ -360,8 +360,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:text="0$"
-                            android:textSize="@dimen/_11ssp"
-                            android:textColor="?colorOnPrimary"/>
+                            android:textColor="?colorOnPrimary"
+                            android:textSize="@dimen/_11ssp" />
 
                     </LinearLayout>
 
@@ -371,11 +371,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:text="0$"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="@dimen/_11ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="?colorOnPrimary"
-                        android:textSize="@dimen/_11ssp"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -390,9 +390,9 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="0dp"
                 app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp"
-                app:cardElevation="0dp">
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -427,8 +427,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/subscribe_weekly"
-                            android:textSize="@dimen/_12ssp"
-                            android:textColor="?android:textColorPrimary"/>
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_12ssp" />
 
                         <com.basic.common.widget.LsTextView
                             android:id="@+id/priceWeek"
@@ -436,8 +436,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:text="0$"
-                            android:textSize="@dimen/_11ssp"
-                            android:textColor="?android:textColorPrimary"/>
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp" />
 
                     </LinearLayout>
 
@@ -448,11 +448,11 @@
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:gravity="end"
                         android:text="@string/best_seller"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textSize="@dimen/_11ssp"
-                        android:textColor="?android:textColorPrimary"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -467,9 +467,9 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="0dp"
                 app:strokeColor="?android:textColorPrimary"
-                app:strokeWidth="@dimen/_1sdp"
-                app:cardElevation="0dp">
+                app:strokeWidth="@dimen/_1sdp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -511,9 +511,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:textSize="@dimen/_11ssp"
                             android:text="0$"
-                            android:textColor="?android:textColorPrimary"/>
+                            android:textColor="?android:textColorPrimary"
+                            android:textSize="@dimen/_11ssp" />
 
                     </LinearLayout>
 
@@ -524,25 +524,28 @@
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:gravity="end"
                         android:text="@string/one_time_payment_nall_features_forever"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="@dimen/_11ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textSize="@dimen/_11ssp"
-                        android:textColor="?android:textColorPrimary"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.basic.common.widget.LsTextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:text="@string/desc_iap"
-                android:textSize="@dimen/_8ssp"
-                android:textColor="?android:textColorPrimary"/>
+                android:gravity="center_horizontal"
+                android:text="@string/billed_yearly_auto_renewable_cancel_anytime"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/_10ssp" />
 
         </LinearLayout>
 
@@ -554,8 +557,8 @@
             android:layout_marginEnd="@dimen/_10sdp"
             app:cardBackgroundColor="?android:textColorPrimary"
             app:cardCornerRadius="@dimen/_5sdp"
-            app:strokeWidth="0dp"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

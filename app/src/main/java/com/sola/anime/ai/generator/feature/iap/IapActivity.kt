@@ -58,7 +58,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     @Inject lateinit var prefs: Preferences
     @Inject lateinit var configApp: ConfigApp
     @Inject lateinit var networkDialog: NetworkDialog
-    @Inject lateinit var serverApiRepo: ServerApiRepository
     @Inject lateinit var analyticManager: AnalyticManager
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var userPremiumManager: UserPremiumManager
@@ -177,17 +176,23 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     }
 
     private fun updateDescriptionCredits(sku: String) {
+        val description = when (sku) {
+            Constraint.Iap.SKU_LIFE_TIME -> ""
+            Constraint.Iap.SKU_WEEK -> getString(R.string.billed_weekly_auto_renewable_cancel_anytime)
+            else -> getString(R.string.billed_yearly_auto_renewable_cancel_anytime)
+        }
+        binding.description.text = description
+
         val description3 = when (sku) {
-            Constraint.Iap.SKU_LIFE_TIME -> "Gift 2000 credits"
-            Constraint.Iap.SKU_WEEK -> "Gift 200 credits"
-            else -> "Gift 1000 credits"
+            Constraint.Iap.SKU_LIFE_TIME -> "Get 2000 credits"
+            Constraint.Iap.SKU_WEEK -> "Get 200 credits"
+            else -> "Get 1000 credits"
         }
         binding.description3.text = description3
+
     }
 
     private fun listenerView() {
-//        registerScrollListener()
-
         binding.back.clicks(withAnim = false) { onBackPressed() }
         binding.viewYear.clicks(withAnim = false) {
             subjectSkuChoose.onNext(sku3)
@@ -300,40 +305,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             })
     }
 
-//    private fun registerScrollListener(){
-//        binding.recyclerPreview1.addOnScrollListener(scrollListener)
-//        binding.recyclerPreview2.addOnScrollListener(scrollListener)
-//        binding.recyclerPreview3.addOnScrollListener(scrollListener)
-//    }
-
-//    private val scrollListener = object: RecyclerView.OnScrollListener() {
-//        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//            tryOrNull {
-//                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@tryOrNull
-//
-//                val visibleItemCount = layoutManager.childCount
-//                val totalItemCount = layoutManager.itemCount
-//                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-//
-//                tryOrNull {
-//                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-//                        when (recyclerView) {
-//                            binding.recyclerPreview1 -> {
-//                                tryOrNull { recyclerView.post { previewAdapter1.insert() } }
-//                            }
-//                            binding.recyclerPreview2 -> {
-//                                tryOrNull { recyclerView.post { previewAdapter2.insert() } }
-//                            }
-//                            binding.recyclerPreview3 -> {
-//                                tryOrNull { recyclerView.post { previewAdapter3.insert() } }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     private fun initObservable() {
         subjectSkuChoose
             .observeOn(AndroidSchedulers.mainThread())
@@ -403,22 +374,6 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             this.layoutManager =  LinearLayoutManager(this@IapActivity, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = previewAdapter3
         }
-
-//        binding.textTitle1.text = when (sku1){
-//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-//            Constraint.Iap.SKU_WEEK -> "Weekly"
-//            else -> "Yearly"
-//        }
-//        binding.textTitle2.text = when (sku2){
-//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-//            Constraint.Iap.SKU_WEEK -> "Weekly"
-//            else -> "Yearly"
-//        }
-//        binding.textTitle3.text = when (sku3){
-//            Constraint.Iap.SKU_LIFE_TIME -> "Lifetime"
-//            Constraint.Iap.SKU_WEEK -> "Weekly"
-//            else -> "Yearly"
-//        }
     }
 
     @Deprecated("Deprecated in Java")

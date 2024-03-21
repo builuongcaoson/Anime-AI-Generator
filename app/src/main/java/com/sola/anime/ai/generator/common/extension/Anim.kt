@@ -3,10 +3,8 @@ package com.sola.anime.ai.generator.common.extension
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Animation
 import android.view.animation.Interpolator
 
-import android.view.animation.TranslateAnimation
 import androidx.core.animation.doOnEnd
 
 fun animInt(from: Int, to: Int, duration: Long, update: (Int) -> Unit, endAction: () -> Unit = {}){
