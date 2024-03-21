@@ -69,13 +69,15 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
     private val subjectSkuChoose: Subject<String> by lazy { BehaviorSubject.createDefault(sku3) }
     private var products = listOf<StoreProduct>()
     private val skus by lazy { listOf(sku1, sku2, sku3) }
-    private var skuChoose = sku3
+    private var skuChoose = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transparent()
         lightStatusBar()
         setContentView(binding.root)
+
+        Timber.tag("MainXXXXXX").e("Iap Start")
 
         initView()
         initObservable()
@@ -195,18 +197,9 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
     private fun listenerView() {
         binding.back.clicks(withAnim = false) { onBackPressed() }
-        binding.viewYear.clicks(withAnim = false) {
-            subjectSkuChoose.onNext(sku3)
-            purchaseClicks()
-        }
-        binding.viewWeek.clicks(withAnim = false) {
-            subjectSkuChoose.onNext(sku2)
-            purchaseClicks()
-        }
-        binding.viewLifetime.clicks(withAnim = false) {
-            subjectSkuChoose.onNext(sku1)
-            purchaseClicks()
-        }
+        binding.viewYear.clicks(withAnim = false) { subjectSkuChoose.onNext(sku3) }
+        binding.viewWeek.clicks(withAnim = false) { subjectSkuChoose.onNext(sku2) }
+        binding.viewLifetime.clicks(withAnim = false) { subjectSkuChoose.onNext(sku1) }
         binding.viewContinue.clicks(withAnim = false) { purchaseClicks() }
         binding.privacy.makeLinks(
             isUnderlineText = false,

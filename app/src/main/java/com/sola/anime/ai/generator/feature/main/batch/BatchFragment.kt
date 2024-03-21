@@ -69,7 +69,6 @@ class BatchFragment : LsFragment<FragmentBatchBinding>(FragmentBatchBinding::inf
             delay(500L)
 
             initView()
-            initObservable()
             initData()
             listenerView()
         }

@@ -28,6 +28,6 @@ class LsPrefs @Inject constructor(
     val language = rxPrefs.getString("language", Locale.getDefault().language)
     val systemFont = rxPrefs.getBoolean("systemFont", false)
     val textSize = rxPrefs.getInteger("textSize", TEXT_SIZE_NORMAL)
-    val themeId = rxPrefs.getInteger("themeId", NIGHT_MODE)
+    val themeId = rxPrefs.getInteger("themeId", LIGHT_MODE)
 
 }

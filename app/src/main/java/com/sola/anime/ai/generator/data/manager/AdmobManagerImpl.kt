@@ -11,6 +11,7 @@ import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.sola.anime.ai.generator.R
+import com.sola.anime.ai.generator.common.App
 import com.sola.anime.ai.generator.domain.manager.AdmobManager
 import com.sola.anime.ai.generator.domain.manager.AnalyticManager
 import com.sola.anime.ai.generator.feature.iap.IapActivity
@@ -28,8 +29,6 @@ class AdmobManagerImpl @Inject constructor(
 
     companion object {
         private var rewardCreate: RewardedAd? = null
-        private var rewardCreateAgain: RewardedAd? = null
-        private var rewardUpscale: RewardedAd? = null
         private var openSplash: AppOpenAd? = null
     }
 
@@ -75,6 +74,8 @@ class AdmobManagerImpl @Inject constructor(
         rewardCreate?.let {
             it.fullScreenContentCallback = object: FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
+                    App.app.canOpenBackground = true
+
                     rewardCreate = null
 
                     when {
@@ -83,6 +84,8 @@ class AdmobManagerImpl @Inject constructor(
                     }
                 }
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    App.app.canOpenBackground = true
+
                     rewardCreate = null
 
                     failed()
@@ -93,6 +96,7 @@ class AdmobManagerImpl @Inject constructor(
                     analyticManager.logEvent(AnalyticManager.TYPE.ADMOB_CLICKED)
                 }
             }
+            App.app.canOpenBackground = false
             it.show(activity){
                 isRewarded = true
             }

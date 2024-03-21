@@ -683,17 +683,6 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
     @Deprecated("Deprecated in Java", ReplaceWith("finish()"))
     override fun onBackPressed() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && !isGallery -> admobManager.showReward(
-                this,
-                success = {
-                    back()
-                    admobManager.loadReward()
-                },
-                failed = {
-                    back()
-                    admobManager.loadReward()
-                }
-            )
             else -> back()
         }
     }

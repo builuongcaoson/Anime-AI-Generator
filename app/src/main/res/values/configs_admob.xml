@@ -2,15 +2,15 @@
 <resources>
 
     <!--    Test-->
-        <string name="key_application_id">ca-app-pub-3940256099942544~3347511713</string>
-        <string name="key_reward_create">ca-app-pub-3940256099942544/5224354917</string>
-        <string name="key_open_splash">ca-app-pub-3940256099942544/9257395921</string>
-        <string name="key_full_screen_changes">ca-app-pub-3940256099942544/1033173712</string>
+<!--        <string name="key_application_id">ca-app-pub-3940256099942544~3347511713</string>-->
+<!--        <string name="key_reward_create">ca-app-pub-3940256099942544/5224354917</string>-->
+<!--        <string name="key_open_splash">ca-app-pub-3940256099942544/9257395921</string>-->
+<!--        <string name="key_full_screen_changes">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <!--    Real-->
-<!--    <string name="key_application_id">ca-app-pub-4806822247309871~7024391899</string>-->
-<!--    <string name="key_reward_create">ca-app-pub-4806822247309871/8689147802</string>-->
-<!--    <string name="key_open_splash">ca-app-pub-4806822247309871/5194871337</string>-->
-<!--    <string name="key_full_screen_changes">ca-app-pub-4806822247309871/9047515073</string>-->
+    <string name="key_application_id">ca-app-pub-4806822247309871~7024391899</string>
+    <string name="key_reward_create">ca-app-pub-4806822247309871/8689147802</string>
+    <string name="key_open_splash">ca-app-pub-4806822247309871/5194871337</string>
+    <string name="key_full_screen_changes">ca-app-pub-4806822247309871/9047515073</string>
 
 </resources>

@@ -36,7 +36,6 @@ class BatchFragment : LsFragment<FragmentBatchMineBinding>(FragmentBatchMineBind
 
     override fun onViewCreated() {
         initView()
-        initObservable()
         initData()
         listenerView()
     }

@@ -56,7 +56,6 @@ class ExploreFragment: LsFragment<FragmentExploreBinding>(FragmentExploreBinding
             delay(250L)
 
             initView()
-            initObservable()
             delay(250L)
             initData()
             listenerView()

@@ -17,6 +17,7 @@
         app:cardBackgroundColor="?cardBackgroundColor"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="0dp"
+        app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="512:768"
         app:layout_constraintEnd_toEndOf="parent"

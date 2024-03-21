@@ -8,6 +8,7 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.sola.anime.ai.generator.common.App
 
 class FullManager {
 
@@ -68,31 +69,6 @@ class FullManager {
         return  full != null && System.currentTimeMillis() - adLastShownTime >= adDisplayInterval
     }
 
-    fun isAdNotNull(): Boolean {
-        return  full != null
-    }
-
-//    fun loadAndShowAd(activity: Activity, key: String, task: () -> Unit = {}){
-//        when {
-//            isAdAvailable() -> showAdIfAvailable(activity, key, task)
-//            else -> {
-//                isLoadingAd = false
-//
-//                loadAd(activity, key) { loadedCompleted ->
-//                    isShowingAd = false
-//
-//                    if (loadedCompleted){
-//                        showAdIfAvailable(activity, key, task)
-//                    }
-//                    when {
-//                        loadedCompleted -> showAdIfAvailable(activity, key, task)
-//                        else -> task()
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     fun showAdIfAvailable(activity: Activity, key: String, task: () -> Unit = {}) {
         if (isShowingAd) {
             return
@@ -101,6 +77,7 @@ class FullManager {
         full?.let { ad ->
             ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
+                    App.app.canOpenBackground = true
                     full = null
                     isShowingAd = false
                     adLastShownTime = System.currentTimeMillis()
@@ -109,6 +86,7 @@ class FullManager {
                     task()
                 }
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    App.app.canOpenBackground = true
                     full = null
                     isShowingAd = false
                     adLastShownTime = System.currentTimeMillis()
@@ -119,7 +97,7 @@ class FullManager {
             }
 
             isShowingAd = true
-
+            App.app.canOpenBackground = false
             ad.show(activity)
         } ?: run {
             task()

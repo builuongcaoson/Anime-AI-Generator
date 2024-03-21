@@ -106,7 +106,6 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             delay(250L)
 
             initView()
-            initObservable()
             initData()
             listenerView()
         }

@@ -55,7 +55,6 @@ class ArtFragment : LsFragment<FragmentArtMineBinding>(FragmentArtMineBinding::i
     override fun onViewCreated() {
         initView()
         initData()
-        initObservable()
         listenerView()
     }
 

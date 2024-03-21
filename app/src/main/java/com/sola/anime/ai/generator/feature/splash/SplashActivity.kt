@@ -216,7 +216,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
                     configApp.blockDeviceModels = tryOrNull { config.getString("blockDeviceModels").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockDeviceModels
                     configApp.blockVersions = tryOrNull { config.getString("blockVersions").takeIf { it.isNotEmpty() }?.split(", ") } ?: configApp.blockVersions
                     configApp.blockedRoot = tryOrNull { config.getBoolean("blockedRoot") } ?: configApp.blockedRoot
-                    configApp.fullScreenChangesDisplayInterval = tryOrNull { config.getLong("fullScreenChangesDisplayInterval") } ?: configApp.fullScreenChangesDisplayInterval
+                    configApp.fullScreenChangesDisplayInterval = when {
+                        BuildConfig.DEBUG -> 1
+                        else -> tryOrNull { config.getLong("fullScreenChangesDisplayInterval") } ?: configApp.fullScreenChangesDisplayInterval
+                    }
                     configApp.isFullScreenChanges = tryOrNull { config.getBoolean("isShowFullScreenChanges") } ?: configApp.isFullScreenChanges
                     configApp.isOpenSplashOrBackground = tryOrNull { config.getBoolean("isShowOpenAd_3") } ?: configApp.isOpenSplashOrBackground
                     configApp.scriptIap = tryOrNull { config.getString("script_iap").takeIf { it.isNotEmpty() } } ?: configApp.scriptIap

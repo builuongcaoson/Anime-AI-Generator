@@ -29,6 +29,7 @@ import com.sola.anime.ai.generator.R
 import com.sola.anime.ai.generator.SingletonOpenManager
 import com.sola.anime.ai.generator.common.extension.deviceId
 import com.sola.anime.ai.generator.common.extension.deviceModel
+import com.sola.anime.ai.generator.common.extension.startOpenAd
 import com.sola.anime.ai.generator.data.Preferences
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.plugins.RxJavaPlugins
@@ -61,6 +62,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     // For admob
     val fullScreenChanges by lazy { FullManager() }
     var isStartedSplash = false
+    var canOpenBackground = true
 
     override fun onCreate() {
         super.onCreate()
@@ -128,8 +130,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
         when {
-            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground && !isStartedSplash -> currentActivity?.takeIf { singletonOpenManager.isAdAvailable() }?.let { activity ->
-                tryOrNull { Handler(Looper.getMainLooper()).postDelayed({ singletonOpenManager.showAdIfAvailable(activity, getString(R.string.key_open_splash)) }, 250L) }
+            !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground && !isStartedSplash && canOpenBackground && singletonOpenManager.isAdAvailable() -> currentActivity?.let { activity ->
+                tryOrNull { Handler(Looper.getMainLooper()).postDelayed({ activity.startOpenAd() }, 250L) }
             }
         }
     }

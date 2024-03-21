@@ -36,7 +36,6 @@ class AvatarFragment : LsFragment<FragmentAvatarMineBinding>(FragmentAvatarMineB
 
     override fun onViewCreated() {
         initView()
-        initObservable()
         initData()
         listenerView()
     }

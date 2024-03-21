@@ -20,6 +20,7 @@ import com.sola.anime.ai.generator.feature.detailModelOrLoRA.DetailModelOrLoRAAc
 import com.sola.anime.ai.generator.feature.first.FirstActivity
 import com.sola.anime.ai.generator.feature.iap.IapActivity
 import com.sola.anime.ai.generator.feature.main.MainActivity
+import com.sola.anime.ai.generator.feature.openad.OpenAdActivity
 import com.sola.anime.ai.generator.feature.pickAvatar.PickAvatarActivity
 import com.sola.anime.ai.generator.feature.preview.PreviewActivity
 import com.sola.anime.ai.generator.feature.processing.art.ArtProcessingActivity
@@ -31,6 +32,7 @@ import com.sola.anime.ai.generator.feature.setting.SettingActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 fun AppCompatActivity.showFullChanges(viewLoadingAds: View, task: () -> Unit) {
     lifecycleScope.launch(Dispatchers.Main) {
@@ -155,7 +157,14 @@ fun Activity.startCredit(){
     tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
 }
 
+fun Activity.startOpenAd(){
+    val intent = Intent(this, OpenAdActivity::class.java)
+    startActivity(intent)
+    tryOrNull { overridePendingTransition(R.anim.slide_up, R.anim.nothing) }
+}
+
 fun Activity.startIap(isKill: Boolean = true){
+    Timber.tag("MainXXXXXX").e("Start IAP")
     val intent = Intent(this, IapActivity::class.java)
     intent.putExtra(IapActivity.IS_KILL_EXTRA, isKill)
     startActivity(intent)

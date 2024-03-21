@@ -53,7 +53,7 @@ class CreditActivity : LsActivity<ActivityCreditBinding>(ActivityCreditBinding::
     private val subjectSkuChoice: Subject<String> = BehaviorSubject.createDefault(Constraint.Iap.SKU_CREDIT_10000)
     private var products = listOf<StoreProduct>()
     private val skus by lazy { listOf(Constraint.Iap.SKU_CREDIT_1000, Constraint.Iap.SKU_CREDIT_3000, Constraint.Iap.SKU_CREDIT_5000, Constraint.Iap.SKU_CREDIT_10000) }
-    private var skuChoice = Constraint.Iap.SKU_CREDIT_10000
+    private var skuChoice = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

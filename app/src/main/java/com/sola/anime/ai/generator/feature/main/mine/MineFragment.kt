@@ -79,11 +79,6 @@ class MineFragment : LsFragment<FragmentMineBinding>(FragmentMineBinding::inflat
         }
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
     override fun initObservable() {
         topTabs.forEachIndexed { index, tab ->
             tab

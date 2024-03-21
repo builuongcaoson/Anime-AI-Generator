@@ -44,11 +44,6 @@ class DiscoverFragment : LsFragment<FragmentDiscoverBinding>(FragmentDiscoverBin
         }
     }
 
-    override fun onResume() {
-        initObservable()
-        super.onResume()
-    }
-
     @SuppressLint("AutoDispose", "CheckResult")
     override fun initObservable() {
         prefs
