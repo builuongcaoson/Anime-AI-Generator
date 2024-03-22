@@ -11,6 +11,6 @@
     <string name="key_application_id">ca-app-pub-4806822247309871~7024391899</string>
     <string name="key_reward_create">ca-app-pub-4806822247309871/8689147802</string>
     <string name="key_open_splash">ca-app-pub-4806822247309871/5194871337</string>
-    <string name="key_full_screen_changes">ca-app-pub-4806822247309871/9047515073</string>
+<!--    <string name="key_full_screen_changes">ca-app-pub-4806822247309871/9047515073</string>-->
 
 </resources>

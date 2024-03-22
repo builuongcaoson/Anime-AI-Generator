@@ -60,7 +60,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks, LifecycleObse
     val subjectNetworkChanges: Subject<Boolean> = BehaviorSubject.createDefault(true)
 
     // For admob
-    val fullScreenChanges by lazy { FullManager() }
+//    val fullScreenChanges by lazy { FullManager() }
     var isStartedSplash = false
     var canOpenBackground = true
 

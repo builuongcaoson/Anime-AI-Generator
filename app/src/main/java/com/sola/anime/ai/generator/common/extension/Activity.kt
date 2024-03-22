@@ -34,19 +34,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-fun AppCompatActivity.showFullChanges(viewLoadingAds: View, task: () -> Unit) {
-    lifecycleScope.launch(Dispatchers.Main) {
-        viewLoadingAds.isVisible = true
-        delay(1000L)
-        App.app.fullScreenChanges.showAdIfAvailable(this@showFullChanges, getString(R.string.key_full_screen_changes)) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                viewLoadingAds.isVisible = false
-//                delay(250L)
-                task()
-            }
-        }
-    }
-}
+//fun AppCompatActivity.showFullChanges(viewLoadingAds: View, task: () -> Unit) {
+//    lifecycleScope.launch(Dispatchers.Main) {
+//        viewLoadingAds.isVisible = true
+//        delay(1000L)
+//        App.app.fullScreenChanges.showAdIfAvailable(this@showFullChanges, getString(R.string.key_full_screen_changes)) {
+//            lifecycleScope.launch(Dispatchers.Main) {
+//                viewLoadingAds.isVisible = false
+//                task()
+//            }
+//        }
+//    }
+//}
 
 fun AppCompatActivity.startMain(viewLoadingAds: View, isFull: Boolean, afterDoTask: () -> Unit){
     val task = {
@@ -56,9 +55,9 @@ fun AppCompatActivity.startMain(viewLoadingAds: View, isFull: Boolean, afterDoTa
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -71,9 +70,9 @@ fun AppCompatActivity.startSetting(viewLoadingAds: View, isFull: Boolean, doAfte
         doAfterTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -86,9 +85,9 @@ fun AppCompatActivity.startSearch(viewLoadingAds: View, isFull: Boolean, doAfter
         doAfterTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -105,9 +104,9 @@ fun AppCompatActivity.startDetailModelOrLoRA(viewLoadingAds: View, modelId: Long
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -122,9 +121,9 @@ fun AppCompatActivity.startDetailExplore(viewLoadingAds: View, exploreId: Long, 
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -137,9 +136,9 @@ fun AppCompatActivity.startPickAvatar(viewLoadingAds: View, isFull: Boolean, aft
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -183,9 +182,9 @@ fun AppCompatActivity.startArt(viewLoadingAds: View, modelId: Long = -1, loRAGro
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -225,9 +224,9 @@ fun AppCompatActivity.startArtResult(viewLoadingAds: View, historyId: Long, chil
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
@@ -242,9 +241,9 @@ fun AppCompatActivity.startPreview(viewLoadingAds: View, historyId: Long, childH
         afterDoTask()
     }
     when {
-        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
-            showFullChanges(viewLoadingAds) { task() }
-        }
+//        !App.app.prefs.isUpgraded.get() && isNetworkAvailable() && App.app.configApp.isFullScreenChanges && App.app.fullScreenChanges.isAdAvailable() && isFull -> {
+//            showFullChanges(viewLoadingAds) { task() }
+//        }
         else -> task()
     }
 }
