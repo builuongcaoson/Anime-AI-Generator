@@ -70,7 +70,7 @@ class GoogleMobileAdsConsentManager @Inject constructor(context: Context) {
                 isShowConsentForm = true
                 UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) { formError ->
                     // Consent has been gathered.
-                    AnalyticManager.eventGDPR(formError != null)
+                    AnalyticManager.eventGDPR(formError == null)
                     onConsentGatheringCompleteListener.consentGatheringComplete(formError)
                 }
             },
