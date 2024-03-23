@@ -189,10 +189,11 @@ fun AppCompatActivity.startArt(viewLoadingAds: View, modelId: Long = -1, loRAGro
     }
 }
 
-fun Activity.startArtProcessing(totalCreditsDeducted: Float, creditsPerImage: Float){
+fun Activity.startArtProcessing(totalCreditsDeducted: Float, creditsPerImage: Float, isRewarded: Boolean){
     val intent = Intent(this, ArtProcessingActivity::class.java)
     intent.putExtra("totalCreditsDeducted", totalCreditsDeducted)
     intent.putExtra("creditsPerImage", creditsPerImage)
+    intent.putExtra("isRewarded", isRewarded)
     startActivity(intent)
     tryOrNull { overridePendingTransition(R.anim.slide_in_left, R.anim.nothing) }
 }

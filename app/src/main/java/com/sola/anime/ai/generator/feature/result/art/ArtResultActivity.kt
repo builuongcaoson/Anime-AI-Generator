@@ -155,7 +155,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
         val history = historyDao.findById(historyId) ?: return
         val childHistory = tryOrNull { history.childs.getOrNull(binding.viewPager.currentItem) } ?: history.childs.firstOrNull() ?: return
 
-        val task = {
+        fun task(isRewarded: Boolean) {
             val photoUri = tryOrNull { childHistory.photoUriString?.toUri() }
             when {
                 photoUri != null -> {
@@ -210,7 +210,7 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                 }
             }
 
-            startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
+            startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage, isRewarded = isRewarded)
             finish()
         }
 
@@ -218,12 +218,12 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
             !isNetworkAvailable() -> networkDialog.show(this)
             !prefs.isUpgraded.get() -> {
                 when {
-                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
+                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task(isRewarded = false)
                     totalCreditsDeducted == 0f && binding.description.text.contains("Watch an Ad") && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
                         admobManager.showReward(
                             this,
                             success = {
-                                task()
+                                task(isRewarded = true)
                                 admobManager.loadReward()
                             },
                             failed = {
@@ -232,17 +232,17 @@ class ArtResultActivity : LsActivity<ActivityArtResultBinding>(ActivityArtResult
                             }
                         )
                     }
-                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task(isRewarded = false)
                     else -> startIap()
                 }
             }
             prefs.isUpgraded.get() -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> startCredit()
-                    else -> task()
+                    else -> task(isRewarded = false)
                 }
             }
-            else -> task()
+            else -> task(isRewarded = false)
         }
     }
 

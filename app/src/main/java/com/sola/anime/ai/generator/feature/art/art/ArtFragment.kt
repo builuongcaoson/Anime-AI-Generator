@@ -667,7 +667,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
 
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
-        val task = {
+        fun task(isRewarded: Boolean) {
             activity?.let { activity ->
                 val photoType = tryOrNull { sheetPhoto.photoAdapter.photo }
                 val photoUri = when {
@@ -734,7 +734,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                     }
                 }
 
-                activity.startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage)
+                activity.startArtProcessing(totalCreditsDeducted = totalCreditsDeducted, creditsPerImage = creditsPerImage, isRewarded = isRewarded)
             }
         }
 
@@ -742,12 +742,12 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
             !isNetworkAvailable() -> activity?.let { activity -> networkDialog.show(activity) }
             !prefs.isUpgraded.get() -> activity?.let { activity ->
                 when {
-                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task()
+                    totalCreditsDeducted == 0f && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateFree && configApp.scriptIap == "0" -> task(isRewarded = false)
                     totalCreditsDeducted == 0f && binding.textDescription.text == "Watch an Ad" && prefs.numberCreatedArtwork.get() < configApp.maxNumberGenerateReward && configApp.scriptIap == "1" -> {
                         admobManager.showReward(
                             activity,
                             success = {
-                                task()
+                                task(isRewarded = true)
                                 admobManager.loadReward()
                             },
                             failed = {
@@ -756,17 +756,17 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
                             }
                         )
                     }
-                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task()
+                    totalCreditsDeducted != 0f && totalCreditsDeducted < prefs.getCredits() -> task(isRewarded = false)
                     else -> activity.startIap()
                 }
             }
             prefs.isUpgraded.get() && prefs.numberCreatedArtwork.get() >= configApp.maxNumberGeneratePremium -> {
                 when {
                     totalCreditsDeducted >= prefs.getCredits() -> activity?.startCredit()
-                    else -> task()
+                    else -> task(isRewarded = false)
                 }
             }
-            else -> task()
+            else -> task(isRewarded = false)
         }
     }
 

@@ -17,8 +17,8 @@ android {
         applicationId "com.sola.anime.ai.generator"
         minSdk 21
         targetSdk 34
-        versionCode 81
-        versionName "81.0"
+        versionCode 82
+        versionName "82.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "Anime-Ai-Generator-v${versionCode}")
@@ -148,7 +148,7 @@ dependencies {
     implementation 'com.revenuecat.purchases:purchases:6.9.4'
 
     // Lottie
-    implementation 'com.airbnb.android:lottie:6.1.0'
+        implementation 'com.airbnb.android:lottie:6.1.0'
 
     // Page indicator
     implementation 'com.romandanylyk:pageindicatorview:1.0.3'

@@ -121,4 +121,11 @@ class Preferences @Inject constructor(
         urisHadFacePrefs.set(Gson().toJson(urisHadFace))
     }
 
+    fun isUserPurchasedValid(): Boolean {
+        return when {
+            purchasedOrderLastedId.get().isNotEmpty() && purchasedOrderLastedId.get().contains("GPA.") -> true
+            else -> false
+        }
+    }
+
 }

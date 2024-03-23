@@ -57,10 +57,6 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
         setContentView(binding.root)
 
         when {
-            !prefs.isUpgraded.get() -> admobManager.loadReward()
-        }
-
-        when {
             !permissionManager.hasNotification() -> {
                 lifecycleScope.launch(Dispatchers.Main) {
                     delay(1000L)
@@ -106,6 +102,9 @@ class ArtActivity : LsActivity<ActivityArtBinding>(ActivityArtBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { isUpgraded ->
+                when {
+                    !isUpgraded -> admobManager.loadReward()
+                }
                 binding.viewPro.isVisible = !isUpgraded
             }
 

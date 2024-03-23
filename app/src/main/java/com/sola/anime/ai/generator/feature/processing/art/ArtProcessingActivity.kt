@@ -63,6 +63,7 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
 
     private val totalCreditsDeducted by lazy { intent.getFloatExtra("totalCreditsDeducted", 0f) }
     private val creditsPerImage by lazy { intent.getFloatExtra("creditsPerImage", 0f) }
+    private val isRewarded by lazy { intent.getBooleanExtra("isRewarded", false) }
     private var timeInterval = Disposables.empty()
     private var dezgoStatusTextsToImages = listOf<DezgoStatusTextToImage>()
     private var dezgoStatusImagesToImages = listOf<DezgoStatusImageToImage>()
@@ -74,11 +75,14 @@ class ArtProcessingActivity : LsActivity<ActivityArtProcessingBinding>(ActivityA
         lightStatusBar()
         setContentView(binding.root)
 
-        if (creditsPerImage != 0f && (prefs.purchasedOrderLastedId.get().isEmpty() || !prefs.purchasedOrderLastedId.get().contains("GPA."))) {
-            prefs.isUpgraded.set(false)
-            prefs.setCredits(0f)
-            finish()
-            return
+        when {
+            isRewarded -> {}
+            (creditsPerImage != 0f || prefs.isUpgraded.get()) && !prefs.isUserPurchasedValid() -> {
+                prefs.isUpgraded.set(false)
+                prefs.setCredits(0f)
+                finish()
+                return
+            }
         }
 
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING)

@@ -72,11 +72,13 @@ class BatchProcessingActivity : LsActivity<ActivityBatchProcessingBinding>(Activ
         lightStatusBar()
         setContentView(binding.root)
 
-        if (prefs.purchasedOrderLastedId.get().isEmpty() || !prefs.purchasedOrderLastedId.get().contains("GPA.")) {
-            prefs.isUpgraded.set(false)
-            prefs.setCredits(0f)
-            finish()
-            return
+        when {
+            (creditsPerImage != 0f || prefs.isUpgraded.get()) && !prefs.isUserPurchasedValid() -> {
+                prefs.isUpgraded.set(false)
+                prefs.setCredits(0f)
+                finish()
+                return
+            }
         }
 
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_PROCESSING_BATCH)
