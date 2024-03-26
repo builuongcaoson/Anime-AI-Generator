@@ -282,24 +282,24 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             resetNumberCreatedArtworkIfOtherToday()
 
             when {
-//                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isFullScreenChanges -> {
-//                    binding.textLoadingAd.text = getString(R.string.this_action_contains_ads)
-//
-//                    App.app.fullScreenChanges.loadAd(this@SplashActivity, getString(R.string.key_full_screen_changes), configApp.fullScreenChangesDisplayInterval * 1000L) { isSuccess ->
-//                        when {
-//                            isSuccess -> {
-//                                lifecycleScope.launch(Dispatchers.Main) {
-//                                    binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
-//                                    delay(250L)
-//                                    App.app.fullScreenChanges.showAdIfAvailable(this@SplashActivity, getString(R.string.key_full_screen_changes)) {
-//                                        task()
-//                                    }
-//                                }
-//                            }
-//                            else -> task()
-//                        }
-//                    }
-//                }
+                !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isFullScreenChanges -> {
+                    binding.textLoadingAd.text = getString(R.string.this_action_contains_ads)
+
+                    App.app.fullScreenChanges.loadAd(this@SplashActivity, getString(R.string.key_full_screen_changes), configApp.fullScreenChangesDisplayInterval * 1000L) { isSuccess ->
+                        when {
+                            isSuccess -> {
+                                lifecycleScope.launch(Dispatchers.Main) {
+                                    binding.viewLoadingAd.animate().alpha(0f).setDuration(250).start()
+                                    delay(250L)
+                                    App.app.fullScreenChanges.showAdIfAvailable(this@SplashActivity, getString(R.string.key_full_screen_changes)) {
+                                        task()
+                                    }
+                                }
+                            }
+                            else -> task()
+                        }
+                    }
+                }
                 !prefs.isUpgraded.get() && isNetworkAvailable() && configApp.isOpenSplashOrBackground -> {
                     binding.textLoadingAd.text = getString(R.string.this_action_contains_ads)
 
