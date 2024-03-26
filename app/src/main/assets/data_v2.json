@@ -3,309 +3,300 @@
       "models": [
         {
           "id": 0,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F1.webp?alt=media&token=ad6f3464-dad2-4028-9d8d-836aaac35a6a",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V5.webp?alt=media&token=803f8dd7-ebff-48ab-b24b-c99502bac1d7",
           "display": "Anime V5",
           "description": "",
           "favourite_count": 2095,
           "modelId": "anything_5_0",
-          "active": ""
+          "is_premium": true
         },
         {
           "id": 1,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F2.webp?alt=media&token=fec9b886-8e94-42fb-a1f6-f8c23a10b186",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V4.webp?alt=media&token=0b5238c2-7f64-487a-b796-7655f0665444",
           "display": "Anime V4",
           "description": "Most used",
           "favourite_count": 5921,
           "modelId": "anything_4_0",
-          "active": ""
+          "is_premium": false
         },
         {
           "id": 2,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F3.webp?alt=media&token=8d84be19-3a56-43c8-9345-3f71a2ef5232",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnime%20V3.webp?alt=media&token=4bdf25e9-5ba7-49c4-9890-569fd8d18a2c",
           "display": "Anime V3",
           "description": "",
           "favourite_count": 1039,
           "modelId": "anything_3_0",
-          "active": ""
+          "is_premium": true
         },
         {
           "id": 3,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F4.webp?alt=media&token=22316ccc-0620-48da-8f73-9e917eccfe5c",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FPastel%20Mix.webp?alt=media&token=13da4db0-8e00-4afe-8bcb-c3470ed0986c",
           "display": "Pastel Mix",
           "description": "",
           "favourite_count": 2954,
           "modelId": "pastel_mix",
-          "active": ""
+          "is_premium": false
         },
         {
           "id": 4,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F5.webp?alt=media&token=cb0369d5-e961-45cf-9aac-4070d3e6ced8",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FSomething%20V2.webp?alt=media&token=b1f075df-23b9-45da-8a24-9790eb5717ae",
           "display": "Something V2",
           "description": "",
           "favourite_count": 3085,
           "modelId": "something_2",
-          "active": ""
+          "is_premium": false
         },
         {
           "id": 5,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F6.webp?alt=media&token=be7e9a77-37c6-49d8-9b00-39227c9f1e43",
-          "display": "Classic",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnyLoRA.webp?alt=media&token=13e7e953-2b14-408a-b63f-0a46c3093de8",
+          "display": "AnyLoRA",
           "description": "",
-          "favourite_count": 593,
-          "modelId": "dh_classicanime",
-          "active": ""
+          "favourite_count": 1964,
+          "modelId": "anylora",
+          "is_premium": false
         },
         {
           "id": 6,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F7.webp?alt=media&token=596f2c49-604c-4d60-b2bd-2905a1859ae9",
-          "display" :"Abyss Orange Mix V2",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FKidsmix.webp?alt=media&token=28fafa0d-ccb8-4a55-9203-bdba2524bf4e",
+          "display": "KidsMix",
           "description": "",
-          "favourite_count": 759,
-          "modelId": "abyss_orange_mix_2",
-          "active": ""
+          "favourite_count": 749,
+          "modelId": "kidsmix",
+          "is_premium": true
         },
         {
           "id": 7,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F8.webp?alt=media&token=11322a8e-a3e7-482a-9c59-99574495dd43",
-          "display": "Blood Orange Mix",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FToonify.webp?alt=media&token=89d0c6df-f530-4889-b1bf-9a6cd066f71d",
+          "display": "Toonify",
           "description": "",
-          "favourite_count": 587,
-          "modelId": "blood_orange_mix",
-          "active": ""
+          "favourite_count": 458,
+          "modelId": "toonify_2",
+          "is_premium": true
         },
         {
           "id": 8,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F9.webp?alt=media&token=196676e4-e072-4f09-b807-d0c92e367cea",
-          "display": "Ely Orange Mix",
-          "description": "",
-          "favourite_count": 448,
-          "modelId": "ely_orange_mix",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealCartoonAnime%20V11.webp?alt=media&token=78eae384-a7d2-44a3-ab38-5c1f0e8e0a92",
+          "display": "RealCartoonAnime V11",
+          "description": "New",
+          "favourite_count": 506,
+          "modelId": "realcartoonanime_10",
+          "is_premium": true
         },
         {
           "id": 9,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F10.webp?alt=media&token=4a83203b-5a5e-4f2b-ab36-4c37c4a08224",
-          "display": "DucHaiten V2",
-          "description": "",
-          "favourite_count": 356,
-          "modelId": "duchaiten_anime",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealCartoonAnime%20V10.webp?alt=media&token=3e8e0ce1-ad8e-4c06-b74a-4d326d8f49a3",
+          "display": "RealCartoonAnime V10",
+          "description": "New",
+          "favourite_count": 402,
+          "modelId": "realcartoonanime_10",
+          "is_premium": true
         },
         {
           "id": 10,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F11.webp?alt=media&token=6d116bed-8144-4cde-bc85-26e0bc488ba3",
-          "display": "DucHaiten V1",
-          "description": "",
-          "favourite_count": 192,
-          "modelId": "duchaiten_dreamworld",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealCartoon3D%20V13.webp?alt=media&token=9fe6d905-aee6-4ba6-ade6-cf7f044e477c",
+          "display": "RealCartoon3D",
+          "description": "New",
+          "favourite_count": 469,
+          "modelId": "realcartoon3d_13",
+          "is_premium": true
         },
         {
           "id": 11,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F12.webp?alt=media&token=335c72f4-f40a-4317-b8f7-39aaf4944f61",
-          "display": "DucHaiten Dark",
-          "description": "",
-          "favourite_count": 139,
-          "modelId": "duchaiten_darkside",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealDream%20V12.webp?alt=media&token=7c214e46-8dea-437a-821f-94bcfc9980e0",
+          "display": "RealDream",
+          "description": "New",
+          "favourite_count": 691,
+          "modelId": "realdream_12",
+          "is_premium": true
         },
         {
           "id": 12,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F13.webp?alt=media&token=b9b83eff-7831-43a5-8305-218b9eaa08e0",
-          "display": "Eimis Diffusion",
-          "description": "",
-          "favourite_count": 104,
-          "modelId": "eimis_anime_diffusion_1",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAnalog%20Madness%20V7.webp?alt=media&token=cbd9cba9-99d7-4e36-b685-9152ee7e9565",
+          "display": "Analog Madness",
+          "description": "New",
+          "favourite_count": 725,
+          "modelId": "analogmadness_7",
+          "is_premium": true
         },
         {
           "id": 13,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F14.webp?alt=media&token=d84c912d-ef4f-4a79-b36d-df8af0912d88",
-          "display": "Waifu V4",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamMix.webp?alt=media&token=f033fd0a-7603-454e-9793-f335339913a2",
+          "display": "Dream Mix",
           "description": "",
-          "favourite_count": 51,
-          "modelId": "waifudiffusion_1_4",
-          "active": ""
+          "favourite_count": 296,
+          "modelId": "dreamix_1",
+          "is_premium": true
         },
         {
           "id": 14,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F15.webp?alt=media&token=2be4363c-d850-42b4-8bd7-a31ba4d360d2",
-          "display": "Waifu V3",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FFurryToonMix.webp?alt=media&token=16d8d052-e08c-4be2-a23d-7b80b31186ee",
+          "display": "Furry Toon Mix",
           "description": "",
-          "favourite_count": 35,
-          "modelId": "waifudiffusion_1_3",
-          "active": ""
+          "favourite_count": 150,
+          "modelId": "furrytoonmix",
+          "is_premium": true
         },
         {
           "id": 15,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F16.webp?alt=media&token=26d3fa58-d28a-4286-b2e0-8bd70e027392",
-          "display": "Future Diffusion",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FInkpunk%20Diffusion.webp?alt=media&token=3d206eb2-72c2-4645-9b66-eec50c81320b",
+          "display": "Inkpunk Diffusion",
           "description": "",
-          "favourite_count": 266,
-          "modelId": "future_diffusion",
-          "active": "future style"
+          "favourite_count": 294,
+          "modelId": "inkpunk_diffusion",
+          "is_premium": true
         },
         {
           "id": 16,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F17.webp?alt=media&token=a04e226d-bc46-4d80-8c4b-a80c2373fda6",
-          "display": "HASDX",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDeliberate%20V2.webp?alt=media&token=18777c20-5b51-4a9a-a373-bf4590ac3ace",
+          "display": "Deliberate V2",
           "description": "",
-          "favourite_count": 745,
-          "modelId": "hasdx",
-          "active": ""
+          "favourite_count": 448,
+          "modelId": "deliberate_2",
+          "is_premium": true
         },
         {
           "id": 17,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F18.webp?alt=media&token=c3364417-2075-4fd0-b264-109b3de2a251",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FICBINP.webp?alt=media&token=27c82bb1-4dcd-44ec-aaf1-6029e4f2969a",
           "display": "ICBINP",
           "description": "",
-          "favourite_count": 890,
+          "favourite_count": 584,
           "modelId": "icbinp",
-          "active": ""
+          "is_premium": true
         },
         {
           "id": 18,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F19.webp?alt=media&token=c2a98074-87b0-45de-b2c7-f6d30f053033",
-          "display": "Inkpunk Diffusion",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FICBINP_SECO.webp?alt=media&token=d70e575c-1400-4aff-9004-54da6930b726",
+          "display": "ICBINP SECO",
           "description": "",
-          "favourite_count": 1507,
-          "modelId": "inkpunk_diffusion",
-          "active": "nvinkpunk"
+          "favourite_count": 762,
+          "modelId": "icbinp_seco",
+          "is_premium": true
         },
         {
           "id": 19,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F20.webp?alt=media&token=f182508a-4111-4d2c-aa86-b206d4d882d2",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FNightmareShaper.webp?alt=media&token=17527b6e-35be-4423-9201-4571154cb4f6",
           "display": "Nightmare Shaper",
           "description": "",
-          "favourite_count": 778,
+          "favourite_count": 356,
           "modelId": "nightmareshaper",
-          "active": ""
+          "is_premium": true
         },
         {
           "id": 20,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F21.webp?alt=media&token=c8b68920-ac39-4f42-a58a-81585d26f68f",
-          "display": "Openjourney V2",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V8.webp?alt=media&token=9fce045e-2818-4e96-a219-261f4d104aca",
+          "display": "DreamShaper V8",
           "description": "",
-          "favourite_count": 429,
-          "modelId": "openjourney_2",
-          "active": ""
+          "favourite_count": 719,
+          "modelId": "dreamshaper_8",
+          "is_premium": true
         },
         {
           "id": 21,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F22.webp?alt=media&token=f3ec0dbc-bd22-4569-bda4-a60ac5715686",
-          "display": "Openjourney",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V7.webp?alt=media&token=bc1b9a55-b19d-4883-a6db-78f87da63b9b",
+          "display": "DreamShaper V7",
           "description": "",
-          "favourite_count": 402,
-          "modelId": "openjourney",
-          "active": "mdjrny-v4 style"
+          "favourite_count": 502,
+          "modelId": "dreamshaper_7",
+          "is_premium": true
         },
         {
           "id": 22,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F23.webp?alt=media&token=3326d85c-549e-4930-bab0-5a49305250cb",
-          "display": "OpenNiji",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V6.webp?alt=media&token=94f389bd-04a5-4c36-802c-a15918859990",
+          "display": "DreamShaper V6",
           "description": "",
-          "favourite_count": 248,
-          "modelId": "openniji",
-          "active": ""
+          "favourite_count": 395,
+          "modelId": "dreamshaper_6",
+          "is_premium": true
         },
         {
           "id": 23,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F24.webp?alt=media&token=c91f8c71-c853-4c8d-a03d-d8631f5ea2d0",
-          "display": "Realistic Vision V5.1",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper%20V5.webp?alt=media&token=11f5e727-7089-402e-98cc-698c315890ff",
+          "display": "DreamShaper V5",
           "description": "",
-          "favourite_count": 1671,
-          "modelId": "realistic_vision_1_3",
-          "active": "RAW photo, *subject*, high detailed skin, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+          "favourite_count": 322,
+          "modelId": "dreamshaper_5",
+          "is_premium": true
         },
         {
           "id": 24,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F25.webp?alt=media&token=dc9496c3-a023-4cd5-a2d0-a253cc34d5a0",
-          "display": "SteampunkAI",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FDreamShaper.webp?alt=media&token=57915a96-101f-40db-abd2-9d3c0ad1fb39",
+          "display": "DreamShaper",
           "description": "",
-          "favourite_count": 1291,
-          "modelId": "steampunk_diffusion",
-          "active": "Steampunk-Character"
+          "favourite_count": 150,
+          "modelId": "dreamshaper",
+          "is_premium": true
         },
         {
           "id": 25,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F26.webp?alt=media&token=37414341-c89d-4e2f-bfd2-358514a25fc3",
-          "display": "SynthwavePunk",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.8.1.webp?alt=media&token=b2df282b-272e-4170-a0a2-4b1919869e91",
+          "display": "Absolute Reality V1.8.1",
           "description": "",
-          "favourite_count": 710,
-          "modelId": "synthwavepunk_v2",
-          "active": "snthwve style nvinkpunk"
+          "favourite_count": 778,
+          "modelId": "absolute_reality_1_8_1",
+          "is_premium": true
         },
         {
           "id": 26,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F27.webp?alt=media&token=e1822be7-405a-459b-a9b8-62fd9782071f",
-          "display": "Vintedois diffusion-v0-1",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.6.webp?alt=media&token=419d3ac1-6f19-4e00-a589-6b28a426bebb",
+          "display": "Absolute Reality V1.6",
           "description": "",
-          "favourite_count": 255,
-          "modelId": "vintedois_diffusion_v0_1",
-          "active": "estilovintedois"
+          "favourite_count": 402,
+          "modelId": "absolute_reality_1_6",
+          "is_premium": false
         },
         {
           "id": 27,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F28.webp?alt=media&token=c5bfa399-cb8b-4558-bbbd-06c6ae5c3a9d",
-          "display": "Absolute Reality V1.6",
-          "description": "Most used",
-          "favourite_count": 1846,
-          "modelId": "absolute_reality_1_6",
-          "active": ""
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FAbsolute%20Reality%20V1.0.webp?alt=media&token=ad90a875-8e78-41a3-983a-1147b1920e17",
+          "display": "Absolute Reality V1",
+          "description": "",
+          "favourite_count": 248,
+          "modelId": "absolute_reality_1",
+          "is_premium": true
         },
         {
           "id": 28,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F29.webp?alt=media&token=05f64558-8972-46f7-b8c1-55ad9293625b",
-          "display": "DreamShaper V7",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FHASDX.webp?alt=media&token=7ac5260e-103f-4209-a465-329f76f1754a",
+          "display": "HASDX",
           "description": "",
-          "favourite_count": 1738,
-          "modelId": "dreamshaper_7",
-          "active": ""
+          "favourite_count": 474,
+          "modelId": "hasdx",
+          "is_premium": true
         },
         {
           "id": 29,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F30.webp?alt=media&token=28e29662-2a3f-49ce-8f9d-f06b6f9e95e1",
-          "display": "DreamShaper V6",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FSteampunkAI.webp?alt=media&token=a5e36fb8-1a56-4616-a22a-f381376fd85d",
+          "display": "SteampunkAI",
           "description": "",
-          "favourite_count": 1241,
-          "modelId": "dreamshaper_6",
-          "active": ""
+          "favourite_count": 120,
+          "modelId": "steampunk_diffusion",
+          "is_premium": true
         },
         {
           "id": 30,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F31.webp?alt=media&token=f9ee1cae-7707-4191-a365-8cfa5dc60ee7",
-          "display": "DreamShaper V5",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealistic%20Vision%20V5.1.webp?alt=media&token=0af87c28-4de3-4235-a35b-2edad382c6c7",
+          "display": "Realistic Vision V1.3",
           "description": "",
-          "favourite_count": 1133,
-          "modelId": "dreamshaper_5",
-          "active": ""
+          "favourite_count": 382,
+          "modelId": "realistic_vision_1_3",
+          "is_premium": true
         },
         {
           "id": 31,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F32.webp?alt=media&token=8491eb79-cb92-46c0-a2a3-a11c29f42837",
-          "display": "DreamShaper",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FRealistic_Vision_V5_1.webp?alt=media&token=258090ec-deec-4d40-84a4-0d31369824f3",
+          "display": "Realistic Vision V5.1",
           "description": "",
-          "favourite_count": 616,
-          "modelId": "dreamshaper",
-          "active": ""
+          "favourite_count": 411,
+          "modelId": "realistic_vision_5_1",
+          "is_premium": true
         },
         {
           "id": 32,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F33.webp?alt=media&token=0ca23bfa-350c-49b3-8187-56e24c16c206",
-          "display": "Absolute Reality",
+          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2FVintedois%20diffusion-v0-1.webp?alt=media&token=7d498c62-7352-4a1b-8fcd-960ee08fae92",
+          "display": "Vintedois Diffusion",
           "description": "",
-          "favourite_count": 971,
-          "modelId": "absolute_reality_1",
-          "active": ""
-        },
-        {
-          "id": 33,
-          "preview": "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fmodel%2F34.webp?alt=media&token=dfb2c008-54b9-460c-b26a-b114590ac39c",
-          "display": "Cyber Realistic V3.1",
-          "description": "",
-          "favourite_count": 959,
-          "modelId": "cyberrealistic_3_1",
-          "active": ""
+          "favourite_count": 193,
+          "modelId": "vintedois_diffusion_v0_1",
+          "is_premium": true
         }
       ],
       "loRAs": [
@@ -972,7 +963,6 @@
             {
               "id": 1,
               "previews": [
-                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/68156a42-46c3-4d84-733f-787be4056900/width=1024/344783.jpeg",
                 "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7dc34040-1507-491a-6a90-6be381854900/width=1024/344785.jpeg",
                 "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/85c7bdef-1922-46ff-6d99-c5bcabef9000/width=1152/344789.jpeg",
                 "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/debd7646-bb1c-49ce-54ba-9d8dba38e200/width=1024/344788.jpeg",
@@ -1124,7 +1114,7 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F0%2F2_zzz1xxx1zzz.webp?alt=media&token=7cd90f81-1036-401a-a789-9a368ebe4e72"
           ],
           "favourite_count": 120,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
           "id": 1,
@@ -1136,22 +1126,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F1%2F3_zzz2xxx3zzz.webp?alt=media&token=8851afbb-ecd1-40c1-bae0-3047fee54013"
           ],
           "favourite_count": 78,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
           "id": 2,
-          "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), A beautiful middle East girl without covering face, belly dancing girl",
-          "previews": [
-            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F0_zzz2xxx3zzz.webp?alt=media&token=d17a91f3-e46f-4ca7-a96b-836c86a8422d",
-            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F1_zzz2xxx3zzz.webp?alt=media&token=4165104c-b09f-4489-9556-cfc7a9fa8ab9",
-            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F2_zzz2xxx3zzz.webp?alt=media&token=ce0a43fd-7484-47db-b677-c56ad00fab4f",
-            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F2%2F3_zzz2xxx3zzz.webp?alt=media&token=5f8e2212-b48d-4dde-921b-4cbc79ce8d03"
-          ],
-          "favourite_count": 82,
-          "modelIds": [0, 1, 2]
-        },
-        {
-          "id": 3,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), bbw, sweater, high resolution, outdoor, ((masterpiece)), ((best quality)), (ultra-detailed), ((kawaii)), cute, (lovely), anime style, bed, a cute girl, 1girl, solo, beautiful pink hair, twin tails, beautiful pink eyes, ((beautiful eyes)), light brown-skinned, brown ribon, ashamed, holding cake, ((best quality))",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F0_zzz2xxx3zzz.webp?alt=media&token=2caa77f7-e5d0-4045-945a-3c3dee61c49f",
@@ -1160,10 +1138,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F3%2F3_zzz2xxx3zzz.webp?alt=media&token=77c49ded-f4a7-45de-aacc-3e15bc8638a9"
           ],
           "favourite_count": 155,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 4,
+          "id": 3,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), blonde hair, blue eyes, pale skin, braid hair, blue ribbon, blue open dress, jewel like eyes, upper body, high detailed eyes, inner boob",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F0_zzz2xxx3zzz.webp?alt=media&token=9d0d96c4-9b1e-4458-a2e2-79d1b6b12abc",
@@ -1172,10 +1150,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F4%2F3_zzz2xxx3zzz.webp?alt=media&token=8ab81332-0611-41db-8223-ddc8bc333021"
           ],
           "favourite_count": 64,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 5,
+          "id": 4,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), 1girl, open mouth, solo, jacket, hair between eyes, smile, looking at viewer, chibi, long hair, chibi, bangs, black jacket, blush, brown hair, animal ears, eyebrows visible through hair, sidelocks, brown eyes, upper body, blush stickers, short hair, headgear, scarf, black scarf",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F0_zzz2xxx3zzz.webp?alt=media&token=7a94d31c-2b1f-4090-895d-3abac4d651fa",
@@ -1184,20 +1162,20 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F5%2F3_zzz2xxx3zzz.webp?alt=media&token=2175893d-1949-4acc-bf16-91b890cd1576"
           ],
           "favourite_count": 56,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 6,
+          "id": 5,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), 18 yours old, male, male feature, adventurer, adventurer-style clothes, adventurer-style trousers, (gloves:1), (emotionless face:1), deep blue eyes, (The eyes are extremely beautiful, and those sea-blue eyes are like a crystal-clear sapphire that a skilled gem cutter spent his whole life grinding and carving one by one with his superb skills",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F0_zzz1xxx1zzz.webp?alt=media&token=5696ccd1-3144-4d8b-8cda-9c4b7ede56ad",
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F6%2F1_zzz1xxx1zzz.webp?alt=media&token=59d40184-5281-4a3f-9616-2004f5a36d67"
           ],
           "favourite_count": 196,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 7,
+          "id": 6,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed) Potrait view. Ed from COWBOY BEBOP. Female. Unruly red hair with goggles pushed up on her forehead. White tee-shirt. IMAGE IS NOT CROPPED. FULL HEAD AND HAIR VISIBLE",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F0_zzz1xxx1zzz.webp?alt=media&token=10668a09-c958-416e-95ae-e856dd9110c5",
@@ -1206,10 +1184,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F7%2F3_zzz1xxx1zzz.webp?alt=media&token=3f9a726a-985e-4b31-97d0-be3c2f26b71f"
           ],
           "favourite_count": 80,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 8,
+          "id": 7,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), masterpiece, ultra realistic, ray tracing, ambient light, Maki Nishikino, stunning beautiful, flawless, spotless, small breast, psychedelic art:1.3, intricate details, upper body, from below:1.2, UHD, best quality, 8k, 16k",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F0_zzz1xxx1zzz.webp?alt=media&token=cb611d59-c847-4b35-a007-69e1c3aaa2a2",
@@ -1217,10 +1195,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F8%2F2_zzz1xxx1zzz.webp?alt=media&token=3439ffe8-f630-4b29-b6ba-509576b0164d"
           ],
           "favourite_count": 63,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 9,
+          "id": 8,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), silhouette of a man with dragon wings, complex and intricate background",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F0_zzz3xxx4zzz.webp?alt=media&token=f00c925a-4642-44e8-9bf6-f78889e6d5a6",
@@ -1229,10 +1207,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F9%2F3_zzz3xxx4zzz.webp?alt=media&token=82362cb2-3098-4133-80c6-4f41092d3c30"
           ],
           "favourite_count": 98,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 10,
+          "id": 9,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), (masterpiece), (best quality), (ultra-detailed), (highly detailed face:1) young, male, adventurer, adventurer-style clothes, adventurer-style trousers, (gloves:1), (emotionless face:1.5), deep blue eyes, (The eyes are extremely beautiful, and those sea-blue eyes are like a crystal-clear sapphire that a skilled gem cutter spent his whole life grinding and carving one by one with his superb skills",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F0_zzz3xxx4zzz.webp?alt=media&token=6395ae08-4b9a-4c29-9252-9d66f222e3c3",
@@ -1241,10 +1219,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F10%2F3_zzz3xxx4zzz.webp?alt=media&token=10b3a4bf-cfab-4723-bd65-97df4ddd3b2b"
           ],
           "favourite_count": 130,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 11,
+          "id": 10,
           "prompt": "(masterpiece), (best quality), (ultra-detailed), girl, summer, beach, sea, happy, beautiful girl, summer, oil painting, style",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F0_zzz2xxx3zzz.webp?alt=media&token=04f555cb-c1b4-4992-a5c5-bdc197bcec5b",
@@ -1253,10 +1231,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F11%2F3_zzz2xxx3zzz.webp?alt=media&token=988f7e67-fa0b-4d93-8892-c5015d34e14b"
           ],
           "favourite_count": 179,
-          "modelIds": [0, 1, 2]
+          "modelIds": ["anything_5_0", "anything_4_0", "anything_3_0"]
         },
         {
-          "id": 12,
+          "id": 11,
           "prompt": "best quality, ultra high res, (photorealistic:1.4), sleeveless white button shirt, black skirt, black choker, cute, (Kpop idol), (aegyo sal:1), (platinum blonde hair:1), ((puffy eyes)), looking at viewer, full body, facing front",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F0_zzz1xxx1zzz.webp?alt=media&token=54215560-49d1-443a-88c7-14c74671e9f4",
@@ -1265,10 +1243,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F12%2F3_zzz1xxx1zzz.webp?alt=media&token=814da6fe-6f43-439d-a2c6-db820aaef977"
           ],
           "favourite_count": 51,
-          "modelIds": [3]
+          "modelIds": ["pastel_mix"]
         },
         {
-          "id": 13,
+          "id": 12,
           "prompt": "masterpiece, best quality, ultra-detailed, illustration, portrait",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F0_zzz1xxx1zzz.webp?alt=media&token=e0de523b-9e52-4873-a5e7-e54108f8b363",
@@ -1277,10 +1255,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F13%2F3_zzz1xxx1zzz.webp?alt=media&token=dc38663a-735c-40ea-ab37-8d689ba69867"
           ],
           "favourite_count": 175,
-          "modelIds": [3]
+          "modelIds": ["pastel_mix"]
         },
         {
-          "id": 14,
+          "id": 13,
           "prompt": "masterpiece, best quality, ultra-detailed, illustration, close-up, straight on, face focus, a background composed of flowers, grey hair, blue sky, cloud-sky, girl with beautiful eyes, cold face, black dress, looking at viewer",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F0_zzz1xxx1zzz.webp?alt=media&token=97b9c672-f900-46b6-97cd-4decd81e12bb",
@@ -1289,10 +1267,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F14%2F3_zzz1xxx1zzz.webp?alt=media&token=8062eb2e-544e-47ff-9e88-7c5ae35ee01e"
           ],
           "favourite_count": 157,
-          "modelIds": [3]
+          "modelIds": ["pastel_mix"]
         },
         {
-          "id": 15,
+          "id": 14,
           "prompt": "original, extremely delicate and beautiful, ((beautiful detailed eyes)), black hair, flower, school uniform, looking_at_viewer, mole, (solo),(masterpiece:1.4), (best quality:1.4), ((sky)), dappled sunlight, grass",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F0_zzz2xxx3zzz.webp?alt=media&token=037a5b37-71fd-4339-826a-64cb7f703e0f",
@@ -1301,10 +1279,10 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F15%2F3_zzz2xxx3zzz.webp?alt=media&token=0694c6ad-dafe-4279-a52f-4b300b780024"
           ],
           "favourite_count": 36,
-          "modelIds": [3]
+          "modelIds": ["pastel_mix"]
         },
         {
-          "id": 16,
+          "id": 15,
           "prompt": "masterpiece, best quality, ultra-detailed, illustration, beautiful detailed eyes, looking at viewer, close up, (breast focus), (arms behind back:1.2), black hair, shy, cat ears",
           "previews": [
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F0_zzz3xxx4zzz.webp?alt=media&token=5f259de9-b9dd-4aa4-833d-e8cecd76dac6",
@@ -1313,7 +1291,134 @@
             "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F16%2F3_zzz3xxx4zzz.webp?alt=media&token=b4bfb20e-ef92-420c-9fe3-be23ee382a39"
           ],
           "favourite_count": 33,
-          "modelIds": [3]
+          "modelIds": ["pastel_mix"]
+        },
+        {
+          "id": 16,
+          "prompt": "(masterpiece), (extremely intricate), photorealistic photo of a handsome male wizard, short beard, white wizard shirt with golden trim, white robe moving in the wind, long white hair, fully clothed, perfect face, handsome, (perfect composition:1.4), deviantart hd, artstation hd, concept art, detailed face and body, award-winning photography, margins, detailed face, professional oil painting by Ed Blinkey, Atey Ghailan, Jeremy Mann, Greg Manchess, Alex Gray, trending on ArtStation, trending on CGSociety, intricate, high detail, sharp focus, dramatic, award winning matte drawing cinematic lighting octane render unreal engine volumetric dtx",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F3_zzz1xxx1zzz.webp?alt=media&token=d11943c9-2372-4023-9565-1bcb5d7926d8",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F0_zzz1xxx1zzz.webp?alt=media&token=575af815-7809-4e4d-aab1-28e90d9d70a9",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F1_zzz1xxx1zzz.webp?alt=media&token=f32d1661-91c5-47d5-9da4-accfbeb745e4",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F17%2F4_zzz1xxx1zzz.webp?alt=media&token=c13b28f2-5d10-4a9d-9598-9efe3e6a4d6d"
+          ],
+          "favourite_count": 47,
+          "modelIds": ["dreamshaper_8"]
+        },
+        {
+          "id": 17,
+          "prompt": "A kitten with a tiny tail, a small nose, small ears, blue eyes, pink background, flowers, vases, dreams, open mouth, smile, Caroline Chariot-Dayez pastels, tumblr, furry art, elokitty, Disney's Bambi cat, Disney's stylized furry, ears floating, fluffy tail, fluffy '', fluffy !!!, high resolution, furry art!!! The moon, small in size",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F0_zzz1xxx1zzz.webp?alt=media&token=837c1d34-fd1d-46e6-aaea-fc1c6233510f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F1_zzz1xxx1zzz.webp?alt=media&token=c60ef2d8-5050-47f3-a84b-ebf528050e72",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F2_zzz1xxx1zzz.webp?alt=media&token=be41c1bf-7d5b-480d-9f21-b168b6f2a81e",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F18%2F3_zzz1xxx1zzz.webp?alt=media&token=a855b0ee-0318-47fc-aad8-4d24aa492b0d"
+          ],
+          "favourite_count": 29,
+          "modelIds": ["dreamshaper_8"]
+        },
+        {
+          "id": 18,
+          "prompt": "((girl with)) Witch, Petting a black cat, Wearing a mysterious black necklace, At the secret base. Moreover, The witch is surrounded by a magical aura、Her skin shows pale and mysterious tones.",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F0_zzz9xxx16zzz.webp?alt=media&token=a74ec9a6-0c35-4fbf-bc24-6e1e18f7cb37",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F1_zzz9xxx16zzz.webp?alt=media&token=e224f652-c579-4560-a892-cf2edf4cfe75",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F19%2F2_zzz9xxx16zzz.webp?alt=media&token=99c58f74-f13d-43b8-aa7f-f8f0089311e1"
+          ],
+          "favourite_count": 45,
+          "modelIds": ["anylora"]
+        },
+        {
+          "id": 19,
+          "prompt": "(((Obra maestra, hatsune miku, vocaloid, Super detailed)))",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F0_zzz2xxx3zzz.webp?alt=media&token=59a7572b-f997-48d0-9aae-0d02056ad661",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F1_zzz2xxx3zzz.webp?alt=media&token=623cbd2a-2e15-48a5-82b3-5682ee76f7cb",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F2_zzz2xxx3zzz.webp?alt=media&token=bd0ddc0f-ec42-4dbb-a62e-6e7d21138902",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F20%2F3_zzz2xxx3zzz.webp?alt=media&token=511d3ecc-68b0-4763-ae2e-4c5f70fbfefa"
+          ],
+          "favourite_count": 52,
+          "modelIds": ["anylora"]
+        },
+        {
+          "id": 20,
+          "prompt": "An enchanting illustration for a children's storybook capturing Leo ((A 10 year old boy)) captivating encounter with the enchanted forest. Leo, a young and curious character, stands at the forest's edge, peering into its depths with wide-eyed wonder. The forest is a whimsical realm, filled with towering trees adorned with colorful leaves and delicate flowers. Sunlight filters through the dense foliage, creating a magical glow that illuminates the scene. Friendly creatures, such as mischievous woodland fairies, playful squirrels, and gentle deer, subtly blend into the forest, inviting Leo and the young readers into their hidden world. The illustration bursts with vibrant colors, evoking a sense of joy and imagination. Every detail, from the intricate patterns on the trees to the fluttering butterfly wings, brings the magical atmosphere to life. This delightful artwork, inspired by the enchanting illustrations of Hayao Miyazaki and Pixar's whimsical style, will transport young readers to a world of imagination and adventure.",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F21%2F0_zzz2xxx3zzz.png?alt=media&token=343180ef-4660-41c4-8472-4607e79b0ecc",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F21%2F1_zzz2xxx3zzz.png?alt=media&token=8a22c2a1-e5be-4fef-a9a3-4df2b5ab808d",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F21%2F2_zzz2xxx3zzz.png?alt=media&token=0b3f523f-f975-438f-adee-2fd6eed69951",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F21%2F3_zzz2xxx3zzz.png?alt=media&token=f7cb98ee-f185-43bb-9c94-5914e97479f4"
+          ],
+          "favourite_count": 74,
+          "modelIds": ["kidsmix"]
+        },
+        {
+          "id": 21,
+          "prompt": "A girl, with short brown hair, Brown eyes, Medieval dress, freckles on her face, loves sunflowers, At the Standing Pose picnic, character sheet, different angles",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F22%2F0_zzz3xxx4zzz.webp?alt=media&token=ba010684-b55f-4128-adb7-b88338e13ef4",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F22%2F1_zzz3xxx4zzz.webp?alt=media&token=5feb3fe2-964b-4c8f-8c03-bf40f4941b22",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F22%2F2_zzz3xxx4zzz.webp?alt=media&token=b3684e5c-5829-406e-8c3f-e26650e4e695",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F22%2F3_zzz3xxx4zzz.webp?alt=media&token=edbad73c-141f-4afe-a49a-44d8c7cd7c4d"
+          ],
+          "favourite_count": 78,
+          "modelIds": ["kidsmix"]
+        },
+        {
+          "id": 22,
+          "prompt": "A girl, with short brown hair, Brown eyes, Medieval dress, freckles on her face, loves sunflowers, At the Standing Pose picnic, character sheet, different angles",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F23%2F0_zzz1xxx1zzz.webp?alt=media&token=983c5df2-bbc2-47cf-81a3-d447721ea1e7",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F23%2F1_zzz1xxx1zzz.webp?alt=media&token=0b1400c7-781b-4669-bfbc-0550f4d33c98",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F23%2F2_zzz1xxx1zzz.webp?alt=media&token=c437d2e3-4159-4618-a94f-01df29faa2c7",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F23%2F3_zzz1xxx1zzz.webp?alt=media&token=cb1a3ff3-3fb2-439a-b23d-b5b1d2553401"
+          ],
+          "favourite_count": 93,
+          "modelIds": ["kidsmix"]
+        },
+        {
+          "id": 23,
+          "prompt": "RAW photo, award winning portrait of 20yo american girl, beautiful, big smile, black eyes, throwing snowball behind a car, winter, snow in the street, winter coat and hat, dark blonde hair, outside, central park at night, (high detailed skin:1.2),8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F24%2F0_zzz2xxx3zzz.webp?alt=media&token=fa2ac196-e363-4024-8103-dcae7ef84914",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F24%2F1_zzz2xxx3zzz.webp?alt=media&token=82f2b3b6-f626-4b14-80ce-441b439000bc",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F24%2F2_zzz2xxx3zzz.webp?alt=media&token=f6d85c3e-bc68-4789-83da-9ab090a50161",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F24%2F3_zzz2xxx3zzz.webp?alt=media&token=14e30d07-b483-4827-ace2-c42099237b8d",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F24%2F4_zzz2xxx3zzz.webp?alt=media&token=159010f9-8fcc-4a57-9869-58dcde69e22b"
+          ],
+          "favourite_count": 59,
+          "modelIds": ["absolute_reality_1_8_1", "absolute_reality_1_6", "absolute_reality_1"]
+        },
+        {
+          "id": 24,
+          "prompt": "8K, Best quality, masterpiece, ultra high res, (photorealistic:1.4), raw photo, (Authentic skin texture:1.3), (film grain:1.3), (selfie angle), 1girl, beautiful detailed eyes and face, masterpiece, best quality, close-up, upper bod",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F25%2F0_zzz2xxx3zzz.webp?alt=media&token=58e99389-9c64-41fc-ba1e-e59e27b17f39",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F25%2F1_zzz2xxx3zzz.webp?alt=media&token=8ad837bb-d684-4df1-8293-da1bd1a9c75a",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F25%2F2_zzz2xxx3zzz.webp?alt=media&token=59fb2659-b526-4770-aa08-6159f78d2f7d"
+          ],
+          "favourite_count": 164,
+          "modelIds": ["absolute_reality_1_8_1", "absolute_reality_1_6", "absolute_reality_1"]
+        },
+        {
+          "id": 25,
+          "prompt": "Woman body set big breasts, Super girl costume dress",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F26%2F0_zzz3xxx3zzz.webp?alt=media&token=d5f2eae9-4459-408c-89a0-be7c9298569f",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F26%2F1_zzz3xxx3zzz.webp?alt=media&token=37a4a855-d967-41f3-a2c8-0396a1c63829"
+          ],
+          "favourite_count": 103,
+          "modelIds": ["absolute_reality_1_8_1", "absolute_reality_1_6", "absolute_reality_1"]
+        },
+        {
+          "id": 26,
+          "prompt": "1girl, official, unity8k wallpaper, ultra detailed, beautifulandaesthetic, masterpiece, best quality, (entangle, mandala, tangle, entangle), dynamical, cowboy shot, the most beautiful form of chaos, elegant, brutal list designed, vivid colours",
+          "previews": [
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F0_zzz2xxx3zzz.webp?alt=media&token=47701163-6d0a-4ece-a902-4efe0b67ad60",
+            "https://firebasestorage.googleapis.com/v0/b/anime-ai-generator.appspot.com/o/v2%2Fexplore%2F27%2F1_zzz2xxx3zzz.webp?alt=media&token=d7dcd867-0566-4443-9e84-972a9fab473b"
+          ],
+          "favourite_count": 75,
+          "modelIds": ["anything_5_0"]
         }
       ]
   }

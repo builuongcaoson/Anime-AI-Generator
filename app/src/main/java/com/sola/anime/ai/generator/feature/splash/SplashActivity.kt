@@ -173,9 +173,10 @@ class SplashActivity : LsActivity<ActivitySplashBinding>(ActivitySplashBinding::
             }
         }
 
-        syncData.execute(Unit)
-
-        doTask()
+        lifecycleScope.launch(Dispatchers.Main) {
+            syncData.execute(Unit)
+            doTask()
+        }
     }
 
     private fun syncRemoteConfig() {

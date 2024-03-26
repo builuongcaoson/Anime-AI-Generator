@@ -32,6 +32,7 @@ import com.sola.anime.ai.generator.feature.iap.adapter.PreviewAdapter
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDispose
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -42,6 +43,7 @@ import timber.log.Timber
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -358,6 +360,12 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
             .subscribeOn(AndroidSchedulers.mainThread())
             .autoDispose(scope())
             .subscribe { syncQueryProduct() }
+
+        Observable
+            .timer(3, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDispose(scope())
+            .subscribe { binding.back.isVisible = true }
     }
 
     private fun initView() {
@@ -379,6 +387,9 @@ class IapActivity : LsActivity<ActivityIapBinding>(ActivityIapBinding::inflate) 
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        if (!binding.back.isVisible){
+            return
+        }
         if (!isKill){
             startMain(viewLoadingAds = binding.viewLoadingAds, isFull = false) { finish() }
         } else {

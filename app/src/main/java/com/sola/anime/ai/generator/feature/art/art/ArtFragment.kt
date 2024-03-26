@@ -663,7 +663,7 @@ class ArtFragment : LsFragment<FragmentArtBinding>(FragmentArtBinding::inflate) 
     }
 
     private fun generateClicks() {
-        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: tryOrNull { exploreDao.getAll().randomOrNull()?.prompt } ?: listOf("Girl", "Boy").random()
+        val prompt = tryOrNull { binding.editPrompt.text?.trim()?.takeIf { it.isNotEmpty() }?.toString() } ?: "Girl"
 
         analyticManager.logEvent(AnalyticManager.TYPE.GENERATE_CLICKED)
 
